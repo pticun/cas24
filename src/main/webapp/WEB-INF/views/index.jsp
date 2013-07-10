@@ -4,7 +4,7 @@
 <html>
 
 	<head>
-		<title>Spring MVC Starter Application</title>
+		<title>quinimobile</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" type="text/css" href="<c:url value="/static/resources/css/screen.css"/>"/>
 	</head>
@@ -15,7 +15,7 @@
 				<img src="<c:url value="/static/resources/gfx/dualbrand_logo.png"/>"/>
 			</div>
 			<div id="content">
-				<h1>Welcome to JBoss!</h1>
+				<h1>Welcome to quinimobile!</h1>
 
 				<div>
 					<p>You have successfully deployed a Spring MVC web application.</p>
