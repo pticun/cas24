@@ -2,61 +2,31 @@ package org.jboss.tools.example.springmvc.repo;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-
 import org.jboss.tools.example.springmvc.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-@Transactional
-public class MemberDaoImpl implements MemberDao
-{
+public class MemberDaoImpl implements MemberDao {
     @Autowired
-    private EntityManager em;
+    private MongoTemplate mongoTemplate;
+    public static final String COLLECTION_NAME = "member";
 
-    public Member findById(Long id)
-    {
-        return em.find(Member.class, id);
+    public Member findById(Long id) {
+	return null;
     }
 
-    public Member findByEmail(String email)
-    {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Member> criteria = builder.createQuery(Member.class);
-        Root<Member> member = criteria.from(Member.class);
-
-        /*
-         * Swap criteria statements if you would like to try out type-safe criteria queries, a new
-         * feature in JPA 2.0 criteria.select(member).orderBy(cb.asc(member.get(Member_.name)));
-         */
-
-        criteria.select(member).where(builder.equal(member.get("email"), email));
-        return em.createQuery(criteria).getSingleResult();
+    public Member findByEmail(String email) {
+	return null;
     }
 
-    public List<Member> findAllOrderedByName()
-    {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Member> criteria = cb.createQuery(Member.class);
-        Root<Member> member = criteria.from(Member.class);
-
-        /*
-         * Swap criteria statements if you would like to try out type-safe criteria queries, a new
-         * feature in JPA 2.0 criteria.select(member).orderBy(cb.asc(member.get(Member_.name)));
-         */
-
-        criteria.select(member).orderBy(cb.asc(member.get("name")));
-        return em.createQuery(criteria).getResultList();
+    public List<Member> findAllOrderedByName() {
+	return null;
     }
 
-    public void register(Member member)
-    {
-        em.persist(member);
-        return;
+    public void register(Member member) {
+	mongoTemplate.insert(member, COLLECTION_NAME);
+	return;
     }
 }
