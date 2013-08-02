@@ -11,15 +11,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/spring/applicationContext.xml" })
 public class MongoDBTest {
-    @Autowired
-    private PersonService personService;
+	@Autowired
+	private PersonService personService;
 
-    @Test
-    public void testRegister() {
-	Person p = new Person();
-	p.setName("nombre");
-	personService.addPerson(p);
-	return;
-    }
-
+	@Test
+	public void testRegister() {
+		Person p = new Person();
+		p.setName("nombre");
+		p.setAge(12);
+		personService.addPerson(p);
+		return;
+	}
+	
+	
 }

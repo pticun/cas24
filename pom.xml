@@ -25,6 +25,7 @@
 
 		<!-- JBoss AS plugin for deployment -->
 		<version.jboss.as.maven.plugin>7.1.1.Final</version.jboss.as.maven.plugin>
+		<aspectj.version>1.6.10</aspectj.version>
 
 	</properties>
 
@@ -34,6 +35,18 @@
 	<dependencyManagement>
 
 		<dependencies>
+			<!-- A seamless aspect-oriented extension to the Java programming language -->
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>${aspectj.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>${aspectj.version}</version>
+			</dependency>
 			<!-- Define the version of JBoss' Java EE 6 APIs we want to import. Any 
 				dependencies from org.jboss.spec will have their version defined by this 
 				BOM -->
@@ -121,6 +134,13 @@
 				<artifactId>spring-webmvc</artifactId>
 				<version>${version.spring}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aspects</artifactId>
+				<version>${version.spring}</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
 
 			<!-- Third Party dependencies -->
 			<dependency>
@@ -144,6 +164,18 @@
 
 	<dependencies>
 
+		<!-- A seamless aspect-oriented extension to the Java programming language -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
 		<!-- Import the JPA API using the provided scope It is included in JBoss 
 			AS 7 / EAP 6 -->
 		<dependency>
@@ -240,6 +272,13 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
 			<version>${spring.data.mongo.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${spring.core.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
 		<!-- mongodb java driver -->
 		<dependency>
