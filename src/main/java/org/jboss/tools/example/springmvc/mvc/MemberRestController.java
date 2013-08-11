@@ -25,7 +25,7 @@ public class MemberRestController
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET, produces="application/json")
-    public @ResponseBody Member lookupMemberById(@PathVariable("id") Long id)
+    public @ResponseBody Member lookupMemberById(@PathVariable("id") String id)
     {
         return memberDao.findById(id);
     }

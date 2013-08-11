@@ -27,7 +27,7 @@ public class MemberDaoTest
     @Test
     public void testFindById()
     {
-        Member member = memberDao.findById(0l);
+        Member member = memberDao.findById("0l");
 
         Assert.assertEquals("John Smith", member.getName());
         Assert.assertEquals("john.smith@mailinator.com", member.getEmail());
@@ -55,7 +55,7 @@ public class MemberDaoTest
         member.setPhoneNumber("2125552121");
 
         memberDao.register(member);
-        Long id = member.getId();
+        String id = member.getId();
         Assert.assertNotNull(id);
         
         Assert.assertEquals(2, memberDao.findAllOrderedByName().size());

@@ -6,7 +6,7 @@ import org.jboss.tools.example.springmvc.domain.Member;
 
 public interface MemberDao
 {
-    public Member findById(Long id);
+    public Member findById(String id);
 
     public Member findByEmail(String email);
 
