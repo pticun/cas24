@@ -23,3 +23,11 @@ MongoDB 2.2 database added.
 	
 	rhc cartridge remove -a quinimobile -c mongodb-2.2
 
+	
+	
+	MongoDB in cloud
+	
+	https://mongolab.com
+	user/pwd:racsor/Primera1
+
+
