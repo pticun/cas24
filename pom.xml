@@ -26,6 +26,9 @@
 		<!-- JBoss AS plugin for deployment -->
 		<version.jboss.as.maven.plugin>7.1.1.Final</version.jboss.as.maven.plugin>
 		<aspectj.version>1.6.10</aspectj.version>
+		<!-- Plugins -->
+		<tomcat7.maven.plugin.version>2.0</tomcat7.maven.plugin.version>
+		<jetty.maven.plugin.version>8.1.5.v20120716</jetty.maven.plugin.version>
 
 	</properties>
 
@@ -170,7 +173,7 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.1.0.Final</version>
-			<scope>provided</scope>
+<!-- 			<scope>provided</scope> -->
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -260,7 +263,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>spring-eap6-quickstart</finalName>
+		<finalName>quinimobile</finalName>
 		<plugins>
 			<!-- Force Java 6 -->
 			<plugin>
@@ -282,6 +285,17 @@
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.12</version>
+			</plugin>
+			<!-- Jetty 8 plugin -->
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty.maven.plugin.version}</version>
+				<configuration>
+					<webApp>
+						<contextPath>/quinimobile</contextPath>
+					</webApp>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
