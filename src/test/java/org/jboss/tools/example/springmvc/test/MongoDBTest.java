@@ -17,8 +17,9 @@ public class MongoDBTest {
 	@Test
 	public void testRegister() {
 		Person p = new Person();
-		p.setName("nombre");
-		p.setAge(12);
+		p.setName("santiago con apellido");
+		p.setLastName("apellido");
+		p.setAge(39);
 		personService.addPerson(p);
 		return;
 	}

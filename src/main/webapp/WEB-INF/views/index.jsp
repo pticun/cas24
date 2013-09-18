@@ -15,7 +15,7 @@
 				<img src="<c:url value="/static/resources/gfx/dualbrand_logo.png"/>"/>
 			</div>
 			<div id="content">
-				<h1>Welcome to quinimobile!</h1>
+				<h1>cafe con leche en la plaza mayor to quinimobile!</h1>
 
 				<div>
 					<p>You have successfully deployed a Spring MVC web application.</p>

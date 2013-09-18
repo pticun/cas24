@@ -29,5 +29,16 @@ MongoDB 2.2 database added.
 	
 	https://mongolab.com
 	user/pwd:racsor/Primera1
+	
+	
+	
+	
+http://quinimobile-goldbittle.rhcloud.com/
+
+acceso a openshift
+con usuario goldbittledev@gmail.com/gbd2013
+
+
+
 
 
