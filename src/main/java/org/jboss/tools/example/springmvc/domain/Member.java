@@ -2,8 +2,8 @@ package org.jboss.tools.example.springmvc.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Id;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
