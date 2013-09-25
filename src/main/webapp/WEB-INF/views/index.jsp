@@ -15,7 +15,7 @@
 				<img src="<c:url value="/static/resources/gfx/dualbrand_logo.png"/>"/>
 			</div>
 			<div id="content">
-				<h1>111 cafe con leche en la plaza mayor to quinimobile!!!</h1>
+				<h1>111 222cafe con leche en la plaza mayor to quinimobile!!!</h1>
 
 				<div>
 					<p> lo he modificadoYou have successfully deployed a Spring MVC web application.</p>
