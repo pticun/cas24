@@ -40,5 +40,10 @@ con usuario goldbittledev@gmail.com/gbd2013
 
 
 
+GIT
 
+Create brach Strategy NONE
 
+PASO1 - Bajar ultima version  - Fecth 
+hacemos los cambios oportunos
+PASO2 - Subir los cambios - COMMIT + PUSH
