@@ -39,6 +39,7 @@ acceso a openshift
 con usuario goldbittledev@gmail.com/gbd2013
 
 
+prueba confilcto scg
 =============================================
 
 GIT
