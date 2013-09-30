@@ -33,9 +33,9 @@
 				<!-- Inner -->
 					<div class="inner">
 						<header>
-							<h1><a href="#" id="logo">Helios</a></h1>
+							<h1><a href="#" id="logo">Quinimobile</a></h1>
 							<hr />
-							<span class="byline">Another fine freebie by HTML5 UP</span>
+							<span class="byline">Amantes de las quinielas unidos para hacer una vida quinielísticamente mas feliz</span>
 						</header>
 						<footer>
 							<a href="#banner" class="button circled scrolly">Start</a>
@@ -74,10 +74,10 @@
 			
 		<!-- Banner -->
 			<div id="banner">
-				<h2>Hi. You're looking at <strong>Helios</strong>.</h2>
+				<h3>¿QUIERES HACER DEL FUTBOL TU VIDA?</h3>
 				<span class="byline">
-					A (free) responsive site template by <a href="http://html5up.net/">HTML5 UP</a>.
-					Built on <a href="http://skeljs.org">skelJS</a> and released under the <a href="http://html5up.net/license/">CCA</a> license.
+					Nosotros solo te lo ponemos fácil. Con tus conocimientos de fútbol, tu experiencia y tu intuición será muy sencillo sacarle beneficio.
+Valida tus apuestas rápida y de manera simple, y disfruta viendo como tus ingresos aumentan semana a semana.
 				</span>
 			</div>
 
