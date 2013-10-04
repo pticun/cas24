@@ -44,7 +44,7 @@ con usuario goldbittledev@gmail.com/gbd2013
 GIT
 *********************************************
 
-Create brach Strategy NONE
+Create brach Strategy MERGE  (parece que asi nos ahorramos un paso cuando hacemos el pull)
 
 PASO1 - Bajar última versión:
           - Boton Derecho sobre el proyecto--Team--Fecth from Upstream

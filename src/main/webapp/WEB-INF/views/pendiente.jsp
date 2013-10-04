@@ -8,7 +8,7 @@
 -->
 <html>
 	<head>
-		<title>quinimobile</title>
+		<title>alterQ - Sin Implementar</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
@@ -33,13 +33,10 @@
 				<!-- Inner -->
 					<div class="inner">
 						<header>
-							<h1><a href="#" id="logo">alterQ</a></h1>
+							<h1><a href="#" id="logo">Sin Implentar</a></h1>
 							<hr />
-							<span class="byline">Los amantes de las quinielas</span>
+							<span class="byline">En desarrollo, ten paciencia que todo llegará</span>
 						</header>
-						<footer>
-							<a href="quiniela" class="button circled scrolly">Quiniela</a>
-						</footer>
 					</div>
 				
 				<!-- Nav -->
@@ -53,7 +50,8 @@
 					</nav>
 
 			</div>
-			
+
+
 		<!-- Footer -->
 			<div id="footer">
 				<div class="container">
@@ -62,6 +60,7 @@
 						
 							<!-- Contact -->
 								<section class="contact">
+									<header>
 									<header>
 										<h3>¿Quieres estar bien informado?</h3>
 									</header>

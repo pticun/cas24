@@ -8,7 +8,7 @@
 -->
 <html>
 	<head>
-		<title>quinimobile</title>
+		<title>alterQ - Mi Cuenta</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
@@ -33,13 +33,54 @@
 				<!-- Inner -->
 					<div class="inner">
 						<header>
-							<h1><a href="#" id="logo">alterQ</a></h1>
-							<hr />
-							<span class="byline">Los amantes de las quinielas</span>
+							<h1><a href="#" id="logo">Mi Cuenta</a></h1>
 						</header>
-						<footer>
-							<a href="quiniela" class="button circled scrolly">Quiniela</a>
-						</footer>
+
+
+
+			<!-- Carousel -->
+			<div class="carousel">
+				<div class="reel">
+
+					<article>
+						<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic01.jpg"/>" alt="" /></a>
+						<header>
+							<h3><a href="pendiente">Mis Datos</a></h3>
+						</header>
+						<h4>Gestiona los datos personales, de tu usuario o los bancarios.</h4>
+					</article>
+				
+					<article>
+						<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic02.jpg"/>" alt="" /></a>
+						<header>
+							<h3><a href="pendiente">Mi Saldo</a></h3>
+						</header>
+						<h4>Gestiona tu saldo, aumentándolo o disminuyéndolo a tu antojo.</h4>							
+					</article>
+				
+					<article>
+						<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic03.jpg"/>" alt="" /></a>
+						<header>
+							<h3><a href="pendiente">Mis Apuestas</a></h3>
+						</header>
+						<h4>Revisa tus apuestas y consulta tu histórico de manera sencilla..</h4>							
+					</article>
+
+					<article>
+						<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic04.jpg"/>" alt="" /></a>
+						<header>
+							<h3><a href="pendiente">Mis Amigos</a></h3>
+						</header>
+						<h4>Informa a otros amantes de las quinielas de tus movimientos.</h4>							
+					</article>
+				</div>
+			</div>
+
+
+
+
+
+
 					</div>
 				
 				<!-- Nav -->
@@ -53,7 +94,14 @@
 					</nav>
 
 			</div>
-			
+
+
+
+
+
+
+
+
 		<!-- Footer -->
 			<div id="footer">
 				<div class="container">
@@ -62,6 +110,7 @@
 						
 							<!-- Contact -->
 								<section class="contact">
+									<header>
 									<header>
 										<h3>¿Quieres estar bien informado?</h3>
 									</header>
