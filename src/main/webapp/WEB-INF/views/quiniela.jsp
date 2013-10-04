@@ -8,7 +8,7 @@
 -->
 <html>
 	<head>
-		<title>quinimobile</title>
+		<title>alterQ - Quiniela</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
@@ -33,13 +33,39 @@
 				<!-- Inner -->
 					<div class="inner">
 						<header>
-							<h1><a href="#" id="logo">alterQ</a></h1>
-							<hr />
-							<span class="byline">Los amantes de las quinielas</span>
+							<h1><a href="#" id="logo">Quiniela</a></h1>
 						</header>
-						<footer>
-							<a href="quiniela" class="button circled scrolly">Quiniela</a>
-						</footer>
+
+
+
+			<!-- Carousel -->
+			<div class="carousel">
+				<div class="reel">
+
+					<article>
+						<a href="pendiente.html" class="image featured"><img src="<c:url value="/static/resources/images/pic01.jpg"/>" alt="" /></a>
+						<header>
+							<h3><a href="pendiente.html">Hacer Quiniela</a></h3>
+						</header>
+						<h4>¿A qué está esperando para hacer tu quiniela semanal?</h4>
+					</article>
+				
+					<article>
+						<a href="pendiente.html" class="image featured"><img src="<c:url value="/static/resources/images/pic02.jpg"/>" alt="" /></a>
+						<header>
+							<h3><a href="pendiente.html">Estadísticas de la Jornada</a></h3>
+						</header>
+						<h4>Conoce todo lo que tienes que saber sobre los partidos de la semana.</h4>							
+					</article>
+
+				</div>
+			</div>
+
+
+
+
+
+
 					</div>
 				
 				<!-- Nav -->
@@ -53,7 +79,14 @@
 					</nav>
 
 			</div>
-			
+
+
+
+
+
+
+
+
 		<!-- Footer -->
 			<div id="footer">
 				<div class="container">
@@ -62,6 +95,7 @@
 						
 							<!-- Contact -->
 								<section class="contact">
+									<header>
 									<header>
 										<h3>¿Quieres estar bien informado?</h3>
 									</header>

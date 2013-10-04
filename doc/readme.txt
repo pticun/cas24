@@ -41,13 +41,19 @@ con usuario goldbittledev@gmail.com/gbd2013
 
 
 *********************************************
-prueba confilcto scg
-
-
 GIT
+*********************************************
 
-Create brach Strategy NONE
+Create brach Strategy MERGE  (parece que asi nos ahorramos un paso cuando hacemos el pull)
 
-PASO1 - Bajar ultima version  - Fecth 
-hacemos los cambios oportunos
-PASO2 - Subir los cambios - COMMIT + PUSH
+PASO1 - Bajar última versión:
+          - Boton Derecho sobre el proyecto--Team--Fecth from Upstream
+PASO2 - Fusionar los cambios con nuestra rama de developer:
+          - Boton Derecho sobre el proyecto--Team--Merge
+          		Local = developer
+          		Remote Traking = origin/developer
+PASO3 - Hacemos los cambios en los ficheros oportunos
+PASO4 - Subir los cambios: 
+          - Boton Derecho sobre el proyecto--Team--Push to Upstream
+          - Ponemos en la descripción un comentario que identifique la modificacion
+          - Push & Commit
