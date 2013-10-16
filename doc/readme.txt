@@ -38,6 +38,9 @@ http://quinimobile-goldbittle.rhcloud.com/
 acceso a openshift
 con usuario goldbittledev@gmail.com/gbd2013
 
+SSH de openshift
+	ssh://51dd73e55973ca1d89000148@quinimobile-goldbittle.rhcloud.com/~/git/quinimobile.git/
+
 
 
 *********************************************
