@@ -24,7 +24,7 @@
 		<version.commons.logging>1.1.1</version.commons.logging>
 
 		<!-- JBoss AS plugin for deployment -->
-		<version.jboss.as.maven.plugin>7.1.1.Final</version.jboss.as.maven.plugin>
+		<version.jboss.as.maven.plugin>7.4.Final</version.jboss.as.maven.plugin>
 		<aspectj.version>1.6.10</aspectj.version>
 		<!-- Plugins -->
 		<tomcat7.maven.plugin.version>2.0</tomcat7.maven.plugin.version>
@@ -173,7 +173,7 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.1.0.Final</version>
-<!-- 			<scope>provided</scope> -->
+			<!-- <scope>provided</scope> -->
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -323,5 +323,21 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>tsys</id>
+			<build>
+				<plugins>
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>${version.jboss.as.maven.plugin}</version>
+				<configuration>
+					<jvmArgs>-Xms64m -Xmx512m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true -Dorg.jboss.resolver.warning=true -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -Denvironment=tsys</jvmArgs>
+				</configuration>
+			</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
 	</profiles>
 </project>
