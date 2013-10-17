@@ -36,7 +36,7 @@
 
 		// skelJS (probably don't need to change anything here unless you know what you're doing)
 			skelJS: {
-				prefix: 'static/resources/css/style',
+				prefix: 'resources/css/style',
 				resetCSS: true,
 				boxModel: 'border',
 				grid: {
