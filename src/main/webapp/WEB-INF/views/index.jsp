@@ -12,7 +12,6 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
-		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet" type="text/css" />
 		<!--[if lte IE 8]><script src="<c:url value="/static/resources/js/html5shiv.js"/>"></script><![endif]-->
 		<script src="<c:url value="/static/resources/js/jquery.min.js"/>"></script>
 		<script src="<c:url value="/static/resources/js/jquery.dropotron.js"/>"></script>
@@ -48,6 +47,7 @@
 					<nav id="nav">
 						<ul>
 							<li><a href="index">Inicio</a></li>
+							<li><a href="#" class="skel-panels-include" data-action="togglePanel" data-args="carrusel">login</a></li>
 							<li><a href="quiniela">Quiniela</a></li>
 							<li><a href="micuenta">Mi Cuenta</a></li>
 							<li><a href="pendiente">Contacto</a></li>
@@ -56,7 +56,7 @@
 
 			</div>
 			
-			<div id="footer">
+			<div id="carrusel">
 			
 				<!-- login -->
 				<div class="row flush">

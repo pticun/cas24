@@ -22,14 +22,14 @@
 		<level value="debug" />
 		<appender-ref ref="console" />
 	</category>
-	<category name="com.dispensus.aop" additivity="false">
+	<category name="org.jboss" additivity="false">
 		<level value="debug" />
 		<appender-ref ref="console" />
 	</category>
 
 
 	<root>
-		<level value="error" />
+		<level value="debug" />
 		<appender-ref ref="console" />
 	</root>
 </log4j:configuration>
