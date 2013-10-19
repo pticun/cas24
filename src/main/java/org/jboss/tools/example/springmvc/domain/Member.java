@@ -11,6 +11,7 @@ public class Member implements Serializable {
 	@Id
 	private String id;
 	private String name;
+	private String pwd;
 	private String email;
 	private String phoneNumber;
 
@@ -44,6 +45,14 @@ public class Member implements Serializable {
 
 	public void setPhoneNumber(String phoneNumer) {
 		this.phoneNumber = phoneNumer;
+	}
+
+	public String getPwd() {
+		return pwd;
+	}
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 
 }

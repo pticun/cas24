@@ -25,6 +25,7 @@
 			<link rel="stylesheet" href="<c:url value="/static/resources/css/style-noscript.css"/>" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="<c:url value="/static/resources/css/ie8.css"/>" /><![endif]-->
 	</head>
+	
 	<body class="homepage">
 
 		<!-- Header -->
@@ -41,7 +42,8 @@
 							<a href="quiniela" class="button circled scrolly">Quiniela</a>
 						</footer>
 					</div>
-				
+
+
 				<!-- Nav -->
 					<nav id="nav">
 						<ul>
@@ -54,12 +56,34 @@
 
 			</div>
 			
+			<div id="footer">
+			
+				<!-- login -->
+				<div class="row flush">
+				  <div class="4u">&nbsp;</div>
+				  <div class="4u">
+					<div>
+					   <form:form commandName="login" id="reg">
+					
+					        <p>Username: <form:input path="name" id="username"/>
+					          <br />
+					          Password: <form:password path="pwd" id="password"/>
+					          <br />
+					          <form:button id="login_btn" class="button" name="login" value="login">Login</form:button>
+					        </p>
+				        </form:form>
+					</div>
+				  </div>
+				  <div class="4u">&nbsp;</div>
+				</div>
+				<!-- login -->
+			</div>
+
 		<!-- Footer -->
 			<div id="footer">
 				<div class="container">
 					<div class="row">
 						<div class="12u">
-						
 							<!-- Contact -->
 								<section class="contact">
 									<header>
