@@ -33,38 +33,36 @@
 				<!-- Inner -->
 					<div class="inner">
 						<header>
-							<h1><a href="#" id="logo">alterQ</a></h1>
+							<h1><a href="#" id="logo">Apuesta</a></h1>
 							<hr />
-							<span class="byline">Los amantes de las quinielas</span>
+							<span class="byline">Partidos de la quiniela</span>
 						</header>
 						<footer>
 <form action="enviarapuesta.php" method="get">
-	    <p>Seleccione sus Estado Civil</p>
 	    <table border="1">
-	    <%for (int i=0; i<15;i++){%> 
-	    <% String r="R";%>
-	    <TR>
-	       	<TD  align="center">
-	    		<%=i+1%>
-	    	</TD>
-	       	<TD  align="center">
-	    		Equipo<%=i%>-local
-	    	</TD>
-	       	<TD  align="center">
-	    		Equipo<%=i%>-visit
-	    	</TD>
-	    
-	    	<TD width="5" height="5" align="center">
-	    		<input type="radio" name=<%=r+i%> />
-	    	</TD>
-	    	<TD width="5" height="5" align="center">
-	    		<input type="radio" name=<%=r+i%> />
-	    	</TD>
-	    	<TD width="5" height="5" align="center">
-	    		<input type="radio" name=<%=r+i%> />
-	    	</TD>
-	    </TR>
-	    <%}%>
+	    <c:forEach var="partido" items="${jornada}">
+		    <TR>
+		       	<TD  align="center">
+		    		<c:out value="${partido.getId()}" />
+		    	</TD>
+		       	<TD  align="center">
+		       		<c:out value="${partido.getEquipo1()}" />
+		    	</TD>
+		       	<TD  align="center">
+		       		<c:out value="${partido.getEquipo2()}" />
+		    	</TD>
+		    
+		    	<TD width="5" height="5" align="center">
+		    		<input type="radio" name=R<c:out value="${partido.getId()}" /> />
+		    	</TD>
+		    	<TD width="5" height="5" align="center">
+		    		<input type="radio" name=R<c:out value="${partido.getId()}" /> />
+		    	</TD>
+		    	<TD width="5" height="5" align="center">
+		    		<input type="radio" name=R<c:out value="${partido.getId()}" /> />
+		    	</TD>
+		    </TR>
+	    </c:forEach>  
 	    </TABLE>
 	    
 	    <p><input type="submit" value="Enviar"></p>

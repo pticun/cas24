@@ -1,12 +1,18 @@
 package org.jboss.tools.example.springmvc.mvc;
 
+import java.util.List;
+
+import org.jboss.tools.example.springmvc.domain.Jornada;
 import org.jboss.tools.example.springmvc.domain.Member;
+import org.jboss.tools.example.springmvc.domain.Partido;
 import org.jboss.tools.example.springmvc.repo.MemberDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.google.gson.Gson;
 
 @Controller
 @RequestMapping(value = "/apuesta")
@@ -16,9 +22,18 @@ public class ApuestaController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String displaySortedMembers(Model model) {
-	model.addAttribute("newMember", new Member());
+    //Harcodeamos la peticion JSON y dejamos los datos en la variable 'json'
+    String json = "{partidos : [{id:1, equipo1:VILLARREAL, equipo2:VALENCIA}, {id:2, equipo1:ELCHE, equipo2:GRANADA}, {id:3, equipo1:'AT. MADRID', equipo2:BETIS}, {id:4, equipo1:LEVANTE, equipo2:ESPANYOL}, {id:5, equipo1:MÁLAGA, equipo2:CELTA}, {id:6, equipo1:SEVILLA, equipo2:OSASUNA}, {id:7, equipo1:'R. SOCIEDAD', equipo2:ALMERÍA}, {id:8, equipo1:RECREATIVO, equipo2:MALLORCA}, {id:9, equipo1:TENERIFE, equipo2:DEPORTIVO}, {id:10, equipo1:ZARAGOZA, equipo2:ALAVÉS}, {id:11, equipo1:MIRANDÉS, equipo2:NUMANCIA}, {id:12, equipo1:HÉRCULES, equipo2:JAEN}, {id:13, equipo1:MURCIA, equipo2:CÓRDOBA}, {id:14, equipo1:LUGO, equipo2:SABADELL}, {id:15, equipo1:BARCELONA, equipo2:'R. MADRID'}]}";
+    
+	//extraemos los datos del JSON y se los pasamos al JSP
+    Gson gson = new Gson();
+    Jornada  jornada = (Jornada) gson.fromJson(json, Jornada.class);
+    model.addAttribute("jornada", jornada.getJornada());
+
+    model.addAttribute("newMember", new Member());
 	model.addAttribute("members", memberDao.findAllOrderedByName());
-	return "apuesta";
+
+    return "apuesta";
     }
 
 }
