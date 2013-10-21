@@ -62,6 +62,11 @@
 							position: 'top',
 							size: '75%',
 							html: '<div data-action="navList" data-args="nav"></div>'
+						},
+						//TODO no funciona en mobile
+						carrusel: {
+							position: 'top',
+							size: '50%',
 						}
 					},
 					overlays: {

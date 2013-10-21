@@ -12,7 +12,6 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
-		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet" type="text/css" />
 		<!--[if lte IE 8]><script src="<c:url value="/static/resources/js/html5shiv.js"/>"></script><![endif]-->
 		<script src="<c:url value="/static/resources/js/jquery.min.js"/>"></script>
 		<script src="<c:url value="/static/resources/js/jquery.dropotron.js"/>"></script>
@@ -25,6 +24,7 @@
 			<link rel="stylesheet" href="<c:url value="/static/resources/css/style-noscript.css"/>" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="<c:url value="/static/resources/css/ie8.css"/>" /><![endif]-->
 	</head>
+	
 	<body class="homepage">
 
 		<!-- Header -->
@@ -41,11 +41,13 @@
 							<a href="quiniela" class="button circled scrolly">Quiniela</a>
 						</footer>
 					</div>
-				
+
+
 				<!-- Nav -->
 					<nav id="nav">
 						<ul>
 							<li><a href="index">Inicio</a></li>
+							<li><a href="#" class="skel-panels-include" data-action="togglePanel" data-args="carrusel">login</a></li>
 							<li><a href="quiniela">Quiniela</a></li>
 							<li><a href="micuenta">Mi Cuenta</a></li>
 							<li><a href="pendiente">Contacto</a></li>
@@ -54,12 +56,34 @@
 
 			</div>
 			
+			<div id="carrusel">
+			
+				<!-- login -->
+				<div class="row flush">
+				  <div class="4u">&nbsp;</div>
+				  <div class="4u">
+					<div>
+					   <form:form commandName="login" id="reg">
+					
+					        <p>Username: <form:input path="name" id="username"/>
+					          <br />
+					          Password: <form:password path="pwd" id="password"/>
+					          <br />
+					          <form:button id="login_btn" class="button" name="login" value="login">Login</form:button>
+					        </p>
+				        </form:form>
+					</div>
+				  </div>
+				  <div class="4u">&nbsp;</div>
+				</div>
+				<!-- login -->
+			</div>
+
 		<!-- Footer -->
 			<div id="footer">
 				<div class="container">
 					<div class="row">
 						<div class="12u">
-						
 							<!-- Contact -->
 								<section class="contact">
 									<header>
