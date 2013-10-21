@@ -47,7 +47,7 @@
 					<nav id="nav">
 						<ul>
 							<li><a href="index">Inicio</a></li>
-							<li><a href="#" class="skel-panels-include" data-action="togglePanel" data-args="carrusel">login</a></li>
+							<li><a href="#" class="skel-panels-include" data-action="togglePanel" data-args="login_div">login</a></li>
 							<li><a href="quiniela">Quiniela</a></li>
 							<li><a href="micuenta">Mi Cuenta</a></li>
 							<li><a href="pendiente">Contacto</a></li>
@@ -56,7 +56,7 @@
 
 			</div>
 			
-			<div id="carrusel">
+			<div id="login_div">
 			
 				<!-- login -->
 				<div class="row flush">

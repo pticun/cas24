@@ -64,9 +64,9 @@
 							html: '<div data-action="navList" data-args="nav"></div>'
 						},
 						//TODO no funciona en mobile
-						carrusel: {
+						login_div: {
 							position: 'top',
-							size: '50%',
+							size: '25%',
 						}
 					},
 					overlays: {
