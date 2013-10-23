@@ -30,6 +30,15 @@ MongoDB 2.2 database added.
 	https://mongolab.com
 	user/pwd:racsor/Primera1
 	
+
+Para conectar con la BBDD:
+
+mongo ds035338.mongolab.com:35338/racsor -u quinimobile -p quinimobile
+
+para insertar una jornada:
+
+db.jornadas.insert({temporada:2013, jornada:9, partidos : [{pos:1, equipo1:"VILLARREAL", equipo2:"VALENCIA"}, {pos:2, equipo1:"ELCHE", equipo2:"GRANADA"}, {pos:3, equipo1:"AT. MADRID", equipo2:"BETIS"}, {pos:4, equipo1:"LEVANTE", equipo2:"ESPANYOL"}, {pos:5, equipo1:"MÁLAGA", equipo2:"CELTA"}, {pos:6, equipo1:"SEVILLA", equipo2:"OSASUNA"}, {pos:7, equipo1:"R. SOCIEDAD", equipo2:"ALMERÍA"}, {pos:8, equipo1:"RECREATIVO", equipo2:"MALLORCA"}, {pos:9, equipo1:"TENERIFE", equipo2:"DEPORTIVO"}, {pos:10, equipo1:"ZARAGOZA", equipo2:"ALAVÉS"}, {pos:11, equipo1:"MIRANDÉS", equipo2:"NUMANCIA"}, {pos:12, equipo1:"HÉRCULES", equipo2:"JAEN"}, {pos:13, equipo1:"MURCIA", equipo2:"CÓRDOBA"}, {pos:14, equipo1:"LUGO", equipo2:"SABADELL"}, {pos:15, equipo1:"BARCELONA", equipo2:"R. MADRID"}]});
+
 	
 	
 	

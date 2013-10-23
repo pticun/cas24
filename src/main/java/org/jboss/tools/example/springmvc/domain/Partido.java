@@ -6,16 +6,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class Partido {
  
-    @Id
-    private String id;
+    private int pos;
     private String equipo1;
     private String equipo2;
      
-    public String getId() {
-        return id;
+    public int getPos() {
+        return pos;
     }
-    public void setId(String id) {
-        this.id = id;
+    public void setId(int id) {
+        this.pos = pos;
     }
     public String getEquipo1() {
 		return equipo1;

@@ -6,13 +6,27 @@ import org.springframework.data.mongodb.core.mapping.Document;
  
 @Document
 public class Jornada {
- 
+	
+	private int temporada;
+	private int jornada;
     private List<Partido> partidos;
     
-    public List<Partido> getJornada() {
+    public int getTemporada() {
+		return temporada;
+	}
+	public void setTemporada(int temporada) {
+		this.temporada = temporada;
+	}
+    public int getJornada() {
+		return jornada;
+	}
+	public void setJornada(int jornada) {
+		this.jornada = jornada;
+	}
+    public List<Partido> getPartidos() {
 		return partidos;
 	}
-	public void setEquipo1(List<Partido> partidos) {
+	public void setPartidos(List<Partido> partidos) {
 		this.partidos = partidos;
 	}
 }

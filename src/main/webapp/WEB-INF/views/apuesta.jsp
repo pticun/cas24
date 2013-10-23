@@ -35,15 +35,15 @@
 						<header>
 							<h1><a href="#" id="logo">Apuesta</a></h1>
 							<hr />
-							<span class="byline">Partidos de la quiniela</span>
+							<span class="byline">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></span>
 						</header>
 						<footer>
 <form action="enviarapuesta.php" method="get">
 	    <table border="1">
-	    <c:forEach var="partido" items="${jornada}">
+	    <c:forEach var="partido" items="${partidos}">
 		    <TR>
 		       	<TD  align="center">
-		    		<c:out value="${partido.getId()}" />
+		    		<c:out value="${partido.getPos()}" />
 		    	</TD>
 		       	<TD  align="center">
 		       		<c:out value="${partido.getEquipo1()}" />
@@ -53,13 +53,13 @@
 		    	</TD>
 		    
 		    	<TD width="5" height="5" align="center">
-		    		<input type="radio" name=R<c:out value="${partido.getId()}" /> />
+		    		<input type="radio" name=R<c:out value="${partido.getPos()}" /> />
 		    	</TD>
 		    	<TD width="5" height="5" align="center">
-		    		<input type="radio" name=R<c:out value="${partido.getId()}" /> />
+		    		<input type="radio" name=R<c:out value="${partido.getPos()}" /> />
 		    	</TD>
 		    	<TD width="5" height="5" align="center">
-		    		<input type="radio" name=R<c:out value="${partido.getId()}" /> />
+		    		<input type="radio" name=R<c:out value="${partido.getPos()}" /> />
 		    	</TD>
 		    </TR>
 	    </c:forEach>  
