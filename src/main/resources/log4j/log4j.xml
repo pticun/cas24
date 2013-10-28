@@ -22,7 +22,7 @@
 		<level value="debug" />
 		<appender-ref ref="console" />
 	</category>
-	<category name="org.jboss" additivity="false">
+	<category name="org.alterq" additivity="false">
 		<level value="debug" />
 		<appender-ref ref="console" />
 	</category>

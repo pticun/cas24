@@ -1,13 +1,13 @@
-package org.jboss.tools.example.springmvc.mvc;
+package org.alterq.mvc;
 
 //import java.util.List;
 
 import java.util.List;
 
-import org.jboss.tools.example.springmvc.domain.Jornada;
-import org.jboss.tools.example.springmvc.domain.Member;
+import org.alterq.domain.Jornada;
+import org.alterq.domain.Member;
+import org.alterq.repo.JornadaDao;
 //import org.jboss.tools.example.springmvc.domain.Partido;
-import org.jboss.tools.example.springmvc.repo.JornadaDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

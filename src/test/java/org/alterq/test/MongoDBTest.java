@@ -1,7 +1,7 @@
-package org.jboss.tools.example.springmvc.test;
+package org.alterq.test;
 
-import org.jboss.tools.example.springmvc.domain.Person;
-import org.jboss.tools.example.springmvc.repo.PersonService;
+import org.alterq.domain.Person;
+import org.alterq.repo.PersonService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

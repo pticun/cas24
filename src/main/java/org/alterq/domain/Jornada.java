@@ -1,4 +1,4 @@
-package org.jboss.tools.example.springmvc.domain;
+package org.alterq.domain;
 
 import java.util.List;
 //import org.springframework.data.annotation.Id;
