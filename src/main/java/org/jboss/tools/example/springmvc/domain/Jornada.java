@@ -29,4 +29,18 @@ public class Jornada {
 	public void setPartidos(List<Partido> partidos) {
 		this.partidos = partidos;
 	}
+	public String toString()
+	{
+		
+		String rdo = "{temporada:" + temporada + ",jornada:" + jornada + ",partidos:[";
+				for(int i=0; i< partidos.size(); i++) {
+					if(i!=0)
+						rdo+=",";
+					rdo+="{pos:" + ((Partido)partidos.get(i)).getPos();
+					rdo+=", equipo1:" + ((Partido)partidos.get(i)).getEquipo1();
+		            rdo+=", equipo2:"+((Partido)partidos.get(i)).getEquipo2() + "}";
+		        }
+				rdo+="]}";
+		return rdo;
+	}
 }
