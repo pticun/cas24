@@ -24,7 +24,21 @@
 			<link rel="stylesheet" href="<c:url value="/static/resources/css/style-noscript.css"/>" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="<c:url value="/static/resources/css/ie8.css"/>" /><![endif]-->
 	</head>
-	
+  <script type="text/javascript">
+  
+    $(document).ready(function() {
+    	 $('#loginForm').submit(function(e) {
+    	        // will pass the form date using the jQuery serialize function
+    	        $.post('${pageContext.request.contextPath}/login', $(this).serialize(), function(response) {
+    	          $('#loginFormResponse').text(response);
+    	        });
+    	        
+    	        e.preventDefault(); // prevent actual form submit and page reload
+    	      });    	
+    });
+    
+    </script>
+   	
 	<body class="homepage">
 
 		<!-- Header -->
@@ -63,15 +77,16 @@
 				  <div class="4u">&nbsp;</div>
 				  <div class="4u">
 					<div>
-					   <form:form commandName="login" id="reg">
+					   <form id="loginForm">
 					
-					        <p>Username: <form:input path="name" id="username"/>
+					        <p>Username: <input id="name" name="name"/>
 					          <br />
-					          Password: <form:password path="pwd" id="password"/>
+					          Password: <input type="password" name="pwd" id="pwd"/>
 					          <br />
-					          <form:button id="login_btn" class="button" name="login" value="login">Login</form:button>
+					          <button id="login_btn" class="button" name="login" value="login">Login</button>
 					        </p>
-				        </form:form>
+					         <div id="loginFormResponse">respuesta </div>
+				        </form>
 					</div>
 				  </div>
 				  <div class="4u">&nbsp;</div>

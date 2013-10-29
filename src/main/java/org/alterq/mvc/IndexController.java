@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(value={"/","/index","/login"})
@@ -23,21 +24,19 @@ public class IndexController
     @RequestMapping(method=RequestMethod.GET)
     public String displaySortedMembers(Model model)
     {
-    	System.out.println("init index.jsp");
     	log.debug("init index.jsp");
-        model.addAttribute("login", new Member());
-        model.addAttribute("members", memberDao.findAllOrderedByName());
+//       model.addAttribute("login", new Member());
+//        model.addAttribute("members", memberDao.findAllOrderedByName());
         return "index";
     }
 
-    @RequestMapping(method=RequestMethod.POST)
-    public String form( @ModelAttribute("login") Member newMember, Model model) {
-    	System.out.println("login");
-    	System.out.println("newMember.name:"+newMember.getName());
-    	System.out.println("newMember.pwd:"+newMember.getPwd());
+    @RequestMapping(value="login", method=RequestMethod.POST)
+    public @ResponseBody String login( Member newMember) {
+    	log.debug("login");
+    	log.debug("newMember.name:"+newMember.getName());
+    	log.debug("newMember.pwd:"+newMember.getPwd());
     	
-    	
-        return "index";
+        return "do login";
     	
     }
  }
