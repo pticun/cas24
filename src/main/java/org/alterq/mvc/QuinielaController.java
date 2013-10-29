@@ -1,7 +1,7 @@
-package org.jboss.tools.example.springmvc.mvc;
+package org.alterq.mvc;
 
-import org.jboss.tools.example.springmvc.domain.Member;
-import org.jboss.tools.example.springmvc.repo.MemberDao;
+import org.alterq.domain.Member;
+import org.alterq.repo.MemberDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,8 +1,8 @@
-package org.jboss.tools.example.springmvc.repo;
+package org.alterq.repo;
 
 import java.util.List;
 
-import org.jboss.tools.example.springmvc.domain.Member;
+import org.alterq.domain.Member;
 
 public interface MemberDao
 {

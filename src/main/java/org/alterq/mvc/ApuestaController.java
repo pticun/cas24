@@ -1,16 +1,20 @@
-package org.jboss.tools.example.springmvc.mvc;
+package org.alterq.mvc;
 
 //import java.util.List;
 
-import org.jboss.tools.example.springmvc.domain.Jornada;
+import java.util.List;
+
+import org.alterq.domain.Jornada;
+import org.alterq.domain.Member;
+import org.alterq.repo.JornadaDao;
 //import org.jboss.tools.example.springmvc.domain.Partido;
-import org.jboss.tools.example.springmvc.repo.JornadaDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 //import com.google.gson.Gson;
@@ -39,6 +43,24 @@ public class ApuestaController {
     model.addAttribute("partidos", jornada.getPartidos());
 
     return "apuesta";
-    //return jornada.toString();
     }
+
+    @RequestMapping(method=RequestMethod.GET, produces="application/json",value="jornada")
+    public @ResponseBody Jornada getJornada()
+    {
+        return jornadaDao.findByTemporadaJornada(2013, 9);
+    }
+
+    @RequestMapping(method=RequestMethod.GET, produces="application/json",value="jornada/{jornada}/temporada/{temporada}")
+    public @ResponseBody Jornada getJornada(@PathVariable("temporada") int temporada, @PathVariable("jornada") int jornada)
+    {
+        return jornadaDao.findByTemporadaJornada(temporada, jornada);
+    }
+    
+    @RequestMapping(method=RequestMethod.GET, produces="application/json",value="jornada", params = {"temporada", "jornada"})
+    public @ResponseBody Jornada getJornadaParams(@RequestParam(value = "temporada") int temporada, @RequestParam(value = "jornada") int jornada)
+    {
+        return jornadaDao.findByTemporadaJornada(temporada, jornada);
+    }
+    
 }

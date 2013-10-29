@@ -1,8 +1,8 @@
-package org.jboss.tools.example.springmvc.repo;
+package org.alterq.repo;
 
 import java.util.List;
 
-import org.jboss.tools.example.springmvc.domain.Jornada;
+import org.alterq.domain.Jornada;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

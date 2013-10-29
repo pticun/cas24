@@ -1,4 +1,4 @@
-package org.jboss.tools.example.springmvc.domain;
+package org.alterq.domain;
 
 import java.io.Serializable;
 

@@ -1,7 +1,7 @@
-package org.jboss.tools.example.springmvc.test;
+package org.alterq.test;
 
-import org.jboss.tools.example.springmvc.domain.Jornada;
-import org.jboss.tools.example.springmvc.repo.JornadaDao;
+import org.alterq.domain.Jornada;
+import org.alterq.repo.JornadaDao;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

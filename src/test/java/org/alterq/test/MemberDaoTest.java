@@ -1,11 +1,11 @@
-package org.jboss.tools.example.springmvc.test;
+package org.alterq.test;
 
 import java.util.List;
 
 import junit.framework.Assert;
 
-import org.jboss.tools.example.springmvc.domain.Member;
-import org.jboss.tools.example.springmvc.repo.MemberDao;
+import org.alterq.domain.Member;
+import org.alterq.repo.MemberDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

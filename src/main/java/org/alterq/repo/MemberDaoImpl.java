@@ -1,9 +1,9 @@
-package org.jboss.tools.example.springmvc.repo;
+package org.alterq.repo;
 
 import java.util.List;
 
-import org.jboss.tools.example.springmvc.domain.Member;
-import org.jboss.tools.example.springmvc.domain.Person;
+import org.alterq.domain.Member;
+import org.alterq.domain.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
