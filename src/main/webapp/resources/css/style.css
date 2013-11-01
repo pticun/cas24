@@ -1557,6 +1557,13 @@
 
 	#login_div
 	{
+		background: #fff;
+		text-align: center;
+		padding: 4.5em 0 4.5em 0;
+	}
+
+/*
+	{
 		display: inline-block;
 		width: 18em;
 		background: #fff;
@@ -1571,4 +1578,4 @@
 		-ms-transition: opacity 0.75s ease-in-out;			
 		transition: opacity 0.75s ease-in-out;			
 	}
-
+*/
