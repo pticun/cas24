@@ -1,4 +1,4 @@
-package org.alterq.test;
+package org.alterq.domain.test;
 
 import java.util.List;
 
