@@ -1,4 +1,4 @@
-package org.alterq.test;
+package org.alterq.domain.test;
 
 import org.alterq.domain.Jornada;
 import org.alterq.repo.JornadaDao;
