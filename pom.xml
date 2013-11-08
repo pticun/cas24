@@ -70,7 +70,6 @@
 			<artifactId>jboss-javaee-web-6.0</artifactId>
 			<version>3.0.0.Final</version>
 			<type>pom</type>
-			<scope>import</scope>
 		</dependency>
 
 		<!-- Spring dependencies -->

@@ -30,7 +30,8 @@
     	 $('#loginForm').submit(function(e) {
     	        // will pass the form date using the jQuery serialize function
     	        $.post('${pageContext.request.contextPath}/login', $(this).serialize(), function(response) {
-    	          $('#loginFormResponse').text(response);
+//    	        	var obj = $.parseJSON(response);
+    	          $('#loginFormResponse').text(response.userAlterQ.name);
     	        });
     	        
     	        e.preventDefault(); // prevent actual form submit and page reload
