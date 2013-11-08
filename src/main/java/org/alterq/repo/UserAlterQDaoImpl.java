@@ -57,6 +57,8 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 	@Override
 	public UserAlterQ validateLogin(String id, String password) {
 		UserAlterQ dao = mongoTemplate.findById(id, UserAlterQ.class,COLLECTION_NAME);
+		if (dao==null)
+			return null;
 		String hashedAndSalted = dao.getPwd();
 
 		String salt = hashedAndSalted.split(",")[1];

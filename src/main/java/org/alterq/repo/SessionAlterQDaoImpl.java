@@ -16,7 +16,7 @@ public class SessionAlterQDaoImpl implements SessionAlterQDao {
 	public static final String COLLECTION_NAME = "sessionalterq";
 
 	@Override
-	public String findUserNameBySessionId(String sessionId) {
+	public String findUserAlterQIdBySessionId(String sessionId) {
 		SessionAlterQ sessionAlterQ = mongoTemplate.findById(sessionId, SessionAlterQ.class, COLLECTION_NAME);
 		if (sessionAlterQ != null)
 			return sessionAlterQ.getUserAlterQ();
@@ -24,7 +24,7 @@ public class SessionAlterQDaoImpl implements SessionAlterQDao {
 	}
 
 	@Override
-	public String startSession(String username) {
+	public String startSession(String id) {
 		// get 32 byte random number. that's a lot of bits.
 		SecureRandom generator = new SecureRandom();
 		byte randomBytes[] = new byte[32];
@@ -36,7 +36,7 @@ public class SessionAlterQDaoImpl implements SessionAlterQDao {
 
 		// build the BSON object
 		SessionAlterQ sessionAlterQ = new SessionAlterQ();
-		sessionAlterQ.setUserAlterQ(username);
+		sessionAlterQ.setUserAlterQ(id);
 		sessionAlterQ.setId(sessionID);
 
 		mongoTemplate.insert(sessionAlterQ, COLLECTION_NAME);

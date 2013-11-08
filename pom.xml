@@ -70,7 +70,6 @@
 			<artifactId>jboss-javaee-web-6.0</artifactId>
 			<version>3.0.0.Final</version>
 			<type>pom</type>
-			<scope>import</scope>
 		</dependency>
 
 		<!-- Spring dependencies -->
@@ -295,6 +294,11 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
 		</dependency>
 	</dependencies>
 
