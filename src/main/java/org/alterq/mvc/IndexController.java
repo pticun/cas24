@@ -3,7 +3,6 @@ package org.alterq.mvc;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-import org.alterq.domain.SessionAlterQ;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.MemberDao;
@@ -24,12 +23,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class IndexController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	private MemberDao memberDao;
-	@Autowired
-	private UserAlterQDao userDao;
-	@Autowired
-	private SessionAlterQDao sessionDao;
+    @Autowired
+    private MemberDao memberDao;
+    @Autowired
+    private UserAlterQDao userDao;
+    @Autowired
+    private SessionAlterQDao sessionDao;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String startIC(@CookieValue(value = "session", defaultValue = "") String cookieSession) {
@@ -65,3 +64,4 @@ public class IndexController {
 
 	}
 }
+
