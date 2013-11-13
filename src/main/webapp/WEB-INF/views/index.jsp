@@ -27,20 +27,55 @@
   <script type="text/javascript">
   
     $(document).ready(function() {
+    	var jqxhr =
+    	    $.ajax({
+    	        url: "${pageContext.request.contextPath}/login",
+     	    })
+    	    .success (function(response) { 
+    		    if(response.errorDto!=null){
+    		    	$('#nameUserNav').text("sin user");
+    		    }
+    		    else{
+					$('#nameUserNav').text(response.userAlterQ.name);
+					//move to start page
+					var new_position = $('#bodyClass').offset();
+	    		    window.scrollTo(new_position.left,new_position.top);
+    		    }
+    	    })
+    	    .error   (function()     { alert("Error")   ; })
+//    	    .complete(function()     { alert("complete"); })
+    	    ;    	
+    	
+    	
     	 $('#loginForm').submit(function(e) {
     	        // will pass the form date using the jQuery serialize function
     	        $.post('${pageContext.request.contextPath}/login', $(this).serialize(), function(response) {
-//    	        	var obj = $.parseJSON(response);
-    	          $('#loginFormResponse').text(response.userAlterQ.name);
-    	        });
-    	        
+	    		    if(response.errorDto!=null){
+	    		    	$('#loginFormResponse').text(response.errorDto.stringError);
+	    		    }
+	    		    else{
+						$('#loginFormResponse').text(response.userAlterQ.name);
+						$('#nameUserNav').text(response.userAlterQ.name);
+						//move to start page
+						var new_position = $('#bodyClass').offset();
+		    		    window.scrollTo(new_position.left,new_position.top);
+	    		    }
+ 			   	 });
     	        e.preventDefault(); // prevent actual form submit and page reload
-    	      });    	
+    	 });
+    	 $('#loginDiv').click(function(){
+    		    var jump = $(this).attr('href');
+    		    var new_position = $('#'+jump).offset();
+    		    window.scrollTo(new_position.left,new_position.top);
+    		    return false;
+    		});    	 
+    	 
+    	 
     });
     
     </script>
    	
-	<body class="homepage">
+	<body class="homepage" id="bodyClass">
 
 		<!-- Header -->
 			<div id="header">
@@ -62,10 +97,11 @@
 					<nav id="nav">
 						<ul>
 							<li><a href="index">Inicio</a></li>
-							<li><a href="#login_div">login</a></li>
+							<li><a href="login_div" id="loginDiv">login</a></li>
 							<li><a href="quiniela">Quiniela</a></li>
 							<li><a href="micuenta">Mi Cuenta</a></li>
 							<li><a href="pendiente">Contacto</a></li>
+							<li id="nameUserNav">nombre usuario</li>
 						</ul>
 					</nav>
 
