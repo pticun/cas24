@@ -25,7 +25,32 @@
 			<link rel="stylesheet" href="<c:url value="/static/resources/css/style-noscript.css"/>" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="<c:url value="/static/resources/css/ie8.css"/>" /><![endif]-->
 	</head>
-	<body class="homepage">
+  <script type="text/javascript">
+  
+    $(document).ready(function() {
+    	var jqxhr =
+    	    $.ajax({
+    	        url: "${pageContext.request.contextPath}/login",
+     	    })
+    	    .success (function(response) { 
+    		    if(response.errorDto!=null){
+    		    	$('#nameUserNav').text("sin user");
+    		    }
+    		    else{
+					$('#nameUserNav').text(response.userAlterQ.name);
+					//move to start page
+					var new_position = $('#bodyClass').offset();
+	    		    window.scrollTo(new_position.left,new_position.top);
+    		    }
+    	    })
+    	    .error   (function()     { alert("Error")   ; })
+//    	    .complete(function()     { alert("complete"); })
+    	    ;    	
+    });
+    
+    </script>
+
+    	<body class="homepage">
 
 		<!-- Header -->
 			<div id="header">
@@ -88,8 +113,9 @@
 						<ul>
 							<li><a href="index">Inicio</a></li>
 							<li><a href="quiniela">Quiniela</a></li>
-							<li><a href="micuenta">Mi Cuenta</a></li>
+							<li><a href="myaccount">Mi Cuenta</a></li>
 							<li><a href="pendiente">Contacto</a></li>
+							<li id="nameUserNav">nombre usuario</li>
 						</ul>
 					</nav>
 

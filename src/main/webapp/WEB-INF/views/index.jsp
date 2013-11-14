@@ -99,7 +99,7 @@
 							<li><a href="index">Inicio</a></li>
 							<li><a href="login_div" id="loginDiv">login</a></li>
 							<li><a href="quiniela">Quiniela</a></li>
-							<li><a href="micuenta">Mi Cuenta</a></li>
+							<li><a href="myaccount">Mi Cuenta</a></li>
 							<li><a href="pendiente">Contacto</a></li>
 							<li id="nameUserNav">nombre usuario</li>
 						</ul>

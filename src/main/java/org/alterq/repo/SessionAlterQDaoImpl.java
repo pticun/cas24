@@ -49,7 +49,6 @@ public class SessionAlterQDaoImpl implements SessionAlterQDao {
 		SessionAlterQ sessionAlterQ = new SessionAlterQ();
 		sessionAlterQ.setId(sessionID);
 		mongoTemplate.remove(sessionAlterQ, COLLECTION_NAME);
-
 	}
 
 	@Override
