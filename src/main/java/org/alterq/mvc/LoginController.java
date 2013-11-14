@@ -72,6 +72,7 @@ public class LoginController {
 		}
 		return dto;
 	}
+
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
 	ResponseDto logout(@CookieValue(value = "session", defaultValue = "") String cookieSession) {
