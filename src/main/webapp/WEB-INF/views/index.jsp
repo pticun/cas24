@@ -34,9 +34,12 @@
     	    .success (function(response) { 
     		    if(response.errorDto!=null){
     		    	$('#nameUserNav').text("sin user");
+					$('#dataDiv').show();
     		    }
     		    else{
 					$('#nameUserNav').text(response.userAlterQ.name);
+					$('#dataDiv').hide();
+					$('#data_Div').hide();
 					//move to start page
 					var new_position = $('#bodyClass').offset();
 	    		    window.scrollTo(new_position.left,new_position.top);
@@ -56,6 +59,7 @@
 	    		    else{
 						$('#loginFormResponse').text(response.userAlterQ.name);
 						$('#nameUserNav').text(response.userAlterQ.name);
+						$('#dataDiv').hide();
 						//move to start page
 						var new_position = $('#bodyClass').offset();
 		    		    window.scrollTo(new_position.left,new_position.top);
@@ -63,12 +67,13 @@
  			   	 });
     	        e.preventDefault(); // prevent actual form submit and page reload
     	 });
-    	 $('#loginDiv').click(function(){
+    	 $('#data_Div').click(function(){
     		    var jump = $(this).attr('href');
     		    var new_position = $('#'+jump).offset();
     		    window.scrollTo(new_position.left,new_position.top);
+    		    $('#loginFormResponse').show();
     		    return false;
-    		});    	 
+    	});    	 
     	 
     	 
     });
@@ -97,7 +102,7 @@
 					<nav id="nav">
 						<ul>
 							<li><a href="index">Inicio</a></li>
-							<li><a href="login_div" id="loginDiv">login</a></li>
+							<li><a href="dataDiv" id="data_Div">login</a></li>
 							<li><a href="quiniela">Quiniela</a></li>
 							<li><a href="myaccount">Mi Cuenta</a></li>
 							<li><a href="pendiente">Contacto</a></li>
@@ -107,16 +112,14 @@
 
 			</div>
 			
-			<div id="login_div">
-			
-				<!-- login -->
+			<!-- login -->
+			<div id="dataDiv">
 				<div class="row flush">
 				  <div class="4u">&nbsp;</div>
 				  <div class="4u">
 					<div>
 					   <form id="loginForm">
-					
-					        <p>Username: <input id="id" name="id"/>
+					        <p>Username: <input id="id" name="id" type="text"/>
 					          <br />
 					          Password: <input type="password" name="pwd" id="pwd"/>
 					          <br />
@@ -128,8 +131,8 @@
 				  </div>
 				  <div class="4u">&nbsp;</div>
 				</div>
-				<!-- login -->
 			</div>
+			<!-- login -->
 
 		<!-- Footer -->
 			<div id="footer">

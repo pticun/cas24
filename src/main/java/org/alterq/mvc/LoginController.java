@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
-import org.alterq.repo.MemberDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.apache.commons.lang3.StringUtils;
@@ -24,8 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LoginController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	private MemberDao memberDao;
 	@Autowired
 	private UserAlterQDao userDao;
 	@Autowired

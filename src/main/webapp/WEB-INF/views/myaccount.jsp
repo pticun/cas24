@@ -38,6 +38,9 @@
     		    }
     		    else{
 					$('#nameUserNav').text(response.userAlterQ.name);
+					$('#id').val(response.userAlterQ.id);
+					$('#name').val(response.userAlterQ.name);
+					$('#phoneNumber').val(response.userAlterQ.phoneNumber);
 					//move to start page
 					var new_position = $('#bodyClass').offset();
 	    		    window.scrollTo(new_position.left,new_position.top);
@@ -45,12 +48,40 @@
     	    })
     	    .error   (function()     { alert("Error")   ; })
 //    	    .complete(function()     { alert("complete"); })
-    	    ;    	
+    	    ;   
+ 
+    	
+	   	 $('#data_Div').click(function(){
+			    var jump = $(this).attr('href');
+			    var new_position = $('#'+jump).offset();
+			    window.scrollTo(new_position.left,new_position.top);
+			    return false;
+		});    	 
+    	
+    	 $('#userAlterQForm').submit(function(e) {
+ 	        // will pass the form date using the jQuery serialize function
+ 	        var url= rootURL + '/' + $('#id').val();
+ 	        alert(url);
+ 	        $.put('${pageContext.request.contextPath}/myaccount/'+$('#id').val, $(this).serialize(), function(response) {
+	    		    if(response.errorDto!=null){
+	    		    	$('#userAlterQFormResponse').text(response.errorDto.stringError);
+	    		    }
+	    		    else{
+						$('#userAlterQFormResponse').text(response.userAlterQ.name);
+						$('#nameUserNav').text(response.userAlterQ.name);
+						//move to start page
+						var new_position = $('#bodyClass').offset();
+		    		    window.scrollTo(new_position.left,new_position.top);
+	    		    }
+			   	 });
+ 	        e.preventDefault(); // prevent actual form submit and page reload
+ 	 });
+    	
     });
     
     </script>
 
-    	<body class="homepage">
+    	<body class="homepage" id="bodyClass">
 
 		<!-- Header -->
 			<div id="header">
@@ -61,53 +92,46 @@
 							<h1><a href="#" id="logo">Mi Cuenta</a></h1>
 						</header>
 
-
-
-			<!-- Carousel -->
-			<div class="carousel">
-				<div class="reel">
-
-					<article>
-						<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic01.jpg"/>" alt="" /></a>
-						<header>
-							<h3><a href="pendiente">Mis Datos</a></h3>
-						</header>
-						<h4>Gestiona los datos personales, de tu usuario o los bancarios.</h4>
-					</article>
-				
-					<article>
-						<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic02.jpg"/>" alt="" /></a>
-						<header>
-							<h3><a href="pendiente">Mi Saldo</a></h3>
-						</header>
-						<h4>Gestiona tu saldo, aumentándolo o disminuyéndolo a tu antojo.</h4>							
-					</article>
-				
-					<article>
-						<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic03.jpg"/>" alt="" /></a>
-						<header>
-							<h3><a href="pendiente">Mis Apuestas</a></h3>
-						</header>
-						<h4>Revisa tus apuestas y consulta tu histórico de manera sencilla..</h4>							
-					</article>
-
-					<article>
-						<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic04.jpg"/>" alt="" /></a>
-						<header>
-							<h3><a href="pendiente">Mis Amigos</a></h3>
-						</header>
-						<h4>Informa a otros amantes de las quinielas de tus movimientos.</h4>							
-					</article>
-				</div>
-			</div>
-
-
-
-
-
+						<!-- Carousel -->
+						<div class="carousel">
+							<div class="reel">
+			
+								<article>
+									<a href="dataDiv" id="data_Div" class="image featured"><img src="<c:url value="/static/resources/images/pic01.jpg"/>" alt="" /></a>
+									<header>
+										<h3><a href="dataDiv" id="data_Div">Mis Datos</a></h3>
+									</header>
+									<h4>Gestiona los datos personales, de tu usuario o los bancarios.</h4>
+								</article>
+							
+								<article>
+									<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic02.jpg"/>" alt="" /></a>
+									<header>
+										<h3><a href="pendiente">Mi Saldo</a></h3>
+									</header>
+									<h4>Gestiona tu saldo, aumentándolo o disminuyéndolo a tu antojo.</h4>							
+								</article>
+							
+								<article>
+									<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic03.jpg"/>" alt="" /></a>
+									<header>
+										<h3><a href="pendiente">Mis Apuestas</a></h3>
+									</header>
+									<h4>Revisa tus apuestas y consulta tu histórico de manera sencilla..</h4>							
+								</article>
+			
+								<article>
+									<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic04.jpg"/>" alt="" /></a>
+									<header>
+										<h3><a href="pendiente">Mis Amigos</a></h3>
+									</header>
+									<h4>Informa a otros amantes de las quinielas de tus movimientos.</h4>							
+								</article>
+							</div>
+						</div>
 
 					</div>
-				
+					
 				<!-- Nav -->
 					<nav id="nav">
 						<ul>
@@ -121,9 +145,29 @@
 
 			</div>
 
-
-
-
+			<!-- login -->
+			<div id="dataDiv">
+				<div class="row flush">
+				  <div class="4u">&nbsp;</div>
+				  <div class="4u">
+					<div>
+					   <form id="userAlterQForm">
+					        <p>Username: <input id="id" name="id" type="text" readonly="readonly"/>
+					          <br />
+					          Name: <input name="name" id="name" type="text"/>
+					          <br />
+					          Phone Number: <input name="phoneNumber" id="phoneNumber" type="text"/>
+					          <br />
+					          <button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button>
+					        </p>
+					         <div id="userAlterQFormResponse">respuesta </div>
+				        </form>
+					</div>
+				  </div>
+				  <div class="4u">&nbsp;</div>
+				</div>
+			</div>
+			<!-- login -->
 
 
 
