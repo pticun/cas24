@@ -69,6 +69,12 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 		return dao;
 
 	}
+
+	@Override
+	public void save(UserAlterQ userAlterQ) {
+		mongoTemplate.save(userAlterQ, COLLECTION_NAME);
+		
+	}
 }
 
 

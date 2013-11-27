@@ -40,13 +40,16 @@ public class AccountController {
 			log.debug("id:" + id);
 			log.debug("user.getId:" + user.getId());
 		}
+		//TODO control security
 		ResponseDto dto = new ResponseDto();
 		if (StringUtils.isNotBlank(cookieSession)) {
 			String idUserAlterQ = sessionDao.findUserAlterQIdBySessionId(cookieSession);
 			log.debug("idUserAlterQ:" + idUserAlterQ);
 			if (StringUtils.equals(idUserAlterQ, id)) {
 				UserAlterQ userAlterQ = userDao.findById(idUserAlterQ);
-
+				userAlterQ.setName(user.getName());
+				userAlterQ.setPhoneNumber(user.getPhoneNumber());
+				userDao.save(userAlterQ);
 				dto.setUserAlterQ(userAlterQ);
 			} else {
 				// id not match with sessionID
