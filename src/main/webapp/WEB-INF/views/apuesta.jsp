@@ -39,32 +39,46 @@
 						</header>
 						<footer>
 <form action="enviarapuesta.php" method="get">
-	    <table border="1">
+<center>
+
+	    <table class="quiniela">
+			<TR class="quinielatitulo">
+			<TD >Jornada <c:out value="${jornada}" />
+			</TD>
+			<TD colspan="3">APUESTA</TD>
+			</TR>
+			<TR><TD colspan="4"></TD></TR>
 	    <c:forEach var="partido" items="${partidos}">
+	    	
 		    <TR>
-		       	<TD  align="center">
-		    		<c:out value="${partido.getPos()}" />
+		    <c:choose>
+		    <c:when test="${partido.getPos() eq 1 or partido.getPos() eq 5 or partido.getPos() eq 9 or partido.getPos() eq 12 or partido.getPos() eq 15}">
+		       	<TD class="partidolinea">
+		       		<c:out value="${partido.obtenerCadenaPartido()}" />
 		    	</TD>
-		       	<TD  align="center">
-		       		<c:out value="${partido.getEquipo1()}" />
+        </c:when>
+        <c:otherwise>
+		       	<TD class="partido">
+		       		<c:out value="${partido.obtenerCadenaPartido()}" />
 		    	</TD>
-		       	<TD  align="center">
-		       		<c:out value="${partido.getEquipo2()}" />
+        </c:otherwise>
+		    </c:choose>
+		    	<TD class="pronostico">
+		    		<input class="class1" type="checkbox" id=R1<c:out value="${partido.getPos()}" /> name=R1<c:out value="${partido.getPos()}" /> />
+		    		<label class="quiniela" hidden for=R1<c:out value="${partido.getPos()}" />><span hidden>1</span></label>
 		    	</TD>
-		    
-		    	<TD width="5" height="5" align="center">
-		    		<input type="radio" name=R<c:out value="${partido.getPos()}" /> />
+		    	<TD class="pronostico">
+		    		<input class="classX" type="checkbox" id=RX<c:out value="${partido.getPos()}" /> name=RX<c:out value="${partido.getPos()}" /> />
+		    		<label class="quiniela"hidden for=RX<c:out value="${partido.getPos()}" />><span hidden>X</span></label>
 		    	</TD>
-		    	<TD width="5" height="5" align="center">
-		    		<input type="radio" name=R<c:out value="${partido.getPos()}" /> />
-		    	</TD>
-		    	<TD width="5" height="5" align="center">
-		    		<input type="radio" name=R<c:out value="${partido.getPos()}" /> />
+		    	<TD class="pronostico">
+		    		<input class="class2" type="checkbox" id=R2<c:out value="${partido.getPos()}" /> name=R2<c:out value="${partido.getPos()}" /> />
+		    		<label class="quiniela" hidden for=R2<c:out value="${partido.getPos()}" />><span hidden>2</span></label>
 		    	</TD>
 		    </TR>
 	    </c:forEach>  
 	    </TABLE>
-	    
+</center>
 	    <p><input type="submit" value="Enviar"></p>
 </form>
 						
