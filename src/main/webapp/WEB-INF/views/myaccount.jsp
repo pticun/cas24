@@ -57,12 +57,13 @@
 			    window.scrollTo(new_position.left,new_position.top);
 			    return false;
 		});    	 
-    	
+
+	   	  	 
     	 $('#userAlterQForm').submit(function(e) {
- 	        // will pass the form date using the jQuery serialize function
- 	        var url= rootURL + '/' + $('#id').val();
- 	        alert(url);
- 	        $.put('${pageContext.request.contextPath}/myaccount/'+$('#id').val, $(this).serialize(), function(response) {
+ 	        console.log('update:userAlterQForm');
+	        // will pass the form date using the jQuery serialize function
+ 	        var url= '${pageContext.request.contextPath}/myaccount/'+ $('#id').val();
+ 	        $.post(url, $(this).serialize(), function(response) {
 	    		    if(response.errorDto!=null){
 	    		    	$('#userAlterQFormResponse').text(response.errorDto.stringError);
 	    		    }
@@ -97,9 +98,9 @@
 							<div class="reel">
 			
 								<article>
-									<a href="dataDiv" id="data_Div" class="image featured"><img src="<c:url value="/static/resources/images/pic01.jpg"/>" alt="" /></a>
+									<a href="#dataDiv" id="data_Div" class="image featured"><img src="<c:url value="/static/resources/images/pic01.jpg"/>" alt="" /></a>
 									<header>
-										<h3><a href="dataDiv" id="data_Div">Mis Datos</a></h3>
+										<h3><a href="#dataDiv" id="data_Div">Mis Datos</a></h3>
 									</header>
 									<h4>Gestiona los datos personales, de tu usuario o los bancarios.</h4>
 								</article>

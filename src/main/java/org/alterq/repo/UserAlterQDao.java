@@ -10,6 +10,8 @@ public interface UserAlterQDao {
 	public List<UserAlterQ> findAllOrderedByName();
 
 	public void create(UserAlterQ userAlterQ);
-	
+
+	public void save(UserAlterQ userAlterQ);
+
 	public UserAlterQ validateLogin(String id, String password);
 }

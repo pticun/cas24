@@ -1,8 +1,5 @@
 package org.alterq.mvc;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
@@ -34,22 +31,28 @@ public class AccountController {
 		return "myaccount";
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, value = "/myaccount/{id}")
+	@RequestMapping(method = RequestMethod.POST, value = "/{id:.+}")
 	public @ResponseBody
-	ResponseDto updateUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable String id,UserAlterQ user) {
-		log.debug("init AccountController.updateUserAlterQ");
-		log.debug("session:" + cookieSession);
-		log.debug("id:" + id);
-		log.debug("user.getId:"+user.getId());
+	ResponseDto updateUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id, UserAlterQ user) {
+		if (log.isDebugEnabled()){
+			log.debug("init AccountController.updateUserAlterQ");
+			log.debug("session:" + cookieSession);
+			log.debug("id:" + id);
+			log.debug("user.getId:" + user.getId());
+		}
+		//TODO control security
 		ResponseDto dto = new ResponseDto();
 		if (StringUtils.isNotBlank(cookieSession)) {
 			String idUserAlterQ = sessionDao.findUserAlterQIdBySessionId(cookieSession);
-			if(idUserAlterQ.equalsIgnoreCase(id)){
+			log.debug("idUserAlterQ:" + idUserAlterQ);
+			if (StringUtils.equals(idUserAlterQ, id)) {
 				UserAlterQ userAlterQ = userDao.findById(idUserAlterQ);
+				userAlterQ.setName(user.getName());
+				userAlterQ.setPhoneNumber(user.getPhoneNumber());
+				userDao.save(userAlterQ);
 				dto.setUserAlterQ(userAlterQ);
-			}
-			else{
-				//id not match with sessionID
+			} else {
+				// id not match with sessionID
 				ErrorDto error = new ErrorDto();
 				error.setIdError("3");
 				error.setStringError("id not match with sessionID (i18n error)");
