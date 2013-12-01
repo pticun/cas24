@@ -26,6 +26,7 @@ public class UserAlterQDaoTest {
 		userAlterQ.setPhoneNumber("2125552121");
 		userAlterQ.setPwd("password");
 		userAlterQ.setId("idmail@arroba.es");
+		userAlterQ.setBalance("10");
 
 		dao.create(userAlterQ);
 		String id = userAlterQ.getId();
@@ -35,11 +36,26 @@ public class UserAlterQDaoTest {
 		return;
 	}
 	@Test
+	public void testUpdate() {
+		UserAlterQ userAlterQ = dao.findById("idmail@arroba.es");
+		userAlterQ.setName("Primera-");
+		userAlterQ.setPhoneNumber("2125552121");
+		userAlterQ.setId("idmail@arroba.es");
+		userAlterQ.setBalance("11");
+		
+		dao.save(userAlterQ);
+		String id = userAlterQ.getId();
+		Assert.assertNotNull(id);
+		
+		log.debug(userAlterQ.getPwd());
+		return;
+	}
+	@Test
 	public void testFindById() {
 		UserAlterQ userAlterQ = dao.findById("idmail@arroba.es");
 
-		Assert.assertEquals("idmail@arroba.es", userAlterQ.getName());
-		Assert.assertEquals("2125551212", userAlterQ.getPhoneNumber());
+		Assert.assertEquals("idmail@arroba.es", userAlterQ.getId());
+		Assert.assertEquals("2125552121", userAlterQ.getPhoneNumber());
 		return;
 	}
 	@Test

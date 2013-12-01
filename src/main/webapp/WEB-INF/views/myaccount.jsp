@@ -41,21 +41,37 @@
 					$('#id').val(response.userAlterQ.id);
 					$('#name').val(response.userAlterQ.name);
 					$('#phoneNumber').val(response.userAlterQ.phoneNumber);
+					$('#idSaldo').val(response.userAlterQ.id);
+					$('#balance').val(response.userAlterQ.balance);
 					//move to start page
 					var new_position = $('#bodyClass').offset();
 	    		    window.scrollTo(new_position.left,new_position.top);
     		    }
+				$('#dataDiv').hide();
+				$('#balanceDiv').hide();
     	    })
     	    .error   (function()     { alert("Error")   ; })
 //    	    .complete(function()     { alert("complete"); })
     	    ;   
  
     	
-	   	 $('#data_Div').click(function(){
+	   	$('#data_Div').click(function(){
+				$('#balanceDiv').hide();
+				$('#dataDiv').show();
 			    var jump = $(this).attr('href');
+				alert(jump);
 			    var new_position = $('#'+jump).offset();
 			    window.scrollTo(new_position.left,new_position.top);
 			    return false;
+		});    	 
+		$('#balance_Div').click(function(){
+			$('#dataDiv').hide();
+			$('#balanceDiv').show();
+		   	var jump = $(this).attr('href');
+			alert(jump);
+			var new_position = $('#'+jump).offset();
+			window.scrollTo(new_position.left,new_position.top);
+			return false;
 		});    	 
 
 	   	  	 
@@ -98,35 +114,39 @@
 							<div class="reel">
 			
 								<article>
-									<a href="#dataDiv" id="data_Div" class="image featured"><img src="<c:url value="/static/resources/images/pic01.jpg"/>" alt="" /></a>
+									<a href="#dataDiv" id="data_Div" class="image featured"><img src="<c:url value="/static/resources/images/pic01.jpg"/>" alt="" />
 									<header>
-										<h3><a href="#dataDiv" id="data_Div">Mis Datos</a></h3>
+										<h3>Mis Datos</h3>
 									</header>
 									<h4>Gestiona los datos personales, de tu usuario o los bancarios.</h4>
+									</a>
 								</article>
 							
 								<article>
-									<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic02.jpg"/>" alt="" /></a>
+									<a href="#balanceDiv" id="balance_Div" class="image featured"><img src="<c:url value="/static/resources/images/pic02.jpg"/>" alt="" />
 									<header>
-										<h3><a href="pendiente">Mi Saldo</a></h3>
+										<h3>Mi Saldo</h3>
 									</header>
-									<h4>Gestiona tu saldo, aumentándolo o disminuyéndolo a tu antojo.</h4>							
+									<h4>Gestiona tu saldo, aumentándolo o disminuyéndolo a tu antojo.</h4>	
+									</a>						
 								</article>
 							
 								<article>
-									<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic03.jpg"/>" alt="" /></a>
+									<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic03.jpg"/>" alt="" />
 									<header>
-										<h3><a href="pendiente">Mis Apuestas</a></h3>
+										<h3>Mis Apuestas</h3>
 									</header>
-									<h4>Revisa tus apuestas y consulta tu histórico de manera sencilla..</h4>							
+									<h4>Revisa tus apuestas y consulta tu histórico de manera sencilla..</h4>	
+									</a>						
 								</article>
 			
 								<article>
-									<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic04.jpg"/>" alt="" /></a>
+									<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic04.jpg"/>" alt="" />
 									<header>
-										<h3><a href="pendiente">Mis Amigos</a></h3>
+										<h3>Mis Amigos</h3>
 									</header>
-									<h4>Informa a otros amantes de las quinielas de tus movimientos.</h4>							
+									<h4>Informa a otros amantes de las quinielas de tus movimientos.</h4>	
+									</a>						
 								</article>
 							</div>
 						</div>
@@ -146,7 +166,7 @@
 
 			</div>
 
-			<!-- login -->
+			<!-- userAlterQ -->
 			<div id="dataDiv">
 				<div class="row flush">
 				  <div class="4u">&nbsp;</div>
@@ -168,8 +188,28 @@
 				  <div class="4u">&nbsp;</div>
 				</div>
 			</div>
-			<!-- login -->
+			<!-- userAlterQ -->
 
+			<!-- balance -->
+			<div id="balanceDiv">
+				<div class="row flush">
+				  <div class="4u">&nbsp;</div>
+				  <div class="4u">
+					<div>
+					   <form id="balanceAlterQForm">
+					        <p>Username: <input id="idSaldo" name="id" type="text" readonly="readonly"/>
+					          <br />
+					          SALDO: <input name="balance" id="balance" type="text"/>
+					          <button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button>
+					        </p>
+					         <div id="balanceAlterQFormResponse">respuesta </div>
+				        </form>
+					</div>
+				  </div>
+				  <div class="4u">&nbsp;</div>
+				</div>
+			</div>
+			<!-- balance -->
 
 
 

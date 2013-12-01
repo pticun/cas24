@@ -13,6 +13,7 @@ public class UserAlterQ implements Serializable {
 	private String name;
 	private String pwd;
 	private String phoneNumber;
+	private String balance;
 
 	public String getId() {
 		return id;
@@ -45,6 +46,14 @@ public class UserAlterQ implements Serializable {
 
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
+	}
+
+	public String getBalance() {
+		return balance;
+	}
+
+	public void setBalance(String balance) {
+		this.balance = balance;
 	}
 
 }
