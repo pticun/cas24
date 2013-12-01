@@ -59,7 +59,6 @@
 				$('#balanceDiv').hide();
 				$('#dataDiv').show();
 			    var jump = $(this).attr('href');
-				alert(jump);
 			    var new_position = $('#'+jump).offset();
 			    window.scrollTo(new_position.left,new_position.top);
 			    return false;
@@ -68,7 +67,6 @@
 			$('#dataDiv').hide();
 			$('#balanceDiv').show();
 		   	var jump = $(this).attr('href');
-			alert(jump);
 			var new_position = $('#'+jump).offset();
 			window.scrollTo(new_position.left,new_position.top);
 			return false;
