@@ -59,7 +59,7 @@
 				$('#balanceDiv').hide();
 				$('#dataDiv').show();
 			    var jump = $(this).attr('href');
-			    var new_position = $('#'+jump).offset();
+			    var new_position = $(jump).offset();
 			    window.scrollTo(new_position.left,new_position.top);
 			    return false;
 		});    	 
@@ -67,7 +67,7 @@
 			$('#dataDiv').hide();
 			$('#balanceDiv').show();
 		   	var jump = $(this).attr('href');
-			var new_position = $('#'+jump).offset();
+			var new_position = $(jump).offset();
 			window.scrollTo(new_position.left,new_position.top);
 			return false;
 		});    	 
@@ -88,7 +88,7 @@
 						var new_position = $('#bodyClass').offset();
 		    		    window.scrollTo(new_position.left,new_position.top);
 	    		    }
-			   	 });
+			});
  	        e.preventDefault(); // prevent actual form submit and page reload
  	 });
     	
