@@ -169,17 +169,31 @@
 				<div class="row flush">
 				  <div class="4u">&nbsp;</div>
 				  <div class="4u">
-					<div>
+					<div align="center">
 					   <form id="userAlterQForm">
-					        <p>Username: <input id="id" name="id" type="text" readonly="readonly"/>
-					          <br />
-					          Name: <input name="name" id="name" type="text"/>
-					          <br />
-					          Phone Number: <input name="phoneNumber" id="phoneNumber" type="text"/>
-					          <br />
-					          <button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button>
-					        </p>
-					         <div id="userAlterQFormResponse">respuesta </div>
+					   		<table class="quiniela">
+					   			<TR class="quinielatitulo">
+									<TD colspan="2">My Account</TD>
+									</TR>
+					   		
+					   		<tr>
+					   			<td class="partido">Username:</td>
+					   			<td class="partido"><input id="id" name="id" type="text" readonly="readonly"/></td>
+					        </tr>
+					   		<tr>
+					   			<td class="partido">Name:</td>
+					   			<td class="partido"><input name="name" id="name" type="text"/></td>
+					        </tr>
+					   		<tr>
+					   			<td class="partido">Phone Number:</td>
+					   			<td class="partido"><input name="phoneNumber" id="phoneNumber" type="text"/></td>
+					        </tr>
+					   		<tr align="right">
+					   			<td class="partido">&nbsp</td>
+					   			<td class="partido"><button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button></td>
+					        </tr>
+					        </table>
+					        	<div id="userAlterQFormResponse">respuesta </div>
 				        </form>
 					</div>
 				  </div>
