@@ -25,6 +25,32 @@
 			<link rel="stylesheet" href="<c:url value="/static/resources/css/style-noscript.css"/>" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="<c:url value="/static/resources/css/ie8.css"/>" /><![endif]-->
 	</head>
+	
+	<script type="text/javascript">
+		// left padding s with c to a total of n chars
+		function padding_left(s, c, n) {
+		  if (! s || ! c || s.length >= n) {
+		    return s;
+		  }
+		  var max = (n - s.length)/c.length;
+		  for (var i = 0; i < max; i++) {
+		    s = c + s;
+		  }
+		  return s;
+		}
+		 
+		// right padding s with c to a total of n chars
+		function padding_right(s, c, n) {
+		  if (! s || ! c || s.length >= n) {
+		    return s;
+		  }
+		  var max = (n - s.length)/c.length;
+		  for (var i = 0; i < max; i++) {
+		    s += c;
+		  }
+		  return s;
+		}
+	</script>
   <script type="text/javascript">
   
     $(document).ready(function() {
@@ -57,10 +83,37 @@
     		    }
     		    else{
 					$('#titleJornada').text("Jornada "+ response.jornada.jornada+ " Temporada "+response.jornada.temporada+"/"+(response.jornada.temporada+1-2000));
-					
+				    $('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.jornada.jornada+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
+
 					$(response.jornada.partidos).each(function(index, element){  
 						console.log(element);
-					    $('#quinielaTable').append('<tr><td> '+element.equipo1+' </td> <td> '+element.equipo2+' </td></tr>');       
+						var row="";
+						var temp=padding_right(element.equipo1+'-'+element.equipo2,".",28);
+						if(index>9){
+							temp=temp+(index+1);
+						}
+						else{
+							temp=temp+" "+(index+1);
+						}
+						if(index==1 || index==5 || index==9 || index==12 || index==15){
+							row+='<tr><td class="partidolinea">'+temp+'</td>';
+//						    $('#quinielaTable').append('<tr><td class="partidolinea">'+temp+'</td>');       
+						}
+						else{
+							row+='<tr><td class="partido">'+temp+'</td>';
+//						    $('#quinielaTable').append('<tr><td class="partido">'+temp+'</td>');       
+						}
+						row+='<td class="pronostico"><input class="class1" type="checkbox" id="R1'+index+'" name="R1'+index+'" />';
+						row+='<label class="quiniela" hidden for=R1'+index+'><span hidden>1</span></label>';
+						row+='</td>';
+						row+='<td class="pronostico"><input class="classX" type="checkbox" id="RX'+index+'" name="RX'+index+'" />';
+						row+='<label class="quiniela" hidden for=RX'+index+'><span hidden>X</span></label>';
+						row+='</td>';
+						row+='<td class="pronostico"><input class="class2" type="checkbox" id="R2'+index+'" name="R2'+index+'" />';
+						row+='<label class="quiniela" hidden for=R2'+index+'><span hidden>2</span></label>';
+						row+='</td>';
+						row+='</tr>';
+						$('#quinielaTable').append(row);
 					})
 					
 					
@@ -130,8 +183,8 @@
 
 			<div id="dataDiv">
 				<div class="row flush">
-				  <div class="4u">&nbsp;</div>
-				  <div class="4u">
+				  <div class="2u">&nbsp;</div>
+				  <div class="8u">
 					<div>
 					<span class="byline" id="titleJornada">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></span>
 					
@@ -139,48 +192,13 @@
 						<center>
 						
 							    <table class="quiniela" id="quinielaTable">
-									<TR class="quinielatitulo">
-									<TD >Jornada <c:out value="${jornada}" />
-									</TD>
-									<TD colspan="3">APUESTA</TD>
-									</TR>
-									<TR><TD colspan="4"></TD></TR>
-							    <c:forEach var="partido" items="${partidos}">
-							    	
-								    <TR>
-								    <c:choose>
-								    <c:when test="${partido.getPos() eq 1 or partido.getPos() eq 5 or partido.getPos() eq 9 or partido.getPos() eq 12 or partido.getPos() eq 15}">
-								       	<TD class="partidolinea">
-								       		<c:out value="${partido.obtenerCadenaPartido()}" />
-								    	</TD>
-						        </c:when>
-						        <c:otherwise>
-								       	<TD class="partido">
-								       		<c:out value="${partido.obtenerCadenaPartido()}" />
-								    	</TD>
-						        </c:otherwise>
-								    </c:choose>
-								    	<TD class="pronostico">
-								    		<input class="class1" type="checkbox" id=R1<c:out value="${partido.getPos()}" /> name=R1<c:out value="${partido.getPos()}" /> />
-								    		<label class="quiniela" hidden for=R1<c:out value="${partido.getPos()}" />><span hidden>1</span></label>
-								    	</TD>
-								    	<TD class="pronostico">
-								    		<input class="classX" type="checkbox" id=RX<c:out value="${partido.getPos()}" /> name=RX<c:out value="${partido.getPos()}" /> />
-								    		<label class="quiniela"hidden for=RX<c:out value="${partido.getPos()}" />><span hidden>X</span></label>
-								    	</TD>
-								    	<TD class="pronostico">
-								    		<input class="class2" type="checkbox" id=R2<c:out value="${partido.getPos()}" /> name=R2<c:out value="${partido.getPos()}" /> />
-								    		<label class="quiniela" hidden for=R2<c:out value="${partido.getPos()}" />><span hidden>2</span></label>
-								    	</TD>
-								    </TR>
-							    </c:forEach>  
-							    </TABLE>
+							    </table>
 						</center>
 							    <p><input type="submit" value="Enviar"></p>
 						</form>
 					</div>
 				  </div>
-				  <div class="4u">&nbsp;</div>
+				  <div class="2u">&nbsp;</div>
 				</div>
 			</div>
 
