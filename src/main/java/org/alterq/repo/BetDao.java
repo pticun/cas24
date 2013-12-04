@@ -10,4 +10,7 @@ public interface BetDao {
 	public RoundBets findAllBets(int season, int round);
 	
 	public boolean addBet(int season, int round, Bet bet);
+	
+	public boolean deleteAllBets(int season, int round);
+	public boolean deleteAllUserBets(int season, int round, String user);
 }
