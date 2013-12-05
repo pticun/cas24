@@ -12,17 +12,16 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
-		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet" type="text/css" />
 		<!--[if lte IE 8]><script src="<c:url value="/static/resources/js/html5shiv.js"/>"></script><![endif]-->
 		<script src="<c:url value="/static/resources/js/jquery.min.js"/>"></script>
 		<script src="<c:url value="/static/resources/js/jquery.dropotron.js"/>"></script>
 		<script src="<c:url value="/static/resources/js/skel.min.js"/>"></script>
 		<script src="<c:url value="/static/resources/js/skel-panels.min.js"/>"></script>
 		<script src="<c:url value="/static/resources/js/init.js"/>"></script>
-			<link rel="stylesheet" href="<c:url value="/static/resources/css/skel-noscript.css"/>" />
-			<link rel="stylesheet" href="<c:url value="/static/resources/css/style.css"/>" />
-			<link rel="stylesheet" href="<c:url value="/static/resources/css/style-desktop.css"/>" />
-			<link rel="stylesheet" href="<c:url value="/static/resources/css/style-noscript.css"/>" />
+		<link rel="stylesheet" href="<c:url value="/static/resources/css/skel-noscript.css"/>" />
+		<link rel="stylesheet" href="<c:url value="/static/resources/css/style.css"/>" />
+		<link rel="stylesheet" href="<c:url value="/static/resources/css/style-desktop.css"/>" />
+		<link rel="stylesheet" href="<c:url value="/static/resources/css/style-noscript.css"/>" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="<c:url value="/static/resources/css/ie8.css"/>" /><![endif]-->
 	</head>
 	
@@ -89,28 +88,26 @@
 						console.log(element);
 						var row="";
 						var temp=padding_right(element.equipo1+'-'+element.equipo2,".",28);
-						if(index>9){
+						if(index>10){
 							temp=temp+(index+1);
 						}
 						else{
 							temp=temp+" "+(index+1);
 						}
-						if(index==1 || index==5 || index==9 || index==12 || index==15){
+						if(index==0 || index==4 || index==8 || index==11 || index==14){
 							row+='<tr><td class="partidolinea">'+temp+'</td>';
-//						    $('#quinielaTable').append('<tr><td class="partidolinea">'+temp+'</td>');       
 						}
 						else{
 							row+='<tr><td class="partido">'+temp+'</td>';
-//						    $('#quinielaTable').append('<tr><td class="partido">'+temp+'</td>');       
 						}
-						row+='<td class="pronostico"><input class="class1" type="checkbox" id="R1'+index+'" name="R1'+index+'" />';
-						row+='<label class="quiniela" hidden for=R1'+index+'><span hidden>1</span></label>';
+						row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
+						row+='<label class="quiniela" hidden for="'+index+'_1"><span hidden>1</span></label>';
 						row+='</td>';
-						row+='<td class="pronostico"><input class="classX" type="checkbox" id="RX'+index+'" name="RX'+index+'" />';
-						row+='<label class="quiniela" hidden for=RX'+index+'><span hidden>X</span></label>';
+						row+='<td class="pronostico"><input class="classX" type="checkbox" id="'+index+'_X" name="'+index+'_X" />';
+						row+='<label class="quiniela" hidden for="'+index+'_X"><span hidden>X</span></label>';
 						row+='</td>';
-						row+='<td class="pronostico"><input class="class2" type="checkbox" id="R2'+index+'" name="R2'+index+'" />';
-						row+='<label class="quiniela" hidden for=R2'+index+'><span hidden>2</span></label>';
+						row+='<td class="pronostico"><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
+						row+='<label class="quiniela" hidden for="'+index+'_2"><span hidden>2</span></label>';
 						row+='</td>';
 						row+='</tr>';
 						$('#quinielaTable').append(row);
@@ -121,10 +118,32 @@
     		    }
 			});
 		    var jump = $(this).attr('href');
+		    alert(jump);
 		    var new_position = $(jump).offset();
+		    alert(new_position.top);
 		    window.scrollTo(new_position.left,new_position.top);
 		    return false;
-		});    	 
+		});
+
+		$('#betForm').submit(function(e) {
+			console.log('betForm');
+			// will pass the form date using the jQuery serialize function
+			var url= '${pageContext.request.contextPath}/bet/';
+			$.post(url, $(this).serialize(), function(response) {
+				if(response.errorDto!=null){
+					$('#userAlterQFormResponse').text(response.errorDto.stringError);
+				}
+				else{
+					$('#userAlterQFormResponse').text(response.userAlterQ.name);
+					$('#nameUserNav').text(response.userAlterQ.name);
+					//move to start page
+					var new_position = $('#bodyClass').offset();
+					window.scrollTo(new_position.left,new_position.top);
+				}
+			});
+		    e.preventDefault(); // prevent actual form submit and page reload
+		});
+	   	
     	
     });
     
@@ -188,13 +207,13 @@
 					<div>
 					<span class="byline" id="titleJornada">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></span>
 					
-						<form action="enviarapuesta.php" method="get">
+						<form id="betForm">
 						<center>
 						
 							    <table class="quiniela" id="quinielaTable">
 							    </table>
-						</center>
 							    <p><input type="submit" value="Enviar"></p>
+						</center>
 						</form>
 					</div>
 				  </div>

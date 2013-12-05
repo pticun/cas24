@@ -12,17 +12,16 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
-		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet" type="text/css" />
 		<!--[if lte IE 8]><script src="<c:url value="/static/resources/js/html5shiv.js"/>"></script><![endif]-->
 		<script src="<c:url value="/static/resources/js/jquery.min.js"/>"></script>
 		<script src="<c:url value="/static/resources/js/jquery.dropotron.js"/>"></script>
 		<script src="<c:url value="/static/resources/js/skel.min.js"/>"></script>
 		<script src="<c:url value="/static/resources/js/skel-panels.min.js"/>"></script>
 		<script src="<c:url value="/static/resources/js/init.js"/>"></script>
-			<link rel="stylesheet" href="<c:url value="/static/resources/css/skel-noscript.css"/>" />
-			<link rel="stylesheet" href="<c:url value="/static/resources/css/style.css"/>" />
-			<link rel="stylesheet" href="<c:url value="/static/resources/css/style-desktop.css"/>" />
-			<link rel="stylesheet" href="<c:url value="/static/resources/css/style-noscript.css"/>" />
+		<link rel="stylesheet" href="<c:url value="/static/resources/css/skel-noscript.css"/>" />
+		<link rel="stylesheet" href="<c:url value="/static/resources/css/style.css"/>" />
+		<link rel="stylesheet" href="<c:url value="/static/resources/css/style-desktop.css"/>" />
+		<link rel="stylesheet" href="<c:url value="/static/resources/css/style-noscript.css"/>" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="<c:url value="/static/resources/css/ie8.css"/>" /><![endif]-->
 	</head>
   <script type="text/javascript">
