@@ -81,13 +81,13 @@
     		    	$('#temporada').text(response.errorDto.stringError);
     		    }
     		    else{
-					$('#titleJornada').text("Jornada "+ response.jornada.jornada+ " Temporada "+response.jornada.temporada+"/"+(response.jornada.temporada+1-2000));
-				    $('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.jornada.jornada+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
+					$('#titleJornada').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
+				    $('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
 
-					$(response.jornada.partidos).each(function(index, element){  
+					$(response.round.games).each(function(index, element){  
 						console.log(element);
 						var row="";
-						var temp=padding_right(element.equipo1+'-'+element.equipo2,".",28);
+						var temp=padding_right(element.player1+'-'+element.player2,".",28);
 						if(index>10){
 							temp=temp+(index+1);
 						}
@@ -118,9 +118,7 @@
     		    }
 			});
 		    var jump = $(this).attr('href');
-		    alert(jump);
 		    var new_position = $(jump).offset();
-		    alert(new_position.top);
 		    window.scrollTo(new_position.left,new_position.top);
 		    return false;
 		});

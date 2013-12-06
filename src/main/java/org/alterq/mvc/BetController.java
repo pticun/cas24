@@ -4,10 +4,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.alterq.domain.Jornada;
+import org.alterq.domain.Round;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
-import org.alterq.repo.JornadaDao;
+import org.alterq.repo.RoundDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,23 +22,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class BetController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
-	private JornadaDao jornadaDao;
+	private RoundDao roundDao;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
 	ResponseDto getLastJornada() {
 		ResponseDto dto = new ResponseDto();
-		Jornada j = new Jornada();
+		Round j = new Round();
 		try {
-			j = jornadaDao.findLastJornada();
+			j = roundDao.findLastJornada();
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError("10");
 			error.setStringError("getLastJornada (i18n error)");
 			dto.setErrorDto(error);
-			dto.setJornada(null);
+			dto.setRound(null);
 		}
-		dto.setJornada(j);
+		dto.setRound(j);
 		return dto;
 	}
 
