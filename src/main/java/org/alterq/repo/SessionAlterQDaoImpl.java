@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
-import sun.misc.BASE64Encoder;
+import com.mongodb.util.Base64Codec;
 
 @Repository
 public class SessionAlterQDaoImpl implements SessionAlterQDao {
@@ -29,8 +29,7 @@ public class SessionAlterQDaoImpl implements SessionAlterQDao {
 		SecureRandom generator = new SecureRandom();
 		byte randomBytes[] = new byte[32];
 		generator.nextBytes(randomBytes);
-
-		BASE64Encoder encoder = new BASE64Encoder();
+		Base64Codec encoder=new Base64Codec();
 
 		String sessionID = encoder.encode(randomBytes);
 

@@ -3,26 +3,23 @@ package org.alterq.repo;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 
 import org.alterq.domain.UserAlterQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
-import sun.misc.BASE64Encoder;
+import com.mongodb.util.Base64Codec;
 
 @Repository
 public class UserAlterQDaoImpl implements UserAlterQDao {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	public static final String COLLECTION_NAME = "useralterq";
-	private Random random = new SecureRandom();
 
 	public UserAlterQ findById(String id) {
-		//TODO if exist control throw
+		// TODO if exist control throw
 		return mongoTemplate.findById(id, UserAlterQ.class, COLLECTION_NAME);
 	}
 
@@ -32,23 +29,22 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 
 	public void create(UserAlterQ userAlterQ) {
 		String password = userAlterQ.getPwd();
-		String passwordHash = makePasswordHash(password, Integer.toString(random.nextInt()));
-
+		String passwordHash = makePasswordHash(password, userAlterQ.getId());
 		userAlterQ.setPwd(passwordHash);
 		mongoTemplate.insert(userAlterQ, COLLECTION_NAME);
-
 	}
 
 	private String makePasswordHash(String password, String salt) {
 		try {
 			String saltedAndHashed = password + "," + salt;
-			MessageDigest digest = MessageDigest.getInstance("MD5");
+			MessageDigest digest = MessageDigest.getInstance("SHA1");
 			digest.update(saltedAndHashed.getBytes());
-			BASE64Encoder encoder = new BASE64Encoder();
+			Base64Codec encoder = new Base64Codec();
 			byte hashedBytes[] = (new String(digest.digest(), "UTF-8")).getBytes();
-			return encoder.encode(hashedBytes) + "," + salt;
+			System.out.println("makePasswordhash:"+encoder.encode(hashedBytes));
+			return encoder.encode(hashedBytes);
 		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException("MD5 is not available", e);
+			throw new RuntimeException("SHA1 is not available", e);
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("UTF-8 unavailable?  Not a chance", e);
 		}
@@ -56,13 +52,11 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 
 	@Override
 	public UserAlterQ validateLogin(String id, String password) {
-		UserAlterQ dao = mongoTemplate.findById(id, UserAlterQ.class,COLLECTION_NAME);
-		if (dao==null)
+		UserAlterQ dao = mongoTemplate.findById(id, UserAlterQ.class, COLLECTION_NAME);
+		if (dao == null)
 			return null;
-		String hashedAndSalted = dao.getPwd();
-
-		String salt = hashedAndSalted.split(",")[1];
-		if (!hashedAndSalted.equals(makePasswordHash(password, salt))) {
+		System.out.println("validateLogin:"+dao.getPwd());
+		if (!dao.getPwd().equals(makePasswordHash(password, dao.getId()))) {
 			System.out.println("Submitted password is not a match");
 			return null;
 		}
@@ -73,8 +67,6 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 	@Override
 	public void save(UserAlterQ userAlterQ) {
 		mongoTemplate.save(userAlterQ, COLLECTION_NAME);
-		
+
 	}
 }
-
-
