@@ -70,7 +70,7 @@ public class BetDaoTest
         return;
     }
 
-/*    @Test
+    @Test
     public void testDeleteUserBets()
     {
     	
@@ -98,6 +98,5 @@ public class BetDaoTest
 
         return;
     }
-    */
     
 }
