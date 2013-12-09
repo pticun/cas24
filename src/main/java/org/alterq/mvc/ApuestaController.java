@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import org.alterq.domain.Jornada;
-import org.alterq.repo.JornadaDao;
+import org.alterq.domain.Round;
+import org.alterq.repo.RoundDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 @RequestMapping(value = "/apuesta")
 public class ApuestaController {
     @Autowired
-    private JornadaDao jornadaDao;
+    private RoundDao jornadaDao;
 
     @RequestMapping(method = RequestMethod.GET)
     public String displaySortedMembers(Model model) {
@@ -39,35 +39,35 @@ public class ApuestaController {
 
     	
     //Hacemos la peticion de los datos al WS para que nos devuelva el JSON (temporada 2013 Jornada 9)
-    Jornada jornada = new Jornada();
+    Round jornada = new Round();
     int temp=2013;
     int jorn=9;
     String json = readUrl("http://127.0.0.1:8080/quinimobile/apuesta/jornada?temporada="+temp+"$jornada="+jorn);
     Gson gson = new Gson();        
-    jornada = gson.fromJson(json, Jornada.class);
+    jornada = gson.fromJson(json, Round.class);
 
     //se los pasamos al modelo para que los muestre en el cliente
-    model.addAttribute("temporada", jornada.getTemporada());
-    model.addAttribute("jornada", jornada.getJornada());
-    model.addAttribute("partidos", jornada.getPartidos());
+    model.addAttribute("temporada", jornada.getSeason());
+    model.addAttribute("jornada", jornada.getRound());
+    model.addAttribute("partidos", jornada.getGames());
 
     return "apuesta";
     }
 
     @RequestMapping(method=RequestMethod.GET, produces="application/json",value="jornada")
-    public @ResponseBody Jornada getJornada()
+    public @ResponseBody Round getJornada()
     {
         return jornadaDao.findByTemporadaJornada(2013, 9);
     }
 
     @RequestMapping(method=RequestMethod.GET, produces="application/json",value="jornada/{jornada}/temporada/{temporada}")
-    public @ResponseBody Jornada getJornada(@PathVariable("temporada") int temporada, @PathVariable("jornada") int jornada)
+    public @ResponseBody Round getJornada(@PathVariable("temporada") int temporada, @PathVariable("jornada") int jornada)
     {
         return jornadaDao.findByTemporadaJornada(temporada, jornada);
     }
     
     @RequestMapping(method=RequestMethod.GET, produces="application/json",value="jornada", params = {"temporada", "jornada"})
-    public @ResponseBody Jornada getJornadaParams(@RequestParam(value = "temporada") int temporada, @RequestParam(value = "jornada") int jornada)
+    public @ResponseBody Round getJornadaParams(@RequestParam(value = "temporada") int temporada, @RequestParam(value = "jornada") int jornada)
     {
         return jornadaDao.findByTemporadaJornada(temporada, jornada);
     }

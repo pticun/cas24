@@ -28,7 +28,7 @@ public class LoginController {
 	@Autowired
 	private SessionAlterQDao sessionDao;
 
-	@RequestMapping(value = "login", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseDto login(UserAlterQ user, HttpServletResponse response) {
 		log.debug("login name:" + user.getId() + "-:pwd:" + user.getPwd());

@@ -1,12 +1,12 @@
 package org.alterq.dto;
 
-import org.alterq.domain.Jornada;
+import org.alterq.domain.Round;
 import org.alterq.domain.UserAlterQ;
 
 public class ResponseDto {
 	private UserAlterQ userAlterQ;
 	private ErrorDto errorDto;
-	private Jornada jornada;
+	private Round jornada;
 
 	public UserAlterQ getUserAlterQ() {
 		return userAlterQ;
@@ -24,11 +24,11 @@ public class ResponseDto {
 		this.errorDto = errorDto;
 	}
 
-	public Jornada getJornada() {
+	public Round getRound() {
 		return jornada;
 	}
 
-	public void setJornada(Jornada jornada) {
+	public void setRound(Round jornada) {
 		this.jornada = jornada;
 	}
 

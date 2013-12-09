@@ -1654,20 +1654,20 @@ td[class="partido"]
 	border:0px;
 	padding-left: 10px;
 	padding-right: 10px;
-   	 border:4px solid #CC3333;
-   	 border-bottom: none;
-   	 border-top: none;
-   	 border-left: none;
+	border:4px solid #CC3333;
+	border-bottom: none;
+	border-top: none;
+	border-left: none;
 }
 td[class="partidolinea"]
 {
-	 text-align: center; /* center checkbox horizontally */
-   	 vertical-align: middle; /* center checkbox vertically */
-   	 border:4px solid #CC3333;
-   	 border-bottom: none;
-   	 border-left: none;
+	text-align: center; /* center checkbox horizontally */
+	vertical-align: middle; /* center checkbox vertically */
 	padding-left: 10px;
 	padding-right: 10px;
+	border:4px solid #CC3333;
+	border-bottom: none;
+	border-left: none;
 }
 
 label[class="quiniela"]

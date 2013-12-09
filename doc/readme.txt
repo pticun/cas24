@@ -71,3 +71,14 @@ PASO4 - Subir los cambios:
           - Boton Derecho sobre el proyecto--Team--Push to Upstream
           - Ponemos en la descripción un comentario que identifique la modificacion
           - Push & Commit
+          
+          
+====
+1 = 100		=4
+X = 010		=2
+2 = 001		=1
+1X=110		=6
+X2 = 011	=3
+12=101		=5
+1X2 =111	=7
+==

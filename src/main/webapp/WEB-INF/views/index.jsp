@@ -18,10 +18,10 @@
 		<script src="<c:url value="/static/resources/js/skel.min.js"/>"></script>
 		<script src="<c:url value="/static/resources/js/skel-panels.min.js"/>"></script>
 		<script src="<c:url value="/static/resources/js/init.js"/>"></script>
-			<link rel="stylesheet" href="<c:url value="/static/resources/css/skel-noscript.css"/>" />
-			<link rel="stylesheet" href="<c:url value="/static/resources/css/style.css"/>" />
-			<link rel="stylesheet" href="<c:url value="/static/resources/css/style-desktop.css"/>" />
-			<link rel="stylesheet" href="<c:url value="/static/resources/css/style-noscript.css"/>" />
+		<link rel="stylesheet" href="<c:url value="/static/resources/css/skel-noscript.css"/>" />
+		<link rel="stylesheet" href="<c:url value="/static/resources/css/style.css"/>" />
+		<link rel="stylesheet" href="<c:url value="/static/resources/css/style-desktop.css"/>" />
+		<link rel="stylesheet" href="<c:url value="/static/resources/css/style-noscript.css"/>" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="<c:url value="/static/resources/css/ie8.css"/>" /><![endif]-->
 	</head>
   <script type="text/javascript">
