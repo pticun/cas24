@@ -27,6 +27,7 @@ public class BetController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private RoundDao roundDao;
+	@Autowired
 	private BetDao betDao;
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -83,8 +84,7 @@ public class BetController {
 		log.debug(sb.toString());
 		
 		//Insert new bet into the BBDD
-		// ESTO NO FUNCIONA!!
-		//betDao.addBet(season,round,apuestaBet);
+		betDao.addBet(season,round,apuestaBet);
 
 		// TODO control security
 		ResponseDto dto = new ResponseDto();
