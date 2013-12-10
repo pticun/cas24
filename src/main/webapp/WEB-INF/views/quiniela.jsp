@@ -124,7 +124,6 @@
 		});
 
 		$('#betForm').submit(function(e) {
-			alert("hola");
 			console.log('betForm');
 			// will pass the form date using the jQuery serialize function
 			var url= '${pageContext.request.contextPath}/bet/';
