@@ -73,50 +73,53 @@
 //    	    .complete(function()     { alert("complete"); })
     	    ;   
  
-    	
+    	var loadBet=true;
 	   	$('#data_Div').click(function(){
  	        var url= '${pageContext.request.contextPath}/bet';
- 	        $.get(url, $(this).serialize(), function(response) {
-    		    if(response.errorDto!=null){
-    		    	$('#temporada').text(response.errorDto.stringError);
-    		    }
-    		    else{
-					$('#titleJornada').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
-				    $('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
-
-					$(response.round.games).each(function(index, element){  
-						console.log(element);
-						var row="";
-						var temp=padding_right(element.player1+'-'+element.player2,".",28);
-						if(index>10){
-							temp=temp+(index+1);
-						}
-						else{
-							temp=temp+" "+(index+1);
-						}
-						if(index==0 || index==4 || index==8 || index==11 || index==14){
-							row+='<tr><td class="partidolinea">'+temp+'</td>';
-						}
-						else{
-							row+='<tr><td class="partido">'+temp+'</td>';
-						}
-						row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
-						row+='<label class="quiniela" hidden for="'+index+'_1"><span hidden>1</span></label>';
-						row+='</td>';
-						row+='<td class="pronostico"><input class="classX" type="checkbox" id="'+index+'_X" name="'+index+'_X" />';
-						row+='<label class="quiniela" hidden for="'+index+'_X"><span hidden>X</span></label>';
-						row+='</td>';
-						row+='<td class="pronostico"><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
-						row+='<label class="quiniela" hidden for="'+index+'_2"><span hidden>2</span></label>';
-						row+='</td>';
-						row+='</tr>';
-						$('#quinielaTable').append(row);
-					})
-					
-					
-					$('#dataDiv').show();
-    		    }
-			});
+        	if(loadBet){
+ 	        	loadBet=false;
+	 	        $.get(url, $(this).serialize(), function(response) {
+	    		    if(response.errorDto!=null){
+	    		    	$('#temporada').text(response.errorDto.stringError);
+	    		    }
+	    		    else{
+						$('#titleJornada').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
+					    $('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
+	
+						$(response.round.games).each(function(index, element){  
+							console.log(element);
+							var row="";
+							var temp=padding_right(element.player1+'-'+element.player2,".",28);
+							if(index>10){
+								temp=temp+(index+1);
+							}
+							else{
+								temp=temp+" "+(index+1);
+							}
+							if(index==0 || index==4 || index==8 || index==11 || index==14){
+								row+='<tr><td class="partidolinea">'+temp+'</td>';
+							}
+							else{
+								row+='<tr><td class="partido">'+temp+'</td>';
+							}
+							row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
+							row+='<label class="quiniela" hidden for="'+index+'_1"><span hidden>1</span></label>';
+							row+='</td>';
+							row+='<td class="pronostico"><input class="classX" type="checkbox" id="'+index+'_X" name="'+index+'_X" />';
+							row+='<label class="quiniela" hidden for="'+index+'_X"><span hidden>X</span></label>';
+							row+='</td>';
+							row+='<td class="pronostico"><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
+							row+='<label class="quiniela" hidden for="'+index+'_2"><span hidden>2</span></label>';
+							row+='</td>';
+							row+='</tr>';
+							$('#quinielaTable').append(row);
+						})
+						
+						
+						$('#dataDiv').show();
+	    		    }
+				});
+ 	        }
 		    var jump = $(this).attr('href');
 		    var new_position = $(jump).offset();
 		    window.scrollTo(new_position.left,new_position.top);
