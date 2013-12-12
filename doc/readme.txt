@@ -41,7 +41,24 @@ db.jornadas.insert({temporada:2013, jornada:9, partidos : [{pos:1, equipo1:"VILL
 db.jornadas.insert({temporada:2013, jornada:10, partidos : [{pos:1, equipo1:"GETAFE", equipo2:"VALENCIA"}, {pos:2, equipo1:"AT. MADRID", equipo2:"ATHLETIC CLUB"}, {pos:3, equipo1:"LEVANTE", equipo2:"GRANADA"}, {pos:4, equipo1:"SEVILLA", equipo2:"CELTA"}, {pos:5, equipo1:"RAYO VALLECANO", equipo2:"R. MADRID"}, {pos:6, equipo1:"R. SOCIEDAD", equipo2:"OSASUNA"}, {pos:7, equipo1:"ALMERÍA", equipo2:"VALLADOLID"}, {pos:8, equipo1:"MALLORCA", equipo2:"LUGO"}, {pos:9, equipo1:"PONFERRADINA", equipo2:"RECREATIVO"}, {pos:10, equipo1:"EIBAR", equipo2:"ZARAGOZA"}, {pos:11, equipo1:"JAEN", equipo2:"MIRANDÉS"}, {pos:12, equipo1:"GIRONA", equipo2:"HÉRCULES"}, {pos:13, equipo1:"LAS PALMAS", equipo2:"ALCORCÓN"}, {pos:14, equipo1:"CÓRDOBA", equipo2:"SPORTING"}, {pos:15, equipo1:"MÁLAGA", equipo2:"BETIS"}]});
 
 db.roundBets.insert({season:2013, round:9, bets : [{user:"john.smith@mailinator.com", bet:"111111111111111"}, {user:"pepe.lopez@mailinator.com", bet:"222222222222222"}]});
-	
+
+Consulta Apuesta de Usuario para la temporada 2013 y la jornada 9	
+db.runCommand({aggregate:"roundBets", pipeline:[
+{$unwind:"$bets"}, 
+{$match:
+       {"bets.user":"john.smith@mailinator.com",
+        "round": 9,
+        "season": 2013}
+},
+{$group: 
+	{
+		_id:"$_id", 
+		round:{$first : "$round"}, 
+		season:{$first : "$season"}, 
+		bets: {$push: "$bets"}
+	}
+}
+]})
 	
 	
 http://quinimobile-goldbittle.rhcloud.com/
