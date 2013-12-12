@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.alterq.domain.Round;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Order;
+//import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -24,7 +25,8 @@ public class RoundDaoImpl implements RoundDao {
 	public Round findLastJornada() {
 		Query query = new Query();
 		// TODO not use deprecated
-		query.sort().on("season", Order.ASCENDING).on("round", Order.DESCENDING);
+		//query on("season", Order.ASCENDING).on("round", Order.DESCENDING);
+		query.with(new Sort(Sort.Direction.ASC,"season")).with(new Sort(Sort.Direction.DESC,"round"));
 		return mongoTemplate.findOne(query, Round.class, COLLECTION_NAME);
 	}
 

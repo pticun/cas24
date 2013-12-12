@@ -18,6 +18,33 @@ public class BetDaoTest {
 	private BetDao betDao;
 
 	@Test
+	public void testUserBets() {
+		betDao.deleteAllBets(2013, 9);
+
+		Bet bet = new Bet();
+		bet.setBet("111111111111111");
+		bet.setUser("john.smith@mailinator.com");
+		betDao.addBet(2013, 9, bet);
+
+		Bet bet2 = new Bet();
+		bet2.setBet("222222222222222");
+		bet2.setUser("pepe.lopez@mailinator.com");
+		betDao.addBet(2013, 9, bet2);
+
+		Bet bet3 = new Bet();
+		bet3.setBet("222222222222222");
+		bet3.setUser("john.smith@mailinator.com");
+		betDao.addBet(2013, 9, bet3);
+
+		RoundBets roundBets = betDao.findAllUserBets(2013, 9,"john.smith@mailinator.com");
+		
+		Assert.assertEquals("john.smith@mailinator.com", roundBets.getBets().get(0).getUser());
+		Assert.assertEquals("111111111111111", roundBets.getBets().get(0).getBet());
+		Assert.assertEquals("john.smith@mailinator.com", roundBets.getBets().get(1).getUser());
+		Assert.assertEquals("222222222222222", roundBets.getBets().get(1).getBet());
+		
+	}
+	@Test
 	public void testAddBet() {
 
 		betDao.deleteAllBets(2013, 9);
