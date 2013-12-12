@@ -67,6 +67,18 @@ public class AccountController {
 			dto.setUserAlterQ(null);
 		}
 		return dto;
-
+	}
+	@RequestMapping(method = RequestMethod.POST)
+	public @ResponseBody
+	ResponseDto createUserAlterQ (UserAlterQ user) {
+		if (log.isDebugEnabled()){
+			log.debug("init AccountController.createUserAlterQ");
+			log.debug("user.getId:" + user.getId());
+		}
+		ResponseDto dto = new ResponseDto();
+		userDao.create(user);
+		dto.setUserAlterQ(user);
+		
+		return dto;
 	}
 }

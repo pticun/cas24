@@ -67,11 +67,35 @@
  			   	 });
     	        e.preventDefault(); // prevent actual form submit and page reload
     	 });
+    	 $('#signupForm').submit(function(e) {
+    	        // will pass the form date using the jQuery serialize function
+    	        $.post('${pageContext.request.contextPath}/myaccount', $(this).serialize(), function(response) {
+	    		    if(response.errorDto!=null){
+	    		    	$('#loginFormResponse').text(response.errorDto.stringError);
+	    		    }
+	    		    else{
+						$('#signupFormResponse').text(response.userAlterQ.name);
+						$('#nameUserNav').text(response.userAlterQ.name);
+						$('#signupDiv').hide();
+						//move to start page
+						var new_position = $('#bodyClass').offset();
+		    		    window.scrollTo(new_position.left,new_position.top);
+	    		    }
+ 			   	 });
+    	        e.preventDefault(); // prevent actual form submit and page reload
+    	 });
     	 $('#data_Div').click(function(){
     		    var jump = $(this).attr('href');
     		    var new_position = $('#'+jump).offset();
     		    window.scrollTo(new_position.left,new_position.top);
     		    $('#loginFormResponse').show();
+    		    return false;
+    	});    	 
+    	 $('#signup_Div').click(function(){
+    		    var jump = $(this).attr('href');
+    		    var new_position = $('#'+jump).offset();
+    		    window.scrollTo(new_position.left,new_position.top);
+    		    $('#signupFormResponse').show();
     		    return false;
     	});    	 
     	 
@@ -103,6 +127,7 @@
 						<ul>
 							<li><a href="index">Inicio</a></li>
 							<li><a href="dataDiv" id="data_Div">login</a></li>
+							<li><a href="signupDiv" id="signup_Div">Signup</a></li>
 							<li><a href="quiniela">Quiniela</a></li>
 							<li><a href="myaccount">Mi Cuenta</a></li>
 							<li><a href="pendiente">Contacto</a></li>
@@ -126,6 +151,31 @@
 					          <button id="login_btn" class="button" name="login" value="login">Login</button>
 					        </p>
 					         <div id="loginFormResponse">respuesta </div>
+				        </form>
+					</div>
+				  </div>
+				  <div class="4u">&nbsp;</div>
+				</div>
+			</div>
+			<!-- login -->
+			<!-- signup -->
+			<div id="signupDiv">
+				<div class="row flush">
+				  <div class="4u">&nbsp;</div>
+				  <div class="4u">
+					<div>
+					   <form id="signupForm">
+					        <p>Username: <input id="id" name="id" type="text"/>
+					          <br />
+					          Password: <input type="password" name="pwd" id="pwd"/>
+					          <br />
+					          Name: <input type="text" name="name" id="name"/>
+					          <br />
+					          PhoneNumber: <input type="text" name="phoneNumber" id="phoneNumber"/>
+					          <br />
+					          <button id="login_btn" class="button" name="signup" value="signup">signup</button>
+					        </p>
+					         <div id="signupFormResponse">respuesta </div>
 				        </form>
 					</div>
 				  </div>
