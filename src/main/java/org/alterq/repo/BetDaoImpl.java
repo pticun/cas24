@@ -71,6 +71,16 @@ public class BetDaoImpl implements BetDao {
 		mongoTemplate.upsert(query,update, RoundBets.class);
 		return true;
 	}
+	public boolean deleteUserBet(int season, int round, Bet bet){
+		Query query = new Query();
+		query.addCriteria(Criteria.where("season").is(season).and("round").is(round));
+		 
+		Update update = new Update();
+		update.pull("bets", bet);
+		
+		mongoTemplate.upsert(query,update, RoundBets.class);
+		return true;
+	}
 }
 
 

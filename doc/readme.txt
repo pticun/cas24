@@ -59,6 +59,16 @@ db.runCommand({aggregate:"roundBets", pipeline:[
 	}
 }
 ]})
+
+LLAMADAS A LAS FUNCIONES DEFINIDAS EN EL  "CONTROLER BET"
+http://localhost:8080/quinimobile/bet/bets?season=2013&round=9
+http://localhost:8080/quinimobile/bet/betsUser?season=2013&round=9&user=pepe.lopez@mailinator.com
+http://localhost:8080/quinimobile/bet/addBet?season=2013&round=9&user=pepe.lopez@mailinator.com&bet=XXX111222XXX1X2
+http://localhost:8080/quinimobile/bet/delUserBet?season=2013&round=9&user=pepe.lopez@mailinator.com&bet=XXX111222XXX1X2
+http://localhost:8080/quinimobile/bet/delUserBets?season=2013&round=9&user=pepe.lopez@mailinator.com
+http://localhost:8080/quinimobile/bet/delAllBets?season=2013&round=9
+
+
 	
 	
 http://quinimobile-goldbittle.rhcloud.com/
