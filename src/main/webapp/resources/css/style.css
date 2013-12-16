@@ -1661,7 +1661,7 @@ td[class="partido"]
 }
 td[class="partidolinea"]
 {
-	text-align: center; /* center checkbox horizontally */
+/*	text-align: center;*/ /* center checkbox horizontally */
 	vertical-align: middle; /* center checkbox vertically */
 	padding-left: 10px;
 	padding-right: 10px;

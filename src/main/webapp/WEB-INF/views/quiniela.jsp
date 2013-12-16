@@ -90,7 +90,7 @@
 							console.log(element);
 							var row="";
 							var temp=padding_right(element.player1+'-'+element.player2,".",28);
-							if(index>10){
+							if(index>8){
 								temp=temp+(index+1);
 							}
 							else{

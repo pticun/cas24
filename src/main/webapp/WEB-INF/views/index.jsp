@@ -142,15 +142,26 @@
 				<div class="row flush">
 				  <div class="4u">&nbsp;</div>
 				  <div class="4u">
-					<div>
+					<div align="center">
 					   <form id="loginForm">
-					        <p>Username: <input id="id" name="id" type="text"/>
-					          <br />
-					          Password: <input type="password" name="pwd" id="pwd"/>
-					          <br />
-					          <button id="login_btn" class="button" name="login" value="login">Login</button>
-					        </p>
-					         <div id="loginFormResponse">respuesta </div>
+					   		<table class="quiniela">
+					   			<TR class="quinielatitulo">
+									<TD colspan="2">Login</TD>
+								</TR>
+						   		<tr>
+						   			<td class="partido">Username:</td>
+						   			<td class="partido"><input id="id" name="id" type="text"/></td>
+						        </tr>
+						   		<tr>
+						   			<td class="partido">Password:</td>
+						   			<td class="partido"><input type="password" name="pwd" id="pwd"/></td>
+						        </tr>
+						   		<tr align="right">
+						   			<td class="partido">&nbsp</td>
+						   			<td class="partido"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
+						        </tr>
+					   		</table>
+					        <div id="loginFormResponse">respuesta </div>
 				        </form>
 					</div>
 				  </div>
@@ -163,19 +174,34 @@
 				<div class="row flush">
 				  <div class="4u">&nbsp;</div>
 				  <div class="4u">
-					<div>
+					<div align="center">
 					   <form id="signupForm">
-					        <p>Username: <input id="id" name="id" type="text"/>
-					          <br />
-					          Password: <input type="password" name="pwd" id="pwd"/>
-					          <br />
-					          Name: <input type="text" name="name" id="name"/>
-					          <br />
-					          PhoneNumber: <input type="text" name="phoneNumber" id="phoneNumber"/>
-					          <br />
-					          <button id="login_btn" class="button" name="signup" value="signup">signup</button>
-					        </p>
-					         <div id="signupFormResponse">respuesta </div>
+					   		<table class="quiniela">
+					   			<TR class="quinielatitulo">
+									<TD colspan="2">Sign up</TD>
+								</TR>
+						   		<tr>
+						   			<td class="partido">Username:</td>
+						   			<td class="partido"><input id="id" name="id" type="text"/></td>
+						        </tr>
+						   		<tr>
+						   			<td class="partido">Password:</td>
+						   			<td class="partido"><input type="password" name="pwd" id="pwd"/></td>
+						        </tr>
+						   		<tr>
+						   			<td class="partido">Name:</td>
+						   			<td class="partido"><input type="text" name="name" id="name"/></td>
+						        </tr>
+						   		<tr>
+						   			<td class="partido">PhoneNumber:</td>
+						   			<td class="partido"><input type="text" name="phoneNumber" id="phoneNumber"/></td>
+						        </tr>
+						   		<tr align="right">
+						   			<td class="partido">&nbsp</td>
+						   			<td class="partido"><button id="login_btn" class="button" name="signup" value="signup">signup</button></td>
+						        </tr>
+					   		</table>
+				            <div id="signupFormResponse">respuesta </div>
 				        </form>
 					</div>
 				  </div>

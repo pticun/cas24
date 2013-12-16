@@ -206,13 +206,26 @@
 				<div class="row flush">
 				  <div class="4u">&nbsp;</div>
 				  <div class="4u">
-					<div>
+					<div align="center">
 					   <form id="balanceAlterQForm">
-					        <p>Username: <input id="idSaldo" name="id" type="text" readonly="readonly"/>
-					          <br />
-					          SALDO: <input name="balance" id="balance" type="text"/>
-					          <button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button>
-					        </p>
+					   		<table class="quiniela">
+					   			<TR class="quinielatitulo">
+									<TD colspan="2">Saldo</TD>
+									</TR>
+					   		
+					   		<tr>
+					   			<td class="partido">Username:</td>
+					   			<td class="partido"><input id="idSaldo" name="id" type="text" readonly="readonly"/></td>
+					        </tr>
+					   		<tr>
+					   			<td class="partido">Saldo:</td>
+					   			<td class="partido"><input name="balance" id="balance" type="text"/></td>
+					        </tr>
+					   		<tr align="right">
+					   			<td class="partido">&nbsp</td>
+					   			<td class="partido"><button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button></td>
+					        </tr>
+					   		</table>
 					         <div id="balanceAlterQFormResponse">respuesta </div>
 				        </form>
 					</div>
