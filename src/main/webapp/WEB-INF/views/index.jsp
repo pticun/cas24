@@ -35,13 +35,17 @@
      	    })
     	    .success (function(response) { 
     		    if(response.errorDto!=null){
-    		    	$('#nameUserNav').text("Invitado");
+					$('#menu_Login').text("Login");
+					$('#menu_Login').attr("href", "dataDiv");
+					//$('#nameUserNav').text("Invitado");
+    		    	//$('#menu_Login').show();
 					//$('#dataDiv').show();
     		    }
     		    else{
-					$('#nameUserNav').text(response.userAlterQ.name);
+					$('#menu_Login').text(response.userAlterQ.name);
+					$('#menu_Login').attr("href", "myaccount");
 					$('#dataDiv').hide();
-					$('#data_Div').hide();
+					//$('#data_Div').hide();
 					//move to start page
 					//var new_position = $('#bodyClass').offset();
 	    		    //window.scrollTo(new_position.left,new_position.top);
@@ -87,14 +91,26 @@
  			   	 });
     	        e.preventDefault(); // prevent actual form submit and page reload
     	 });
-    	 $('#data_Div').click(function(){
+    	 $('#menu_Login').click(function(){
     		    //var jump = $(this).attr('href');
     		    //var new_position = $('#'+jump).offset();
     		    //window.scrollTo(new_position.left,new_position.top);
-    		    $('#dataDiv').show();
-    		    $('#bQuini').hide();
-    		    $('#signupDiv').hide();
-    		    $('#loginFormResponse').show();
+
+
+    	        $.post('${pageContext.request.contextPath}/myaccount', $(this).serialize(), function(response) {
+	    		    if(response.errorDto!=null){
+	        		    $('#dataDiv').show();
+	        		    $('#bQuini').hide();
+	        		    $('#quinielaDiv').hide();
+	        		    $('#signupDiv').hide();
+	        		    $('#loginFormResponse').show();
+	    		    }
+	    		    else{
+	    		    }
+ 			   	 });
+    	        e.preventDefault(); // prevent actual form submit and page reload
+    		    
+    		    
     		    return false;
     	});    	 
     	 $('#signup_Div').click(function(){
@@ -103,10 +119,12 @@
     		    //window.scrollTo(new_position.left,new_position.top);
     		    $('#dataDiv').hide();
     		    $('#bQuini').hide();
+    		    $('#quinielaDiv').hide();
     		    $('#signupDiv').show();
     		    $('#signupFormResponse').show();
     		    return false;
     	});    	 
+
     	 
     	 
     });
@@ -198,22 +216,18 @@
 								  <div class="4u">&nbsp;</div>
 								</div>
 							</div>
-							<!-- login -->
-							
+							<!-- signup -->
 						</footer>
-					</div>
-
-
+					</div>		
 				<!-- Nav -->
 					<nav id="nav">
 						<ul>
 							<li><a href="index">Inicio</a></li>
-							<li><a href="dataDiv" id="data_Div">login</a></li>
-							<li><a href="signupDiv" id="signup_Div">Signup</a></li>
-							<li><a href="quiniela">Quiniela</a></li>
-							<li><a href="myaccount">Mi Cuenta</a></li>
+							<li><a id="menu_Login" href="dataDiv" >Login</a></li>
+							<!-- <li><a href="signupDiv" id="signup_Div">Signup</a></li> -->
+							<li><a id="menu_Quiniela" href="quinielaDiv">Quiniela</a></li>
 							<li><a href="pendiente">Contacto</a></li>
-							<li id="nameUserNav"><a href="myaccount">nombre usuario</a></li>
+							<!-- <li id="nameUserNav"><a href="myaccount">nombre usuario</a></li> -->
 						</ul>
 					</nav>
 
