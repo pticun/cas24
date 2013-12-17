@@ -174,7 +174,7 @@
 
 
 						<!-- Carousel -->
-						<div class="carousel">
+						<div id="carousel" class="carousel">
 							<div class="reel">
 								<article>
 									<a href="#dataDiv" id="data_Div" class="image featured"><img src="<c:url value="/static/resources/images/pic01.jpg"/>" alt="" />

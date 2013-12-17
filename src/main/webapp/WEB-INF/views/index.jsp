@@ -27,22 +27,24 @@
   <script type="text/javascript">
   
     $(document).ready(function() {
+		$('#dataDiv').hide();
+		$('#signupDiv').hide();
     	var jqxhr =
     	    $.ajax({
     	        url: "${pageContext.request.contextPath}/login",
      	    })
     	    .success (function(response) { 
     		    if(response.errorDto!=null){
-    		    	$('#nameUserNav').text("sin user");
-					$('#dataDiv').show();
+    		    	$('#nameUserNav').text("Invitado");
+					//$('#dataDiv').show();
     		    }
     		    else{
 					$('#nameUserNav').text(response.userAlterQ.name);
 					$('#dataDiv').hide();
 					$('#data_Div').hide();
 					//move to start page
-					var new_position = $('#bodyClass').offset();
-	    		    window.scrollTo(new_position.left,new_position.top);
+					//var new_position = $('#bodyClass').offset();
+	    		    //window.scrollTo(new_position.left,new_position.top);
     		    }
     	    })
     	    .error   (function()     { alert("Error")   ; })
@@ -61,8 +63,9 @@
 						$('#nameUserNav').text(response.userAlterQ.name);
 						$('#dataDiv').hide();
 						//move to start page
-						var new_position = $('#bodyClass').offset();
-		    		    window.scrollTo(new_position.left,new_position.top);
+						//var new_position = $('#bodyClass').offset();
+		    		    //window.scrollTo(new_position.left,new_position.top);
+						$('#bQuini').show();
 	    		    }
  			   	 });
     	        e.preventDefault(); // prevent actual form submit and page reload
@@ -85,16 +88,22 @@
     	        e.preventDefault(); // prevent actual form submit and page reload
     	 });
     	 $('#data_Div').click(function(){
-    		    var jump = $(this).attr('href');
-    		    var new_position = $('#'+jump).offset();
-    		    window.scrollTo(new_position.left,new_position.top);
+    		    //var jump = $(this).attr('href');
+    		    //var new_position = $('#'+jump).offset();
+    		    //window.scrollTo(new_position.left,new_position.top);
+    		    $('#dataDiv').show();
+    		    $('#bQuini').hide();
+    		    $('#signupDiv').hide();
     		    $('#loginFormResponse').show();
     		    return false;
     	});    	 
     	 $('#signup_Div').click(function(){
-    		    var jump = $(this).attr('href');
-    		    var new_position = $('#'+jump).offset();
-    		    window.scrollTo(new_position.left,new_position.top);
+    		    //var jump = $(this).attr('href');
+    		    //var new_position = $('#'+jump).offset();
+    		    //window.scrollTo(new_position.left,new_position.top);
+    		    $('#dataDiv').hide();
+    		    $('#bQuini').hide();
+    		    $('#signupDiv').show();
     		    $('#signupFormResponse').show();
     		    return false;
     	});    	 
@@ -117,7 +126,80 @@
 							<span class="byline">Los amantes de las quinielas</span>
 						</header>
 						<footer>
-							<a href="quiniela" class="button circled scrolly">Quiniela</a>
+							<a id="bQuini" href="quiniela" class="button circled scrolly">Quiniela</a>
+							<!-- login -->
+							<div id="dataDiv">
+								<div class="row flush">
+								  <div class="4u">&nbsp;</div>
+								  <div class="4u">
+									<div align="center">
+									   <form id="loginForm">
+									   		<table class="quiniela">
+									   			<TR class="quinielatitulo">
+													<TD colspan="2">Login</TD>
+												</TR>
+										   		<tr>
+										   			<td class="partido">Username:</td>
+										   			<td class="partido"><input id="id" name="id" type="text"/></td>
+										        </tr>
+										   		<tr>
+										   			<td class="partido">Password:</td>
+										   			<td class="partido"><input type="password" name="pwd" id="pwd"/></td>
+										        </tr>
+										   		<tr align="right">
+										   			<td class="partido">&nbsp</td>
+										   			<td class="partido"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
+										        </tr>
+									   		</table>
+									        <div id="loginFormResponse">respuesta </div>
+								        </form>
+									</div>
+								  </div>
+								  <div class="4u">&nbsp;</div>
+								</div>
+							</div>
+							<!-- login -->
+							<!-- signup -->
+							<div id="signupDiv">
+								<div class="row flush">
+								  <div class="4u">&nbsp;</div>
+								  <div class="4u">
+									<div align="center">
+									   <form id="signupForm">
+									   		<table class="quiniela">
+									   			<TR class="quinielatitulo">
+													<TD colspan="2">Sign up</TD>
+												</TR>
+										   		<tr>
+										   			<td class="partido">Username:</td>
+										   			<td class="partido"><input id="id" name="id" type="text"/></td>
+										        </tr>
+										   		<tr>
+										   			<td class="partido">Password:</td>
+										   			<td class="partido"><input type="password" name="pwd" id="pwd"/></td>
+										        </tr>
+										   		<tr>
+										   			<td class="partido">Name:</td>
+										   			<td class="partido"><input type="text" name="name" id="name"/></td>
+										        </tr>
+										   		<tr>
+										   			<td class="partido">PhoneNumber:</td>
+										   			<td class="partido"><input type="text" name="phoneNumber" id="phoneNumber"/></td>
+										        </tr>
+										   		<tr align="right">
+										   			<td class="partido">&nbsp</td>
+										   			<td class="partido"><button id="login_btn" class="button" name="signup" value="signup">signup</button></td>
+										        </tr>
+									   		</table>
+								            <div id="signupFormResponse">respuesta </div>
+								        </form>
+									</div>
+								  </div>
+								  <div class="4u">&nbsp;</div>
+								</div>
+							</div>
+							<!-- login -->
+							
 						</footer>
 					</div>
 
@@ -131,84 +213,12 @@
 							<li><a href="quiniela">Quiniela</a></li>
 							<li><a href="myaccount">Mi Cuenta</a></li>
 							<li><a href="pendiente">Contacto</a></li>
-							<li id="nameUserNav">nombre usuario</li>
+							<li id="nameUserNav"><a href="myaccount">nombre usuario</a></li>
 						</ul>
 					</nav>
 
 			</div>
 			
-			<!-- login -->
-			<div id="dataDiv">
-				<div class="row flush">
-				  <div class="4u">&nbsp;</div>
-				  <div class="4u">
-					<div align="center">
-					   <form id="loginForm">
-					   		<table class="quiniela">
-					   			<TR class="quinielatitulo">
-									<TD colspan="2">Login</TD>
-								</TR>
-						   		<tr>
-						   			<td class="partido">Username:</td>
-						   			<td class="partido"><input id="id" name="id" type="text"/></td>
-						        </tr>
-						   		<tr>
-						   			<td class="partido">Password:</td>
-						   			<td class="partido"><input type="password" name="pwd" id="pwd"/></td>
-						        </tr>
-						   		<tr align="right">
-						   			<td class="partido">&nbsp</td>
-						   			<td class="partido"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
-						        </tr>
-					   		</table>
-					        <div id="loginFormResponse">respuesta </div>
-				        </form>
-					</div>
-				  </div>
-				  <div class="4u">&nbsp;</div>
-				</div>
-			</div>
-			<!-- login -->
-			<!-- signup -->
-			<div id="signupDiv">
-				<div class="row flush">
-				  <div class="4u">&nbsp;</div>
-				  <div class="4u">
-					<div align="center">
-					   <form id="signupForm">
-					   		<table class="quiniela">
-					   			<TR class="quinielatitulo">
-									<TD colspan="2">Sign up</TD>
-								</TR>
-						   		<tr>
-						   			<td class="partido">Username:</td>
-						   			<td class="partido"><input id="id" name="id" type="text"/></td>
-						        </tr>
-						   		<tr>
-						   			<td class="partido">Password:</td>
-						   			<td class="partido"><input type="password" name="pwd" id="pwd"/></td>
-						        </tr>
-						   		<tr>
-						   			<td class="partido">Name:</td>
-						   			<td class="partido"><input type="text" name="name" id="name"/></td>
-						        </tr>
-						   		<tr>
-						   			<td class="partido">PhoneNumber:</td>
-						   			<td class="partido"><input type="text" name="phoneNumber" id="phoneNumber"/></td>
-						        </tr>
-						   		<tr align="right">
-						   			<td class="partido">&nbsp</td>
-						   			<td class="partido"><button id="login_btn" class="button" name="signup" value="signup">signup</button></td>
-						        </tr>
-					   		</table>
-				            <div id="signupFormResponse">respuesta </div>
-				        </form>
-					</div>
-				  </div>
-				  <div class="4u">&nbsp;</div>
-				</div>
-			</div>
-			<!-- login -->
 
 		<!-- Footer -->
 			<div id="footer">
