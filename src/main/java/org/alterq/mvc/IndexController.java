@@ -1,5 +1,8 @@
 package org.alterq.mvc;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.SessionAlterQDao;
 import org.slf4j.Logger;
@@ -25,10 +28,14 @@ public class IndexController {
 	}
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public @ResponseBody
-	ResponseDto logout(@CookieValue(value = "session", defaultValue = "") String cookieSession) {
+	ResponseDto logout(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletResponse response) {
 		log.debug("init LoginController.logout");
 		log.debug("session:" + cookieSession);
 		sessionDao.endSession(cookieSession);
+		Cookie sessionCookie=new Cookie("session","");
+		sessionCookie.setMaxAge(0);
+		sessionCookie.setPath("/quinimobile");
+		response.addCookie(sessionCookie);
 		ResponseDto dto = new ResponseDto();
 		return dto;
 	}

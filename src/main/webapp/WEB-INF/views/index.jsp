@@ -26,8 +26,6 @@
 	</head>
 	<script type="text/javascript">
 	
-		var userLoged=false;
-		
 		// left padding s with c to a total of n chars
 		function padding_left(s, c, n) {
 		  if (! s || ! c || s.length >= n) {
@@ -60,14 +58,15 @@
 		$('#signupDiv').hide();
 		$('#quiniela_btn').hide();
 		$('#titleJornada').hide();
-alert("inicio");	
+		alert("inicio");	
+		var userLoged=false;
     	var jqxhr =
     	    $.ajax({
     	        url: "${pageContext.request.contextPath}/login",
      	    })
     	    .success (function(response) { 
     		    if(response.errorDto!=null){
-alert("login nok");
+					alert("login nok");
 					$('#menu_Login').text("Login");
 					$('#menu_Login').attr("href", "loginDiv");
 					$('#menu_User').text("Invitado");
@@ -80,10 +79,10 @@ alert("login nok");
 					userLoged=false;
     		    }
     		    else{
-alert("login ok");    		    	
+					alert("login ok");    		    	
 					$('#menu_Login').text("Logout");
-					$('#menu_Login').attr("href", "logout");
-					$('#menu_User').text(response.userAlterQ.name);
+//					$('#menu_Login').attr("href", "logout");
+//					$('#menu_User').text(response.userAlterQ.name);
 					$('#menu_User').attr("href", "myaccount");
 
 					$('#loginDiv').hide();
@@ -196,6 +195,7 @@ alert("login ok");
 	    		    else{
 						$('#loginFormResponse').text(response.userAlterQ.name);
 						$('#menu_User').text(response.userAlterQ.name);
+						$('#menu_Login').text("Logout");
 						$('#loginDiv').hide();
 						//move to start page
 						//var new_position = $('#bodyClass').offset();
@@ -228,24 +228,21 @@ alert("login ok");
     		    //var new_position = $('#'+jump).offset();
     		    //window.scrollTo(new_position.left,new_position.top);
     		    if (userLoged){
-    		    	alert("Hay usuario, vamos a hacer el logout");
-    				console.log('logout');
+    				console.log('Hay usuario, vamos a hacer el logout');
     				// will pass the form date using the jQuery serialize function
-    				var url= '${pageContext.request.contextPath}/logout/';
+    				var url= '${pageContext.request.contextPath}/logout';
     				$.get(url, $(this).serialize(), function(response) {
     					if(response.errorDto!=null){
     						alert("logout nok");
     					}
     					else{
-    						alert("logout ok");
     						$('#menu_Login').text("Login");
     						$('#menu_Login').attr("href", "loginDiv");
     						$('#menu_User').text("Invitado");
     						$('#menu_User').attr("href", "#");
     					}
     				});
-    			    e.preventDefault(); // prevent actual form submit and page reload
-    		    	
+//    			    e.preventDefault(); // prevent actual form submit and page reload
     		    }
     		    else{
     		    	alert("No hay usuario");
