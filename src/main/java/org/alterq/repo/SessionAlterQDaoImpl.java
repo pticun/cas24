@@ -3,11 +3,10 @@ package org.alterq.repo;
 import java.security.SecureRandom;
 
 import org.alterq.domain.SessionAlterQ;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
-
-import sun.misc.BASE64Encoder;
 
 @Repository
 public class SessionAlterQDaoImpl implements SessionAlterQDao {
@@ -30,9 +29,7 @@ public class SessionAlterQDaoImpl implements SessionAlterQDao {
 		byte randomBytes[] = new byte[32];
 		generator.nextBytes(randomBytes);
 
-		BASE64Encoder encoder = new BASE64Encoder();
-
-		String sessionID = encoder.encode(randomBytes);
+		String sessionID = Base64.encodeBase64String(randomBytes);
 
 		// build the BSON object
 		SessionAlterQ sessionAlterQ = new SessionAlterQ();

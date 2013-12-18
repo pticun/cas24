@@ -3,23 +3,19 @@ package org.alterq.repo;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 
 import org.alterq.domain.UserAlterQ;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
-
-import sun.misc.BASE64Encoder;
 
 @Repository
 public class UserAlterQDaoImpl implements UserAlterQDao {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	public static final String COLLECTION_NAME = "useralterq";
-	private Random random = new SecureRandom();
 
 	public UserAlterQ findById(String id) {
 		//TODO if exist control throw
@@ -32,9 +28,9 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 
 	public void create(UserAlterQ userAlterQ) {
 		String password = userAlterQ.getPwd();
-		String passwordHash = makePasswordHash(password, Integer.toString(random.nextInt()));
+//		String passwordHash = makePasswordHash(password, userAlterQ.getId());
 
-		userAlterQ.setPwd(passwordHash);
+		userAlterQ.setPwd(password);
 		mongoTemplate.insert(userAlterQ, COLLECTION_NAME);
 
 	}
@@ -42,13 +38,12 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 	private String makePasswordHash(String password, String salt) {
 		try {
 			String saltedAndHashed = password + "," + salt;
-			MessageDigest digest = MessageDigest.getInstance("MD5");
+			MessageDigest digest = MessageDigest.getInstance("SHA-1");
 			digest.update(saltedAndHashed.getBytes());
-			BASE64Encoder encoder = new BASE64Encoder();
 			byte hashedBytes[] = (new String(digest.digest(), "UTF-8")).getBytes();
-			return encoder.encode(hashedBytes) + "," + salt;
+			return Base64.encodeBase64String(hashedBytes) + "," + salt;
 		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException("MD5 is not available", e);
+			throw new RuntimeException("SAH1 is not available", e);
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("UTF-8 unavailable?  Not a chance", e);
 		}
@@ -60,12 +55,18 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 		if (dao==null)
 			return null;
 		String hashedAndSalted = dao.getPwd();
-
+		
+		if(!hashedAndSalted.equals(dao.getPwd())){
+			System.out.println("Submitted password is not a match");
+			return null;
+		}
+/*
 		String salt = hashedAndSalted.split(",")[1];
 		if (!hashedAndSalted.equals(makePasswordHash(password, salt))) {
 			System.out.println("Submitted password is not a match");
 			return null;
 		}
+*/
 		return dao;
 
 	}

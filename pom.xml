@@ -176,21 +176,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Add JSON dependency, specified in jboss-deployment-structure.xml -->
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.9.3</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-asl</artifactId>
-			<version>1.9.3</version>
-			<scope>provided</scope>
-		</dependency>
-
 		<!-- The Simple Logging Facade for Java or (SLF4J) serves as a simple facade 
 			or abstraction for various logging frameworks, e.g. java.util.logging, log4j 
 			and logback, allowing the end user to plug in the desired logging framework 
@@ -247,6 +232,12 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.1</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.7</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
