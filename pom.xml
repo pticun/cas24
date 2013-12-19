@@ -11,8 +11,9 @@
 	<name>Quickstart for Spring Framework on OpenShift with JBoss EAP 6</name>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- Spring data mongo version -->
-		 <spring.data.mongo.version>1.3.2.RELEASE</spring.data.mongo.version>
+		<spring.data.mongo.version>1.3.2.RELEASE</spring.data.mongo.version>
 		<!-- Spring version -->
 		<version.spring>3.2.5.RELEASE</version.spring>
 
@@ -70,20 +71,26 @@
 			<artifactId>jboss-javaee-web-6.0</artifactId>
 			<version>3.0.0.Final</version>
 			<type>pom</type>
+			<exclusions>
+				<exclusion>
+					<groupId>xalan</groupId>
+					<artifactId>xalan</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Spring dependencies -->
-	    <dependency>
-	        <groupId>org.springframework</groupId>
-	        <artifactId>spring-context</artifactId>
-	        <version>${version.spring}</version>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${version.spring}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
 			</exclusions>
-	    </dependency>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -235,9 +242,9 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.7</version>
+			<version>1.6</version>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>
