@@ -20,7 +20,7 @@ public class UserAlterQDaoTest {
 	private UserAlterQDao dao;
 
 	@Test
-	public void testCreate() {
+	public void testCreate() throws Exception {
 		UserAlterQ userAlterQ = new UserAlterQ();
 		userAlterQ.setName("Primera");
 		userAlterQ.setPhoneNumber("2125552121");

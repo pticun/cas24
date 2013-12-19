@@ -37,7 +37,6 @@ public class LoginController {
 		if (userValidate != null) {
 			String sessionID = sessionDao.startSession(userValidate.getId());
 			log.debug("Session ID is:" + sessionID);
-
 			response.addCookie(new Cookie("session", sessionID));
 			dto.setUserAlterQ(userValidate);
 		} else {

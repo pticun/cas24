@@ -9,7 +9,7 @@ public interface UserAlterQDao {
 
 	public List<UserAlterQ> findAllOrderedByName();
 
-	public void create(UserAlterQ userAlterQ);
+	public void create(UserAlterQ userAlterQ) throws Exception;
 
 	public void save(UserAlterQ userAlterQ);
 

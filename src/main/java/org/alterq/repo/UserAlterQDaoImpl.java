@@ -26,11 +26,14 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 		return mongoTemplate.findAll(UserAlterQ.class, COLLECTION_NAME);
 	}
 
-	public void create(UserAlterQ userAlterQ) {
+	public void create(UserAlterQ userAlterQ) throws Exception {
 		String password = userAlterQ.getPwd();
 //		String passwordHash = makePasswordHash(password, userAlterQ.getId());
 
 		userAlterQ.setPwd(password);
+		UserAlterQ dao = mongoTemplate.findById(userAlterQ.getId(), UserAlterQ.class,COLLECTION_NAME);
+		if(dao!=null)
+			throw new Exception();
 		mongoTemplate.insert(userAlterQ, COLLECTION_NAME);
 
 	}

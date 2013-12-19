@@ -1,5 +1,8 @@
 package org.alterq.mvc;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
@@ -70,14 +73,22 @@ public class AccountController {
 	}
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody
-	ResponseDto createUserAlterQ (UserAlterQ user) {
+	ResponseDto createUserAlterQ (UserAlterQ user, HttpServletResponse response) {
 		if (log.isDebugEnabled()){
 			log.debug("init AccountController.createUserAlterQ");
 			log.debug("user.getId:" + user.getId());
 		}
 		ResponseDto dto = new ResponseDto();
-		userDao.create(user);
-		dto.setUserAlterQ(user);
+		try {
+			userDao.create(user);
+			dto.setUserAlterQ(user);
+			String sessionID = sessionDao.startSession(user.getId());
+			log.debug("Session ID is:" + sessionID);
+			response.addCookie(new Cookie("session", sessionID));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return dto;
 	}

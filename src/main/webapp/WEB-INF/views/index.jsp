@@ -95,7 +95,7 @@
 			$('#logoSubtitle').hide();
 			$('#logoButton').hide();
 
-			$('#loginDiv').show();
+			$('#loginDiv').show("blind");
 			$('#loginFormResponse').show();
 
 			$('#signupDiv').hide();
@@ -135,7 +135,7 @@
 			$('#signupFormResponse').hide();
 
 			$('#quinielaTitle').show();
-			$('#quinielaDiv').show();
+			$('#quinielaDiv').show("blind");
 			$('#quinielaFormResponse').show();
 			$('#quinielaButton').show();
 		}
@@ -292,11 +292,12 @@
 	    		    }
 	    		    else{
 						$('#signupFormResponse').text(response.userAlterQ.name);
-						$('#nameUserNav').text(response.userAlterQ.name);
+						$('#menu_User').text(response.userAlterQ.name);
+    					$('#menu_User').attr("href", "myaccount");
+						$('#menu_Login').text("Logout");
+						
 						refreshDivs(bLogo);
-						//move to start page
-						var new_position = $('#bodyClass').offset();
-		    		    window.scrollTo(new_position.left,new_position.top);
+						userLoged=true;
 	    		    }
  			   	 });
     	        e.preventDefault(); // prevent actual form submit and page reload
