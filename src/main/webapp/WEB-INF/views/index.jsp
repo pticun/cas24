@@ -52,45 +52,133 @@
 	</script>
 	
   <script type="text/javascript">
+  	//elementos gráficos de index
+  	var bLogo=1;
+  	var bLogoTitle=false;
+  	var bLogoSubtitle=false;
+  	var bLogoButton=false;
+
+  	var bLogin=2;
+  	var bLoginDiv=false;
+  	var bLoginFormResponse=false;
+
+  	var bSign=3;
+  	var bSignupDiv=false;
+  	var bSignupFormResponse=false;
+  	
+  	var bQuiniela=4
+  	var bQuinielaTitle=false;
+  	var bQuinielaDiv=false;
+  	var bQuinielaFormResponse=false;
+  	var bQuinielaButton=false;
+  	
+	
+	function refreshDivs(elem) {
+		if (elem == bLogo){
+			$('#logoTitle').show();
+			$('#logoSubtitle').show();
+			$('#logoButton').show();
+
+			$('#loginDiv').hide();
+			$('#loginFormResponse').hide();
+
+			$('#signupDiv').hide();
+			$('#signupFormResponse').hide();
+
+			$('#quinielaTitle').hide();
+			$('#quinielaDiv').hide();
+			$('#quinielaFormResponse').hide();
+			$('#quinielaButton').hide();
+		}
+		if (elem == bLogin){
+			$('#logoTitle').show();
+			$('#logoSubtitle').hide();
+			$('#logoButton').hide();
+
+			$('#loginDiv').show();
+			$('#loginFormResponse').show();
+
+			$('#signupDiv').hide();
+			$('#signupFormResponse').hide();
+
+			$('#quinielaTitle').hide();
+			$('#quinielaDiv').hide();
+			$('#quinielaFormResponse').hide();
+			$('#quinielaButton').hide();
+		}		
+		if(elem == bSign){
+			$('#logoTitle').show();
+			$('#logoSubtitle').hide();
+			$('#logoButton').hide();
+
+			$('#loginDiv').hide();
+			$('#loginFormResponse').hide();
+
+			$('#signupDiv').show();
+			$('#signupFormResponse').show();
+
+			$('#quinielaTitle').show();
+			$('#quinielaDiv').hide();
+			$('#quinielaFormResponse').hide();
+			$('#quinielaButton').hide();
+		}
+
+		if(elem == bQuiniela){
+			$('#logoTitle').show();
+			$('#logoSubtitle').hide();
+			$('#logoButton').hide();
+
+			$('#loginDiv').hide();
+			$('#loginFormResponse').hide();
+
+			$('#signupDiv').hide();
+			$('#signupFormResponse').hide();
+
+			$('#quinielaTitle').show();
+			$('#quinielaDiv').show();
+			$('#quinielaFormResponse').show();
+			$('#quinielaButton').show();
+		}
+	}
   
     $(document).ready(function() {
-		$('#loginDiv').hide();
-		$('#signupDiv').hide();
-		$('#quiniela_btn').hide();
-		$('#titleJornada').hide();
-		alert("inicio");	
 		var userLoged=false;
+		refreshDivs(bLogo);
     	var jqxhr =
     	    $.ajax({
     	        url: "${pageContext.request.contextPath}/login",
      	    })
     	    .success (function(response) { 
     		    if(response.errorDto!=null){
-					alert("login nok");
 					$('#menu_Login').text("Login");
 					$('#menu_Login').attr("href", "loginDiv");
 					$('#menu_User').text("Invitado");
 					$('#menu_User').attr("href", "#");
 
-					$('#quiniela_btn').hide();
-					$('#titleJornada').hide();
-					$('#bQuini').hide();
-					
+					refreshDivs(bLogo);
 					userLoged=false;
     		    }
     		    else{
-					alert("login ok");    		    	
-					$('#menu_Login').text("Logout");
-//					$('#menu_Login').attr("href", "logout");
-//					$('#menu_User').text(response.userAlterQ.name);
-					$('#menu_User').attr("href", "myaccount");
+    		    	if (response.userAlterQ!=null){
+    					$('#menu_Login').text("Logout");
+    					$('#menu_Login').attr("href", "Logout");
+    					$('#menu_User').text(response.userAlterQ.name);
+    					$('#menu_User').attr("href", "myaccount");
 
-					$('#loginDiv').hide();
-					$('#quiniela_btn').hide();
-					$('#titleJornada').hide();
-					$('#bQuini').hide();
-					
-					userLoged=true;
+    					refreshDivs(bLogo);    					
+    					userLoged=true;
+    		    	}
+    		    	else{
+    					$('#menu_Login').text("Login");
+    					$('#menu_Login').attr("href", "loginDiv");
+    					$('#menu_User').text("Invitado");
+    					$('#menu_User').attr("href", "#");
+
+    					refreshDivs(bLogo);    					
+    					userLoged=false;
+    		    	}
+
+
     		    }
     	    })
     	    .error   (function()     { alert("Error")   ; })
@@ -100,16 +188,8 @@
 
     	var loadBet=true;
 	   	$('#menu_Quiniela').click(function(){
-	   		$('#logo').text("Quiniela");
-	   		$('#mensaje').hide();
-		    $('#loginDiv').hide();
-		    $('#bQuini').hide();
-		    $('#signupDiv').hide();
-		    $('#loginFormResponse').hide();
-			$('#quinielaDiv').show();
-			$('#quiniela_btn').show();
-			$('#titleJornada').show();
-
+	   		$('#logoTitle').text("Quiniela");
+	   		refreshDivs(bQuiniela);
 		    //$('#cabecera').hide();
  	        var url= '${pageContext.request.contextPath}/bet';
         	if(loadBet){
@@ -119,12 +199,13 @@
 	    		    	$('#temporada').text(response.errorDto.stringError);
 	    		    }
 	    		    else{
-						$('#titleJornada').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
+						$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
 					    $('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
 	
 						$(response.round.games).each(function(index, element){  
 							console.log(element);
 							var row="";
+						
 							var temp=padding_right(element.player1+'-'+element.player2,".",28);
 							if(index>8){
 								temp=temp+(index+1);
@@ -149,13 +230,9 @@
 							row+='</td>';
 							row+='</tr>';
 							$('#quinielaTable').append(row);
-						})
+						});
 						
-						
-						$('#quinielaDiv').show();
-						$('#quiniela_btn').show();
-						$('#titleJornada').show();
-
+						refreshDivs(bQuiniela);
 	    		    }
 				});
  	        }
@@ -169,14 +246,15 @@
 			var url= '${pageContext.request.contextPath}/bet/';
 			$.post(url, $(this).serialize(), function(response) {
 				if(response.errorDto!=null){
-					$('#userAlterQFormResponse').text(response.errorDto.stringError);
+					$('#quinielaFormResponse').text(response.errorDto.stringError);
 				}
 				else{
-					$('#userAlterQFormResponse').text(response.userAlterQ.name);
-					$('#nameUserNav').text(response.userAlterQ.name);
+					$('#quinielaFormResponse').text("Apuesta realizada correctamente");
+					//$('#nameUserNav').text(response.userAlterQ.name);
 					//move to start page
-					var new_position = $('#bodyClass').offset();
-					window.scrollTo(new_position.left,new_position.top);
+					//var new_position = $('#bodyClass').offset();
+					//window.scrollTo(new_position.left,new_position.top);
+					
 				}
 			});
 		    e.preventDefault(); // prevent actual form submit and page reload
@@ -190,17 +268,16 @@
     	        $.post('${pageContext.request.contextPath}/login', $(this).serialize(), function(response) {
 	    		    if(response.errorDto!=null){
 	    		    	$('#loginFormResponse').text(response.errorDto.stringError);
+	    		    	refreshDivs(bLogin);
 	    		    	userLoged=false;
 	    		    }
 	    		    else{
 						$('#loginFormResponse').text(response.userAlterQ.name);
 						$('#menu_User').text(response.userAlterQ.name);
+    					$('#menu_User').attr("href", "myaccount");
 						$('#menu_Login').text("Logout");
-						$('#loginDiv').hide();
-						//move to start page
-						//var new_position = $('#bodyClass').offset();
-		    		    //window.scrollTo(new_position.left,new_position.top);
-						$('#bQuini').show();
+						
+						refreshDivs(bLogo);
 						userLoged=true;
 	    		    }
  			   	 });
@@ -211,11 +288,12 @@
     	        $.post('${pageContext.request.contextPath}/myaccount', $(this).serialize(), function(response) {
 	    		    if(response.errorDto!=null){
 	    		    	$('#loginFormResponse').text(response.errorDto.stringError);
+	    		    	refreshDivs(bSign);
 	    		    }
 	    		    else{
 						$('#signupFormResponse').text(response.userAlterQ.name);
 						$('#nameUserNav').text(response.userAlterQ.name);
-						$('#signupDiv').hide();
+						refreshDivs(bLogo);
 						//move to start page
 						var new_position = $('#bodyClass').offset();
 		    		    window.scrollTo(new_position.left,new_position.top);
@@ -227,46 +305,43 @@
     		    //var jump = $(this).attr('href');
     		    //var new_position = $('#'+jump).offset();
     		    //window.scrollTo(new_position.left,new_position.top);
+    		    $('#logoTitle').text("Login");
     		    if (userLoged){
-    				console.log('Hay usuario, vamos a hacer el logout');
+    				console.log('Hay usuario, vamos a hacer el logoTitleut');
     				// will pass the form date using the jQuery serialize function
     				var url= '${pageContext.request.contextPath}/logout';
     				$.get(url, $(this).serialize(), function(response) {
     					if(response.errorDto!=null){
-    						alert("logout nok");
     					}
     					else{
     						$('#menu_Login').text("Login");
     						$('#menu_Login').attr("href", "loginDiv");
     						$('#menu_User').text("Invitado");
     						$('#menu_User').attr("href", "#");
+    						
+    						userLoged=false;
+    						//visualizamos boton quiniela
+    						$('#logoTitle').text("alterQ");
+    						refreshDivs(bLogo);
     					}
     				});
 //    			    e.preventDefault(); // prevent actual form submit and page reload
     		    }
     		    else{
-    		    	alert("No hay usuario");
+					refreshDivs(bLogin);
     		    }
-       		    $('#loginDiv').show();
-       		    $('#bQuini').hide();
-       		    $('#quinielaDiv').hide();
-       		    $('#signupDiv').hide();
-       		    $('#loginFormResponse').show();
     		    return false;
     	});    	 
     	 $('#signup_Div').click(function(){
+    		 	$('#logoTitle').text("Sign up");
     		    //var jump = $(this).attr('href');
     		    //var new_position = $('#'+jump).offset();
     		    //window.scrollTo(new_position.left,new_position.top);
-    		    $('#loginDiv').hide();
-    		    $('#bQuini').hide();
-    		    $('#quinielaDiv').hide();
-    		    $('#signupDiv').show();
-    		    $('#signupFormResponse').show();
+				refreshDivs(bSign);
     		    return false;
     	});    	 
     	 
-    	 $('#bQuini').click(function(){
+    	 $('#logoButton').click(function(){
 			$('#menu_Quiniela').click();
 			return false;
  	});    	 
@@ -283,12 +358,12 @@
 				<!-- Inner -->
 					<div class="inner">
 						<header id="cabecera">
-							<h1><a href="#" id="logo">alterQ</a></h1>
+							<h1><a href="#" id="logoTitle">alterQ</a></h1>
 							<hr />
-							<span class="byline" id="mensaje">Los amantes de las quinielas</span>
+							<span class="byline" id="logoSubtitle">Los amantes de las quinielas</span>
 						</header>
 						<footer>
-							<a id="bQuini" href="quinielaDiv" class="button circled scrolly">Quiniela</a>
+							<a id="logoButton" href="quinielaDiv" class="button circled scrolly">Quiniela</a>
 							<!-- login -->
 							<div id="loginDiv">
 								<div class="row flush">
@@ -368,12 +443,13 @@
 								  <div class="4u">&nbsp;</div>
 								  <div class="4u">
 									<div align="center">
-										<span class="byline" id="titleJornada">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></span>										
+										<span class="byline" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></span>										
 										<form id="betForm">
 												
 											    <table class="quiniela" id="quinielaTable"></table>
 											    <!-- <input type="submit" value="Enviar"> -->
-											    <button id="quiniela_btn" class="button" name="quiniela" value="Enviar">Enviar</button>
+											    <div id="quinielaFormResponse">respuesta </div>
+											    <button id="quinielaButton" class="button" name="quiniela" value="Enviar">Enviar</button>
 										</form>
 									</div>
 								  </div>
