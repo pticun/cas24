@@ -11,6 +11,7 @@ import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
+import org.alterq.dto.TypeError;
 import org.alterq.repo.BetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
@@ -69,6 +70,17 @@ public class BetController {
 			String idUserAlterQ = sessionDao.findUserAlterQIdBySessionId(cookieSession);
 			userAlterQ = userDao.findById(idUserAlterQ);
 		}
+		// TODO control security
+		ResponseDto dto = new ResponseDto();
+		
+		if(userAlterQ==null){
+			ErrorDto error = new ErrorDto();
+			error.setIdError(TypeError.USER_NOT_IN_SESSION);
+			error.setStringError("user not in Session (i18n error)");
+			dto.setErrorDto(error);
+			dto.setUserAlterQ(null);
+			return dto;
+		}
 
 		String apuesta = "";
 		int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -76,34 +88,36 @@ public class BetController {
 		Map<String, String[]> parameters = request.getParameterMap();
 		for (String parameter : parameters.keySet()) {
 			StringTokenizer st = new StringTokenizer(parameter, "_");
-			int indice = Integer.parseInt(st.nextToken());
-			String signo = st.nextToken();
-			int signoN = (signo.equals("1")) ? 4 : (signo.equals("2") ? 1 : 2);
-			pro[indice] += signoN;
+			try {
+				int indice = Integer.parseInt(st.nextToken());
+				String signo = st.nextToken();
+				int signoN = (signo.equals("1")) ? 4 : (signo.equals("2") ? 1 : 2);
+				pro[indice] += signoN;
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 			// log.debug(sb.toString());
 		}
 		for (int i = 0; i < pro.length; i++)
 			apuesta += pro[i];
 
 		// data for test only!!
-		int season = 2013;
-		int round = 9;
-		String user = "pepito@gmail.com";
-		if (userAlterQ != null)
-			user = userAlterQ.getId();
+		String season=request.getParameter("season");
+		String round=request.getParameter("round");
+		
+		int seasonInt = Integer.parseInt(season);
+		int roundInt = Integer.parseInt(round);
 
 		Bet apuestaBet = new Bet();
 		apuestaBet.setBet(apuesta);
-		apuestaBet.setUser(user);
+		apuestaBet.setUser(userAlterQ.getId());
 		StringBuffer sb = new StringBuffer();
 		sb.append("New Bet: season=" + season + " round=" + round + " user=" + apuestaBet.getUser() + " bet=" + apuestaBet.getBet());
 		log.debug(sb.toString());
 
 		// Insert new bet into the BBDD
-		betDao.addBet(season, round, apuestaBet);
+		betDao.addBet(seasonInt, roundInt, apuestaBet);
 
-		// TODO control security
-		ResponseDto dto = new ResponseDto();
 		return dto;
 
 	}
