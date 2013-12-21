@@ -202,7 +202,7 @@
 						$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
 					    $('#quinielaTable').append('<input type="hidden" name="season" id="season" value="'+ response.round.season+'"/>');       
 					    $('#quinielaTable').append('<input type="hidden" name="round" id="round" value="'+ response.round.round+'"/>');       
-					    $('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
+					    $('#quinielaTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
 	
 						$(response.round.games).each(function(index, element){  
 							console.log(element);
@@ -216,10 +216,10 @@
 								temp=temp+" "+(index+1);
 							}
 							if(index==0 || index==4 || index==8 || index==11 || index==14){
-								row+='<tr><td class="partidolinea">'+temp+'</td>';
+								row+='<tr id="rowLine_'+index+'"><td class="partidolinea">'+temp+'</td>';
 							}
 							else{
-								row+='<tr><td class="partido">'+temp+'</td>';
+								row+='<tr id="rowBet_'+index+'"><td class="partido">'+temp+'</td>';
 							}
 							row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
 							row+='<label class="quiniela" hidden for="'+index+'_1"><span hidden>1</span></label>';
@@ -251,6 +251,27 @@
 					$('#quinielaFormResponse').text(response.errorDto.stringError);
 				}
 				else{
+					$('#rowBetTitle').remove();
+					$('#rowLine_0').remove();
+					$('#rowLine_4').remove();
+					$('#rowLine_8').remove();
+					$('#rowLine_11').remove();
+					$('#rowLine_14').remove();
+					$('#rowBet_1').remove();
+					$('#rowBet_2').remove();
+					$('#rowBet_3').remove();
+					$('#rowBet_4').remove();
+					$('#rowBet_5').remove();
+					$('#rowBet_6').remove();
+					$('#rowBet_7').remove();
+					$('#rowBet_8').remove();
+					$('#rowBet_9').remove();
+					$('#rowBet_10').remove();
+					$('#rowBet_11').remove();
+					$('#rowBet_12').remove();
+					$('#rowBet_13').remove();
+					$('#rowBet_14').remove();
+					$('#rowBet_15').remove();
 					$('#quinielaFormResponse').text("Apuesta realizada correctamente");
 					//$('#nameUserNav').text(response.userAlterQ.name);
 					//move to start page
