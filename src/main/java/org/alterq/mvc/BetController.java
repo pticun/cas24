@@ -60,10 +60,30 @@ public class BetController {
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseDto addBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request) {
+		ResponseDto dto = new ResponseDto();
+		int season = 0;
+		int round = 0;
+		String user = "";
+		
 		if (log.isDebugEnabled()) {
 			log.debug("init AccountController.updateUserAlterQ");
 			log.debug("session:" + cookieSession);
 		}
+		
+		Round j = new Round();
+		try {
+			j = roundDao.findLastJornada();
+			season = j.getSeason();
+			round = j.getRound();
+		} catch (Exception e) {
+			ErrorDto error = new ErrorDto();
+			error.setIdError("10");
+			error.setStringError("getLastJornada (i18n error)");
+			dto.setErrorDto(error);
+			dto.setRound(null);
+			return dto;
+		}
+		
 		UserAlterQ userAlterQ = null;
 		if (StringUtils.isNotBlank(cookieSession)) {
 			String idUserAlterQ = sessionDao.findUserAlterQIdBySessionId(cookieSession);
@@ -86,11 +106,23 @@ public class BetController {
 			apuesta += pro[i];
 
 		// data for test only!!
-		int season = 2013;
-		int round = 9;
-		String user = "pepito@gmail.com";
+		//season = 2013;
+		//round = 9;
+		//user = "pepito@gmail.com";
+		//Get Last Jornada
+		
+		
 		if (userAlterQ != null)
 			user = userAlterQ.getId();
+		else{
+			ErrorDto error = new ErrorDto();
+			error.setIdError("11");
+			error.setStringError("addBet (none user error)");
+			dto.setErrorDto(error);
+			dto.setRound(null);
+			
+			return dto;
+		}
 
 		Bet apuestaBet = new Bet();
 		apuestaBet.setBet(apuesta);
@@ -103,7 +135,7 @@ public class BetController {
 		betDao.addBet(season, round, apuestaBet);
 
 		// TODO control security
-		ResponseDto dto = new ResponseDto();
+		
 		return dto;
 
 	}

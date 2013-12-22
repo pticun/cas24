@@ -24,53 +24,13 @@
 		<link rel="stylesheet" href="<c:url value="/static/resources/css/style-noscript.css"/>" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="<c:url value="/static/resources/css/ie8.css"/>" /><![endif]-->
 	</head>
-	<script type="text/javascript">
-	
-		// left padding s with c to a total of n chars
-		function padding_left(s, c, n) {
-		  if (! s || ! c || s.length >= n) {
-		    return s;
-		  }
-		  var max = (n - s.length)/c.length;
-		  for (var i = 0; i < max; i++) {
-		    s = c + s;
-		  }
-		  return s;
-		}
-		 
-		// right padding s with c to a total of n chars
-		function padding_right(s, c, n) {
-		  if (! s || ! c || s.length >= n) {
-		    return s;
-		  }
-		  var max = (n - s.length)/c.length;
-		  for (var i = 0; i < max; i++) {
-		    s += c;
-		  }
-		  return s;
-		}
-	</script>
-	
+
   <script type="text/javascript">
   	//elementos gráficos de index
   	var bLogo=1;
-  	var bLogoTitle=false;
-  	var bLogoSubtitle=false;
-  	var bLogoButton=false;
-
   	var bLogin=2;
-  	var bLoginDiv=false;
-  	var bLoginFormResponse=false;
-
   	var bSign=3;
-  	var bSignupDiv=false;
-  	var bSignupFormResponse=false;
   	
-  	var bQuiniela=4
-  	var bQuinielaTitle=false;
-  	var bQuinielaDiv=false;
-  	var bQuinielaFormResponse=false;
-  	var bQuinielaButton=false;
   	
 	
 	function refreshDivs(elem) {
@@ -84,11 +44,6 @@
 
 			$('#signupDiv').hide();
 			$('#signupFormResponse').hide();
-
-			$('#quinielaTitle').hide();
-			$('#quinielaDiv').hide();
-			$('#quinielaFormResponse').hide();
-			$('#quinielaButton').hide();
 		}
 		if (elem == bLogin){
 			$('#logoTitle').show();
@@ -100,11 +55,6 @@
 
 			$('#signupDiv').hide();
 			$('#signupFormResponse').hide();
-
-			$('#quinielaTitle').hide();
-			$('#quinielaDiv').hide();
-			$('#quinielaFormResponse').hide();
-			$('#quinielaButton').hide();
 		}		
 		if(elem == bSign){
 			$('#logoTitle').show();
@@ -116,28 +66,6 @@
 
 			$('#signupDiv').show();
 			$('#signupFormResponse').show();
-
-			$('#quinielaTitle').show();
-			$('#quinielaDiv').hide();
-			$('#quinielaFormResponse').hide();
-			$('#quinielaButton').hide();
-		}
-
-		if(elem == bQuiniela){
-			$('#logoTitle').show();
-			$('#logoSubtitle').hide();
-			$('#logoButton').hide();
-
-			$('#loginDiv').hide();
-			$('#loginFormResponse').hide();
-
-			$('#signupDiv').hide();
-			$('#signupFormResponse').hide();
-
-			$('#quinielaTitle').show();
-			$('#quinielaDiv').show("blind");
-			$('#quinielaFormResponse').show();
-			$('#quinielaButton').show();
 		}
 	}
   
@@ -184,61 +112,6 @@
     	    .error   (function()     { alert("Error")   ; })
 //    	    .complete(function()     { alert("complete"); })
     	    ;    	
-    	
-
-    	var loadBet=true;
-	   	$('#menu_Quiniela').click(function(){
-	   		$('#logoTitle').text("Quiniela");
-	   		refreshDivs(bQuiniela);
-		    //$('#cabecera').hide();
- 	        var url= '${pageContext.request.contextPath}/bet';
-        	if(loadBet){
- 	        	loadBet=false;
-	 	        $.get(url, $(this).serialize(), function(response) {
-	    		    if(response.errorDto!=null){
-	    		    	$('#temporada').text(response.errorDto.stringError);
-	    		    }
-	    		    else{
-						$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
-					    $('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
-	
-						$(response.round.games).each(function(index, element){  
-							console.log(element);
-							var row="";
-						
-							var temp=padding_right(element.player1+'-'+element.player2,".",28);
-							if(index>8){
-								temp=temp+(index+1);
-							}
-							else{
-								temp=temp+" "+(index+1);
-							}
-							if(index==0 || index==4 || index==8 || index==11 || index==14){
-								row+='<tr><td class="partidolinea">'+temp+'</td>';
-							}
-							else{
-								row+='<tr><td class="partido">'+temp+'</td>';
-							}
-							row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
-							row+='<label class="quiniela" hidden for="'+index+'_1"><span hidden>1</span></label>';
-							row+='</td>';
-							row+='<td class="pronostico"><input class="classX" type="checkbox" id="'+index+'_X" name="'+index+'_X" />';
-							row+='<label class="quiniela" hidden for="'+index+'_X"><span hidden>X</span></label>';
-							row+='</td>';
-							row+='<td class="pronostico"><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
-							row+='<label class="quiniela" hidden for="'+index+'_2"><span hidden>2</span></label>';
-							row+='</td>';
-							row+='</tr>';
-							$('#quinielaTable').append(row);
-						});
-						
-						refreshDivs(bQuiniela);
-	    		    }
-				});
- 	        }
-		    return false;
-		});
-    	
     	
 		$('#betForm').submit(function(e) {
 			console.log('betForm');
@@ -342,11 +215,6 @@
     		    return false;
     	});    	 
     	 
-    	 $('#logoButton').click(function(){
-			$('#menu_Quiniela').click();
-			return false;
- 	});    	 
-    	 
     });
     
     </script>
@@ -364,7 +232,7 @@
 							<span class="byline" id="logoSubtitle">Los amantes de las quinielas</span>
 						</header>
 						<footer>
-							<a id="logoButton" href="quinielaDiv" class="button circled scrolly">Quiniela</a>
+							<a id="logoButton" href="quiniela" class="button circled scrolly">Quiniela</a>
 							<!-- login -->
 							<div id="loginDiv">
 								<div class="row flush">
@@ -438,28 +306,6 @@
 								</div>
 							</div>
 							<!-- signup -->
-							<!-- quiniela -->
-							<div id="quinielaDiv">
-								<div class="row flush">
-								  <div class="4u">&nbsp;</div>
-								  <div class="4u">
-									<div align="center">
-										<span class="byline" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></span>										
-										<form id="betForm">
-												
-											    <table class="quiniela" id="quinielaTable"></table>
-											    <!-- <input type="submit" value="Enviar"> -->
-											    <div id="quinielaFormResponse">respuesta </div>
-											    <button id="quinielaButton" class="button" name="quiniela" value="Enviar">Enviar</button>
-										</form>
-									</div>
-								  </div>
-								  <div class="2u">&nbsp;</div>
-								</div>
-							</div>
-							<!-- quiniela -->
-							
-							
 							
 						</footer>
 					</div>		
@@ -468,10 +314,8 @@
 						<ul>
 							<li><a href="index">Inicio</a></li>
 							<li><a href="loginDiv" id="menu_Login">Login</a></li>
-							<!-- <li><a href="signupDiv" id="signup_Div">Signup</a></li> -->
-							<li><a href="quinielaDiv" id="menu_Quiniela" >Quiniela</a></li>
+							<li><a href="quiniela" >Quiniela</a></li>
 							<li><a href="#" id="menu_User">Invitado</a></li>
-							<!-- <li id="nameUserNav"><a href="myaccount">nombre usuario</a></li> -->
 						</ul>
 					</nav>
 

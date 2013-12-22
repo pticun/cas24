@@ -25,7 +25,42 @@
 		<!--[if lte IE 8]><link rel="stylesheet" href="<c:url value="/static/resources/css/ie8.css"/>" /><![endif]-->
 	</head>
   <script type="text/javascript">
+
+  var userLoged=false;
   
+  	//Graphics elements constants 
+	var cMenuSlice	= 0;
+	var cMyData		= 1;
+	var cBalance	= 2;
+	var cMyBets		= 3;
+	
+	function refreshDivs(elem) {
+		if (elem == cMenuSlice){
+			$('#menuSlice').show();
+			$('#mydataDiv').hide();
+			$('#balanceDiv').hide();
+			$('#menuBets').hide();
+			
+		}
+		if (elem == cMyData){
+			$('#menuSlice').hide();
+			$('#mydataDiv').show();
+			$('#balanceDiv').hide();
+			$('#menuBets').hide();
+		}
+		if (elem == cBalance){
+			$('#menuSlice').hide();
+			$('#mydataDiv').hide();
+			$('#balanceDiv').show();
+			$('#menuBets').hide();
+		}
+		if (elem == cMyBets){
+			$('#menuSlice').hide();
+			$('#mydataDiv').hide();
+			$('#balanceDiv').hide();
+			$('#menuBets').show();
+		}
+	}  
     $(document).ready(function() {
     	var jqxhr =
     	    $.ajax({
@@ -33,46 +68,60 @@
      	    })
     	    .success (function(response) { 
     		    if(response.errorDto!=null){
-    		    	$('#nameUserNav').text("sin user");
+					$('#menu_Login').text("Login");
+					$('#menu_Login').attr("href", "loginDiv");
+					$('#menu_User').text("Invitado");
+					$('#menu_User').attr("href", "#");
+
+					userLoged=false;
     		    }
     		    else{
-					$('#nameUserNav').text(response.userAlterQ.name);
-					$('#id').val(response.userAlterQ.id);
-					$('#name').val(response.userAlterQ.name);
-					$('#phoneNumber').val(response.userAlterQ.phoneNumber);
-					$('#idSaldo').val(response.userAlterQ.id);
-					$('#balance').val(response.userAlterQ.balance);
-					//move to start page
-					var new_position = $('#bodyClass').offset();
-	    		    window.scrollTo(new_position.left,new_position.top);
+    		    	if (response.userAlterQ!=null){
+    					$('#menu_Login').text("Logout");
+    					$('#menu_Login').attr("href", "Logout");
+    					$('#menu_User').text(response.userAlterQ.name);
+    					$('#menu_User').attr("href", "myaccount");
+
+    					$('#id').val(response.userAlterQ.id);
+    					$('#name').val(response.userAlterQ.name);
+    					$('#phoneNumber').val(response.userAlterQ.phoneNumber);
+    					$('#idSaldo').val(response.userAlterQ.id);
+    					$('#balance').val(response.userAlterQ.balance);
+    					
+    					userLoged=true;
+    		    	}
+    		    	else{
+    					$('#menu_Login').text("Login");
+    					$('#menu_Login').attr("href", "loginDiv");
+    					$('#menu_User').text("Invitado");
+    					$('#menu_User').attr("href", "#");
+
+    					userLoged=false;
+    		    	}
     		    }
-				$('#dataDiv').hide();
-				$('#balanceDiv').hide();
+
+    		    refreshDivs(cMenuSlice);
     	    })
     	    .error   (function()     { alert("Error")   ; })
 //    	    .complete(function()     { alert("complete"); })
     	    ;   
  
     	
-	   	$('#data_Div').click(function(){
-				$('#balanceDiv').hide();
-				$('#dataDiv').show();
-			    var jump = $(this).attr('href');
-			    var new_position = $(jump).offset();
-			    window.scrollTo(new_position.left,new_position.top);
-			    return false;
-		});    	 
-		$('#balance_Div').click(function(){
-			$('#dataDiv').hide();
-			$('#balanceDiv').show();
-		   	var jump = $(this).attr('href');
-			var new_position = $(jump).offset();
-			window.scrollTo(new_position.left,new_position.top);
+	   	$('#menuSlice_mydata').click(function(){
+   			refreshDivs(cMyData);
+		    return false;
+	});    	 
+		$('#menuSlice_balance').click(function(){
+			refreshDivs(cBalance);
 			return false;
 		});    	 
 
+		$('#button_menuMain').click(function(){
+			refreshDivs(cMenuSlice);
+			return false;
+		});    	 
 	   	  	 
-    	 $('#userAlterQForm').submit(function(e) {
+    	 $('#myDataForm').submit(function(e) {
  	        console.log('update:userAlterQForm');
 	        // will pass the form date using the jQuery serialize function
  	        var url= '${pageContext.request.contextPath}/myaccount/'+ $('#id').val();
@@ -84,13 +133,91 @@
 						$('#userAlterQFormResponse').text(response.userAlterQ.name);
 						$('#nameUserNav').text(response.userAlterQ.name);
 						//move to start page
-						var new_position = $('#bodyClass').offset();
-		    		    window.scrollTo(new_position.left,new_position.top);
+//						var new_position = $('#bodyClass').offset();
+//		    		    window.scrollTo(new_position.left,new_position.top);
 	    		    }
 			});
  	        e.preventDefault(); // prevent actual form submit and page reload
  	 });
-    	
+
+     	var loadUserBets=true;
+		$('#menuSlice_mybets').click(function(){
+			$('#menu_mybets').click();
+			return false;
+		});    	 
+	   	$('#menu_mybets').click(function(){
+	   		
+	   		refreshDivs(cMyBets);
+	   		var season=2013;
+	   		var round=11;
+	   		var user="idmail@arroba.es";
+		    		
+ 	        var url= '${pageContext.request.contextPath}/bet/betsUser?season='+season+'&round='+round+'&user='+user;
+        	if(loadUserBets){
+        		loadUserBets=false;
+	 	        $.get(url, $(this).serialize(), function(response) {
+	 	        	
+alert(this.url);	 	        	
+//alert((RoundBets)response).getBets());
+	    		    if(response.RoundBets.getBets()!=null){
+	    		    	//$('#temporada').text(response.errorDto.stringError);
+alert("response.getBets()");	    		    	
+						var row="";
+						row+='<article>';
+						row+='<div align="center">SIN APUESTAS</div>';
+						row+='</article>';
+						$('#userBets').append(row);
+	    		    }
+	    		    else{
+alert("response.getBets()");
+	    		    	//$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
+					    //$('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
+	
+						$(response.getBets).each(function(index, element){  
+							console.log(element);
+							var row="";
+							row+='<article>';
+							row+='<div>'+element+'</div>';
+							row+='</article>';
+							$('#userBets').append(row);
+						});
+						
+						refreshDivs(cMyBets);
+	    		    }
+				});
+ 	        }
+		    return false;
+		});
+
+    
+    
+	   	 $('#menu_Login').click(function(){
+	   		 
+			    if (userLoged){
+					console.log('Hay usuario, vamos a hacer el logoTitleut');
+					// will pass the form date using the jQuery serialize function
+					var url= '${pageContext.request.contextPath}/logout';
+					$.get(url, $(this).serialize(), function(response) {
+						if(response.errorDto!=null){
+						}
+						else{
+							userLoged=false;
+							
+							$('#menu_Login').text("Login");
+							$('#menu_Login').attr("href", "loginDiv");
+							$('#menu_User').text("Invitado");
+							$('#menu_User').attr("href", "#");
+							
+							//deberiamos saltar al logo del  index...
+						}
+					});
+			    }
+			    else{
+			    	//hay que llamar al login del index...
+			    }
+			    return false;
+		});    	     
+    
     });
     
     </script>
@@ -106,12 +233,12 @@
 							<h1><a href="#" id="logo">Mi Cuenta</a></h1>
 						</header>
 
-						<!-- Carousel -->
-						<div class="carousel">
+						<!-- menuSlice -->
+						<div id="menuSlice" class="carousel">
 							<div class="reel">
 			
 								<article>
-									<a href="#dataDiv" id="data_Div" class="image featured"><img src="<c:url value="/static/resources/images/pic01.jpg"/>" alt="" />
+									<a href="#mydataDiv" id="menuSlice_mydata" class="image featured"><img src="<c:url value="/static/resources/images/pic01.jpg"/>" alt="" />
 									<header>
 										<h3>Mis Datos</h3>
 									</header>
@@ -120,7 +247,7 @@
 								</article>
 							
 								<article>
-									<a href="#balanceDiv" id="balance_Div" class="image featured"><img src="<c:url value="/static/resources/images/pic02.jpg"/>" alt="" />
+									<a href="#balanceDiv" id="menuSlice_balance" class="image featured"><img src="<c:url value="/static/resources/images/pic02.jpg"/>" alt="" />
 									<header>
 										<h3>Mi Saldo</h3>
 									</header>
@@ -129,24 +256,103 @@
 								</article>
 							
 								<article>
-									<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic03.jpg"/>" alt="" />
+									<a href="#mybetsDiv" id="menuSlice_mybets" class="image featured"><img src="<c:url value="/static/resources/images/pic03.jpg"/>" alt="" />
 									<header>
 										<h3>Mis Apuestas</h3>
 									</header>
-									<h4>Revisa tus apuestas y consulta tu histórico de manera sencilla..</h4>	
-									</a>						
-								</article>
-			
-								<article>
-									<a href="pendiente" class="image featured"><img src="<c:url value="/static/resources/images/pic04.jpg"/>" alt="" />
-									<header>
-										<h3>Mis Amigos</h3>
-									</header>
-									<h4>Informa a otros amantes de las quinielas de tus movimientos.</h4>	
+									<h4>Revisa tus apuestas y consulta tu histórico de manera sencilla.</h4>	
 									</a>						
 								</article>
 							</div>
 						</div>
+						<!-- menuSlice -->
+
+						<!-- menuBets -->
+						<div id="menuBets" class="carousel">
+							<div class="reel">
+								<div id="userBets">
+				
+								</div>
+							</div>
+						</div>
+						<!-- menuBets -->
+
+
+
+
+
+
+						<!-- myData -->
+						<div id="mydataDiv">
+							<div class="row flush">
+							  <div class="4u">&nbsp;</div>
+							  <div class="4u">
+								<div align="center">
+								   <form id="myDataForm">
+								   		<table class="quiniela">
+								   			<TR class="quinielatitulo">
+												<TD colspan="2">My Account</TD>
+												</TR>
+								   		
+								   		<tr>
+								   			<td class="partido">Username:</td>
+								   			<td class="partido"><input id="id" name="id" type="text" readonly="readonly"/></td>
+								        </tr>
+								   		<tr>
+								   			<td class="partido">Name:</td>
+								   			<td class="partido"><input name="name" id="name" type="text"/></td>
+								        </tr>
+								   		<tr>
+								   			<td class="partido">Phone Number:</td>
+								   			<td class="partido"><input name="phoneNumber" id="phoneNumber" type="text"/></td>
+								        </tr>
+								   		<tr align="right">
+								   			<td class="partido"><button id="button_menuMain" class="button" name="menuMain" value="menuMain">Menu</button></td>
+								   			<td class="partido"><button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button></td>
+								        </tr>
+								        </table>
+								        	<div id="userAlterQFormResponse">respuesta </div>
+							        </form>
+								</div>
+							  </div>
+							  <div class="4u">&nbsp;</div>
+							</div>
+						</div>
+						<!-- myData -->
+			
+						<!-- balance -->
+						<div id="balanceDiv">
+							<div class="row flush">
+							  <div class="4u">&nbsp;</div>
+							  <div class="4u">
+								<div align="center">
+								   <form id="balanceAlterQForm">
+								   		<table class="quiniela">
+								   			<TR class="quinielatitulo">
+												<TD colspan="2">Saldo</TD>
+												</TR>
+								   		
+								   		<tr>
+								   			<td class="partido">Username:</td>
+								   			<td class="partido"><input id="idSaldo" name="id" type="text" readonly="readonly"/></td>
+								        </tr>
+								   		<tr>
+								   			<td class="partido">Saldo:</td>
+								   			<td class="partido"><input name="balance" id="balance" type="text"/></td>
+								        </tr>
+								   		<tr align="right">
+								   			<td class="partido"><button id="button_menuMain" class="button" name="menuMain" value="menuMain">Menu</button></td>
+								   			<td class="partido"><button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button></td>
+								        </tr>
+								   		</table>
+								         <div id="balanceAlterQFormResponse">respuesta </div>
+							        </form>
+								</div>
+							  </div>
+							  <div class="4u">&nbsp;</div>
+							</div>
+						</div>
+						<!-- balance -->
 
 					</div>
 					
@@ -154,86 +360,14 @@
 					<nav id="nav">
 						<ul>
 							<li><a href="index">Inicio</a></li>
-							<li><a href="quiniela">Quiniela</a></li>
-							<li><a href="myaccount">Mi Cuenta</a></li>
-							<li><a href="pendiente">Contacto</a></li>
-							<li id="nameUserNav">nombre usuario</li>
+							<li><a href="loginDiv" id="menu_Login">Login</a></li>
+							<li><a href="quiniela" >Quiniela</a></li>
+							<li><a href="#" id="menu_User">Invitado</a></li>
 						</ul>
 					</nav>
 
 			</div>
 
-			<!-- userAlterQ -->
-			<div id="dataDiv">
-				<div class="row flush">
-				  <div class="4u">&nbsp;</div>
-				  <div class="4u">
-					<div align="center">
-					   <form id="userAlterQForm">
-					   		<table class="quiniela">
-					   			<TR class="quinielatitulo">
-									<TD colspan="2">My Account</TD>
-									</TR>
-					   		
-					   		<tr>
-					   			<td class="partido">Username:</td>
-					   			<td class="partido"><input id="id" name="id" type="text" readonly="readonly"/></td>
-					        </tr>
-					   		<tr>
-					   			<td class="partido">Name:</td>
-					   			<td class="partido"><input name="name" id="name" type="text"/></td>
-					        </tr>
-					   		<tr>
-					   			<td class="partido">Phone Number:</td>
-					   			<td class="partido"><input name="phoneNumber" id="phoneNumber" type="text"/></td>
-					        </tr>
-					   		<tr align="right">
-					   			<td class="partido">&nbsp</td>
-					   			<td class="partido"><button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button></td>
-					        </tr>
-					        </table>
-					        	<div id="userAlterQFormResponse">respuesta </div>
-				        </form>
-					</div>
-				  </div>
-				  <div class="4u">&nbsp;</div>
-				</div>
-			</div>
-			<!-- userAlterQ -->
-
-			<!-- balance -->
-			<div id="balanceDiv">
-				<div class="row flush">
-				  <div class="4u">&nbsp;</div>
-				  <div class="4u">
-					<div align="center">
-					   <form id="balanceAlterQForm">
-					   		<table class="quiniela">
-					   			<TR class="quinielatitulo">
-									<TD colspan="2">Saldo</TD>
-									</TR>
-					   		
-					   		<tr>
-					   			<td class="partido">Username:</td>
-					   			<td class="partido"><input id="idSaldo" name="id" type="text" readonly="readonly"/></td>
-					        </tr>
-					   		<tr>
-					   			<td class="partido">Saldo:</td>
-					   			<td class="partido"><input name="balance" id="balance" type="text"/></td>
-					        </tr>
-					   		<tr align="right">
-					   			<td class="partido">&nbsp</td>
-					   			<td class="partido"><button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button></td>
-					        </tr>
-					   		</table>
-					         <div id="balanceAlterQFormResponse">respuesta </div>
-				        </form>
-					</div>
-				  </div>
-				  <div class="4u">&nbsp;</div>
-				</div>
-			</div>
-			<!-- balance -->
 
 
 
@@ -242,10 +376,8 @@
 				<div class="container">
 					<div class="row">
 						<div class="12u">
-						
 							<!-- Contact -->
 								<section class="contact">
-									<header>
 									<header>
 										<h3>¿Quieres estar bien informado?</h3>
 									</header>

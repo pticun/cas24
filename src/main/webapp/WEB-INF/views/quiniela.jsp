@@ -51,30 +51,97 @@
 		}
 	</script>
   <script type="text/javascript">
-  
+	var userLoged=false;
+  	var loadBet=true;
     $(document).ready(function() {
+
     	var jqxhr =
     	    $.ajax({
     	        url: "${pageContext.request.contextPath}/login",
      	    })
     	    .success (function(response) { 
+  	    	
     		    if(response.errorDto!=null){
-    		    	$('#nameUserNav').text("sin user");
+					$('#menu_Login').text("Login");
+					$('#menu_Login').attr("href", "loginDiv");
+					$('#menu_User').text("Invitado");
+					$('#menu_User').attr("href", "#");
+
+					userLoged=false;
     		    }
     		    else{
-					$('#nameUserNav').text(response.userAlterQ.name);
-					//move to start page
-					var new_position = $('#bodyClass').offset();
-	    		    window.scrollTo(new_position.left,new_position.top);
+    		    	if (response.userAlterQ!=null){
+    					$('#menu_Login').text("Logout");
+    					$('#menu_Login').attr("href", "Logout");
+    					$('#menu_User').text(response.userAlterQ.name);
+    					$('#menu_User').attr("href", "myaccount");
+
+    					userLoged=true;
+    		    	}
+    		    	else{
+    					$('#menu_Login').text("Login");
+    					$('#menu_Login').attr("href", "loginDiv");
+    					$('#menu_User').text("Invitado");
+    					$('#menu_User').attr("href", "#");
+
+    					userLoged=false;
+    		    	}
     		    }
-				$('#dataDiv').hide();
+
+				var url= '${pageContext.request.contextPath}/bet';
+				if(loadBet){
+				 	loadBet=false;
+				     $.get(url, $(this).serialize(), function(response) {
+					    if(response.errorDto!=null){
+					    	$('#temporada').text(response.errorDto.stringError);
+					    }
+					    else{
+							$('#titleJornada').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
+						    $('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
+				
+							$(response.round.games).each(function(index, element){  
+								console.log(element);
+								var row="";
+								var temp=padding_right(element.player1+'-'+element.player2,".",28);
+								if(index>8){
+									temp=temp+(index+1);
+								}
+								else{
+									temp=temp+" "+(index+1);
+								}
+								if(index==0 || index==4 || index==8 || index==11 || index==14){
+									row+='<tr><td class="partidolinea">'+temp+'</td>';
+								}
+								else{
+									row+='<tr><td class="partido">'+temp+'</td>';
+								}
+								row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
+								row+='<label class="quiniela" hidden for="'+index+'_1"><span hidden>1</span></label>';
+								row+='</td>';
+								row+='<td class="pronostico"><input class="classX" type="checkbox" id="'+index+'_X" name="'+index+'_X" />';
+								row+='<label class="quiniela" hidden for="'+index+'_X"><span hidden>X</span></label>';
+								row+='</td>';
+								row+='<td class="pronostico"><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
+								row+='<label class="quiniela" hidden for="'+index+'_2"><span hidden>2</span></label>';
+								row+='</td>';
+								row+='</tr>';
+								$('#quinielaTable').append(row);
+							})
+							
+							
+							//$('#dataDiv').show();
+					    }
+					});
+				 }
+    	    
     	    })
     	    .error   (function()     { alert("Error")   ; })
 //    	    .complete(function()     { alert("complete"); })
     	    ;   
  
-    	var loadBet=true;
+    	
 	   	$('#data_Div').click(function(){
+	   		
  	        var url= '${pageContext.request.contextPath}/bet';
         	if(loadBet){
  	        	loadBet=false;
@@ -116,13 +183,13 @@
 						})
 						
 						
-						$('#dataDiv').show();
+						//$('#dataDiv').show();
 	    		    }
 				});
  	        }
-		    var jump = $(this).attr('href');
-		    var new_position = $(jump).offset();
-		    window.scrollTo(new_position.left,new_position.top);
+		    //var jump = $(this).attr('href');
+		    //var new_position = $(jump).offset();
+		    //window.scrollTo(new_position.left,new_position.top);
 		    return false;
 		});
 
@@ -132,19 +199,49 @@
 			var url= '${pageContext.request.contextPath}/bet/';
 			$.post(url, $(this).serialize(), function(response) {
 				if(response.errorDto!=null){
-					$('#userAlterQFormResponse').text(response.errorDto.stringError);
+					$('#quinielaFormResponse').text(response.errorDto.stringError);
 				}
 				else{
-					$('#userAlterQFormResponse').text(response.userAlterQ.name);
-					$('#nameUserNav').text(response.userAlterQ.name);
+					$('#quinielaFormResponse').text("Apuesta realizada correctamente");
+					//$('#nameUserNav').text(response.userAlterQ.name);
 					//move to start page
-					var new_position = $('#bodyClass').offset();
-					window.scrollTo(new_position.left,new_position.top);
+					//var new_position = $('#bodyClass').offset();
+					//window.scrollTo(new_position.left,new_position.top);
+					
 				}
 			});
 		    e.preventDefault(); // prevent actual form submit and page reload
 		});
+
 	   	
+   	 $('#menu_Login').click(function(){
+   		 
+		    if (userLoged){
+				console.log('Hay usuario, vamos a hacer el logoTitleut');
+				// will pass the form date using the jQuery serialize function
+				var url= '${pageContext.request.contextPath}/logout';
+				$.get(url, $(this).serialize(), function(response) {
+					if(response.errorDto!=null){
+					}
+					else{
+						userLoged=false;
+						
+						$('#menu_Login').text("Login");
+						$('#menu_Login').attr("href", "loginDiv");
+						$('#menu_User').text("Invitado");
+						$('#menu_User').attr("href", "#");
+
+						var new_position = $('index').offset();
+						window.scrollTo(new_position.left,new_position.top);
+					}
+				});
+		    }
+		    else{
+		    	//hay que llamar al login del index...
+		    }
+		    return false;
+	});    	 
+		
     	
     });
     
@@ -161,66 +258,45 @@
 							<h1><a href="#" id="logo">Quiniela</a></h1>
 						</header>
 
+						<footer>
+
+							<!-- quiniela -->
+							<div id="quinielaDiv">
+								<div class="row flush">
+								  <div class="4u">&nbsp;</div>
+								  <div class="4u">
+									<div align="center">
+										<span class="byline" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></span>										
+										<form id="betForm">
+											    <table class="quiniela" id="quinielaTable"></table>
+											    <!-- <input type="submit" value="Enviar"> -->
+											    <div id="quinielaFormResponse">respuesta </div>
+											    <button id="quinielaButton" class="button" name="quiniela" value="Enviar">Enviar</button>
+										</form>
+									</div>
+								  </div>
+								  <div class="2u">&nbsp;</div>
+								</div>
+							</div>
+							<!-- quiniela -->
+							
+						</footer>
+
+					</div>
 					<!-- Nav -->
 						<nav id="nav">
 							<ul>
-								<li><a href="index">Inicio</a></li>
-								<li><a href="quiniela">Quiniela</a></li>
-								<li><a href="micuenta">Mi Cuenta</a></li>
-								<li><a href="pendiente">Contacto</a></li>
-								<li id="nameUserNav">nombre usuario</li>
+							<li><a href="index">Inicio</a></li>
+							<li><a href="loginDiv" id="menu_Login">Login</a></li>
+							<li><a href="quiniela" >Quiniela</a></li>
+							<li><a href="#" id="menu_User">Invitado</a></li>
 							</ul>
 						</nav>
-
-
-						<!-- Carousel -->
-						<div class="carousel">
-							<div class="reel">
-								<article>
-									<a href="#dataDiv" id="data_Div" class="image featured"><img src="<c:url value="/static/resources/images/pic01.jpg"/>" alt="" />
-									<header>
-										<h3>Hacer Quiniela</h3>
-									</header>
-									<h4>¿A qué está esperando para hacer tu quiniela semanal?</h4>
-									</a>
-								</article>
-							
-								<article>
-									<a href="pendiente.html" class="image featured"><img src="<c:url value="/static/resources/images/pic02.jpg"/>" alt="" />
-									<header>
-										<h3>Estadísticas de la Jornada</h3>
-									</header>
-									<h4>Conoce todo lo que tienes que saber sobre los partidos de la semana.</h4>	
-									</a>						
-								</article>
-							</div>
-						</div>
-
-					</div>
+					
 				
 			</div>
 
 
-			<div id="dataDiv">
-				<div class="row flush">
-				  <div class="2u">&nbsp;</div>
-				  <div class="8u">
-					<div>
-					<span class="byline" id="titleJornada">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></span>
-					
-						<form id="betForm">
-						<center>
-						
-							    <table class="quiniela" id="quinielaTable">
-							    </table>
-							    <p><input type="submit" value="Enviar"></p>
-						</center>
-						</form>
-					</div>
-				  </div>
-				  <div class="2u">&nbsp;</div>
-				</div>
-			</div>
 
 
 
@@ -232,10 +308,8 @@
 				<div class="container">
 					<div class="row">
 						<div class="12u">
-						
 							<!-- Contact -->
 								<section class="contact">
-									<header>
 									<header>
 										<h3>¿Quieres estar bien informado?</h3>
 									</header>
