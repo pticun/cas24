@@ -11,7 +11,7 @@ import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
-import org.alterq.dto.TypeError;
+import org.alterq.dto.ErrorType;
 import org.alterq.repo.BetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
@@ -42,15 +42,15 @@ public class BetController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
-	ResponseDto getLastJornada() {
+	ResponseDto getLastRound() {
 		ResponseDto dto = new ResponseDto();
 		Round j = new Round();
 		try {
 			j = roundDao.findLastJornada();
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
-			error.setIdError("10");
-			error.setStringError("getLastJornada (i18n error)");
+			error.setIdError(ErrorType.GET_LAST_ROUND);
+			error.setStringError("getLastRound (i18n error)");
 			dto.setErrorDto(error);
 			dto.setRound(null);
 		}
@@ -75,7 +75,7 @@ public class BetController {
 		
 		if(userAlterQ==null){
 			ErrorDto error = new ErrorDto();
-			error.setIdError(TypeError.USER_NOT_IN_SESSION);
+			error.setIdError(ErrorType.USER_NOT_IN_SESSION);
 			error.setStringError("user not in Session (i18n error)");
 			dto.setErrorDto(error);
 			dto.setUserAlterQ(null);
