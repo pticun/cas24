@@ -10,6 +10,7 @@ import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
+import org.alterq.dto.ErrorType;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.BetDao;
 import org.alterq.repo.RoundDao;
@@ -21,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,14 +43,14 @@ public class BetController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
-	ResponseDto getLastJornada() {
+	ResponseDto getLastRound() {
 		ResponseDto dto = new ResponseDto();
 		Round j = new Round();
 		try {
 			j = roundDao.findLastJornada();
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
-			error.setIdError("10");
+			error.setIdError(ErrorType.GET_LAST_ROUND);
 			error.setStringError("getLastJornada (i18n error)");
 			dto.setErrorDto(error);
 			dto.setRound(null);
@@ -60,34 +62,25 @@ public class BetController {
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseDto addBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request) {
-		ResponseDto dto = new ResponseDto();
-		int season = 0;
-		int round = 0;
-		String user = "";
-		
 		if (log.isDebugEnabled()) {
 			log.debug("init AccountController.updateUserAlterQ");
 			log.debug("session:" + cookieSession);
 		}
-		
-		Round j = new Round();
-		try {
-			j = roundDao.findLastJornada();
-			season = j.getSeason();
-			round = j.getRound();
-		} catch (Exception e) {
-			ErrorDto error = new ErrorDto();
-			error.setIdError("10");
-			error.setStringError("getLastJornada (i18n error)");
-			dto.setErrorDto(error);
-			dto.setRound(null);
-			return dto;
-		}
-		
 		UserAlterQ userAlterQ = null;
 		if (StringUtils.isNotBlank(cookieSession)) {
 			String idUserAlterQ = sessionDao.findUserAlterQIdBySessionId(cookieSession);
 			userAlterQ = userDao.findById(idUserAlterQ);
+		}
+		// TODO control security
+		ResponseDto dto = new ResponseDto();
+		
+		if(userAlterQ==null){
+			ErrorDto error = new ErrorDto();
+			error.setIdError(ErrorType.USER_NOT_IN_SESSION);
+			error.setStringError("user not in Session (i18n error)");
+			dto.setErrorDto(error);
+			dto.setUserAlterQ(null);
+			return dto;
 		}
 
 		String apuesta = "";
@@ -96,61 +89,54 @@ public class BetController {
 		Map<String, String[]> parameters = request.getParameterMap();
 		for (String parameter : parameters.keySet()) {
 			StringTokenizer st = new StringTokenizer(parameter, "_");
-			int indice = Integer.parseInt(st.nextToken());
-			String signo = st.nextToken();
-			int signoN = (signo.equals("1")) ? 4 : (signo.equals("2") ? 1 : 2);
-			pro[indice] += signoN;
+			try {
+				int indice = Integer.parseInt(st.nextToken());
+				String signo = st.nextToken();
+				int signoN = (signo.equals("1")) ? 4 : (signo.equals("2") ? 1 : 2);
+				pro[indice] += signoN;
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 			// log.debug(sb.toString());
 		}
 		for (int i = 0; i < pro.length; i++)
 			apuesta += pro[i];
 
 		// data for test only!!
-		//season = 2013;
-		//round = 9;
-		//user = "pepito@gmail.com";
-		//Get Last Jornada
+		String season=request.getParameter("season");
+		String round=request.getParameter("round");
 		
-		
-		if (userAlterQ != null)
-			user = userAlterQ.getId();
-		else{
-			ErrorDto error = new ErrorDto();
-			error.setIdError("11");
-			error.setStringError("addBet (none user error)");
-			dto.setErrorDto(error);
-			dto.setRound(null);
-			
-			return dto;
-		}
+		int seasonInt = Integer.parseInt(season);
+		int roundInt = Integer.parseInt(round);
 
 		Bet apuestaBet = new Bet();
 		apuestaBet.setBet(apuesta);
-		apuestaBet.setUser(user);
+		apuestaBet.setUser(userAlterQ.getId());
 		StringBuffer sb = new StringBuffer();
 		sb.append("New Bet: season=" + season + " round=" + round + " user=" + apuestaBet.getUser() + " bet=" + apuestaBet.getBet());
 		log.debug(sb.toString());
 
 		// Insert new bet into the BBDD
-		betDao.addBet(season, round, apuestaBet);
+		betDao.addBet(seasonInt, roundInt, apuestaBet);
 
-		// TODO control security
-		
 		return dto;
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "bets", params = { "season", "round" })
+	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "season/{season}/round/{round}")
 	public @ResponseBody
 	RoundBets findAllBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round) {
+		// TODO this call must be request for a AdminUser
 		return betDao.findAllBets(season, round);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "betsUser", params = { "season", "round", "user" })
+	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "season/{season}/round/{round}/user/{id:.+}")
 	public @ResponseBody
-	RoundBets findAllUserBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round,
-			@RequestParam(value = "user") String user) {
-		return betDao.findAllUserBets(season, round, user);
+	ResponseDto findAllUserBetsParams(@PathVariable int season, @PathVariable int round, @PathVariable String id) {
+		ResponseDto dto = new ResponseDto();
+		RoundBets rb=betDao.findAllUserBets(season, round, id);
+		dto.setRoundBet(rb);
+		return dto;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "addBet", params = { "season", "round", "user", "bet" })
@@ -186,4 +172,3 @@ public class BetController {
 	}
 
 }
-

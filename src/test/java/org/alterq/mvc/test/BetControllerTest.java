@@ -46,9 +46,13 @@ public class BetControllerTest {
 		MockHttpSession session = (MockHttpSession) result.getRequest().getSession();
 		auth.andDo(MockMvcResultHandlers.print());
 		Cookie c = result.getResponse().getCookie("session");
-		
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/bet").param("1_1", "on").param("season", "2013").param("round", "1").cookie(c)).andDo(MockMvcResultHandlers.print());
 		
+    }
+    @Test
+    public void findAllUserBetsParams() throws Exception {
+    	this.mockMvc.perform(MockMvcRequestBuilders.get("/bet/season/2013/round/1/user/idmail@arroba.es")).andDo(MockMvcResultHandlers.print());
+    	
     }
     
     
