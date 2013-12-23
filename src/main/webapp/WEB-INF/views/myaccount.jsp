@@ -209,11 +209,13 @@ alert("response.getBets()");
 							$('#menu_User').attr("href", "#");
 							
 							//deberiamos saltar al logo del  index...
+							window.location.href="index";
 						}
 					});
 			    }
 			    else{
 			    	//hay que llamar al login del index...
+			    	window.location.href="index?WHERE=login";
 			    }
 			    return false;
 		});    	     
