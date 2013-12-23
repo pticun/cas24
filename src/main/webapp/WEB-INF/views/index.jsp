@@ -71,7 +71,10 @@
   
     $(document).ready(function() {
 		var userLoged=false;
-		refreshDivs(bLogo);
+		var bGoLogin = location.search.indexOf("WHERE=login",0) == 1;
+
+			refreshDivs(bLogo);
+			
     	var jqxhr =
     	    $.ajax({
     	        url: "${pageContext.request.contextPath}/login",
@@ -83,8 +86,12 @@
 					$('#menu_User').text("Invitado");
 					$('#menu_User').attr("href", "#");
 
-					refreshDivs(bLogo);
-					userLoged=false;
+    				if (bGoLogin)
+    					refreshDivs(bLogin);
+    				else
+    					refreshDivs(bLogo);
+
+    				userLoged=false;
     		    }
     		    else{
     		    	if (response.userAlterQ!=null){
@@ -102,11 +109,13 @@
     					$('#menu_User').text("Invitado");
     					$('#menu_User').attr("href", "#");
 
-    					refreshDivs(bLogo);    					
-    					userLoged=false;
+        				if (bGoLogin)
+        					refreshDivs(bLogin);
+        				else
+        					refreshDivs(bLogo);
+
+        				userLoged=false;
     		    	}
-
-
     		    }
     	    })
     	    .error   (function()     { alert("Error")   ; })

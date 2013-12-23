@@ -96,7 +96,7 @@
 					    	$('#temporada').text(response.errorDto.stringError);
 					    }
 					    else{
-							$('#titleJornada').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
+							$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
 						    $('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
 				
 							$(response.round.games).each(function(index, element){  
@@ -141,7 +141,6 @@
  
     	
 	   	$('#data_Div').click(function(){
-	   		
  	        var url= '${pageContext.request.contextPath}/bet';
         	if(loadBet){
  	        	loadBet=false;
@@ -150,7 +149,7 @@
 	    		    	$('#temporada').text(response.errorDto.stringError);
 	    		    }
 	    		    else{
-						$('#titleJornada').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
+						$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
 					    $('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
 	
 						$(response.round.games).each(function(index, element){  
@@ -231,13 +230,15 @@
 						$('#menu_User').text("Invitado");
 						$('#menu_User').attr("href", "#");
 
-						var new_position = $('index').offset();
-						window.scrollTo(new_position.left,new_position.top);
+						//var new_position = $('index').offset();
+						//window.scrollTo(new_position.left,new_position.top);
+						window.location.href="index";
 					}
 				});
 		    }
 		    else{
 		    	//hay que llamar al login del index...
+		    	window.location.href="index?WHERE=login";
 		    }
 		    return false;
 	});    	 
