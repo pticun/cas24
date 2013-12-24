@@ -24,9 +24,37 @@
 		<link rel="stylesheet" href="<c:url value="/static/resources/css/style-noscript.css"/>" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="<c:url value="/static/resources/css/ie8.css"/>" /><![endif]-->
 	</head>
+	<script type="text/javascript">
+		// left padding s with c to a total of n chars
+		function padding_left(s, c, n) {
+		  if (! s || ! c || s.length >= n) {
+		    return s;
+		  }
+		  var max = (n - s.length)/c.length;
+		  for (var i = 0; i < max; i++) {
+		    s = c + s;
+		  }
+		  return s;
+		}
+		 
+		// right padding s with c to a total of n chars
+		function padding_right(s, c, n) {
+		  if (! s || ! c || s.length >= n) {
+		    return s;
+		  }
+		  var max = (n - s.length)/c.length;
+		  for (var i = 0; i < max; i++) {
+		    s += c;
+		  }
+		  return s;
+		}
+	</script>
+	
   <script type="text/javascript">
 
   var userLoged=false;
+  var loadBet=true;
+  var tableBet;
   
   	//Graphics elements constants 
 	var cMenuSlice	= 0;
@@ -34,6 +62,30 @@
 	var cBalance	= 2;
 	var cMyBets		= 3;
 	
+	function getSign(sign){
+		switch(sign)
+		{
+		case "4": return '1&nbsp;&nbsp;';break;
+		case "2": return '&nbsp;X&nbsp;';break;
+		case "1": return '&nbsp;&nbsp;2';break;
+		case "3": return '&nbsp;X2';break;
+		case "5": return '1&nbsp;2';break;
+		case "6": return '1X&nbsp;';break;
+		case "7": return '1X2';break;
+		default: return '&nbsp;&nbsp;&nbsp;';
+		}
+	}
+	
+	function getTableMatches(bet, loadGames){
+		tableBet='<table style="font-size:16px">';
+		$(loadGames).each(function(index, element){  
+			var temp=padding_right(element.player1+'-'+element.player2,".",28);
+			tableBet+='<tr><td>' + temp + '</td><td align="left">'+ getSign(bet.charAt(index)) + '</td>';
+			tableBet+='</tr>';
+		});
+		tableBet+='</table>';		
+	        return tableBet;
+	}
 	function refreshDivs(elem) {
 		if (elem == cMenuSlice){
 			$('#menuSlice').show();
@@ -141,47 +193,51 @@
  	 });
 
      	var loadUserBets=true;
-		$('#menuSlice_mybets').click(function(){
-			$('#menu_mybets').click();
-			return false;
-		});    	 
-	   	$('#menu_mybets').click(function(){
-	   		
+	   	$('#menuSlice_mybets').click(function(){
 	   		refreshDivs(cMyBets);
 	   		var season=2013;
 	   		var round=11;
 	   		var user="idmail@arroba.es";
 		    		
- 	        var url= '${pageContext.request.contextPath}/bet/betsUser?season='+season+'&round='+round+'&user='+user;
+ 	        //var url= '${pageContext.request.contextPath}/bet/betsUser?season='+season+'&round='+round+'&user='+user;
+ 	        var url= '${pageContext.request.contextPath}/bet/season/'+season+'/round/'+round+'/user/'+user;
         	if(loadUserBets){
         		loadUserBets=false;
 	 	        $.get(url, $(this).serialize(), function(response) {
-	 	        	
-alert(this.url);	 	        	
-//alert((RoundBets)response).getBets());
-	    		    if(response.RoundBets.getBets()!=null){
+	    		    if(response.errorDto!=null){
 	    		    	//$('#temporada').text(response.errorDto.stringError);
-alert("response.getBets()");	    		    	
 						var row="";
 						row+='<article>';
-						row+='<div align="center">SIN APUESTAS</div>';
+						row+='<header>';
+						row+='<div align="center"><h3>SIN APUESTAS</h3></div>';
+						row+='</header>';
 						row+='</article>';
 						$('#userBets').append(row);
 	    		    }
 	    		    else{
-alert("response.getBets()");
+	    		    	//hacemos la llamada para obtener los partidos
+	    		    	var mygames; 
+						var url= '${pageContext.request.contextPath}/bet';
+					     $.get(url, $(this).serialize(), function(response2) {
+					    	 mygames=response2.round.games;
+					     });
+//parece que no le da tiempo a obtener la respuesta de la peticion de los partidos... por lo que si quitamos el alerto no pinta correctamente las apuestas.					     
+alert("Si quitas el alert. Ya no funciona!");	    		    	
 	    		    	//$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
 					    //$('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
-	
-						$(response.getBets).each(function(index, element){  
-							console.log(element);
+						$(response.roundBet.bets).each(function(index, element){
+							console.log("user="+element.user + " bet="+element.bet);
 							var row="";
 							row+='<article>';
-							row+='<div>'+element+'</div>';
+							row+='<header>';
+							row+='<h3> APUESTA '+index+'</h3>';
+							row+='<h3> JORNADA '+response.roundBet.round+'</h3>';
+							response.roundBet.round
+							row+='<div id="apuesta'+index+'"><h3>'+getTableMatches(element.bet, mygames)+'</h3></div>';
+							row+='</header>';
 							row+='</article>';
 							$('#userBets').append(row);
 						});
-						
 						refreshDivs(cMyBets);
 	    		    }
 				});
@@ -271,10 +327,7 @@ alert("response.getBets()");
 
 						<!-- menuBets -->
 						<div id="menuBets" class="carousel">
-							<div class="reel">
-								<div id="userBets">
-				
-								</div>
+							<div id="userBets" class="reel">
 							</div>
 						</div>
 						<!-- menuBets -->
