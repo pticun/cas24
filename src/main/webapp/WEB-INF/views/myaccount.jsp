@@ -215,14 +215,24 @@
 						$('#userBets').append(row);
 	    		    }
 	    		    else{
-	    		    	//hacemos la llamada para obtener los partidos
-	    		    	var mygames; 
+						// Volvemos a dejar las llamadas AJAX síncronas
+						$.ajaxSetup({
+						async: false
+						});
+						
+						//hacemos la llamada para obtener los partidos
+						var mygames; 
 						var url= '${pageContext.request.contextPath}/bet';
 					     $.get(url, $(this).serialize(), function(response2) {
 					    	 mygames=response2.round.games;
 					     });
+					     
+					  	// Volvemos a dejar las llamadas AJAX síncronas
+					     $.ajaxSetup({
+					     async: true
+					     });					     
 //parece que no le da tiempo a obtener la respuesta de la peticion de los partidos... por lo que si quitamos el alerto no pinta correctamente las apuestas.					     
-alert("Si quitas el alert. Ya no funciona!");	    		    	
+//alert("Si quitas el alert. Ya no funciona!");	    		    	
 	    		    	//$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
 					    //$('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
 						$(response.roundBet.bets).each(function(index, element){
