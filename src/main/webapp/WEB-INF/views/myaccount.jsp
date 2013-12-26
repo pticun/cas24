@@ -319,7 +319,7 @@
     
     </script>
 
-    	<body class="homepage" id="bodyClass">
+    	<body class="no-sidebar" id="bodyClass">
 
 		<!-- Header -->
 			<div id="header">
@@ -403,10 +403,10 @@
 								        </tr>
 								   		<tr align="right">
 								   			<td class="partido"><button class="button" onclick="javascript:goToMainMenu();">Menu</button></td>
-								   			<td class="partido"><button type="submit" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button></td>
+								   			<td class="partido"><button type="submit" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
 								        </tr>
 								        </table>
-								        	<div id="userAlterQFormResponse">respuesta </div>
+								        	<div id="userAlterQFormResponse">Actualiza tus datos y pulsa Enviar.</div>
 							        </form>
 								</div>
 							  </div>
@@ -437,10 +437,10 @@
 								        </tr>
 								   		<tr align="right">
 								   			<td class="partido"><button class="button" onclick="javascript:goToMainMenu();">Menu</button></td>
-								   			<td class="partido"><button type="submit" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button></td>
+								   			<td class="partido"><button type="submit" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
 								        </tr>
 								   		</table>
-								         <div id="balanceAlterQFormResponse">respuesta </div>
+								         <div id="balanceAlterQFormResponse">Actualiza tu saldo y pulsa Enviar.</div>
 							        </form>
 								</div>
 							  </div>

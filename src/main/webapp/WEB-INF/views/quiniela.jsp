@@ -54,7 +54,6 @@
 	var userLoged=false;
   	var loadBet=true;
     $(document).ready(function() {
-
     	var jqxhr =
     	    $.ajax({
     	        url: "${pageContext.request.contextPath}/login",
@@ -87,7 +86,6 @@
     					userLoged=false;
     		    	}
     		    }
-
 				var url= '${pageContext.request.contextPath}/bet';
 				if(loadBet){
 				 	loadBet=false;
@@ -112,10 +110,10 @@
 									temp=temp+" "+(index+1);
 								}
 								if(index==0 || index==4 || index==8 || index==11 || index==14){
-									row+='<tr><td class="partidolinea">'+temp+'</td>';
+									row+='<tr id="rowBet_'+index+'"><td class="partidolinea">'+temp+'</td>';
 								}
 								else{
-									row+='<tr><td class="partido">'+temp+'</td>';
+									row+='<tr id="rowBet_'+index+'"><td class="partido">'+temp+'</td>';
 								}
 								row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
 								row+='<label class="quiniela" hidden for="'+index+'_1"><span hidden>1</span></label>';
@@ -144,6 +142,7 @@
     	
 	   	$('#data_Div').click(function(){
  	        var url= '${pageContext.request.contextPath}/bet';
+	        
         	if(loadBet){
  	        	loadBet=false;
 	 	        $.get(url, $(this).serialize(), function(response) {
@@ -165,10 +164,10 @@
 								temp=temp+" "+(index+1);
 							}
 							if(index==0 || index==4 || index==8 || index==11 || index==14){
-								row+='<tr><td class="partidolinea">'+temp+'</td>';
+								row+='<tr id="rowBet_'+index+'"><td class="partidolinea">'+temp+'</td>';
 							}
 							else{
-								row+='<tr><td class="partido">'+temp+'</td>';
+								row+='<tr id="rowBet_'+index+'"><td class="partido">'+temp+'</td>';
 							}
 							row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
 							row+='<label class="quiniela" hidden for="'+index+'_1"><span hidden>1</span></label>';
@@ -203,12 +202,22 @@
 					$('#quinielaFormResponse').text(response.errorDto.stringError);
 				}
 				else{
+					$('#0_1').removeAttr('checked');$('#0_X').removeAttr('checked');$('#0_2').removeAttr('checked');
+					$('#1_1').removeAttr('checked');$('#1_X').removeAttr('checked');$('#1_2').removeAttr('checked');
+					$('#2_1').removeAttr('checked');$('#2_X').removeAttr('checked');$('#2_2').removeAttr('checked');
+					$('#3_1').removeAttr('checked');$('#3_X').removeAttr('checked');$('#3_2').removeAttr('checked');
+					$('#4_1').removeAttr('checked');$('#4_X').removeAttr('checked');$('#4_2').removeAttr('checked');
+					$('#5_1').removeAttr('checked');$('#5_X').removeAttr('checked');$('#5_2').removeAttr('checked');
+					$('#6_1').removeAttr('checked');$('#6_X').removeAttr('checked');$('#6_2').removeAttr('checked');
+					$('#7_1').removeAttr('checked');$('#7_X').removeAttr('checked');$('#7_2').removeAttr('checked');
+					$('#8_1').removeAttr('checked');$('#8_X').removeAttr('checked');$('#8_2').removeAttr('checked');
+					$('#9_1').removeAttr('checked');$('#9_X').removeAttr('checked');$('#9_2').removeAttr('checked');
+					$('#10_1').removeAttr('checked');$('#10_X').removeAttr('checked');$('#10_2').removeAttr('checked');
+					$('#11_1').removeAttr('checked');$('#11_X').removeAttr('checked');$('#11_2').removeAttr('checked');
+					$('#12_1').removeAttr('checked');$('#12_X').removeAttr('checked');$('#12_2').removeAttr('checked');
+					$('#13_1').removeAttr('checked');$('#13_X').removeAttr('checked');$('#13_2').removeAttr('checked');
+					$('#14_1').removeAttr('checked');$('#14_X').removeAttr('checked');$('#14_2').removeAttr('checked');
 					$('#quinielaFormResponse').text("Apuesta realizada correctamente");
-					//$('#nameUserNav').text(response.userAlterQ.name);
-					//move to start page
-					//var new_position = $('#bodyClass').offset();
-					//window.scrollTo(new_position.left,new_position.top);
-					
 				}
 			});
 		    e.preventDefault(); // prevent actual form submit and page reload
@@ -250,7 +259,7 @@
     
     </script>
 	 
-	<body class="homepage" id="bodyClass">
+	<body class="no-sidebar" id="bodyClass">
 
 		<!-- Header -->
 			<div id="header">
@@ -271,7 +280,7 @@
 										<form id="betForm">
 											    <table class="quiniela" id="quinielaTable"></table>
 											    <!-- <input type="submit" value="Enviar"> -->
-											    <div id="quinielaFormResponse">respuesta </div>
+											    <div id="quinielaFormResponse">Rellena tu apuesta y pulsa enviar.</div>
 											    <button id="quinielaButton" class="button" name="quiniela" value="Enviar">Enviar</button>
 										</form>
 									</div>
@@ -295,7 +304,7 @@
 						</nav>
 					
 				
-			</div>
+			</div> 
 
 
 

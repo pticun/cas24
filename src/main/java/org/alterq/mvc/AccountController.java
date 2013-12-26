@@ -50,9 +50,15 @@ public class AccountController {
 			log.debug("idUserAlterQ:" + idUserAlterQ);
 			if (StringUtils.equals(idUserAlterQ, id)) {
 				UserAlterQ userAlterQ = userDao.findById(idUserAlterQ);
-				userAlterQ.setName(user.getName());
-				userAlterQ.setPhoneNumber(user.getPhoneNumber());
+				if(user.getName()!=null)
+					userAlterQ.setName(user.getName());
+				if (user.getPhoneNumber()!=null)
+					userAlterQ.setPhoneNumber(user.getPhoneNumber());
+				if(user.getBalance()!=null)
+					userAlterQ.setBalance(user.getBalance());
+					
 				userDao.save(userAlterQ);
+				
 				dto.setUserAlterQ(userAlterQ);
 			} else {
 				// id not match with sessionID
