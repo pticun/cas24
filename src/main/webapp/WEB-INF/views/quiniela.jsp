@@ -261,8 +261,6 @@
 							<h1><a href="#" id="logo">Quiniela</a></h1>
 						</header>
 
-						<footer>
-
 							<!-- quiniela -->
 							<div id="quinielaDiv">
 								<div class="row flush">
@@ -282,7 +280,7 @@
 								</div>
 							</div>
 							<!-- quiniela -->
-							
+						<footer>
 						</footer>
 
 					</div>

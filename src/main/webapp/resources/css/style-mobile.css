@@ -177,7 +177,7 @@
 		
 			#navPanel .link.depth-0
 			{
-				color: #fff;
+				color: #aaa;
 				font-weight: 600;
 			}
 
@@ -186,7 +186,7 @@
 			#navPanel .indent-3 { display: inline-block; width: 3em; }
 			#navPanel .indent-4 { display: inline-block; width: 4em; }
 			#navPanel .indent-5 { display: inline-block; width: 5em; }
-			#navPanel .depth-0 { color: #fff; }
+			#navPanel .depth-0 { color: #aaa; }
 
 /*********************************************************************************/
 /* Wrapper                                                                       */

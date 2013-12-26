@@ -256,6 +256,7 @@
 						
 				<!-- Inner -->
 					<div class="inner">
+						<!-- <header id="cabecera" style="background-image: url(<c:url value='/static/resources/images/logo.png'/>)"> -->
 						<header id="cabecera">
 							<h1><a href="#" id="logoTitle">alterQ</a></h1>
 							<hr />
@@ -263,6 +264,7 @@
 						</header>
 						<footer>
 							<a id="logoButton" href="quiniela" class="button circled scrolly">Quiniela</a>
+							
 							<!-- login -->
 							<div id="loginDiv">
 								<div class="row flush">
@@ -324,7 +326,7 @@
 										   			<td class="partido"><input type="text" name="phoneNumber" id="phoneNumber"/></td>
 										        </tr>
 										   		<tr align="right">
-										   			<td class="partido">&nbsp</td>
+										   			<td class="partido">&nbsp;</td>
 										   			<td class="partido"><button id="login_btn" class="button" name="signup" value="signup">signup</button></td>
 										        </tr>
 									   		</table>
@@ -360,9 +362,9 @@
 							<!-- Contact -->
 								<section class="contact">
 									<header>
-										<h3>Â¿Quieres estar bien informado?</h3>
+										<h3>¿Quieres estar bien informado?</h3>
 									</header>
-									<p>SÃ­guenos a travÃ©s de las redes sociales y haz de las quinielas tu vida.</p>
+									<p>Sí­guenos a través de las redes sociales y haz de las quinielas tu vida.</p>
 									<ul class="icons">
 										<li><a href="#" class="icon icon-twitter"><span>Twitter</span></a></li>
 										<li><a href="#" class="icon icon-facebook"><span>Facebook</span></a></li>

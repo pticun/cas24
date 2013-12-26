@@ -62,6 +62,10 @@
 	var cBalance	= 2;
 	var cMyBets		= 3;
 	
+	function goToMainMenu(){
+		$('#button_menuMain').click();
+		return false;
+	}
 	function getSign(sign){
 		switch(sign)
 		{
@@ -92,28 +96,32 @@
 			$('#mydataDiv').hide();
 			$('#balanceDiv').hide();
 			$('#menuBets').hide();
-			
+			$('#logoTitle').text("Mi Cuenta");			
 		}
 		if (elem == cMyData){
 			$('#menuSlice').hide();
 			$('#mydataDiv').show();
 			$('#balanceDiv').hide();
 			$('#menuBets').hide();
+			$('#logoTitle').text("Mis Datos");
 		}
 		if (elem == cBalance){
 			$('#menuSlice').hide();
 			$('#mydataDiv').hide();
 			$('#balanceDiv').show();
 			$('#menuBets').hide();
+			$('#logoTitle').text("Mi Saldo");
 		}
 		if (elem == cMyBets){
 			$('#menuSlice').hide();
 			$('#mydataDiv').hide();
 			$('#balanceDiv').hide();
 			$('#menuBets').show();
+			$('#logoTitle').text("Mis Apuestas");			
 		}
 	}  
     $(document).ready(function() {
+    	refreshDivs(cMenuSlice);
     	var jqxhr =
     	    $.ajax({
     	        url: "${pageContext.request.contextPath}/login",
@@ -172,9 +180,10 @@
 			refreshDivs(cMenuSlice);
 			return false;
 		});    	 
-	   	  	 
+
     	 $('#myDataForm').submit(function(e) {
  	        console.log('update:userAlterQForm');
+ 	        
 	        // will pass the form date using the jQuery serialize function
  	        var url= '${pageContext.request.contextPath}/myaccount/'+ $('#id').val();
  	        $.post(url, $(this).serialize(), function(response) {
@@ -183,14 +192,26 @@
 	    		    }
 	    		    else{
 						$('#userAlterQFormResponse').text(response.userAlterQ.name);
-						$('#nameUserNav').text(response.userAlterQ.name);
-						//move to start page
-//						var new_position = $('#bodyClass').offset();
-//		    		    window.scrollTo(new_position.left,new_position.top);
 	    		    }
 			});
  	        e.preventDefault(); // prevent actual form submit and page reload
- 	 });
+		 });
+			  	 
+	  	 $('#balanceAlterQForm').submit(function(e) {
+		        console.log('update:balanceAlterQForm');
+		        
+	        // will pass the form date using the jQuery serialize function
+		        var url= '${pageContext.request.contextPath}/myaccount/'+ $('#id').val();
+		        $.post(url, $(this).serialize(), function(response) {
+	    		    if(response.errorDto!=null){
+	    		    	$('#balanceAlterQFormResponse').text(response.errorDto.stringError);
+	    		    }
+	    		    else{
+						$('#balanceAlterQFormResponse').text(response.userAlterQ.name);
+	    		    }
+			});
+		        e.preventDefault(); // prevent actual form submit and page reload
+		 });
 
      	var loadUserBets=true;
 	   	$('#menuSlice_mybets').click(function(){
@@ -204,6 +225,7 @@
         	if(loadUserBets){
         		loadUserBets=false;
 	 	        $.get(url, $(this).serialize(), function(response) {
+	 	        	
 	    		    if(response.errorDto!=null){
 	    		    	//$('#temporada').text(response.errorDto.stringError);
 						var row="";
@@ -215,7 +237,7 @@
 						$('#userBets').append(row);
 	    		    }
 	    		    else{
-						// Volvemos a dejar las llamadas AJAX síncronas
+						// Dejamos las llamadas AJAX síncronas
 						$.ajaxSetup({
 						async: false
 						});
@@ -227,12 +249,10 @@
 					    	 mygames=response2.round.games;
 					     });
 					     
-					  	// Volvemos a dejar las llamadas AJAX síncronas
+					  	// Volvemos a dejar las llamadas AJAX asíncronas
 					     $.ajaxSetup({
 					     async: true
 					     });					     
-//parece que no le da tiempo a obtener la respuesta de la peticion de los partidos... por lo que si quitamos el alerto no pinta correctamente las apuestas.					     
-//alert("Si quitas el alert. Ya no funciona!");	    		    	
 	    		    	//$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
 					    //$('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
 						$(response.roundBet.bets).each(function(index, element){
@@ -250,7 +270,16 @@
 						});
 						refreshDivs(cMyBets);
 	    		    }
-				});
+				}).error(function(){
+					var row="";
+					row+='<article>';
+					row+='<header>';
+					row+='<div align="center"><h3>&nbsp;</h3><h3>ERROR AL OBTENER</h3><h3>LAS APUESTAS</h3></div>';
+					row+='</header>';
+					row+='</article>';
+					$('#userBets').append(row);
+				}
+				);
  	        }
 		    return false;
 		});
@@ -298,7 +327,7 @@
 				<!-- Inner -->
 					<div class="inner">
 						<header>
-							<h1><a href="#" id="logo">Mi Cuenta</a></h1>
+							<h1><a href="#" id="logoTitle">Mi Cuenta</a></h1>
 						</header>
 
 						<!-- menuSlice -->
@@ -339,6 +368,7 @@
 						<div id="menuBets" class="carousel">
 							<div id="userBets" class="reel">
 							</div>
+							<button id="button_menuMain" class="button" name="menuMain" value="menuMain">Menu</button>
 						</div>
 						<!-- menuBets -->
 
@@ -372,8 +402,8 @@
 								   			<td class="partido"><input name="phoneNumber" id="phoneNumber" type="text"/></td>
 								        </tr>
 								   		<tr align="right">
-								   			<td class="partido"><button id="button_menuMain" class="button" name="menuMain" value="menuMain">Menu</button></td>
-								   			<td class="partido"><button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button></td>
+								   			<td class="partido"><button class="button" onclick="javascript:goToMainMenu();">Menu</button></td>
+								   			<td class="partido"><button type="submit" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button></td>
 								        </tr>
 								        </table>
 								        	<div id="userAlterQFormResponse">respuesta </div>
@@ -406,8 +436,8 @@
 								   			<td class="partido"><input name="balance" id="balance" type="text"/></td>
 								        </tr>
 								   		<tr align="right">
-								   			<td class="partido"><button id="button_menuMain" class="button" name="menuMain" value="menuMain">Menu</button></td>
-								   			<td class="partido"><button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button></td>
+								   			<td class="partido"><button class="button" onclick="javascript:goToMainMenu();">Menu</button></td>
+								   			<td class="partido"><button type="submit" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Submit</button></td>
 								        </tr>
 								   		</table>
 								         <div id="balanceAlterQFormResponse">respuesta </div>
