@@ -219,7 +219,7 @@
 	   		var season=2013;
 	   		var round=11;
 	   		var user=$('#id').val();
-alert(user);		    		
+		    		
  	        //var url= '${pageContext.request.contextPath}/bet/betsUser?season='+season+'&round='+round+'&user='+user;
  	        var url= '${pageContext.request.contextPath}/bet/season/'+season+'/round/'+round+'/user/'+user;
         	if(loadUserBets){
