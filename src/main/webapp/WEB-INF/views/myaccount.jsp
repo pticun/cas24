@@ -122,6 +122,7 @@
 	}  
     $(document).ready(function() {
     	refreshDivs(cMenuSlice);
+    	
     	var jqxhr =
     	    $.ajax({
     	        url: "${pageContext.request.contextPath}/login",
@@ -168,10 +169,12 @@
  
     	
 	   	$('#menuSlice_mydata').click(function(){
+	   		$('#userAlterQFormResponse').text("Actualiza tus datos y pulsa Enviar.");
    			refreshDivs(cMyData);
 		    return false;
 	});    	 
 		$('#menuSlice_balance').click(function(){
+			$('#balanceAlterQFormResponse').text("Actualiza tu saldo y pulsa Enviar.");
 			refreshDivs(cBalance);
 			return false;
 		});    	 
@@ -191,7 +194,7 @@
 	    		    	$('#userAlterQFormResponse').text(response.errorDto.stringError);
 	    		    }
 	    		    else{
-						$('#userAlterQFormResponse').text(response.userAlterQ.name);
+						$('#userAlterQFormResponse').text(response.userAlterQ.name+", tus datos han sido actualizados.");
 	    		    }
 			});
  	        e.preventDefault(); // prevent actual form submit and page reload
@@ -207,7 +210,7 @@
 	    		    	$('#balanceAlterQFormResponse').text(response.errorDto.stringError);
 	    		    }
 	    		    else{
-						$('#balanceAlterQFormResponse').text(response.userAlterQ.name);
+						$('#balanceAlterQFormResponse').text(response.userAlterQ.name+", tu saldo ha sido actualizado.");
 	    		    }
 			});
 		        e.preventDefault(); // prevent actual form submit and page reload
