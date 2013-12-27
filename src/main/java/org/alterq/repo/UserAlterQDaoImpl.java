@@ -57,7 +57,7 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 		UserAlterQ dao = mongoTemplate.findById(id, UserAlterQ.class,COLLECTION_NAME);
 		if (dao==null)
 			return null;
-		String hashedAndSalted = dao.getPwd();
+		String hashedAndSalted = password;
 		
 		if(!hashedAndSalted.equals(dao.getPwd())){
 			System.out.println("Submitted password is not a match");

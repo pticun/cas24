@@ -109,3 +109,10 @@ X2 = 011	=3
 12=101		=5
 1X2 =111	=7
 ==
+
+Comentarios GIT
+	ARC arquitectura
+	MVC modelo-vista-controlador 
+	WEB json-html
+	MOB	mobile
+	
