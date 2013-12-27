@@ -1,3 +1,5 @@
+0.2.0
+
 Spring Framework on OpenShift with JBoss EAP 6
 ==============================================
 
