@@ -222,13 +222,17 @@
 	   		var season=2013;
 	   		var round=11;
 	   		var user=$('#id').val();
+
+	   		// Dejamos las llamadas AJAX síncronas
+			$.ajaxSetup({
+			async: false
+			});
 		    		
  	        //var url= '${pageContext.request.contextPath}/bet/betsUser?season='+season+'&round='+round+'&user='+user;
  	        var url= '${pageContext.request.contextPath}/bet/season/'+season+'/round/'+round+'/user/'+user;
         	if(loadUserBets){
         		loadUserBets=false;
 	 	        $.get(url, $(this).serialize(), function(response) {
-	 	        	
 	    		    if(response.errorDto!=null){
 	    		    	//$('#temporada').text(response.errorDto.stringError);
 						var row="";
@@ -240,10 +244,6 @@
 						$('#userBets').append(row);
 	    		    }
 	    		    else{
-						// Dejamos las llamadas AJAX síncronas
-						$.ajaxSetup({
-						async: false
-						});
 						
 						//hacemos la llamada para obtener los partidos
 						var mygames; 
@@ -252,10 +252,6 @@
 					    	 mygames=response2.round.games;
 					     });
 					     
-					  	// Volvemos a dejar las llamadas AJAX asíncronas
-					     $.ajaxSetup({
-					     async: true
-					     });					     
 	    		    	//$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
 					    //$('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
 						$(response.roundBet.bets).each(function(index, element){
@@ -284,6 +280,12 @@
 				}
 				);
  	        }
+        	
+		  	// Volvemos a dejar las llamadas AJAX asíncronas
+		     $.ajaxSetup({
+		     async: true
+		     });					     
+        	
 		    return false;
 		});
 
