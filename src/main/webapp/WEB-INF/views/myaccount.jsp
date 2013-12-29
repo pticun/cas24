@@ -139,7 +139,7 @@
     		    else{
     		    	if (response.userAlterQ!=null){
     					$('#menu_Login').text("Logout");
-    					$('#menu_Login').attr("href", "Logout");
+    					//$('#menu_Login').attr("href", "Logout");
     					$('#menu_User').text(response.userAlterQ.name);
     					$('#menu_User').attr("href", "myaccount");
 

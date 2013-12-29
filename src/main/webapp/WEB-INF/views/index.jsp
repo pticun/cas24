@@ -95,7 +95,7 @@
     		    else{
     		    	if (response.userAlterQ!=null){
     					$('#menu_Login').text("Logout");
-    					$('#menu_Login').attr("href", "Logout");
+    					//$('#menu_Login').attr("href", "Logout");
     					$('#menu_User').text(response.userAlterQ.name);
     					$('#menu_User').attr("href", "myaccount");
 
@@ -120,49 +120,6 @@
     	    .error   (function()     { alert("Error")   ; })
 //    	    .complete(function()     { alert("complete"); })
     	    ;    	
-    	
-		$('#betForm').submit(function(e) {
-			console.log('betForm');
-			// will pass the form date using the jQuery serialize function
-			var url= '${pageContext.request.contextPath}/bet/';
-			$.post(url, $(this).serialize(), function(response) {
-				if(response.errorDto!=null){
-					$('#quinielaFormResponse').text(response.errorDto.stringError);
-				}
-				else{
-					$('#rowBetTitle').remove();
-					$('#rowLine_0').remove();
-					$('#rowLine_4').remove();
-					$('#rowLine_8').remove();
-					$('#rowLine_11').remove();
-					$('#rowLine_14').remove();
-					$('#rowBet_1').remove();
-					$('#rowBet_2').remove();
-					$('#rowBet_3').remove();
-					$('#rowBet_4').remove();
-					$('#rowBet_5').remove();
-					$('#rowBet_6').remove();
-					$('#rowBet_7').remove();
-					$('#rowBet_8').remove();
-					$('#rowBet_9').remove();
-					$('#rowBet_10').remove();
-					$('#rowBet_11').remove();
-					$('#rowBet_12').remove();
-					$('#rowBet_13').remove();
-					$('#rowBet_14').remove();
-					$('#rowBet_15').remove();
-					$('#quinielaFormResponse').text("Apuesta realizada correctamente");
-					//$('#nameUserNav').text(response.userAlterQ.name);
-					//move to start page
-					//var new_position = $('#bodyClass').offset();
-					//window.scrollTo(new_position.left,new_position.top);
-					
-				}
-			});
-		    e.preventDefault(); // prevent actual form submit and page reload
-		});
-    	
-    	
     	
     	
     	 $('#loginForm').submit(function(e) {
@@ -203,14 +160,16 @@
 	    		    }
  			   	 });
     	        e.preventDefault(); // prevent actual form submit and page reload
-    	 }); 
+    	 });
+    	 
+    	 
     	 $('#menu_Login').click(function(){
     		    //var jump = $(this).attr('href');
     		    //var new_position = $('#'+jump).offset();
     		    //window.scrollTo(new_position.left,new_position.top);
     		    $('#logoTitle').text("Login");
     		    if (userLoged){
-    				console.log('Hay usuario, vamos a hacer el logoTitleut');
+    				console.log('Hay usuario, vamos a hacer el logout');
     				// will pass the form date using the jQuery serialize function
     				var url= '${pageContext.request.contextPath}/logout';
     				$.get(url, $(this).serialize(), function(response) {
@@ -234,8 +193,9 @@
 					refreshDivs(bLogin);
     		    }
     		    return false;
-    	});    	 
-    	 $('#signup_Div').click(function(){
+    	});
+    	 
+    	$('#signup_Div').click(function(){
     		 	$('#logoTitle').text("Sign up");
     		    //var jump = $(this).attr('href');
     		    //var new_position = $('#'+jump).offset();
