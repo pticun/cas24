@@ -169,7 +169,7 @@
     		    $('#logoTitle').text("Login");
     		    if (userLoged){
 					if( (window['console'] !== undefined) ){
-	    				console.log('Hay usuario, vamos a hacer el logoTitleut');
+    					console.log('Hay usuario, vamos a hacer el logout');
 				    }
     				// will pass the form date using the jQuery serialize function
     				var url= '${pageContext.request.contextPath}/logout';
