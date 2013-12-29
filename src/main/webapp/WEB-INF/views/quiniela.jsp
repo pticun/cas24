@@ -100,7 +100,9 @@
 						    $('#quinielaTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
 				
 							$(response.round.games).each(function(index, element){  
-								console.log(element);
+								if( (window['console'] !== undefined) ){
+									console.log(element);
+							    }
 								var row="";
 								var temp=padding_right(element.player1+'-'+element.player2,".",28);
 								if(index>8){
@@ -154,7 +156,9 @@
 					    $('#quinielaTable').append('<tr class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
 	
 						$(response.round.games).each(function(index, element){  
-							console.log(element);
+							if( (window['console'] !== undefined) ){
+								console.log(element);
+						    }
 							var row="";
 							var temp=padding_right(element.player1+'-'+element.player2,".",28);
 							if(index>8){
@@ -227,7 +231,9 @@
    	 $('#menu_Login').click(function(){
    		 
 		    if (userLoged){
-				console.log('Hay usuario, vamos a hacer el logoTitleut');
+				if( (window['console'] !== undefined) ){
+					console.log('Hay usuario, vamos a hacer el logoTitleut');
+			    }
 				// will pass the form date using the jQuery serialize function
 				var url= '${pageContext.request.contextPath}/logout';
 				$.get(url, $(this).serialize(), function(response) {

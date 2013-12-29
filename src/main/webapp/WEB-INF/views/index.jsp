@@ -31,7 +31,6 @@
   	var bLogin=2;
   	var bSign=3;
   	
-	
 	function refreshDivs(elem) {
 		if (elem == bLogo){
 			$('#logoTitle').show();
@@ -169,7 +168,9 @@
     		    //window.scrollTo(new_position.left,new_position.top);
     		    $('#logoTitle').text("Login");
     		    if (userLoged){
-    				console.log('Hay usuario, vamos a hacer el logout');
+					if( (window['console'] !== undefined) ){
+	    				console.log('Hay usuario, vamos a hacer el logoTitleut');
+				    }
     				// will pass the form date using the jQuery serialize function
     				var url= '${pageContext.request.contextPath}/logout';
     				$.get(url, $(this).serialize(), function(response) {
