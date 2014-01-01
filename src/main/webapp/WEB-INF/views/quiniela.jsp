@@ -265,7 +265,7 @@
     
     </script>
 	 
-	<body class="no-sidebar" id="bodyClass">
+	<body class="homepage" id="bodyClass">
 
 		<!-- Header -->
 			<div id="header">
