@@ -47,14 +47,14 @@
 		ul.icons
 		{
 			background: #333;
-			-ms-behavior: url('css/PIE.htc');
+			-ms-behavior: url('../css/PIE.htc');
 		}
 
 	/* Buttons */
 		
 		.button
 		{
-			-ms-behavior: url('css/PIE.htc');
+			-ms-behavior: url('../css/PIE.htc');
 		}
 
 /*********************************************************************************/
@@ -69,7 +69,7 @@
 
 		.icon.circled
 		{
-			-ms-behavior: url('css/PIE.htc');
+			-ms-behavior: url('../css/PIE.htc');
 		}
 
 /*********************************************************************************/
@@ -78,7 +78,7 @@
 
 	#header
 	{
-		-ms-behavior: url('css/backgroundsize.min.htc');
+		-ms-behavior: url('../css/backgroundsize.min.htc');
 	}
 
 /*********************************************************************************/
@@ -102,7 +102,7 @@
 
 			#nav > ul > li
 			{
-				-ms-behavior: url('css/PIE.htc');
+				-ms-behavior: url('../css/PIE.htc');
 			}
 
 				#nav > ul > li.active
@@ -113,7 +113,7 @@
 	.dropotron
 	{
 		background: #fff;
-		-ms-behavior: url('css/PIE.htc');
+		-ms-behavior: url('../css/PIE.htc');
 	}
 
 		.dropotron li
@@ -145,7 +145,7 @@
 			height: 7em;
 			margin-top: -3.5em;
 			border-radius: 100%;
-			-ms-behavior: url('css/PIE.htc');
+			-ms-behavior: url('../css/PIE.htc');
 		}
 
 			.carousel .forward
@@ -189,7 +189,6 @@
 			color: #777;
 		}
 
-			#footer .copyright a
 			{
 				color: #aaa;
 				border: 0;
