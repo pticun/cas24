@@ -79,7 +79,7 @@
     		    	}
     		    	else{
     					$('#menu_Login').text("Login");
-    					//$('#menu_Login').attr("href", "loginDiv");
+    					$('#menu_Login').attr("href", "index?WHERE=login");
     					$('#menu_User').text("Invitado");
     					$('#menu_User').attr("href", "#");
 
@@ -243,7 +243,7 @@
 						userLoged=false;
 						
 						$('#menu_Login').text("Login");
-						//$('#menu_Login').attr("href", "loginDiv");
+						$('#menu_Login').attr("href", "index?WHERE=login");
 						$('#menu_User').text("Invitado");
 						$('#menu_User').attr("href", "#");
 
@@ -303,7 +303,7 @@
 						<nav id="nav">
 							<ul>
 							<li><a id="menu_Index" href="index">Inicio</a></li>
-							<li><a id="menu_Login" href="#">Login</a></li>
+							<li><a id="menu_Login" href="index?WHERE=login">Login</a></li>
 							<li><a id="menu_Quiniela" href="quiniela" >Quiniela</a></li>
 							<li><a href="#" id="menu_User">Invitado</a></li>
 							</ul>

@@ -33,6 +33,7 @@
   	
 	function refreshDivs(elem) {
 		if (elem == bLogo){
+			$('#logoTitle').text("alterQ");
 			$('#logoTitle').show();
 			$('#logoSubtitle').show();
 			$('#logoButton').show();
@@ -44,18 +45,24 @@
 			$('#signupFormResponse').hide();
 		}
 		if (elem == bLogin){
+			$('#logoTitle').text("Login");
 			$('#logoTitle').show();
 			$('#logoSubtitle').hide();
 			$('#logoButton').hide();
 
 			$('#loginDiv').show("blind");
 			$('#loginFormResponse').show();
-
+			
+			$('#menu_Login').text("Login");
+			$('#menu_Login').attr("href", "index?WHERE=login");		
+			
 			$('#signupDiv').hide();
 			$('#signupFormResponse').hide();
 		}		
 		if(elem == bSign){
+			$('#logoTitle').text("Sign up");
 			$('#logoTitle').show();
+			
 			$('#logoSubtitle').hide();
 			$('#logoButton').hide();
 
@@ -80,7 +87,7 @@
     	    .success (function(response) { 
     		    if(response.errorDto!=null){
 					$('#menu_Login').text("Login");
-					//$('#menu_Login').attr("href", "loginDiv");
+					$('#menu_Login').attr("href", "index?WHERE=login");
 					$('#menu_User').text("Invitado");
 					$('#menu_User').attr("href", "#");
 
@@ -104,6 +111,7 @@
     		    	else{
     					$('#menu_Login').text("Login");
     					//$('#menu_Login').attr("href", "loginDiv");
+    					$('#menu_Login').attr("href", "index?WHERE=login");
     					$('#menu_User').text("Invitado");
     					$('#menu_User').attr("href", "#");
 
@@ -178,7 +186,7 @@
     					}
     					else{
     						$('#menu_Login').text("Login");
-    						//$('#menu_Login').attr("href", "loginDiv");
+    						$('#menu_Login').attr("href", "index?WHERE=login");
     						$('#menu_User').text("Invitado");
     						$('#menu_User').attr("href", "#");
     						
@@ -226,7 +234,6 @@
 							<a id="logoButton" href="quiniela" class="button circled scrolly">Quiniela</a>
 							
 							<!-- login -->
-							<a name="loginGo" ></a>
 							<div id="loginDiv">
 								<div class="row flush">
 								  <div class="4u">&nbsp;</div>
@@ -306,7 +313,7 @@
 					<nav id="nav">
 						<ul>
 							<li><a id="menu_Index" href="index">Inicio</a></li>
-							<li><a id="menu_Login" href="#">Login</a></li>
+							<li><a id="menu_Login" href="index?WHERE=login">Login</a></li>
 							<li><a id="menu_Quiniela" href="quiniela" >Quiniela</a></li>
 							<li><a href="#" id="menu_User">Invitado</a></li>
 						</ul>
