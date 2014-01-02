@@ -22,11 +22,11 @@
 	{
 	}
 
-		#header .inner
-		{
-			padding-left: 2em;
-			padding-right: 2em;
-		}
+	#header .inner
+	{
+		padding-left: 2em;
+		padding-right: 2em;
+	}
 	
 /*********************************************************************************/
 /* Banner                                                                        */
@@ -47,3 +47,4 @@
 		padding-left: 2em;
 		padding-right: 2em;
 	}
+	

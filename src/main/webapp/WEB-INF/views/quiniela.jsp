@@ -281,7 +281,7 @@
 								<div class="row flush">
 								  <div class="4u">&nbsp;</div>
 								  <div class="4u">
-									<div align="center">
+									<div align="center" style="width:576px">
 										<span class="byline" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></span>										
 										<form id="betForm">
 											    <table class="quiniela" id="quinielaTable"></table>
