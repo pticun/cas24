@@ -1,0 +1,43 @@
+CLIENT
+
+MAIN MENU
+	1-INDEX
+		linkTo-- QUINIELA
+	2-LOGIN
+		linkTo--Login
+			  --Logout
+			  --Sign Up
+			  --Remember Password	
+	3-QUINIELA
+		linkTo--quiniela
+					linkTo--bet
+								linkTo--confirmBet
+										linkTo--resultBet
+						  --CalculatePrice
+	4-USER
+		linkTo--myaccount
+					linkTo--myData
+						  --myBalance
+						  		linkTo--IncreaseCash
+						  			  --ReduceCash
+						  --myBets
+						  		linkTo--viewBetHistorical (choose Sesion & Round)
+						  --myAutomaticBets
+	5-RANKING
+		linkTo--GLobal Ranking
+			  --Specific Sesion&Round Ranking
+	6-CONTACT
+		linkTo--contact + information alterQ
+	
+ADMIN
+
+FUNCTIONS
+	-Select Actual Sesion & Round
+	-Open & Close Round
+	-Insert Sesion&Round Matches
+	-Make Final Quiniela
+	-Broadcast messages (mail, social nets, and mobile apps)
+	-Insert Round Results
+	-Calculate Ranking
+	-Repayment Prices & Jackpot
+	 
