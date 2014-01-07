@@ -81,7 +81,7 @@
 	}
 	
 	function getTableMatches(bet, loadGames){
-		tableBet='<table style="font-size:16px">';
+		tableBet='<table style="font-size:14px">';
 		$(loadGames).each(function(index, element){  
 			var temp=padding_right(element.player1+'-'+element.player2,".",28);
 			tableBet+='<tr><td>' + temp + '</td><td align="left">'+ getSign(bet.charAt(index)) + '</td>';
@@ -273,7 +273,7 @@
 					var row="";
 					row+='<article>';
 					row+='<header>';
-					row+='<div align="center"><h3>&nbsp;</h3><h3>ERROR AL OBTENER</h3><h3>LAS APUESTAS</h3></div>';
+					row+='<div><h3>&nbsp;</h3><h3>ERROR AL OBTENER</h3><h3>LAS APUESTAS</h3></div>';
 					row+='</header>';
 					row+='</article>';
 					$('#userBets').append(row);
@@ -370,8 +370,8 @@
 						<!-- menuSlice -->
 
 						<!-- menuBets -->
-						<div id="menuBets" class="carousel">
-							<div id="userBets" class="reel">
+						<div id="menuBets" class="carousel" align="center">
+							<div id="userBets" class="reel" align="center">
 							</div>
 							<button id="button_menuMain" class="button" name="menuMain" value="menuMain">Menu</button>
 						</div>

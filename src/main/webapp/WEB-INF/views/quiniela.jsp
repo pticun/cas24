@@ -268,16 +268,16 @@
 	<body class="homepage" id="bodyClass">
 
 		<!-- Header -->
-			<div id="header">
+			<div id="header" align="center">
 						
 				<!-- Inner -->
-					<div class="inner">
+					<div class="inner" align="center">
 						<header>
 							<h1><a href="#" id="logo">Quiniela</a></h1>
 						</header>
 
 							<!-- quiniela -->
-							<div id="quinielaDiv">
+							<div id="quinielaDiv" align="center">
 								<div class="row flush">
 								  <div class="4u">&nbsp;</div>
 								  <div class="4u">
