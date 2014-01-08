@@ -49,6 +49,10 @@
 		  }
 		  return s;
 		}
+		function calculatePrice(){
+			$('#quinielaPrice').text("10");
+			return false;
+		}		
 	</script>
   <script type="text/javascript">
 	var userLoged=false;
@@ -128,7 +132,7 @@
 								row+='</td>';
 								row+='</tr>';
 								$('#quinielaTable').append(row);
-							})
+							});
 							
 							
 							//$('#dataDiv').show();
@@ -184,7 +188,7 @@
 							row+='</td>';
 							row+='</tr>';
 							$('#quinielaTable').append(row);
-						})
+						});
 						
 						
 						//$('#dataDiv').show();
@@ -278,21 +282,29 @@
 
 							<!-- quiniela -->
 							<div id="quinielaDiv" align="center">
-								<div class="row flush">
-								  <div class="4u">&nbsp;</div>
-								  <div class="4u">
+								<div class="row flush" align="center">
+								  <div class="4u" align="center">&nbsp;</div>
+								  <div class="4u" align="center">
 									<div align="center" style="width:576px">
 										<span class="byline" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></span>										
 										<form id="betForm">
 											    <table class="quiniela" id="quinielaTable"></table>
 											    <!-- <input type="submit" value="Enviar"> -->
-											    <div id="quinielaFormResponse">Rellena tu apuesta y pulsa enviar.</div>
+											    <div align="center" id="quinielaFormResponse">Rellena tu apuesta y pulsa enviar.</div>
 											    <button id="quinielaButton" class="button" name="quiniela" value="Enviar">Enviar</button>
 										</form>
 									</div>
 								  </div>
-								  <div class="2u">&nbsp;</div>
+								  <div align="center" class="2u">&nbsp;</div>
 								</div>
+							    <div align="center">
+								    <span id="quinielaPriceCaption">PRECIO:</span>
+								    <span id="quinielaPrice">0</span>
+								    <span id="quinielaPriceEur"> EUR</span>
+							    </div>
+							    <div align="center">
+								    <button class="button" onclick="javascript:calculatePrice();">Precio</button>
+							    </div>
 							</div>
 							<!-- quiniela -->
 						<footer>
@@ -327,9 +339,9 @@
 							<!-- Contact -->
 								<section class="contact">
 									<header>
-										<h3>¿Quieres estar bien informado?</h3>
+										<h3>Â¿Quieres estar bien informado?</h3>
 									</header>
-									<p>Síguenos a través de las redes sociales y haz de las quinielas tu vida.</p>
+									<p>SÃ­guenos a travÃ©s de las redes sociales y haz de las quinielas tu vida.</p>
 									<ul class="icons">
 										<li><a href="#" class="icon icon-twitter"><span>Twitter</span></a></li>
 										<li><a href="#" class="icon icon-facebook"><span>Facebook</span></a></li>
