@@ -59,6 +59,65 @@ public class BetController {
 		return dto;
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "price")
+	public @ResponseBody
+	ResponseDto price(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request) {
+		if (log.isDebugEnabled()) {
+			log.debug("init BetController.price");
+			log.debug("session:" + cookieSession);
+		}
+/*		
+		UserAlterQ userAlterQ = null;
+		if (StringUtils.isNotBlank(cookieSession)) {
+			String idUserAlterQ = sessionDao.findUserAlterQIdBySessionId(cookieSession);
+			userAlterQ = userDao.findById(idUserAlterQ);
+		}
+*/		
+		// TODO control security
+		ResponseDto dto = new ResponseDto();
+/*		
+		if(userAlterQ==null){
+			ErrorDto error = new ErrorDto();
+			error.setIdError(ErrorType.USER_NOT_IN_SESSION);
+			error.setStringError("user not in Session (i18n error)");
+			dto.setErrorDto(error);
+			dto.setUserAlterQ(null);
+			return dto;
+		}
+*/
+		int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		int dobles = 0;
+		int triples = 0;
+
+		Map<String, String[]> parameters = request.getParameterMap();
+		for (String parameter : parameters.keySet()) {
+			StringTokenizer st = new StringTokenizer(parameter, "_");
+			try {
+				int indice = Integer.parseInt(st.nextToken());
+				String signo = st.nextToken();
+				int signoN = (signo.equals("1")) ? 4 : (signo.equals("2") ? 1 : 2);
+				pro[indice] += signoN;
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			// log.debug(sb.toString());
+		}
+		for (int i = 0; i < pro.length; i++){
+			if ((pro[i] == 3)||(pro[i] == 5)||(pro[i] == 6))
+				dobles++;
+			else if (pro[i] == 7)
+				triples++;
+		}
+
+		dto.setPrice( 0.5 * Math.pow(2, dobles)* Math.pow(3, triples) );
+
+		// Insert new bet into the BBDD
+		//betDao.addBet(seasonInt, roundInt, apuestaBet);
+
+		return dto;
+
+	}
+
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseDto addBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request) {

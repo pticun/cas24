@@ -9,6 +9,15 @@ public class ResponseDto {
 	private ErrorDto errorDto;
 	private Round jornada;
 	private RoundBets roundBet;
+	private double price;
+	
+	public double getPrice(){
+		return price;
+	}
+
+	public void setPrice(double price){
+		this.price = price;
+	}
 
 	public UserAlterQ getUserAlterQ() {
 		return userAlterQ;
