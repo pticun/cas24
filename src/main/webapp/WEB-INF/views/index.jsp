@@ -206,14 +206,20 @@
     	});
     	 
     	$('#signup_Div').click(function(){
-    		 	$('#logoTitle').text("Sign up");
-    		    //var jump = $(this).attr('href');
-    		    //var new_position = $('#'+jump).offset();
-    		    //window.scrollTo(new_position.left,new_position.top);
-				refreshDivs(bSign);
-    		    return false;
-    	});    	 
-    	 
+			$('#logoTitle').text("Sign up");
+		    //var jump = $(this).attr('href');
+		    //var new_position = $('#'+jump).offset();
+		    //window.scrollTo(new_position.left,new_position.top);
+			refreshDivs(bSign);
+   		    return false;
+    	});    
+    	$('#forgetPwd_Div').click(function(){
+    		var selectedEffect="clip";
+    		var options = {};
+    		$("#resetpwd").toggle(selectedEffect, options, 500 );
+   		    return false;
+    	});    	     	
+    	
     });
     
     </script>
@@ -242,9 +248,9 @@
 									<div align="center">
 									   <form id="loginForm">
 									   		<table class="quiniela">
-									   			<TR class="quinielatitulo">
-													<TD colspan="2">Login</TD>
-												</TR>
+									   			<tr class="quinielatitulo">
+													<td colspan="2">Login</td>
+												</tr>
 										   		<tr>
 										   			<td class="partido">Username:</td>
 										   			<td class="partido"><input id="id" name="id" type="text"/></td>
@@ -258,8 +264,19 @@
 										   			<td class="partido"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
 										        </tr>
 									   		</table>
-									   		<a href="signupDiv" id="signup_Div">Crear un nuevo usuario</a>
-									        <div id="loginFormResponse">respuesta </div>
+									   		<a href="signupDiv" id="signup_Div">Crear un nuevo usuario</a><br>
+									   		<a href="#" id="forgetPwd_Div">He olvidado mi contraseña</a>
+												<div id="resetpwd" style="display:none; padding: 5px 0 20px 0;">
+													<p>Enter your email address and we'll send you a link to reset your password.</p>
+													<p class="slim">
+														<input id="email" type="text" size="20" name="email" />
+													</p>
+													<p>
+														<div><input type="submit" class="submitbutton" value="Reset password" onclick="forgot_pass();return false;" /></div>
+														&nbsp;or <a href="#" onclick="toggle('resetpwd');return false;">cancel</a>
+													</p>
+												</div>
+											<div id="loginFormResponse">respuesta </div>
 								        </form>
 									</div>
 								  </div>
