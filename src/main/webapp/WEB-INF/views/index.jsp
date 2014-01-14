@@ -30,6 +30,7 @@
   	var bLogo=1;
   	var bLogin=2;
   	var bSign=3;
+  	var bForget=4;
   	
 	function refreshDivs(elem) {
 		if (elem == bLogo){
@@ -44,6 +45,8 @@
 
 			$('#signupDiv').hide();
 			$('#signupFormResponse').hide();
+
+			$('#forgotPwdDiv').hide();
 		}
 		if (elem == bLogin){
 			$('#logoTitle').text("Login");
@@ -60,6 +63,8 @@
 
 			$('#signupDiv').hide();
 			$('#signupFormResponse').hide();
+
+			$('#forgotPwdDiv').hide();
 		}		
 		if(elem == bSign){
 			$('#logoTitle').text("Sing up");
@@ -73,7 +78,24 @@
 
 			$('#signupDiv').show();
 			$('#signupFormResponse').show();
+
+			$('#forgotPwdDiv').hide();
 		}
+		if(elem == bForget){
+			$('#logoTitle').text("Forget Pwd");
+
+			$('#logoTitle').show();
+			$('#logoSubtitle').hide();
+			$('#logoButton').hide();
+
+			$('#loginDiv').hide();
+			$('#loginFormResponse').hide();
+
+			$('#signupDiv').hide();
+			
+			$('#forgotPwdDiv').show();
+		}
+
 	}
   
     $(document).ready(function() {
@@ -214,9 +236,10 @@
    		    return false;
     	});    
     	$('#forgetPwd_Div').click(function(){
+			refreshDivs(bForget);
     		var selectedEffect="clip";
     		var options = {};
-    		$("#resetpwd").toggle(selectedEffect, options, 500 );
+    		$("#forgotPwd").toggle(selectedEffect, options, 500 );
    		    return false;
     	});    	     	
     	
@@ -284,6 +307,35 @@
 								</div>
 							</div>
 							<!-- login -->
+							<!-- forgotPwd -->
+							<div id="forgotPwdDiv">
+								<div class="row flush">
+								  <div class="4u">&nbsp;</div>
+								  <div class="4u">
+									<div align="center">
+									   <form id="signupForm">
+									   		<table class="quiniela">
+									   			<tr class="quinielatitulo">
+													<td colspan="2">Enter your email address and we'll send you a link to reset your password.</td>
+												</tr>
+										   		<tr class="quinielatitulo">
+										   			<td  colspan="2"><input id="email" type="text" size="20" name="email" /></td>
+										        </tr>
+										   		<tr class="quinielatitulo" align="right">
+										   			<td colspan="2"><button id="login_btn" class="button" name="signup" value="send">Send</button></td>
+										        </tr>
+									   		</table>
+								        </form>
+									</div>
+								  </div>
+								  <div class="4u">&nbsp;</div>
+								</div>
+							</div>
+							
+							
+							<!-- forgotPwd -->
+							
+							
 							<!-- signup -->
 							<div id="signupDiv">
 								<div class="row flush">
@@ -292,9 +344,9 @@
 									<div align="center">
 									   <form id="signupForm">
 									   		<table class="quiniela">
-									   			<TR class="quinielatitulo">
-													<TD colspan="2">Sign up</TD>
-												</TR>
+									   			<tr class="quinielatitulo">
+													<td colspan="2">Sign up</td>
+												</tr>
 										   		<tr>
 										   			<td class="partido">Username:</td>
 										   			<td class="partido"><input id="id" name="id" type="text"/></td>
@@ -323,7 +375,7 @@
 								  <div class="4u">&nbsp;</div>
 								</div>
 							</div>
-							<!-- signup -->
+							<!-- forgotPwd -->
 							
 						</footer>
 					</div>		
