@@ -67,7 +67,7 @@
 			$('#forgotPwdDiv').hide();
 		}		
 		if(elem == bSign){
-			$('#logoTitle').text("Sing up");
+			$('#logoTitle').text("Sign up");
 
 			$('#logoTitle').show();
 			$('#logoSubtitle').hide();
@@ -93,7 +93,7 @@
 
 			$('#signupDiv').hide();
 			
-			$('#forgotPwdDiv').show();
+			$('#forgotPwdDiv').show("clip");
 		}
 
 	}
@@ -172,6 +172,17 @@
  			   	 });
     	        e.preventDefault(); // prevent actual form submit and page reload
     	 });
+    	 $('#forgotPwdForm').submit(function(e) {
+    	        // will pass the form date using the jQuery serialize function
+    	        $.post('${pageContext.request.contextPath}/myaccount/forgotPwd', $(this).serialize(), function(response) {
+	    		    if(response.errorDto!=null){
+	    		    	$('#forgotPwdFormResponse').text(response.errorDto.stringError);
+	    		    }
+	    		    else{
+	    		    }
+ 			   	 });
+    	        e.preventDefault(); // prevent actual form submit and page reload
+    	 });
     	 $('#signupForm').submit(function(e) {
     	        // will pass the form date using the jQuery serialize function
     	        $.post('${pageContext.request.contextPath}/myaccount', $(this).serialize(), function(response) {
@@ -237,9 +248,6 @@
     	});    
     	$('#forgetPwd_Div').click(function(){
 			refreshDivs(bForget);
-    		var selectedEffect="clip";
-    		var options = {};
-    		$("#forgotPwd").toggle(selectedEffect, options, 500 );
    		    return false;
     	});    	     	
     	
@@ -289,16 +297,6 @@
 									   		</table>
 									   		<a href="signupDiv" id="signup_Div">Crear un nuevo usuario</a><br>
 									   		<a href="#" id="forgetPwd_Div">He olvidado mi contraseña</a>
-												<div id="resetpwd" style="display:none; padding: 5px 0 20px 0;">
-													<p>Enter your email address and we'll send you a link to reset your password.</p>
-													<p class="slim">
-														<input id="email" type="text" size="20" name="email" />
-													</p>
-													<p>
-														<div><input type="submit" class="submitbutton" value="Reset password" onclick="forgot_pass();return false;" /></div>
-														&nbsp;or <a href="#" onclick="toggle('resetpwd');return false;">cancel</a>
-													</p>
-												</div>
 											<div id="loginFormResponse">respuesta </div>
 								        </form>
 									</div>
@@ -313,18 +311,19 @@
 								  <div class="4u">&nbsp;</div>
 								  <div class="4u">
 									<div align="center">
-									   <form id="signupForm">
+									   <form id="forgotPwdForm">
 									   		<table class="quiniela">
 									   			<tr class="quinielatitulo">
 													<td colspan="2">Enter your email address and we'll send you a link to reset your password.</td>
 												</tr>
 										   		<tr class="quinielatitulo">
-										   			<td  colspan="2"><input id="email" type="text" size="20" name="email" /></td>
+										   			<td  colspan="2"><input id="id" type="text" size="20" name="id" /></td>
 										        </tr>
 										   		<tr class="quinielatitulo" align="right">
 										   			<td colspan="2"><button id="login_btn" class="button" name="signup" value="send">Send</button></td>
 										        </tr>
 									   		</table>
+									   		<div id="forgotPwdFormResponse">respuesta </div>
 								        </form>
 									</div>
 								  </div>

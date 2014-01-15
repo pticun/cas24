@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
+import org.alterq.dto.ErrorType;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
@@ -70,11 +71,28 @@ public class AccountController {
 			}
 		} else {
 			ErrorDto error = new ErrorDto();
-			error.setIdError("2");
+			error.setIdError(ErrorType.USER_NOT_IN_SESSION);
 			error.setStringError("user not in Session (i18n error)");
 			dto.setErrorDto(error);
 			dto.setUserAlterQ(null);
 		}
+		return dto;
+	}
+	@RequestMapping(method = RequestMethod.POST, value = "/forgotPwd")
+	public @ResponseBody
+	ResponseDto forgotPwd( UserAlterQ user) {
+		if (log.isDebugEnabled()){
+			log.debug("init AccountController.forgotPwd");
+			log.debug("user.getId:" + user.getId());
+		}
+		//TODO SEC control user exist
+		//TODO SEC last time did action
+		//TODO ARC send mail
+		ResponseDto dto = new ResponseDto();
+		ErrorDto error = new ErrorDto();
+		error.setIdError("KO sendmail");
+		error.setStringError("A mail has been send to email address.");
+		dto.setErrorDto(error);
 		return dto;
 	}
 	@RequestMapping(method = RequestMethod.POST)
