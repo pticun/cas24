@@ -79,6 +79,10 @@ http://quinimobile-goldbittle.rhcloud.com/
 acceso a openshift
 con usuario goldbittledev@gmail.com/gbd2013
 
+gmail:
+	user: goldbittledev@gmail.com
+	pass: gold7bittle4
+
 SSH de openshift
 	ssh://51dd73e55973ca1d89000148@quinimobile-goldbittle.rhcloud.com/~/git/quinimobile.git/
 
@@ -124,3 +128,4 @@ Comentarios GIT
 
 esto es mi cambio	
 no me enterado de lo que ha pasado
+http://examples.javacodegeeks.com/enterprise-java/spring/mail-spring/spring-e-mail-support-gmail-smtp-server-example/

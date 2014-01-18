@@ -27,7 +27,7 @@
 	<!-- Scans the classpath for annotated components that will be auto-registered 
 		as Spring beans. For example @Controller and @Service. Make sure to set the 
 		correct base-package -->
-	<context:component-scan base-package="org.alterq" />
+	<context:component-scan base-package="org.arch,org.alter" />
 
 	<!-- Configures the annotation-driven Spring MVC Controller programming 
 		model. Note that, with Spring 3.0, this tag works in Servlet MVC only! -->
@@ -56,6 +56,9 @@
 
 	<!-- Imports datasource configuration -->
 	<import resource="app-data.xml" />
+	
+	<!-- Imports mail configuration -->
+	<import resource="app-integration.xml" />
 
 
 </beans>
