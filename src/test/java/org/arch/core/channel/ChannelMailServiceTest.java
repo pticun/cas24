@@ -1,22 +1,28 @@
-package org.arch.core.mail;
+package org.arch.core.channel;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.integration.MessageChannel;
+import org.springframework.integration.core.PollableChannel;
+import org.springframework.integration.message.GenericMessage;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml" })
-public class SendMailTest {
+public class ChannelMailServiceTest {
 	@Autowired
-	SendMail sendMail;
+	MessageChannel sendingChannel;
+	@Autowired
+	PollableChannel receivingChannel;
 
 	@Test
 	public void testSendMail() throws Exception {
-		sendMail.sendMail("goldbittledev@gmail.com", "racsor@gmail.com", "FELICIDADES", "FELICIDADES DESDE ALTERQ");
-		sendMail.sendMailWithTemplate("ALTERQ", "Cumpeaños feliz desde ALTERQ");
-		return;
+		GenericMessage<String> message = new GenericMessage<String>("esta impresión");
+		sendingChannel.send(message);
+		
+		
 	}
 
 }
