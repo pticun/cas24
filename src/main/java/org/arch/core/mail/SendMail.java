@@ -9,10 +9,10 @@ public class SendMail {
 	private MailSender mailSender;
 
 	@Autowired
-	private SimpleMailMessage templateMailMessage;
+	private SimpleMailMessage forgotPwdMailMessage;
 	
-	public void setSimpleMailMessage(SimpleMailMessage templateMailMessage) {
-		this.templateMailMessage = templateMailMessage;
+	public void setSimpleMailMessage(SimpleMailMessage forgotPwdMailMessage) {
+		this.forgotPwdMailMessage = forgotPwdMailMessage;
 	}
 	
 	public void setMailSender(MailSender mailSender) {
@@ -30,9 +30,11 @@ public class SendMail {
 		mailSender.send(simpleMailMessage);	
 	}
 	
-	public void sendMailWithTemplate(String dear, String content) {			 
-		   SimpleMailMessage message = new SimpleMailMessage(templateMailMessage);
-	 	   message.setText(String.format( templateMailMessage.getText(), dear, content));
+	public void sendMailWithTemplate(String to, String subject, String pwd) {			 
+		   SimpleMailMessage message = new SimpleMailMessage(forgotPwdMailMessage);
+		   message.setTo(to);
+		   message.setSubject(subject);
+	 	   message.setText(String.format( forgotPwdMailMessage.getText(), pwd));
 	 	   mailSender.send(message);
 	}
 }

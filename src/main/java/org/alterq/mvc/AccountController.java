@@ -9,7 +9,9 @@ import org.alterq.dto.ErrorType;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.arch.core.mail.SendMail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class AccountController {
 	private UserAlterQDao userDao;
 	@Autowired
 	private SessionAlterQDao sessionDao;
+	@Autowired
+	SendMail sendMail;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String initPage() {
@@ -88,11 +92,26 @@ public class AccountController {
 		//TODO SEC control user exist
 		//TODO SEC last time did action
 		//TODO ARC send mail
+		UserAlterQ userAlterQ = userDao.findById(user.getId());
 		ResponseDto dto = new ResponseDto();
-		ErrorDto error = new ErrorDto();
-		error.setIdError("KO sendmail");
-		error.setStringError("A mail has been send to email address.");
-		dto.setErrorDto(error);
+		if (userAlterQ!=null){
+			String pwd = RandomStringUtils.random(10, true, true);
+			sendMail.sendMailWithTemplate("racsor@gmail.com","CAMBIO PWDALTERQ", pwd);
+			userAlterQ.setPwd(pwd);
+			userDao.save(userAlterQ);
+			
+			ErrorDto error = new ErrorDto();
+			error.setIdError("KO sendmail");
+			error.setStringError("A mail has been send to email address.");
+			dto.setErrorDto(error);
+		}
+		else{
+			ErrorDto error = new ErrorDto();
+			error.setIdError(ErrorType.USER_NOT_EXIST);
+			error.setStringError("User not exist");
+			dto.setErrorDto(error);
+		}
+
 		return dto;
 	}
 	@RequestMapping(method = RequestMethod.POST)

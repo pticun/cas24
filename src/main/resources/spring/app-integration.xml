@@ -51,10 +51,10 @@
 
 	<bean id="sendMail" class="org.arch.core.mail.SendMail">
 		<property name="mailSender" ref="mailSender" />
-		<property name="simpleMailMessage" ref="customeMailMessage" />
+		<property name="simpleMailMessage" ref="forgotPwdMailMessage" />
 	</bean>
 
-	<bean id="customeMailMessage" class="org.springframework.mail.SimpleMailMessage">
+	<bean id="forgotPwdMailMessage" class="org.springframework.mail.SimpleMailMessage">
 
 		<property name="from" value="goldbittledev@gmail.com" />
 		<property name="to" value="racsor@gmail.com" />
@@ -62,8 +62,8 @@
 		<property name="text">
 			<value>
 		<![CDATA[
-			Dear %s,
-			Mail Content : %s
+			Buenas tu nueva contraseña es: %s,
+			Recuerda cambiarla. 
 		]]>
 			</value>
 		</property>
