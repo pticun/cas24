@@ -118,6 +118,7 @@ X2 = 011	=3
 ==
 
 Comentarios GIT
+
 	ADM admin
 	ARC arquitectura
 	DOC doc
