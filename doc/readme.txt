@@ -118,10 +118,15 @@ X2 = 011	=3
 ==
 
 Comentarios GIT
+	ADM admin
 	ARC arquitectura
+	DOC doc
 	MVC modelo-vista-controlador 
 	WEB json-html
 	MOB	mobile
+	MDB mongo
+	SEC security
+	SYS system
 
 
 
