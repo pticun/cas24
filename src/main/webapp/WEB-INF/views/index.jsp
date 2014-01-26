@@ -32,6 +32,21 @@
   	var bSign=3;
   	var bForget=4;
   	
+  	function getMainMenuItems(userLoged, user)
+  	{
+    	$('#menuMainList').append('<li><a id="menu_Index" href="index">Inicio</a></li>');
+    	$('#menuMainList').append('<li><a id="menu_Quiniela" href="quiniela" >Quiniela</a></li>');
+    	if (userLoged){
+    		$('#menuMainList').append('<li><a href="myaccount" id="menu_User">'+user+'</a></li>');
+    		$('#menuMainList').append('<li><a id="menu_Login" href="index?WHERE=login">Logout</a></li>');
+    	}
+    	else{
+    		$('#menuMainList').append('<li><a href="#" id="menu_User">Invitado</a></li>');
+    		$('#menuMainList').append('<li><a id="menu_Login" href="index?WHERE=login">Login</a></li>');
+    	}
+    	$("#menuMainList").listview("refresh");
+  	}
+  	
 	function refreshDivs(elem) {
 		if (elem == bLogo){
 			$('#logoTitle').text("alterQ");
@@ -110,10 +125,10 @@
      	    })
     	    .success (function(response) { 
     		    if(response.errorDto!=null){
-					$('#menu_Login').text("Login");
-					$('#menu_Login').attr("href", "index?WHERE=login");
-					$('#menu_User').text("Invitado");
-					$('#menu_User').attr("href", "#");
+					//$('#menu_Login').text("Login");
+					//$('#menu_Login').attr("href", "index?WHERE=login");
+					//$('#menu_User').text("Invitado");
+					//$('#menu_User').attr("href", "#");
 
     				if (bGoLogin)
     					refreshDivs(bLogin);
@@ -124,19 +139,19 @@
     		    }
     		    else{
     		    	if (response.userAlterQ!=null){
-    					$('#menu_Login').text("Logout");
+    					//$('#menu_Login').text("Logout");
     					//$('#menu_Login').attr("href", "Logout");
-    					$('#menu_User').text(response.userAlterQ.name);
-    					$('#menu_User').attr("href", "myaccount");
+    					//$('#menu_User').text(response.userAlterQ.name);
+    					//$('#menu_User').attr("href", "myaccount");
 
     					refreshDivs(bLogo);    					
     					userLoged=true;
     		    	}
-    		    	else{
-    					$('#menu_Login').text("Login");
-    					$('#menu_Login').attr("href", "index?WHERE=login");
-    					$('#menu_User').text("Invitado");
-    					$('#menu_User').attr("href", "#");
+    		    	else{    		    		
+    					//$('#menu_Login').text("Login");
+    					//$('#menu_Login').attr("href", "index?WHERE=login");
+    					//$('#menu_User').text("Invitado");
+    					//$('#menu_User').attr("href", "#");
 
         				if (bGoLogin)
         					refreshDivs(bLogin);
@@ -145,12 +160,18 @@
 
         				userLoged=false;
     		    	}
+    		    	
     		    }
+				//Paint Main Menu Items
+				getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
     	    })
     	    .error   (function()     { alert("Error")   ; })
 //    	    .complete(function()     { alert("complete"); })
     	    ;    	
     	
+    	
+    	
+
     	
     	 $('#loginForm').submit(function(e) {
     	        // will pass the form date using the jQuery serialize function
@@ -380,11 +401,7 @@
 					</div>		
 				<!-- Nav -->
 					<nav id="nav">
-						<ul>
-							<li><a id="menu_Index" href="index">Inicio</a></li>
-							<li><a id="menu_Login" href="index?WHERE=login">Login</a></li>
-							<li><a id="menu_Quiniela" href="quiniela" >Quiniela</a></li>
-							<li><a href="#" id="menu_User">Invitado</a></li>
+						<ul id="menuMainList">
 						</ul>
 					</nav>
 
