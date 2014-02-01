@@ -3,6 +3,8 @@ package org.alterq.repo;
 import org.alterq.domain.GeneralData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -12,8 +14,14 @@ public class GeneralDataDaoImpl implements GeneralDataDao {
 	public static final String COLLECTION_NAME = "generalData";
 
 	@Override
-	public GeneralData findById(int id) {
+	public GeneralData findById(Object id) {
 		GeneralData dao = mongoTemplate.findById(id, GeneralData.class, COLLECTION_NAME);
+		return dao;
+	}
+	@Override
+	public GeneralData findByCompany(int id) {
+		Query query = new Query(Criteria.where("company").is(id));
+		GeneralData dao = mongoTemplate.findOne(query, GeneralData.class, COLLECTION_NAME);
 		return dao;
 	}
 
