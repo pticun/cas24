@@ -81,6 +81,12 @@ public class BetDaoImpl implements BetDao {
 		mongoTemplate.upsert(query,update, RoundBets.class);
 		return true;
 	}
+
+	@Override
+	public boolean createRoundBet(RoundBets bean) {
+		// TODO createRoundBet
+		return false;
+	}
 }
 
 

@@ -51,7 +51,7 @@ public class BetControllerTest {
     }
     @Test
     public void findAllUserBetsParams() throws Exception {
-    	this.mockMvc.perform(MockMvcRequestBuilders.get("/bet/season/2013/round/1/user/idmail@arroba.es")).andDo(MockMvcResultHandlers.print());
+    	this.mockMvc.perform(MockMvcRequestBuilders.get("/bet/season/2013/round/1/user/idmail@arroba.es/")).andDo(MockMvcResultHandlers.print());
     	
     }
     

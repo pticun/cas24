@@ -229,7 +229,7 @@
 			});
 		    		
  	        //var url= '${pageContext.request.contextPath}/bet/betsUser?season='+season+'&round='+round+'&user='+user;
- 	        var url= '${pageContext.request.contextPath}/bet/season/'+season+'/round/'+round+'/user/'+user;
+ 	        var url= '${pageContext.request.contextPath}/bet/season/'+season+'/round/'+round+'/user/'+user+'/';
         	if(loadUserBets){
         		loadUserBets=false;
 	 	        $.get(url, $(this).serialize(), function(response) {

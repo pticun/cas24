@@ -189,6 +189,8 @@ public class BetController {
 		return betDao.findAllBets(season, round);
 	}
 
+	// TODO http://www.coderanch.com/t/622271/Spring/Spring-Path-Variable
+	// TODO with /bet/season/2013/round/1/user/idmail@arroba.es not working but working /bet/season/2013/round/1/user/idmail@arroba.es/
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "season/{season}/round/{round}/user/{id:.+}")
 	public @ResponseBody
 	ResponseDto findAllUserBetsParams(@PathVariable int season, @PathVariable int round, @PathVariable String id) {
