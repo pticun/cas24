@@ -185,7 +185,7 @@ public class BetController {
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "season/{season}/round/{round}")
 	public @ResponseBody
 	RoundBets findAllBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round) {
-		// TODO this call must be request for a AdminUser
+		// TODO this call must be request for an AdminUser
 		return betDao.findAllBets(season, round);
 	}
 

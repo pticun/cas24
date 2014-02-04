@@ -3,7 +3,9 @@ package org.alterq.repo;
 import org.alterq.domain.GeneralData;
 
 public interface GeneralDataDao {
-	public GeneralData findById(int id);
+	public GeneralData findById(Object id);
+
+	public GeneralData findByCompany(int id);
 
 	public void add(GeneralData generalData);
 

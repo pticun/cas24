@@ -2,10 +2,15 @@ package org.alterq.domain;
 
 import java.io.Serializable;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class GeneralData implements Serializable {
+	@Id
+	private String id;
+	
+	private int company;
 	private int season;
 	private int round;
 	private boolean active;
@@ -50,6 +55,22 @@ public class GeneralData implements Serializable {
 
 	public void setTriples(int triples) {
 		this.triples = triples;
+	}
+
+	public int getCompany() {
+		return company;
+	}
+
+	public void setCompany(int company) {
+		this.company = company;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }
