@@ -1,24 +1,27 @@
 package org.alterq.domain.test;
 
-import junit.framework.Assert;
 
 import org.alterq.domain.Bet;
 import org.alterq.domain.RoundBets;
 import org.alterq.repo.BetDao;
+import org.junit.Assert;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml" })
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BetDaoTest {
 	@Autowired
 	private BetDao betDao;
 
 	@Test
-	public void testUserBets() {
+	public void test01UserBets() {
 		betDao.deleteAllBets(2013, 9);
 
 		Bet bet = new Bet();
@@ -45,7 +48,7 @@ public class BetDaoTest {
 		
 	}
 	@Test
-	public void testAddBet() {
+	public void test02AddBet() {
 
 		betDao.deleteAllBets(2013, 9);
 
@@ -72,7 +75,7 @@ public class BetDaoTest {
 	}
 
 	@Test
-	public void testfindAllBets() {
+	public void test03findAllBets() {
 
 		RoundBets roundBets = betDao.findAllBets(2013, 9);
 
@@ -90,7 +93,7 @@ public class BetDaoTest {
 	}
 
 	@Test
-	public void testDeleteUserBets() {
+	public void test04DeleteUserBets() {
 
 		betDao.deleteAllBets(2013, 9);
 
@@ -117,7 +120,7 @@ public class BetDaoTest {
 	}
 
 	@Test
-	public void testDeleteUserBet() {
+	public void test05DeleteUserBet() {
 
 		betDao.deleteAllBets(2013, 9);
 

@@ -255,7 +255,6 @@
 			<version>${spring.integration.version}</version>
 		</dependency>
 
-
 	</dependencies>
 
 	<build>

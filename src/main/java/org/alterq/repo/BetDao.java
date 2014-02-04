@@ -9,6 +9,7 @@ public interface BetDao {
 	public RoundBets findAllUserBets(int season, int round, String user);
 	
 	public boolean addBet(int season, int round, Bet bet);
+	public boolean createRoundBet(RoundBets bean);
 	
 	public boolean deleteAllBets(int season, int round);
 	public boolean deleteAllUserBets(int season, int round, String user);
