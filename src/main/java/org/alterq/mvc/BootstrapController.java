@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value = { "/", "/bootstrap" })
+@RequestMapping(value = { "/bootstrap" })
 public class BootstrapController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
