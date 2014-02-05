@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value = { "/", "/bootstrap" })
+@RequestMapping(value = "/bootstrap")
 public class BootstrapController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
@@ -26,18 +26,4 @@ public class BootstrapController {
 		log.debug("init bootstrap.jsp");
 		return "bootstrap";
 	}
-	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public @ResponseBody
-	ResponseDto logout(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletResponse response) {
-		log.debug("init LoginController.logout");
-		log.debug("session:" + cookieSession);
-		sessionDao.endSession(cookieSession);
-		Cookie sessionCookie=new Cookie("session","");
-		sessionCookie.setMaxAge(0);
-		sessionCookie.setPath("/quinimobile");
-		response.addCookie(sessionCookie);
-		ResponseDto dto = new ResponseDto();
-		return dto;
-	}
-
 }

@@ -8,11 +8,14 @@
 <!--[if (IE 9)]><html class="no-js ie9" lang="en"><![endif]-->
 <!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
 <head>
+<!-- JQuery -->
+<script src="<c:url value="/static/resources/js/jquery.min.js"/>"></script>
+<script src="<c:url value="/static/resources/js/jquery.dropotron.js"/>"></script>
 
 <!-- Meta Tags -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<title>Brushed | Responsive One Page Template</title>   
+<title>alterQ</title>   
 
 <meta name="description" content="Insert Your Site Description" /> 
 
@@ -95,6 +98,51 @@
 
 </head>
 
+<script type="text/javascript">
+	function getMainMenuItems(userLoged, user)
+  	{
+    	$('#menu-nav').append('<li><a href="#work">Inicio</a></li>');
+    	$('#menu-nav').append('<li><a href="#contact">Quiniela</a></li>');
+    	if (userLoged){
+    		$('#menu-nav').append('<li><a href="myaccount" id="menu_User">'+user+'</a></li>');
+    		$('#menu-nav').append('<li><a href="#about">Logout</a></li>');
+    	}
+    	else{
+    		$('#menu-nav').append('<li><a href="#contact">Invitado</a></li>');
+    		$('#menu-nav').append('<li><a href="#login">Login</a></li>');
+    	}
+    	$("#menu-nav").listview("refresh");
+  	}
+
+$(document).ready(function() {
+	var userLoged=false;
+	
+	//Paint Main Menu Items
+	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+    
+});
+
+$('#loginForm').submit(function(e) {
+	alert('loginForm:submit: inicio');
+	console.log('loginForm:submit: inicio');
+    // will pass the form date using the jQuery serialize function
+    $.post('${pageContext.request.contextPath}/login', $(this).serialize(), function(response) {
+	    if(response.errorDto!=null){
+	    	$('#loginFormResponse').text(response.errorDto.stringError);
+	    	//refreshDivs(bLogin);
+	    	userLoged=false;
+	    }
+	    else{
+			$('#loginFormResponse').text(response.userAlterQ.name);
+			//refreshDivs(bLogo);
+			userLoged=true;
+	    }
+	    console.log('loginForm:submit: final con usuario='+userLoged);
+	   	 });
+    e.preventDefault(); // prevent actual form submit and page reload
+});
+
+</script>
 
 <body>
 
@@ -110,15 +158,11 @@
     	<a id="mobile-nav" class="menu-nav" href="#menu-nav"></a>
         
         <div id="logo">
-        	<a id="goUp" href="#home-slider" title="Brushed | Responsive One Page Template">Brushed Template</a>
+        	<a id="goUp" href="#home-slider" title="alterQ | Los amantes de las quinielas">alterQ</a>
         </div>
         
         <nav id="menu">
         	<ul id="menu-nav">
-                <li><a href="#work">Inicio</a></li>
-                <li><a href="#about">Login</a></li>
-                <li><a href="#contact">Quiniela</a></li>
-                <li><a href="#contact">Invitado</a></li>
             </ul>
         </nav>
         
@@ -133,8 +177,8 @@
         <div class="row">
             <div class="span12">
                 <div class="title-page">
-                    <h2 class="title">Our Work</h2>
-                    <h3 class="title-description">Check Out Our Projects on <a href="#">Dribbble</a>.</h3>
+                    <h2 class="title">alterQ</h2>
+                    <h3 class="title-description">Los amantes de las quinielas</h3>
                 </div>
             </div>
         </div>
@@ -436,6 +480,49 @@
 </div>
 </div>
 <!-- End Contact Section -->
+
+<!-- Login Section -->
+<div id="login" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Login</h2>
+                <h3 class="title-description">Entra al mundo de las quinielas</h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- Login Form -->
+    <div class="row">
+			<div align="center">
+			   <form id="loginForm">
+			   		<table class="quiniela">
+				   		<tr>
+				   			<td class="partido">Username:</td>
+				   			<td class="partido"><input id="id" name="id" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Password:</td>
+				   			<td class="partido"><input type="password" name="pwd" id="pwd"/></td>
+				        </tr>
+				   		<tr align="right">
+				   			<td class="partido">&nbsp;</td>
+				   			<td class="partido"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
+				        </tr>
+			   		</table>
+			   		<a href="signupDiv" id="signup_Div">Crear un nuevo usuario</a><br>
+			   		<a href="#" id="forgetPwd_Div">He olvidado mi contraseña</a>
+					<div id="loginFormResponse">respuesta </div>
+		        </form>
+			</div>
+    </div>
+    <!-- End Login Form -->
+</div>
+</div>
+<!-- End Login Section -->
 
 <!-- Twitter Feed -->
 <div id="twitter-feed" class="page-alternate">
