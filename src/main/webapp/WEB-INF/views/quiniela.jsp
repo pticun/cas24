@@ -58,7 +58,7 @@
 					$('#quinielaPrice').text(response.errorDto.stringError);
 				}
 				else{
-					$('#quinielaPrice').text(response.price);
+					$('#quinielaPrice').text(response.roundBet.bets[0].price);
 				}
 			});
 			

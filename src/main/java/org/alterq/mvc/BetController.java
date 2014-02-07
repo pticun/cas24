@@ -117,8 +117,12 @@ public class BetController {
 			else if (pro[i] == 7)
 				triples++;
 		}
-
-		dto.setPrice( 0.5 * Math.pow(2, dobles)* Math.pow(3, triples) );
+		Bet bet=new Bet();
+		bet.setPrice(new Double(0.5 * Math.pow(2, dobles)* Math.pow(3, triples)).floatValue());
+		RoundBets roundBet=new RoundBets();
+		roundBet.addBet(bet);
+		
+		dto.setRoundBet(roundBet);
 
 		// Insert new bet into the BBDD
 		//betDao.addBet(seasonInt, roundInt, apuestaBet);
@@ -167,8 +171,15 @@ public class BetController {
 			}
 			// log.debug(sb.toString());
 		}
-		for (int i = 0; i < pro.length; i++)
+		int dobles = 0;
+		int triples = 0;
+		for (int i = 0; i < pro.length; i++){
 			apuesta += pro[i];
+			if ((pro[i] == 3)||(pro[i] == 5)||(pro[i] == 6))
+				dobles++;
+			else if (pro[i] == 7)
+				triples++;
+		}
 
 		// data for test only!!
 		String season=request.getParameter("season");
@@ -176,16 +187,19 @@ public class BetController {
 		
 		int seasonInt = Integer.parseInt(season);
 		int roundInt = Integer.parseInt(round);
+		
+		// TODO Does user have enough money?
 
-		Bet apuestaBet = new Bet();
-		apuestaBet.setBet(apuesta);
-		apuestaBet.setUser(userAlterQ.getId());
+		Bet bet = new Bet();
+		bet.setPrice(new Double(0.5 * Math.pow(2, dobles)* Math.pow(3, triples)).floatValue());
+		bet.setBet(apuesta);
+		bet.setUser(userAlterQ.getId());
 		StringBuffer sb = new StringBuffer();
-		sb.append("New Bet: season=" + season + " round=" + round + " user=" + apuestaBet.getUser() + " bet=" + apuestaBet.getBet());
+		sb.append("New Bet: season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
 		log.debug(sb.toString());
 
 		// Insert new bet into the BBDD
-		betDao.addBet(seasonInt, roundInt, apuestaBet);
+		betDao.addBet(seasonInt, roundInt, bet);
 
 		return dto;
 

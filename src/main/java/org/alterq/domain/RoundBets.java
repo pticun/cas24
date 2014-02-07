@@ -1,5 +1,6 @@
 package org.alterq.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -52,6 +53,9 @@ public class RoundBets {
 		this.bets = bets;
 	}
 	public boolean addBet(Bet bet) {
+		if(this.bets==null){
+			this.bets=new ArrayList<Bet>();
+		}
 		return this.bets.add(bet);
 	}
 	public String getId() {

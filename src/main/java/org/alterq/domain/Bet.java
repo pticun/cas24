@@ -7,6 +7,7 @@ public class Bet {
  
     private String user;
     private String bet;
+	private float price;
      
     public String getUser() {
 		return user;
@@ -24,5 +25,11 @@ public class Bet {
 	public int getNumberHits(String rdo)
     {
 		return 0;
-    }	
+    }
+	public float getPrice() {
+		return price;
+	}
+	public void setPrice(float price) {
+		this.price = price;
+	}	
 }
