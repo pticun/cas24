@@ -44,9 +44,9 @@ public class BetController {
 	private SessionAlterQDao sessionDao;
 	@Autowired
 	private GeneralDataDao generalDataDao;
-	
+
 	// TODO get company from user, session .....
-	int company=1;
+	int company = 1;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
@@ -54,9 +54,9 @@ public class BetController {
 		ResponseDto dto = new ResponseDto();
 		Round j = new Round();
 		try {
-			// TODO create a new Service layer 
-			GeneralData generalData=generalDataDao.findByCompany(company);
-			j = roundDao.findBySeasonRound(generalData.getSeason(),generalData.getRound());
+			// TODO create a new Service layer
+			GeneralData generalData = generalDataDao.findByCompany(company);
+			j = roundDao.findBySeasonRound(generalData.getSeason(), generalData.getRound());
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(ErrorType.GET_LAST_ROUND);
@@ -75,25 +75,20 @@ public class BetController {
 			log.debug("init BetController.price");
 			log.debug("session:" + cookieSession);
 		}
-/*		
-		UserAlterQ userAlterQ = null;
-		if (StringUtils.isNotBlank(cookieSession)) {
-			String idUserAlterQ = sessionDao.findUserAlterQIdBySessionId(cookieSession);
-			userAlterQ = userDao.findById(idUserAlterQ);
-		}
-*/		
+		/*
+		 * UserAlterQ userAlterQ = null; if
+		 * (StringUtils.isNotBlank(cookieSession)) { String idUserAlterQ =
+		 * sessionDao.findUserAlterQIdBySessionId(cookieSession); userAlterQ =
+		 * userDao.findById(idUserAlterQ); }
+		 */
 		// TODO control security
 		ResponseDto dto = new ResponseDto();
-/*		
-		if(userAlterQ==null){
-			ErrorDto error = new ErrorDto();
-			error.setIdError(ErrorType.USER_NOT_IN_SESSION);
-			error.setStringError("user not in Session (i18n error)");
-			dto.setErrorDto(error);
-			dto.setUserAlterQ(null);
-			return dto;
-		}
-*/
+		/*
+		 * if(userAlterQ==null){ ErrorDto error = new ErrorDto();
+		 * error.setIdError(ErrorType.USER_NOT_IN_SESSION);
+		 * error.setStringError("user not in Session (i18n error)");
+		 * dto.setErrorDto(error); dto.setUserAlterQ(null); return dto; }
+		 */
 		int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		int dobles = 0;
 		int triples = 0;
@@ -111,21 +106,21 @@ public class BetController {
 			}
 			// log.debug(sb.toString());
 		}
-		for (int i = 0; i < pro.length; i++){
-			if ((pro[i] == 3)||(pro[i] == 5)||(pro[i] == 6))
+		for (int i = 0; i < pro.length; i++) {
+			if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 6))
 				dobles++;
 			else if (pro[i] == 7)
 				triples++;
 		}
-		Bet bet=new Bet();
-		bet.setPrice(new Double(0.5 * Math.pow(2, dobles)* Math.pow(3, triples)).floatValue());
-		RoundBets roundBet=new RoundBets();
+		Bet bet = new Bet();
+		bet.setPrice(new Double(0.5 * Math.pow(2, dobles) * Math.pow(3, triples)).floatValue());
+		RoundBets roundBet = new RoundBets();
 		roundBet.addBet(bet);
-		
+
 		dto.setRoundBet(roundBet);
 
 		// Insert new bet into the BBDD
-		//betDao.addBet(seasonInt, roundInt, apuestaBet);
+		// betDao.addBet(seasonInt, roundInt, apuestaBet);
 
 		return dto;
 
@@ -145,8 +140,8 @@ public class BetController {
 		}
 		// TODO control security
 		ResponseDto dto = new ResponseDto();
-		
-		if(userAlterQ==null){
+
+		if (userAlterQ == null) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(ErrorType.USER_NOT_IN_SESSION);
 			error.setStringError("user not in Session (i18n error)");
@@ -173,33 +168,46 @@ public class BetController {
 		}
 		int dobles = 0;
 		int triples = 0;
-		for (int i = 0; i < pro.length; i++){
+		for (int i = 0; i < pro.length; i++) {
 			apuesta += pro[i];
-			if ((pro[i] == 3)||(pro[i] == 5)||(pro[i] == 6))
+			if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 6))
 				dobles++;
 			else if (pro[i] == 7)
 				triples++;
 		}
 
 		// data for test only!!
-		String season=request.getParameter("season");
-		String round=request.getParameter("round");
-		
+		String season = request.getParameter("season");
+		String round = request.getParameter("round");
+
 		int seasonInt = Integer.parseInt(season);
 		int roundInt = Integer.parseInt(round);
-		
-		// TODO Does user have enough money?
 
-		Bet bet = new Bet();
-		bet.setPrice(new Double(0.5 * Math.pow(2, dobles)* Math.pow(3, triples)).floatValue());
-		bet.setBet(apuesta);
-		bet.setUser(userAlterQ.getId());
-		StringBuffer sb = new StringBuffer();
-		sb.append("New Bet: season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
-		log.debug(sb.toString());
+		float price = new Double(0.5 * Math.pow(2, dobles) * Math.pow(3, triples)).floatValue();
 
-		// Insert new bet into the BBDD
-		betDao.addBet(seasonInt, roundInt, bet);
+		float balance = new Float(userAlterQ.getBalance()).floatValue();
+		if (balance - price > 0) {
+			balance -= price;
+			userAlterQ.setBalance("" + balance);
+			Bet bet = new Bet();
+			bet.setPrice(price);
+			bet.setBet(apuesta);
+			bet.setUser(userAlterQ.getId());
+			StringBuffer sb = new StringBuffer();
+			sb.append("New Bet: season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
+			log.debug(sb.toString());
+
+			// Insert new bet into the BBDD
+			betDao.addBet(seasonInt, roundInt, bet);
+			userDao.save(userAlterQ);
+
+		} else {
+			ErrorDto error = new ErrorDto();
+			error.setIdError(ErrorType.USER_NOT_ENOUGH_MONEY);
+			error.setStringError("user not enough money (i18n error)");
+			dto.setErrorDto(error);
+			dto.setUserAlterQ(null);
+		}
 
 		return dto;
 
@@ -213,12 +221,13 @@ public class BetController {
 	}
 
 	// TODO http://www.coderanch.com/t/622271/Spring/Spring-Path-Variable
-	// TODO with /bet/season/2013/round/1/user/idmail@arroba.es not working but working /bet/season/2013/round/1/user/idmail@arroba.es/
+	// TODO with /bet/season/2013/round/1/user/idmail@arroba.es not working but
+	// working /bet/season/2013/round/1/user/idmail@arroba.es/
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "season/{season}/round/{round}/user/{id:.+}")
 	public @ResponseBody
 	ResponseDto findAllUserBetsParams(@PathVariable int season, @PathVariable int round, @PathVariable String id) {
 		ResponseDto dto = new ResponseDto();
-		RoundBets rb=betDao.findAllUserBets(season, round, id);
+		RoundBets rb = betDao.findAllUserBets(season, round, id);
 		dto.setRoundBet(rb);
 		return dto;
 	}
