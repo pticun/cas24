@@ -6,13 +6,15 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 
 import org.alterq.domain.Bet;
+import org.alterq.domain.GeneralData;
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ErrorType;
 import org.alterq.dto.ResponseDto;
-import org.alterq.repo.BetDao;
+import org.alterq.repo.GeneralDataDao;
+import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
@@ -35,11 +37,16 @@ public class BetController {
 	@Autowired
 	private RoundDao roundDao;
 	@Autowired
-	private BetDao betDao;
+	private RoundBetDao betDao;
 	@Autowired
 	private UserAlterQDao userDao;
 	@Autowired
 	private SessionAlterQDao sessionDao;
+	@Autowired
+	private GeneralDataDao generalDataDao;
+	
+	// TODO get company from user, session .....
+	int company=1;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
@@ -47,7 +54,9 @@ public class BetController {
 		ResponseDto dto = new ResponseDto();
 		Round j = new Round();
 		try {
-			j = roundDao.findLastJornada();
+			// TODO create a new Service layer 
+			GeneralData generalData=generalDataDao.findByCompany(company);
+			j = roundDao.findBySeasonRound(generalData.getSeason(),generalData.getRound());
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(ErrorType.GET_LAST_ROUND);

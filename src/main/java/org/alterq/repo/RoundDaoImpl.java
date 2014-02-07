@@ -17,12 +17,12 @@ public class RoundDaoImpl implements RoundDao {
 	private MongoTemplate mongoTemplate;
 	public static final String COLLECTION_NAME = "round";
 
-	public Round findByTemporadaJornada(int temporada, int jornada) {
+	public Round findBySeasonRound(int temporada, int jornada) {
 		Query query = new Query(Criteria.where("season").is(temporada).and("round").is(jornada));
 		return mongoTemplate.findOne(query, Round.class, COLLECTION_NAME);
 	}
 
-	public Round findLastJornada() {
+	public Round findLastRound() {
 		Query query = new Query();
 		// TODO not use deprecated
 		//query on("season", Order.ASCENDING).on("round", Order.DESCENDING);
@@ -30,7 +30,7 @@ public class RoundDaoImpl implements RoundDao {
 		return mongoTemplate.findOne(query, Round.class, COLLECTION_NAME);
 	}
 
-	public List<Round> findAllOrderedByTemporada() {
+	public List<Round> findAllOrderedBySeason() {
 		return mongoTemplate.findAll(Round.class, COLLECTION_NAME);
 	}
 

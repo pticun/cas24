@@ -23,7 +23,6 @@ public class GeneralDataDaoTest {
 	private GeneralDataDao dao;
 
 	@Test
-	@Order()
 	public void test01Create() throws Exception {
 		GeneralData bean = new GeneralData();
 		bean.setCompany(1);
@@ -34,7 +33,6 @@ public class GeneralDataDaoTest {
 		bean.setTriples(3);
 		dao.add(bean);
 		Assert.assertNotNull(bean.getRound());
-
 		log.debug("Create:" + bean.getRound());
 		return;
 	}
@@ -47,7 +45,6 @@ public class GeneralDataDaoTest {
 		dao.update(bean);
 		log.debug("ReadUpdate:round:" + bean.getRound());
 		log.debug("ReadUpdate:id:" + bean.getId());
-
 		return;
 	}
 

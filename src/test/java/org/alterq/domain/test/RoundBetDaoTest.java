@@ -3,7 +3,7 @@ package org.alterq.domain.test;
 
 import org.alterq.domain.Bet;
 import org.alterq.domain.RoundBets;
-import org.alterq.repo.BetDao;
+import org.alterq.repo.RoundBetDao;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -16,9 +16,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml" })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class BetDaoTest {
+public class RoundBetDaoTest {
 	@Autowired
-	private BetDao betDao;
+	private RoundBetDao betDao;
 
 	@Test
 	public void test01UserBets() {

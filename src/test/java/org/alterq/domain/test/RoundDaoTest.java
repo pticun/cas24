@@ -25,7 +25,7 @@ public class RoundDaoTest {
 
 	@Test
 	public void testFindLastJornada() {
-		Round bean = roundDao.findLastJornada();
+		Round bean = roundDao.findLastRound();
 		
 		System.out.println(bean.getRound()+"-"+bean.getSeason());
 
@@ -34,7 +34,7 @@ public class RoundDaoTest {
 	}
 	@Test
 	public void testFindByTemporadaJornada() {
-		Round bean = roundDao.findByTemporadaJornada(2013, 9);
+		Round bean = roundDao.findBySeasonRound(2013, 9);
 		
 		Assert.assertEquals(2013, bean.getSeason());
 		

@@ -20,7 +20,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwi
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
 
 @Repository
-public class BetDaoImpl implements BetDao {
+public class RoundBetDaoImpl implements RoundBetDao {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	public static final String COLLECTION_NAME = "roundBets";
@@ -83,9 +83,8 @@ public class BetDaoImpl implements BetDao {
 	}
 
 	@Override
-	public boolean createRoundBet(RoundBets bean) {
-		// TODO createRoundBet
-		return false;
+	public void add(RoundBets bean) {
+		mongoTemplate.insert(bean,COLLECTION_NAME);
 	}
 }
 

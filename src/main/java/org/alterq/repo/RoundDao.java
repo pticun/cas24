@@ -5,11 +5,11 @@ import java.util.List;
 import org.alterq.domain.Round;
 
 public interface RoundDao {
-	public Round findByTemporadaJornada(int temporada, int jornada);
+	public Round findBySeasonRound(int season, int round);
 
-	public Round findLastJornada();
+	public Round findLastRound();
 
-	public List<Round> findAllOrderedByTemporada();
+	public List<Round> findAllOrderedBySeason();
 
 	public void addRound(Round jornada);
 }
