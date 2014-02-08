@@ -1,5 +1,7 @@
 package org.alterq.repo;
 
+import java.util.List;
+
 import org.alterq.domain.GeneralData;
 
 public interface GeneralDataDao {
@@ -12,4 +14,6 @@ public interface GeneralDataDao {
 	public void update(GeneralData generalData);
 
 	public void delete(GeneralData generalData);
+
+	public List<GeneralData> findAll();
 }

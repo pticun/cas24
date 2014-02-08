@@ -1,5 +1,7 @@
 package org.alterq.repo;
 
+import java.util.List;
+
 import org.alterq.domain.GeneralData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -38,6 +40,10 @@ public class GeneralDataDaoImpl implements GeneralDataDao {
 	@Override
 	public void delete(GeneralData generalData) {
 		mongoTemplate.remove(generalData, COLLECTION_NAME);
+	}
+	@Override
+	public List<GeneralData> findAll() {
+		return mongoTemplate.findAll(GeneralData.class, COLLECTION_NAME);
 	}
 
 }
