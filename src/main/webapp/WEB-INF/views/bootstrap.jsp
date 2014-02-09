@@ -99,47 +99,230 @@
 </head>
 
 <script type="text/javascript">
-	function getMainMenuItems(userLoged, user)
-  	{
-    	$('#menu-nav').append('<li><a href="#work">Inicio</a></li>');
-    	$('#menu-nav').append('<li><a href="#contact">Quiniela</a></li>');
-    	if (userLoged){
-    		$('#menu-nav').append('<li><a href="myaccount" id="menu_User">'+user+'</a></li>');
-    		$('#menu-nav').append('<li><a href="#about">Logout</a></li>');
-    	}
-    	else{
-    		$('#menu-nav').append('<li><a href="#contact">Invitado</a></li>');
-    		$('#menu-nav').append('<li><a href="#login">Login</a></li>');
-    	}
-    	$("#menu-nav").listview("refresh");
-  	}
 
-$(document).ready(function() {
+	var menu = $('#menu');
+	
 	var userLoged=false;
 	
+	//Divs Graphics
+	var bActual  = 0;
+	var bHome    = 1;
+	var bLogin   = 2;
+	var bSign    = 3;
+	var bForgot  = 4;
+	var bQuiniela = 5;
+	
+	//Texts
+	var sHome    = "Inicio";
+	var sLogin   = "Login";
+	var sSign    ="";
+	var sForgot = "";
+	var sQuininiela = "Quiniela";
+	var sGuest = "Invitado";
+	var sLogout = "Logout";
+	
+	//Refs
+	var sHomeRef = "#homeDiv";
+	var sLoginRef = "#loginDiv";
+	var sSignRef = "#signDiv";
+	var sForgotRef ="#forgotDiv";
+	var sQuinielaRef = "#quinielaDiv";
+	var sGuestRef = "#";
+	var sMyaccountRef = "#myaccountDiv";
+	var sLogoutRef = "#homeDiv";
+	
+	function initDiv() {
+		$(sHomeRef).show();
+		$(sLoginRef).hide();
+		$(sSignRef).hide();
+		$(sForgotRef).hide();
+		$(sQuinielaRef).hide();
+				
+		bActual = bHome;
+		
+		$('#contact').hide();
+		$('#about').hide();
+	}
+	
+	function showDiv(elem) {
+//alert("showDiv elem="+elem+" actual="+bActual);		
+		if (elem == bActual)
+			return;
+		
+		switch (elem){
+		case bHome:
+			$(sHomeRef).show();
+			break;
+		case bLogin:
+			$(sLoginRef).show();
+			break;
+		case bSign:
+			$(sSignRef).show();
+			break;
+		case bForgot:
+			$(sForgotRef).show();
+			break;
+		case bQuiniela:
+			$(sQuinielaRef).show();
+			break;
+		}
+
+		switch (bActual){
+		case bHome:
+			$(sHomeRef).hide();
+			break;
+		case bLogin:
+			$(sLoginRef).hide();
+			break;
+		case bSign:
+			$(sSignRef).hide();
+			break;
+		case bForgot:
+			$(sForgotRef).hide();
+			break;
+		case bQuiniela:
+			$(sQuinielaRef).hide();
+			break;
+		}
+		
+		bActual = elem;
+//		alert ("actual="+bActual);		
+	}
+	
+	function getMainMenuItems(userLoged, user)
+  	{
+//alert ("getMainMenuItems userLoged="+userLoged+" user="+user);
+		$('#menu-nav li').remove();
+		
+    	$('#menu-nav').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
+    	$('#menu-nav').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
+    	if (userLoged){
+    		$('#menu-nav').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
+    		$('#menu-nav').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');
+    	}
+    	else{
+    		$('#menu-nav').append('<li><a href="' + sGuestRef + '">'+sGuest+'</a></li>');
+    		$('#menu-nav').append('<li><a href="' + sLoginRef + '">' + sLogin + '</a></li>');
+    	}
+  	}
+
+	
+$(document).ready(function() {
+	
+	initDiv(bHome);
 	//Paint Main Menu Items
 	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
     
-});
+	//Menu Click Events
+	$("li a").click(function(){
+alert("Menu="+ $(this).text() +" href="+$(this).attr("href"));
+		var elem = $(this).text();
+		var href = $(this).attr("href");
+		if (href == sHomeRef){
+			console.log("Home");
+			showDiv(bHome);
+		}else if (href == sLoginRef){
+			console.log("Login");
+			showDiv(bLogin);
+		}else if (href == sSignRef){
+			console.log("Sign");
+			showDiv(bSign);
+		}else if (href == sForgotRef){
+			console.log("Forget");
+			showDiv(bForget);
+		}else if (href == sQuinielaRef){
+			console.log("Quiniela");
+			showDiv(bQuiniela);
+		}else if (href == sGuestRef){
+			console.log("Guest");
+		}else if (href == sMyaccountRef){
+			console.log("Myaccount");
+			showDiv(bSign);
+		}else if (href == sLogoutRef){
+			console.log("Logout");
+			//vamos a hacer el logout
+			
+/*		    $.post('${pageContext.request.contextPath}/logout', $(this).serialize(), function(response) {
+			    if(response.errorDto!=null){
+			    	userLoged=true;
+			    	console.log("Logout: ok userLoged="+userLoged);
+			    }
+			    else{
+					userLoged=false;
+					console.log("Logout: nok userLoged="+userLoged);
+			    }
+		   	 });
+*/		
+			showDiv(bHome);
+			console.log("LogOut: userLoged="+userLoged);
+		}
+		return false;
 
-$('#loginForm').submit(function(e) {
-	alert('loginForm:submit: inicio');
-	console.log('loginForm:submit: inicio');
-    // will pass the form date using the jQuery serialize function
-    $.post('${pageContext.request.contextPath}/login', $(this).serialize(), function(response) {
-	    if(response.errorDto!=null){
-	    	$('#loginFormResponse').text(response.errorDto.stringError);
-	    	//refreshDivs(bLogin);
-	    	userLoged=false;
-	    }
-	    else{
-			$('#loginFormResponse').text(response.userAlterQ.name);
-			//refreshDivs(bLogo);
-			userLoged=true;
-	    }
-	    console.log('loginForm:submit: final con usuario='+userLoged);
-	   	 });
-    e.preventDefault(); // prevent actual form submit and page reload
+    });	
+	
+/*	
+	var jqxhr =
+	    $.ajax({
+	        url: "${pageContext.request.contextPath}/login",
+ 	    })
+	    .success (function(response) { 
+		    if(response.errorDto!=null){
+
+				showDiv(bLogin);
+				userLoged=false;
+		    }
+		    else{
+		    	if (response.userAlterQ!=null){
+
+					showDiv(bHome);    					
+					userLoged=true;
+		    	}
+		    	else{    		    		
+   					showDiv(bLogin);
+    				userLoged=false;
+		    	}
+		    }
+			//Paint Main Menu Items
+			console.log("Menu: pintamos los elementos del menu");
+			getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+	    });
+*/	
+	
+	
+	
+	$("form a").click(function(){
+//alert("Form ="+ $(this).text() +" href="+$(this).attr("href"));
+		var elem = $(this).text();
+		var href = $(this).attr("href");
+		
+		if (href == sSignRef){
+			console.log("Sign");
+			showDiv(bSign);
+		}else if (href == sForgotRef){
+			console.log("Forget");
+			showDiv(bForgot);
+		}		
+    });
+	
+	$("form#loginForm").submit(function(e){
+		console.log('loginForm:submit: inicio');
+	    // will pass the form date using the jQuery serialize function
+	    $.post('${pageContext.request.contextPath}/login', $(this).serialize(), function(response) {
+		    if(response.errorDto!=null){
+		    	$('#loginFormResponse').text(response.errorDto.stringError);
+		    	//refreshDivs(bLogin);
+		    	userLoged=false;
+		    }
+		    else{
+				$('#loginFormResponse').text(response.userAlterQ.name);
+				//refreshDivs(bLogo);
+				userLoged=true;
+		    }
+		    console.log('loginForm:submit: final con usuario='+userLoged);
+		   	 });
+	    e.preventDefault(); // prevent actual form submit and page reload
+	});
+
 });
 
 </script>
@@ -171,7 +354,7 @@ $('#loginForm').submit(function(e) {
 <!-- End Header -->
 
 <!-- Our Work Section -->
-<div id="work" class="page">
+<div id="homeDiv" class="page">
 	<div class="container">
     	<!-- Title Page -->
         <div class="row">
@@ -482,7 +665,7 @@ $('#loginForm').submit(function(e) {
 <!-- End Contact Section -->
 
 <!-- Login Section -->
-<div id="login" class="page">
+<div id="loginDiv" class="page">
 <div class="container">
     <!-- Title Page -->
     <div class="row">
@@ -513,8 +696,8 @@ $('#loginForm').submit(function(e) {
 				   			<td class="partido"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
 				        </tr>
 			   		</table>
-			   		<a href="signupDiv" id="signup_Div">Crear un nuevo usuario</a><br>
-			   		<a href="#" id="forgetPwd_Div">He olvidado mi contraseña</a>
+			   		<a href="#signDiv">Crear un nuevo usuario</a><br>
+			   		<a href="#forgotDiv">He olvidado mi contraseña</a>
 					<div id="loginFormResponse">respuesta </div>
 		        </form>
 			</div>
@@ -523,6 +706,101 @@ $('#loginForm').submit(function(e) {
 </div>
 </div>
 <!-- End Login Section -->
+
+
+<!-- Forgot Section -->
+<div id="forgotDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Login</h2>
+                <h3 class="title-description">Entra al mundo de las quinielas</h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- Forgot Form -->
+    <div class="row">
+		<div align="center">
+		   <form id="forgotPwdForm">
+		   		<table class="quiniela">
+		   			<tr class="quinielatitulo">
+						<td colspan="2">Enter your email address and we'll send you a link to reset your password.</td>
+					</tr>
+			   		<tr class="quinielatitulo">
+			   			<td  colspan="2"><input id="id" type="text" size="20" name="id" /></td>
+			        </tr>
+			   		<tr class="quinielatitulo" align="right">
+			   			<td colspan="2"><button id="login_btn" class="button" name="signup" value="send">Send</button></td>
+			        </tr>
+		   		</table>
+		   		<div id="forgotPwdFormResponse">respuesta </div>
+	        </form>
+		</div>
+    </div>
+    <!-- End Forgot Form -->
+</div>
+</div>
+<!-- End Forgot Section -->
+
+
+
+<!-- Sing Up Section -->
+<div id="signDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Login</h2>
+                <h3 class="title-description">Entra al mundo de las quinielas</h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- Sign Up Form -->
+    <div class="row">
+		<div align="center">
+		   <form id="signupForm">
+		   		<table class="quiniela">
+		   			<tr class="quinielatitulo">
+						<td colspan="2">Sign up</td>
+					</tr>
+			   		<tr>
+			   			<td class="partido">Username:</td>
+			   			<td class="partido"><input id="id" name="id" type="text"/></td>
+			        </tr>
+			   		<tr>
+			   			<td class="partido">Password:</td>
+			   			<td class="partido"><input type="password" name="pwd" id="pwd"/></td>
+			        </tr>
+			   		<tr>
+			   			<td class="partido">Name:</td>
+			   			<td class="partido"><input type="text" name="name" id="name"/></td>
+			        </tr>
+			   		<tr>
+			   			<td class="partido">PhoneNumber:</td>
+			   			<td class="partido"><input type="text" name="phoneNumber" id="phoneNumber"/></td>
+			        </tr>
+			   		<tr align="right">
+			   			<td class="partido">&nbsp;</td>
+			   			<td class="partido"><button id="login_btn" class="button" name="signup" value="signup">signup</button></td>
+			        </tr>
+		   		</table>
+	            <div id="signupFormResponse">respuesta </div>
+	        </form>
+		</div>
+    </div>
+    <!-- End Sign Up Form -->
+</div>
+</div>
+<!-- End Sign Up Section -->
+
+
 
 <!-- Twitter Feed -->
 <div id="twitter-feed" class="page-alternate">
