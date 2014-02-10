@@ -59,7 +59,7 @@ public class GeneralDataControllerTest {
 		bean.setTriples(3);
 		ObjectMapper mapper = new ObjectMapper();
 		System.out.println("Elmapper:" + mapper.writeValueAsString(bean));
-		ResultActions ra = this.mockMvc.perform(post("/generalData").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(bean)));
+		ResultActions ra = this.mockMvc.perform(post("/generalData").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(bean)));
 		ra.andDo(MockMvcResultHandlers.print());
 		ra.andExpect(status().isOk());
 

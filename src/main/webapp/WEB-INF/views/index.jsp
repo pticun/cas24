@@ -44,7 +44,7 @@
     		$('#menuMainList').append('<li><a href="#" id="menu_User">Invitado</a></li>');
     		$('#menuMainList').append('<li><a id="menu_Login" href="index?WHERE=login">Login</a></li>');
     	}
-    	$("#menuMainList").listview("refresh");
+//    	$("#menuMainList").listview("refresh");
   	}
   	
 	function refreshDivs(elem) {
@@ -170,29 +170,55 @@
     	    ;    	
     	
     	
+    	$.fn.serializeObject = function()
+    	{
+    	    var o = {};
+    	    var a = this.serializeArray();
+    	    $.each(a, function() {
+    	        if (o[this.name] !== undefined) {
+    	            if (!o[this.name].push) {
+    	                o[this.name] = [o[this.name]];
+    	            }
+    	            o[this.name].push(this.value || '');
+    	        } else {
+    	            o[this.name] = this.value || '';
+    	        }
+    	    });
+    	    return o;
+    	};
     	
-
     	
     	 $('#loginForm').submit(function(e) {
-    	        // will pass the form date using the jQuery serialize function
-    	        $.post('${pageContext.request.contextPath}/login', $(this).serialize(), function(response) {
-	    		    if(response.errorDto!=null){
-	    		    	$('#loginFormResponse').text(response.errorDto.stringError);
-	    		    	refreshDivs(bLogin);
-	    		    	userLoged=false;
-	    		    }
-	    		    else{
-						$('#loginFormResponse').text(response.userAlterQ.name);
-						$('#menu_User').text(response.userAlterQ.name);
-    					$('#menu_User').attr("href", "myaccount");
-						$('#menu_Login').text("Logout");
-						
-						refreshDivs(bLogo);
-						userLoged=true;
-	    		    }
- 			   	 });
-    	        e.preventDefault(); // prevent actual form submit and page reload
-    	 });
+    		 var jsonObjects = "{\"id\":\"nombre@mail.es\", \"pwd\":\"áéíóú´`aèìòùö\"}";
+    		 var data = $('#loginForm').serialize(); // serialize all the data in the form 
+    		 var dataJson=JSON.stringify($('#loginForm').serializeObject());
+    		 jQuery.ajax ({
+    			    url: '${pageContext.request.contextPath}/login',
+    			    type: "POST",
+    			    data: dataJson,
+    			    contentType: "application/json; charset=utf-8",
+    			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+                    cache: false,    //This will force requested pages not to be cached by the browser  
+                    processData:false, //To avoid making query String instead of JSON
+    			    success: function(response){
+    	    		    if(response.errorDto!=null){
+    	    		    	$('#loginFormResponse').text(response.errorDto.stringError);
+    	    		    	refreshDivs(bLogin);
+    	    		    	userLoged=false;
+    	    		    }
+    	    		    else{
+    						$('#loginFormResponse').text(response.userAlterQ.name);
+    						$('#menu_User').text(response.userAlterQ.name);
+        					$('#menu_User').attr("href", "myaccount");
+    						$('#menu_Login').text("Logout");
+    						
+    						refreshDivs(bLogo);
+    						userLoged=true;
+    	    		    }
+    			    }
+    			});
+	 	        e.preventDefault(); // prevent actual form submit and page reload
+     	 });
     	 $('#forgotPwdForm').submit(function(e) {
     	        // will pass the form date using the jQuery serialize function
     	        $.post('${pageContext.request.contextPath}/myaccount/forgotPwd', $(this).serialize(), function(response) {

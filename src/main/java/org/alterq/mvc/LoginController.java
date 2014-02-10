@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,7 +32,7 @@ public class LoginController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody
-	ResponseDto login(UserAlterQ user, HttpServletResponse response) {
+	ResponseDto login(@RequestBody UserAlterQ user, HttpServletResponse response) {
 		log.debug("login name:" + user.getId() + "-:pwd:" + user.getPwd());
 		UserAlterQ userValidate = userDao.validateLogin(user.getId(), user.getPwd());
 		ResponseDto dto = new ResponseDto();
