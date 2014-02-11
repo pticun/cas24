@@ -363,18 +363,10 @@ $(document).ready(function() {
 			    success: function(response){
 		   		    if(response.errorDto!=null){
 		   		    	$('#loginFormResponse').text(response.errorDto.stringError);
-		//   		    	refreshDivs(bLogin);
 		   		    	userLoged=false;
 		   		    }
 		   		    else{
 							$('#loginFormResponse').text(response.userAlterQ.name);
-		/*
-							$('#menu_User').text(response.userAlterQ.name);
-							$('#menu_User').attr("href", "myaccount");
-							$('#menu_Login').text("Logout");
-							
-							refreshDivs(bLogo);
-		*/					
 							userLoged=true;
 		   		    }
 			    }
