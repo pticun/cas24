@@ -189,35 +189,11 @@
 //		alert ("actual="+bActual);		
 	}
 	
-	function getMainMenuItems(userLoged, user)
-  	{
-//alert ("getMainMenuItems userLoged="+userLoged+" user="+user);
-		$('#menu-nav li').remove();
-		
-    	$('#menu-nav').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
-    	$('#menu-nav').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
-    	if (userLoged){
-    		$('#menu-nav').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
-    		$('#menu-nav').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');
-    	}
-    	else{
-    		$('#menu-nav').append('<li><a href="' + sGuestRef + '">'+sGuest+'</a></li>');
-    		$('#menu-nav').append('<li><a href="' + sLoginRef + '">' + sLogin + '</a></li>');
-    	}
-  	}
+	//Manage Menu Events 
+	function menuEvent(name, href)
+	{
+  		console.log("menuEvent elem="+ name +" href="+href);
 
-	
-$(document).ready(function() {
-	
-	initDiv(bHome);
-	//Paint Main Menu Items
-	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
-    
-	//Menu Click Events
-	$("li a").click(function(){
-alert("Menu="+ $(this).text() +" href="+$(this).attr("href"));
-		var elem = $(this).text();
-		var href = $(this).attr("href");
 		if (href == sHomeRef){
 			console.log("Home");
 			showDiv(bHome);
@@ -252,13 +228,50 @@ alert("Menu="+ $(this).text() +" href="+$(this).attr("href"));
 					console.log("Logout: nok userLoged="+userLoged);
 			    }
 		   	 });
-*/		
+*/
 			showDiv(bHome);
 			console.log("LogOut: userLoged="+userLoged);
 		}
 		return false;
+		
+	}
+	
+	function getMainMenuItems(userLoged, user)
+  	{
+//alert ("getMainMenuItems userLoged="+userLoged+" user="+user);
+		$('#menu-nav li').remove();
+		
+    	$('#menu-nav').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
+    	$('#menu-nav').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
+    	if (userLoged){
+    		$('#menu-nav').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
+    		$('#menu-nav').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');
+    	}
+    	else{
+    		$('#menu-nav').append('<li><a href="' + sGuestRef + '">'+sGuest+'</a></li>');
+    		$('#menu-nav').append('<li><a href="' + sLoginRef + '">' + sLogin + '</a></li>');
+    	}
+  	}
 
-    });	
+	
+$(document).ready(function() {
+	
+	initDiv(bHome);
+	//Paint Main Menu Items
+	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+    
+	//Menu Click Events
+	$('div').on("click", "nav#menu ul#menu-nav li a", function() {
+		menuEvent($(this).text(), $(this).attr("href"));
+  		event.preventDefault();
+	});
+	//Menu Mobile Click Events
+	$('div').on("click", "nav#navigation-mobile ul#menu-nav-mobile li a", function() {
+		menuEvent($(this).text(), $(this).attr("href"));
+		event.preventDefault();
+	});
+	
+
 	
 /*	
 	var jqxhr =
