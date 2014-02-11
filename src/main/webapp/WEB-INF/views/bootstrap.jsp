@@ -8,10 +8,24 @@
 <!--[if (IE 9)]><html class="no-js ie9" lang="en"><![endif]-->
 <!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
 <head>
-<!-- JQuery -->
+<!-- Js -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> <!-- jQuery Core -->
+<script src="<c:url value="/static/resources/_include/js/bootstrap.min.js"/>"></script> <!-- Bootstrap -->
+<script src="<c:url value="/static/resources/_include/js/supersized.3.2.7.min.js"/>"></script> <!-- Slider -->
+<script src="<c:url value="/static/resources/_include/js/waypoints.js"/>"></script> <!-- WayPoints -->
+<script src="<c:url value="/static/resources/_include/js/waypoints-sticky.js"/>"></script> <!-- Waypoints for Header -->
+<script src="<c:url value="/static/resources/_include/js/jquery.isotope.js"/>"></script> <!-- Isotope Filter -->
+<script src="<c:url value="/static/resources/_include/js/jquery.fancybox.pack.js"/>"></script> <!-- Fancybox -->
+<script src="<c:url value="/static/resources/_include/js/jquery.fancybox-media.js"/>"></script> <!-- Fancybox for Media -->
+<script src="<c:url value="/static/resources/_include/js/jquery.tweet.js"/>"></script> <!-- Tweet -->
+<script src="<c:url value="/static/resources/_include/js/plugins.js"/>"></script> <!-- Contains: jPreloader, jQuery Easing, jQuery ScrollTo, jQuery One Page Navi -->
+<script src="<c:url value="/static/resources/_include/js/main.js"/>"></script> <!-- Default JS -->
+<!-- End Js -->
+
+<!-- JQuery 
 <script src="<c:url value="/static/resources/js/jquery.min.js"/>"></script>
 <script src="<c:url value="/static/resources/js/jquery.dropotron.js"/>"></script>
-
+-->
 <!-- Meta Tags -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -99,6 +113,24 @@
 </head>
 
 <script type="text/javascript">
+
+	$.fn.serializeObject = function()
+	{
+	    var o = {};
+	    var a = this.serializeArray();
+	    $.each(a, function() {
+	        if (o[this.name] !== undefined) {
+	            if (!o[this.name].push) {
+	                o[this.name] = [o[this.name]];
+	            }
+	            o[this.name].push(this.value || '');
+	        } else {
+	            o[this.name] = this.value || '';
+	        }
+	    });
+	    return o;
+	};
+
 
 	var menu = $('#menu');
 	
@@ -303,24 +335,38 @@ alert("Menu="+ $(this).text() +" href="+$(this).attr("href"));
 			showDiv(bForgot);
 		}		
     });
-	
-	$("form#loginForm").submit(function(e){
-		console.log('loginForm:submit: inicio');
-	    // will pass the form date using the jQuery serialize function
-	    $.post('${pageContext.request.contextPath}/login', $(this).serialize(), function(response) {
-		    if(response.errorDto!=null){
-		    	$('#loginFormResponse').text(response.errorDto.stringError);
-		    	//refreshDivs(bLogin);
-		    	userLoged=false;
-		    }
-		    else{
-				$('#loginFormResponse').text(response.userAlterQ.name);
-				//refreshDivs(bLogo);
-				userLoged=true;
-		    }
-		    console.log('loginForm:submit: final con usuario='+userLoged);
-		   	 });
-	    e.preventDefault(); // prevent actual form submit and page reload
+
+	$('form#loginForm').submit(function(e) {
+		 var dataJson=JSON.stringify($('form#loginForm').serializeObject());
+		 console.log(dataJson);
+		 jQuery.ajax ({
+			    url: '${pageContext.request.contextPath}/login',
+			    type: "POST",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=null){
+		   		    	$('#loginFormResponse').text(response.errorDto.stringError);
+		//   		    	refreshDivs(bLogin);
+		   		    	userLoged=false;
+		   		    }
+		   		    else{
+							$('#loginFormResponse').text(response.userAlterQ.name);
+		/*
+							$('#menu_User').text(response.userAlterQ.name);
+							$('#menu_User').attr("href", "myaccount");
+							$('#menu_Login').text("Logout");
+							
+							refreshDivs(bLogo);
+		*/					
+							userLoged=true;
+		   		    }
+			    }
+			});
+	        e.preventDefault(); // prevent actual form submit and page reload
 	});
 
 });
@@ -856,19 +902,6 @@ alert("Menu="+ $(this).text() +" href="+$(this).attr("href"));
 <!-- End Back to Top -->
 
 
-<!-- Js -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> <!-- jQuery Core -->
-<script src="<c:url value="/static/resources/_include/js/bootstrap.min.js"/>"></script> <!-- Bootstrap -->
-<script src="<c:url value="/static/resources/_include/js/supersized.3.2.7.min.js"/>"></script> <!-- Slider -->
-<script src="<c:url value="/static/resources/_include/js/waypoints.js"/>"></script> <!-- WayPoints -->
-<script src="<c:url value="/static/resources/_include/js/waypoints-sticky.js"/>"></script> <!-- Waypoints for Header -->
-<script src="<c:url value="/static/resources/_include/js/jquery.isotope.js"/>"></script> <!-- Isotope Filter -->
-<script src="<c:url value="/static/resources/_include/js/jquery.fancybox.pack.js"/>"></script> <!-- Fancybox -->
-<script src="<c:url value="/static/resources/_include/js/jquery.fancybox-media.js"/>"></script> <!-- Fancybox for Media -->
-<script src="<c:url value="/static/resources/_include/js/jquery.tweet.js"/>"></script> <!-- Tweet -->
-<script src="<c:url value="/static/resources/_include/js/plugins.js"/>"></script> <!-- Contains: jPreloader, jQuery Easing, jQuery ScrollTo, jQuery One Page Navi -->
-<script src="<c:url value="/static/resources/_include/js/main.js"/>"></script> <!-- Default JS -->
-<!-- End Js -->
 
 </body>
 </html>
