@@ -131,15 +131,22 @@
 	var sLogoutRef = "#logoutDiv";
 	
 	function initDiv() {
+		//document.getElementById("homeDiv").style.display = "block";
 		$(sHomeRef).show();
+		//document.getElementById("loginDiv").style.display = "none";
 		$(sLoginRef).hide();
+		//document.getElementById("signDiv").style.display = "none";
 		$(sSignRef).hide();
+		//document.getElementById("forgotDiv").style.display = "none";
 		$(sForgotRef).hide();
+		//document.getElementById("quinielaDiv").style.display = "none";
 		$(sQuinielaRef).hide();
 				
 		bActual = bHome;
 		
+		//document.getElementById("contact").style.display = "none";
 		$('#contact').hide();
+		//document.getElementById("about").style.display = "none";
 		$('#about').hide();
 	}
 	
@@ -151,36 +158,46 @@
 		switch (elem){
 		case bHome:
 			$(sHomeRef).show();
+			//document.getElementById("homeDiv").style.display = "block";
 			break;
 		case bLogin:
 			$(sLoginRef).show();
+			//document.getElementById("logingDiv").style.display = "block";
 			break;
 		case bSign:
 			$(sSignRef).show();
+			//document.getElementById("signDiv").style.display = "block";
 			break;
 		case bForgot:
 			$(sForgotRef).show();
+			//document.getElementById("forgotDiv").style.display = "block";
 			break;
 		case bQuiniela:
 			$(sQuinielaRef).show();
+			//document.getElementById("quinielaDiv").style.display = "block";
 			break;
 		}
 
 		switch (bActual){
 		case bHome:
 			$(sHomeRef).hide();
+			//document.getElementById("homeDiv").style.display = "none";
 			break;
 		case bLogin:
 			$(sLoginRef).hide();
+			//document.getElementById("logiDiv").style.display = "none";
 			break;
 		case bSign:
 			$(sSignRef).hide();
+			//document.getElementById("signDiv").style.display = "none";
 			break;
 		case bForgot:
 			$(sForgotRef).hide();
+			//document.getElementById("forgotDiv").style.display = "none";
 			break;
 		case bQuiniela:
 			$(sQuinielaRef).hide();
+			//document.getElementById("quinielaDiv").style.display = "none";
 			break;
 		}
 		
