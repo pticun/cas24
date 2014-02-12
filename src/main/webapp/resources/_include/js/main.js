@@ -35,7 +35,8 @@ BRUSHED.listenerMenu = function(){
 		e.preventDefault();
 	});
 	
-	$('#menu-nav-mobile a').on('click', function(){
+	$('#navigation-mobile').on('click', '#menu-nav-mobile', function() {
+	//$('#menu-nav-mobile a').on('click', function(){
 		$('#mobile-nav').removeClass('open');
 		$('#navigation-mobile').slideUp(350, 'easeOutExpo');
 	});

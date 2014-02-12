@@ -8,24 +8,10 @@
 <!--[if (IE 9)]><html class="no-js ie9" lang="en"><![endif]-->
 <!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
 <head>
-<!-- Js -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> <!-- jQuery Core -->
-<script src="<c:url value="/static/resources/_include/js/bootstrap.min.js"/>"></script> <!-- Bootstrap -->
-<script src="<c:url value="/static/resources/_include/js/supersized.3.2.7.min.js"/>"></script> <!-- Slider -->
-<script src="<c:url value="/static/resources/_include/js/waypoints.js"/>"></script> <!-- WayPoints -->
-<script src="<c:url value="/static/resources/_include/js/waypoints-sticky.js"/>"></script> <!-- Waypoints for Header -->
-<script src="<c:url value="/static/resources/_include/js/jquery.isotope.js"/>"></script> <!-- Isotope Filter -->
-<script src="<c:url value="/static/resources/_include/js/jquery.fancybox.pack.js"/>"></script> <!-- Fancybox -->
-<script src="<c:url value="/static/resources/_include/js/jquery.fancybox-media.js"/>"></script> <!-- Fancybox for Media -->
-<script src="<c:url value="/static/resources/_include/js/jquery.tweet.js"/>"></script> <!-- Tweet -->
-<script src="<c:url value="/static/resources/_include/js/plugins.js"/>"></script> <!-- Contains: jPreloader, jQuery Easing, jQuery ScrollTo, jQuery One Page Navi -->
-<script src="<c:url value="/static/resources/_include/js/main.js"/>"></script> <!-- Default JS -->
-<!-- End Js -->
-
-<!-- JQuery 
+<!-- JQuery -->
 <script src="<c:url value="/static/resources/js/jquery.min.js"/>"></script>
 <script src="<c:url value="/static/resources/js/jquery.dropotron.js"/>"></script>
--->
+
 <!-- Meta Tags -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -114,25 +100,6 @@
 
 <script type="text/javascript">
 
-	$.fn.serializeObject = function()
-	{
-	    var o = {};
-	    var a = this.serializeArray();
-	    $.each(a, function() {
-	        if (o[this.name] !== undefined) {
-	            if (!o[this.name].push) {
-	                o[this.name] = [o[this.name]];
-	            }
-	            o[this.name].push(this.value || '');
-	        } else {
-	            o[this.name] = this.value || '';
-	        }
-	    });
-	    return o;
-	};
-
-
-	var menu = $('#menu');
 	
 	var userLoged=false;
 	
@@ -161,7 +128,7 @@
 	var sQuinielaRef = "#quinielaDiv";
 	var sGuestRef = "#";
 	var sMyaccountRef = "#myaccountDiv";
-	var sLogoutRef = "#homeDiv";
+	var sLogoutRef = "#logoutDiv";
 	
 	function initDiv() {
 		$(sHomeRef).show();
@@ -250,17 +217,17 @@
 			console.log("Logout");
 			//vamos a hacer el logout
 			
-/*		    $.post('${pageContext.request.contextPath}/logout', $(this).serialize(), function(response) {
-			    if(response.errorDto!=null){
-			    	userLoged=true;
-			    	console.log("Logout: ok userLoged="+userLoged);
-			    }
-			    else{
+			var url= '${pageContext.request.contextPath}/logout';
+			$.get(url, $(this).serialize(), function(response) {
+				if(response.errorDto!=null){
+				}
+				else{
 					userLoged=false;
-					console.log("Logout: nok userLoged="+userLoged);
-			    }
-		   	 });
-*/
+					getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+				}
+			});
+			e.preventDefault();
+
 			showDiv(bHome);
 			console.log("LogOut: userLoged="+userLoged);
 		}
@@ -270,7 +237,8 @@
 	
 	function getMainMenuItems(userLoged, user)
   	{
-//alert ("getMainMenuItems userLoged="+userLoged+" user="+user);
+		console.log("getMainMenuItems userLoged="+userLoged+" user="+user);
+		//MENU WEB 
 		$('#menu-nav li').remove();
 		
     	$('#menu-nav').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
@@ -283,10 +251,43 @@
     		$('#menu-nav').append('<li><a href="' + sGuestRef + '">'+sGuest+'</a></li>');
     		$('#menu-nav').append('<li><a href="' + sLoginRef + '">' + sLogin + '</a></li>');
     	}
+    	
+    	// MENU MOBILE 
+    	
+		$('#menu-nav-mobile li').remove();
+		
+    	$('#menu-nav-mobile').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
+    	$('#menu-nav-mobile').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
+    	if (userLoged){
+    		$('#menu-nav-mobile').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
+    		$('#menu-nav-mobile').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');
+    	}
+    	else{
+    		$('#menu-nav-mobile').append('<li><a href="' + sGuestRef + '">'+sGuest+'</a></li>');
+    		$('#menu-nav-mobile').append('<li><a href="' + sLoginRef + '">' + sLogin + '</a></li>');
+    	}
+    	
   	}
 
 	
 $(document).ready(function() {
+	
+	$.fn.serializeObject = function()
+	{
+	    var o = {};
+	    var a = this.serializeArray();
+	    $.each(a, function() {
+	        if (o[this.name] !== undefined) {
+	            if (!o[this.name].push) {
+	                o[this.name] = [o[this.name]];
+	            }
+	            o[this.name].push(this.value || '');
+	        } else {
+	            o[this.name] = this.value || '';
+	        }
+	    });
+	    return o;
+	};
 	
 	initDiv(bHome);
 	//Paint Main Menu Items
@@ -305,25 +306,25 @@ $(document).ready(function() {
 	
 
 	
-/*	
 	var jqxhr =
 	    $.ajax({
 	        url: "${pageContext.request.contextPath}/login",
  	    })
 	    .success (function(response) { 
 		    if(response.errorDto!=null){
-
+alert("1");
 				showDiv(bLogin);
 				userLoged=false;
 		    }
 		    else{
 		    	if (response.userAlterQ!=null){
-
+alert("2");
 					showDiv(bHome);    					
 					userLoged=true;
 		    	}
-		    	else{    		    		
-   					showDiv(bLogin);
+		    	else{
+alert("3");		    		
+   					showDiv(bHome);
     				userLoged=false;
 		    	}
 		    }
@@ -331,7 +332,6 @@ $(document).ready(function() {
 			console.log("Menu: pintamos los elementos del menu");
 			getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
 	    });
-*/	
 	
 	
 	
@@ -348,7 +348,7 @@ $(document).ready(function() {
 			showDiv(bForgot);
 		}		
     });
-
+	
 	$('form#loginForm').submit(function(e) {
 		 var dataJson=JSON.stringify($('form#loginForm').serializeObject());
 		 console.log(dataJson);
@@ -362,12 +362,16 @@ $(document).ready(function() {
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
 		   		    if(response.errorDto!=null){
-		   		    	$('#loginFormResponse').text(response.errorDto.stringError);
+		   		    	console.log("login: response="+response.errorDto.stringError);
+		   		    	//$('#loginFormResponse').text(response.errorDto.stringError);
 		   		    	userLoged=false;
 		   		    }
 		   		    else{
-							$('#loginFormResponse').text(response.userAlterQ.name);
+		   		    	console.log("login: response="+response.userAlterQ.name);
+							//$('#loginFormResponse').text(response.userAlterQ.name);
 							userLoged=true;
+							getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+							showDiv(bHome);
 		   		    }
 			    }
 			});
@@ -907,6 +911,19 @@ $(document).ready(function() {
 <!-- End Back to Top -->
 
 
+<!-- Js -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> <!-- jQuery Core -->
+<script src="<c:url value="/static/resources/_include/js/bootstrap.min.js"/>"></script> <!-- Bootstrap -->
+<script src="<c:url value="/static/resources/_include/js/supersized.3.2.7.min.js"/>"></script> <!-- Slider -->
+<script src="<c:url value="/static/resources/_include/js/waypoints.js"/>"></script> <!-- WayPoints -->
+<script src="<c:url value="/static/resources/_include/js/waypoints-sticky.js"/>"></script> <!-- Waypoints for Header -->
+<script src="<c:url value="/static/resources/_include/js/jquery.isotope.js"/>"></script> <!-- Isotope Filter -->
+<script src="<c:url value="/static/resources/_include/js/jquery.fancybox.pack.js"/>"></script> <!-- Fancybox -->
+<script src="<c:url value="/static/resources/_include/js/jquery.fancybox-media.js"/>"></script> <!-- Fancybox for Media -->
+<script src="<c:url value="/static/resources/_include/js/jquery.tweet.js"/>"></script> <!-- Tweet -->
+<script src="<c:url value="/static/resources/_include/js/plugins.js"/>"></script> <!-- Contains: jPreloader, jQuery Easing, jQuery ScrollTo, jQuery One Page Navi -->
+<script src="<c:url value="/static/resources/_include/js/main.js"/>"></script> <!-- Default JS -->
+<!-- End Js -->
 
 </body>
 </html>
