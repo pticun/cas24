@@ -312,18 +312,18 @@ $(document).ready(function() {
  	    })
 	    .success (function(response) { 
 		    if(response.errorDto!=null){
-alert("1");
+
 				showDiv(bLogin);
 				userLoged=false;
 		    }
 		    else{
 		    	if (response.userAlterQ!=null){
-alert("2");
+
 					showDiv(bHome);    					
 					userLoged=true;
 		    	}
 		    	else{
-alert("3");		    		
+		    		
    					showDiv(bHome);
     				userLoged=false;
 		    	}
