@@ -152,6 +152,10 @@
 	var bSign    = 3;
 	var bForgot  = 4;
 	var bQuiniela = 5;
+	var bMyAccount = 6;
+	var bMyData = 7;
+	var bMyBalance = 8;
+	var bMyBets = 9;
 	
 	//Texts
 	var sHome    = "Inicio";
@@ -171,6 +175,9 @@
 	var sGuestRef = "#";
 	var sMyaccountRef = "#myaccountDiv";
 	var sLogoutRef = "#logoutDiv";
+	var sMyDataRef = "#mydataDiv";
+	var sMyBalanceRef = "#mybalanceDiv";
+	var sMyBetsRef = "#mybetsDiv";
 	
 	function initDiv() {
 		//document.getElementById("homeDiv").style.display = "block";
@@ -183,7 +190,11 @@
 		$(sForgotRef).hide();
 		//document.getElementById("quinielaDiv").style.display = "none";
 		$(sQuinielaRef).hide();
-				
+		$(sMyaccountRef).hide();
+		$(sMyDataRef).hide();
+		$(sMyBalanceRef).hide();
+		$(sMyBetsRef).hide();
+		
 		bActual = bHome;
 		
 		//document.getElementById("contact").style.display = "none";
@@ -219,6 +230,18 @@
 			$(sQuinielaRef).show();
 			//document.getElementById("quinielaDiv").style.display = "block";
 			break;
+		case bMyAccount:
+			$(sMyaccountRef).show();
+			break;
+		case bMyData:
+			$(sMyDataRef).show();
+			break;
+		case bMyBalance:
+			$(sMyBalanceRef).show();
+			break;
+		case bMyBets:
+			$(sMyBetsRef).show();
+			break;
 		}
 
 		switch (bActual){
@@ -241,6 +264,18 @@
 		case bQuiniela:
 			$(sQuinielaRef).hide();
 			//document.getElementById("quinielaDiv").style.display = "none";
+			break;
+		case bMyAccount:
+			$(sMyaccountRef).hide();
+			break;
+		case bMyData:
+			$(sMyDataRef).hide();
+			break;
+		case bMyBalance:
+			$(sMyBalanceRef).hide();
+			break;
+		case bMyBets:
+			$(sMyBetsRef).hide();
 			break;
 		}
 		
@@ -272,7 +307,7 @@
 			console.log("Guest");
 		}else if (href == sMyaccountRef){
 			console.log("Myaccount");
-			showDiv(bSign);
+			showDiv(bMyAccount);
 		}else if (href == sLogoutRef){
 			console.log("Logout");
 			//vamos a hacer el logout
@@ -290,6 +325,15 @@
 
 			showDiv(bHome);
 			console.log("LogOut: userLoged="+userLoged);
+		}else if (href == sMyDataRef){
+			console.log("Mydata");
+			showDiv(bMyData);
+		}else if (href == sMyBalanceRef){
+			console.log("Mybalance");
+			showDiv(bMyBalance);
+		}else if (href == sMyBetsRef){
+			console.log("Mybets");
+			showDiv(bMyBets);
 		}
 		return false;
 		
@@ -552,9 +596,43 @@ $(document).ready(function() {
 	$("#quinielaBtn").click(function(){
 		menuEvent($(this).text(), $(this).attr("href"));
     });
+	$("#myDataBtn").click(function(){
+		menuEvent($(this).text(), $(this).attr("href"));
+    });
+	$("#myBalanceBtn").click(function(){
+		menuEvent($(this).text(), $(this).attr("href"));
+    });
+	$("#myBetsBtn").click(function(){
+		menuEvent($(this).text(), $(this).attr("href"));
+    });
 	
-
 });
+
+
+function getSign(sign){
+	switch(sign)
+	{
+	case "4": return '1&nbsp;&nbsp;';break;
+	case "2": return '&nbsp;X&nbsp;';break;
+	case "1": return '&nbsp;&nbsp;2';break;
+	case "3": return '&nbsp;X2';break;
+	case "5": return '1&nbsp;2';break;
+	case "6": return '1X&nbsp;';break;
+	case "7": return '1X2';break;
+	default: return '&nbsp;&nbsp;&nbsp;';
+	}
+}
+
+function getTableMatches(bet, loadGames){
+	tableBet='<table style="font-size:14px">';
+	$(loadGames).each(function(index, element){  
+		var temp=padding_right(element.player1+'-'+element.player2,".",28);
+		tableBet+='<tr><td>' + temp + '</td><td align="left">'+ getSign(bet.charAt(index)) + '</td>';
+		tableBet+='</tr>';
+	});
+	tableBet+='</table>';		
+        return tableBet;
+}
 
 </script>
 
@@ -566,6 +644,7 @@ $(document).ready(function() {
 	<div id="circle"></div>
 </section>
 </div>
+
 <!-- Header -->
 <header>
     <div class="sticky-nav">
@@ -626,6 +705,160 @@ $(document).ready(function() {
 </div>
 <!-- End Principal -->
 
+<!-- My Account -->
+<div id="myaccountDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Mi Cuenta</h2>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+
+    	<div class="row">
+            <div class="span12">
+
+            			<ul>
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span1">
+                            </li>
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3">
+                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
+                            	<a class="hover-wrap" id="myDataBtn" href="#mydataDiv">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-02.jpg'/>" alt="Quiniela">
+                            </li>
+                        	<!-- End Item Project -->
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3">
+                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
+                            	<a class="hover-wrap" id="myBalanceBtn" href="#mybalanceDiv">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-03.jpg'/>" alt="Quiniela">
+                            </li>
+                        	<!-- End Item Project -->
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3">
+                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
+                            	<a class="hover-wrap" id="myBetsBtn" href="#myBetsDiv">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-04.jpg'/>" alt="Quiniela">
+                            </li>
+                        	<!-- End Item Project -->
+
+            			</ul>
+
+            </div>
+        </div>
+</div>
+</div>
+<!-- End My Account -->
+
+
+<!-- MyData Section -->
+<div id="mydataDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Mis Datos</h2>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- MyData Form -->
+    <div class="row">
+		<div align="center">
+		   <form id="myDataForm">
+		   		<table class="quiniela">
+		   			<TR class="quinielatitulo">
+						<TD colspan="2">My Account</TD>
+						</TR>
+		   		
+		   		<tr>
+		   			<td class="partido">Username:</td>
+		   			<td class="partido"><input id="id" name="id" type="text" readonly="readonly"/></td>
+		        </tr>
+		   		<tr>
+		   			<td class="partido">Name:</td>
+		   			<td class="partido"><input name="name" id="name" type="text"/></td>
+		        </tr>
+		   		<tr>
+		   			<td class="partido">Phone Number:</td>
+		   			<td class="partido"><input name="phoneNumber" id="phoneNumber" type="text"/></td>
+		        </tr>
+		   		<tr align="right">
+		   			<td class="partido"></td>
+		   			<td class="partido"><button type="submit" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
+		        </tr>
+		        </table>
+		        	<div id="userAlterQFormResponse">Actualiza tus datos y pulsa Enviar.</div>
+	        </form>
+		</div>
+    </div>
+    <!-- End MyData Form -->
+</div>
+</div>
+<!-- End MyData Section -->
+
+<!-- MyBalande Section -->
+<div id="mybalanceDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Mis Datos</h2>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- MyBalance Form -->
+    <div class="row">
+		<div align="center">
+		   <form id="balanceAlterQForm">
+		   		<table class="quiniela">
+		   			<TR class="quinielatitulo">
+						<TD colspan="2">Saldo</TD>
+						</TR>
+		   		
+		   		<tr>
+		   			<td class="partido">Username:</td>
+		   			<td class="partido"><input id="idSaldo" name="id" type="text" readonly="readonly"/></td>
+		        </tr>
+		   		<tr>
+		   			<td class="partido">Saldo:</td>
+		   			<td class="partido"><input name="balance" id="balance" type="text"/></td>
+		        </tr>
+		   		<tr align="right">
+		   			<td class="partido"></td>
+		   			<td class="partido"><button type="submit" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
+		        </tr>
+		   		</table>
+		         <div id="balanceAlterQFormResponse">Actualiza tu saldo y pulsa Enviar.</div>
+	        </form>
+		</div>
+    </div>
+    <!-- End MyBalance Form -->
+</div>
+</div>
+<!-- End MyBalance Section -->
 
 <!-- About Section -->
 <div id="about" class="page-alternate">
