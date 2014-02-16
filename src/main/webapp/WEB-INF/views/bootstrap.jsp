@@ -98,8 +98,50 @@
 
 </head>
 
+	<script type="text/javascript">
+		// left padding s with c to a total of n chars
+		function padding_left(s, c, n) {
+		  if (! s || ! c || s.length >= n) {
+		    return s;
+		  }
+		  var max = (n - s.length)/c.length;
+		  for (var i = 0; i < max; i++) {
+		    s = c + s;
+		  }
+		  return s;
+		}
+		 
+		// right padding s with c to a total of n chars
+		function padding_right(s, c, n) {
+		  if (! s || ! c || s.length >= n) {
+		    return s;
+		  }
+		  var max = (n - s.length)/c.length;
+		  for (var i = 0; i < max; i++) {
+		    s += c;
+		  }
+		  return s;
+		}
+		function calculatePrice(){
+			console.log('calculatePrice');
+			// will pass the form date using the jQuery serialize function
+			var url= '${pageContext.request.contextPath}/bet/price';
+			$.post(url, $("#betForm").serialize(), function(response) {
+				if(response.errorDto!=null){
+					$('#quinielaPrice').text(response.errorDto.stringError);
+				}
+				else{
+					$('#quinielaPrice').text(response.roundBet.bets[0].price);
+				}
+			});
+			
+			return false;
+		}		
+	</script>
+	
 <script type="text/javascript">
 
+	var loadBet=true;
 	
 	var userLoged=false;
 	
@@ -173,6 +215,7 @@
 			//document.getElementById("forgotDiv").style.display = "block";
 			break;
 		case bQuiniela:
+			getQuiniela();
 			$(sQuinielaRef).show();
 			//document.getElementById("quinielaDiv").style.display = "block";
 			break;
@@ -286,6 +329,55 @@
     	
   	}
 
+	function getQuiniela(){
+		var url= '${pageContext.request.contextPath}/bet';
+		if(loadBet){
+		 	loadBet=false;
+		     $.get(url, $(this).serialize(), function(response) {
+			    if(response.errorDto!=null){
+			    	$('#temporada').text(response.errorDto.stringError);
+			    }
+			    else{
+					$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
+				    $('#quinielaTable').append('<input type="hidden" name="season" id="season" value="'+ response.round.season+'"/>');       
+				    $('#quinielaTable').append('<input type="hidden" name="round" id="round" value="'+ response.round.round+'"/>');       
+				    $('#quinielaTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
+		
+					$(response.round.games).each(function(index, element){  
+						if( (window['console'] !== undefined) ){
+							console.log(element);
+					    }
+						var row="";
+						var temp=padding_right(element.player1+'-'+element.player2,".",28);
+						if(index>8){
+							temp=temp+(index+1);
+						}
+						else{
+							temp=temp+" "+(index+1);
+						}
+						if(index==0 || index==4 || index==8 || index==11 || index==14){
+							row+='<tr id="rowBet_'+index+'"><td class="partidolinea">'+temp+'</td>';
+						}
+						else{
+							row+='<tr id="rowBet_'+index+'"><td class="partido">'+temp+'</td>';
+						}
+						row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
+						row+='<label class="quiniela" for="'+index+'_1"></label>';
+						row+='</td>';
+						row+='<td class="pronostico"><input class="classX" type="checkbox" id="'+index+'_X" name="'+index+'_X" />';
+						row+='<label class="quiniela" for="'+index+'_X"></label>';
+						row+='</td>';
+						row+='<td class="pronostico"><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
+						row+='<label class="quiniela" for="'+index+'_2"></label>';
+						row+='</td>';
+						row+='</tr>';
+						$('#quinielaTable').append(row);
+					});
+			    }
+			});
+		 }
+		
+	}
 	
 $(document).ready(function() {
 	
@@ -329,18 +421,19 @@ $(document).ready(function() {
  	    })
 	    .success (function(response) { 
 		    if(response.errorDto!=null){
-
-				showDiv(bLogin);
+		    	if (bActual == bLogin)
+		    		showDiv(bLogin);
+		    	else
+					showDiv(bHome);
+		    	
 				userLoged=false;
 		    }
 		    else{
 		    	if (response.userAlterQ!=null){
-
 					showDiv(bHome);    					
 					userLoged=true;
 		    	}
 		    	else{
-		    		
    					showDiv(bHome);
     				userLoged=false;
 		    	}
@@ -380,12 +473,12 @@ $(document).ready(function() {
 			    success: function(response){
 		   		    if(response.errorDto!=null){
 		   		    	console.log("login: response="+response.errorDto.stringError);
-		   		    	//$('#loginFormResponse').text(response.errorDto.stringError);
+		   		    	$('#loginFormResponse').text(response.errorDto.stringError);
 		   		    	userLoged=false;
 		   		    }
 		   		    else{
 		   		    	console.log("login: response="+response.userAlterQ.name);
-							//$('#loginFormResponse').text(response.userAlterQ.name);
+							$('#loginFormResponse').text(response.userAlterQ.name);
 							userLoged=true;
 							getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
 							showDiv(bHome);
@@ -394,6 +487,63 @@ $(document).ready(function() {
 			});
 	        e.preventDefault(); // prevent actual form submit and page reload
 	});
+	
+	 $('form#forgotPwdForm').submit(function(e) {
+	        // will pass the form date using the jQuery serialize function
+	        $.post('${pageContext.request.contextPath}/myaccount/forgotPwd', $(this).serialize(), function(response) {
+ 		    if(response.errorDto!=null){
+ 		    	$('#forgotPwdFormResponse').text(response.errorDto.stringError);
+ 		    }
+ 		    else{
+ 		    }
+		   	 });
+	        e.preventDefault(); // prevent actual form submit and page reload
+	 });
+	 $('form#signupForm').submit(function(e) {
+	        // will pass the form date using the jQuery serialize function
+	        $.post('${pageContext.request.contextPath}/myaccount', $(this).serialize(), function(response) {
+ 		    if(response.errorDto!=null){
+ 		    	$('#signupFormResponse').text(response.errorDto.stringError);
+				showDiv(bSign);
+ 		    }
+ 		    else{
+				userLoged=true;
+				getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+				showDiv(bHome);
+ 		    }
+		   	 });
+	        e.preventDefault(); // prevent actual form submit and page reload
+	 });
+	 $('form#betForm').submit(function(e) {
+		console.log('betForm');
+		// will pass the form date using the jQuery serialize function
+		var url= '${pageContext.request.contextPath}/bet/';
+		$.post(url, $(this).serialize(), function(response) {
+			if(response.errorDto!=null){
+				$('#quinielaFormResponse').text(response.errorDto.stringError);
+			}
+			else{
+				$('#0_1').removeAttr('checked');$('#0_X').removeAttr('checked');$('#0_2').removeAttr('checked');
+				$('#1_1').removeAttr('checked');$('#1_X').removeAttr('checked');$('#1_2').removeAttr('checked');
+				$('#2_1').removeAttr('checked');$('#2_X').removeAttr('checked');$('#2_2').removeAttr('checked');
+				$('#3_1').removeAttr('checked');$('#3_X').removeAttr('checked');$('#3_2').removeAttr('checked');
+				$('#4_1').removeAttr('checked');$('#4_X').removeAttr('checked');$('#4_2').removeAttr('checked');
+				$('#5_1').removeAttr('checked');$('#5_X').removeAttr('checked');$('#5_2').removeAttr('checked');
+				$('#6_1').removeAttr('checked');$('#6_X').removeAttr('checked');$('#6_2').removeAttr('checked');
+				$('#7_1').removeAttr('checked');$('#7_X').removeAttr('checked');$('#7_2').removeAttr('checked');
+				$('#8_1').removeAttr('checked');$('#8_X').removeAttr('checked');$('#8_2').removeAttr('checked');
+				$('#9_1').removeAttr('checked');$('#9_X').removeAttr('checked');$('#9_2').removeAttr('checked');
+				$('#10_1').removeAttr('checked');$('#10_X').removeAttr('checked');$('#10_2').removeAttr('checked');
+				$('#11_1').removeAttr('checked');$('#11_X').removeAttr('checked');$('#11_2').removeAttr('checked');
+				$('#12_1').removeAttr('checked');$('#12_X').removeAttr('checked');$('#12_2').removeAttr('checked');
+				$('#13_1').removeAttr('checked');$('#13_X').removeAttr('checked');$('#13_2').removeAttr('checked');
+				$('#14_1').removeAttr('checked');$('#14_X').removeAttr('checked');$('#14_2').removeAttr('checked');
+				$('#quinielaFormResponse').text("Apuesta realizada correctamente");
+			}
+		});
+	    e.preventDefault(); // prevent actual form submit and page reload
+	 });	 
+	
 	
 	$("#goUp").click(function(){
 		menuEvent($(this).text(), $(this).attr("href"));
@@ -766,6 +916,46 @@ $(document).ready(function() {
 </div>
 </div>
 <!-- End Sign Up Section -->
+
+
+<!-- Quiniela Section -->
+<div id="quinielaDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Quiniela</h2>
+                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- Quiniela Form -->
+    <div class="row">
+		<div align="center">
+			<form id="betForm">
+				    <table class="quiniela" id="quinielaTable"></table>
+				    <!-- <input type="submit" value="Enviar"> -->
+				    <div align="center" id="quinielaFormResponse">Rellena tu apuesta y pulsa enviar.</div>
+				    <button id="quinielaButton" class="button" name="quiniela" value="Enviar">Enviar</button>
+			</form>
+		</div>
+	    <div align="center">
+		    <span id="quinielaPriceCaption">PRECIO:</span>
+		    <span id="quinielaPrice">0</span>
+		    <span id="quinielaPriceEur"> EUR</span>
+	    </div>
+	    <div align="center">
+		    <button class="button" onclick="javascript:calculatePrice();">Precio</button>
+	    </div>
+    </div>
+    <!-- End Sign Up Form -->
+</div>
+</div>
+<!-- End Sign Up Section -->
+
 
 
 
