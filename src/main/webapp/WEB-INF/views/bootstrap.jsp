@@ -474,7 +474,14 @@ $(document).ready(function() {
 		    }
 		    else{
 		    	if (response.userAlterQ!=null){
-					showDiv(bHome);    					
+					showDiv(bHome);
+
+					$('#id').val(response.userAlterQ.id);
+					$('#name').val(response.userAlterQ.name);
+					$('#phoneNumber').val(response.userAlterQ.phoneNumber);
+					$('#idSaldo').val(response.userAlterQ.id);
+					$('#balance').val(response.userAlterQ.balance);
+					
 					userLoged=true;
 		    	}
 		    	else{
@@ -588,7 +595,37 @@ $(document).ready(function() {
 	    e.preventDefault(); // prevent actual form submit and page reload
 	 });	 
 	
-	
+   	 $('form#myDataForm').submit(function(e) {
+	        console.log('update:userAlterQForm');
+	        
+	        // will pass the form date using the jQuery serialize function
+	        var url= '${pageContext.request.contextPath}/myaccount/'+ $('#id').val();
+	        $.post(url, $(this).serialize(), function(response) {
+	    		    if(response.errorDto!=null){
+	    		    	$('#userAlterQFormResponse').text(response.errorDto.stringError);
+	    		    }
+	    		    else{
+						$('#userAlterQFormResponse').text(response.userAlterQ.name+", tus datos han sido actualizados.");
+	    		    }
+			});
+	        e.preventDefault(); // prevent actual form submit and page reload
+		 });
+			  	 
+	  	 $('form#balanceAlterQForm').submit(function(e) {
+		        console.log('update:balanceAlterQForm');
+		        
+	        // will pass the form date using the jQuery serialize function
+		        var url= '${pageContext.request.contextPath}/myaccount/'+ $('#id').val();
+		        $.post(url, $(this).serialize(), function(response) {
+	    		    if(response.errorDto!=null){
+	    		    	$('#balanceAlterQFormResponse').text(response.errorDto.stringError);
+	    		    }
+	    		    else{
+						$('#balanceAlterQFormResponse').text(response.userAlterQ.name+", tu saldo ha sido actualizado.");
+	    		    }
+			});
+		        e.preventDefault(); // prevent actual form submit and page reload
+		 });	
 	$("#goUp").click(function(){
 		menuEvent($(this).text(), $(this).attr("href"));
     });
@@ -860,6 +897,7 @@ function getTableMatches(bet, loadGames){
 </div>
 <!-- End MyBalance Section -->
 
+
 <!-- About Section -->
 <div id="about" class="page-alternate">
 <div class="container">
@@ -961,7 +999,7 @@ function getTableMatches(bet, loadGames){
         <div class="span12">
             <div class="title-page">
                 <h2 class="title">Get in Touch</h2>
-                <h3 class="title-description">We’re currently accepting new client projects. We look forward to serving you.</h3>
+                <h3 class="title-description">Weâre currently accepting new client projects. We look forward to serving you.</h3>
             </div>
         </div>
     </div>
@@ -1047,7 +1085,7 @@ function getTableMatches(bet, loadGames){
 				        </tr>
 			   		</table>
 			   		<a href="#signDiv">Crear un nuevo usuario</a><br>
-			   		<a href="#forgotDiv">He olvidado mi contrase�a</a>
+			   		<a href="#forgotDiv">He olvidado mi contraseña</a>
 					<div id="loginFormResponse">respuesta </div>
 		        </form>
 			</div>
