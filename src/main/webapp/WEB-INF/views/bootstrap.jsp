@@ -540,29 +540,49 @@ $(document).ready(function() {
 	});
 	
 	 $('form#forgotPwdForm').submit(function(e) {
-	        // will pass the form date using the jQuery serialize function
-	        $.post('${pageContext.request.contextPath}/myaccount/forgotPwd', $(this).serialize(), function(response) {
- 		    if(response.errorDto!=null){
- 		    	$('#forgotPwdFormResponse').text(response.errorDto.stringError);
- 		    }
- 		    else{
- 		    }
-		   	 });
+		 var dataJson=JSON.stringify($('form#forgotPwdForm').serializeObject());
+		 console.log(dataJson);
+		 jQuery.ajax ({
+			    url: '${pageContext.request.contextPath}/myaccount/forgotPwd',
+			    type: "POST",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=null){
+		 		    	$('#forgotPwdFormResponse').text(response.errorDto.stringError);
+		   		    }
+		   		    else{
+		   		    }
+			    }
+			});
 	        e.preventDefault(); // prevent actual form submit and page reload
 	 });
 	 $('form#signupForm').submit(function(e) {
-	        // will pass the form date using the jQuery serialize function
-	        $.post('${pageContext.request.contextPath}/myaccount', $(this).serialize(), function(response) {
- 		    if(response.errorDto!=null){
- 		    	$('#signupFormResponse').text(response.errorDto.stringError);
-				showDiv(bSign);
- 		    }
- 		    else{
-				userLoged=true;
-				getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
-				showDiv(bHome);
- 		    }
-		   	 });
+		 var dataJson=JSON.stringify($('form#signupForm').serializeObject());
+		 console.log(dataJson);
+		 jQuery.ajax ({
+			    url: '${pageContext.request.contextPath}/myaccount',
+			    type: "POST",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=null){
+		 		    	$('#signupFormResponse').text(response.errorDto.stringError);
+						showDiv(bSign);
+		   		    }
+		   		    else{
+						userLoged=true;
+						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+						showDiv(bHome);
+		   		    }
+			    }
+			});
 	        e.preventDefault(); // prevent actual form submit and page reload
 	 });
 	 $('form#betForm').submit(function(e) {

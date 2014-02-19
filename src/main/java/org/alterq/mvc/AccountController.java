@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,12 +33,6 @@ public class AccountController {
 	private SessionAlterQDao sessionDao;
 	@Autowired
 	SendMail sendMail;
-
-	@RequestMapping(method = RequestMethod.GET)
-	public String initPage() {
-		log.debug("init myaccount.jsp");
-		return "myaccount";
-	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/{id:.+}")
 	public @ResponseBody
@@ -84,7 +79,7 @@ public class AccountController {
 	}
 	@RequestMapping(method = RequestMethod.POST, value = "/forgotPwd")
 	public @ResponseBody
-	ResponseDto forgotPwd( UserAlterQ user) {
+	ResponseDto forgotPwd(@RequestBody UserAlterQ user) {
 		if (log.isDebugEnabled()){
 			log.debug("init AccountController.forgotPwd");
 			log.debug("user.getId:" + user.getId());
@@ -116,12 +111,13 @@ public class AccountController {
 	}
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody
-	ResponseDto createUserAlterQ (UserAlterQ user, HttpServletResponse response) {
+	ResponseDto createUserAlterQ (@RequestBody UserAlterQ user, HttpServletResponse response) {
 		if (log.isDebugEnabled()){
 			log.debug("init AccountController.createUserAlterQ");
 			log.debug("user.getId:" + user.getId());
 		}
 		ResponseDto dto = new ResponseDto();
+		//TODO validate user data
 		try {
 			userDao.create(user);
 			dto.setUserAlterQ(user);
@@ -129,7 +125,10 @@ public class AccountController {
 			log.debug("Session ID is:" + sessionID);
 			response.addCookie(new Cookie("session", sessionID));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			ErrorDto error = new ErrorDto();
+			error.setIdError(ErrorType.USER_ALREADY_EXIST);
+			error.setStringError("User already exist");
+			dto.setErrorDto(error);
 			e.printStackTrace();
 		}
 		
