@@ -79,7 +79,11 @@
 <!-- Modernizr -->
 <!-- <script src="_include/js/modernizr.js"></script> -->
 <script src="<c:url value="/static/resources/_include/js/modernizr.js"/>"></script>
+<script type="text/javascript">
+var ctx = "<%=request.getContextPath()%>"
+</script>
 
+<script src="<c:url value="/static/resources/_include/js/alterQ.js"/>"></script>
 <!-- Analytics -->
 <script type="text/javascript">
 
@@ -123,7 +127,7 @@
 		  return s;
 		}
 		function calculatePrice(){
-			console.log('calculatePrice');
+			consoleAlterQ('calculatePrice');
 			// will pass the form date using the jQuery serialize function
 			var url= '${pageContext.request.contextPath}/bet/price';
 			$.post(url, $("#betForm").serialize(), function(response) {
@@ -286,53 +290,40 @@
 	//Manage Menu Events 
 	function menuEvent(name, href)
 	{
-  		console.log("menuEvent elem="+ name +" href="+href);
+  		consoleAlterQ("menuEvent elem="+ name +" href="+href);
 
 		if (href == sHomeRef){
-			console.log("Home");
+			consoleAlterQ("Home");
 			showDiv(bHome);
 		}else if (href == sLoginRef){
-			console.log("Login");
+			consoleAlterQ("Login");
 			showDiv(bLogin);
 		}else if (href == sSignRef){
-			console.log("Sign");
+			consoleAlterQ("Sign");
 			showDiv(bSign);
 		}else if (href == sForgotRef){
-			console.log("Forget");
+			consoleAlterQ("Forget");
 			showDiv(bForget);
 		}else if (href == sQuinielaRef){
-			console.log("Quiniela");
+			consoleAlterQ("Quiniela");
 			showDiv(bQuiniela);
 		}else if (href == sGuestRef){
-			console.log("Guest");
+			consoleAlterQ("Guest");
 		}else if (href == sMyaccountRef){
-			console.log("Myaccount");
+			consoleAlterQ("Myaccount");
 			showDiv(bMyAccount);
 		}else if (href == sLogoutRef){
-			console.log("Logout");
+			consoleAlterQ("Logout");
 			//vamos a hacer el logout
-			
-			var url= '${pageContext.request.contextPath}/logout';
-			$.get(url, $(this).serialize(), function(response) {
-				if(response.errorDto!=null){
-				}
-				else{
-					userLoged=false;
-					getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
-				}
-			});
-			e.preventDefault();
-
-			showDiv(bHome);
-			console.log("LogOut: userLoged="+userLoged);
+			doLogout();
 		}else if (href == sMyDataRef){
-			console.log("Mydata");
+			consoleAlterQ("Mydata");
 			showDiv(bMyData);
 		}else if (href == sMyBalanceRef){
-			console.log("Mybalance");
+			consoleAlterQ("Mybalance");
 			showDiv(bMyBalance);
 		}else if (href == sMyBetsRef){
-			console.log("Mybets");
+			consoleAlterQ("Mybets");
 			showDiv(bMyBets);
 		}
 		return false;
@@ -341,7 +332,7 @@
 	
 	function getMainMenuItems(userLoged, user)
   	{
-		console.log("getMainMenuItems userLoged="+userLoged+" user="+user);
+		consoleAlterQ("getMainMenuItems userLoged="+userLoged+" user="+user);
 		//MENU WEB 
 		$('#menu-nav li').remove();
 		
@@ -388,9 +379,7 @@
 				    $('#quinielaTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
 		
 					$(response.round.games).each(function(index, element){  
-						if( (window['console'] !== undefined) ){
-							console.log(element);
-					    }
+						consoleAlterQ(element);
 						var row="";
 						var temp=padding_right(element.player1+'-'+element.player2,".",28);
 						if(index>8){
@@ -423,247 +412,6 @@
 		
 	}
 	
-$(document).ready(function() {
-	
-	$.fn.serializeObject = function()
-	{
-	    var o = {};
-	    var a = this.serializeArray();
-	    $.each(a, function() {
-	        if (o[this.name] !== undefined) {
-	            if (!o[this.name].push) {
-	                o[this.name] = [o[this.name]];
-	            }
-	            o[this.name].push(this.value || '');
-	        } else {
-	            o[this.name] = this.value || '';
-	        }
-	    });
-	    return o;
-	};
-	
-	initDiv(bHome);
-	//Paint Main Menu Items
-	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
-    
-	//Menu Click Events
-	$('div').on("click", "nav#menu ul#menu-nav li a", function() {
-		menuEvent($(this).text(), $(this).attr("href"));
-  		event.preventDefault();
-	});
-	//Menu Mobile Click Events
-	$('div').on("click", "nav#navigation-mobile ul#menu-nav-mobile li a", function() {
-		menuEvent($(this).text(), $(this).attr("href"));
-		event.preventDefault();
-	});
-	
-
-	
-	var jqxhr =
-	    $.ajax({
-	        url: "${pageContext.request.contextPath}/login",
- 	    })
-	    .success (function(response) { 
-		    if(response.errorDto!=null){
-		    	if (bActual == bLogin)
-		    		showDiv(bLogin);
-		    	else
-					showDiv(bHome);
-		    	
-				userLoged=false;
-		    }
-		    else{
-		    	if (response.userAlterQ!=null){
-					showDiv(bHome);
-
-					$('#id').val(response.userAlterQ.id);
-					$('#name').val(response.userAlterQ.name);
-					$('#phoneNumber').val(response.userAlterQ.phoneNumber);
-					$('#idSaldo').val(response.userAlterQ.id);
-					$('#balance').val(response.userAlterQ.balance);
-					
-					userLoged=true;
-		    	}
-		    	else{
-   					showDiv(bHome);
-    				userLoged=false;
-		    	}
-		    }
-			//Paint Main Menu Items
-			console.log("Menu: pintamos los elementos del menu");
-			getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
-	    });
-	
-	
-	
-	$("form a").click(function(){
-//alert("Form ="+ $(this).text() +" href="+$(this).attr("href"));
-		var elem = $(this).text();
-		var href = $(this).attr("href");
-		
-		if (href == sSignRef){
-			console.log("Sign");
-			showDiv(bSign);
-		}else if (href == sForgotRef){
-			console.log("Forget");
-			showDiv(bForgot);
-		}		
-    });
-	
-	$('form#loginForm').submit(function(e) {
-		 var dataJson=JSON.stringify($('form#loginForm').serializeObject());
-		 console.log(dataJson);
-		 jQuery.ajax ({
-			    url: '${pageContext.request.contextPath}/login',
-			    type: "POST",
-			    data: dataJson,
-			    contentType: "application/json; charset=utf-8",
-			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-	            cache: false,    //This will force requested pages not to be cached by the browser  
-	            processData:false, //To avoid making query String instead of JSON
-			    success: function(response){
-		   		    if(response.errorDto!=null){
-		   		    	console.log("login: response="+response.errorDto.stringError);
-		   		    	$('#loginFormResponse').text(response.errorDto.stringError);
-		   		    	userLoged=false;
-		   		    }
-		   		    else{
-		   		    	console.log("login: response="+response.userAlterQ.name);
-							$('#loginFormResponse').text(response.userAlterQ.name);
-							userLoged=true;
-							getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
-							showDiv(bHome);
-		   		    }
-			    }
-			});
-	        e.preventDefault(); // prevent actual form submit and page reload
-	});
-	
-	 $('form#forgotPwdForm').submit(function(e) {
-		 var dataJson=JSON.stringify($('form#forgotPwdForm').serializeObject());
-		 console.log(dataJson);
-		 jQuery.ajax ({
-			    url: '${pageContext.request.contextPath}/myaccount/forgotPwd',
-			    type: "POST",
-			    data: dataJson,
-			    contentType: "application/json; charset=utf-8",
-			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-	            cache: false,    //This will force requested pages not to be cached by the browser  
-	            processData:false, //To avoid making query String instead of JSON
-			    success: function(response){
-		   		    if(response.errorDto!=null){
-		 		    	$('#forgotPwdFormResponse').text(response.errorDto.stringError);
-		   		    }
-		   		    else{
-		   		    }
-			    }
-			});
-	        e.preventDefault(); // prevent actual form submit and page reload
-	 });
-	 $('form#signupForm').submit(function(e) {
-		 var dataJson=JSON.stringify($('form#signupForm').serializeObject());
-		 console.log(dataJson);
-		 jQuery.ajax ({
-			    url: '${pageContext.request.contextPath}/myaccount',
-			    type: "POST",
-			    data: dataJson,
-			    contentType: "application/json; charset=utf-8",
-			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-	            cache: false,    //This will force requested pages not to be cached by the browser  
-	            processData:false, //To avoid making query String instead of JSON
-			    success: function(response){
-		   		    if(response.errorDto!=null){
-		 		    	$('#signupFormResponse').text(response.errorDto.stringError);
-						showDiv(bSign);
-		   		    }
-		   		    else{
-						userLoged=true;
-						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
-						showDiv(bHome);
-		   		    }
-			    }
-			});
-	        e.preventDefault(); // prevent actual form submit and page reload
-	 });
-	 $('form#betForm').submit(function(e) {
-		console.log('betForm');
-		// will pass the form date using the jQuery serialize function
-		var url= '${pageContext.request.contextPath}/bet/';
-		$.post(url, $(this).serialize(), function(response) {
-			if(response.errorDto!=null){
-				$('#quinielaFormResponse').text(response.errorDto.stringError);
-			}
-			else{
-				$('#0_1').removeAttr('checked');$('#0_X').removeAttr('checked');$('#0_2').removeAttr('checked');
-				$('#1_1').removeAttr('checked');$('#1_X').removeAttr('checked');$('#1_2').removeAttr('checked');
-				$('#2_1').removeAttr('checked');$('#2_X').removeAttr('checked');$('#2_2').removeAttr('checked');
-				$('#3_1').removeAttr('checked');$('#3_X').removeAttr('checked');$('#3_2').removeAttr('checked');
-				$('#4_1').removeAttr('checked');$('#4_X').removeAttr('checked');$('#4_2').removeAttr('checked');
-				$('#5_1').removeAttr('checked');$('#5_X').removeAttr('checked');$('#5_2').removeAttr('checked');
-				$('#6_1').removeAttr('checked');$('#6_X').removeAttr('checked');$('#6_2').removeAttr('checked');
-				$('#7_1').removeAttr('checked');$('#7_X').removeAttr('checked');$('#7_2').removeAttr('checked');
-				$('#8_1').removeAttr('checked');$('#8_X').removeAttr('checked');$('#8_2').removeAttr('checked');
-				$('#9_1').removeAttr('checked');$('#9_X').removeAttr('checked');$('#9_2').removeAttr('checked');
-				$('#10_1').removeAttr('checked');$('#10_X').removeAttr('checked');$('#10_2').removeAttr('checked');
-				$('#11_1').removeAttr('checked');$('#11_X').removeAttr('checked');$('#11_2').removeAttr('checked');
-				$('#12_1').removeAttr('checked');$('#12_X').removeAttr('checked');$('#12_2').removeAttr('checked');
-				$('#13_1').removeAttr('checked');$('#13_X').removeAttr('checked');$('#13_2').removeAttr('checked');
-				$('#14_1').removeAttr('checked');$('#14_X').removeAttr('checked');$('#14_2').removeAttr('checked');
-				$('#quinielaFormResponse').text("Apuesta realizada correctamente");
-			}
-		});
-	    e.preventDefault(); // prevent actual form submit and page reload
-	 });	 
-	
-   	 $('form#myDataForm').submit(function(e) {
-	        console.log('update:userAlterQForm');
-	        
-	        // will pass the form date using the jQuery serialize function
-	        var url= '${pageContext.request.contextPath}/myaccount/'+ $('#id').val();
-	        $.post(url, $(this).serialize(), function(response) {
-	    		    if(response.errorDto!=null){
-	    		    	$('#userAlterQFormResponse').text(response.errorDto.stringError);
-	    		    }
-	    		    else{
-						$('#userAlterQFormResponse').text(response.userAlterQ.name+", tus datos han sido actualizados.");
-	    		    }
-			});
-	        e.preventDefault(); // prevent actual form submit and page reload
-		 });
-			  	 
-	  	 $('form#balanceAlterQForm').submit(function(e) {
-		        console.log('update:balanceAlterQForm');
-		        
-	        // will pass the form date using the jQuery serialize function
-		        var url= '${pageContext.request.contextPath}/myaccount/'+ $('#id').val();
-		        $.post(url, $(this).serialize(), function(response) {
-	    		    if(response.errorDto!=null){
-	    		    	$('#balanceAlterQFormResponse').text(response.errorDto.stringError);
-	    		    }
-	    		    else{
-						$('#balanceAlterQFormResponse').text(response.userAlterQ.name+", tu saldo ha sido actualizado.");
-	    		    }
-			});
-		        e.preventDefault(); // prevent actual form submit and page reload
-		 });	
-	$("#goUp").click(function(){
-		menuEvent($(this).text(), $(this).attr("href"));
-    });
-	
-	$("#quinielaBtn").click(function(){
-		menuEvent($(this).text(), $(this).attr("href"));
-    });
-	$("#myDataBtn").click(function(){
-		menuEvent($(this).text(), $(this).attr("href"));
-    });
-	$("#myBalanceBtn").click(function(){
-		menuEvent($(this).text(), $(this).attr("href"));
-    });
-	$("#myBetsBtn").click(function(){
-		menuEvent($(this).text(), $(this).attr("href"));
-    });
-	
-});
 
 
 function getSign(sign){

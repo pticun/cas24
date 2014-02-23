@@ -36,7 +36,7 @@ public class AccountControllerTest {
 	}
 
 	@Test
-	public void logout() throws Exception {
+	public void forgotPwd() throws Exception {
 		UserAlterQ bean = new UserAlterQ();
 		bean.setId("idmail@arroba.es");
 		ObjectMapper mapper = new ObjectMapper();
