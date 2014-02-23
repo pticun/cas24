@@ -1,0 +1,28 @@
+ @ResponseBody ResponseDto login(@RequestBody UserAlterQ user, HttpServletResponse response) {
+ @ResponseBody ResponseDto logout(@CookieValue(value = "session", defaultValue = "") String cookieSession
+
+POST	/login															LoginController			login
+GET		/login															LoginController			getUser
+
+GET		/logout															BootstrapController		logout
+
+POST	/myaccount														AccountController		createUserAlterQ
+POST	/myaccount/{id:.+}												AccountController		updateUserAlterQ
+POST	/myaccount/forgotPwd											AccountController		forgotPwd
+
+GET		/myaccount/{id:.+}/season/{season}/round/{round}				RoundController			getRound
+
+POST	/myaccount/{id:.+}/season/{season}/round/{round}/bet			BetController			addBet
+GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet/{bet}		BetController			getBet
+GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet/price		BetController			price(param Bet calculate price)
+GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet			BetController			findAllUserBetsParams
+PUT		/myaccount/{id:.+}/season/{season}/round/{round}/bet/{bet}		BetController			updateBet
+DELETE	/myaccount/{id:.+}/season/{season}/round/{round}/bet/{bet}		BetController			deleteBet
+DELETE	/myaccount/{id:.+}/season/{season}/round/{round}/bet			BetController			deleteAllUserBets
+
+
+GET		/generalData													GeneralDataController	getGeneralDataCompany
+GET		/generalData/{id}												GeneralDataController	getGeneralDataCompany
+POST	/generalData													GeneralDataController	createGeneralDataCompany
+PUT		/generalData													GeneralDataController	updateGeneralDataCompany
+DELETE	/generalData													GeneralDataController	deleteGeneralDataCompany

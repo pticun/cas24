@@ -3,10 +3,14 @@ package org.alterq.mvc;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.alterq.domain.GeneralData;
+import org.alterq.domain.Round;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ErrorType;
 import org.alterq.dto.ResponseDto;
+import org.alterq.repo.GeneralDataDao;
+import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -32,7 +37,14 @@ public class AccountController {
 	@Autowired
 	private SessionAlterQDao sessionDao;
 	@Autowired
+	private RoundDao roundDao;
+	@Autowired
+	private GeneralDataDao generalDataDao;
+	@Autowired
 	SendMail sendMail;
+	// TODO get company from user, session .....
+	int company = 1;
+
 
 	@RequestMapping(method = RequestMethod.POST, value = "/{id:.+}")
 	public @ResponseBody
@@ -134,4 +146,5 @@ public class AccountController {
 		
 		return dto;
 	}
+	
 }
