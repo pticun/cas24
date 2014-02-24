@@ -1,5 +1,6 @@
 package org.alterq.mvc;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -193,6 +194,9 @@ public class BetController {
 			bet.setPrice(price);
 			bet.setBet(apuesta);
 			bet.setUser(userAlterQ.getId());
+			bet.setCompany(company);
+			bet.setDateCreated(new Date());
+			bet.setDateUpdated(new Date());
 			StringBuffer sb = new StringBuffer();
 			sb.append("New Bet: season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
 			log.debug(sb.toString());
@@ -239,6 +243,9 @@ public class BetController {
 		Bet bAux = new Bet();
 		bAux.setBet(bet);
 		bAux.setUser(user);
+		bAux.setCompany(company);
+		bAux.setDateCreated(new Date());
+		bAux.setDateUpdated(new Date());
 		return betDao.addBet(season, round, bAux);
 	}
 

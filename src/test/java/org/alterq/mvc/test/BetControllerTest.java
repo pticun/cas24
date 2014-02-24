@@ -4,10 +4,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import javax.servlet.http.Cookie;
 
+import org.alterq.domain.UserAlterQ;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -41,12 +44,18 @@ public class BetControllerTest {
     
     @Test
     public void addBet() throws Exception {
-		ResultActions auth = this.mockMvc.perform(MockMvcRequestBuilders.post("/login").param("id", "idmail@arroba.es").param("pwd", "password"));
+		UserAlterQ bean = new UserAlterQ();
+		bean.setId("prueba@arroba.es");
+		bean.setPwd("password");
+		ObjectMapper mapper = new ObjectMapper();
+		ResultActions auth = this.mockMvc.perform(MockMvcRequestBuilders.post("/login").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsBytes(bean)));
 		MvcResult result = auth.andReturn();
 		MockHttpSession session = (MockHttpSession) result.getRequest().getSession();
 		auth.andDo(MockMvcResultHandlers.print());
 		Cookie c = result.getResponse().getCookie("session");
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/bet").param("1_1", "on").param("season", "2013").param("round", "1").cookie(c)).andDo(MockMvcResultHandlers.print());
+		System.out.println("cookieSession:" + c.getValue());
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/bet").param("1_1", "on").param("season", "2013").param("round", "2").cookie(c)).andDo(MockMvcResultHandlers.print());
 		
     }
     @Test
