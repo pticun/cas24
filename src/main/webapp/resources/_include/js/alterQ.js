@@ -270,7 +270,7 @@ function doLogout(){
 
 function consoleAlterQ(text){
 	if( (window['console'] !== undefined) ){
-		consoleAlterQ(text);
+		console.log(text);
 	}
 
 }
