@@ -1,6 +1,7 @@
 package org.alterq.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 
 import org.springframework.data.annotation.Id;
@@ -14,6 +15,11 @@ public class UserAlterQ implements Serializable {
 	private String pwd;
 	private String phoneNumber;
 	private String balance;
+	private int company;
+	private boolean active;
+	private Date dateCreated;
+	private Date dateUpdated;
+	
 
 	public String getId() {
 		return id;
@@ -54,6 +60,38 @@ public class UserAlterQ implements Serializable {
 
 	public void setBalance(String balance) {
 		this.balance = balance;
+	}
+
+	public int getCompany() {
+		return company;
+	}
+
+	public void setCompany(int company) {
+		this.company = company;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public Date getDateUpdated() {
+		return dateUpdated;
+	}
+
+	public void setDateUpdated(Date dateUpdated) {
+		this.dateUpdated = dateUpdated;
 	}
 
 }

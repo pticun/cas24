@@ -28,6 +28,7 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 
 	public void create(UserAlterQ userAlterQ) throws Exception {
 		String password = userAlterQ.getPwd();
+		//TODO makePasswordHash made in layer Controller
 //		String passwordHash = makePasswordHash(password, userAlterQ.getId());
 
 		userAlterQ.setPwd(password);

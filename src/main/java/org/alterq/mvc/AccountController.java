@@ -1,10 +1,10 @@
 package org.alterq.mvc;
 
+import java.util.Date;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-import org.alterq.domain.GeneralData;
-import org.alterq.domain.Round;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ErrorType;
@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -68,7 +67,7 @@ public class AccountController {
 					userAlterQ.setPhoneNumber(user.getPhoneNumber());
 				if(user.getBalance()!=null)
 					userAlterQ.setBalance(user.getBalance());
-					
+				userAlterQ.setDateUpdated(new Date());
 				userDao.save(userAlterQ);
 				
 				dto.setUserAlterQ(userAlterQ);
@@ -131,6 +130,11 @@ public class AccountController {
 		ResponseDto dto = new ResponseDto();
 		//TODO validate user data
 		try {
+			user.setActive(true);
+			user.setBalance("0");
+			user.setCompany(company);
+			user.setDateCreated(new Date());
+			user.setDateUpdated(new Date());
 			userDao.create(user);
 			dto.setUserAlterQ(user);
 			String sessionID = sessionDao.startSession(user.getId());
