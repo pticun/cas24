@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value = "/myaccount/{id:.+}")
+@RequestMapping(value = "/myaccount/")
 public class RoundController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
@@ -38,12 +38,14 @@ public class RoundController {
 	// TODO get company from user, session .....
 	int company = 1;
 
-	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "season/{season}/round/{round}")
+	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "{id:.+}/season/{season}/round/{round}")
 	public @ResponseBody
-	ResponseDto getRound(@PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
+	ResponseDto getRound(@PathVariable(value = "id") String id,@PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
 		ResponseDto dto = new ResponseDto();
 		Round j = new Round();
 		try {
+		    //TODO control security by id user
+		    //TODO control security by id-company
 			if(round==-1){
 				GeneralData generalData = generalDataDao.findByCompany(company);
 				round=generalData.getRound();
