@@ -20,6 +20,7 @@ import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.apache.commons.lang3.StringUtils;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -197,6 +198,7 @@ public class BetController {
 			bet.setCompany(company);
 			bet.setDateCreated(new Date());
 			bet.setDateUpdated(new Date());
+			bet.setId(new ObjectId().toStringMongod());
 			StringBuffer sb = new StringBuffer();
 			sb.append("New Bet: season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
 			log.debug(sb.toString());
