@@ -140,7 +140,7 @@ $(document).ready(function() {
 	 });
 	 $('form#signupForm').submit(function(e) {
 		 var dataJson=JSON.stringify($('form#signupForm').serializeObject());
-		consoleAlterQ(dataJson);
+		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
 			    url: ctx+'/myaccount',
 			    type: "POST",
@@ -164,7 +164,8 @@ $(document).ready(function() {
 		 	event.preventDefault(); // prevent actual form submit and page reload
 	 });
 	 $('form#betForm').submit(function(e) {
-		consoleAlterQ('betForm');
+		var dataJson=JSON.stringify($('form#betForm').serializeObject());
+		consoleAlterQ('betForm:'+dataJson);
 		// will pass the form date using the jQuery serialize function
 		var url= ctx+'/bet/';
 		$.post(url, $(this).serialize(), function(response) {
@@ -194,36 +195,50 @@ $(document).ready(function() {
 	 });	 
 	
    	 $('form#myDataForm').submit(function(e) {
-	       consoleAlterQ('update:userAlterQForm');
-	        
-	        // will pass the form date using the jQuery serialize function
-	        var url= ctx+'/myaccount/'+ $('#id').val();
-	        $.post(url, $(this).serialize(), function(response) {
-	    		    if(response.errorDto!=null){
-	    		    	$('#userAlterQFormResponse').text(response.errorDto.stringError);
-	    		    }
-	    		    else{
+   		 var dataJson=JSON.stringify($('form#myDataForm').serializeObject());
+   		 consoleAlterQ('updateDataJsonAlterQ:'+dataJson);
+		 jQuery.ajax ({
+			    url: ctx+'/myaccount/'+ $('#id').val(),
+			    type: "PUT",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+		        cache: false,    //This will force requested pages not to be cached by the browser  
+		        processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+				    if(response.errorDto!=null){
+				    	$('#userAlterQFormResponse').text(response.errorDto.stringError);
+				    }
+				    else{
 						$('#userAlterQFormResponse').text(response.userAlterQ.name+", tus datos han sido actualizados.");
-	    		    }
-			});
-			event.preventDefault(); // prevent actual form submit and page reload
+				    }
+			    }
 		 });
+		event.preventDefault(); // prevent actual form submit and page reload
+   	 });
 			  	 
-	  	 $('form#balanceAlterQForm').submit(function(e) {
-		       consoleAlterQ('update:balanceAlterQForm');
-		        
-	        // will pass the form date using the jQuery serialize function
-		        var url= '${pageContext.request.contextPath}/myaccount/'+ $('#id').val();
-		        $.post(url, $(this).serialize(), function(response) {
-	    		    if(response.errorDto!=null){
-	    		    	$('#balanceAlterQFormResponse').text(response.errorDto.stringError);
-	    		    }
-	    		    else{
+	$('form#balanceAlterQForm').submit(function(e) {
+  		 var dataJson=JSON.stringify($('form#myDataForm').serializeObject());
+   		 consoleAlterQ('update:balanceAlterQForm:'+dataJson);
+		 jQuery.ajax ({
+			    url: ctx+'/myaccount/'+ $('#id').val(),
+			    type: "PUT",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+		        cache: false,    //This will force requested pages not to be cached by the browser  
+		        processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+				    if(response.errorDto!=null){
+				    	$('#balanceAlterQFormResponse').text(response.errorDto.stringError);
+				    }
+				    else{
 						$('#balanceAlterQFormResponse').text(response.userAlterQ.name+", tu saldo ha sido actualizado.");
-	    		    }
-			});
-			event.preventDefault(); // prevent actual form submit and page reload
-		 });	
+				    }
+			    }
+		 });
+		event.preventDefault(); // prevent actual form submit and page reload
+	});	
 	$("#goUp").click(function(){
 		menuEvent($(this).text(), $(this).attr("href"));
     });
@@ -240,6 +255,11 @@ $(document).ready(function() {
 	$("#myBetsBtn").click(function(){
 		menuEvent($(this).text(), $(this).attr("href"));
     });
+	
+   	$('#mydataDiv').click(function(){
+		$(sMyDataRef).show();
+   	});    	 
+	
 	
 });
 
