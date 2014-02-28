@@ -172,32 +172,38 @@ $(document).ready(function() {
 		var dataJson=JSON.stringify($('form#betForm').serializeObject());
 		consoleAlterQ('betForm:'+dataJson);
 		// will pass the form date using the jQuery serialize function
-/*
-		var url= ctx+'/bet/';
-		$.post(url, $(this).serialize(), function(response) {
-			if(response.errorDto!=null){
-				$('#quinielaFormResponse').text(response.errorDto.stringError);
-			}
-			else{
-				$('#0_1').removeAttr('checked');$('#0_X').removeAttr('checked');$('#0_2').removeAttr('checked');
-				$('#1_1').removeAttr('checked');$('#1_X').removeAttr('checked');$('#1_2').removeAttr('checked');
-				$('#2_1').removeAttr('checked');$('#2_X').removeAttr('checked');$('#2_2').removeAttr('checked');
-				$('#3_1').removeAttr('checked');$('#3_X').removeAttr('checked');$('#3_2').removeAttr('checked');
-				$('#4_1').removeAttr('checked');$('#4_X').removeAttr('checked');$('#4_2').removeAttr('checked');
-				$('#5_1').removeAttr('checked');$('#5_X').removeAttr('checked');$('#5_2').removeAttr('checked');
-				$('#6_1').removeAttr('checked');$('#6_X').removeAttr('checked');$('#6_2').removeAttr('checked');
-				$('#7_1').removeAttr('checked');$('#7_X').removeAttr('checked');$('#7_2').removeAttr('checked');
-				$('#8_1').removeAttr('checked');$('#8_X').removeAttr('checked');$('#8_2').removeAttr('checked');
-				$('#9_1').removeAttr('checked');$('#9_X').removeAttr('checked');$('#9_2').removeAttr('checked');
-				$('#10_1').removeAttr('checked');$('#10_X').removeAttr('checked');$('#10_2').removeAttr('checked');
-				$('#11_1').removeAttr('checked');$('#11_X').removeAttr('checked');$('#11_2').removeAttr('checked');
-				$('#12_1').removeAttr('checked');$('#12_X').removeAttr('checked');$('#12_2').removeAttr('checked');
-				$('#13_1').removeAttr('checked');$('#13_X').removeAttr('checked');$('#13_2').removeAttr('checked');
-				$('#14_1').removeAttr('checked');$('#14_X').removeAttr('checked');$('#14_2').removeAttr('checked');
-				$('#quinielaFormResponse').text("Apuesta realizada correctamente");
-			}
+		jQuery.ajax ({
+			url: ctx+'/myaccount/'+ $('#id').val()+'/season/'+ season+'/round/'+round+'/bet',
+		    type: "POST",
+		    data: dataJson,
+		    contentType: "application/json; charset=utf-8",
+		    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+		    cache: false,    //This will force requested pages not to be cached by the browser  
+		    processData:false, //To avoid making query String instead of JSON
+		    success: function(response){
+				if(response.errorDto!=null){
+					$('#quinielaFormResponse').text(response.errorDto.stringError);
+				}
+				else{
+					$('#0_1').removeAttr('checked');$('#0_X').removeAttr('checked');$('#0_2').removeAttr('checked');
+					$('#1_1').removeAttr('checked');$('#1_X').removeAttr('checked');$('#1_2').removeAttr('checked');
+					$('#2_1').removeAttr('checked');$('#2_X').removeAttr('checked');$('#2_2').removeAttr('checked');
+					$('#3_1').removeAttr('checked');$('#3_X').removeAttr('checked');$('#3_2').removeAttr('checked');
+					$('#4_1').removeAttr('checked');$('#4_X').removeAttr('checked');$('#4_2').removeAttr('checked');
+					$('#5_1').removeAttr('checked');$('#5_X').removeAttr('checked');$('#5_2').removeAttr('checked');
+					$('#6_1').removeAttr('checked');$('#6_X').removeAttr('checked');$('#6_2').removeAttr('checked');
+					$('#7_1').removeAttr('checked');$('#7_X').removeAttr('checked');$('#7_2').removeAttr('checked');
+					$('#8_1').removeAttr('checked');$('#8_X').removeAttr('checked');$('#8_2').removeAttr('checked');
+					$('#9_1').removeAttr('checked');$('#9_X').removeAttr('checked');$('#9_2').removeAttr('checked');
+					$('#10_1').removeAttr('checked');$('#10_X').removeAttr('checked');$('#10_2').removeAttr('checked');
+					$('#11_1').removeAttr('checked');$('#11_X').removeAttr('checked');$('#11_2').removeAttr('checked');
+					$('#12_1').removeAttr('checked');$('#12_X').removeAttr('checked');$('#12_2').removeAttr('checked');
+					$('#13_1').removeAttr('checked');$('#13_X').removeAttr('checked');$('#13_2').removeAttr('checked');
+					$('#14_1').removeAttr('checked');$('#14_X').removeAttr('checked');$('#14_2').removeAttr('checked');
+					$('#quinielaFormResponse').text("Apuesta realizada correctamente");
+				}
+		    }
 		});
-*/		
 		event.preventDefault(); // prevent actual form submit and page reload
 	 });	 
 	
@@ -302,6 +308,29 @@ function consoleAlterQ(text){
 
 }
 
+function calculatePrice(){
+	consoleAlterQ('calculatePrice');
+	var dataJson=JSON.stringify($("#betForm").serializeObject());
+	jQuery.ajax ({
+		url: ctx+'/myaccount/'+ $('#id').val()+'/season/'+ season+'/round/'+round+'/bet/price',
+	    type: "POST",
+	    data: dataJson,
+	    contentType: "application/json; charset=utf-8",
+	    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	    cache: false,    //This will force requested pages not to be cached by the browser  
+	    processData:false, //To avoid making query String instead of JSON
+	    success: function(response){
+			if(response.errorDto!=null){
+				$('#quinielaPrice').text(response.errorDto.stringError);
+			}
+			else{
+				$('#quinielaPrice').text(response.roundBet.bets[0].price);
+			}
+	    }
+	});
+	event.preventDefault(); // prevent actual form submit and page reload
+	return false;
+}		
 
 
 function getQuiniela(){

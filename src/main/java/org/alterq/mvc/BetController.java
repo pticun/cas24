@@ -7,8 +7,6 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 
 import org.alterq.domain.Bet;
-import org.alterq.domain.GeneralData;
-import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
@@ -33,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value = "/bet")
+@RequestMapping(value = "/myaccount/{id:.+}/season/{season}/round/{round}")
 public class BetController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
@@ -50,9 +48,9 @@ public class BetController {
 	// TODO get company from user, session .....
 	int company = 1;
 
-	@RequestMapping(method = RequestMethod.POST, value = "price")
+	@RequestMapping(method = RequestMethod.POST, value = "/bet/price")
 	public @ResponseBody
-	ResponseDto price(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request) {
+	ResponseDto calculatePrice(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,@PathVariable(value = "id") String id,@PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
 		if (log.isDebugEnabled()) {
 			log.debug("init BetController.price");
 			log.debug("session:" + cookieSession);
@@ -64,6 +62,7 @@ public class BetController {
 		 * userDao.findById(idUserAlterQ); }
 		 */
 		// TODO control security
+		// TODO business logic to calculate Price (price depends company/round/season .......
 		ResponseDto dto = new ResponseDto();
 		/*
 		 * if(userAlterQ==null){ ErrorDto error = new ErrorDto();
@@ -101,16 +100,13 @@ public class BetController {
 
 		dto.setRoundBet(roundBet);
 
-		// Insert new bet into the BBDD
-		// betDao.addBet(seasonInt, roundInt, apuestaBet);
-
 		return dto;
 
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST,value="/bet")
 	public @ResponseBody
-	ResponseDto addBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request) {
+	ResponseDto addBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,@PathVariable(value = "id") String id,@PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
 		if (log.isDebugEnabled()) {
 			log.debug("init AccountController.updateUserAlterQ");
 			log.debug("session:" + cookieSession);
@@ -159,11 +155,11 @@ public class BetController {
 		}
 
 		// data for test only!!
-		String season = request.getParameter("season");
-		String round = request.getParameter("round");
+		String seasonT = request.getParameter("season");
+		String roundT = request.getParameter("round");
 
-		int seasonInt = Integer.parseInt(season);
-		int roundInt = Integer.parseInt(round);
+		int seasonInt = Integer.parseInt(seasonT);
+		int roundInt = Integer.parseInt(roundT);
 
 		float price = new Double(0.5 * Math.pow(2, dobles) * Math.pow(3, triples)).floatValue();
 
@@ -199,6 +195,53 @@ public class BetController {
 
 	}
 
+	// TODO http://www.coderanch.com/t/622271/Spring/Spring-Path-Variable
+	// TODO with /bet/season/2013/round/1/user/idmail@arroba.es not working but
+	// working /bet/season/2013/round/1/user/idmail@arroba.es/
+	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "/bet")
+	public @ResponseBody
+	ResponseDto findAllUserBetsParams(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,@PathVariable(value = "id") String id,@PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
+		ResponseDto dto = new ResponseDto();
+		//TODO control security
+		RoundBets rb = betDao.findAllUserBets(season, round, id);
+		dto.setRoundBet(rb);
+		return dto;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "season/{season}/round/{round}")
 	public @ResponseBody
 	RoundBets findAllBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round) {
@@ -206,17 +249,6 @@ public class BetController {
 		return betDao.findAllBets(season, round);
 	}
 
-	// TODO http://www.coderanch.com/t/622271/Spring/Spring-Path-Variable
-	// TODO with /bet/season/2013/round/1/user/idmail@arroba.es not working but
-	// working /bet/season/2013/round/1/user/idmail@arroba.es/
-	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "season/{season}/round/{round}/user/{id:.+}")
-	public @ResponseBody
-	ResponseDto findAllUserBetsParams(@PathVariable int season, @PathVariable int round, @PathVariable String id) {
-		ResponseDto dto = new ResponseDto();
-		RoundBets rb = betDao.findAllUserBets(season, round, id);
-		dto.setRoundBet(rb);
-		return dto;
-	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "addBet", params = { "season", "round", "user", "bet" })
 	public @ResponseBody

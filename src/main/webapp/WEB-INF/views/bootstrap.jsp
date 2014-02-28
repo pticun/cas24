@@ -126,21 +126,6 @@ var ctx = "<%=request.getContextPath()%>"
 		  }
 		  return s;
 		}
-		function calculatePrice(){
-			consoleAlterQ('calculatePrice');
-			// will pass the form date using the jQuery serialize function
-			var url= '${pageContext.request.contextPath}/bet/price';
-			$.post(url, $("#betForm").serialize(), function(response) {
-				if(response.errorDto!=null){
-					$('#quinielaPrice').text(response.errorDto.stringError);
-				}
-				else{
-					$('#quinielaPrice').text(response.roundBet.bets[0].price);
-				}
-			});
-			
-			return false;
-		}		
 	</script>
 	
 <script type="text/javascript">
