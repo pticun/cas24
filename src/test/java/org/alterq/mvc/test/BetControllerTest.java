@@ -1,7 +1,5 @@
 package org.alterq.mvc.test;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
 import javax.servlet.http.Cookie;
 
 import org.alterq.domain.UserAlterQ;
@@ -35,13 +33,7 @@ public class BetControllerTest {
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
-    @Test
-    public void getLastRound() throws Exception {
-//       System.out.println(this.mockMvc.perform(get("/bet")).andReturn().getResponse().getContentAsString());
-      this.mockMvc.perform(get("/bet")).andDo(MockMvcResultHandlers.print());
-    }
 
-    
     @Test
     public void addBet() throws Exception {
 		UserAlterQ bean = new UserAlterQ();

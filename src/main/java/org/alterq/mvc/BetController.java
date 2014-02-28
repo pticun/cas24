@@ -50,26 +50,6 @@ public class BetController {
 	// TODO get company from user, session .....
 	int company = 1;
 
-	@RequestMapping(method = RequestMethod.GET)
-	public @ResponseBody
-	ResponseDto getLastRound() {
-		ResponseDto dto = new ResponseDto();
-		Round j = new Round();
-		try {
-			// TODO create a new Service layer
-			GeneralData generalData = generalDataDao.findByCompany(company);
-			j = roundDao.findBySeasonRound(generalData.getSeason(), generalData.getRound());
-		} catch (Exception e) {
-			ErrorDto error = new ErrorDto();
-			error.setIdError(ErrorType.GET_LAST_ROUND);
-			error.setStringError("getLastJornada (i18n error)");
-			dto.setErrorDto(error);
-			dto.setRound(null);
-		}
-		dto.setRound(j);
-		return dto;
-	}
-
 	@RequestMapping(method = RequestMethod.POST, value = "price")
 	public @ResponseBody
 	ResponseDto price(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request) {

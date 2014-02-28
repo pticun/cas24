@@ -2,7 +2,7 @@
  @ResponseBody ResponseDto logout(@CookieValue(value = "session", defaultValue = "") String cookieSession
 
 POST	/login															LoginController			login
-GET		/login															LoginController			getUser
+GET		/login															LoginController			getUser  (response UserAlterQ,
 
 GET		/logout															BootstrapController		logout
 

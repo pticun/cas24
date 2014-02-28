@@ -364,54 +364,6 @@ var ctx = "<%=request.getContextPath()%>"
     	
   	}
 
-	function getQuiniela(){
-		var url= '${pageContext.request.contextPath}/bet';
-		if(loadBet){
-		 	loadBet=false;
-		     $.get(url, $(this).serialize(), function(response) {
-			    if(response.errorDto!=null){
-			    	$('#temporada').text(response.errorDto.stringError);
-			    }
-			    else{
-					$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
-				    $('#quinielaTable').append('<input type="hidden" name="season" id="season" value="'+ response.round.season+'"/>');       
-				    $('#quinielaTable').append('<input type="hidden" name="round" id="round" value="'+ response.round.round+'"/>');       
-				    $('#quinielaTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
-		
-					$(response.round.games).each(function(index, element){  
-						consoleAlterQ(element);
-						var row="";
-						var temp=padding_right(element.player1+'-'+element.player2,".",28);
-						if(index>8){
-							temp=temp+(index+1);
-						}
-						else{
-							temp=temp+" "+(index+1);
-						}
-						if(index==0 || index==4 || index==8 || index==11 || index==14){
-							row+='<tr id="rowBet_'+index+'"><td class="partidolinea">'+temp+'</td>';
-						}
-						else{
-							row+='<tr id="rowBet_'+index+'"><td class="partido">'+temp+'</td>';
-						}
-						row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
-						row+='<label class="quiniela" for="'+index+'_1"></label>';
-						row+='</td>';
-						row+='<td class="pronostico"><input class="classX" type="checkbox" id="'+index+'_X" name="'+index+'_X" />';
-						row+='<label class="quiniela" for="'+index+'_X"></label>';
-						row+='</td>';
-						row+='<td class="pronostico"><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
-						row+='<label class="quiniela" for="'+index+'_2"></label>';
-						row+='</td>';
-						row+='</tr>';
-						$('#quinielaTable').append(row);
-					});
-			    }
-			});
-		 }
-		
-	}
-	
 
 
 function getSign(sign){
