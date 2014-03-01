@@ -1,4 +1,5 @@
-
+var round=0;
+var season=0;
 
 //alert("context:"+ctx);
 $(document).ready(function() {
@@ -67,6 +68,8 @@ $(document).ready(function() {
     				userLoged=false;
 		    	}
 		    }
+		    round=response.generalData.round;
+		    season=response.generalData.season;
 			//Paint Main Menu Items
 			consoleAlterQ("Menu: pintamos los elementos del menu");
 			getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
@@ -90,7 +93,7 @@ $(document).ready(function() {
 	
 	$('form#loginForm').submit(function(e) {
 		 var dataJson=JSON.stringify($('form#loginForm').serializeObject());
-		consoleAlterQ(dataJson);
+		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
 			    url: ctx+'/login',
 			    type: "POST",
@@ -107,11 +110,13 @@ $(document).ready(function() {
 		   		    }
 		   		    else{
 		   		    	consoleAlterQ("login: response="+response.userAlterQ.name);
-							$('#loginFormResponse').text(response.userAlterQ.name);
-							userLoged=true;
-							getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
-							showDiv(bHome);
+						$('#loginFormResponse').text(response.userAlterQ.name);
+						userLoged=true;
+						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+						showDiv(bHome);
 		   		    }
+				    round=response.generalData.round;
+				    season=response.generalData.season;
 			    }
 			});
 		 	event.preventDefault(); // prevent actual form submit and page reload
@@ -119,7 +124,7 @@ $(document).ready(function() {
 	
 	 $('form#forgotPwdForm').submit(function(e) {
 		 var dataJson=JSON.stringify($('form#forgotPwdForm').serializeObject());
-		consoleAlterQ(dataJson);
+		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
 			    url: ctx+'/myaccount/forgotPwd',
 			    type: "POST",
@@ -140,7 +145,7 @@ $(document).ready(function() {
 	 });
 	 $('form#signupForm').submit(function(e) {
 		 var dataJson=JSON.stringify($('form#signupForm').serializeObject());
-		consoleAlterQ(dataJson);
+		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
 			    url: ctx+'/myaccount',
 			    type: "POST",
@@ -164,66 +169,89 @@ $(document).ready(function() {
 		 	event.preventDefault(); // prevent actual form submit and page reload
 	 });
 	 $('form#betForm').submit(function(e) {
-		consoleAlterQ('betForm');
+		var dataJson=JSON.stringify($('form#betForm').serializeObject());
+		consoleAlterQ('betForm:'+dataJson);
 		// will pass the form date using the jQuery serialize function
-		var url= ctx+'/bet/';
-		$.post(url, $(this).serialize(), function(response) {
-			if(response.errorDto!=null){
-				$('#quinielaFormResponse').text(response.errorDto.stringError);
-			}
-			else{
-				$('#0_1').removeAttr('checked');$('#0_X').removeAttr('checked');$('#0_2').removeAttr('checked');
-				$('#1_1').removeAttr('checked');$('#1_X').removeAttr('checked');$('#1_2').removeAttr('checked');
-				$('#2_1').removeAttr('checked');$('#2_X').removeAttr('checked');$('#2_2').removeAttr('checked');
-				$('#3_1').removeAttr('checked');$('#3_X').removeAttr('checked');$('#3_2').removeAttr('checked');
-				$('#4_1').removeAttr('checked');$('#4_X').removeAttr('checked');$('#4_2').removeAttr('checked');
-				$('#5_1').removeAttr('checked');$('#5_X').removeAttr('checked');$('#5_2').removeAttr('checked');
-				$('#6_1').removeAttr('checked');$('#6_X').removeAttr('checked');$('#6_2').removeAttr('checked');
-				$('#7_1').removeAttr('checked');$('#7_X').removeAttr('checked');$('#7_2').removeAttr('checked');
-				$('#8_1').removeAttr('checked');$('#8_X').removeAttr('checked');$('#8_2').removeAttr('checked');
-				$('#9_1').removeAttr('checked');$('#9_X').removeAttr('checked');$('#9_2').removeAttr('checked');
-				$('#10_1').removeAttr('checked');$('#10_X').removeAttr('checked');$('#10_2').removeAttr('checked');
-				$('#11_1').removeAttr('checked');$('#11_X').removeAttr('checked');$('#11_2').removeAttr('checked');
-				$('#12_1').removeAttr('checked');$('#12_X').removeAttr('checked');$('#12_2').removeAttr('checked');
-				$('#13_1').removeAttr('checked');$('#13_X').removeAttr('checked');$('#13_2').removeAttr('checked');
-				$('#14_1').removeAttr('checked');$('#14_X').removeAttr('checked');$('#14_2').removeAttr('checked');
-				$('#quinielaFormResponse').text("Apuesta realizada correctamente");
-			}
+		jQuery.ajax ({
+			url: ctx+'/myaccount/'+ $('#id').val()+'/season/'+ season+'/round/'+round+'/bet',
+		    type: "POST",
+		    data: dataJson,
+		    contentType: "application/json; charset=utf-8",
+		    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+		    cache: false,    //This will force requested pages not to be cached by the browser  
+		    processData:false, //To avoid making query String instead of JSON
+		    success: function(response){
+				if(response.errorDto!=null){
+					$('#quinielaFormResponse').text(response.errorDto.stringError);
+				}
+				else{
+					$('#0_1').removeAttr('checked');$('#0_X').removeAttr('checked');$('#0_2').removeAttr('checked');
+					$('#1_1').removeAttr('checked');$('#1_X').removeAttr('checked');$('#1_2').removeAttr('checked');
+					$('#2_1').removeAttr('checked');$('#2_X').removeAttr('checked');$('#2_2').removeAttr('checked');
+					$('#3_1').removeAttr('checked');$('#3_X').removeAttr('checked');$('#3_2').removeAttr('checked');
+					$('#4_1').removeAttr('checked');$('#4_X').removeAttr('checked');$('#4_2').removeAttr('checked');
+					$('#5_1').removeAttr('checked');$('#5_X').removeAttr('checked');$('#5_2').removeAttr('checked');
+					$('#6_1').removeAttr('checked');$('#6_X').removeAttr('checked');$('#6_2').removeAttr('checked');
+					$('#7_1').removeAttr('checked');$('#7_X').removeAttr('checked');$('#7_2').removeAttr('checked');
+					$('#8_1').removeAttr('checked');$('#8_X').removeAttr('checked');$('#8_2').removeAttr('checked');
+					$('#9_1').removeAttr('checked');$('#9_X').removeAttr('checked');$('#9_2').removeAttr('checked');
+					$('#10_1').removeAttr('checked');$('#10_X').removeAttr('checked');$('#10_2').removeAttr('checked');
+					$('#11_1').removeAttr('checked');$('#11_X').removeAttr('checked');$('#11_2').removeAttr('checked');
+					$('#12_1').removeAttr('checked');$('#12_X').removeAttr('checked');$('#12_2').removeAttr('checked');
+					$('#13_1').removeAttr('checked');$('#13_X').removeAttr('checked');$('#13_2').removeAttr('checked');
+					$('#14_1').removeAttr('checked');$('#14_X').removeAttr('checked');$('#14_2').removeAttr('checked');
+					$('#quinielaFormResponse').text("Apuesta realizada correctamente");
+				}
+		    }
 		});
 		event.preventDefault(); // prevent actual form submit and page reload
 	 });	 
 	
    	 $('form#myDataForm').submit(function(e) {
-	       consoleAlterQ('update:userAlterQForm');
-	        
-	        // will pass the form date using the jQuery serialize function
-	        var url= ctx+'/myaccount/'+ $('#id').val();
-	        $.post(url, $(this).serialize(), function(response) {
-	    		    if(response.errorDto!=null){
-	    		    	$('#userAlterQFormResponse').text(response.errorDto.stringError);
-	    		    }
-	    		    else{
+   		 var dataJson=JSON.stringify($('form#myDataForm').serializeObject());
+   		 consoleAlterQ('updateDataJsonAlterQ:'+dataJson);
+		 jQuery.ajax ({
+			    url: ctx+'/myaccount/'+ $('#id').val(),
+			    type: "PUT",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+		        cache: false,    //This will force requested pages not to be cached by the browser  
+		        processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+				    if(response.errorDto!=null){
+				    	$('#userAlterQFormResponse').text(response.errorDto.stringError);
+				    }
+				    else{
 						$('#userAlterQFormResponse').text(response.userAlterQ.name+", tus datos han sido actualizados.");
-	    		    }
-			});
-			event.preventDefault(); // prevent actual form submit and page reload
+				    }
+			    }
 		 });
+		event.preventDefault(); // prevent actual form submit and page reload
+   	 });
 			  	 
-	  	 $('form#balanceAlterQForm').submit(function(e) {
-		       consoleAlterQ('update:balanceAlterQForm');
-		        
-	        // will pass the form date using the jQuery serialize function
-		        var url= '${pageContext.request.contextPath}/myaccount/'+ $('#id').val();
-		        $.post(url, $(this).serialize(), function(response) {
-	    		    if(response.errorDto!=null){
-	    		    	$('#balanceAlterQFormResponse').text(response.errorDto.stringError);
-	    		    }
-	    		    else{
+	$('form#balanceAlterQForm').submit(function(e) {
+  		 var dataJson=JSON.stringify($('form#myDataForm').serializeObject());
+   		 consoleAlterQ('update:balanceAlterQForm:'+dataJson);
+		 jQuery.ajax ({
+			    url: ctx+'/myaccount/'+ $('#id').val(),
+			    type: "PUT",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+		        cache: false,    //This will force requested pages not to be cached by the browser  
+		        processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+				    if(response.errorDto!=null){
+				    	$('#balanceAlterQFormResponse').text(response.errorDto.stringError);
+				    }
+				    else{
 						$('#balanceAlterQFormResponse').text(response.userAlterQ.name+", tu saldo ha sido actualizado.");
-	    		    }
-			});
-			event.preventDefault(); // prevent actual form submit and page reload
-		 });	
+				    }
+			    }
+		 });
+		event.preventDefault(); // prevent actual form submit and page reload
+	});	
 	$("#goUp").click(function(){
 		menuEvent($(this).text(), $(this).attr("href"));
     });
@@ -240,6 +268,11 @@ $(document).ready(function() {
 	$("#myBetsBtn").click(function(){
 		menuEvent($(this).text(), $(this).attr("href"));
     });
+	
+   	$('#mydataDiv').click(function(){
+		$(sMyDataRef).show();
+   	});    	 
+	
 	
 });
 
@@ -273,5 +306,87 @@ function consoleAlterQ(text){
 		console.log(text);
 	}
 
+}
+
+function calculatePrice(){
+	consoleAlterQ('calculatePrice');
+	var dataJson=JSON.stringify($("#betForm").serializeObject());
+	jQuery.ajax ({
+		url: ctx+'/myaccount/'+ $('#id').val()+'/season/'+ season+'/round/'+round+'/bet/price',
+	    type: "POST",
+	    data: dataJson,
+	    contentType: "application/json; charset=utf-8",
+	    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	    cache: false,    //This will force requested pages not to be cached by the browser  
+	    processData:false, //To avoid making query String instead of JSON
+	    success: function(response){
+			if(response.errorDto!=null){
+				$('#quinielaPrice').text(response.errorDto.stringError);
+			}
+			else{
+				$('#quinielaPrice').text(response.roundBet.bets[0].price);
+			}
+	    }
+	});
+	event.preventDefault(); // prevent actual form submit and page reload
+	return false;
+}		
+
+
+function getQuiniela(){
+		consoleAlterQ('getQuiniela');
+		if(loadBet){
+		 	loadBet=false;
+			jQuery.ajax ({
+			    url: ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round,
+			    type: "GET",
+			    data: null,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+		        cache: false,    //This will force requested pages not to be cached by the browser  
+		        processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+				    if(response.errorDto!=null){
+				    	$('#temporada').text(response.errorDto.stringError);
+				    }
+				    else{
+						$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
+					    $('#quinielaTable').append('<input type="hidden" name="season" id="season" value="'+ response.round.season+'"/>');       
+					    $('#quinielaTable').append('<input type="hidden" name="round" id="round" value="'+ response.round.round+'"/>');       
+					    $('#quinielaTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td>Jornada '+ response.round.round+'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
+			
+						$(response.round.games).each(function(index, element){  
+							consoleAlterQ(element);
+							var row="";
+							var temp=padding_right(element.player1+'-'+element.player2,".",28);
+							if(index>8){
+								temp=temp+(index+1);
+							}
+							else{
+								temp=temp+" "+(index+1);
+							}
+							if(index==0 || index==4 || index==8 || index==11 || index==14){
+								row+='<tr id="rowBet_'+index+'"><td class="partidolinea">'+temp+'</td>';
+							}
+							else{
+								row+='<tr id="rowBet_'+index+'"><td class="partido">'+temp+'</td>';
+							}
+							row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
+							row+='<label class="quiniela" for="'+index+'_1"></label>';
+							row+='</td>';
+							row+='<td class="pronostico"><input class="classX" type="checkbox" id="'+index+'_X" name="'+index+'_X" />';
+							row+='<label class="quiniela" for="'+index+'_X"></label>';
+							row+='</td>';
+							row+='<td class="pronostico"><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
+							row+='<label class="quiniela" for="'+index+'_2"></label>';
+							row+='</td>';
+							row+='</tr>';
+							$('#quinielaTable').append(row);
+						});
+				    }
+			    }
+		 });
+		event.preventDefault(); // prevent actual form submit and page reload
+		}
 }
 

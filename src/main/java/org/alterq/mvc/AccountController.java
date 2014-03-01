@@ -45,7 +45,7 @@ public class AccountController {
 	int company = 1;
 
 
-	@RequestMapping(method = RequestMethod.POST, value = "/{id:.+}")
+	@RequestMapping(method = RequestMethod.PUT, value = "/{id:.+}")
 	public @ResponseBody
 	ResponseDto updateUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id, UserAlterQ user) {
 		if (log.isDebugEnabled()){

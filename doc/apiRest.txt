@@ -1,8 +1,8 @@
  @ResponseBody ResponseDto login(@RequestBody UserAlterQ user, HttpServletResponse response) {
  @ResponseBody ResponseDto logout(@CookieValue(value = "session", defaultValue = "") String cookieSession
 
-POST	/login															LoginController			login
-GET		/login															LoginController			getUser
+POST	/login															LoginController			login						(response UserAlterQ,GeneralData)
+GET		/login															LoginController			getUser 					(response UserAlterQ,GeneralData)
 
 GET		/logout															BootstrapController		logout
 
@@ -10,11 +10,11 @@ POST	/myaccount														AccountController		createUserAlterQ
 POST	/myaccount/{id:.+}												AccountController		updateUserAlterQ
 POST	/myaccount/forgotPwd											AccountController		forgotPwd
 
-GET		/myaccount/{id:.+}/season/{season}/round/{round}				RoundController			getRound
+GET		/myaccount/{id:.+}/season/{season}/round/{round}				RoundController			getRound					(reponse Round)
 
 POST	/myaccount/{id:.+}/season/{season}/round/{round}/bet			BetController			addBet
 GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet/{bet}		BetController			getBet
-GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet/price		BetController			price(param Bet calculate price)
+GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet/price		BetController			calculatePrice(param Bet calculate price)
 GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet			BetController			findAllUserBetsParams
 PUT		/myaccount/{id:.+}/season/{season}/round/{round}/bet/{bet}		BetController			updateBet
 DELETE	/myaccount/{id:.+}/season/{season}/round/{round}/bet/{bet}		BetController			deleteBet

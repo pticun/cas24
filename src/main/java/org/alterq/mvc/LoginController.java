@@ -3,10 +3,12 @@ package org.alterq.mvc;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.alterq.domain.GeneralData;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
-import org.alterq.dto.ResponseDto;
 import org.alterq.dto.ErrorType;
+import org.alterq.dto.ResponseDto;
+import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +31,11 @@ public class LoginController {
 	private UserAlterQDao userDao;
 	@Autowired
 	private SessionAlterQDao sessionDao;
+	@Autowired
+	private GeneralDataDao generalDataDao;
+
+	// TODO get company from user, session .....
+	int company = 1;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody
@@ -36,18 +43,22 @@ public class LoginController {
 		log.debug("login name:" + user.getId() + "-:pwd:" + user.getPwd());
 		UserAlterQ userValidate = userDao.validateLogin(user.getId(), user.getPwd());
 		ResponseDto dto = new ResponseDto();
+		GeneralData gd;
 		if (userValidate != null) {
 			String sessionID = sessionDao.startSession(userValidate.getId());
 			log.debug("Session ID is:" + sessionID);
 			response.addCookie(new Cookie("session", sessionID));
 			dto.setUserAlterQ(userValidate);
+			gd = generalDataDao.findByCompany(userValidate.getCompany());
 		} else {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(ErrorType.USER_NOT_VALIDATE);
 			error.setStringError("user not validate (i18n error)");
 			dto.setErrorDto(error);
 			dto.setUserAlterQ(null);
+			gd = generalDataDao.findByCompany(company);
 		}
+		dto.setGeneralData(gd);
 		return dto;
 	}
 
@@ -57,17 +68,21 @@ public class LoginController {
 		log.debug("init LoginController.getUser");
 		log.debug("session:" + cookieSession);
 		ResponseDto dto = new ResponseDto();
+		GeneralData gd;
 		if (StringUtils.isNotBlank(cookieSession)) {
 			String idUserAlterQ = sessionDao.findUserAlterQIdBySessionId(cookieSession);
 			UserAlterQ userAlterQ = userDao.findById(idUserAlterQ);
 			dto.setUserAlterQ(userAlterQ);
+			gd = generalDataDao.findByCompany(userAlterQ.getCompany());
 		} else {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(ErrorType.USER_NOT_IN_SESSION);
 			error.setStringError("user not in Session (i18n error)");
 			dto.setErrorDto(error);
 			dto.setUserAlterQ(null);
+			gd = generalDataDao.findByCompany(company);
 		}
+		dto.setGeneralData(gd);
 		return dto;
 	}
 

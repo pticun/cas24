@@ -1,5 +1,6 @@
 package org.alterq.dto;
 
+import org.alterq.domain.GeneralData;
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
@@ -9,6 +10,7 @@ public class ResponseDto {
 	private ErrorDto errorDto;
 	private Round jornada;
 	private RoundBets roundBet;
+	private GeneralData generalData;
 	
 	public UserAlterQ getUserAlterQ() {
 		return userAlterQ;
@@ -40,6 +42,14 @@ public class ResponseDto {
 
 	public void setRoundBet(RoundBets roundBet) {
 		this.roundBet = roundBet;
+	}
+
+	public GeneralData getGeneralData() {
+		return generalData;
+	}
+
+	public void setGeneralData(GeneralData generalData) {
+		this.generalData = generalData;
 	}
 
 
