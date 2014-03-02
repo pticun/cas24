@@ -12,7 +12,8 @@ POST	/myaccount/forgotPwd											AccountController		forgotPwd
 
 GET		/myaccount/{id:.+}/season/{season}/round/{round}				RoundController			getRound					(reponse Round)
 
-POST	/myaccount/{id:.+}/season/{season}/round/{round}/bet			BetController			addBet
+POST	/myaccount/{id:.+}/season/{season}/round/{round}/bet			BetController			addBet 
+																									(if season <0 automaticBet, if season<0 && round<0 automatic Bet)
 GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet/{bet}		BetController			getBet
 GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet/price		BetController			calculatePrice(param Bet calculate price)
 GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet			BetController			findAllUserBetsParams
@@ -26,3 +27,13 @@ GET		/generalData/{id}												GeneralDataController	getGeneralDataCompany
 POST	/generalData													GeneralDataController	createGeneralDataCompany
 PUT		/generalData													GeneralDataController	updateGeneralDataCompany
 DELETE	/generalData													GeneralDataController	deleteGeneralDataCompany
+
+POST 	/admin/season/{season}/round/{round}/close						AdminController			closeRound
+GET 	/admin/season/{season}/round/{round}							AdminController			getRound
+POST	/admin/season/{season}/round/{round}							AdminController			createRound
+POST	/admin/season/{season}/round/{round}/bet						AdminController			resultBet
+
+
+
+
+
