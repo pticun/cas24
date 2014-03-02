@@ -12,23 +12,27 @@ import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ErrorType;
 import org.alterq.dto.ResponseDto;
+import org.alterq.exception.SecurityException;
 import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
-import org.apache.commons.lang3.StringUtils;
+import org.alterq.security.UserAlterQSecurity;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.NativeWebRequest;
 
 @Controller
 @RequestMapping(value = "/myaccount/{id:.+}/season/{season}/round/{round}")
@@ -44,6 +48,8 @@ public class BetController {
 	private SessionAlterQDao sessionDao;
 	@Autowired
 	private GeneralDataDao generalDataDao;
+	@Autowired
+	private UserAlterQSecurity userSecurity;
 
 	// TODO get company from user, session .....
 	int company = 1;
@@ -111,85 +117,73 @@ public class BetController {
 			log.debug("init AccountController.updateUserAlterQ");
 			log.debug("session:" + cookieSession);
 		}
-		UserAlterQ userAlterQ = null;
-		if (StringUtils.isNotBlank(cookieSession)) {
-			String idUserAlterQ = sessionDao.findUserAlterQIdBySessionId(cookieSession);
-			userAlterQ = userDao.findById(idUserAlterQ);
-		}
-		// TODO control security
 		ResponseDto dto = new ResponseDto();
 
-		if (userAlterQ == null) {
-			ErrorDto error = new ErrorDto();
-			error.setIdError(ErrorType.USER_NOT_IN_SESSION);
-			error.setStringError("user not in Session (i18n error)");
-			dto.setErrorDto(error);
-			dto.setUserAlterQ(null);
-			return dto;
-		}
+		try {
+			userSecurity.isSameUserInSession(id, cookieSession);
+			UserAlterQ userAlterQ = userDao.findById(id);
+			String apuesta = "";
+			int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-		String apuesta = "";
-		int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
-		Map<String, String[]> parameters = request.getParameterMap();
-		for (String parameter : parameters.keySet()) {
-			StringTokenizer st = new StringTokenizer(parameter, "_");
-			try {
-				int indice = Integer.parseInt(st.nextToken());
-				String signo = st.nextToken();
-				int signoN = (signo.equals("1")) ? 4 : (signo.equals("2") ? 1 : 2);
-				pro[indice] += signoN;
-			} catch (Exception e) {
-				// TODO: handle exception
+			Map<String, String[]> parameters = request.getParameterMap();
+			for (String parameter : parameters.keySet()) {
+				StringTokenizer st = new StringTokenizer(parameter, "_");
+				try {
+					int indice = Integer.parseInt(st.nextToken());
+					String signo = st.nextToken();
+					int signoN = (signo.equals("1")) ? 4 : (signo.equals("2") ? 1 : 2);
+					pro[indice] += signoN;
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				// log.debug(sb.toString());
 			}
-			// log.debug(sb.toString());
+			int dobles = 0;
+			int triples = 0;
+			for (int i = 0; i < pro.length; i++) {
+				apuesta += pro[i];
+				if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 6))
+					dobles++;
+				else if (pro[i] == 7)
+					triples++;
+			}
+
+			// data for test only!!
+
+			float price = new Double(0.5 * Math.pow(2, dobles) * Math.pow(3, triples)).floatValue();
+
+			float balance = new Float(userAlterQ.getBalance()).floatValue();
+			if (balance - price > 0) {
+				balance -= price;
+				userAlterQ.setBalance("" + balance);
+				Bet bet = new Bet();
+				bet.setPrice(price);
+				bet.setBet(apuesta);
+				bet.setUser(userAlterQ.getId());
+				bet.setCompany(company);
+				bet.setDateCreated(new Date());
+				bet.setDateUpdated(new Date());
+				bet.setId(new ObjectId().toStringMongod());
+				StringBuffer sb = new StringBuffer();
+				sb.append("New Bet: season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
+				log.debug(sb.toString());
+
+				// Insert new bet into the BBDD
+				betDao.addBet(season, round, bet);
+				userDao.save(userAlterQ);
+
+			} else {
+				ErrorDto error = new ErrorDto();
+				error.setIdError(ErrorType.USER_NOT_ENOUGH_MONEY);
+				error.setStringError("user not enough money (i18n error)");
+				dto.setErrorDto(error);
+				dto.setUserAlterQ(null);
+			}
+		} catch (SecurityException e) {
+			log.error(ExceptionUtils.getStackTrace(e));
+			dto.setErrorDto(e.getError());
 		}
-		int dobles = 0;
-		int triples = 0;
-		for (int i = 0; i < pro.length; i++) {
-			apuesta += pro[i];
-			if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 6))
-				dobles++;
-			else if (pro[i] == 7)
-				triples++;
-		}
 
-		// data for test only!!
-		String seasonT = request.getParameter("season");
-		String roundT = request.getParameter("round");
-
-		int seasonInt = Integer.parseInt(seasonT);
-		int roundInt = Integer.parseInt(roundT);
-
-		float price = new Double(0.5 * Math.pow(2, dobles) * Math.pow(3, triples)).floatValue();
-
-		float balance = new Float(userAlterQ.getBalance()).floatValue();
-		if (balance - price > 0) {
-			balance -= price;
-			userAlterQ.setBalance("" + balance);
-			Bet bet = new Bet();
-			bet.setPrice(price);
-			bet.setBet(apuesta);
-			bet.setUser(userAlterQ.getId());
-			bet.setCompany(company);
-			bet.setDateCreated(new Date());
-			bet.setDateUpdated(new Date());
-			bet.setId(new ObjectId().toStringMongod());
-			StringBuffer sb = new StringBuffer();
-			sb.append("New Bet: season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
-			log.debug(sb.toString());
-
-			// Insert new bet into the BBDD
-			betDao.addBet(seasonInt, roundInt, bet);
-			userDao.save(userAlterQ);
-
-		} else {
-			ErrorDto error = new ErrorDto();
-			error.setIdError(ErrorType.USER_NOT_ENOUGH_MONEY);
-			error.setStringError("user not enough money (i18n error)");
-			dto.setErrorDto(error);
-			dto.setUserAlterQ(null);
-		}
 
 		return dto;
 

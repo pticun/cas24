@@ -10,14 +10,6 @@
 				value="%d{ISO8601}; - [%t] quinimobile - %X{USERID} (%c)- %-5p -%m%n" />
 		</layout>
 	</appender>
-	<category name="com.dispensus.controller" additivity="false">
-		<level value="debug" />
-		<appender-ref ref="console" />
-	</category>
-	<category name="com.dispensus.service" additivity="false">
-		<level value="debug" />
-		<appender-ref ref="console" />
-	</category>
 	<category name="org.arch" additivity="false">
 		<level value="debug" />
 		<appender-ref ref="console" />
