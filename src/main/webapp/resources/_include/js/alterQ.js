@@ -1,5 +1,6 @@
 var round=0;
 var season=0;
+var idUserAlterQ="";
 
 //alert("context:"+ctx);
 $(document).ready(function() {
@@ -54,6 +55,7 @@ $(document).ready(function() {
 		    else{
 		    	if (response.userAlterQ!=null){
 					showDiv(bHome);
+					idUserAlterQ=response.userAlterQ.id;
 
 					$('#id').val(response.userAlterQ.id);
 					$('#name').val(response.userAlterQ.name);
@@ -112,6 +114,7 @@ $(document).ready(function() {
 		   		    	consoleAlterQ("login: response="+response.userAlterQ.name);
 						$('#loginFormResponse').text(response.userAlterQ.name);
 						userLoged=true;
+						idUserAlterQ=response.userAlterQ.id;
 						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
 						showDiv(bHome);
 		   		    }
@@ -173,10 +176,10 @@ $(document).ready(function() {
 		consoleAlterQ('betForm:'+dataJson);
 		// will pass the form date using the jQuery serialize function
 		jQuery.ajax ({
-			url: ctx+'/myaccount/'+ $('#id').val()+'/season/'+ season+'/round/'+round+'/bet',
+			url: ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet',
 		    type: "POST",
-		    data: dataJson,
-		    contentType: "application/json; charset=utf-8",
+		    data: $(this).serialize(),
+//		    contentType: "application/json; charset=utf-8",
 		    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
 		    cache: false,    //This will force requested pages not to be cached by the browser  
 		    processData:false, //To avoid making query String instead of JSON
@@ -211,7 +214,7 @@ $(document).ready(function() {
    		 var dataJson=JSON.stringify($('form#myDataForm').serializeObject());
    		 consoleAlterQ('updateDataJsonAlterQ:'+dataJson);
 		 jQuery.ajax ({
-			    url: ctx+'/myaccount/'+ $('#id').val(),
+			    url: ctx+'/myaccount/'+ idUserAlterQ,
 			    type: "PUT",
 			    data: dataJson,
 			    contentType: "application/json; charset=utf-8",
@@ -234,7 +237,7 @@ $(document).ready(function() {
   		 var dataJson=JSON.stringify($('form#myDataForm').serializeObject());
    		 consoleAlterQ('update:balanceAlterQForm:'+dataJson);
 		 jQuery.ajax ({
-			    url: ctx+'/myaccount/'+ $('#id').val(),
+			    url: ctx+'/myaccount/'+ idUserAlterQ,
 			    type: "PUT",
 			    data: dataJson,
 			    contentType: "application/json; charset=utf-8",
@@ -312,7 +315,7 @@ function calculatePrice(){
 	consoleAlterQ('calculatePrice');
 	var dataJson=JSON.stringify($("#betForm").serializeObject());
 	jQuery.ajax ({
-		url: ctx+'/myaccount/'+ $('#id').val()+'/season/'+ season+'/round/'+round+'/bet/price',
+		url: ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet/price',
 	    type: "POST",
 	    data: dataJson,
 	    contentType: "application/json; charset=utf-8",
