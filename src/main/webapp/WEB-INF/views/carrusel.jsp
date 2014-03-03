@@ -107,7 +107,7 @@ instead of including images.
 img{
     color: #666;
     background: #333;
-    height: 300px !important;
+    height: 900px !important;
     padding-top: 90px;
     display: block;
     font-size: 52px;
@@ -394,6 +394,60 @@ function getTableMatches(bet, loadGames){
         return tableBet;
 }
 
+var loadUserBets=true;
+	$(document).ready(function() {
+	var season=2013;
+	var round=11;
+	var user=$('#id').val();
+
+	var indicators="";
+	indicators+='<ol  class="carousel-indicators">';
+    indicators+='<li data-target="#myCarousel" data-slide-to="0" class="active"></li>';
+    indicators+='<li data-target="#myCarousel" data-slide-to="1"></li>';
+    indicators+='<li data-target="#myCarousel" data-slide-to="2"></li>';
+    indicators+='</ol>';   
+    $('#myIndicators').append(indicators);
+
+    for (i=0; i<3;i++)
+    {
+    var row="";
+    if (i==0)
+    	row+='<div class="active item">';
+    else
+    	row+='<div class="item">';
+    row+='<img src="slide-1.jpg" alt="Slide">';
+    row+='<div class="carousel-caption">';
+    row+='<article>';
+    row+='<header>';
+    row+='<h3>APUESTA '+i+'</h3>';
+    row+='<h3>JORNADA 22</h3>';
+    row+='<div id="apuesta1">';
+    row+='<h3>1 - Madrid - Barcelona X</h3>';
+    row+='<h3>2 - Madrid - Barcelona X</h3>';
+    row+='<h3>3 - Madrid - Barcelona X</h3>';
+    row+='<h3>4 - Madrid - Barcelona X</h3>';
+    row+='<h3>5 - Madrid - Barcelona X</h3>';
+    row+='<h3>6 - Madrid - Barcelona X</h3>';
+    row+='<h3>7 - Madrid - Barcelona X</h3>';
+    row+='<h3>8 - Madrid - Barcelona X</h3>';
+    row+='<h3>9 - Madrid - Barcelona X</h3>';
+    row+='<h3>10- Madrid - Barcelona X</h3>';
+    row+='<h3>11- Madrid - Barcelona X</h3>';
+    row+='<h3>12- Madrid - Barcelona X</h3>';
+    row+='<h3>13- Madrid - Barcelona X</h3>';
+    row+='<h3>14- Madrid - Barcelona X</h3>';
+    row+='<h3>15- Madrid - Barcelona X</h3>';
+    row+='</div>';
+    row+='</header>';
+    row+='</article>';
+    row+='</div>';
+    row+='</div>';
+	$('#myItems').append(row);
+    }
+    	
+	return false;
+});
+
 </script>
 
 <body>
@@ -426,34 +480,11 @@ function getTableMatches(bet, loadGames){
 <div class="bs-example">
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Carousel indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>   
+        <div id="myIndicators"> 
+        </div>
+        
         <!-- Carousel items -->
-        <div class="carousel-inner">
-            <div class="active item">
-                <img src="slide-1.jpg" alt="Slide 1">
-                <div class="carousel-caption">
-                  <h3>First slide label</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </div>
-            </div>
-            <div class="item">
-                <img src="slide-2.jpg" alt="Slide 2">
-                <div class="carousel-caption">
-                  <h3>Second slide label</h3>
-                  <p>Vestibulum quis quam ut magna consequat faucibus.</p>
-                </div>
-            </div>
-            <div class="item">
-                <img src="slide-3.jpg" alt="Slide 3">
-                <div class="carousel-caption">
-                  <h3>Third slide label</h3>
-                  <p>Praesent commodo cursus magna, vel scelerisque nisl.</p>
-                </div>
-            </div>
+        <div id="myItems" class="carousel-inner">
         </div>
         <!-- Carousel nav -->
         <a class="carousel-control left" href="#myCarousel" data-slide="prev">
