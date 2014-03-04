@@ -327,6 +327,7 @@ img{
 			showDiv(bMyBalance);
 		}else if (href == sMyBetsRef){
 			consoleAlterQ("Mybets");
+			getUserBets();
 			showDiv(bMyBets);
 		}
 		return false;
@@ -394,8 +395,7 @@ function getTableMatches(bet, loadGames){
         return tableBet;
 }
 
-var loadUserBets=true;
-	$(document).ready(function() {
+function getUserBets2(){
 	var season=2013;
 	var round=11;
 	var user=$('#id').val();
@@ -444,10 +444,130 @@ var loadUserBets=true;
     row+='</div>';
 	$('#myItems').append(row);
     }
-    	
-	return false;
-});
+}
 
+var loadBetUser=true;
+
+function getUserBets(){
+	consoleAlterQ('getQuiniela');
+	if(loadBetUser){
+		loadBetUser=false;
+
+		var season=2013;
+   		var round=11;
+   		var user=$('#id').val();
+
+   		consoleAlterQ('antes jQuery.ajax');
+		
+		jQuery.ajax ({
+		    url: ctx+'/bet/season/'+season+'/round/'+round+'/user/'+user+'/',
+		    type: "GET",
+		    data: null,
+		    contentType: "application/json; charset=utf-8",
+		    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	        cache: false,    //This will force requested pages not to be cached by the browser  
+	        processData:false, //To avoid making query String instead of JSON
+		    success: function(response){
+			    if(response.errorDto!=null){
+			    	var indicators="";
+			    	indicators+='<ol  class="carousel-indicators">';
+			        indicators+='<li data-target="#myCarousel" data-slide-to="0" class="active"></li>';
+			        indicators+='</ol>';   
+			        $('#myIndicators').append(indicators);
+			    	
+					var row="";
+			    	row+='<div class="active item">';
+			        row+='<img src="slide-1.jpg" alt="Slide">';
+			        row+='<div class="carousel-caption">';
+			        row+='<article>';
+			        row+='<header>';
+					row+='<div align="center"><h3>SIN APUESTAS</h3></div>';
+					row+='</header>';
+					row+='</article>';
+				    row+='</div>';
+				    row+='</div>';
+					$('#myItems').append(row);
+			    }
+			    else{
+					//hacemos la llamada para obtener los partidos
+					var mygames; 
+				    jQuery.ajax ({
+						    url: ctx+'/bet',
+						    type: "GET",
+						    data: dataJson,
+						    contentType: "application/json; charset=utf-8",
+						    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+				            cache: false,    //This will force requested pages not to be cached by the browser  
+				            processData:false, //To avoid making query String instead of JSON
+						    success: function(response2){
+					   		    if(response2.errorDto!=null){
+					   		    	consoleAlterQ("getUserBets: response="+response2.errorDto.stringError);
+					   		    }
+					   		    else{
+					   		    	consoleAlterQ("getUserBets: response OK");
+					   		    	mygames=response2.round.games;
+					   		    }
+						    }
+					});
+			    	var indicators="";
+			    	indicators+='<ol  class="carousel-indicators">';
+
+					$(response.roundBet.bets).each(function(index, element){
+						console.log("user="+element.user + " bet="+element.bet);
+						var row="";
+					    if (index==0){
+					    	row+='<div class="active item">';
+					        indicators+='<li data-target="#myCarousel" data-slide-to="'+index+'" class="active"></li>';
+					    }
+					    else{
+					    	row+='<div class="item">';
+					        indicators+='<li data-target="#myCarousel" data-slide-to="'+index+'"></li>';
+					    }
+					    row+='<img src="slide-1.jpg" alt="Slide">';
+					    row+='<div class="carousel-caption">';
+					    row+='<article>';
+					    row+='<header>';
+						row+='<h3> APUESTA '+index+'</h3>';
+						row+='<h3> JORNADA '+response.roundBet.round+'</h3>';
+						response.roundBet.round
+						row+='<div id="apuesta'+index+'"><h3>'+getTableMatches(element.bet, mygames)+'</h3></div>';
+						row+='</header>';
+						row+='</article>';
+					    row+='</div>';
+					    row+='</div>';
+						$('#userBets').append(row);
+					});
+					
+			        indicators+='</ol>';   
+			        $('#myIndicators').append(indicators);
+			    }
+		    },
+		    error : function (xhr, textStatus, errorThrown) {
+		    	var indicators="";
+		    	indicators+='<ol  class="carousel-indicators">';
+		        indicators+='<li data-target="#myCarousel" data-slide-to="0" class="active"></li>';
+		        indicators+='</ol>';   
+		        $('#myIndicators').append(indicators);
+		    	
+				var row="";
+		    	row+='<div class="active item">';
+		        row+='<img src="slide-1.jpg" alt="Slide">';
+		        row+='<div class="carousel-caption">';
+		        row+='<article>';
+		        row+='<header>';
+				row+='<div><h3>&nbsp;</h3><h3>ERROR AL OBTENER</h3><h3>LAS APUESTAS</h3></div>';
+				row+='</header>';
+				row+='</article>';
+			    row+='</div>';
+			    row+='</div>';
+				$('#myItems').append(row);
+            }
+	 });
+	consoleAlterQ('despues jQuery.ajax');
+	showDiv(bMyBets);
+	event.preventDefault(); // prevent actual form submit and page reload
+	}	
+}
 </script>
 
 <body>
@@ -475,7 +595,118 @@ var loadUserBets=true;
     </div>
 </header>
 <!-- End Header -->
-<div id="MiCarruselDiv" class="page">
+
+
+<!-- Login Section -->
+<div id="loginDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Login</h2>
+                <h3 class="title-description">Entra al mundo de las quinielas</h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- Login Form -->
+    <div class="row">
+			<div align="center">
+			   <form id="loginForm">
+			   		<table class="quiniela">
+				   		<tr>
+				   			<td class="partido">Username:</td>
+				   			<td class="partido"><input id="id" name="id" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Password:</td>
+				   			<td class="partido"><input type="password" name="pwd" id="pwd"/></td>
+				        </tr>
+				   		<tr align="right">
+				   			<td class="partido">&nbsp;</td>
+				   			<td class="partido"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
+				        </tr>
+			   		</table>
+			   		<a href="#signDiv">Crear un nuevo usuario</a><br>
+			   		<a href="#forgotDiv">He olvidado mi contraseña</a>
+					<div id="loginFormResponse">respuesta </div>
+		        </form>
+			</div>
+    </div>
+    <!-- End Login Form -->
+</div>
+</div>
+<!-- End Login Section -->
+
+
+<!-- My Account -->
+<div id="myaccountDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Mi Cuenta</h2>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+
+    	<div class="row">
+            <div class="span12">
+
+            			<ul>
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span1">
+                            </li>
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3">
+                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
+                            	<a class="hover-wrap" id="myDataBtn" href="#mydataDiv">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-02.jpg'/>" alt="Quiniela">
+                            </li>
+                        	<!-- End Item Project -->
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3">
+                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
+                            	<a class="hover-wrap" id="myBalanceBtn" href="#mybalanceDiv">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-03.jpg'/>" alt="Quiniela">
+                            </li>
+                        	<!-- End Item Project -->
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3">
+                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
+                            	<a class="hover-wrap" id="myBetsBtn" href="#mybetsDiv">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-04.jpg'/>" alt="Quiniela">
+                            </li>
+                        	<!-- End Item Project -->
+
+            			</ul>
+
+            </div>
+        </div>
+</div>
+</div>
+<!-- End My Account -->
+
+
+
+
+<div id="mybetsDiv" class="page">
 <div class="container">
 <div class="bs-example">
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
