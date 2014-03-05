@@ -131,6 +131,9 @@ Comentarios GIT
 	SYS system
 
 
+Plantilla html5 (bootstrap-twitter) usado bajado de
+	 http://www.alessioatzeni.com/blog/brushed-template/
+
 
 
 esto es mi cambio	
