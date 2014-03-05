@@ -107,7 +107,7 @@ instead of including images.
 img{
     color: #666;
     background: #333;
-    height: 900px !important;
+    height: 600px !important;
     padding-top: 90px;
     display: block;
     font-size: 52px;
@@ -388,63 +388,14 @@ function getTableMatches(bet, loadGames){
 	tableBet='<table style="font-size:14px">';
 	$(loadGames).each(function(index, element){  
 		var temp=padding_right(element.player1+'-'+element.player2,".",28);
-		tableBet+='<tr><td>' + temp + '</td><td align="left">'+ getSign(bet.charAt(index)) + '</td>';
+		var num = (index+1)<10?(' '+(index+1)):(index+1);
+		tableBet+='<tr><td>' + num + ' - </td><td>' + temp + '</td><td align="left">'+ getSign(bet.charAt(index)) + '</td>';
 		tableBet+='</tr>';
 	});
 	tableBet+='</table>';		
         return tableBet;
 }
 
-function getUserBets2(){
-	var season=2013;
-	var round=11;
-	var user=$('#id').val();
-
-	var indicators="";
-	indicators+='<ol  class="carousel-indicators">';
-    indicators+='<li data-target="#myCarousel" data-slide-to="0" class="active"></li>';
-    indicators+='<li data-target="#myCarousel" data-slide-to="1"></li>';
-    indicators+='<li data-target="#myCarousel" data-slide-to="2"></li>';
-    indicators+='</ol>';   
-    $('#myIndicators').append(indicators);
-
-    for (i=0; i<3;i++)
-    {
-    var row="";
-    if (i==0)
-    	row+='<div class="active item">';
-    else
-    	row+='<div class="item">';
-    row+='<img src="slide-1.jpg" alt="Slide">';
-    row+='<div class="carousel-caption">';
-    row+='<article>';
-    row+='<header>';
-    row+='<h3>APUESTA '+i+'</h3>';
-    row+='<h3>JORNADA 22</h3>';
-    row+='<div id="apuesta1">';
-    row+='<h3>1 - Madrid - Barcelona X</h3>';
-    row+='<h3>2 - Madrid - Barcelona X</h3>';
-    row+='<h3>3 - Madrid - Barcelona X</h3>';
-    row+='<h3>4 - Madrid - Barcelona X</h3>';
-    row+='<h3>5 - Madrid - Barcelona X</h3>';
-    row+='<h3>6 - Madrid - Barcelona X</h3>';
-    row+='<h3>7 - Madrid - Barcelona X</h3>';
-    row+='<h3>8 - Madrid - Barcelona X</h3>';
-    row+='<h3>9 - Madrid - Barcelona X</h3>';
-    row+='<h3>10- Madrid - Barcelona X</h3>';
-    row+='<h3>11- Madrid - Barcelona X</h3>';
-    row+='<h3>12- Madrid - Barcelona X</h3>';
-    row+='<h3>13- Madrid - Barcelona X</h3>';
-    row+='<h3>14- Madrid - Barcelona X</h3>';
-    row+='<h3>15- Madrid - Barcelona X</h3>';
-    row+='</div>';
-    row+='</header>';
-    row+='</article>';
-    row+='</div>';
-    row+='</div>';
-	$('#myItems').append(row);
-    }
-}
 
 var loadBetUser=true;
 
@@ -459,8 +410,9 @@ function getUserBets(){
 
    		consoleAlterQ('antes jQuery.ajax');
 		
+   		consoleAlterQ('url:'+ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet');  		
 		jQuery.ajax ({
-		    url: ctx+'/bet/season/'+season+'/round/'+round+'/user/'+user+'/',
+			url: ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet',
 		    type: "GET",
 		    data: null,
 		    contentType: "application/json; charset=utf-8",
@@ -490,11 +442,14 @@ function getUserBets(){
 			    }
 			    else{
 					//hacemos la llamada para obtener los partidos
-					var mygames; 
+					var mygames;
+					consoleAlterQ('antes jQuery.ajax mygames');
+					consoleAlterQ('url:'+ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round);
+					
 				    jQuery.ajax ({
-						    url: ctx+'/bet',
+						    url: ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round,
 						    type: "GET",
-						    data: dataJson,
+						    data: null,
 						    contentType: "application/json; charset=utf-8",
 						    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
 				            cache: false,    //This will force requested pages not to be cached by the browser  
@@ -507,12 +462,35 @@ function getUserBets(){
 					   		    	consoleAlterQ("getUserBets: response OK");
 					   		    	mygames=response2.round.games;
 					   		    }
+						    },
+						    error : function (xhr, textStatus, errorThrown) {
+						    	var indicators="";
+						    	indicators+='<ol  class="carousel-indicators">';
+						        indicators+='<li data-target="#myCarousel" data-slide-to="0" class="active"></li>';
+						        indicators+='</ol>';   
+						        $('#myIndicators').append(indicators);
+						    	
+								var row="";
+						    	row+='<div class="active item">';
+						        row+='<img src="slide-1.jpg" alt="Slide">';
+						        row+='<div class="carousel-caption">';
+						        row+='<article>';
+						        row+='<header>';
+								row+='<div><h3>&nbsp;</h3><h3>ERROR AL OBTENER</h3><h3>LOS PARTIDOS</h3></div>';
+								row+='</header>';
+								row+='</article>';
+							    row+='</div>';
+							    row+='</div>';
+								$('#myItems').append(row);						    
 						    }
+						    
 					});
+				    consoleAlterQ('despues jQuery.ajax mygames');
 			    	var indicators="";
 			    	indicators+='<ol  class="carousel-indicators">';
 
 					$(response.roundBet.bets).each(function(index, element){
+						console.log("index="+index);
 						console.log("user="+element.user + " bet="+element.bet);
 						var row="";
 					    if (index==0){
@@ -529,18 +507,16 @@ function getUserBets(){
 					    row+='<header>';
 						row+='<h3> APUESTA '+index+'</h3>';
 						row+='<h3> JORNADA '+response.roundBet.round+'</h3>';
-						response.roundBet.round
-						row+='<div id="apuesta'+index+'"><h3>'+getTableMatches(element.bet, mygames)+'</h3></div>';
+						row+='<div align="center" id="apuesta'+index+'"><h3>'+getTableMatches(element.bet, mygames)+'</h3></div>';
 						row+='</header>';
 						row+='</article>';
 					    row+='</div>';
 					    row+='</div>';
-						$('#userBets').append(row);
+						$('#myItems').append(row);
 					});
-					
-			        indicators+='</ol>';   
-			        $('#myIndicators').append(indicators);
 			    }
+		        indicators+='</ol>';   
+		        $('#myIndicators').append(indicators);
 		    },
 		    error : function (xhr, textStatus, errorThrown) {
 		    	var indicators="";
