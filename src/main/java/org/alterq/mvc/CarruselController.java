@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping(value = {  "/", "/carrusel" })
+@RequestMapping(value = { "/carrusel" })
 public class CarruselController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
@@ -18,7 +18,7 @@ public class CarruselController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String initPage() {
-		log.debug("init bootstrap.jsp");
+		log.debug("init carrusel.jsp");
 		return "carrusel";
 	}
 }
