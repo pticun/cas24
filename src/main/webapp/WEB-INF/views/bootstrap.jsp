@@ -29,7 +29,8 @@
 
 <!-- Bootstrap -->
 <!-- <link href="_include/css/bootstrap.min.css" rel="stylesheet"> --> 
-<link href="<c:url value="/static/resources/_include/css/bootstrap.min.css"/>" rel="stylesheet">
+<!-- <link href="<c:url value="/static/resources/_include/css/bootstrap.min.css"/>" rel="stylesheet"> -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 
 <!-- Main Style -->
 <!-- <link href="_include/css/main.css" rel="stylesheet">-->
@@ -131,6 +132,7 @@ var ctx = "<%=request.getContextPath()%>"
 <script type="text/javascript">
 
 	var loadBet=true;
+	var loadBetUser=true;
 	
 	var userLoged=false;
 	
@@ -309,6 +311,7 @@ var ctx = "<%=request.getContextPath()%>"
 			showDiv(bMyBalance);
 		}else if (href == sMyBetsRef){
 			consoleAlterQ("Mybets");
+			getUserBets();
 			showDiv(bMyBets);
 		}
 		return false;
@@ -369,12 +372,14 @@ function getTableMatches(bet, loadGames){
 	tableBet='<table style="font-size:14px">';
 	$(loadGames).each(function(index, element){  
 		var temp=padding_right(element.player1+'-'+element.player2,".",28);
-		tableBet+='<tr><td>' + temp + '</td><td align="left">'+ getSign(bet.charAt(index)) + '</td>';
+		var num = (index+1)<10?(' '+(index+1)):(index+1);
+		tableBet+='<tr><td>' + num + ' - </td><td>' + temp + '</td><td align="left">'+ getSign(bet.charAt(index)) + '</td>';
 		tableBet+='</tr>';
 	});
 	tableBet+='</table>';		
         return tableBet;
 }
+
 
 </script>
 
@@ -492,7 +497,7 @@ function getTableMatches(bet, loadGames){
 							<!-- Item Project and Filter Name -->
                         	<li class="item-thumbs span3">
                             	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
-                            	<a class="hover-wrap" id="myBetsBtn" href="#myBetsDiv">
+                            	<a class="hover-wrap" id="myBetsBtn" href="#mybetsDiv">
                                 	<span class="overlay-img"></span>
                                     <span class="overlay-img-thumb font-icon-plus"></span>
                                 </a>
@@ -602,6 +607,28 @@ function getTableMatches(bet, loadGames){
 </div>
 <!-- End MyBalance Section -->
 
+<!-- MyBets Section -->
+<div id="mybetsDiv" class="page">
+<div class="container">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Carousel indicators -->
+        <div id="myIndicators"> 
+        </div>
+        
+        <!-- Carousel items -->
+        <div id="myItems" class="carousel-inner">
+        </div>
+        <!-- Carousel nav -->
+        <a class="carousel-control left" href="#myCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="carousel-control right" href="#myCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+</div>
+</div>
+<!-- End MyBets Section -->
 
 <!-- About Section -->
 <div id="about" class="page-alternate">

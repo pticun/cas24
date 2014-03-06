@@ -104,19 +104,7 @@ var ctx = "<%=request.getContextPath()%>"
 styling the alt text
 instead of including images.
 */
-img{
-    color: #666;
-    background: #333;
-    height: 600px !important;
-    padding-top: 90px;
-    display: block;
-    font-size: 52px;
-    text-align: center;    
-    font-family: "trebuchet ms", sans-serif;    
-}
-.bs-example{
-	margin: 20px;
-}
+
 </style>
 </head>
 
@@ -472,7 +460,7 @@ function getUserBets(){
 						    	
 								var row="";
 						    	row+='<div class="active item">';
-						        row+='<img src="slide-1.jpg" alt="Slide">';
+						        row+='<img class="mybetsimg" src="slide-1.jpg" alt="Slide">';
 						        row+='<div class="carousel-caption">';
 						        row+='<article>';
 						        row+='<header>';
@@ -501,7 +489,7 @@ function getUserBets(){
 					    	row+='<div class="item">';
 					        indicators+='<li data-target="#myCarousel" data-slide-to="'+index+'"></li>';
 					    }
-					    row+='<img src="slide-1.jpg" alt="Slide">';
+					    row+='<img class="mybetsimg" src="slide-1.jpg" alt="Slide">';
 					    row+='<div class="carousel-caption">';
 					    row+='<article>';
 					    row+='<header>';
@@ -527,7 +515,7 @@ function getUserBets(){
 		    	
 				var row="";
 		    	row+='<div class="active item">';
-		        row+='<img src="slide-1.jpg" alt="Slide">';
+		        row+='<img class="mybetsimg" src="slide-1.jpg" alt="Slide">';
 		        row+='<div class="carousel-caption">';
 		        row+='<article>';
 		        row+='<header>';
@@ -684,7 +672,6 @@ function getUserBets(){
 
 <div id="mybetsDiv" class="page">
 <div class="container">
-<div class="bs-example">
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Carousel indicators -->
         <div id="myIndicators"> 
@@ -701,7 +688,6 @@ function getUserBets(){
             <span class="glyphicon glyphicon-chevron-right"></span>
         </a>
     </div>
-</div>
 </div>
 </div>
 
