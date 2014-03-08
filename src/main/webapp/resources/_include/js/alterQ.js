@@ -2,6 +2,7 @@ var round=0;
 var season=0;
 var idUserAlterQ="";
 
+
 //alert("context:"+ctx);
 $(document).ready(function() {
 	

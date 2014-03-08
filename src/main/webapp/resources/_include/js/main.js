@@ -43,6 +43,48 @@ BRUSHED.listenerMenu = function(){
 }
 
 
+
+/* ==================================================
+Login Form
+================================================== */
+
+BRUSHED.loginForm = function(){
+	$("#contact-submit").on('click',function() {
+		 var dataJson=JSON.stringify($('#login-form').serializeObject());
+		 consoleAlterQ(dataJson);
+		 jQuery.ajax ({
+			    url: ctx+'/login',
+			    type: "POST",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=null){
+		   		    	consoleAlterQ("login: response="+response.errorDto.stringError);
+		   		    	$('#loginFormResponse').text(response.errorDto.stringError);
+		   		    	userLoged=false;
+		   		    }
+		   		    else{
+		   		    	consoleAlterQ("login: response="+response.userAlterQ.name);
+						$('#loginFormResponse').text(response.userAlterQ.name);
+						userLoged=true;
+						idUserAlterQ=response.userAlterQ.id;
+						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+						showDiv(bHome);
+		   		    }
+				    round=response.generalData.round;
+				    season=response.generalData.season;
+			    }
+			});
+		 return false;
+	});
+}
+
+
+
+
 /* ==================================================
    Slider Options
 ================================================== */
@@ -181,36 +223,6 @@ BRUSHED.fancyBox = function(){
 			}
 		});
 	}
-}
-
-
-/* ==================================================
-   Contact Form
-================================================== */
-
-BRUSHED.contactForm = function(){
-	$("#contact-submit").on('click',function() {
-		$contact_form = $('#contact-form');
-		
-		var fields = $contact_form.serialize();
-		
-		$.ajax({
-			type: "POST",
-			url: "static/resources/_include/php/contact.php",
-			data: fields,
-			dataType: 'json',
-			success: function(response) {
-				
-				if(response.status){
-					$('#contact-form input').val('');
-					$('#contact-form textarea').val('');
-				}
-				
-				$('#response').empty().html(response.html);
-			}
-		});
-		return false;
-	});
 }
 
 
@@ -439,13 +451,16 @@ $(document).ready(function(){
 	BRUSHED.goUp();
 	BRUSHED.filter();
 	BRUSHED.fancyBox();
-	BRUSHED.contactForm();
 	BRUSHED.tweetFeed();
 	BRUSHED.scrollToTop();
 	BRUSHED.utils();
 	BRUSHED.accordion();
 	BRUSHED.toggle();
 	BRUSHED.toolTip();
+	
+	BRUSHED.loginForm();
+
+	
 });
 
 $(window).resize(function(){

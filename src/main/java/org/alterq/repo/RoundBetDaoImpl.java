@@ -38,8 +38,12 @@ public class RoundBetDaoImpl implements RoundBetDao {
                 group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
         );
         AggregationResults<RoundBets> result = mongoTemplate.aggregate(agg, "roundBets", RoundBets.class);
-        RoundBets aux = result.getMappedResults().get(0);
-		return aux;
+        if ( !result.getMappedResults().isEmpty()){
+        	RoundBets aux = result.getMappedResults().get(0);
+        	return aux;
+        }
+        else
+        	return null;
 	}
 
 	public boolean addBet(int season, int round, Bet bet){

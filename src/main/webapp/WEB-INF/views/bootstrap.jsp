@@ -737,48 +737,6 @@ function getTableMatches(bet, loadGames){
     </div>
     <!-- End Title Page -->
     
-    <!-- Contact Form -->
-    <div class="row">
-    	<div class="span9">
-        
-        	<form id="contact-form" class="contact-form" action="#">
-            	<p class="contact-name">
-            		<input id="contact_name" type="text" placeholder="Full Name" value="" name="name" />
-                </p>
-                <p class="contact-email">
-                	<input id="contact_email" type="text" placeholder="Email Address" value="" name="email" />
-                </p>
-                <p class="contact-message">
-                	<textarea id="contact_message" placeholder="Your Message" name="message" rows="15" cols="40"></textarea>
-                </p>
-                <p class="contact-submit">
-                	<a id="contact-submit" class="submit" href="#">Send Your Email</a>
-                </p>
-                
-                <div id="response">
-                
-                </div>
-            </form>
-         
-        </div>
-        
-        <div class="span3">
-        	<div class="contact-details">
-        		<h3>Contact Details</h3>
-                <ul>
-                    <li><a href="#">hello@brushed.com</a></li>
-                    <li>(916) 375-2525</li>
-                    <li>
-                        Brushed Studio
-                        <br>
-                        5240 Vanish Island. 105
-                        <br>
-                        Unknow
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
     <!-- End Contact Form -->
 </div>
 </div>
@@ -799,8 +757,35 @@ function getTableMatches(bet, loadGames){
     <!-- End Title Page -->
     
     <!-- Login Form -->
+    <div class="row" align="center">
+        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+    
+    	<div class="span4">
+        
+			<form id="login-form" action="#">
+		   		<table class="quiniela">
+			   		<tr>
+			   			<td class="partido"><input id="id" name="id" type="text" placeholder="User Name"/></td>
+			        </tr>
+			   		<tr>
+			   			<td class="partido"><input type="password" name="pwd" id="pwd" placeholder="Password"/></td>
+			        </tr>
+			   		<tr align="right">
+			   			<td class="partido"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
+			        </tr>
+		   		</table>
+		   		<a href="#signDiv">Crear un nuevo usuario</a><br>
+		   		<a href="#forgotDiv">He olvidado mi contrase&ntilde;a</a>
+				<div id="loginFormResponse">respuesta </div>
+	        </form>
+          
+        </div>
+        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+	</div>
+
+<!-- 
     <div class="row">
-			<div align="center">
+			<div align="center" class="span12">
 			   <form id="loginForm">
 			   		<table class="quiniela">
 				   		<tr>
@@ -822,6 +807,7 @@ function getTableMatches(bet, loadGames){
 		        </form>
 			</div>
     </div>
+ -->    
     <!-- End Login Form -->
 </div>
 </div>
