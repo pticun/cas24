@@ -28,9 +28,8 @@
 <!--[if IEMobile]>  <meta http-equiv="cleartype" content="on">  <![endif]-->
 
 <!-- Bootstrap -->
-<!-- <link href="_include/css/bootstrap.min.css" rel="stylesheet"> --> 
-<!-- <link href="<c:url value="/static/resources/_include/css/bootstrap.min.css"/>" rel="stylesheet"> -->
-<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+<link href="<c:url value="/static/resources/_include/css/bootstrap.min.css"/>" rel="stylesheet">
+<!-- <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"> --> 
 
 <!-- Main Style -->
 <!-- <link href="_include/css/main.css" rel="stylesheet">-->
@@ -721,8 +720,6 @@ function getTableMatches(bet, loadGames){
 </div>
 </div>
 <!-- End About Section -->
-
-
 <!-- Contact Section -->
 <div id="contact" class="page">
 <div class="container">
@@ -755,102 +752,126 @@ function getTableMatches(bet, loadGames){
         </div>
     </div>
     <!-- End Title Page -->
-    
-    <!-- Login Form -->
-    <div class="row" align="center">
-        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-    
-    	<div class="span4">
-        
-			<form id="login-form" action="#">
-		   		<table class="quiniela">
-			   		<tr>
-			   			<td class="partido"><input id="id" name="id" type="text" placeholder="User Name"/></td>
-			        </tr>
-			   		<tr>
-			   			<td class="partido"><input type="password" name="pwd" id="pwd" placeholder="Password"/></td>
-			        </tr>
-			   		<tr align="right">
-			   			<td class="partido"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
-			        </tr>
-		   		</table>
-		   		<a href="#signDiv">Crear un nuevo usuario</a><br>
-		   		<a href="#forgotDiv">He olvidado mi contrase&ntilde;a</a>
-				<div id="loginFormResponse">respuesta </div>
-	        </form>
-          
-        </div>
-        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-	</div>
-
-<!-- 
-    <div class="row">
-			<div align="center" class="span12">
-			   <form id="loginForm">
-			   		<table class="quiniela">
-				   		<tr>
-				   			<td class="partido">Username:</td>
-				   			<td class="partido"><input id="id" name="id" type="text"/></td>
-				        </tr>
-				   		<tr>
-				   			<td class="partido">Password:</td>
-				   			<td class="partido"><input type="password" name="pwd" id="pwd"/></td>
-				        </tr>
-				   		<tr align="right">
-				   			<td class="partido">&nbsp;</td>
-				   			<td class="partido"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
-				        </tr>
-			   		</table>
-			   		<a href="#signDiv">Crear un nuevo usuario</a><br>
-			   		<a href="#forgotDiv">He olvidado mi contraseña</a>
-					<div id="loginFormResponse">respuesta </div>
-		        </form>
+	<div class="accordion" id="accordionArea">
+	    <div class="row accordion-group">
+	        <div class="accordion-heading accordionize">
+	            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionArea" href="#loginArea">
+	                Login
+	                <span class="font-icon-arrow-simple-down"></span>
+	            </a>
+	        </div>
+	        <div id="loginArea" class="accordion-body collapse">
+	            <div class="accordion-inner">
+				    <!-- Login Form -->
+				    <div class="row" align="center">
+				        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+				    
+				    	<div class="span4">
+				        
+							<form id="login-form" action="#">
+						   		<table class="quiniela">
+							   		<tr>
+							   			<td class="partido"><input id="id" name="id" type="text" placeholder="User Name"/></td>
+							        </tr>
+							   		<tr>
+							   			<td class="partido"><input type="password" name="pwd" id="pwd" placeholder="Password"/></td>
+							        </tr>
+							   		<tr align="right">
+							   			<td class="partido"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
+							        </tr>
+						   		</table>
+								<div id="loginFormResponse">respuesta </div>
+					        </form>
+				        </div>
+				        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+					</div>
+				</div>
 			</div>
-    </div>
- -->    
-    <!-- End Login Form -->
+		</div>
+	     
+	    <div class="row accordion-group">
+	        <div class="accordion-heading accordionize">
+	            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionArea" href="#forgotPwdArea">
+	            He olvidado mi contrase&ntilde;a
+	            <span class="font-icon-arrow-simple-down"></span>
+	        </a>
+	        </div>
+	        <div id="forgotPwdArea" class="accordion-body collapse">
+	            <div class="accordion-inner">
+				    <div class="row" align="center">
+				        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+				    
+				    	<div class="span4">
+				        
+							<form id="forgotPwd-form" action="#">
+						   		<table class="quiniela">
+						   			<tr class="quinielatitulo">
+										<td>Enter your email address and we'll send you a link to reset your password.</td>
+									</tr>
+							   		<tr class="quinielatitulo">
+							   			<td><input id="id" type="text" size="20" name="id" placeholder="User Name" /></td>
+							        </tr>
+							   		<tr class="quinielatitulo" align="right">
+							   			<td><button id="forgot_btn" class="button" name="signup" value="send">Send</button></td>
+							        </tr>
+						   		</table>
+						   		<div id="forgotPwdFormResponse">respuesta </div>
+					        </form>
+				        </div>
+				        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+					</div>
+	            </div>
+	        </div>
+	    </div>
+	     
+	    <div class="row accordion-group">
+	        <div class="accordion-heading accordionize">
+	            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionArea" href="#signupArea">
+	            Crear un nuevo usuario
+	            <span class="font-icon-arrow-simple-down"></span>
+	        </a>
+	        </div>
+	        <div id="signupArea" class="accordion-body collapse">
+	            <div class="accordion-inner">
+				    <div class="row" align="center">
+				        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+				    
+				    	<div class="span4">
+				        
+							<form id="signup-form" action="#">
+						   		<table class="quiniela">
+						   			<tr class="quinielatitulo">
+										<td>Sign up</td>
+									</tr>
+							   		<tr>
+							   			<td class="partido"><input id="id" name="id" type="text" placeholder="User Name"/></td>
+							        </tr>
+							   		<tr>
+							   			<td class="partido"><input type="password" name="pwd" id="pwd" placeholder="Password"/></td>
+							        </tr>
+							   		<tr>
+							   			<td class="partido"><input type="text" name="name" id="name" placeholder="Name"/></td>
+							        </tr>
+							   		<tr>
+							   			<td class="partido"><input type="text" name="phoneNumber" id="phoneNumber" placeholder="Phone Number"/></td>
+							        </tr>
+							   		<tr align="right">
+							   			<td class="partido"><button id="signup_btn" class="button" name="signup" value="signup">signup</button></td>
+							        </tr>
+						   		</table>
+					            <div id="signupFormResponse">respuesta </div>
+					        </form>
+				        </div>
+				        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+					</div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 </div>
 </div>
 <!-- End Login Section -->
 
-
-<!-- Forgot Section -->
-<div id="forgotDiv" class="page">
-<div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Login</h2>
-                <h3 class="title-description">Entra al mundo de las quinielas</h3>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
-    <!-- Forgot Form -->
-    <div class="row">
-		<div align="center">
-		   <form id="forgotPwdForm">
-		   		<table class="quiniela">
-		   			<tr class="quinielatitulo">
-						<td colspan="2">Enter your email address and we'll send you a link to reset your password.</td>
-					</tr>
-			   		<tr class="quinielatitulo">
-			   			<td  colspan="2"><input id="id" type="text" size="20" name="id" /></td>
-			        </tr>
-			   		<tr class="quinielatitulo" align="right">
-			   			<td colspan="2"><button id="login_btn" class="button" name="signup" value="send">Send</button></td>
-			        </tr>
-		   		</table>
-		   		<div id="forgotPwdFormResponse">respuesta </div>
-	        </form>
-		</div>
-    </div>
-    <!-- End Forgot Form -->
-</div>
-</div>
-<!-- End Forgot Section -->
 
 
 

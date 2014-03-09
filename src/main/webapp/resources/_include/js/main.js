@@ -49,7 +49,7 @@ Login Form
 ================================================== */
 
 BRUSHED.loginForm = function(){
-	$("#contact-submit").on('click',function() {
+	$("#login_btn").on('click',function() {
 		 var dataJson=JSON.stringify($('#login-form').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
@@ -82,7 +82,65 @@ BRUSHED.loginForm = function(){
 	});
 }
 
+/* ==================================================
+forgot Form
+================================================== */
 
+BRUSHED.forgotForm = function(){
+	$("#forgot_btn").on('click',function() {
+		 var dataJson=JSON.stringify($('#forgotPwd-form').serializeObject());
+		 consoleAlterQ(dataJson);
+		 jQuery.ajax ({
+			    url: ctx+'/myaccount/forgotPwd',
+			    type: "POST",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=null){
+		 		    	$('#forgotPwdFormResponse').text(response.errorDto.stringError);
+		   		    }
+		   		    else{
+		   		    }
+			    }
+			});
+		 return false;
+	});
+}
+
+/* ==================================================
+signup Form
+================================================== */
+
+BRUSHED.signupForm = function(){
+	$("#signup_btn").on('click',function() {
+		 var dataJson=JSON.stringify($('#signup-form').serializeObject());
+		 consoleAlterQ(dataJson);
+		 jQuery.ajax ({
+			    url: ctx+'/myaccount',
+			    type: "POST",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=null){
+		 		    	$('#signupFormResponse').text(response.errorDto.stringError);
+						showDiv(bSign);
+		   		    }
+		   		    else{
+						userLoged=true;
+						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+						showDiv(bHome);
+		   		    }
+			    }
+			});
+		 return false;
+	});
+}
 
 
 /* ==================================================
@@ -459,6 +517,8 @@ $(document).ready(function(){
 	BRUSHED.toolTip();
 	
 	BRUSHED.loginForm();
+	BRUSHED.forgotForm();
+	BRUSHED.signupForm();
 
 	
 });
