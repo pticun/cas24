@@ -402,6 +402,10 @@ function getTableMatches(bet, loadGames){
         
         <nav id="menu">
         	<ul id="menu-nav">
+            	<li class="current"><a href="#homeDiv">Inicio</a></li>
+                <li><a href="#work">Quiniela</a></li>
+                <li><a id="accountNameA" href="#myaccountDiv" data-toggle="collapse" data-parent="#">Mi cuenta</a></li>
+                <li><a href="#loginDiv" data-toggle="collapse" data-parent="#">Login</a></li>
             </ul>
         </nav>
         
@@ -410,7 +414,7 @@ function getTableMatches(bet, loadGames){
 <!-- End Header -->
 
 <!-- Principal -->
-<div id="homeDiv" class="page">
+<div id="homeDiv" class="box-post">
 <div class="container">
     <!-- Title Page -->
     <div class="row">
@@ -452,7 +456,8 @@ function getTableMatches(bet, loadGames){
 <!-- End Principal -->
 
 <!-- My Account -->
-<div id="myaccountDiv" class="page">
+<div id="myaccountDiv" class="accordion-body collapse">
+<br/>
 <div class="container">
     <!-- Title Page -->
     <div class="row">
@@ -655,7 +660,7 @@ function getTableMatches(bet, loadGames){
                 </div>
                 <img src="<c:url value='/static/resources/_include/img/profile/profile-01.jpg'/>" alt="John Doe">
             </div>
-            <h3 class="profile-name">John Doe</h3>
+            <h3 class="profile-name">Santiago Cabello</h3>
             <p class="profile-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac augue at erat <a href="#">hendrerit dictum</a>. 
             Praesent porta, purus eget sagittis imperdiet, nulla mi ullamcorper metus, id hendrerit metus diam vitae est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
             	
@@ -674,11 +679,11 @@ function getTableMatches(bet, loadGames){
         	<div class="image-wrap">
                 <div class="hover-wrap">
                     <span class="overlay-img"></span>
-                    <span class="overlay-text-thumb">Creative Director</span>
+                    <span class="overlay-text-thumb">CTO/Founder</span>
                 </div>
                 <img src="<c:url value='/static/resources/_include/img/profile/profile-02.jpg'/>" alt="Jane Helf">
             </div>
-            <h3 class="profile-name">Jane Helf</h3>
+            <h3 class="profile-name">Oscar Ruiz</h3>
             <p class="profile-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac augue at erat <a href="#">hendrerit dictum</a>. 
             Praesent porta, purus eget sagittis imperdiet, nulla mi ullamcorper metus, id hendrerit metus diam vitae est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
             	
@@ -740,18 +745,9 @@ function getTableMatches(bet, loadGames){
 <!-- End Contact Section -->
 
 <!-- Login Section -->
-<div id="loginDiv" class="page">
-<div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Login</h2>
-                <h3 class="title-description">Entra al mundo de las quinielas</h3>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
+<div id="loginDiv" class="accordion-body collapse">
+<br/>
+<div class="container" class="accordion-inner">
 	<div class="accordion" id="accordionArea">
 	    <div class="row accordion-group">
 	        <div class="accordion-heading accordionize">
@@ -875,58 +871,6 @@ function getTableMatches(bet, loadGames){
 
 
 
-<!-- Sing Up Section -->
-<div id="signDiv" class="page">
-<div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Login</h2>
-                <h3 class="title-description">Entra al mundo de las quinielas</h3>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
-    <!-- Sign Up Form -->
-    <div class="row">
-		<div align="center">
-		   <form id="signupForm">
-		   		<table class="quiniela">
-		   			<tr class="quinielatitulo">
-						<td colspan="2">Sign up</td>
-					</tr>
-			   		<tr>
-			   			<td class="partido">Username:</td>
-			   			<td class="partido"><input id="id" name="id" type="text"/></td>
-			        </tr>
-			   		<tr>
-			   			<td class="partido">Password:</td>
-			   			<td class="partido"><input type="password" name="pwd" id="pwd"/></td>
-			        </tr>
-			   		<tr>
-			   			<td class="partido">Name:</td>
-			   			<td class="partido"><input type="text" name="name" id="name"/></td>
-			        </tr>
-			   		<tr>
-			   			<td class="partido">PhoneNumber:</td>
-			   			<td class="partido"><input type="text" name="phoneNumber" id="phoneNumber"/></td>
-			        </tr>
-			   		<tr align="right">
-			   			<td class="partido">&nbsp;</td>
-			   			<td class="partido"><button id="login_btn" class="button" name="signup" value="signup">signup</button></td>
-			        </tr>
-		   		</table>
-	            <div id="signupFormResponse">respuesta </div>
-	        </form>
-		</div>
-    </div>
-    <!-- End Sign Up Form -->
-</div>
-</div>
-<!-- End Sign Up Section -->
-
 
 <!-- Quiniela Section -->
 <div id="quinielaDiv" class="page">
@@ -961,10 +905,9 @@ function getTableMatches(bet, loadGames){
 		    <button class="button" onclick="javascript:calculatePrice();">Precio</button>
 	    </div>
     </div>
-    <!-- End Sign Up Form -->
+    <!-- End Quiniela Form -->
 </div>
 </div>
-<!-- End Sign Up Section -->
 
 
 

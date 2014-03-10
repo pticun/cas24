@@ -69,10 +69,11 @@ BRUSHED.loginForm = function(){
 		   		    else{
 		   		    	consoleAlterQ("login: response="+response.userAlterQ.name);
 						$('#loginFormResponse').text(response.userAlterQ.name);
+						$('#accountNameA').text(response.userAlterQ.name);
 						userLoged=true;
 						idUserAlterQ=response.userAlterQ.id;
-						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
-						showDiv(bHome);
+//						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+//						showDiv(bHome);
 		   		    }
 				    round=response.generalData.round;
 				    season=response.generalData.season;

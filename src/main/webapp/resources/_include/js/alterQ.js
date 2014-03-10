@@ -23,9 +23,9 @@ $(document).ready(function() {
 	    return o;
 	};
 	
-	initDiv(bHome);
+//	initDiv(bHome);
 	//Paint Main Menu Items
-	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+//	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
     
 	//Menu Click Events
 	$('div').on("click", "nav#menu ul#menu-nav li a", function() {
@@ -39,7 +39,7 @@ $(document).ready(function() {
 	});
 	
 
-	
+/*	
 	var jqxhr =
 	    $.ajax({
 	        url: ctx+"/login",
@@ -77,7 +77,7 @@ $(document).ready(function() {
 			consoleAlterQ("Menu: pintamos los elementos del menu");
 			getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
 	    });
-	
+*/	
 	
 	
 	$("form a").click(function(){
