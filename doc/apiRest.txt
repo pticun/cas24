@@ -28,8 +28,8 @@ POST	/generalData													GeneralDataController	createGeneralDataCompany
 PUT		/generalData													GeneralDataController	updateGeneralDataCompany
 DELETE	/generalData													GeneralDataController	deleteGeneralDataCompany
 
-POST 	/admin/company/{company}/season/{season}/round/{round}/open		AdminController			openRound
-POST 	/admin/season/{season}/round/{round}/close						AdminController			closeRound
+POST 	/admin/company/{company}/season/{season}/round/{round}/open		AdminController			openRound					(response GeneralData)
+POST 	/admin/company/{company}/season/{season}/round/{round}/open		AdminController			closeRound					(response GeneralData)
 GET 	/admin/season/{season}/round/{round}							AdminController			getRound
 POST	/admin/season/{season}/round/{round}							AdminController			createRound
 POST	/admin/season/{season}/round/{round}/bet						AdminController			resultBet

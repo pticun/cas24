@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.alterq.domain.GeneralData;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -42,12 +43,15 @@ public class AdminControllerTest {
 
 	@Test
 	public void AA_openRound() throws Exception {
-		ResultActions ra = this.mockMvc.perform(post("/admin/season/2013/round/11/open"));
+		GeneralData bean = new GeneralData();
+		ObjectMapper mapper = new ObjectMapper();
+		
+		ResultActions ra = this.mockMvc.perform(post("/admin/company/1/season/2014/round/12/open"));
 		ra.andDo(MockMvcResultHandlers.print());
 		ra.andExpect(status().isOk());
-		
-//		bean = mapper.readValue(ra.andReturn().getResponse().getContentAsString(), GeneralData.class);
-//		System.out.println("new GeneralData.id:" + bean.getId());	}
+		bean = mapper.readValue(ra.andReturn().getResponse().getContentAsString(), GeneralData.class);
+		System.out.println("new GeneralData.active:" + bean.isActive());
+		Assert.assertTrue(bean.isActive());
 	}
 
 }
