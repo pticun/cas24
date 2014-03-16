@@ -19,6 +19,7 @@ public class UserAlterQ implements Serializable {
 	private boolean active;
 	private Date dateCreated;
 	private Date dateUpdated;
+	private int automatics;
 	
 
 	public String getId() {
@@ -92,6 +93,14 @@ public class UserAlterQ implements Serializable {
 
 	public void setDateUpdated(Date dateUpdated) {
 		this.dateUpdated = dateUpdated;
+	}
+
+	public int getAutomatics() {
+		return automatics;
+	}
+	
+	public void setAutomatics(int automatics) {
+		this.automatics = automatics;
 	}
 
 }

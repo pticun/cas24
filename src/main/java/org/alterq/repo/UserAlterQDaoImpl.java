@@ -5,11 +5,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import org.alterq.domain.Round;
 import org.alterq.domain.UserAlterQ;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
+
+import com.mongodb.DBObject;
 
 @Repository
 public class UserAlterQDaoImpl implements UserAlterQDao {
@@ -80,6 +85,18 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 		mongoTemplate.save(userAlterQ, COLLECTION_NAME);
 		
 	}
+	
+	@Override
+	public List<UserAlterQ> findUserWithAutomatics(int company){
+		Query query = new Query(Criteria.where("company").is(company));
+		return mongoTemplate.find(query, UserAlterQ.class, COLLECTION_NAME);
+	}
+	
+	@Override
+	public DBObject getLastError(){
+		return mongoTemplate.getDb().getLastError();
+	}
+	
 }
 
 
