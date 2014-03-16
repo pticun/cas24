@@ -8,10 +8,10 @@
 <!--[if (IE 9)]><html class="no-js ie9" lang="en"><![endif]-->
 <!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
 <head>
-<!-- JQuery -->
+<!-- JQuery 
 <script src="<c:url value="/static/resources/js/jquery.min.js"/>"></script>
 <script src="<c:url value="/static/resources/js/jquery.dropotron.js"/>"></script>
-
+-->
 <!-- Meta Tags -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -65,9 +65,10 @@
 <link href="<c:url value="/static/resources/_include/css/supersized.css"/>" rel="stylesheet">
 <link href="<c:url value="/static/resources/_include/css/supersized.shutter.css"/>" rel="stylesheet">
 
-<!-- Google Font -->
+<!-- Google Font
 <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900' rel='stylesheet' type='text/css'>
-
+ -->
+ 
 <!-- Fav Icon -->
 <link rel="shortcut icon" href="#">
 
@@ -80,11 +81,13 @@
 <!-- <script src="_include/js/modernizr.js"></script> -->
 <script src="<c:url value="/static/resources/_include/js/modernizr.js"/>"></script>
 <script type="text/javascript">
-var ctx = "<%=request.getContextPath()%>"
+var ctx = "<%=request.getContextPath()%>";
+var round=0;
+var season=0;
+var idUserAlterQ="";
 </script>
 
-<script src="<c:url value="/static/resources/_include/js/alterQ.js"/>"></script>
-<!-- Analytics -->
+<!-- Analytics
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -98,6 +101,7 @@ var ctx = "<%=request.getContextPath()%>"
   })();
 
 </script>
+ -->
 <!-- End Analytics -->
 
 </head>
@@ -323,17 +327,18 @@ var ctx = "<%=request.getContextPath()%>"
 		//MENU WEB 
 		$('#menu-nav li').remove();
 		
-    	$('#menu-nav').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
+    	$('#menu-nav').append('<li class="current"><a href="'+sHomeRef+'">' + sHome + '</a></li>');
     	$('#menu-nav').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
     	if (userLoged){
-    		$('#menu-nav').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
+    		$('#menu-nav').append('<li><a href="' + sMyaccountRef + '" id="accountNameA" data-toggle="collapse" data-parent="#">' + user + '</a></li>');
     		$('#menu-nav').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');
     	}
     	else{
     		$('#menu-nav').append('<li><a href="' + sGuestRef + '">'+sGuest+'</a></li>');
-    		$('#menu-nav').append('<li><a href="' + sLoginRef + '">' + sLogin + '</a></li>');
+    		$('#menu-nav').append('<li><a href="' + sLoginRef + '" data-toggle="collapse" data-parent="#">' + sLogin + '</a></li>');
     	}
     	
+/*    	
     	// MENU MOBILE 
     	
 		$('#menu-nav-mobile li').remove();
@@ -348,7 +353,7 @@ var ctx = "<%=request.getContextPath()%>"
     		$('#menu-nav-mobile').append('<li><a href="' + sGuestRef + '">'+sGuest+'</a></li>');
     		$('#menu-nav-mobile').append('<li><a href="' + sLoginRef + '">' + sLogin + '</a></li>');
     	}
-    	
+ */   	
   	}
 
 
@@ -403,8 +408,8 @@ function getTableMatches(bet, loadGames){
         <nav id="menu">
         	<ul id="menu-nav">
             	<li class="current"><a href="#homeDiv">Inicio</a></li>
-                <li><a href="#work">Quiniela</a></li>
-                <li><a id="accountNameA" href="#myaccountDiv" data-toggle="collapse" data-parent="#">Mi cuenta</a></li>
+                <li><a href="#quinielaDiv">Quiniela</a></li>
+                <li><a href="#myaccountDiv" id="accountNameA" data-toggle="collapse" data-parent="#">Mi cuenta</a></li>
                 <li><a href="#loginDiv" data-toggle="collapse" data-parent="#">Login</a></li>
             </ul>
         </nav>
@@ -471,168 +476,119 @@ function getTableMatches(bet, loadGames){
 
     	<div class="row">
             <div class="span12">
-
-            			<ul>
-							<!-- Item Project and Filter Name -->
-                        	<li class="item-thumbs span1">
-                            </li>
-							<!-- Item Project and Filter Name -->
-                        	<li class="item-thumbs span3">
-                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
-                            	<a class="hover-wrap" id="myDataBtn" href="#mydataDiv">
-                                	<span class="overlay-img"></span>
-                                    <span class="overlay-img-thumb font-icon-plus"></span>
-                                </a>
-                                <!-- Thumb Image and Description -->
-                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-02.jpg'/>" alt="Quiniela">
-                            </li>
-                        	<!-- End Item Project -->
-							<!-- Item Project and Filter Name -->
-                        	<li class="item-thumbs span3">
-                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
-                            	<a class="hover-wrap" id="myBalanceBtn" href="#mybalanceDiv">
-                                	<span class="overlay-img"></span>
-                                    <span class="overlay-img-thumb font-icon-plus"></span>
-                                </a>
-                                <!-- Thumb Image and Description -->
-                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-03.jpg'/>" alt="Quiniela">
-                            </li>
-                        	<!-- End Item Project -->
-							<!-- Item Project and Filter Name -->
-                        	<li class="item-thumbs span3">
-                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
-                            	<a class="hover-wrap" id="myBetsBtn" href="#mybetsDiv">
-                                	<span class="overlay-img"></span>
-                                    <span class="overlay-img-thumb font-icon-plus"></span>
-                                </a>
-                                <!-- Thumb Image and Description -->
-                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-04.jpg'/>" alt="Quiniela">
-                            </li>
-                        	<!-- End Item Project -->
-
-            			</ul>
-
+            <br/>
+            	<div class="tabbable">
+                
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li class="active"><a href="#myDataDiv" data-toggle="tab">My data</a></li>
+                        <li><a href="#myBalanceDiv" data-toggle="tab">My Balance</a></li>
+                        <li><a href="#myBetDiv" data-toggle="tab">My Bets</a></li>
+                    </ul>
+                 
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="myDataDiv">
+							<!-- MyData Section -->
+							<div class="container">
+							    <!-- MyData Form -->
+							    <div class="row">
+									<div align="center">
+									   <form id="myDataForm">
+									   		<table class="quiniela">
+									   			<tr class="quinielatitulo">
+													<td colspan="2">My Account</td>
+												</tr>
+										   		<tr>
+										   			<td class="partido">Username:</td>
+										   			<td class="partido"><input id="id" name="id" type="text" readonly="readonly"/></td>
+										        </tr>
+										   		<tr>
+										   			<td class="partido">Name:</td>
+										   			<td class="partido"><input name="name" id="name" type="text"/></td>
+										        </tr>
+										   		<tr>
+										   			<td class="partido">Phone Number:</td>
+										   			<td class="partido"><input name="phoneNumber" id="phoneNumber" type="text"/></td>
+										        </tr>
+										   		<tr align="right">
+										   			<td class="partido"></td>
+										   			<td class="partido"><button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
+										        </tr>
+									        </table>
+									        	<div id="userAlterQFormResponse">Actualiza tus datos y pulsa Enviar.</div>
+								        </form>
+									</div>
+							    </div>
+							    <!-- End MyData Form -->
+							</div>
+							<!-- End MyData Section -->
+                        </div>
+                        <div class="tab-pane fade in" id="myBalanceDiv">
+							<!-- MyBalande Section -->
+							<div class="container">
+							    <!-- MyBalance Form -->
+							    <div class="row">
+									<div align="center">
+									   <form id="balanceAlterQForm">
+									   		<table class="quiniela">
+									   			<tr class="quinielatitulo">
+													<td colspan="2">Saldo</td>
+												</tr>
+										   		<tr>
+										   			<td class="partido">Username:</td>
+										   			<td class="partido"><input id="idSaldo" name="id" type="text" readonly="readonly"/></td>
+										        </tr>
+										   		<tr>
+										   			<td class="partido">Saldo:</td>
+										   			<td class="partido"><input name="balance" id="balance" type="text"/></td>
+										        </tr>
+										   		<tr align="right">
+										   			<td class="partido"></td>
+										   			<td class="partido"><button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
+										        </tr>
+									   		</table>
+									         <div id="balanceAlterQFormResponse">Actualiza tu saldo y pulsa Enviar.</div>
+								        </form>
+									</div>
+							    </div>
+							    <!-- End MyBalance Form -->
+							</div>
+							<!-- End MyBalance Section -->
+                        </div>
+                        <div class="tab-pane fade in" id="myBetDiv">
+							<!-- MyBets Section -->
+							<div>
+							<div class="container">
+							    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+							        <!-- Carousel indicators -->
+							        <div id="myIndicators"> 
+							        </div>
+							        <!-- Carousel items -->
+							        <div id="myItems" class="carousel-inner">
+							        </div>
+							        <!-- Carousel nav -->
+							        <a class="carousel-control left" href="#myCarousel" data-slide="prev">
+							            <span class="glyphicon glyphicon-chevron-left"></span>
+							        </a>
+							        <a class="carousel-control right" href="#myCarousel" data-slide="next">
+							            <span class="glyphicon glyphicon-chevron-right"></span>
+							        </a>
+							    </div>
+							</div>
+							</div>
+							<!-- End MyBets Section -->
+                        </div>
+                    </div>
+                            
+				</div>
             </div>
         </div>
 </div>
+
+
 </div>
 <!-- End My Account -->
 
 
-<!-- MyData Section -->
-<div id="mydataDiv" class="page">
-<div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Mis Datos</h2>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
-    <!-- MyData Form -->
-    <div class="row">
-		<div align="center">
-		   <form id="myDataForm">
-		   		<table class="quiniela">
-		   			<TR class="quinielatitulo">
-						<TD colspan="2">My Account</TD>
-						</TR>
-		   		
-		   		<tr>
-		   			<td class="partido">Username:</td>
-		   			<td class="partido"><input id="id" name="id" type="text" readonly="readonly"/></td>
-		        </tr>
-		   		<tr>
-		   			<td class="partido">Name:</td>
-		   			<td class="partido"><input name="name" id="name" type="text"/></td>
-		        </tr>
-		   		<tr>
-		   			<td class="partido">Phone Number:</td>
-		   			<td class="partido"><input name="phoneNumber" id="phoneNumber" type="text"/></td>
-		        </tr>
-		   		<tr align="right">
-		   			<td class="partido"></td>
-		   			<td class="partido"><button type="submit" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
-		        </tr>
-		        </table>
-		        	<div id="userAlterQFormResponse">Actualiza tus datos y pulsa Enviar.</div>
-	        </form>
-		</div>
-    </div>
-    <!-- End MyData Form -->
-</div>
-</div>
-<!-- End MyData Section -->
-
-<!-- MyBalande Section -->
-<div id="mybalanceDiv" class="page">
-<div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Mis Datos</h2>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
-    <!-- MyBalance Form -->
-    <div class="row">
-		<div align="center">
-		   <form id="balanceAlterQForm">
-		   		<table class="quiniela">
-		   			<TR class="quinielatitulo">
-						<TD colspan="2">Saldo</TD>
-						</TR>
-		   		
-		   		<tr>
-		   			<td class="partido">Username:</td>
-		   			<td class="partido"><input id="idSaldo" name="id" type="text" readonly="readonly"/></td>
-		        </tr>
-		   		<tr>
-		   			<td class="partido">Saldo:</td>
-		   			<td class="partido"><input name="balance" id="balance" type="text"/></td>
-		        </tr>
-		   		<tr align="right">
-		   			<td class="partido"></td>
-		   			<td class="partido"><button type="submit" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
-		        </tr>
-		   		</table>
-		         <div id="balanceAlterQFormResponse">Actualiza tu saldo y pulsa Enviar.</div>
-	        </form>
-		</div>
-    </div>
-    <!-- End MyBalance Form -->
-</div>
-</div>
-<!-- End MyBalance Section -->
-
-<!-- MyBets Section -->
-<div id="mybetsDiv" class="page">
-<div class="container">
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Carousel indicators -->
-        <div id="myIndicators"> 
-        </div>
-        
-        <!-- Carousel items -->
-        <div id="myItems" class="carousel-inner">
-        </div>
-        <!-- Carousel nav -->
-        <a class="carousel-control left" href="#myCarousel" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-        </a>
-        <a class="carousel-control right" href="#myCarousel" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-        </a>
-    </div>
-</div>
-</div>
-<!-- End MyBets Section -->
 
 <!-- About Section -->
 <div id="about" class="page-alternate">
@@ -950,7 +906,7 @@ function getTableMatches(bet, loadGames){
 
 
 <!-- Js -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> <!-- jQuery Core -->
+<script src="<c:url value="/static/resources/_include/js/jquery.1.9.1.min.js"/>"></script> <!-- jQuery Core -->
 <script src="<c:url value="/static/resources/_include/js/bootstrap.min.js"/>"></script> <!-- Bootstrap -->
 <script src="<c:url value="/static/resources/_include/js/supersized.3.2.7.min.js"/>"></script> <!-- Slider -->
 <script src="<c:url value="/static/resources/_include/js/waypoints.js"/>"></script> <!-- WayPoints -->
@@ -961,6 +917,7 @@ function getTableMatches(bet, loadGames){
 <script src="<c:url value="/static/resources/_include/js/jquery.tweet.js"/>"></script> <!-- Tweet -->
 <script src="<c:url value="/static/resources/_include/js/plugins.js"/>"></script> <!-- Contains: jPreloader, jQuery Easing, jQuery ScrollTo, jQuery One Page Navi -->
 <script src="<c:url value="/static/resources/_include/js/main.js"/>"></script> <!-- Default JS -->
+<!-- <script src="<c:url value="/static/resources/_include/js/alterQ.js"/>"></script> --!>
 <!-- End Js -->
 
 </body>

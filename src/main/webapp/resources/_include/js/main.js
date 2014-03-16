@@ -1,3 +1,11 @@
+function consoleAlterQ(text){
+	if( (window['console'] !== undefined) ){
+		console.log(text);
+	}
+
+}
+
+
 jQuery(function($){
 
 var BRUSHED = window.BRUSHED || {};
@@ -72,13 +80,18 @@ BRUSHED.loginForm = function(){
 						$('#accountNameA').text(response.userAlterQ.name);
 						userLoged=true;
 						idUserAlterQ=response.userAlterQ.id;
-//						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
 //						showDiv(bHome);
+						$('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+						$( "#loginDiv" ).toggle();
+
 		   		    }
 				    round=response.generalData.round;
 				    season=response.generalData.season;
 			    }
 			});
+			event.preventDefault();
+
 		 return false;
 	});
 }
@@ -521,6 +534,22 @@ $(document).ready(function(){
 	BRUSHED.forgotForm();
 	BRUSHED.signupForm();
 
+	$.fn.serializeObject = function()
+	{
+	    var o = {};
+	    var a = this.serializeArray();
+	    $.each(a, function() {
+	        if (o[this.name] !== undefined) {
+	            if (!o[this.name].push) {
+	                o[this.name] = [o[this.name]];
+	            }
+	            o[this.name].push(this.value || '');
+	        } else {
+	            o[this.name] = this.value || '';
+	        }
+	    });
+	    return o;
+	};
 	
 });
 

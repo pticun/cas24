@@ -1,6 +1,4 @@
-var round=0;
-var season=0;
-var idUserAlterQ="";
+
 
 
 //alert("context:"+ctx);
@@ -178,6 +176,7 @@ $(document).ready(function() {
 		 });
 		event.preventDefault(); // prevent actual form submit and page reload
 	});	
+/*	
 	$("#goUp").click(function(){
 		menuEvent($(this).text(), $(this).attr("href"));
     });
@@ -199,7 +198,7 @@ $(document).ready(function() {
 		$(sMyDataRef).show();
    	});    	 
 	
-	
+*/	
 });
 
 function doLogout(){
