@@ -137,7 +137,7 @@ public class AdminController {
 			bet.setDateUpdated(new Date());
 			bet.setId(new ObjectId().toStringMongod());			
 			
-			if (!roundBetDao.addBet(season, round, bet))
+			if (!roundBetDao.addBet(company, season, round, bet))
 			{
 				log.debug("closeRound: user("+user.getName()+") No enough money for automatic bet");
 				//STEP 2.2.3.error - Send an email to the admin ("ERROR making automatic bet")
@@ -164,6 +164,7 @@ public class AdminController {
 
 		//STEP 4: Quiniela
 			//STEP 4.1 - Calc Number Bets
+			int numBets = roundBetDao.countAllBets(company, season, round);
 			//STEP 4.2 - Calc Number of Doubles and Triples
 			//STEP 4.3 - Calc Quiniela Price and Round Jackpot 
 			//STEP 4.4 - Update RoundData

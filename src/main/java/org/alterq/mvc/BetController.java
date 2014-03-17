@@ -169,7 +169,7 @@ public class BetController {
 				log.debug(sb.toString());
 
 				// Insert new bet into the BBDD
-				betDao.addBet(season, round, bet);
+				betDao.addBet(company, season, round, bet);
 				userDao.save(userAlterQ);
 
 			} else {
@@ -197,7 +197,7 @@ public class BetController {
 	ResponseDto findAllUserBetsParams(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,@PathVariable(value = "id") String id,@PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
 		ResponseDto dto = new ResponseDto();
 		//TODO control security
-		RoundBets rb = betDao.findAllUserBets(season, round, id);
+		RoundBets rb = betDao.findAllUserBets(company, season, round, id);
 		dto.setRoundBet(rb);
 		return dto;
 	}
@@ -240,7 +240,7 @@ public class BetController {
 	public @ResponseBody
 	RoundBets findAllBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round) {
 		// TODO this call must be request for an AdminUser
-		return betDao.findAllBets(season, round);
+		return betDao.findAllBets(company, season, round);
 	}
 
 
@@ -254,19 +254,19 @@ public class BetController {
 		bAux.setCompany(company);
 		bAux.setDateCreated(new Date());
 		bAux.setDateUpdated(new Date());
-		return betDao.addBet(season, round, bAux);
+		return betDao.addBet(company, season, round, bAux);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "delAllBets", params = { "season", "round" })
 	public @ResponseBody
 	boolean delAllUserBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round) {
-		return betDao.deleteAllBets(season, round);
+		return betDao.deleteAllBets(company, season, round);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "delUserBets", params = { "season", "round", "user" })
 	public @ResponseBody
 	boolean delAllUserBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round, @RequestParam(value = "user") String user) {
-		return betDao.deleteAllUserBets(season, round, user);
+		return betDao.deleteAllUserBets(company, season, round, user);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "delUserBet", params = { "season", "round", "user", "bet" })
@@ -276,7 +276,7 @@ public class BetController {
 		Bet bAux = new Bet();
 		bAux.setBet(bet);
 		bAux.setUser(user);
-		return betDao.deleteUserBet(season, round, bAux);
+		return betDao.deleteUserBet(company, season, round, bAux);
 	}
 
 }
