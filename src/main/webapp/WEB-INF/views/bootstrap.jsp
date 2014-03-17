@@ -338,7 +338,6 @@ var idUserAlterQ="";
     		$('#menu-nav').append('<li><a href="' + sLoginRef + '" data-toggle="collapse" data-parent="#">' + sLogin + '</a></li>');
     	}
     	
-/*    	
     	// MENU MOBILE 
     	
 		$('#menu-nav-mobile li').remove();
@@ -346,14 +345,13 @@ var idUserAlterQ="";
     	$('#menu-nav-mobile').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
     	$('#menu-nav-mobile').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
     	if (userLoged){
-    		$('#menu-nav-mobile').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
+    		$('#menu-nav-mobile').append('<li><a href="' + sMyaccountRef + '" id="accountNameA" data-toggle="collapse" data-parent="#">' + user + '</a></li>');
     		$('#menu-nav-mobile').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');
     	}
     	else{
     		$('#menu-nav-mobile').append('<li><a href="' + sGuestRef + '">'+sGuest+'</a></li>');
-    		$('#menu-nav-mobile').append('<li><a href="' + sLoginRef + '">' + sLogin + '</a></li>');
+    		$('#menu-nav-mobile').append('<li><a href="' + sLoginRef + '" data-toggle="collapse" data-parent="#">' + sLogin + '</a></li>');
     	}
- */   	
   	}
 
 
