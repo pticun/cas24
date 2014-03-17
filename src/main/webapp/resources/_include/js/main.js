@@ -81,8 +81,8 @@ BRUSHED.loginForm = function(){
 						userLoged=true;
 						idUserAlterQ=response.userAlterQ.id;
 						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
-//						showDiv(bHome);
-						$('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+						showDiv(bHome);
+						$( "#back-to-top" ).trigger( "click" );
 						$( "#loginDiv" ).toggle();
 
 		   		    }
