@@ -94,6 +94,7 @@ $(document).ready(function() {
     });
 	
 	$('form#loginForm').submit(function(e) {
+		alert(e);
 		 var dataJson=JSON.stringify($('form#loginForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
