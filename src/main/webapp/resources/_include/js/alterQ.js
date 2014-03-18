@@ -1,5 +1,6 @@
-
-
+var round=0;
+var season=0;
+var idUserAlterQ="";
 
 //alert("context:"+ctx);
 $(document).ready(function() {
@@ -21,9 +22,9 @@ $(document).ready(function() {
 	    return o;
 	};
 	
-//	initDiv(bHome);
+	initDiv(bHome);
 	//Paint Main Menu Items
-//	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
     
 	//Menu Click Events
 	$('div').on("click", "nav#menu ul#menu-nav li a", function() {
@@ -37,7 +38,7 @@ $(document).ready(function() {
 	});
 	
 
-/*	
+	
 	var jqxhr =
 	    $.ajax({
 	        url: ctx+"/login",
@@ -75,7 +76,7 @@ $(document).ready(function() {
 			consoleAlterQ("Menu: pintamos los elementos del menu");
 			getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
 	    });
-*/	
+	
 	
 	
 	$("form a").click(function(){
@@ -92,6 +93,84 @@ $(document).ready(function() {
 		}		
     });
 	
+	$('form#loginForm').submit(function(e) {
+		 var dataJson=JSON.stringify($('form#loginForm').serializeObject());
+		 consoleAlterQ(dataJson);
+		 jQuery.ajax ({
+			    url: ctx+'/login',
+			    type: "POST",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=null){
+		   		    	consoleAlterQ("login: response="+response.errorDto.stringError);
+		   		    	$('#loginFormResponse').text(response.errorDto.stringError);
+		   		    	userLoged=false;
+		   		    }
+		   		    else{
+		   		    	consoleAlterQ("login: response="+response.userAlterQ.name);
+						$('#loginFormResponse').text(response.userAlterQ.name);
+						userLoged=true;
+						idUserAlterQ=response.userAlterQ.id;
+						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+						showDiv(bHome);
+		   		    }
+				    round=response.generalData.round;
+				    season=response.generalData.season;
+			    }
+			});
+		 	event.preventDefault(); // prevent actual form submit and page reload
+	});
+	
+	 $('form#forgotPwdForm').submit(function(e) {
+		 var dataJson=JSON.stringify($('form#forgotPwdForm').serializeObject());
+		 consoleAlterQ(dataJson);
+		 jQuery.ajax ({
+			    url: ctx+'/myaccount/forgotPwd',
+			    type: "POST",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=null){
+		 		    	$('#forgotPwdFormResponse').text(response.errorDto.stringError);
+		   		    }
+		   		    else{
+		   		    }
+			    }
+			});
+		 	event.preventDefault(); // prevent actual form submit and page reload
+	 });
+	 $('form#signupForm').submit(function(e) {
+		 var dataJson=JSON.stringify($('form#signupForm').serializeObject());
+		 consoleAlterQ(dataJson);
+		 jQuery.ajax ({
+			    url: ctx+'/myaccount',
+			    type: "POST",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=null){
+		 		    	$('#signupFormResponse').text(response.errorDto.stringError);
+						showDiv(bSign);
+		   		    }
+		   		    else{
+						userLoged=true;
+						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+						showDiv(bHome);
+		   		    }
+			    }
+			});
+		 	event.preventDefault(); // prevent actual form submit and page reload
+	 });
 	 $('form#betForm').submit(function(e) {
 		var dataJson=JSON.stringify($('form#betForm').serializeObject());
 		consoleAlterQ('betForm:'+dataJson);
@@ -176,7 +255,6 @@ $(document).ready(function() {
 		 });
 		event.preventDefault(); // prevent actual form submit and page reload
 	});	
-/*	
 	$("#goUp").click(function(){
 		menuEvent($(this).text(), $(this).attr("href"));
     });
@@ -198,7 +276,7 @@ $(document).ready(function() {
 		$(sMyDataRef).show();
    	});    	 
 	
-*/	
+	
 });
 
 function doLogout(){

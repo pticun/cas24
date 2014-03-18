@@ -1,11 +1,3 @@
-function consoleAlterQ(text){
-	if( (window['console'] !== undefined) ){
-		console.log(text);
-	}
-
-}
-
-
 jQuery(function($){
 
 var BRUSHED = window.BRUSHED || {};
@@ -47,112 +39,6 @@ BRUSHED.listenerMenu = function(){
 	//$('#menu-nav-mobile a').on('click', function(){
 		$('#mobile-nav').removeClass('open');
 		$('#navigation-mobile').slideUp(350, 'easeOutExpo');
-	});
-}
-
-
-
-/* ==================================================
-Login Form
-================================================== */
-
-BRUSHED.loginForm = function(){
-	$("#login_btn").on('click',function() {
-		 var dataJson=JSON.stringify($('#login-form').serializeObject());
-		 consoleAlterQ(dataJson);
-		 jQuery.ajax ({
-			    url: ctx+'/login',
-			    type: "POST",
-			    data: dataJson,
-			    contentType: "application/json; charset=utf-8",
-			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-	            cache: false,    //This will force requested pages not to be cached by the browser  
-	            processData:false, //To avoid making query String instead of JSON
-			    success: function(response){
-		   		    if(response.errorDto!=null){
-		   		    	consoleAlterQ("login: response="+response.errorDto.stringError);
-		   		    	$('#loginFormResponse').text(response.errorDto.stringError);
-		   		    	userLoged=false;
-		   		    }
-		   		    else{
-		   		    	consoleAlterQ("login: response="+response.userAlterQ.name);
-						$('#loginFormResponse').text(response.userAlterQ.name);
-						$('#accountNameA').text(response.userAlterQ.name);
-						userLoged=true;
-						idUserAlterQ=response.userAlterQ.id;
-						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
-						showDiv(bHome);
-						$( "#back-to-top" ).trigger( "click" );
-						$( "#loginDiv" ).toggle();
-
-		   		    }
-				    round=response.generalData.round;
-				    season=response.generalData.season;
-			    }
-			});
-			event.preventDefault();
-
-		 return false;
-	});
-}
-
-/* ==================================================
-forgot Form
-================================================== */
-
-BRUSHED.forgotForm = function(){
-	$("#forgot_btn").on('click',function() {
-		 var dataJson=JSON.stringify($('#forgotPwd-form').serializeObject());
-		 consoleAlterQ(dataJson);
-		 jQuery.ajax ({
-			    url: ctx+'/myaccount/forgotPwd',
-			    type: "POST",
-			    data: dataJson,
-			    contentType: "application/json; charset=utf-8",
-			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-	            cache: false,    //This will force requested pages not to be cached by the browser  
-	            processData:false, //To avoid making query String instead of JSON
-			    success: function(response){
-		   		    if(response.errorDto!=null){
-		 		    	$('#forgotPwdFormResponse').text(response.errorDto.stringError);
-		   		    }
-		   		    else{
-		   		    }
-			    }
-			});
-		 return false;
-	});
-}
-
-/* ==================================================
-signup Form
-================================================== */
-
-BRUSHED.signupForm = function(){
-	$("#signup_btn").on('click',function() {
-		 var dataJson=JSON.stringify($('#signup-form').serializeObject());
-		 consoleAlterQ(dataJson);
-		 jQuery.ajax ({
-			    url: ctx+'/myaccount',
-			    type: "POST",
-			    data: dataJson,
-			    contentType: "application/json; charset=utf-8",
-			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-	            cache: false,    //This will force requested pages not to be cached by the browser  
-	            processData:false, //To avoid making query String instead of JSON
-			    success: function(response){
-		   		    if(response.errorDto!=null){
-		 		    	$('#signupFormResponse').text(response.errorDto.stringError);
-						showDiv(bSign);
-		   		    }
-		   		    else{
-						userLoged=true;
-						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
-						showDiv(bHome);
-		   		    }
-			    }
-			});
-		 return false;
 	});
 }
 
@@ -295,6 +181,36 @@ BRUSHED.fancyBox = function(){
 			}
 		});
 	}
+}
+
+
+/* ==================================================
+   Contact Form
+================================================== */
+
+BRUSHED.contactForm = function(){
+	$("#contact-submit").on('click',function() {
+		$contact_form = $('#contact-form');
+		
+		var fields = $contact_form.serialize();
+		
+		$.ajax({
+			type: "POST",
+			url: "static/resources/_include/php/contact.php",
+			data: fields,
+			dataType: 'json',
+			success: function(response) {
+				
+				if(response.status){
+					$('#contact-form input').val('');
+					$('#contact-form textarea').val('');
+				}
+				
+				$('#response').empty().html(response.html);
+			}
+		});
+		return false;
+	});
 }
 
 
@@ -523,34 +439,13 @@ $(document).ready(function(){
 	BRUSHED.goUp();
 	BRUSHED.filter();
 	BRUSHED.fancyBox();
+	BRUSHED.contactForm();
 	BRUSHED.tweetFeed();
 	BRUSHED.scrollToTop();
 	BRUSHED.utils();
 	BRUSHED.accordion();
 	BRUSHED.toggle();
 	BRUSHED.toolTip();
-	
-	BRUSHED.loginForm();
-	BRUSHED.forgotForm();
-	BRUSHED.signupForm();
-
-	$.fn.serializeObject = function()
-	{
-	    var o = {};
-	    var a = this.serializeArray();
-	    $.each(a, function() {
-	        if (o[this.name] !== undefined) {
-	            if (!o[this.name].push) {
-	                o[this.name] = [o[this.name]];
-	            }
-	            o[this.name].push(this.value || '');
-	        } else {
-	            o[this.name] = this.value || '';
-	        }
-	    });
-	    return o;
-	};
-	
 });
 
 $(window).resize(function(){

@@ -8,10 +8,10 @@
 <!--[if (IE 9)]><html class="no-js ie9" lang="en"><![endif]-->
 <!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
 <head>
-<!-- JQuery 
+<!-- JQuery -->
 <script src="<c:url value="/static/resources/js/jquery.min.js"/>"></script>
 <script src="<c:url value="/static/resources/js/jquery.dropotron.js"/>"></script>
--->
+
 <!-- Meta Tags -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -28,8 +28,9 @@
 <!--[if IEMobile]>  <meta http-equiv="cleartype" content="on">  <![endif]-->
 
 <!-- Bootstrap -->
-<link href="<c:url value="/static/resources/_include/css/bootstrap.min.css"/>" rel="stylesheet">
-<!-- <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"> --> 
+<!-- <link href="_include/css/bootstrap.min.css" rel="stylesheet"> --> 
+<!-- <link href="<c:url value="/static/resources/_include/css/bootstrap.min.css"/>" rel="stylesheet"> -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 
 <!-- Main Style -->
 <!-- <link href="_include/css/main.css" rel="stylesheet">-->
@@ -65,10 +66,9 @@
 <link href="<c:url value="/static/resources/_include/css/supersized.css"/>" rel="stylesheet">
 <link href="<c:url value="/static/resources/_include/css/supersized.shutter.css"/>" rel="stylesheet">
 
-<!-- Google Font
+<!-- Google Font -->
 <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900' rel='stylesheet' type='text/css'>
- -->
- 
+
 <!-- Fav Icon -->
 <link rel="shortcut icon" href="#">
 
@@ -81,13 +81,11 @@
 <!-- <script src="_include/js/modernizr.js"></script> -->
 <script src="<c:url value="/static/resources/_include/js/modernizr.js"/>"></script>
 <script type="text/javascript">
-var ctx = "<%=request.getContextPath()%>";
-var round=0;
-var season=0;
-var idUserAlterQ="";
+var ctx = "<%=request.getContextPath()%>"
 </script>
 
-<!-- Analytics
+<script src="<c:url value="/static/resources/_include/js/alterQ.js"/>"></script>
+<!-- Analytics -->
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -101,7 +99,6 @@ var idUserAlterQ="";
   })();
 
 </script>
- -->
 <!-- End Analytics -->
 
 </head>
@@ -327,15 +324,15 @@ var idUserAlterQ="";
 		//MENU WEB 
 		$('#menu-nav li').remove();
 		
-    	$('#menu-nav').append('<li class="current"><a href="'+sHomeRef+'">' + sHome + '</a></li>');
+    	$('#menu-nav').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
     	$('#menu-nav').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
     	if (userLoged){
-    		$('#menu-nav').append('<li><a href="' + sMyaccountRef + '" id="accountNameA" data-toggle="collapse" data-parent="#">' + user + '</a></li>');
+    		$('#menu-nav').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
     		$('#menu-nav').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');
     	}
     	else{
     		$('#menu-nav').append('<li><a href="' + sGuestRef + '">'+sGuest+'</a></li>');
-    		$('#menu-nav').append('<li><a href="' + sLoginRef + '" data-toggle="collapse" data-parent="#">' + sLogin + '</a></li>');
+    		$('#menu-nav').append('<li><a href="' + sLoginRef + '">' + sLogin + '</a></li>');
     	}
     	
     	// MENU MOBILE 
@@ -345,13 +342,14 @@ var idUserAlterQ="";
     	$('#menu-nav-mobile').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
     	$('#menu-nav-mobile').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
     	if (userLoged){
-    		$('#menu-nav-mobile').append('<li><a href="' + sMyaccountRef + '" id="accountNameA" data-toggle="collapse" data-parent="#">' + user + '</a></li>');
+    		$('#menu-nav-mobile').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
     		$('#menu-nav-mobile').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');
     	}
     	else{
     		$('#menu-nav-mobile').append('<li><a href="' + sGuestRef + '">'+sGuest+'</a></li>');
-    		$('#menu-nav-mobile').append('<li><a href="' + sLoginRef + '" data-toggle="collapse" data-parent="#">' + sLogin + '</a></li>');
+    		$('#menu-nav-mobile').append('<li><a href="' + sLoginRef + '">' + sLogin + '</a></li>');
     	}
+    	
   	}
 
 
@@ -405,10 +403,6 @@ function getTableMatches(bet, loadGames){
         
         <nav id="menu">
         	<ul id="menu-nav">
-            	<li class="current"><a href="#homeDiv">Inicio</a></li>
-                <li><a href="#quinielaDiv">Quiniela</a></li>
-                <li><a href="#myaccountDiv" id="accountNameA" data-toggle="collapse" data-parent="#">Mi cuenta</a></li>
-                <li><a href="#loginDiv" data-toggle="collapse" data-parent="#">Login</a></li>
             </ul>
         </nav>
         
@@ -417,7 +411,7 @@ function getTableMatches(bet, loadGames){
 <!-- End Header -->
 
 <!-- Principal -->
-<div id="homeDiv" class="box-post">
+<div id="homeDiv" class="page">
 <div class="container">
     <!-- Title Page -->
     <div class="row">
@@ -459,8 +453,7 @@ function getTableMatches(bet, loadGames){
 <!-- End Principal -->
 
 <!-- My Account -->
-<div id="myaccountDiv" class="accordion-body collapse">
-<br/>
+<div id="myaccountDiv" class="page">
 <div class="container">
     <!-- Title Page -->
     <div class="row">
@@ -474,119 +467,168 @@ function getTableMatches(bet, loadGames){
 
     	<div class="row">
             <div class="span12">
-            <br/>
-            	<div class="tabbable">
-                
-                    <ul class="nav nav-tabs" id="myTab">
-                        <li class="active"><a href="#myDataDiv" data-toggle="tab">My data</a></li>
-                        <li><a href="#myBalanceDiv" data-toggle="tab">My Balance</a></li>
-                        <li><a href="#myBetDiv" data-toggle="tab">My Bets</a></li>
-                    </ul>
-                 
-                    <div class="tab-content">
-                        <div class="tab-pane fade in active" id="myDataDiv">
-							<!-- MyData Section -->
-							<div class="container">
-							    <!-- MyData Form -->
-							    <div class="row">
-									<div align="center">
-									   <form id="myDataForm">
-									   		<table class="quiniela">
-									   			<tr class="quinielatitulo">
-													<td colspan="2">My Account</td>
-												</tr>
-										   		<tr>
-										   			<td class="partido">Username:</td>
-										   			<td class="partido"><input id="id" name="id" type="text" readonly="readonly"/></td>
-										        </tr>
-										   		<tr>
-										   			<td class="partido">Name:</td>
-										   			<td class="partido"><input name="name" id="name" type="text"/></td>
-										        </tr>
-										   		<tr>
-										   			<td class="partido">Phone Number:</td>
-										   			<td class="partido"><input name="phoneNumber" id="phoneNumber" type="text"/></td>
-										        </tr>
-										   		<tr align="right">
-										   			<td class="partido"></td>
-										   			<td class="partido"><button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
-										        </tr>
-									        </table>
-									        	<div id="userAlterQFormResponse">Actualiza tus datos y pulsa Enviar.</div>
-								        </form>
-									</div>
-							    </div>
-							    <!-- End MyData Form -->
-							</div>
-							<!-- End MyData Section -->
-                        </div>
-                        <div class="tab-pane fade in" id="myBalanceDiv">
-							<!-- MyBalande Section -->
-							<div class="container">
-							    <!-- MyBalance Form -->
-							    <div class="row">
-									<div align="center">
-									   <form id="balanceAlterQForm">
-									   		<table class="quiniela">
-									   			<tr class="quinielatitulo">
-													<td colspan="2">Saldo</td>
-												</tr>
-										   		<tr>
-										   			<td class="partido">Username:</td>
-										   			<td class="partido"><input id="idSaldo" name="id" type="text" readonly="readonly"/></td>
-										        </tr>
-										   		<tr>
-										   			<td class="partido">Saldo:</td>
-										   			<td class="partido"><input name="balance" id="balance" type="text"/></td>
-										        </tr>
-										   		<tr align="right">
-										   			<td class="partido"></td>
-										   			<td class="partido"><button id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
-										        </tr>
-									   		</table>
-									         <div id="balanceAlterQFormResponse">Actualiza tu saldo y pulsa Enviar.</div>
-								        </form>
-									</div>
-							    </div>
-							    <!-- End MyBalance Form -->
-							</div>
-							<!-- End MyBalance Section -->
-                        </div>
-                        <div class="tab-pane fade in" id="myBetDiv">
-							<!-- MyBets Section -->
-							<div>
-							<div class="container">
-							    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-							        <!-- Carousel indicators -->
-							        <div id="myIndicators"> 
-							        </div>
-							        <!-- Carousel items -->
-							        <div id="myItems" class="carousel-inner">
-							        </div>
-							        <!-- Carousel nav -->
-							        <a class="carousel-control left" href="#myCarousel" data-slide="prev">
-							            <span class="glyphicon glyphicon-chevron-left"></span>
-							        </a>
-							        <a class="carousel-control right" href="#myCarousel" data-slide="next">
-							            <span class="glyphicon glyphicon-chevron-right"></span>
-							        </a>
-							    </div>
-							</div>
-							</div>
-							<!-- End MyBets Section -->
-                        </div>
-                    </div>
-                            
-				</div>
+
+            			<ul>
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span1">
+                            </li>
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3">
+                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
+                            	<a class="hover-wrap" id="myDataBtn" href="#mydataDiv">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-02.jpg'/>" alt="Quiniela">
+                            </li>
+                        	<!-- End Item Project -->
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3">
+                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
+                            	<a class="hover-wrap" id="myBalanceBtn" href="#mybalanceDiv">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-03.jpg'/>" alt="Quiniela">
+                            </li>
+                        	<!-- End Item Project -->
+							<!-- Item Project and Filter Name -->
+                        	<li class="item-thumbs span3">
+                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
+                            	<a class="hover-wrap" id="myBetsBtn" href="#mybetsDiv">
+                                	<span class="overlay-img"></span>
+                                    <span class="overlay-img-thumb font-icon-plus"></span>
+                                </a>
+                                <!-- Thumb Image and Description -->
+                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-04.jpg'/>" alt="Quiniela">
+                            </li>
+                        	<!-- End Item Project -->
+
+            			</ul>
+
             </div>
         </div>
 </div>
-
-
 </div>
 <!-- End My Account -->
 
 
+<!-- MyData Section -->
+<div id="mydataDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Mis Datos</h2>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- MyData Form -->
+    <div class="row">
+		<div align="center">
+		   <form id="myDataForm">
+		   		<table class="quiniela">
+		   			<TR class="quinielatitulo">
+						<TD colspan="2">My Account</TD>
+						</TR>
+		   		
+		   		<tr>
+		   			<td class="partido">Username:</td>
+		   			<td class="partido"><input id="id" name="id" type="text" readonly="readonly"/></td>
+		        </tr>
+		   		<tr>
+		   			<td class="partido">Name:</td>
+		   			<td class="partido"><input name="name" id="name" type="text"/></td>
+		        </tr>
+		   		<tr>
+		   			<td class="partido">Phone Number:</td>
+		   			<td class="partido"><input name="phoneNumber" id="phoneNumber" type="text"/></td>
+		        </tr>
+		   		<tr align="right">
+		   			<td class="partido"></td>
+		   			<td class="partido"><button type="submit" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
+		        </tr>
+		        </table>
+		        	<div id="userAlterQFormResponse">Actualiza tus datos y pulsa Enviar.</div>
+	        </form>
+		</div>
+    </div>
+    <!-- End MyData Form -->
+</div>
+</div>
+<!-- End MyData Section -->
+
+<!-- MyBalande Section -->
+<div id="mybalanceDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Mis Datos</h2>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- MyBalance Form -->
+    <div class="row">
+		<div align="center">
+		   <form id="balanceAlterQForm">
+		   		<table class="quiniela">
+		   			<TR class="quinielatitulo">
+						<TD colspan="2">Saldo</TD>
+						</TR>
+		   		
+		   		<tr>
+		   			<td class="partido">Username:</td>
+		   			<td class="partido"><input id="idSaldo" name="id" type="text" readonly="readonly"/></td>
+		        </tr>
+		   		<tr>
+		   			<td class="partido">Saldo:</td>
+		   			<td class="partido"><input name="balance" id="balance" type="text"/></td>
+		        </tr>
+		   		<tr align="right">
+		   			<td class="partido"></td>
+		   			<td class="partido"><button type="submit" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
+		        </tr>
+		   		</table>
+		         <div id="balanceAlterQFormResponse">Actualiza tu saldo y pulsa Enviar.</div>
+	        </form>
+		</div>
+    </div>
+    <!-- End MyBalance Form -->
+</div>
+</div>
+<!-- End MyBalance Section -->
+
+<!-- MyBets Section -->
+<div id="mybetsDiv" class="page">
+<div class="container">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Carousel indicators -->
+        <div id="myIndicators"> 
+        </div>
+        
+        <!-- Carousel items -->
+        <div id="myItems" class="carousel-inner">
+        </div>
+        <!-- Carousel nav -->
+        <a class="carousel-control left" href="#myCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="carousel-control right" href="#myCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+</div>
+</div>
+<!-- End MyBets Section -->
 
 <!-- About Section -->
 <div id="about" class="page-alternate">
@@ -614,7 +656,7 @@ function getTableMatches(bet, loadGames){
                 </div>
                 <img src="<c:url value='/static/resources/_include/img/profile/profile-01.jpg'/>" alt="John Doe">
             </div>
-            <h3 class="profile-name">Santiago Cabello</h3>
+            <h3 class="profile-name">John Doe</h3>
             <p class="profile-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac augue at erat <a href="#">hendrerit dictum</a>. 
             Praesent porta, purus eget sagittis imperdiet, nulla mi ullamcorper metus, id hendrerit metus diam vitae est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
             	
@@ -633,11 +675,11 @@ function getTableMatches(bet, loadGames){
         	<div class="image-wrap">
                 <div class="hover-wrap">
                     <span class="overlay-img"></span>
-                    <span class="overlay-text-thumb">CTO/Founder</span>
+                    <span class="overlay-text-thumb">Creative Director</span>
                 </div>
                 <img src="<c:url value='/static/resources/_include/img/profile/profile-02.jpg'/>" alt="Jane Helf">
             </div>
-            <h3 class="profile-name">Oscar Ruiz</h3>
+            <h3 class="profile-name">Jane Helf</h3>
             <p class="profile-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac augue at erat <a href="#">hendrerit dictum</a>. 
             Praesent porta, purus eget sagittis imperdiet, nulla mi ullamcorper metus, id hendrerit metus diam vitae est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
             	
@@ -679,6 +721,8 @@ function getTableMatches(bet, loadGames){
 </div>
 </div>
 <!-- End About Section -->
+
+
 <!-- Contact Section -->
 <div id="contact" class="page">
 <div class="container">
@@ -693,137 +737,188 @@ function getTableMatches(bet, loadGames){
     </div>
     <!-- End Title Page -->
     
+    <!-- Contact Form -->
+    <div class="row">
+    	<div class="span9">
+        
+        	<form id="contact-form" class="contact-form" action="#">
+            	<p class="contact-name">
+            		<input id="contact_name" type="text" placeholder="Full Name" value="" name="name" />
+                </p>
+                <p class="contact-email">
+                	<input id="contact_email" type="text" placeholder="Email Address" value="" name="email" />
+                </p>
+                <p class="contact-message">
+                	<textarea id="contact_message" placeholder="Your Message" name="message" rows="15" cols="40"></textarea>
+                </p>
+                <p class="contact-submit">
+                	<a id="contact-submit" class="submit" href="#">Send Your Email</a>
+                </p>
+                
+                <div id="response">
+                
+                </div>
+            </form>
+         
+        </div>
+        
+        <div class="span3">
+        	<div class="contact-details">
+        		<h3>Contact Details</h3>
+                <ul>
+                    <li><a href="#">hello@brushed.com</a></li>
+                    <li>(916) 375-2525</li>
+                    <li>
+                        Brushed Studio
+                        <br>
+                        5240 Vanish Island. 105
+                        <br>
+                        Unknow
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <!-- End Contact Form -->
 </div>
 </div>
 <!-- End Contact Section -->
 
 <!-- Login Section -->
-<div id="loginDiv" class="accordion-body collapse">
-<br/>
-<div class="container" class="accordion-inner">
-	<div class="accordion" id="accordionArea">
-	    <div class="row accordion-group">
-	        <div class="accordion-heading accordionize">
-	            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionArea" href="#loginArea">
-	                Login
-	                <span class="font-icon-arrow-simple-down"></span>
-	            </a>
-	        </div>
-	        <div id="loginArea" class="accordion-body collapse">
-	            <div class="accordion-inner">
-				    <!-- Login Form -->
-				    <div class="row" align="center">
-				        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-				    
-				    	<div class="span4">
-				        
-							<form id="login-form" action="#">
-						   		<table class="quiniela">
-							   		<tr>
-							   			<td class="partido"><input id="id" name="id" type="text" placeholder="User Name"/></td>
-							        </tr>
-							   		<tr>
-							   			<td class="partido"><input type="password" name="pwd" id="pwd" placeholder="Password"/></td>
-							        </tr>
-							   		<tr align="right">
-							   			<td class="partido"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
-							        </tr>
-						   		</table>
-								<div id="loginFormResponse">respuesta </div>
-					        </form>
-				        </div>
-				        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-					</div>
-				</div>
+<div id="loginDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Login</h2>
+                <h3 class="title-description">Entra al mundo de las quinielas</h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- Login Form -->
+    <div class="row">
+			<div align="center">
+			   <form id="loginForm">
+			   		<table class="quiniela">
+				   		<tr>
+				   			<td class="partido">Username:</td>
+				   			<td class="partido"><input id="id" name="id" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Password:</td>
+				   			<td class="partido"><input type="password" name="pwd" id="pwd"/></td>
+				        </tr>
+				   		<tr align="right">
+				   			<td class="partido">&nbsp;</td>
+				   			<td class="partido"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
+				        </tr>
+			   		</table>
+			   		<a href="#signDiv">Crear un nuevo usuario</a><br>
+			   		<a href="#forgotDiv">He olvidado mi contraseña</a>
+					<div id="loginFormResponse">respuesta </div>
+		        </form>
 			</div>
-		</div>
-	     
-	    <div class="row accordion-group">
-	        <div class="accordion-heading accordionize">
-	            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionArea" href="#forgotPwdArea">
-	            He olvidado mi contrase&ntilde;a
-	            <span class="font-icon-arrow-simple-down"></span>
-	        </a>
-	        </div>
-	        <div id="forgotPwdArea" class="accordion-body collapse">
-	            <div class="accordion-inner">
-				    <div class="row" align="center">
-				        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-				    
-				    	<div class="span4">
-				        
-							<form id="forgotPwd-form" action="#">
-						   		<table class="quiniela">
-						   			<tr class="quinielatitulo">
-										<td>Enter your email address and we'll send you a link to reset your password.</td>
-									</tr>
-							   		<tr class="quinielatitulo">
-							   			<td><input id="id" type="text" size="20" name="id" placeholder="User Name" /></td>
-							        </tr>
-							   		<tr class="quinielatitulo" align="right">
-							   			<td><button id="forgot_btn" class="button" name="signup" value="send">Send</button></td>
-							        </tr>
-						   		</table>
-						   		<div id="forgotPwdFormResponse">respuesta </div>
-					        </form>
-				        </div>
-				        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-					</div>
-	            </div>
-	        </div>
-	    </div>
-	     
-	    <div class="row accordion-group">
-	        <div class="accordion-heading accordionize">
-	            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionArea" href="#signupArea">
-	            Crear un nuevo usuario
-	            <span class="font-icon-arrow-simple-down"></span>
-	        </a>
-	        </div>
-	        <div id="signupArea" class="accordion-body collapse">
-	            <div class="accordion-inner">
-				    <div class="row" align="center">
-				        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-				    
-				    	<div class="span4">
-				        
-							<form id="signup-form" action="#">
-						   		<table class="quiniela">
-						   			<tr class="quinielatitulo">
-										<td>Sign up</td>
-									</tr>
-							   		<tr>
-							   			<td class="partido"><input id="id" name="id" type="text" placeholder="User Name"/></td>
-							        </tr>
-							   		<tr>
-							   			<td class="partido"><input type="password" name="pwd" id="pwd" placeholder="Password"/></td>
-							        </tr>
-							   		<tr>
-							   			<td class="partido"><input type="text" name="name" id="name" placeholder="Name"/></td>
-							        </tr>
-							   		<tr>
-							   			<td class="partido"><input type="text" name="phoneNumber" id="phoneNumber" placeholder="Phone Number"/></td>
-							        </tr>
-							   		<tr align="right">
-							   			<td class="partido"><button id="signup_btn" class="button" name="signup" value="signup">signup</button></td>
-							        </tr>
-						   		</table>
-					            <div id="signupFormResponse">respuesta </div>
-					        </form>
-				        </div>
-				        <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-					</div>
-	            </div>
-	        </div>
-	    </div>
-	</div>
+    </div>
+    <!-- End Login Form -->
 </div>
 </div>
 <!-- End Login Section -->
 
 
+<!-- Forgot Section -->
+<div id="forgotDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Login</h2>
+                <h3 class="title-description">Entra al mundo de las quinielas</h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- Forgot Form -->
+    <div class="row">
+		<div align="center">
+		   <form id="forgotPwdForm">
+		   		<table class="quiniela">
+		   			<tr class="quinielatitulo">
+						<td colspan="2">Enter your email address and we'll send you a link to reset your password.</td>
+					</tr>
+			   		<tr class="quinielatitulo">
+			   			<td  colspan="2"><input id="id" type="text" size="20" name="id" /></td>
+			        </tr>
+			   		<tr class="quinielatitulo" align="right">
+			   			<td colspan="2"><button id="login_btn" class="button" name="signup" value="send">Send</button></td>
+			        </tr>
+		   		</table>
+		   		<div id="forgotPwdFormResponse">respuesta </div>
+	        </form>
+		</div>
+    </div>
+    <!-- End Forgot Form -->
+</div>
+</div>
+<!-- End Forgot Section -->
 
+
+
+<!-- Sing Up Section -->
+<div id="signDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Login</h2>
+                <h3 class="title-description">Entra al mundo de las quinielas</h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- Sign Up Form -->
+    <div class="row">
+		<div align="center">
+		   <form id="signupForm">
+		   		<table class="quiniela">
+		   			<tr class="quinielatitulo">
+						<td colspan="2">Sign up</td>
+					</tr>
+			   		<tr>
+			   			<td class="partido">Username:</td>
+			   			<td class="partido"><input id="id" name="id" type="text"/></td>
+			        </tr>
+			   		<tr>
+			   			<td class="partido">Password:</td>
+			   			<td class="partido"><input type="password" name="pwd" id="pwd"/></td>
+			        </tr>
+			   		<tr>
+			   			<td class="partido">Name:</td>
+			   			<td class="partido"><input type="text" name="name" id="name"/></td>
+			        </tr>
+			   		<tr>
+			   			<td class="partido">PhoneNumber:</td>
+			   			<td class="partido"><input type="text" name="phoneNumber" id="phoneNumber"/></td>
+			        </tr>
+			   		<tr align="right">
+			   			<td class="partido">&nbsp;</td>
+			   			<td class="partido"><button id="login_btn" class="button" name="signup" value="signup">signup</button></td>
+			        </tr>
+		   		</table>
+	            <div id="signupFormResponse">respuesta </div>
+	        </form>
+		</div>
+    </div>
+    <!-- End Sign Up Form -->
+</div>
+</div>
+<!-- End Sign Up Section -->
 
 
 <!-- Quiniela Section -->
@@ -859,9 +954,10 @@ function getTableMatches(bet, loadGames){
 		    <button class="button" onclick="javascript:calculatePrice();">Precio</button>
 	    </div>
     </div>
-    <!-- End Quiniela Form -->
+    <!-- End Sign Up Form -->
 </div>
 </div>
+<!-- End Sign Up Section -->
 
 
 
@@ -904,7 +1000,7 @@ function getTableMatches(bet, loadGames){
 
 
 <!-- Js -->
-<script src="<c:url value="/static/resources/_include/js/jquery.1.9.1.min.js"/>"></script> <!-- jQuery Core -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> <!-- jQuery Core -->
 <script src="<c:url value="/static/resources/_include/js/bootstrap.min.js"/>"></script> <!-- Bootstrap -->
 <script src="<c:url value="/static/resources/_include/js/supersized.3.2.7.min.js"/>"></script> <!-- Slider -->
 <script src="<c:url value="/static/resources/_include/js/waypoints.js"/>"></script> <!-- WayPoints -->
@@ -915,7 +1011,6 @@ function getTableMatches(bet, loadGames){
 <script src="<c:url value="/static/resources/_include/js/jquery.tweet.js"/>"></script> <!-- Tweet -->
 <script src="<c:url value="/static/resources/_include/js/plugins.js"/>"></script> <!-- Contains: jPreloader, jQuery Easing, jQuery ScrollTo, jQuery One Page Navi -->
 <script src="<c:url value="/static/resources/_include/js/main.js"/>"></script> <!-- Default JS -->
-<!-- <script src="<c:url value="/static/resources/_include/js/alterQ.js"/>"></script> --!>
 <!-- End Js -->
 
 </body>
