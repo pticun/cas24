@@ -98,6 +98,10 @@ public class RoundBetDaoImpl implements RoundBetDao {
 	public void add(RoundBets bean) {
 		mongoTemplate.insert(bean,COLLECTION_NAME);
 	}
+	
+	public void update(RoundBets rounBets){
+		
+	}
 }
 
 

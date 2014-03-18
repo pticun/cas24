@@ -20,6 +20,7 @@ public class UserAlterQ implements Serializable {
 	private Date dateCreated;
 	private Date dateUpdated;
 	private int automatics;
+	private double weight;
 	
 
 	public String getId() {
@@ -103,4 +104,11 @@ public class UserAlterQ implements Serializable {
 		this.automatics = automatics;
 	}
 
+	public double getWeight() {
+		return weight;
+	}
+	
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
 }

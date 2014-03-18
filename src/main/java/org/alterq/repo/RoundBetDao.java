@@ -15,4 +15,6 @@ public interface RoundBetDao {
 	public boolean deleteAllBets(int season, int round);
 	public boolean deleteAllUserBets(int season, int round, String user);
 	public boolean deleteUserBet(int season, int round, Bet bet);
+	
+	public void update(RoundBets rounBets);
 }

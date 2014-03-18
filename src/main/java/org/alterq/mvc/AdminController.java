@@ -40,7 +40,10 @@ public class AdminController {
 	@Autowired
 	private UserAlterQDao userAlterQDao;
 	
-	
+	private static int doubles = 0;
+	private static int triples = 0;
+
+	private static final float DEF_QUINIELA_BET_PRICE = (float)0.5;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String initPage() {
@@ -120,7 +123,7 @@ public class AdminController {
 		for (UserAlterQ user : lUsers){
 			//STEP 2.2.1 - Check User Balance
 			float balance = new Float(user.getBalance()).floatValue();
-			if (balance < 0.5){
+			if (balance < DEF_QUINIELA_BET_PRICE){
 				log.debug("closeRound: user("+user.getName()+") No enough money for automatic bet");
 				//STEP 2.2.1.error - Send an email to the user ("NOT ENOUGH MONEY")
 				continue;
@@ -129,7 +132,7 @@ public class AdminController {
 			String randomBet = randomBet();
 			//STEP 2.2.3 - Make Automatic User Bet
 			Bet bet = new Bet();
-			bet.setPrice((float)0.5);
+			bet.setPrice(DEF_QUINIELA_BET_PRICE);
 			bet.setBet(randomBet);
 			bet.setUser(user.getId());
 			bet.setCompany(company);
@@ -145,7 +148,7 @@ public class AdminController {
 			}
 			//STEP 2.2.4 - Update User Balance
 			try{
-				user.setBalance(Float.toString((float)(balance - 0.5)));
+				user.setBalance(Float.toString((float)(balance - DEF_QUINIELA_BET_PRICE)));
 				userAlterQDao.save(user);
 				if(userAlterQDao.getLastError() != null){    
 					log.debug("closeRound: user("+user.getName()+") Error updating balance.");  
@@ -165,10 +168,22 @@ public class AdminController {
 		//STEP 4: Quiniela
 			//STEP 4.1 - Calc Number Bets
 			int numBets = roundBetDao.countAllBets(season, round);
+			
 			//STEP 4.2 - Calc Number of Doubles and Triples
-			//STEP 4.3 - Calc Quiniela Price and Round Jackpot 
+			calcDoublesAndTriples(numBets);
+			
+			//STEP 4.3 - Calc Quiniela Price and Round Jackpot
+			float price = calcQuinielaPrice(doubles, triples);
+			float jackpot = (float)(numBets * DEF_QUINIELA_BET_PRICE - price);
+			
 			//STEP 4.4 - Update RoundData
+			RoundBets rBets = roundBetDao.findAllBets(season, round);
+			rBets.setJackpot(jackpot);
+			rBets.setPrice(price);
+			roundBetDao.update(rBets);
+
 			//STEP 4.5 - Calc Final Quiniela
+			calcFinalQuiniela(season, round, doubles, triples, rBets.getBets());
 		
 		log.debug("closeRound: end");
 		return generalData;
@@ -202,4 +217,76 @@ public class AdminController {
 		
 	}
 	
+	private static void calcDoublesAndTriples(int numBets){
+		triples = ((numBets>3)?(numBets / 3):0);
+		doubles = (((numBets - (triples*3))>2)?((numBets - (triples*3)) / 2):0);
+		
+	}
+	
+	private static float calcQuinielaPrice(int doubles, int triples){
+		return new Double(DEF_QUINIELA_BET_PRICE * Math.pow(2, doubles) * Math.pow(3, triples)).floatValue();
+	}
+	
+	/**
+	 * Function calcFinalQuiniela that return the final quiniela
+	 * 
+	 * Signs:
+	 * 	1   = 100 = 4
+	 * 	 X  = 010 = 2
+	 *    2 = 001 = 1
+	 *  1X  = 110 = 6
+	 *  1 2 = 101 = 5
+	 *   X2 = 011 = 3
+	 *  1X2 = 111 = 7
+	 *  
+	 *   Gets users Bets, and calculate a value for each sign ( sum(user sign * user weight))
+	 *   Selecrt max values until triples and double are completed
+	 *   
+	 * @return String final quiniela
+	 * @param int doubles : number of doubles in the final quiniela
+	 * @param int triples : number of triples in the final quiniela
+	 * 
+	 * Descripcion: Get a new ramdom bet
+	 * */
+	private static String calcFinalQuiniela(int season, int round, int doubles, int triples, List<Bet> lBets){
+		double [][]count1X2 = new double[15][3];
+		
+		for (Bet bet : lBets){
+			String apu = bet.getBet();
+			double usuWeight = calcUserWeight(bet.getUser());
+			
+			for(int j=0; j<15; j++){
+				if (apu.charAt(j)=='4'){
+					count1X2[j][0]=count1X2[j][0] + 1 * usuWeight;
+				}else if (apu.charAt(j)=='2'){
+					count1X2[j][1]=count1X2[j][1] + 1 * usuWeight;
+				}else if (apu.charAt(j)=='1'){
+					count1X2[j][2]=count1X2[j][2] + 1 * usuWeight;
+				}else if (apu.charAt(j)=='6'){
+					count1X2[j][0]=count1X2[j][0] + 1 * usuWeight;
+					count1X2[j][1]=count1X2[j][1] + 1 * usuWeight;
+				}else if (apu.charAt(j)=='5'){
+					count1X2[j][0]=count1X2[j][0] + 1 * usuWeight;
+					count1X2[j][2]=count1X2[j][2] + 1 * usuWeight;
+				}else if (apu.charAt(j)=='3'){
+					count1X2[j][1]=count1X2[j][1] + 1 * usuWeight;
+					count1X2[j][2]=count1X2[j][2] + 1 * usuWeight;
+				}else if (apu.charAt(j)=='7'){
+					count1X2[j][0]=count1X2[j][0] + 1 * usuWeight;
+					count1X2[j][1]=count1X2[j][1] + 1 * usuWeight;
+					count1X2[j][2]=count1X2[j][2] + 1 * usuWeight;
+				}
+			}
+			
+			//Select Max Values & set Quiniela Final
+			//...
+			
+		}
+		return null;
+	}
+	
+	private static double calcUserWeight(String user){
+		
+		return 1.0;
+	}
 }
