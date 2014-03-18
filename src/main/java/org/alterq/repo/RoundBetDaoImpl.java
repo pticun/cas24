@@ -25,23 +25,25 @@ public class RoundBetDaoImpl implements RoundBetDao {
 	private MongoTemplate mongoTemplate;
 	public static final String COLLECTION_NAME = "roundBets";
 
-	public RoundBets findAllBets(int company, int season, int round) {
-		Query query = new Query(Criteria.where("company").is(company).and("season").is(season).and("round").is(round));
+	public RoundBets findAllBets(int season, int round) {
+		Query query = new Query(Criteria.where("season").is(season).and("round").is(round));
 		RoundBets aux =mongoTemplate.findOne(query, RoundBets.class, COLLECTION_NAME);
 		return aux;
 	}
 	
-	public int countAllBets(int company, int season, int round) {
-		Query query = new Query(Criteria.where("company").is(company).and("season").is(season).and("round").is(round));
+	public int countAllBets(int season, int round) {
+		Query query = new Query(Criteria.where("season").is(season).and("round").is(round));
 		RoundBets aux =mongoTemplate.findOne(query, RoundBets.class, COLLECTION_NAME);
 		return aux.getBets().size();
 	}
 
-	public RoundBets findAllUserBets(int company, int season, int round, String user) {
+	public RoundBets findAllUserBets(int season, int round, String user) {
         Aggregation agg = newAggregation( 
                 unwind("bets"),
-                match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round).and("company").is(company)),
-                group("_id").first("company").as("company").first("season").as("season").first("round").as("round").push("bets").as("bets")
+                //match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round).and("company").is(company)),
+                //group("_id").first("company").as("company").first("season").as("season").first("round").as("round").push("bets").as("bets")
+                match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round)),
+                group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
         );
         AggregationResults<RoundBets> result = mongoTemplate.aggregate(agg, "roundBets", RoundBets.class);
         if ( !result.getMappedResults().isEmpty()){
@@ -52,9 +54,9 @@ public class RoundBetDaoImpl implements RoundBetDao {
         	return null;
 	}
 
-	public boolean addBet(int company, int season, int round, Bet bet){
+	public boolean addBet(int season, int round, Bet bet){
 		Query query = new Query();
-		query.addCriteria(Criteria.where("company").is(company).and("season").is(season).and("round").is(round));
+		query.addCriteria(Criteria.where("season").is(season).and("round").is(round));
  
 		Update update = new Update();
 		update.push("bets", bet);
@@ -63,15 +65,15 @@ public class RoundBetDaoImpl implements RoundBetDao {
 		return true;
 	}
 	
-	public boolean deleteAllBets(int company, int season, int round){
+	public boolean deleteAllBets(int season, int round){
 		Query query = new Query();
 		query.addCriteria(Criteria.where("season").is(season).and("round").is(round));
 		mongoTemplate.remove(query, RoundBets.class);
 		return true;
 	}
-	public boolean deleteAllUserBets(int company, int season, int round, String user){
+	public boolean deleteAllUserBets(int season, int round, String user){
 		Query query = new Query();
-		query.addCriteria(Criteria.where("company").is(company).and("season").is(season).and("round").is(round));
+		query.addCriteria(Criteria.where("season").is(season).and("round").is(round));
 		 
 		Update update = new Update();
 		Bet bet=new Bet();
@@ -81,9 +83,9 @@ public class RoundBetDaoImpl implements RoundBetDao {
 		mongoTemplate.upsert(query,update, RoundBets.class);
 		return true;
 	}
-	public boolean deleteUserBet(int company, int season, int round, Bet bet){
+	public boolean deleteUserBet(int season, int round, Bet bet){
 		Query query = new Query();
-		query.addCriteria(Criteria.where("company").is(company).and("season").is(season).and("round").is(round));
+		query.addCriteria(Criteria.where("season").is(season).and("round").is(round));
 		 
 		Update update = new Update();
 		update.pull("bets", bet);
