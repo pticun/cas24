@@ -234,7 +234,7 @@ $(document).ready(function() {
    	 });
 			  	 
 	$('form#balanceAlterQForm').submit(function(event) {
-  		 var dataJson=JSON.stringify($('form#myDataForm').serializeObject());
+  		 var dataJson=JSON.stringify($('form#balanceAlterQForm').serializeObject());
    		 consoleAlterQ('update:balanceAlterQForm:'+dataJson);
 		 jQuery.ajax ({
 			    url: ctx+'/myaccount/'+ idUserAlterQ,
@@ -396,13 +396,10 @@ function getQuiniela(){
 
 
 function getUserBets(){
-	consoleAlterQ('getQuiniela');
+	consoleAlterQ('getUserBets');
 	if(loadBetUser){
-		loadBetUser=false;
-
-		var season=2013;
-   		var round=11;
-   		var user=$('#id').val();
+//		loadBetUser=false;
+		loadBetUser=true;
 
    		consoleAlterQ('antes jQuery.ajax');
 		
