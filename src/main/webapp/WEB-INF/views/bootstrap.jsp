@@ -8,9 +8,6 @@
 <!--[if (IE 9)]><html class="no-js ie9" lang="en"><![endif]-->
 <!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
 <head>
-<!-- JQuery -->
-<script src="<c:url value="/static/resources/js/jquery.min.js"/>"></script>
-<script src="<c:url value="/static/resources/js/jquery.dropotron.js"/>"></script>
 
 <!-- Meta Tags -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -66,9 +63,9 @@
 <link href="<c:url value="/static/resources/_include/css/supersized.css"/>" rel="stylesheet">
 <link href="<c:url value="/static/resources/_include/css/supersized.shutter.css"/>" rel="stylesheet">
 
-<!-- Google Font -->
+<!-- Google Font 
 <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900' rel='stylesheet' type='text/css'>
-
+-->
 <!-- Fav Icon -->
 <link rel="shortcut icon" href="#">
 
@@ -81,11 +78,10 @@
 <!-- <script src="_include/js/modernizr.js"></script> -->
 <script src="<c:url value="/static/resources/_include/js/modernizr.js"/>"></script>
 <script type="text/javascript">
-var ctx = "<%=request.getContextPath()%>"
+var ctx = "<%=request.getContextPath()%>";
 </script>
 
-<script src="<c:url value="/static/resources/_include/js/alterQ.js"/>"></script>
-<!-- Analytics -->
+<!-- Analytics 
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -99,7 +95,7 @@ var ctx = "<%=request.getContextPath()%>"
   })();
 
 </script>
-<!-- End Analytics -->
+End Analytics -->
 
 </head>
 
@@ -1000,7 +996,7 @@ function getTableMatches(bet, loadGames){
 
 
 <!-- Js -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> <!-- jQuery Core -->
+<script src="<c:url value="/static/resources/_include/js/jquery.1.9.1.min.js"/>"></script> <!-- jQuery Core -->
 <script src="<c:url value="/static/resources/_include/js/bootstrap.min.js"/>"></script> <!-- Bootstrap -->
 <script src="<c:url value="/static/resources/_include/js/supersized.3.2.7.min.js"/>"></script> <!-- Slider -->
 <script src="<c:url value="/static/resources/_include/js/waypoints.js"/>"></script> <!-- WayPoints -->
@@ -1011,7 +1007,8 @@ function getTableMatches(bet, loadGames){
 <script src="<c:url value="/static/resources/_include/js/jquery.tweet.js"/>"></script> <!-- Tweet -->
 <script src="<c:url value="/static/resources/_include/js/plugins.js"/>"></script> <!-- Contains: jPreloader, jQuery Easing, jQuery ScrollTo, jQuery One Page Navi -->
 <script src="<c:url value="/static/resources/_include/js/main.js"/>"></script> <!-- Default JS -->
-<!-- End Js -->
+<script src="<c:url value="/static/resources/_include/js/alterQ.js"/>"></script>
+<script src="<c:url value="/static/resources/_include/js/jquery.dropotron.js"/>"></script>
 
 </body>
 </html>

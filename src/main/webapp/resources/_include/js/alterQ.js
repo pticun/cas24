@@ -93,8 +93,7 @@ $(document).ready(function() {
 		}		
     });
 	
-	$('form#loginForm').submit(function(e) {
-		alert(e);
+	$('form#loginForm').submit(function(event) {
 		 var dataJson=JSON.stringify($('form#loginForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
@@ -126,7 +125,7 @@ $(document).ready(function() {
 		 	event.preventDefault(); // prevent actual form submit and page reload
 	});
 	
-	 $('form#forgotPwdForm').submit(function(e) {
+	 $('form#forgotPwdForm').submit(function(event) {
 		 var dataJson=JSON.stringify($('form#forgotPwdForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
@@ -147,7 +146,7 @@ $(document).ready(function() {
 			});
 		 	event.preventDefault(); // prevent actual form submit and page reload
 	 });
-	 $('form#signupForm').submit(function(e) {
+	 $('form#signupForm').submit(function(event) {
 		 var dataJson=JSON.stringify($('form#signupForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
@@ -172,7 +171,7 @@ $(document).ready(function() {
 			});
 		 	event.preventDefault(); // prevent actual form submit and page reload
 	 });
-	 $('form#betForm').submit(function(e) {
+	 $('form#betForm').submit(function(event) {
 		var dataJson=JSON.stringify($('form#betForm').serializeObject());
 		consoleAlterQ('betForm:'+dataJson);
 		// will pass the form date using the jQuery serialize function
@@ -211,7 +210,7 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
 	 });	 
 	
-   	 $('form#myDataForm').submit(function(e) {
+   	 $('form#myDataForm').submit(function(event) {
    		 var dataJson=JSON.stringify($('form#myDataForm').serializeObject());
    		 consoleAlterQ('updateDataJsonAlterQ:'+dataJson);
 		 jQuery.ajax ({
@@ -234,7 +233,7 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
    	 });
 			  	 
-	$('form#balanceAlterQForm').submit(function(e) {
+	$('form#balanceAlterQForm').submit(function(event) {
   		 var dataJson=JSON.stringify($('form#myDataForm').serializeObject());
    		 consoleAlterQ('update:balanceAlterQForm:'+dataJson);
 		 jQuery.ajax ({
