@@ -27,12 +27,12 @@ $(document).ready(function() {
 	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
     
 	//Menu Click Events
-	$('div').on("click", "nav#menu ul#menu-nav li a", function() {
+	$('div').on("click", "nav#menu ul#menu-nav li a", function(event) {
 		menuEvent($(this).text(), $(this).attr("href"));
   		event.preventDefault();
 	});
 	//Menu Mobile Click Events
-	$('div').on("click", "nav#navigation-mobile ul#menu-nav-mobile li a", function() {
+	$('div').on("click", "nav#navigation-mobile ul#menu-nav-mobile li a", function(event) {
 		menuEvent($(this).text(), $(this).attr("href"));
 		event.preventDefault();
 	});
