@@ -183,12 +183,32 @@ public class AdminController {
 			roundBetDao.update(rBets);
 
 			//STEP 4.5 - Calc Final Quiniela
-			calcFinalQuiniela(season, round, doubles, triples, rBets.getBets());
+			String finalQ = calcFinalQuiniela(season, round, doubles, triples, rBets.getBets());
+			
+			//Add Final Bet (admin)
+			//STEP 2.2.3 - Make Automatic User Bet
+			Bet bet = new Bet();
+			bet.setPrice((float)0.0);
+			bet.setBet(finalQ);
+			bet.setUser(getAdmin());
+			bet.setCompany(company);
+			bet.setDateCreated(new Date());
+			bet.setDateUpdated(new Date());
+			bet.setId(new ObjectId().toStringMongod());
+			roundBetDao.addBet(season, round, bet);
+
 		
 		log.debug("closeRound: end");
 		return generalData;
 	}
 	
+	/**
+	 * 
+	 * */
+	private static String getAdmin()
+	{
+		return "admin";
+	}
 	/**
 	 * @return String randomBet
 	 * Descripcion: Get a new ramdom bet
@@ -250,6 +270,7 @@ public class AdminController {
 	 * */
 	private static String calcFinalQuiniela(int season, int round, int doubles, int triples, List<Bet> lBets){
 		double [][]count1X2 = new double[15][3];
+		String aux ="";
 		
 		for (Bet bet : lBets){
 			String apu = bet.getBet();
@@ -277,16 +298,89 @@ public class AdminController {
 					count1X2[j][2]=count1X2[j][2] + 1 * usuWeight;
 				}
 			}
-			
-			//Select Max Values & set Quiniela Final
-			//...
-			
 		}
-		return null;
+		
+		//Select Max Values & set Quiniela Final
+		//...
+		
+		//Select Simple Final Quiniela
+		for(int j=0; j<15; j++){
+			if ((count1X2[j][0]>=count1X2[j][1]) && (count1X2[j][0]>=count1X2[j][2]))
+			{
+				count1X2[j][0]= -1;
+			}
+			if ((count1X2[j][1]>=count1X2[j][0]) && (count1X2[j][1]>=count1X2[j][2]))
+			{
+				count1X2[j][1]= -1;
+			}
+			if ((count1X2[j][2]>=count1X2[j][0]) && (count1X2[j][2]>=count1X2[j][1]))
+			{
+				count1X2[j][2]= -1;
+			}
+		}
+		//Select Doubles
+		int aX  =0;
+		int aY  =0;
+		double max = count1X2[0][0];
+		for (int i=0; i<doubles; i++){
+			for(int j=0; j<15; j++){
+				for (int k=0; k<3; k++)
+				{
+					if(count1X2[j][k]>max)
+					{
+						max = count1X2[j][k];
+						aX = j;
+						aY = k;
+					}
+				}
+			}
+			count1X2[aX][aY] = -1;
+		}
+		
+		//Select Triples
+		aX  =0;
+		max = count1X2[0][0];
+		for (int i=0; i<triples; i++){
+			
+			for(int j=0; j<15; j++){
+				for (int k=0; k<3; k++)
+				{
+					if(count1X2[j][k]>max)
+					{
+						max = count1X2[j][k];
+						aX = j;
+					}
+				}
+			}
+			count1X2[aX][0] = -1;
+			count1X2[aX][1] = -1;
+			count1X2[aX][2] = -1;
+		}
+		
+		//Set Final Quiniela
+		for(int j=0; j<15; j++){
+			if((count1X2[j][0]==-1)&&(count1X2[j][1]==-1)&&(count1X2[j][2]==-1))
+				aux+="7";
+			else if((count1X2[j][0]==-1)&&(count1X2[j][1]==-1))
+				aux+="6";
+			else if((count1X2[j][0]==-1)&&(count1X2[j][2]==-1))
+				aux+="5";
+			else if((count1X2[j][1]==-1)&&(count1X2[j][2]==-1))
+				aux+="3";
+			else if(count1X2[j][0]==-1)
+				aux+="4";
+			else if(count1X2[j][1]==-1)
+				aux+="2";
+			else if(count1X2[j][2]==-1)
+				aux+="1";
+		}
+		
+		return aux;
 	}
 	
 	private static double calcUserWeight(String user){
 		
 		return 1.0;
 	}
+	
 }
