@@ -57,11 +57,11 @@ $(document).ready(function() {
 					showDiv(bHome);
 					idUserAlterQ=response.userAlterQ.id;
 
-					$('#id').val(response.userAlterQ.id);
-					$('#name').val(response.userAlterQ.name);
-					$('#phoneNumber').val(response.userAlterQ.phoneNumber);
+					$('#idData').val(response.userAlterQ.id);
+					$('#nameData').val(response.userAlterQ.name);
+					$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
 					$('#idSaldo').val(response.userAlterQ.id);
-					$('#balance').val(response.userAlterQ.balance);
+					$('#balanceSaldo').val(response.userAlterQ.balance);
 					
 					userLoged=true;
 		    	}
@@ -115,6 +115,11 @@ $(document).ready(function() {
 						$('#loginFormResponse').text(response.userAlterQ.name);
 						userLoged=true;
 						idUserAlterQ=response.userAlterQ.id;
+						$('#idData').val(response.userAlterQ.id);
+						$('#nameData').val(response.userAlterQ.name);
+						$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
+						$('#idSaldo').val(response.userAlterQ.id);
+						$('#balanceSaldo').val(response.userAlterQ.balance);
 						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
 						showDiv(bHome);
 		   		    }
