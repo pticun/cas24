@@ -12,6 +12,10 @@
 <!-- Meta Tags -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
+<!--  CACHE -->
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Sat, 01 Dec 2001 00:00:00 GMT">
 <title>alterQ</title>   
 
 <meta name="description" content="Insert Your Site Description" /> 
@@ -535,15 +539,15 @@ function getTableMatches(bet, loadGames){
 		   		
 		   		<tr>
 		   			<td class="partido">Username:</td>
-		   			<td class="partido"><input id="id" name="id" type="text" readonly="readonly"/></td>
+		   			<td class="partido"><input id="idData" name="id" type="text" readonly="readonly"/></td>
 		        </tr>
 		   		<tr>
 		   			<td class="partido">Name:</td>
-		   			<td class="partido"><input name="name" id="name" type="text"/></td>
+		   			<td class="partido"><input name="name" id="nameData" type="text"/></td>
 		        </tr>
 		   		<tr>
 		   			<td class="partido">Phone Number:</td>
-		   			<td class="partido"><input name="phoneNumber" id="phoneNumber" type="text"/></td>
+		   			<td class="partido"><input name="phoneNumber" id="phoneNumberData" type="text"/></td>
 		        </tr>
 		   		<tr align="right">
 		   			<td class="partido"></td>
@@ -587,11 +591,11 @@ function getTableMatches(bet, loadGames){
 		        </tr>
 		   		<tr>
 		   			<td class="partido">Saldo:</td>
-		   			<td class="partido"><input name="balance" id="balance" type="text"/></td>
+		   			<td class="partido"><input name="balance" id="balanceSaldo" type="text"/></td>
 		        </tr>
 		   		<tr align="right">
 		   			<td class="partido"></td>
-		   			<td class="partido"><button type="submit" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
+		   			<td class="partido"><button type="button" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
 		        </tr>
 		   		</table>
 		         <div id="balanceAlterQFormResponse">Actualiza tu saldo y pulsa Enviar.</div>
@@ -727,7 +731,7 @@ function getTableMatches(bet, loadGames){
         <div class="span12">
             <div class="title-page">
                 <h2 class="title">Get in Touch</h2>
-                <h3 class="title-description">Weâre currently accepting new client projects. We look forward to serving you.</h3>
+                <h3 class="title-description">We're currently accepting new client projects. We look forward to serving you.</h3>
             </div>
         </div>
     </div>
@@ -801,11 +805,11 @@ function getTableMatches(bet, loadGames){
 			   		<table class="quiniela">
 				   		<tr>
 				   			<td class="partido">Username:</td>
-				   			<td class="partido"><input id="id" name="id" type="text"/></td>
+				   			<td class="partido"><input id="idLogin" name="id" type="text"/></td>
 				        </tr>
 				   		<tr>
 				   			<td class="partido">Password:</td>
-				   			<td class="partido"><input type="password" name="pwd" id="pwd"/></td>
+				   			<td class="partido"><input type="password" name="pwd" id="pwdLogin"/></td>
 				        </tr>
 				   		<tr align="right">
 				   			<td class="partido">&nbsp;</td>
@@ -847,10 +851,10 @@ function getTableMatches(bet, loadGames){
 						<td colspan="2">Enter your email address and we'll send you a link to reset your password.</td>
 					</tr>
 			   		<tr class="quinielatitulo">
-			   			<td  colspan="2"><input id="id" type="text" size="20" name="id" /></td>
+			   			<td  colspan="2"><input id="idForgot" type="text" size="20" name="id" /></td>
 			        </tr>
 			   		<tr class="quinielatitulo" align="right">
-			   			<td colspan="2"><button id="login_btn" class="button" name="signup" value="send">Send</button></td>
+			   			<td colspan="2"><button id="forgot_btn" class="button" name="signup" value="send">Send</button></td>
 			        </tr>
 		   		</table>
 		   		<div id="forgotPwdFormResponse">respuesta </div>
@@ -888,23 +892,23 @@ function getTableMatches(bet, loadGames){
 					</tr>
 			   		<tr>
 			   			<td class="partido">Username:</td>
-			   			<td class="partido"><input id="id" name="id" type="text"/></td>
+			   			<td class="partido"><input id="idSign" name="id" type="text"/></td>
 			        </tr>
 			   		<tr>
 			   			<td class="partido">Password:</td>
-			   			<td class="partido"><input type="password" name="pwd" id="pwd"/></td>
+			   			<td class="partido"><input type="password" name="pwd" id="pwdSign"/></td>
 			        </tr>
 			   		<tr>
 			   			<td class="partido">Name:</td>
-			   			<td class="partido"><input type="text" name="name" id="name"/></td>
+			   			<td class="partido"><input type="text" name="name" id="nameSign"/></td>
 			        </tr>
 			   		<tr>
 			   			<td class="partido">PhoneNumber:</td>
-			   			<td class="partido"><input type="text" name="phoneNumber" id="phoneNumber"/></td>
+			   			<td class="partido"><input type="text" name="phoneNumber" id="phoneNumberSign"/></td>
 			        </tr>
 			   		<tr align="right">
 			   			<td class="partido">&nbsp;</td>
-			   			<td class="partido"><button id="login_btn" class="button" name="signup" value="signup">signup</button></td>
+			   			<td class="partido"><button id="signup_btn" class="button" name="signup" value="signup">signup</button></td>
 			        </tr>
 		   		</table>
 	            <div id="signupFormResponse">respuesta </div>
