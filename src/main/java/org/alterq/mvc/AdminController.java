@@ -268,7 +268,7 @@ public class AdminController {
 	 * 
 	 * Descripcion: Get a new ramdom bet
 	 * */
-	private static String calcFinalQuiniela(int season, int round, int doubles, int triples, List<Bet> lBets){
+	private String calcFinalQuiniela(int season, int round, int doubles, int triples, List<Bet> lBets){
 		double [][]count1X2 = new double[15][3];
 		String aux ="";
 		
@@ -378,9 +378,16 @@ public class AdminController {
 		return aux;
 	}
 	
-	private static double calcUserWeight(String user){
+	private double calcUserWeight(String user){
 		
-		return 1.0;
+		UserAlterQ userAlterQ;
+		
+		userAlterQ = userAlterQDao.findById(user);
+		
+		if (userAlterQ!= null)
+			return userAlterQ.getWeight();
+		
+		return 0.0;
 	}
 	
 }
