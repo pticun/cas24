@@ -174,7 +174,7 @@ public class AdminController {
 			
 			//STEP 4.3 - Calc Quiniela Price and Round Jackpot
 			float price = calcQuinielaPrice(doubles, triples);
-			float jackpot = (float)(numBets * DEF_QUINIELA_BET_PRICE - price);
+			float jackpot = ((price==0)?(float)0:(float)(numBets * DEF_QUINIELA_BET_PRICE - price));
 			
 			//STEP 4.4 - Update RoundData
 			RoundBets rBets = roundBetDao.findAllBets(season, round);

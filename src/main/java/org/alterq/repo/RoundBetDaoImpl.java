@@ -34,7 +34,7 @@ public class RoundBetDaoImpl implements RoundBetDao {
 	public int countAllBets(int season, int round) {
 		Query query = new Query(Criteria.where("season").is(season).and("round").is(round));
 		RoundBets aux =mongoTemplate.findOne(query, RoundBets.class, COLLECTION_NAME);
-		return aux.getBets().size();
+		return (aux.getBets()==null?0:aux.getBets().size());
 	}
 
 	public RoundBets findAllUserBets(int season, int round, String user) {
