@@ -267,17 +267,17 @@ $(document).ready(function() {
 	$("#quinielaBtn").click(function(){
 		menuEvent($(this).text(), $(this).attr("href"));
     });
-	$("#myDataBtn").click(function(){
-		menuEvent($(this).text(), $(this).attr("href"));
+	$("#myDataBtn").on('click', function(event){
+		menuEvent($(this).text(),  "#mydataDiv");
     });
 	$("#myBalanceBtn").click(function(){
-		menuEvent($(this).text(), $(this).attr("href"));
+		menuEvent($(this).text(), "#mybalanceDiv");
     });
 	$("#myBetsBtn").click(function(){
-		menuEvent($(this).text(), $(this).attr("href"));
+		menuEvent($(this).text(), "#mybetsDiv");
     });
 	
-   	$('#mydataDiv').click(function(){
+   	$('mydataDiv').click(function(){
 		$(sMyDataRef).show();
    	});    	 
 	

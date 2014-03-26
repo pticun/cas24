@@ -62,6 +62,21 @@ public class AccountControllerTest {
 		Cookie c = result.getResponse().getCookie("session");
 		System.out.println("cookieSession:" + c.getValue());
 	}
+	@Test
+	public void updateUserAlterQ() throws Exception {
+		UserAlterQ bean = new UserAlterQ();
+		bean.setId("prueba@arroba.es");
+		bean.setPwd("password");
+		ObjectMapper mapper = new ObjectMapper();
+		ResultActions auth = this.mockMvc.perform(MockMvcRequestBuilders.post("/login").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsBytes(bean)));
+		MvcResult result = auth.andReturn();
+		MockHttpSession session = (MockHttpSession) result.getRequest().getSession();
+		auth.andDo(MockMvcResultHandlers.print());
+		Cookie c = result.getResponse().getCookie("session");
+		System.out.println("cookieSession:" + c.getValue());
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/myaccount/prueba@arroba.es/season/2014/round/14/bet").param("1_1", "on").param("season", "2014").param("round", "14").cookie(c)).andDo(MockMvcResultHandlers.print());
+	}
 
 	
 	

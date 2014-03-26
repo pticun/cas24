@@ -473,35 +473,18 @@ function getTableMatches(bet, loadGames){
                         	<li class="item-thumbs span1">
                             </li>
 							<!-- Item Project and Filter Name -->
-                        	<li class="item-thumbs span3">
-                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
-                            	<a class="hover-wrap" id="myDataBtn" href="#mydataDiv">
-                                	<span class="overlay-img"></span>
-                                    <span class="overlay-img-thumb font-icon-plus"></span>
-                                </a>
+                        	<li class="item-thumbs span3"  id="myDataBtn">
                                 <!-- Thumb Image and Description -->
                                 <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-02.jpg'/>" alt="Quiniela">
                             </li>
                         	<!-- End Item Project -->
 							<!-- Item Project and Filter Name -->
-                        	<li class="item-thumbs span3">
-                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
-                            	<a class="hover-wrap" id="myBalanceBtn" href="#mybalanceDiv">
-                                	<span class="overlay-img"></span>
-                                    <span class="overlay-img-thumb font-icon-plus"></span>
-                                </a>
-                                <!-- Thumb Image and Description -->
+                        	<li class="item-thumbs span3" id="myBalanceBtn">
                                 <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-03.jpg'/>" alt="Quiniela">
                             </li>
                         	<!-- End Item Project -->
 							<!-- Item Project and Filter Name -->
-                        	<li class="item-thumbs span3">
-                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
-                            	<a class="hover-wrap" id="myBetsBtn" href="#mybetsDiv">
-                                	<span class="overlay-img"></span>
-                                    <span class="overlay-img-thumb font-icon-plus"></span>
-                                </a>
-                                <!-- Thumb Image and Description -->
+                        	<li class="item-thumbs span3" id="myBetsBtn">
                                 <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-04.jpg'/>" alt="Quiniela">
                             </li>
                         	<!-- End Item Project -->

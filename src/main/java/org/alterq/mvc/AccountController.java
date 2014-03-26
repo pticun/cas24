@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.alterq.domain.GeneralData;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ErrorType;
@@ -49,9 +50,10 @@ public class AccountController {
 	// TODO get company from user, session .....
 	int company = 1;
 
-	@RequestMapping(method = RequestMethod.PUT, value = "/{id:.+}")
+	@RequestMapping(method = RequestMethod.PUT, produces = "application/json",value="/{id:.+}")
 	public @ResponseBody
-	ResponseDto updateUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id, UserAlterQ user) {
+	ResponseDto updateUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id,@RequestBody UserAlterQ user) {
+		//TODO error 406 (Not Acceptable) 
 		ResponseDto dto = new ResponseDto();
 		try {
 			userSecurity.isSameUserInSession(id, cookieSession);
