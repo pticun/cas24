@@ -50,7 +50,7 @@ public class AccountController {
 	// TODO get company from user, session .....
 	int company = 1;
 
-	@RequestMapping(method = RequestMethod.PUT, produces = "application/json",value="/{id:.+}")
+	@RequestMapping(method = RequestMethod.PUT, value="/{id:.+}/update")
 	public @ResponseBody
 	ResponseDto updateUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id,@RequestBody UserAlterQ user) {
 		//TODO error 406 (Not Acceptable) 

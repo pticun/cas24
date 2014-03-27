@@ -219,7 +219,7 @@ $(document).ready(function() {
    		 var dataJson=JSON.stringify($('form#myDataForm').serializeObject());
    		 consoleAlterQ('updateDataJsonAlterQ:'+dataJson);
 		 jQuery.ajax ({
-			    url: ctx+'/myaccount/'+ idUserAlterQ,
+			    url: ctx+'/myaccount/'+ idUserAlterQ +'/update',
 			    type: "PUT",
 			    data: dataJson,
 			    contentType: "application/json; charset=utf-8",
@@ -242,7 +242,7 @@ $(document).ready(function() {
   		 var dataJson=JSON.stringify($('form#balanceAlterQForm').serializeObject());
    		 consoleAlterQ('update:balanceAlterQForm:'+dataJson);
 		 jQuery.ajax ({
-			    url: ctx+'/myaccount/'+ idUserAlterQ,
+			    url: ctx+'/myaccount/'+ idUserAlterQ +'/update',
 			    type: "PUT",
 			    data: dataJson,
 			    contentType: "application/json; charset=utf-8",

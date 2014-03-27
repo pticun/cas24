@@ -75,7 +75,8 @@ public class AccountControllerTest {
 		auth.andDo(MockMvcResultHandlers.print());
 		Cookie c = result.getResponse().getCookie("session");
 		System.out.println("cookieSession:" + c.getValue());
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/myaccount/prueba@arroba.es/season/2014/round/14/bet").param("1_1", "on").param("season", "2014").param("round", "14").cookie(c)).andDo(MockMvcResultHandlers.print());
+		bean.setBalance("100");
+		this.mockMvc.perform(MockMvcRequestBuilders.put("/myaccount/prueba@arroba.es/update").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(bean)).cookie(c)).andDo(MockMvcResultHandlers.print());
 	}
 
 	
