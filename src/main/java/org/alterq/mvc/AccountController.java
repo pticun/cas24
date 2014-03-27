@@ -53,7 +53,6 @@ public class AccountController {
 	@RequestMapping(method = RequestMethod.PUT, value="/{id:.+}/update")
 	public @ResponseBody
 	ResponseDto updateUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id,@RequestBody UserAlterQ user) {
-		//TODO error 406 (Not Acceptable) 
 		ResponseDto dto = new ResponseDto();
 		try {
 			userSecurity.isSameUserInSession(id, cookieSession);

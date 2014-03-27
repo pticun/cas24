@@ -534,7 +534,7 @@ function getTableMatches(bet, loadGames){
 		        </tr>
 		   		<tr align="right">
 		   			<td class="partido"></td>
-		   			<td class="partido"><button type="submit" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
+		   			<td class="partido"><button id="myDataFormSubmit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
 		        </tr>
 		        </table>
 		        	<div id="userAlterQFormResponse">Actualiza tus datos y pulsa Enviar.</div>
@@ -578,7 +578,7 @@ function getTableMatches(bet, loadGames){
 		        </tr>
 		   		<tr align="right">
 		   			<td class="partido"></td>
-		   			<td class="partido"><button type="button" id="submit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
+		   			<td class="partido"><button id="balanceAlterQFormSubmit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
 		        </tr>
 		   		</table>
 		         <div id="balanceAlterQFormResponse">Actualiza tu saldo y pulsa Enviar.</div>
