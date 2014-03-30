@@ -516,26 +516,25 @@ function getTableMatches(bet, loadGames){
 		<div align="center">
 		   <form id="myDataForm">
 		   		<table class="quiniela">
-		   			<TR class="quinielatitulo">
-						<TD colspan="2">My Account</TD>
-						</TR>
-		   		
-		   		<tr>
-		   			<td class="partido">Username:</td>
-		   			<td class="partido"><input id="idData" name="id" type="text" readonly="readonly"/></td>
-		        </tr>
-		   		<tr>
-		   			<td class="partido">Name:</td>
-		   			<td class="partido"><input name="name" id="nameData" type="text"/></td>
-		        </tr>
-		   		<tr>
-		   			<td class="partido">Phone Number:</td>
-		   			<td class="partido"><input name="phoneNumber" id="phoneNumberData" type="text"/></td>
-		        </tr>
-		   		<tr align="right">
-		   			<td class="partido"></td>
-		   			<td class="partido"><button id="myDataFormSubmit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
-		        </tr>
+		   			<tr class="quinielatitulo">
+						<td colspan="2">My Account</td>
+					</tr>
+			   		<tr>
+			   			<td class="partido">Username:</td>
+			   			<td class="partido"><input id="idData" name="id" type="text" readonly="readonly"/></td>
+			        </tr>
+			   		<tr>
+			   			<td class="partido">Name:</td>
+			   			<td class="partido"><input name="name" id="nameData" type="text"/></td>
+			        </tr>
+			   		<tr>
+			   			<td class="partido">Phone Number:</td>
+			   			<td class="partido"><input name="phoneNumber" id="phoneNumberData" type="text"/></td>
+			        </tr>
+			   		<tr align="right">
+			   			<td class="partido"></td>
+			   			<td class="partido"><button id="myDataFormSubmit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
+			        </tr>
 		        </table>
 		        	<div id="userAlterQFormResponse">Actualiza tus datos y pulsa Enviar.</div>
 	        </form>
@@ -564,22 +563,21 @@ function getTableMatches(bet, loadGames){
 		<div align="center">
 		   <form id="balanceAlterQForm">
 		   		<table class="quiniela">
-		   			<TR class="quinielatitulo">
-						<TD colspan="2">Saldo</TD>
-						</TR>
-		   		
-		   		<tr>
-		   			<td class="partido">Username:</td>
-		   			<td class="partido"><input id="idSaldo" name="id" type="text" readonly="readonly"/></td>
-		        </tr>
-		   		<tr>
-		   			<td class="partido">Saldo:</td>
-		   			<td class="partido"><input name="balance" id="balanceSaldo" type="text"/></td>
-		        </tr>
-		   		<tr align="right">
-		   			<td class="partido"></td>
-		   			<td class="partido"><button id="balanceAlterQFormSubmit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
-		        </tr>
+		   			<tr class="quinielatitulo">
+						<td colspan="2">Saldo</td>
+					</tr>
+			   		<tr>
+			   			<td class="partido">Username:</td>
+			   			<td class="partido"><input id="idSaldo" name="id" type="text" readonly="readonly"/></td>
+			        </tr>
+			   		<tr>
+			   			<td class="partido">Saldo:</td>
+			   			<td class="partido"><input name="balance" id="balanceSaldo" type="text"/></td>
+			        </tr>
+			   		<tr align="right">
+			   			<td class="partido"></td>
+			   			<td class="partido"><button id="balanceAlterQFormSubmit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
+			        </tr>
 		   		</table>
 		         <div id="balanceAlterQFormResponse">Actualiza tu saldo y pulsa Enviar.</div>
 	        </form>
@@ -834,7 +832,7 @@ function getTableMatches(bet, loadGames){
 						<td colspan="2">Enter your email address and we'll send you a link to reset your password.</td>
 					</tr>
 			   		<tr class="quinielatitulo">
-			   			<td  colspan="2"><input id="idForgot" type="text" size="20" name="id" /></td>
+			   			<td  colspan="2"><input id="idForgot" type="text" size="20" name="id" placeholder="idLogin"/></td>
 			        </tr>
 			   		<tr class="quinielatitulo" align="right">
 			   			<td colspan="2"><button id="forgot_btn" class="button" name="signup" value="send">Send</button></td>
@@ -871,26 +869,21 @@ function getTableMatches(bet, loadGames){
 		   <form id="signupForm">
 		   		<table class="quiniela">
 		   			<tr class="quinielatitulo">
-						<td colspan="2">Sign up</td>
+						<td colspan="1">Sign up</td>
 					</tr>
 			   		<tr>
-			   			<td class="partido">Username:</td>
-			   			<td class="partido"><input id="idSign" name="id" type="text"/></td>
+			   			<td class="partido"><input id="idSign" name="id" type="text" placeholder="Login"/></td>
 			        </tr>
 			   		<tr>
-			   			<td class="partido">Password:</td>
-			   			<td class="partido"><input type="password" name="pwd" id="pwdSign"/></td>
+			   			<td class="partido"><input type="password" name="pwd" id="pwdSign" placeholder="password"/></td>
 			        </tr>
 			   		<tr>
-			   			<td class="partido">Name:</td>
-			   			<td class="partido"><input type="text" name="name" id="nameSign"/></td>
+			   			<td class="partido"><input type="text" name="name" id="nameSign" placeholder="name"/></td>
 			        </tr>
 			   		<tr>
-			   			<td class="partido">PhoneNumber:</td>
-			   			<td class="partido"><input type="text" name="phoneNumber" id="phoneNumberSign"/></td>
+			   			<td class="partido"><input type="text" name="phoneNumber" id="phoneNumberSign" placeholder="Phone Number"/></td>
 			        </tr>
 			   		<tr align="right">
-			   			<td class="partido">&nbsp;</td>
 			   			<td class="partido"><button id="signup_btn" class="button" name="signup" value="signup">signup</button></td>
 			        </tr>
 		   		</table>
