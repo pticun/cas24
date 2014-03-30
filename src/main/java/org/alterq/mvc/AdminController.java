@@ -238,8 +238,8 @@ public class AdminController {
 	}
 	
 	private static void calcDoublesAndTriples(int numBets){
-		triples = ((numBets>3)?(numBets / 3):0);
-		doubles = (((numBets - (triples*3))>2)?((numBets - (triples*3)) / 2):0);
+		triples = (int) ((numBets<3)?0:(Math.log(numBets)/Math.log(3)));
+		doubles = (int) (((numBets - Math.pow(3, triples))<2)?0:(Math.log((int)(numBets / Math.pow(3, triples)))/Math.log(2)));
 		
 	}
 	
@@ -308,21 +308,27 @@ public class AdminController {
 			if ((count1X2[j][0]>=count1X2[j][1]) && (count1X2[j][0]>=count1X2[j][2]))
 			{
 				count1X2[j][0]= -1;
-			}
-			if ((count1X2[j][1]>=count1X2[j][0]) && (count1X2[j][1]>=count1X2[j][2]))
+				continue;
+			}else if ((count1X2[j][1]>=count1X2[j][0]) && (count1X2[j][1]>=count1X2[j][2]))
 			{
 				count1X2[j][1]= -1;
-			}
-			if ((count1X2[j][2]>=count1X2[j][0]) && (count1X2[j][2]>=count1X2[j][1]))
+				continue;
+				
+			}else if ((count1X2[j][2]>=count1X2[j][0]) && (count1X2[j][2]>=count1X2[j][1]))
 			{
 				count1X2[j][2]= -1;
+				continue;
+			}else{
+				count1X2[j][0]= -1;
 			}
+				
 		}
 		//Select Doubles
 		int aX  =0;
 		int aY  =0;
 		double max = count1X2[0][0];
 		for (int i=0; i<doubles; i++){
+			max=0;
 			for(int j=0; j<15; j++){
 				for (int k=0; k<3; k++)
 				{
@@ -341,7 +347,7 @@ public class AdminController {
 		aX  =0;
 		max = count1X2[0][0];
 		for (int i=0; i<triples; i++){
-			
+			max=0;
 			for(int j=0; j<15; j++){
 				for (int k=0; k<3; k++)
 				{
