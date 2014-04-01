@@ -30,8 +30,8 @@
 
 <!-- Bootstrap -->
 <!-- <link href="_include/css/bootstrap.min.css" rel="stylesheet"> --> 
-<!-- <link href="<c:url value="/static/resources/_include/css/bootstrap.min.css"/>" rel="stylesheet"> -->
-<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+ <link href="<c:url value="/static/resources/_include/css/bootstrap.min.css"/>" rel="stylesheet"> 
+<!--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">-->
 
 <!-- Main Style -->
 <!-- <link href="_include/css/main.css" rel="stylesheet">-->
@@ -467,30 +467,9 @@ function getTableMatches(bet, loadGames){
 
     	<div class="row">
             <div class="span12">
-
-            			<ul>
-							<!-- Item Project and Filter Name -->
-                        	<li class="item-thumbs span1">
-                            </li>
-							<!-- Item Project and Filter Name -->
-                        	<li class="item-thumbs span3"  id="myDataBtn">
-                                <!-- Thumb Image and Description -->
-                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-02.jpg'/>" alt="Quiniela">
-                            </li>
-                        	<!-- End Item Project -->
-							<!-- Item Project and Filter Name -->
-                        	<li class="item-thumbs span3" id="myBalanceBtn">
-                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-03.jpg'/>" alt="Quiniela">
-                            </li>
-                        	<!-- End Item Project -->
-							<!-- Item Project and Filter Name -->
-                        	<li class="item-thumbs span3" id="myBetsBtn">
-                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-04.jpg'/>" alt="Quiniela">
-                            </li>
-                        	<!-- End Item Project -->
-
-            			</ul>
-
+            	<div class="well" id="myDataBtn">Mis Datos</div>
+            	<div class="well" id="myBalanceBtn">Mi Saldo</div>
+            	<div class="well" id="myBetsBtn">Mis Apuestas</div>
             </div>
         </div>
 </div>
