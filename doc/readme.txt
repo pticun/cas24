@@ -133,6 +133,9 @@ Comentarios GIT
 
 Plantilla html5 (bootstrap-twitter) usado bajado de
 	 http://www.alessioatzeni.com/blog/brushed-template/
+	 
+Hay más plantillas en http://bootswatch.com/
+	la más parecida http://bootswatch.com/	 
 
 
 
