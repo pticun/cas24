@@ -8,6 +8,7 @@ import org.alterq.domain.Bet;
 import org.alterq.domain.GeneralData;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
+import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.SessionAlterQDao;
@@ -394,6 +395,27 @@ public class AdminController {
 			return userAlterQ.getWeight();
 		
 		return 0.0;
+	}
+
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/resultBet/{resultBet}")
+	public @ResponseBody 
+	ResponseDto  resutlBetRound(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable String resultBet) {
+		ResponseDto dto = new ResponseDto();
+
+		//RESULT ROUND STEPS
+		//---------------------
+
+		//STEP 1: get users with bet
+		
+		//STEP 2: calc user right signs
+		
+		//STEP 3: update users weight
+		
+		//STEP 4: update round ranking
+		
+		//SETP 5: update global ranking
+		
+		return dto;
 	}
 	
 }
