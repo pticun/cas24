@@ -401,21 +401,145 @@ public class AdminController {
 	public @ResponseBody 
 	ResponseDto  resutlBetRound(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable String resultBet) {
 		ResponseDto dto = new ResponseDto();
+		UserAlterQ userAlterQ;
 
 		//RESULT ROUND STEPS
 		//---------------------
 
 		//STEP 1: get users with bet
-		
-		//STEP 2: calc user right signs
-		
-		//STEP 3: update users weight
-		
-		//STEP 4: update round ranking
-		
-		//SETP 5: update global ranking
+		RoundBets bean = roundBetDao.findAllBets(season, round);
+		List<Bet> lBets = bean.getBets();
+		for (Bet bet : lBets){
+			String apu = bet.getBet();
+			String user = bet.getUser();
+			userAlterQ = userAlterQDao.findById(user);
+			
+			if (userAlterQ== null){
+				log.debug("closeRound: user("+user+") Error resultBet user not find");  
+				//STEP 1.1.error - Send an email to the admin ("ERROR resultBet user not find")
+				continue;
+			}
+
+			//STEP 2: calc user right signs
+			int[] vAciertos = calcUserRightSigns(resultBet, apu, userAlterQ, company);
+			if (vAciertos[0] == -1){
+				log.debug("closeRound: user("+user+") Error updating right sings");  
+				//STEP 2.1.error - Send an email to the admin ("ERROR updating user rigth signs")
+				continue;
+			}
+			
+			//revisar: solo tiene que actualizar la apuesta en la que ha tenido mas aciertos.
+			//STEP 3: update users weight
+			updateUserWeight(userAlterQ, vAciertos[0]);
+			//STEP 4: update round ranking
+			updateRoundRanking(company, userAlterQ, vAciertos[0], vAciertos[3], vAciertos[2], vAciertos[1]);
+			//SETP 5: update global ranking
+			updateGlobalRanking(company, userAlterQ, vAciertos[0]);
+			//fin revisar-------------------------------------------------------------------
+			
+		}
 		
 		return dto;
 	}
 	
+	/**
+	 * Function calcUserRightSigns that calcs bet user's right sings
+	 * 
+	 * ResultBet Signs:
+	 * 	1   = 100 = 4
+	 * 	 X  = 010 = 2
+	 *    2 = 001 = 1
+	 *  
+	 * Bet Signs:
+	 * 	1   = 100 = 4
+	 * 	 X  = 010 = 2
+	 *    2 = 001 = 1
+	 *  1X  = 110 = 6
+	 *  1 2 = 101 = 5
+	 *   X2 = 011 = 3
+	 *  1X2 = 111 = 7
+
+	 *   Gets users Bets, and calculate right signs for each bet
+	 * @return int[]   
+	 * Devuelve un vector de int donde:
+	 * int[0] es el numero de aciertos
+	 * int[1] es el número de doses acertados
+	 * int[2] es el número de equis acertadas
+	 * int[3] es el número de unos acertados
+	 *
+	 * @param String resultBet : result round bet
+	 * @param String apu : user bet
+	 * @param String user : user id
+	 * 
+	 * Descripcion: Calculate right signs for each user bet
+	 * */
+	
+	private int[] calcUserRightSigns(String resultBet, String apu, UserAlterQ user, int company){
+		
+		int rdo, doses, equis, unos;
+		int [] salida = new int[4];
+		salida[0]=salida[1]=salida[2]= salida[3]= -1;
+		
+		rdo = 0;
+		doses = 0;
+		equis = 0;
+		unos = 0;
+		
+		int singBet;
+		int singRes;
+		
+		for (int i = 0; i<apu.length(); i++){
+			singBet = Integer.parseInt(apu.substring(i, i+1));
+			singRes = Integer.parseInt(resultBet.substring(i, i+1));		
+			switch (singRes)
+			{
+			case 4:// sign 1
+				if ((singBet == 4) || (singBet == 6) || (singBet == 5) || (singBet == 7)){
+					rdo++;
+					unos++;
+				}
+				break;
+			case 2://sign X
+				if ((singBet == 2) || (singBet == 3) || (singBet == 6) || (singBet == 7)){
+					rdo++;
+					equis++;
+				}
+				break;
+			case 1: //sign 2
+				if ((singBet == 1) || (singBet == 3) || (singBet == 5) || (singBet == 7)){
+					rdo++;
+					doses++;
+				}
+				break;
+			default: //something wrong
+				break;
+			}
+		}
+		
+		//Asignamos los resultados al vector final
+		//Numero de apuestas acertadas
+		salida[0]=rdo;
+		//Número de doses acertados
+		salida[1]= doses;
+		//Número de equis acertadas
+		salida[2]= equis;
+		//Número de unos acertados
+		salida[3]= unos;
+		
+		return salida;
+	}
+	
+	private void updateUserWeight(UserAlterQ user, int rightSigns){
+		double oldWeight = user.getWeight();
+		
+		user.setWeight(oldWeight+rightSigns);
+		
+		return;
+	}
+	
+	private void updateRoundRanking(int company, UserAlterQ user, int points, int ones, int equs, int twos){
+	}
+	
+	private void updateGlobalRanking(int company, UserAlterQ user, int points){
+	}
 }
