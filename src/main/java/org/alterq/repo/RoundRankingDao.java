@@ -6,8 +6,11 @@ import org.alterq.domain.RoundRanking;
 
 public interface RoundRankingDao {
 	public RoundRanking findRanking(int company, int season, int round);
+	public RoundRanking findRankingGlobal(int company, int season);
 	
 	public boolean addRanking(int company, int season, int round, Ranking ranking);
+	public boolean addRankingGlobal(int company, int season, Ranking ranking);
+	
 	public void add(RoundRanking bean);
 	
 	public boolean deleteRanking(int company, int season, int round);

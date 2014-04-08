@@ -20,6 +20,12 @@ public class RoundRankingDaoImpl implements RoundRankingDao {
 		RoundRanking aux =mongoTemplate.findOne(query, RoundRanking.class, COLLECTION_NAME);
 		return aux;
 	}
+	
+	public RoundRanking findRankingGlobal(int company, int season) {
+		Query query = new Query(Criteria.where("company").is(company).and("season").is(season).and("round").is(-1));
+		RoundRanking aux =mongoTemplate.findOne(query, RoundRanking.class, COLLECTION_NAME);
+		return aux;
+	}
 
 	public boolean addRanking(int company, int season, int round, Ranking ranking){
 		Query query = new Query();
@@ -32,6 +38,17 @@ public class RoundRankingDaoImpl implements RoundRankingDao {
 		return true;
 	}
 	
+	public boolean addRankingGlobal(int company, int season, Ranking ranking){
+		Query query = new Query();
+		query.addCriteria(Criteria.where("company").is(company).and("season").is(season).and("round").is(-1));
+ 
+		Update update = new Update();
+		update.push("rankings", ranking);
+ 
+		mongoTemplate.upsert(query, update, RoundRanking.class);
+		return true;
+	}
+
 	public boolean deleteRanking(int company, int season, int round){
 		Query query = new Query();
 		query.addCriteria(Criteria.where("company").is(company).and("season").is(season).and("round").is(round));

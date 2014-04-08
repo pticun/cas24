@@ -6,11 +6,13 @@ import java.util.List;
 
 import org.alterq.domain.Bet;
 import org.alterq.domain.GeneralData;
+import org.alterq.domain.Ranking;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.repo.GeneralDataDao;
+import org.alterq.repo.RoundRankingDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.UserAlterQDao;
@@ -40,6 +42,9 @@ public class AdminController {
 	private RoundBetDao roundBetDao;
 	@Autowired
 	private UserAlterQDao userAlterQDao;
+	@Autowired
+	private RoundRankingDao roundRankingDao;
+	
 	
 	private static int doubles = 0;
 	private static int triples = 0;
@@ -407,6 +412,11 @@ public class AdminController {
 		//---------------------
 
 		//STEP 1: get users with bet
+		String lastUser = null;
+		UserAlterQ lastUserAlterQ = null;
+		
+		int[] vMaxAciertos = {0,0,0,0};
+		boolean bUpdate = false;
 		RoundBets bean = roundBetDao.findAllBets(season, round);
 		List<Bet> lBets = bean.getBets();
 		for (Bet bet : lBets){
@@ -427,16 +437,60 @@ public class AdminController {
 				//STEP 2.1.error - Send an email to the admin ("ERROR updating user rigth signs")
 				continue;
 			}
+			if (lastUser!=null)
+			{
+				if (user.equals(lastUser)){
+					if (vMaxAciertos[0]<vAciertos[0])
+					{
+						vMaxAciertos[0] = vAciertos[0];
+						vMaxAciertos[1] = vAciertos[1];
+						vMaxAciertos[2] = vAciertos[2];
+						vMaxAciertos[3] = vAciertos[3];
+					}
+					bUpdate = false;
+				}				
+				else{
+					lastUser = user;
+					lastUserAlterQ = userAlterQ;
+					vMaxAciertos[0] = vAciertos[0];
+					vMaxAciertos[1] = vAciertos[1];
+					vMaxAciertos[2] = vAciertos[2];
+					vMaxAciertos[3] = vAciertos[3];
+					bUpdate = true;
+				}
+			}else{
+				lastUser = user;
+				lastUserAlterQ = userAlterQ;
+				vMaxAciertos[0] = vAciertos[0];
+				vMaxAciertos[1] = vAciertos[1];
+				vMaxAciertos[2] = vAciertos[2];
+				vMaxAciertos[3] = vAciertos[3];
+				bUpdate = false;
+			}
 			
-			//revisar: solo tiene que actualizar la apuesta en la que ha tenido mas aciertos.
+			
+			//Update iter user
+			if (bUpdate)
+			{
+				//STEP 3: update users weight
+				updateUserWeight(userAlterQ, vMaxAciertos[0]);
+				//STEP 4: update round ranking
+				updateRoundRanking(company, season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
+				//SETP 5: update global ranking
+				updateGlobalRanking(company, season, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
+				
+				bUpdate = false;
+			}
+		}
+		//Update last user
+		if (bUpdate)
+		{
 			//STEP 3: update users weight
-			updateUserWeight(userAlterQ, vAciertos[0]);
+			updateUserWeight(lastUserAlterQ, vMaxAciertos[0]);
 			//STEP 4: update round ranking
-			updateRoundRanking(company, userAlterQ, vAciertos[0], vAciertos[3], vAciertos[2], vAciertos[1]);
+			updateRoundRanking(company, season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
 			//SETP 5: update global ranking
-			updateGlobalRanking(company, userAlterQ, vAciertos[0]);
-			//fin revisar-------------------------------------------------------------------
-			
+			updateGlobalRanking(company, season, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
 		}
 		
 		return dto;
@@ -534,12 +588,32 @@ public class AdminController {
 		
 		user.setWeight(oldWeight+rightSigns);
 		
+		userAlterQDao.save(user);
+		
 		return;
 	}
 	
-	private void updateRoundRanking(int company, UserAlterQ user, int points, int ones, int equs, int twos){
+	private void updateRoundRanking(int company, int season, int round, UserAlterQ user, int points, int ones, int equs, int twos){
+		Ranking rnk = new Ranking();
+		rnk.setCompany(company);
+		rnk.setOnes(ones);
+		rnk.setEqus(equs);
+		rnk.setTwos(twos);
+		rnk.setPoints(points);
+		rnk.setUser(user);
+		
+		roundRankingDao.addRanking(company, season, round, rnk);
 	}
 	
-	private void updateGlobalRanking(int company, UserAlterQ user, int points){
+	private void updateGlobalRanking(int company, int season, UserAlterQ user, int points, int ones, int equs, int twos){
+		Ranking rnk = new Ranking();
+		rnk.setCompany(company);
+		rnk.setOnes(ones);
+		rnk.setEqus(equs);
+		rnk.setTwos(twos);
+		rnk.setPoints(points);
+		rnk.setUser(user);
+
+		roundRankingDao.addRankingGlobal(company, season, rnk);
 	}
 }
