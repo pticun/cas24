@@ -66,4 +66,17 @@ public class AdminControllerTest {
 		//System.out.println("new GeneralData.active:" + bean.isActive());
 		//Assert.assertTrue(bean.isActive());
 	}
+	
+	@Test
+	public void AA_resultBetRound() throws Exception {
+		//GeneralData bean = new GeneralData();
+		//ObjectMapper mapper = new ObjectMapper();
+		
+		ResultActions ra = this.mockMvc.perform(post("/admin/company/1/season/2014/round/12/resultBet/1X21X22221X2111"));
+		ra.andDo(MockMvcResultHandlers.print());
+		ra.andExpect(status().isOk());
+		//bean = mapper.readValue(ra.andReturn().getResponse().getContentAsString(), GeneralData.class);
+		//System.out.println("new GeneralData.active:" + bean.isActive());
+		//Assert.assertTrue(bean.isActive());
+	}
 }

@@ -616,4 +616,14 @@ public class AdminController {
 
 		roundRankingDao.addRankingGlobal(company, season, rnk);
 	}
+	
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/price15/{count15}/{amount15}/price14/{count14}/{amount14}/price13/{count13}/{amount13}/price12/{count12}/{amount12}/price11/{count11}/{amount11}/price10/{count10}/{amount10}")
+	public @ResponseBody 
+	ResponseDto  pricesRound(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int count15, @PathVariable double amount15, @PathVariable int count14, @PathVariable double amount14, @PathVariable int count13, @PathVariable double amount13, @PathVariable int count12, @PathVariable double amount12, @PathVariable int count11, @PathVariable double amount11, @PathVariable int count10, @PathVariable double amount10) {
+		ResponseDto dto = new ResponseDto();
+		RoundBets roundBets;
+		
+		return dto;
+	}
+	
 }
