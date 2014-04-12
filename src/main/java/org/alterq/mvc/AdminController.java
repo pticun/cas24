@@ -622,6 +622,55 @@ public class AdminController {
 	ResponseDto  pricesRound(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int count15, @PathVariable double amount15, @PathVariable int count14, @PathVariable double amount14, @PathVariable int count13, @PathVariable double amount13, @PathVariable int count12, @PathVariable double amount12, @PathVariable int count11, @PathVariable double amount11, @PathVariable int count10, @PathVariable double amount10) {
 		ResponseDto dto = new ResponseDto();
 		RoundBets roundBets;
+		int numBets;
+		double rewardGlobal;
+		double betReward = 0;
+		UserAlterQ userAlterQ;
+		
+		
+		roundBets = roundBetDao.findAllBets(season, round);
+		
+		roundBets.setHit10(count10);
+		roundBets.setReward10((float)amount10);
+		
+		roundBets.setHit11(count11);
+		roundBets.setReward11((float)amount11);
+
+		roundBets.setHit12(count12);
+		roundBets.setReward12((float)amount12);
+
+		roundBets.setHit13(count13);
+		roundBets.setReward13((float)amount13);
+
+		roundBets.setHit14(count14);
+		roundBets.setReward14((float)amount14);
+
+		roundBets.setHit15(count15);
+		roundBets.setReward15((float)amount15);
+		
+		numBets = roundBets.getBets().size();
+		rewardGlobal = roundBets.getJackpot() + count15*amount15 + count14*amount14 + count13*amount13 + count12*amount12 + count11*amount11 + count10*amount10; 
+		
+		betReward = rewardGlobal / numBets;
+		
+		
+		List<Bet> lBets = roundBets.getBets();
+		for (Bet bet : lBets){
+			String user = bet.getUser();
+			
+			userAlterQ = userAlterQDao.findById(user);
+			
+			if (userAlterQ== null){
+				log.debug("pricesRound: user("+user+") Error resultBet user not find");  
+				//STEP 1.1.error - Send an email to the admin ("ERROR pricesRound user not find")
+				continue;
+			}
+			
+			userAlterQ.setBalance(userAlterQ.getBalance() + betReward);
+			userAlterQDao.save(userAlterQ);
+		}		
+		
+		roundBetDao.update(roundBets);
 		
 		return dto;
 	}
