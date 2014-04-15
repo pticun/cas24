@@ -1,17 +1,21 @@
 package org.alterq.mvc;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.alterq.domain.Bet;
+import org.alterq.domain.Game;
 import org.alterq.domain.GeneralData;
 import org.alterq.domain.Ranking;
+import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.repo.GeneralDataDao;
+import org.alterq.repo.RoundDao;
 import org.alterq.repo.RoundRankingDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.RoundBetDao;
@@ -44,6 +48,8 @@ public class AdminController {
 	private UserAlterQDao userAlterQDao;
 	@Autowired
 	private RoundRankingDao roundRankingDao;
+	@Autowired
+	private RoundDao roundDao;
 	
 	
 	private static int doubles = 0;
@@ -617,9 +623,9 @@ public class AdminController {
 		roundRankingDao.addRankingGlobal(company, season, rnk);
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/price15/{count15}/{amount15}/price14/{count14}/{amount14}/price13/{count13}/{amount13}/price12/{count12}/{amount12}/price11/{count11}/{amount11}/price10/{count10}/{amount10}")
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/prize15/{count15}/{amount15}/prize14/{count14}/{amount14}/prize13/{count13}/{amount13}/prize12/{count12}/{amount12}/prize11/{count11}/{amount11}/prize10/{count10}/{amount10}")
 	public @ResponseBody 
-	ResponseDto  pricesRound(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int count15, @PathVariable double amount15, @PathVariable int count14, @PathVariable double amount14, @PathVariable int count13, @PathVariable double amount13, @PathVariable int count12, @PathVariable double amount12, @PathVariable int count11, @PathVariable double amount11, @PathVariable int count10, @PathVariable double amount10) {
+	ResponseDto  prizesRound(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int count15, @PathVariable float amount15, @PathVariable int count14, @PathVariable float amount14, @PathVariable int count13, @PathVariable float amount13, @PathVariable int count12, @PathVariable float amount12, @PathVariable int count11, @PathVariable float amount11, @PathVariable int count10, @PathVariable float amount10) {
 		ResponseDto dto = new ResponseDto();
 		RoundBets roundBets;
 		int numBets;
@@ -631,22 +637,22 @@ public class AdminController {
 		roundBets = roundBetDao.findAllBets(season, round);
 		
 		roundBets.setHit10(count10);
-		roundBets.setReward10((float)amount10);
+		roundBets.setReward10(amount10);
 		
 		roundBets.setHit11(count11);
-		roundBets.setReward11((float)amount11);
+		roundBets.setReward11(amount11);
 
 		roundBets.setHit12(count12);
-		roundBets.setReward12((float)amount12);
+		roundBets.setReward12(amount12);
 
 		roundBets.setHit13(count13);
-		roundBets.setReward13((float)amount13);
+		roundBets.setReward13(amount13);
 
 		roundBets.setHit14(count14);
-		roundBets.setReward14((float)amount14);
+		roundBets.setReward14(amount14);
 
 		roundBets.setHit15(count15);
-		roundBets.setReward15((float)amount15);
+		roundBets.setReward15(amount15);
 		
 		numBets = roundBets.getBets().size();
 		rewardGlobal = roundBets.getJackpot() + count15*amount15 + count14*amount14 + count13*amount13 + count12*amount12 + count11*amount11 + count10*amount10; 
@@ -666,7 +672,7 @@ public class AdminController {
 				continue;
 			}
 			
-			userAlterQ.setBalance(userAlterQ.getBalance() + betReward);
+			userAlterQ.setBalance(Double.toString( Double.parseDouble(userAlterQ.getBalance())  + betReward));
 			userAlterQDao.save(userAlterQ);
 		}		
 		
@@ -675,4 +681,111 @@ public class AdminController {
 		return dto;
 	}
 	
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/{local01}/{visitor01}/{local02}/{visitor02}/{local03}/{visitor03}/{local04}/{visitor04}/{local05}/{visitor05}/{local06}/{visitor06}/{local07}/{visitor07}/{local08}/{visitor08}/{local09}/{visitor09}/{local10}/{visitor10}/{local11}/{visitor11}/{local12}/{visitor12}/{local13}/{visitor13}/{local14}/{visitor14}/{local15}/{visitor15}")
+	public @ResponseBody 
+	ResponseDto  addRoundGames(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable String local01, @PathVariable String visitor01, @PathVariable String local02, @PathVariable String visitor02, @PathVariable String local03, @PathVariable String visitor03, @PathVariable String local04, @PathVariable String visitor04, @PathVariable String local05, @PathVariable String visitor05, @PathVariable String local06, @PathVariable String visitor06, @PathVariable String local07, @PathVariable String visitor07, @PathVariable String local08, @PathVariable String visitor08, @PathVariable String local09, @PathVariable String visitor09, @PathVariable String local10, @PathVariable String visitor10, @PathVariable String local11, @PathVariable String visitor11, @PathVariable String local12, @PathVariable String visitor12, @PathVariable String local13, @PathVariable String visitor13, @PathVariable String local14, @PathVariable String visitor14, @PathVariable String local15, @PathVariable String visitor15) {
+		ResponseDto dto = new ResponseDto();
+		Round myRound = new Round();
+		List<Game> lGames = new ArrayList<Game>();
+		
+		myRound.setCompany(company);
+		myRound.setSeason(season);
+		myRound.setRound(round);
+		
+		Game game01 = new Game();
+		game01.setId(1);
+		game01.setPlayer1(local01);
+		game01.setPlayer2(visitor01);
+		lGames.add(game01);
+		
+		Game game02 = new Game();
+		game02.setId(2);
+		game02.setPlayer1(local02);
+		game02.setPlayer2(visitor02);
+		lGames.add(game02);
+
+		Game game03 = new Game();
+		game03.setId(3);
+		game03.setPlayer1(local03);
+		game03.setPlayer2(visitor03);
+		lGames.add(game03);
+
+		Game game04 = new Game();
+		game04.setId(4);
+		game04.setPlayer1(local04);
+		game04.setPlayer2(visitor04);
+		lGames.add(game04);
+
+		Game game05 = new Game();
+		game05.setId(5);
+		game05.setPlayer1(local05);
+		game05.setPlayer2(visitor05);
+		lGames.add(game05);
+
+		Game game06 = new Game();
+		game06.setId(6);
+		game06.setPlayer1(local06);
+		game06.setPlayer2(visitor06);
+		lGames.add(game06);
+
+		Game game07 = new Game();
+		game07.setId(7);
+		game07.setPlayer1(local07);
+		game07.setPlayer2(visitor07);
+		lGames.add(game07);
+
+		Game game08 = new Game();
+		game08.setId(8);
+		game08.setPlayer1(local08);
+		game08.setPlayer2(visitor08);
+		lGames.add(game08);
+
+		Game game09 = new Game();
+		game09.setId(9);
+		game09.setPlayer1(local09);
+		game09.setPlayer2(visitor09);
+		lGames.add(game09);
+
+		Game game10 = new Game();
+		game10.setId(10);
+		game10.setPlayer1(local10);
+		game10.setPlayer2(visitor10);
+		lGames.add(game10);
+
+		Game game11 = new Game();
+		game11.setId(11);
+		game11.setPlayer1(local11);
+		game11.setPlayer2(visitor11);
+		lGames.add(game11);
+
+		Game game12 = new Game();
+		game12.setId(12);
+		game12.setPlayer1(local12);
+		game12.setPlayer2(visitor12);
+		lGames.add(game12);
+
+		Game game13 = new Game();
+		game13.setId(2);
+		game13.setPlayer1(local13);
+		game13.setPlayer2(visitor13);
+		lGames.add(game13);
+
+		Game game14 = new Game();
+		game14.setId(14);
+		game14.setPlayer1(local14);
+		game14.setPlayer2(visitor14);
+		lGames.add(game14);
+
+		Game game15 = new Game();
+		game15.setId(15);
+		game15.setPlayer1(local15);
+		game15.setPlayer2(visitor15);
+		lGames.add(game15);
+
+		myRound.setGames(lGames);
+		
+		roundDao.addRound(myRound);
+		
+		return dto;
+	}
 }
