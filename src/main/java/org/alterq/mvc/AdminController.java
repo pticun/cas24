@@ -2,6 +2,8 @@ package org.alterq.mvc;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -423,8 +425,20 @@ public class AdminController {
 		
 		int[] vMaxAciertos = {0,0,0,0};
 		boolean bUpdate = false;
+	
 		RoundBets bean = roundBetDao.findAllBets(season, round);
+		
+		//OJO!! hay que ordenar las apuestas por usuario para que funcione.
 		List<Bet> lBets = bean.getBets();
+		
+		Collections.sort(lBets, new Comparator<Bet>() {
+			@Override
+			public int compare(Bet p1, Bet p2) {
+				// Aqui esta el truco, ahora comparamos p2 con p1 y no al reves como antes
+				return p2.getUser().compareTo(p1.getUser());
+			}
+		});
+		
 		for (Bet bet : lBets){
 			String apu = bet.getBet();
 			String user = bet.getUser();
@@ -433,6 +447,12 @@ public class AdminController {
 			if (userAlterQ== null){
 				log.debug("closeRound: user("+user+") Error resultBet user not find");  
 				//STEP 1.1.error - Send an email to the admin ("ERROR resultBet user not find")
+				continue;
+			}
+			
+			//La apuesta globla no se debe gestionar para el ranking
+			if(user.equals("admin"))
+			{
 				continue;
 			}
 
@@ -456,12 +476,6 @@ public class AdminController {
 					bUpdate = false;
 				}				
 				else{
-					lastUser = user;
-					lastUserAlterQ = userAlterQ;
-					vMaxAciertos[0] = vAciertos[0];
-					vMaxAciertos[1] = vAciertos[1];
-					vMaxAciertos[2] = vAciertos[2];
-					vMaxAciertos[3] = vAciertos[3];
 					bUpdate = true;
 				}
 			}else{
@@ -484,6 +498,14 @@ public class AdminController {
 				updateRoundRanking(company, season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
 				//SETP 5: update global ranking
 				updateGlobalRanking(company, season, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
+				
+				lastUser = user;
+				lastUserAlterQ = userAlterQ;
+				
+				vMaxAciertos[0] = vAciertos[0];
+				vMaxAciertos[1] = vAciertos[1];
+				vMaxAciertos[2] = vAciertos[2];
+				vMaxAciertos[3] = vAciertos[3];
 				
 				bUpdate = false;
 			}
