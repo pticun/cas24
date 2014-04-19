@@ -31,7 +31,7 @@ MongoDB 2.2 database added.
 	MongoDB in cloud
 	
 	https://mongolab.com
-	user/pwd:racsor/Primera1
+	user/pwd:racsor/Segunda2
 	
 
 Para conectar con la BBDD:

@@ -318,12 +318,13 @@ function consoleAlterQ(text){
 
 function calculatePrice(){
 	consoleAlterQ('calculatePrice');
-	var dataJson=JSON.stringify($("#betForm").serializeObject());
+//	var dataJson=JSON.stringify($("form#betForm").serializeObject());
+	var dataJson=$("form#betForm").serialize();
 	jQuery.ajax ({
 		url: ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet/price',
 	    type: "POST",
 	    data: dataJson,
-	    contentType: "application/json; charset=utf-8",
+//	    contentType: "application/json; charset=utf-8",
 	    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
 	    cache: false,    //This will force requested pages not to be cached by the browser  
 	    processData:false, //To avoid making query String instead of JSON
