@@ -3,14 +3,16 @@ package org.alterq.dto;
 import org.alterq.domain.GeneralData;
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
+import org.alterq.domain.RoundRanking;
 import org.alterq.domain.UserAlterQ;
 
 public class ResponseDto {
 	private UserAlterQ userAlterQ;
 	private ErrorDto errorDto;
-	private Round jornada;
+	private Round round;
 	private RoundBets roundBet;
 	private GeneralData generalData;
+	private RoundRanking roundRanking;
 	
 	public UserAlterQ getUserAlterQ() {
 		return userAlterQ;
@@ -29,11 +31,11 @@ public class ResponseDto {
 	}
 
 	public Round getRound() {
-		return jornada;
+		return round;
 	}
 
 	public void setRound(Round jornada) {
-		this.jornada = jornada;
+		this.round = jornada;
 	}
 
 	public RoundBets getRoundBet() {
@@ -50,6 +52,14 @@ public class ResponseDto {
 
 	public void setGeneralData(GeneralData generalData) {
 		this.generalData = generalData;
+	}
+
+	public RoundRanking getRoundRanking() {
+		return roundRanking;
+	}
+
+	public void setRoundRanking(RoundRanking roundRanking) {
+		this.roundRanking = roundRanking;
 	}
 
 
