@@ -276,7 +276,9 @@ $(document).ready(function() {
 	$("#myBetsBtn").click(function(){
 		menuEvent($(this).text(), "#mybetsDiv");
     });
-	
+	$("#myRankBtn").click(function(){
+		menuEvent($(this).text(), "#myRankDiv");
+	});
    	$('mydataDiv').click(function(){
 		$(sMyDataRef).show();
    	});    	 

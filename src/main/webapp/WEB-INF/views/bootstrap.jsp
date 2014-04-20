@@ -147,6 +147,7 @@ End Analytics -->
 	var bMyData = 7;
 	var bMyBalance = 8;
 	var bMyBets = 9;
+	var bMyRank = 10;
 	
 	//Texts
 	var sHome    = "Inicio";
@@ -169,6 +170,7 @@ End Analytics -->
 	var sMyDataRef = "#mydataDiv";
 	var sMyBalanceRef = "#mybalanceDiv";
 	var sMyBetsRef = "#mybetsDiv";
+	var sMyRankRef = "#myRankDiv";
 	
 	function initDiv() {
 		//document.getElementById("homeDiv").style.display = "block";
@@ -185,6 +187,7 @@ End Analytics -->
 		$(sMyDataRef).hide();
 		$(sMyBalanceRef).hide();
 		$(sMyBetsRef).hide();
+		$(sMyRankRef).hide();
 		
 		bActual = bHome;
 		
@@ -233,6 +236,9 @@ End Analytics -->
 		case bMyBets:
 			$(sMyBetsRef).show();
 			break;
+		case bMyRank:
+			$(sMyRankRef).show();
+			break;
 		}
 
 		switch (bActual){
@@ -267,6 +273,9 @@ End Analytics -->
 			break;
 		case bMyBets:
 			$(sMyBetsRef).hide();
+			break;
+		case bMyRank:
+			$(sMyRankRef).hide();
 			break;
 		}
 		
@@ -313,6 +322,9 @@ End Analytics -->
 			consoleAlterQ("Mybets");
 			getUserBets();
 			showDiv(bMyBets);
+		}else if (href == sMyRankRef){
+			consoleAlterQ("MyRank");
+			showDiv(bMyRank);
 		}
 		return false;
 		
@@ -470,6 +482,7 @@ function getTableMatches(bet, loadGames){
             	<div class="well" id="myDataBtn">Mis Datos</div>
             	<div class="well" id="myBalanceBtn">Mi Saldo</div>
             	<div class="well" id="myBetsBtn">Mis Apuestas</div>
+            	<div class="well" id="myRankBtn">Ranking</div>
             </div>
         </div>
 </div>
@@ -589,6 +602,36 @@ function getTableMatches(bet, loadGames){
 </div>
 </div>
 <!-- End MyBets Section -->
+
+<!-- Ranking Section -->
+<div id="myRankDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Ranking</h2>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- MyData Form -->
+    <div class="row">
+		<div align="center">
+		   <form id="myRankForm">
+		   		<table class="quiniela">
+		   			<tr class="quinielatitulo">
+						<td colspan="2">Ranking</td>
+					</tr>
+		        </table>
+	        </form>
+		</div>
+    </div>
+    <!-- End MyData Form -->
+</div>
+</div>
+<!-- End Ranking Section -->
 
 <!-- About Section -->
 <div id="about" class="page-alternate">
