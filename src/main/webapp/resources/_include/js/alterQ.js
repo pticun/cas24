@@ -282,6 +282,32 @@ $(document).ready(function() {
    	$('mydataDiv').click(function(){
 		$(sMyDataRef).show();
    	});    	 
+	$("#rankingSelect").click(function(event){
+   		 consoleAlterQ('rankingSelect');
+		 jQuery.ajax ({
+			    url: ctx+'/myaccount/'+ idUserAlterQ +'/season/2014/round/12/ranking',
+			    type: "GET",
+			    data: null,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+		        cache: false,    //This will force requested pages not to be cached by the browser  
+		        processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+			    	console.log("eeroror:"+response.errorDto);
+				    if(response.errorDto!=null){
+				    	$('#rankingTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td colspan="4">ERROR</td></tr></tr>');       
+				    }
+				    else{
+					    console.log("===");
+					    console.log(response);
+					    $(response.roundRanking.rankings).each(function(index, objeto){  
+					    	$('#rankingTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td>Jornada '+ objeto.user.id+'</td></tr>');
+					    });
+				    }
+			    }
+		 });
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
 	
 	
 });

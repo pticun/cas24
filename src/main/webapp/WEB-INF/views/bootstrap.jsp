@@ -615,18 +615,23 @@ function getTableMatches(bet, loadGames){
         </div>
     </div>
     <!-- End Title Page -->
-    
     <!-- MyData Form -->
     <div class="row">
-		<div align="center">
-		   <form id="myRankForm">
-		   		<table class="quiniela">
-		   			<tr class="quinielatitulo">
-						<td colspan="2">Ranking</td>
-					</tr>
-		        </table>
-	        </form>
+		<div class="span3">&nbsp;</div>
+		<div class="span6">
+			<div class="btn-group">
+			  <button type="button" class="btn btn-default">Ranking</button>
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+			  <ul class="dropdown-menu">
+			    <li><a id="rankingSelect" href="#">2013/2014</a></li>
+			    <li><a href="#">2012/2013</a></li>
+			  </ul>
+			</div>    
+			<div id="rankingResponse">
+				    <table class="quiniela" id="rankingTable"></table>
+			</div>
 		</div>
+		<div class="span3">&nbsp;</div>
     </div>
     <!-- End MyData Form -->
 </div>
