@@ -40,7 +40,7 @@ public class AdminControllerTest {
 	public void setup() {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 	}
-/*
+	
 	@Test
 	public void AA_openRound() throws Exception {
 		GeneralData bean = new GeneralData();
@@ -53,7 +53,8 @@ public class AdminControllerTest {
 		System.out.println("new GeneralData.active:" + bean.isActive());
 		Assert.assertTrue(bean.isActive());
 	}
-	
+
+/*	
 	@Test
 	public void AA_closeRound() throws Exception {
 		//GeneralData bean = new GeneralData();
@@ -67,7 +68,7 @@ public class AdminControllerTest {
 		//Assert.assertTrue(bean.isActive());
 	}
 */	
-	
+/*	
 	@Test
 	public void AA_resultBetRound() throws Exception {
 		//GeneralData bean = new GeneralData();
@@ -80,7 +81,7 @@ public class AdminControllerTest {
 		//System.out.println("new GeneralData.active:" + bean.isActive());
 		//Assert.assertTrue(bean.isActive());
 	}
-
+*/
 /*	
 	@Test
 	public void AA_prizeRound() throws Exception {

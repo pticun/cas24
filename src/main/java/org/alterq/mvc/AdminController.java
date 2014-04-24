@@ -73,7 +73,7 @@ public class AdminController {
 		log.debug("openRound: start");
 		generalData = dao.findByCompany(company);
 		
-		//CLOSING PROCESS STEPS
+		//OPENING PROCESS STEPS
 		//---------------------
 
 		//STEP 1: update generalData
@@ -96,11 +96,15 @@ public class AdminController {
 		}
 		
 		//STEP 2: Create roundData (RoundBets collection)
-		RoundBets bean= new RoundBets();
-		bean.setCompany(company);
-		bean.setRound(round);
-		bean.setSeason(season);
-		roundBetDao.add(bean);
+		 RoundBets roundBets = roundBetDao.findAllBets(season, round);
+		//Check if exist this roundBet
+		if (roundBets == null){
+			RoundBets bean= new RoundBets();
+			bean.setCompany(company);
+			bean.setRound(round);
+			bean.setSeason(season);
+			roundBetDao.add(bean);
+		}
 		
 		log.debug("openRound: end");
 		return generalData;
