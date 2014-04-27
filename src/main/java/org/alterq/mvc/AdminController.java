@@ -203,8 +203,11 @@ public class AdminController {
 			//STEP 4.5 - Calc Final Quiniela
 			String finalQ = calcFinalQuiniela(season, round, doubles, triples, rBets.getBets());
 			
-			//Add Final Bet (admin)
-			//STEP 2.2.3 - Make Automatic User Bet
+			//STEP 4.6 - Add Final Bet (admin)
+			//Check if exist admin bet for this round
+			//List<Bet> lBets = bean.getBets();
+			//roundBetDao.deleteUserBet(season, round, bet)
+			
 			Bet bet = new Bet();
 			bet.setPrice((float)0.0);
 			bet.setBet(finalQ);
