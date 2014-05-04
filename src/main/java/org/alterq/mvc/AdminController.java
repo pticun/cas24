@@ -183,15 +183,33 @@ public class AdminController {
 		
 		//STEP 3: Fixed Bets (¿?)
 
+
+		log.debug("closeRound: end");
+		return generalData;
+	}
+
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/finalBet/{type}")
+	public @ResponseBody 
+	GeneralData finalBetRound(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int type) {
+		GeneralData generalData = null;
+		log.debug("closeRound: start");
+		
+		
+		generalData = dao.findByCompany(company);
+	
+		//FINAL BET PROCESS STEPS
+		//
+		
+
 		//STEP 4: Quiniela
 			//STEP 4.1 - Calc Number Bets
 			int numBets = roundBetDao.countAllBets(season, round);
 			
 			//STEP 4.2 - Calc Number of Doubles and Triples
-			calcDoublesAndTriples(numBets);
+			calcBasicDoublesAndTriples(numBets, type);
 			
 			//STEP 4.3 - Calc Quiniela Price and Round Jackpot
-			float price = calcQuinielaPrice(doubles, triples);
+			float price = calcQuinielaPrice(doubles, triples, type);
 			float jackpot = ((price==0)?(float)0:(float)(numBets * DEF_QUINIELA_BET_PRICE - price));
 			
 			//STEP 4.4 - Update RoundData
@@ -200,13 +218,20 @@ public class AdminController {
 			rBets.setPrice(price);
 			roundBetDao.update(rBets);
 
+			calcFinalDoublesAndTriples(type);
+			
 			//STEP 4.5 - Calc Final Quiniela
 			String finalQ = calcFinalQuiniela(season, round, doubles, triples, rBets.getBets());
 			
 			//STEP 4.6 - Add Final Bet (admin)
-			//Check if exist admin bet for this round
-			//List<Bet> lBets = bean.getBets();
-			//roundBetDao.deleteUserBet(season, round, bet)
+
+			//REVISAR NO BORRA LAS APUESTAS DE ADMIN
+			//**********************************************************************
+			//Check if exist admin bet for this round (Better optimization analizing rBets.getBets() for Admin)
+			RoundBets rBetsAdmin =roundBetDao.findAllUserBets(season, round, getAdmin());
+			if (rBetsAdmin.getBets().size() > 0)
+				roundBetDao.deleteAllUserBets(season, round, getAdmin());
+			//**********************************************************************
 			
 			Bet bet = new Bet();
 			bet.setPrice((float)0.0);
@@ -258,16 +283,43 @@ public class AdminController {
 		
 	}
 	
-	private static void calcDoublesAndTriples(int numBets){
-		triples = (int) ((numBets<3)?0:(Math.log(numBets)/Math.log(3)));
-		doubles = (int) (((numBets - Math.pow(3, triples))<2)?0:(Math.log((int)(numBets / Math.pow(3, triples)))/Math.log(2)));
-		
+	//pendiente de revision para incorportar el TYPE de la quiniela
+	private static void calcBasicDoublesAndTriples(int numBets, int type){
+		if ((type == 0) || (numBets < 9)){
+			triples = (int) ((numBets<3)?0:(Math.log(numBets)/Math.log(3)));
+			doubles = (int) (((numBets - Math.pow(3, triples))<2)?0:(Math.log((int)(numBets / Math.pow(3, triples)))/Math.log(2)));
+		}else{//It's a quiniela with reduction
+			triples = (int) ((numBets < (3 * getQuinielaNumBets(type)))?0:(Math.log(numBets)/Math.log(3 * getQuinielaNumBets(type))));
+			doubles = (int) (((numBets - Math.pow((3 * getQuinielaNumBets(type)), triples))<(2 * getQuinielaNumBets(type)))?0:(Math.log((int)(numBets / Math.pow((3 * getQuinielaNumBets(type)), triples)))/Math.log((2*getQuinielaNumBets(type)))));
+		}
 	}
 	
-	private static float calcQuinielaPrice(int doubles, int triples){
-		return new Double(DEF_QUINIELA_BET_PRICE * Math.pow(2, doubles) * Math.pow(3, triples)).floatValue();
+	private static float calcQuinielaPrice(int doubles, int triples, int type){
+		return new Double(getQuinielaNumBets(type) * DEF_QUINIELA_BET_PRICE * Math.pow(2, doubles) * Math.pow(3, triples)).floatValue();
 	}
 	
+	private static int getQuinielaNumBets(int type){
+		switch (type){
+		case 0: return 1;
+		case 1: return 9;
+		case 2: return 24;
+		default: return 1;
+		}
+	}
+	private static void calcFinalDoublesAndTriples(int type)
+	{
+		switch(type){
+		case 1: //reduction 4 triples
+			triples+=4;
+			break;
+		case 2: //reduction 3 triples and 3 dobles
+			triples+=3;
+			doubles+=3;
+			break;
+			
+		default:
+		}
+	}
 	/**
 	 * Function calcFinalQuiniela that return the final quiniela
 	 * 

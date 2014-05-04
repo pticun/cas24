@@ -55,7 +55,7 @@ public class AdminControllerTest {
 	}
 */	
 
-	
+/*	
 	@Test
 	public void AA_closeRound() throws Exception {
 		//GeneralData bean = new GeneralData();
@@ -68,7 +68,23 @@ public class AdminControllerTest {
 		//System.out.println("new GeneralData.active:" + bean.isActive());
 		//Assert.assertTrue(bean.isActive());
 	}
-	
+*/	
+	@Test
+	public void AA_finalBetRound() throws Exception {
+		//GeneralData bean = new GeneralData();
+		//ObjectMapper mapper = new ObjectMapper();
+		
+		ResultActions ra = this.mockMvc.perform(post("/admin/company/1/season/2014/round/12/finalBet/0"));
+		ra.andDo(MockMvcResultHandlers.print());
+		ra.andExpect(status().isOk());
+		//bean = mapper.readValue(ra.andReturn().getResponse().getContentAsString(), GeneralData.class);
+		//System.out.println("new GeneralData.active:" + bean.isActive());
+		//Assert.assertTrue(bean.isActive());
+		ResultActions ra2 = this.mockMvc.perform(post("/admin/company/1/season/2014/round/12/finalBet/1"));
+		ra2.andDo(MockMvcResultHandlers.print());
+		ra2.andExpect(status().isOk());
+		
+	}
 /*	
 	@Test
 	public void AA_resultBetRound() throws Exception {
