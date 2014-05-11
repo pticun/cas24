@@ -402,7 +402,7 @@ public class AdminController {
 		double max = count1X2[0][0];
 		for (int i=0; i<doubles; i++){
 			max=0;
-			for(int j=0; j<15; j++){
+			for(int j=0; j<14; j++){//Don't put doubles in plenoAlQuince
 				for (int k=0; k<3; k++)
 				{
 					if(count1X2[j][k]>max)
@@ -421,7 +421,7 @@ public class AdminController {
 		max = count1X2[0][0];
 		for (int i=0; i<triples; i++){
 			max=0;
-			for(int j=0; j<15; j++){
+			for(int j=0; j<14; j++){ //Don't put triples in plenoAlQuince
 				for (int k=0; k<3; k++)
 				{
 					if(count1X2[j][k]>max)
