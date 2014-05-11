@@ -145,4 +145,13 @@ public class RoundBetDaoTest {
 
 		return;
 	}
+	
+	@Test
+	public void test06DeleteAminBets() {
+
+		betDao.deleteAllUserBets(2014, 12, "admin");
+
+		return;
+	}
+
 }
