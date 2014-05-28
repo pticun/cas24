@@ -12,6 +12,8 @@ import java.util.List;
 
 import org.alterq.domain.Game;
 import org.alterq.domain.GeneralData;
+import org.alterq.domain.Prize;
+import org.alterq.domain.PrizesRound;
 import org.alterq.domain.Round;
 import org.alterq.dto.ResponseDto;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -121,11 +123,68 @@ public class AdminControllerTest {
 		//Assert.assertTrue(bean.isActive());
 	}
 */
-	
+	@Test
+	public void AA_prizeRound() throws Exception {
+		PrizesRound bean = new PrizesRound();
+		bean.setCompany(1);
+		bean.setRound(43);
+		bean.setSeason(2014);
+		
+		
+		List<Prize> lPrizes = new ArrayList<Prize>();
+		
+		Prize prize10 = new Prize();
+		prize10.setId(10);
+		prize10.setAmount((float) 1.39);
+		prize10.setCount(0);
+		lPrizes.add(prize10);
+		
+		Prize prize11 = new Prize();
+		prize11.setId(11);
+		prize11.setAmount((float) 6.08);
+		prize11.setCount(0);
+		lPrizes.add(prize11);
+
+		Prize prize12 = new Prize();
+		prize12.setId(12);
+		prize12.setAmount((float) 48.26);
+		prize12.setCount(0);
+		lPrizes.add(prize12);
+
+		Prize prize13 = new Prize();
+		prize13.setId(13);
+		prize13.setAmount((float) 610.97);
+		prize13.setCount(0);
+		lPrizes.add(prize13);
+
+		Prize prize14 = new Prize();
+		prize14.setId(14);
+		prize14.setAmount((float) 38720.47);
+		prize14.setCount(0);
+		lPrizes.add(prize14);
+		
+		Prize prize15 = new Prize();
+		prize15.setId(15);
+		prize15.setAmount((float) 258136.45);
+		prize15.setCount(0);
+		lPrizes.add(prize15);
+
+		bean.setPrizes(lPrizes);
+		
+		
+		ObjectMapper mapper = new ObjectMapper();
+		System.out.println("Elmapper:" + mapper.writeValueAsString(bean));
+		ResultActions ra = this.mockMvc.perform(post("/admin").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(bean)));
+		ra.andDo(MockMvcResultHandlers.print());
+		ra.andExpect(status().isOk());
+
+		ResponseDto rdo = mapper.readValue(ra.andReturn().getResponse().getContentAsString(), ResponseDto.class);
+		//System.out.println("new GeneralData.id:" + rdo.getRound());
+		
+	}
+/*	
 	@Test
 	public void AA_newRoundGames() throws Exception {
-//		ResultActions ra = this.mockMvc.perform(post("/admin/''/''/''/''/''/''"));
-//		ra.andDo(MockMvcResultHandlers.print());
 		Round bean = new Round();
 		bean.setCompany(1);
 		bean.setRound(43);
@@ -237,5 +296,6 @@ public class AdminControllerTest {
 		//System.out.println("new GeneralData.id:" + rdo.getRound());
 		
 	}
+*/	
 	
 }

@@ -20,7 +20,7 @@ public class RoundBets {
 	private float jackpot;
 	private float price;
 	
-	private int hit15;
+	/*private int hit15;
 	private float reward15;
 	private int hit14;
 	private float reward14;
@@ -31,7 +31,8 @@ public class RoundBets {
 	private int hit11;
 	private float reward11;
 	private int hit10;
-	private float reward10;
+	private float reward10;*/
+	private List<Prize> prizes;
 	private List<Bet> bets;
     
     public int getSeason() {
@@ -57,6 +58,18 @@ public class RoundBets {
 			this.bets=new ArrayList<Bet>();
 		}
 		return this.bets.add(bet);
+	}
+	public List<Prize> getPrizes() {
+		return prizes;
+	}
+	public void setPrizes(List<Prize> prizes) {
+		this.prizes = prizes;
+	}
+	public boolean addPrize(Prize prize) {
+		if(this.prizes==null){
+			this.prizes=new ArrayList<Prize>();
+		}
+		return this.prizes.add(prize);
 	}
 	public String getId() {
 		return id;
@@ -88,6 +101,7 @@ public class RoundBets {
 	public void setPrice(float price) {
 		this.price = price;
 	}
+	/*
 	public int getHit15() {
 		return hit15;
 	}
@@ -159,6 +173,6 @@ public class RoundBets {
 	}
 	public void setReward10(float reward10) {
 		this.reward10 = reward10;
-	}
+	}*/
 	
 }

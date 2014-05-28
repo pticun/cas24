@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.alterq.domain.Bet;
 import org.alterq.domain.GeneralData;
+import org.alterq.domain.Prize;
+import org.alterq.domain.PrizesRound;
 import org.alterq.domain.Ranking;
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
@@ -698,9 +700,11 @@ public class AdminController {
 		roundRankingDao.addRankingGlobal(company, season, rnk);
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/prize15/{count15}/{amount15}/prize14/{count14}/{amount14}/prize13/{count13}/{amount13}/prize12/{count12}/{amount12}/prize11/{count11}/{amount11}/prize10/{count10}/{amount10}")
-	public @ResponseBody 
-	ResponseDto  prizesRound(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int count15, @PathVariable float amount15, @PathVariable int count14, @PathVariable float amount14, @PathVariable int count13, @PathVariable float amount13, @PathVariable int count12, @PathVariable float amount12, @PathVariable int count11, @PathVariable float amount11, @PathVariable int count10, @PathVariable float amount10) {
+//	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/prize15/{count15}/{amount15}/prize14/{count14}/{amount14}/prize13/{count13}/{amount13}/prize12/{count12}/{amount12}/prize11/{count11}/{amount11}/prize10/{count10}/{amount10}")
+//	public @ResponseBody 
+//	ResponseDto  prizesRound(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int count15, @PathVariable float amount15, @PathVariable int count14, @PathVariable float amount14, @PathVariable int count13, @PathVariable float amount13, @PathVariable int count12, @PathVariable float amount12, @PathVariable int count11, @PathVariable float amount11, @PathVariable int count10, @PathVariable float amount10) {
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody ResponseDto prizesRound(@RequestBody PrizesRound prizesRound) {
 		ResponseDto dto = new ResponseDto();
 		RoundBets roundBets;
 		int numBets;
@@ -709,9 +713,9 @@ public class AdminController {
 		UserAlterQ userAlterQ;
 		
 		
-		roundBets = roundBetDao.findAllBets(season, round);
+		roundBets = roundBetDao.findAllBets(prizesRound.getSeason(), prizesRound.getRound());
 		
-		roundBets.setHit10(count10);
+		/*roundBets.setHit10(count10);
 		roundBets.setReward10(amount10);
 		
 		roundBets.setHit11(count11);
@@ -728,9 +732,18 @@ public class AdminController {
 
 		roundBets.setHit15(count15);
 		roundBets.setReward15(amount15);
+		*/
+		roundBets.setPrizes(prizesRound.getPrizes());
+		
 		
 		numBets = roundBets.getBets().size();
-		rewardGlobal = roundBets.getJackpot() + count15*amount15 + count14*amount14 + count13*amount13 + count12*amount12 + count11*amount11 + count10*amount10; 
+		//rewardGlobal = roundBets.getJackpot() + count15*amount15 + count14*amount14 + count13*amount13 + count12*amount12 + count11*amount11 + count10*amount10;
+		rewardGlobal = roundBets.getJackpot();
+		List<Prize> lPrizes = roundBets.getPrizes();
+		for (Prize prize : lPrizes){
+			rewardGlobal+= prize.getAmount() * prize.getCount();
+		}
+		
 		
 		betReward = rewardGlobal / numBets;
 		

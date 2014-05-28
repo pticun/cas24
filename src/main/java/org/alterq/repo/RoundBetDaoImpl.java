@@ -1,6 +1,9 @@
 package org.alterq.repo;
 
+import java.util.List;
+
 import org.alterq.domain.Bet;
+import org.alterq.domain.Prize;
 import org.alterq.domain.RoundBets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -10,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+
 
 
 
@@ -104,6 +108,24 @@ public class RoundBetDaoImpl implements RoundBetDao {
 		query.addCriteria(Criteria.where("company").is(rounBets.getCompany()).and("season").is(rounBets.getSeason()).and("round").is(rounBets.getRound()));
 
 		Update update = new Update();
+		
+		boolean first = true;
+		
+		//pendiente montar un array de Prize [{id, count, amount}]
+		List<Prize> lPrizes = rounBets.getPrizes();
+		for (Prize prize : lPrizes){
+			if (first){
+				update.set("hit"+prize.getId(), prize.getCount());
+				update.addToSet("reward"+prize.getId(), prize.getAmount());
+				first = false;
+			}
+			else{
+				update.addToSet("hit"+prize.getId(), prize.getCount());
+				update.addToSet("reward"+prize.getId(), prize.getAmount());
+			}
+		}
+		
+		/*
 		update.set("hit10", rounBets.getHit10());
 		update.addToSet("reward10", rounBets.getReward10());
 		update.addToSet("hit11", rounBets.getHit11());
@@ -116,7 +138,7 @@ public class RoundBetDaoImpl implements RoundBetDao {
 		update.addToSet("reward14", rounBets.getReward14());
 		update.addToSet("hit15", rounBets.getHit15());
 		update.addToSet("reward15", rounBets.getReward15());
-
+		*/
 		update.addToSet("reward", rounBets.getReward());
 		
 		update.addToSet("jackpot", rounBets.getJackpot());
