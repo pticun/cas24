@@ -4,6 +4,7 @@ package org.alterq.domain.test;
 import org.alterq.domain.Bet;
 import org.alterq.domain.RoundBets;
 import org.alterq.repo.RoundBetDao;
+import org.bson.types.ObjectId;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -109,7 +110,7 @@ public class RoundBetDaoTest {
 
 		betDao.addBet(2013, 9, bet2);
 
-		betDao.deleteAllUserBets(2013, 9, "john.smith@mailinator.com");
+//		betDao.deleteAllUserBets(2013, 9, "john.smith@mailinator.com");
 
 		RoundBets roundBets = betDao.findAllBets(2013, 9);
 
@@ -149,7 +150,13 @@ public class RoundBetDaoTest {
 	@Test
 	public void test06DeleteAminBets() {
 
-		betDao.deleteAllUserBets(2014, 12, "admin");
+		Bet bet = new Bet();
+		bet.setId(new ObjectId().toStringMongod());
+		bet.setBet("111111111111111");
+		bet.setUser("dadsh@madddator.com");
+
+		betDao.addBet(2014, 12, bet);
+		betDao.deleteAllUserBets(2014, 12, "dadsh@madddator.com");
 
 		return;
 	}

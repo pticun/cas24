@@ -39,7 +39,12 @@ public class CustomDOMConfigurator extends DOMConfigurator implements Initializi
      */
     private String getHostConfigurationFile(String file) {
 	String hostName = CoreUtils.getCurrentHostName();
-	return StringUtils.stripFilenameExtension(file) + "." + hostName + "." + StringUtils.getFilenameExtension(file);
+	if (org.apache.commons.lang3.StringUtils.isBlank(hostName)){
+		return StringUtils.stripFilenameExtension(file) + "." + StringUtils.getFilenameExtension(file);
+	}
+	else{
+		return StringUtils.stripFilenameExtension(file) + "." + hostName + "." + StringUtils.getFilenameExtension(file);
+	}
     }
 
     /**

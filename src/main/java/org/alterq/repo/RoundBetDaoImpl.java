@@ -76,6 +76,30 @@ public class RoundBetDaoImpl implements RoundBetDao {
 		return true;
 	}
 	public boolean deleteAllUserBets(int season, int round, String user){
+
+	       Aggregation agg = newAggregation( 
+	                unwind("bets"),
+	                //match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round).and("company").is(company)),
+	                //group("_id").first("company").as("company").first("season").as("season").first("round").as("round").push("bets").as("bets")
+	                match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round)),
+	                group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
+	        );
+	        AggregationResults<RoundBets> result = mongoTemplate.aggregate(agg, "roundBets", RoundBets.class);
+	        
+	        if ( !result.getMappedResults().isEmpty()){
+	        	for (RoundBets roundBets : result) {
+					for (Bet bets : roundBets.getBets()) {
+						Query query = new Query();
+						query.addCriteria(Criteria.where("season").is(season).and("round").is(round));
+						Update update = new Update();
+						update.pull("bets", bets);
+						mongoTemplate.upsert(query,update, RoundBets.class);
+					} 
+				} 
+	        }
+//	        mongoTemplate.remove(result, RoundBets.class);
+		
+/*		
 		Query query = new Query();
 		query.addCriteria(Criteria.where("season").is(season).and("round").is(round));
 		 
@@ -85,6 +109,7 @@ public class RoundBetDaoImpl implements RoundBetDao {
 		update.pull("bets", bet);
 		
 		mongoTemplate.upsert(query,update, RoundBets.class);
+*/		
 		return true;
 	}
 	public boolean deleteUserBet(int season, int round, Bet bet){
