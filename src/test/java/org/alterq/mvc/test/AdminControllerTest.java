@@ -127,7 +127,7 @@ public class AdminControllerTest {
 	public void AA_prizeRound() throws Exception {
 		PrizesRound bean = new PrizesRound();
 		bean.setCompany(1);
-		bean.setRound(43);
+		bean.setRound(12);
 		bean.setSeason(2014);
 		
 		
