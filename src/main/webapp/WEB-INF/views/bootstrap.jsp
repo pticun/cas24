@@ -619,12 +619,13 @@ function getTableMatches(bet, loadGames){
     <div class="row">
 		<div class="span3">&nbsp;</div>
 		<div class="span6">
-			<div class="btn-group">
+			<div class="btn-group dropdown">
 			  <button type="button" class="btn btn-default">Ranking</button>
 			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-			  <ul class="dropdown-menu">
-			    <li><a id="rankingSelect" href="#">2013/2014</a></li>
-			    <li><a href="#">2012/2013</a></li>
+			  <ul class="dropdown-menu" id="rankingSelect" role="menu" aria-labelledby="dropdownMenu">
+			    <li id="2013/2014"><a tabindex="-1" href="#">2013/2014</a></li>
+			    <li class="divider"></li>
+			    <li id="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
 			  </ul>
 			</div>    
 			<div id="rankingResponse">
