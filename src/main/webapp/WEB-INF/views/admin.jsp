@@ -83,7 +83,7 @@
 var ctx = "<%=request.getContextPath()%>"
 </script>
 
-<script src="<c:url value="/static/resources/_include/js/alterQ.js"/>"></script>
+<script src="<c:url value="/static/resources/_include/js/adminAlterQ.js"/>"></script>
 
 </head>
 
@@ -165,7 +165,37 @@ var ctx = "<%=request.getContextPath()%>"
 		
 		bActual = elem;
 	}
+	
+	//Manage Menu Events 
+	function menuEvent(name, href)
+	{
+  		consoleAlterQ("menuEvent elem="+ name +" href="+href);
 
+		if (href == sHomeRef){
+			consoleAlterQ("Home");
+			showDiv(bHome);
+		}else if (href == sOpenRoundSessionRef){
+			consoleAlterQ("Open");
+			showDiv(bOpenRoundSession);
+		}else if (href == sCloseRoundSessionRef){
+			consoleAlterQ("Close");
+			showDiv(bCloseRoundSession);
+		}else if (href == sAddMatchesRounnSessionRef){
+			consoleAlterQ("AddMatches");
+			showDiv(bAddMatchesRounnSession);
+		}else if (href == sFinalQuinielaRef){
+			consoleAlterQ("FinalQuiniela");
+			showDiv(bFinalQuiniela);
+		}else if (href == sResultsRoundSessionRef){
+			consoleAlterQ("ResultRoundSession");
+			showDiv(bResultsRoundSession);
+		}
+		return false;
+		
+	}
+
+	
+	
 </script>
 
 <body>
@@ -249,7 +279,203 @@ var ctx = "<%=request.getContextPath()%>"
 </div>
 <!-- End Principal -->
 
+<!-- OpenRound Section -->
+<div id="openDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Admin - Open Round</h2>
+                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- OpenRound Form -->
+    <div class="row table-responsive">
+		<div align="center">
+			<form id="openForm">
+			   		<table class="quiniela">
+				   		<tr>
+				   			<td class="partido">Season:</td>
+				   			<td class="partido"><input id="seasonOpen" name="season" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Round:</td>
+				   			<td class="partido"><input id="roundOpen" name="round" type="text"/></td>
+				        </tr>
+				   		<tr align="right">
+				   			<td class="partido">&nbsp;</td>
+				   			<td class="partido"><button id="admin_open_btn" class="button" name="openRound" value="open">Open</button></td>
+				        </tr>
+			   		</table>
+			   		<div id="openFormResponse">respuesta </div>
+			</form>
+		</div>
+    </div>
+    <!-- End OpenRound Form -->
+</div>
+</div>
+<!-- End OpenRound Section -->
 
+<!-- CloseRound Section -->
+<div id="closeDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Admin - Close Round</h2>
+                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- CloseRound Form -->
+    <div class="row table-responsive">
+		<div align="center">
+			<form id="openForm">
+			   		<table class="quiniela">
+				   		<tr>
+				   			<td class="partido">Season:</td>
+				   			<td class="partido"><input id="seasonClose" name="season" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Round:</td>
+				   			<td class="partido"><input id="roundSeason" name="round" type="text"/></td>
+				        </tr>
+				   		<tr align="right">
+				   			<td class="partido">&nbsp;</td>
+				   			<td class="partido"><button id="admin_close_btn" class="button" name="closeRound" value="open">Close</button></td>
+				        </tr>
+			   		</table>
+			   		<div id="closeFormResponse">respuesta </div>
+			</form>
+		</div>
+    </div>
+    <!-- End CloseRound Form -->
+</div>
+</div>
+<!-- End CloseRound Section -->
+
+<!-- MatchesRound Section -->
+<div id="matchesDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Admin - Matches Round</h2>
+                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- MatchesRound Form -->
+    <div class="row table-responsive">
+		<div align="center">
+			<form id="matchesForm">
+			   		<table class="quiniela">
+				   		<tr>
+				   			<td class="partido">Season:</td>
+				   			<td  align="center" colspan=2 class="partido"><input id="seasonOpen" name="season" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Round:</td>
+				   			<td align="center" colspan=2 class="partido"><input id="roundOpen" name="round" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">1</td>
+				   			<td class="partido"><input id="matchlocal01" name="matchlocal01" type="text"/></td>
+				   			<td class="partido"><input id="matchvisit01" name="matchvisit01" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">2</td>
+				   			<td class="partido"><input id="matchlocal02" name="matchlocal02" type="text"/></td>
+				   			<td class="partido"><input id="matchvisit02" name="matchvisit02" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">3</td>
+				   			<td class="partido"><input id="matchlocal03" name="matchlocal03" type="text"/></td>
+				   			<td class="partido"><input id="matchvisit03" name="matchvisit03" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">4</td>
+				   			<td class="partido"><input id="matchlocal04" name="matchlocal04" type="text"/></td>
+				   			<td class="partido"><input id="matchvisit04" name="matchvisit04" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">5</td>
+				   			<td class="partido"><input id="matchlocal05" name="matchlocal05" type="text"/></td>
+				   			<td class="partido"><input id="matchvisit05" name="matchvisit05" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">6</td>
+				   			<td class="partido"><input id="matchlocal06" name="matchlocal06" type="text"/></td>
+				   			<td class="partido"><input id="matchvisit06" name="matchvisit06" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">7</td>
+				   			<td class="partido"><input id="matchlocal07" name="matchlocal07" type="text"/></td>
+				   			<td class="partido"><input id="matchvisit07" name="matchvisit07" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">8</td>
+				   			<td class="partido"><input id="matchlocal08" name="matchlocal08" type="text"/></td>
+				   			<td class="partido"><input id="matchvisit08" name="matchvisit08" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">9</td>
+				   			<td class="partido"><input id="matchlocal09" name="matchlocal09" type="text"/></td>
+				   			<td class="partido"><input id="matchvisit09" name="matchvisit09" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">10</td>
+				   			<td class="partido"><input id="matchlocal10" name="matchlocal10" type="text"/></td>
+				   			<td class="partido"><input id="matchvisit10" name="matchvisit10" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">11</td>
+				   			<td class="partido"><input id="matchlocal11" name="matchlocal11" type="text"/></td>
+				   			<td class="partido"><input id="matchvisit11" name="matchvisit11" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">12</td>
+				   			<td class="partido"><input id="matchlocal12" name="matchlocal12" type="text"/></td>
+				   			<td class="partido"><input id="matchvisit12" name="matchvisit12" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">13</td>
+				   			<td class="partido"><input id="matchlocal13" name="matchlocal13" type="text"/></td>
+				   			<td class="partido"><input id="matchvisit13" name="matchvisit13" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">14</td>
+				   			<td class="partido"><input id="matchlocal14" name="matchlocal14" type="text"/></td>
+				   			<td class="partido"><input id="matchvisit14" name="matchvisit14" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">15</td>
+				   			<td class="partido"><input id="matchlocal15" name="matchlocal15" type="text"/></td>
+				   			<td class="partido"><input id="matchvisit15" name="matchvisit15" type="text"/></td>
+				        </tr>
+				   		<tr align="right">
+				   			<td class="partido">&nbsp;</td>
+				   			<td align="center" colspan=2 class="partido"><button id="admin_matches_btn" class="button" name="metchesRound" value="matches">Update Matches</button></td>
+				        </tr>
+			   		</table>
+			   		<div id="openFormResponse">respuesta </div>
+			</form>
+		</div>
+    </div>
+    <!-- End OpenRound Form -->
+</div>
+</div>
+<!-- End OpenRound Section -->
 
 <!-- Footer -->
 <footer>
@@ -264,19 +490,7 @@ var ctx = "<%=request.getContextPath()%>"
 <!-- End Back to Top -->
 
 
-<!-- Js -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> <!-- jQuery Core -->
-<script src="<c:url value="/static/resources/_include/js/bootstrap.min.js"/>"></script> <!-- Bootstrap -->
-<script src="<c:url value="/static/resources/_include/js/supersized.3.2.7.min.js"/>"></script> <!-- Slider -->
-<script src="<c:url value="/static/resources/_include/js/waypoints.js"/>"></script> <!-- WayPoints -->
-<script src="<c:url value="/static/resources/_include/js/waypoints-sticky.js"/>"></script> <!-- Waypoints for Header -->
-<script src="<c:url value="/static/resources/_include/js/jquery.isotope.js"/>"></script> <!-- Isotope Filter -->
-<script src="<c:url value="/static/resources/_include/js/jquery.fancybox.pack.js"/>"></script> <!-- Fancybox -->
-<script src="<c:url value="/static/resources/_include/js/jquery.fancybox-media.js"/>"></script> <!-- Fancybox for Media -->
-<script src="<c:url value="/static/resources/_include/js/jquery.tweet.js"/>"></script> <!-- Tweet -->
-<script src="<c:url value="/static/resources/_include/js/plugins.js"/>"></script> <!-- Contains: jPreloader, jQuery Easing, jQuery ScrollTo, jQuery One Page Navi -->
-<script src="<c:url value="/static/resources/_include/js/main.js"/>"></script> <!-- Default JS -->
-<!-- End Js -->
+
 
 </body>
 </html>

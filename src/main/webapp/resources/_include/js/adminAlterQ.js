@@ -1,0 +1,82 @@
+var round=0;
+var season=0;
+var idUserAlterQ="";
+
+alert("context:"+ctx);
+$(document).ready(function() {
+	consoleAlterQ("Admin - ready");
+	$.fn.serializeObject = function()
+	{
+	    var o = {};
+	    var a = this.serializeArray();
+	    $.each(a, function() {
+	        if (o[this.name] !== undefined) {
+	            if (!o[this.name].push) {
+	                o[this.name] = [o[this.name]];
+	            }
+	            o[this.name].push(this.value || '');
+	        } else {
+	            o[this.name] = this.value || '';
+	        }
+	    });
+	    return o;
+	};
+	
+	initDiv(bHome);
+    
+	
+	$('form#openForm').submit(function(event) {
+		 var dataJson=JSON.stringify($('form#openForm').serializeObject());
+		 consoleAlterQ(dataJson);
+		 jQuery.ajax ({
+			 url: ctx+'/admin'+ '/company/' + '1' + '/season/'+ season+'/round/'+round+'/open',
+			    type: "POST",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=null){
+		   		    	consoleAlterQ("open: response="+response.errorDto.stringError);
+		   		    	$('#openFormResponse').text(response.errorDto.stringError);
+		   		    	userLoged=false;
+		   		    }
+		   		    else{
+		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
+						//$('#loginFormResponse').text(response.userAlterQ.name);
+						consoleAlterQ("open: response= OK");
+						$('#loginFormResponse').text("Admin - Open - OK");
+						//userLoged=true;
+						//idUserAlterQ=response.userAlterQ.id;
+						//$('#idData').val(response.userAlterQ.id);
+						//$('#nameData').val(response.userAlterQ.name);
+						//$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
+						//$('#idSaldo').val(response.userAlterQ.id);
+						//$('#balanceSaldo').val(response.userAlterQ.balance);
+						//getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+						//showDiv(bHome);
+		   		    }
+				    //round=response.generalData.round;
+				    //season=response.generalData.season;
+			    }
+			});
+		 	event.preventDefault(); // prevent actual form submit and page reload
+	});
+	
+	
+	$("#openBtn").on('click', function(event){
+		menuEvent($(this).text(),  "#openDiv");
+    });
+
+	
+});
+
+
+function consoleAlterQ(text){
+	if( (window['console'] !== undefined) ){
+		console.log(text);
+	}
+
+}
+
