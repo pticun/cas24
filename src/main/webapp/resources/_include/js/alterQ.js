@@ -281,9 +281,10 @@ $(document).ready(function() {
 	});
    	$('mydataDiv').click(function(){
 		$(sMyDataRef).show();
-   	});    	 
-	$("#rankingSelect li").click(function(event){
-		consoleAlterQ('rankingSelect');
+   	}); 
+//    $("ul[id*=myid] li")
+	$("ul[id*=rankingSelect]").click(function(event){
+        consoleAlterQ('rankingSelect');
 		jornada=this.id;
 		consoleAlterQ("selectedIndex="+jornada);
 		consoleAlterQ("val="+$('#rankingSelect li').index(this));
@@ -310,8 +311,8 @@ $(document).ready(function() {
 				    });
 			    }
 		    }
- });
-event.preventDefault(); // prevent actual form submit and page reload
+		});
+		event.preventDefault(); // prevent actual form submit and page reload
     });
 	
 	

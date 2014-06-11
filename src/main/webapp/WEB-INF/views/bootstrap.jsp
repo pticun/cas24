@@ -324,6 +324,7 @@ End Analytics -->
 			showDiv(bMyBets);
 		}else if (href == sMyRankRef){
 			consoleAlterQ("MyRank");
+			paintRanking();
 			showDiv(bMyRank);
 		}
 		return false;
@@ -363,8 +364,12 @@ End Analytics -->
     	}
     	
   	}
-
-
+	function paintRanking(){
+		$('#rankingSelect li').remove();
+//		$('#rankingSelect').append($("<li>").append($("<a>").attr("href","#").attr("tabindex","1").text("2013/2014")));
+		$('#rankingSelect').append($("<li id=\"2014\"><a tabindex=\"-1\" href=\"#\">2013/2014</a></li>"));
+		$('#rankingSelect').append($("<li id=\"2013\"><a tabindex=\"-1\" href=\"#\">2012/2013</a></li>"));
+	}
 
 function getSign(sign){
 	switch(sign)
@@ -623,9 +628,9 @@ function getTableMatches(bet, loadGames){
 			  <button type="button" class="btn btn-default">Ranking</button>
 			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
 			  <ul class="dropdown-menu" id="rankingSelect" role="menu" aria-labelledby="dropdownMenu">
-			    <li id="2013/2014"><a tabindex="-1" href="#">2013/2014</a></li>
+			    <li value="2013/2014"><a tabindex="-1" href="#">2013/2014</a></li>
 			    <li class="divider"></li>
-			    <li id="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
 			  </ul>
 			</div>    
 			<div id="rankingResponse">
