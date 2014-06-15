@@ -83,8 +83,6 @@
 var ctx = "<%=request.getContextPath()%>"
 </script>
 
-<script src="<c:url value="/static/resources/_include/js/adminAlterQ.js"/>"></script>
-
 </head>
 
 	
@@ -92,6 +90,7 @@ var ctx = "<%=request.getContextPath()%>"
 
 	//Divs Graphics
 	var bActual					= 0;
+	var bHome					= 0;
 	var bOpenRoundSession		= 1;
 	var bCloseRoundSession		= 2;
 	var bAddMatchesRounnSession = 3;
@@ -107,9 +106,10 @@ var ctx = "<%=request.getContextPath()%>"
 	var sResultsRoundSessionRef		= "#resultsDiv";
 	
 	function initDiv() {
+		consoleAlterQ("initDiv");		
 		$(sHomeRef).show();
 		$(sOpenRoundSessionRef).hide();
-		$(sAddMatchesRounnSessionRef).hide();
+		$(sCloseRoundSessionRef).hide();
 		$(sAddMatchesRounnSessionRef).hide();
 		$(sFinalQuinielaRef).hide();
 		$(sResultsRoundSessionRef).hide();
@@ -219,61 +219,36 @@ var ctx = "<%=request.getContextPath()%>"
     </div>
     <!-- End Title Page -->
 
-    	<div class="row">
-            <div class="span9">
-        			<ul>
-						<!-- Item Project and Filter Name -->
-                    	<li class="item-thumbs span3">
-                        	<a class="hover-wrap" id="openBtn" href="#openDiv">
-                            	<span class="overlay-img"></span>
-                                <span class="overlay-img-thumb font-icon-plus"></span>
-                            </a>
-                            <!-- Thumb Image and Description -->
-                            <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-01.jpg'/>" alt="Open">
-                        </li>
-                    	<!-- End Item Project -->
-						<!-- Item Project and Filter Name -->
-                    	<li class="item-thumbs span3">
-                        	<a class="hover-wrap" id="closeBtn" href="#closeDiv">
-                            	<span class="overlay-img"></span>
-                                <span class="overlay-img-thumb font-icon-plus"></span>
-                            </a>
-                            <!-- Thumb Image and Description -->
-                            <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-01.jpg'/>" alt="Close">
-                        </li>
-                    	<!-- End Item Project -->
-						<!-- Item Project and Filter Name -->
-                    	<li class="item-thumbs span3">
-                        	<a class="hover-wrap" id="matchesBtn" href="#matchesDiv">
-                            	<span class="overlay-img"></span>
-                                <span class="overlay-img-thumb font-icon-plus"></span>
-                            </a>
-                            <!-- Thumb Image and Description -->
-                            <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-01.jpg'/>" alt="Matches">
-                        </li>
-                    	<!-- End Item Project -->
-						<!-- Item Project and Filter Name -->
-                    	<li class="item-thumbs span3">
-                        	<a class="hover-wrap" id="quinielaBtn" href="#quinielasDiv">
-                            	<span class="overlay-img"></span>
-                                <span class="overlay-img-thumb font-icon-plus"></span>
-                            </a>
-                            <!-- Thumb Image and Description -->
-                            <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-01.jpg'/>" alt="Quiniela">
-                        </li>
-                    	<!-- End Item Project -->
-						<!-- Item Project and Filter Name -->
-                    	<li class="item-thumbs span3">
-                        	<a class="hover-wrap" id="resultsBtn" href="#resultsDiv">
-                            	<span class="overlay-img"></span>
-                                <span class="overlay-img-thumb font-icon-plus"></span>
-                            </a>
-                            <!-- Thumb Image and Description -->
-                            <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-01.jpg'/>" alt="Results">
-                        </li>
-                    	<!-- End Item Project -->
-        			</ul>
-            </div>
+    	<div class="row" align="center">
+          		<table class="quiniela">
+		   		<tr align="center">
+		   			<td class="partido"><button id="openBtn" class="button" name="openBtn" value="openBtn">Open</button></td>
+		        </tr>
+          		</table>
+          		<br>
+          		<table class="quiniela">
+		   		<tr align="center">
+		   			<td class="partido"><button id="closeBtn" class="button" name="closeMenu" value="close">Close</button></td>
+		        </tr>
+          		</table>
+          		<br>
+          		<table class="quiniela">
+		   		<tr align="center">
+		   			<td class="partido"><button id="matchesBtn" class="button" name="matchesMenu" value="matches">Matches</button></td>
+		        </tr>
+          		</table>
+          		<br>
+          		<table class="quiniela">
+		   		<tr align="center">
+		   			<td class="partido"><button id="quinielaFinalBtn" class="button" name="quinielaFinalMenu" value="quinelaFinal">Quiniela</button></td>
+		        </tr>
+          		</table>
+          		<br>
+          		<table class="quiniela">
+		   		<tr align="center">
+		   			<td class="partido"><button id="resultsBtn" class="button" name="resultsMenu" value="results">Results</button></td>
+		        </tr>
+	   			</table>
         </div>
 </div>
 </div>
@@ -313,6 +288,11 @@ var ctx = "<%=request.getContextPath()%>"
 			   		</table>
 			   		<div id="openFormResponse">respuesta </div>
 			</form>
+	   		<table class="quiniela">
+	   			<tr align="center">
+		   			<td class="partido"><button id="homeBtn1" class="button" name="homeBtn1" value="homeBtn1">Admin Menu</button></td>
+		        </tr>
+	       </table>
 		</div>
     </div>
     <!-- End OpenRound Form -->
@@ -354,6 +334,11 @@ var ctx = "<%=request.getContextPath()%>"
 			   		</table>
 			   		<div id="closeFormResponse">respuesta </div>
 			</form>
+	   		<table class="quiniela">
+	   			<tr align="center">
+		   			<td class="partido"><button id="homeBtn2" class="button" name="homeBtn2" value="homeBtn2">Admin Menu</button></td>
+		        </tr>
+	       </table>
 		</div>
     </div>
     <!-- End CloseRound Form -->
@@ -468,14 +453,120 @@ var ctx = "<%=request.getContextPath()%>"
 				   			<td align="center" colspan=2 class="partido"><button id="admin_matches_btn" class="button" name="metchesRound" value="matches">Update Matches</button></td>
 				        </tr>
 			   		</table>
-			   		<div id="openFormResponse">respuesta </div>
+			   		<div id="matchesFormResponse">respuesta </div>
 			</form>
+	   		<table class="quiniela">
+	   			<tr align="center">
+		   			<td class="partido"><button id="homeBtn3" class="button" name="homeBtn3" value="homeBtn3">Admin Menu</button></td>
+		        </tr>
+	       </table>
 		</div>
     </div>
-    <!-- End OpenRound Form -->
+    <!-- End MatchesRound Form -->
 </div>
 </div>
-<!-- End OpenRound Section -->
+<!-- End MatchesRound Section -->
+
+<!-- FinalQuinielaRound Section -->
+<div id="quinielaDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Admin - Final Quiniela Round</h2>
+                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- FinalQuinielaRound Form -->
+    <div class="row table-responsive">
+		<div align="center">
+			<form id="quinielaForm">
+			   		<table class="quiniela">
+				   		<tr>
+				   			<td class="partido">Season:</td>
+				   			<td class="partido"><input id="seasonOpen" name="season" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Round:</td>
+				   			<td class="partido"><input id="roundOpen" name="round" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Final Quiniela:</td>
+				   			<td class="partido"><input id="quinielaOpen" name="quiniela" type="text"/></td>
+				        </tr>
+				   		<tr align="right">
+				   			<td class="partido">&nbsp;</td>
+				   			<td class="partido"><button id="admin_open_btn" class="button" name="openRound" value="open">Open</button></td>
+				        </tr>
+			   		</table>
+			   		<div id="quinielaFormResponse">respuesta </div>
+			</form>
+	   		<table class="quiniela">
+	   			<tr align="center">
+		   			<td class="partido"><button id="homeBtn4" class="button" name="homeBtn4" value="homeBtn4">Admin Menu</button></td>
+		        </tr>
+	       </table>
+		</div>
+    </div>
+    <!-- End FinalQuinielaRound Form -->
+</div>
+</div>
+<!-- End FinalQuinielaRound Section -->
+
+<!-- ResultsRound Section -->
+<div id="resultsDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Admin - Results Round</h2>
+                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- ResultsRound Form -->
+    <div class="row table-responsive">
+		<div align="center">
+			<form id="resultForm">
+			   		<table class="quiniela">
+				   		<tr>
+				   			<td class="partido">Season:</td>
+				   			<td class="partido"><input id="seasonOpen" name="season" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Round:</td>
+				   			<td class="partido"><input id="roundOpen" name="round" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Result:</td>
+				   			<td class="partido"><input id="resultOpen" name="result" type="text"/></td>
+				        </tr>
+				   		<tr align="right">
+				   			<td class="partido">&nbsp;</td>
+				   			<td class="partido"><button id="admin_open_btn" class="button" name="openRound" value="open">Open</button></td>
+				        </tr>
+			   		</table>
+			   		<div id="resutFormResponse">respuesta </div>
+			</form>
+	   		<table class="quiniela">
+	   			<tr align="center">
+		   			<td class="partido"><button id="homeBtn5" class="button" name="homeBtn5" value="homeBtn5">Admin Menu</button></td>
+		        </tr>
+	       </table>
+		</div>
+    </div>
+    <!-- End ResultsRound Form -->
+</div>
+</div>
+<!-- End ResultsRound Section -->
+
 
 <!-- Footer -->
 <footer>
@@ -489,6 +580,20 @@ var ctx = "<%=request.getContextPath()%>"
 </a>
 <!-- End Back to Top -->
 
+<!-- Js -->
+<script src="<c:url value="/static/resources/_include/js/jquery.1.9.1.min.js"/>"></script> <!-- jQuery Core -->
+<script src="<c:url value="/static/resources/_include/js/bootstrap.min.js"/>"></script> <!-- Bootstrap -->
+<script src="<c:url value="/static/resources/_include/js/supersized.3.2.7.min.js"/>"></script> <!-- Slider -->
+<script src="<c:url value="/static/resources/_include/js/waypoints.js"/>"></script> <!-- WayPoints -->
+<script src="<c:url value="/static/resources/_include/js/waypoints-sticky.js"/>"></script> <!-- Waypoints for Header -->
+<script src="<c:url value="/static/resources/_include/js/jquery.isotope.js"/>"></script> <!-- Isotope Filter -->
+<script src="<c:url value="/static/resources/_include/js/jquery.fancybox.pack.js"/>"></script> <!-- Fancybox -->
+<script src="<c:url value="/static/resources/_include/js/jquery.fancybox-media.js"/>"></script> <!-- Fancybox for Media -->
+<script src="<c:url value="/static/resources/_include/js/jquery.tweet.js"/>"></script> <!-- Tweet -->
+<script src="<c:url value="/static/resources/_include/js/plugins.js"/>"></script> <!-- Contains: jPreloader, jQuery Easing, jQuery ScrollTo, jQuery One Page Navi -->
+<script src="<c:url value="/static/resources/_include/js/main.js"/>"></script> <!-- Default JS -->
+<script src="<c:url value="/static/resources/_include/js/adminAlterQ.js"/>"></script>
+<script src="<c:url value="/static/resources/_include/js/jquery.dropotron.js"/>"></script>
 
 
 

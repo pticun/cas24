@@ -2,8 +2,9 @@ var round=0;
 var season=0;
 var idUserAlterQ="";
 
-alert("context:"+ctx);
+//alert("context:"+ctx);
 $(document).ready(function() {
+//alert("$(document).ready: INICIO");	
 	consoleAlterQ("Admin - ready");
 	$.fn.serializeObject = function()
 	{
@@ -22,7 +23,7 @@ $(document).ready(function() {
 	    return o;
 	};
 	
-	initDiv(bHome);
+	initDiv();
     
 	
 	$('form#openForm').submit(function(event) {
@@ -63,13 +64,40 @@ $(document).ready(function() {
 			});
 		 	event.preventDefault(); // prevent actual form submit and page reload
 	});
-	
-	
-	$("#openBtn").on('click', function(event){
-		menuEvent($(this).text(),  "#openDiv");
-    });
+});
 
-	
+$("#openBtn").on('click', function(event){
+	menuEvent($(this).text(),  "#openDiv");
+});
+$("#closeBtn").on('click', function(event){
+	menuEvent($(this).text(),  "#closeDiv");
+});
+$("#matchesBtn").on('click', function(event){
+	menuEvent($(this).text(),  "#matchesDiv");
+});
+$("#quinielaFinalBtn").on('click', function(event){
+	menuEvent($(this).text(),  "#quinielaDiv");
+});
+$("#resultsBtn").on('click', function(event){
+	menuEvent($(this).text(),  "#resultsDiv");
+});
+$("#homeBtn1").on('click', function(event){
+	menuEvent($(this).text(),  "#homeDiv");
+});
+$("#homeBtn1").on('click', function(event){
+	menuEvent($(this).text(),  "#homeDiv");
+});
+$("#homeBtn2").on('click', function(event){
+	menuEvent($(this).text(),  "#homeDiv");
+});
+$("#homeBtn3").on('click', function(event){
+	menuEvent($(this).text(),  "#homeDiv");
+});
+$("#homeBtn4").on('click', function(event){
+	menuEvent($(this).text(),  "#homeDiv");
+});
+$("#homeBtn5").on('click', function(event){
+	menuEvent($(this).text(),  "#homeDiv");
 });
 
 
