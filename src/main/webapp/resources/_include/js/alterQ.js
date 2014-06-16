@@ -283,11 +283,11 @@ $(document).ready(function() {
 		$(sMyDataRef).show();
    	}); 
 //    $("ul[id*=myid] li")
-	$("ul[id*=rankingSelect]").click(function(event){
-        consoleAlterQ('rankingSelect');
+//	$("ul[id*=rankingSelect]").click(function(event){
+   	$( "#rankingSelect" ).on( "click", "a", function( event ) {
+   		consoleAlterQ('rankingSelect');
 		jornada=this.id;
 		consoleAlterQ("selectedIndex="+jornada);
-		consoleAlterQ("val="+$('#rankingSelect li').index(this));
 		//Remove table
 		$('#rankingTable').find("tr").remove();
 		jQuery.ajax ({

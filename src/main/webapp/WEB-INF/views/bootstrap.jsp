@@ -366,9 +366,11 @@ End Analytics -->
   	}
 	function paintRanking(){
 		$('#rankingSelect li').remove();
-//		$('#rankingSelect').append($("<li>").append($("<a>").attr("href","#").attr("tabindex","1").text("2013/2014")));
-		$('#rankingSelect').append($("<li id=\"2014\"><a tabindex=\"-1\" href=\"#\">2013/2014</a></li>"));
-		$('#rankingSelect').append($("<li id=\"2013\"><a tabindex=\"-1\" href=\"#\">2012/2013</a></li>"));
+		$('#rankingSelect').append($("<li><a class='list-group-item' id="+season+"_0>"+(season-1)+"/"+season+"</a></li>"));
+		$('#rankingSelect').append($("<li><a class='divider'></a></li>"));
+		for ( var num = 1; num < round; num++) {
+			$('#rankingSelect').append($("<li><a id='"+season+"_"+num+"' href='#'>"+num+"</a></li>"));
+		}
 	}
 
 function getSign(sign){
@@ -630,6 +632,22 @@ function getTableMatches(bet, loadGames){
 			  <ul class="dropdown-menu" id="rankingSelect" role="menu" aria-labelledby="dropdownMenu">
 			    <li value="2013/2014"><a tabindex="-1" href="#">2013/2014</a></li>
 			    <li class="divider"></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
 			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
 			  </ul>
 			</div>    
