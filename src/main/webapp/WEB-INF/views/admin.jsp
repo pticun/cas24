@@ -317,7 +317,7 @@ var ctx = "<%=request.getContextPath()%>"
     <!-- CloseRound Form -->
     <div class="row table-responsive">
 		<div align="center">
-			<form id="openForm">
+			<form id="openFormClose">
 			   		<table class="quiniela">
 				   		<tr>
 				   			<td class="partido">Season:</td>
