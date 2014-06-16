@@ -286,12 +286,15 @@ $(document).ready(function() {
 //	$("ul[id*=rankingSelect]").click(function(event){
    	$( "#rankingSelect" ).on( "click", "a", function( event ) {
    		consoleAlterQ('rankingSelect');
-		jornada=this.id;
-		consoleAlterQ("selectedIndex="+jornada);
+		texto=this.id;
+		pos = texto.indexOf('_');
+		temporada=texto.substring(0,pos);
+		jornada=texto.substring(pos+1);
+		consoleAlterQ("temporada_jornada="+temporada+"-"+jornada);
 		//Remove table
 		$('#rankingTable').find("tr").remove();
 		jQuery.ajax ({
-		    url: ctx+'/myaccount/'+ idUserAlterQ +'/season/2014/round/12/ranking',
+		    url: ctx+'/myaccount/'+ idUserAlterQ +'/season/'+temporada+'/round/'+jornada+'/ranking',
 		    type: "GET",
 		    data: null,
 		    contentType: "application/json; charset=utf-8",
