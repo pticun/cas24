@@ -30,7 +30,7 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#openForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/admin'+ '/company/' + '1' + '/season/'+ season+'/round/'+round+'/open',
+			 url: ctx+'/admin'+ '/company/' + '1' + '/season/'+ $("input[name=season]").val() + '/round/' + $("input[name=round]").val() + '/open',
 			    type: "POST",
 			    data: dataJson,
 			    contentType: "application/json; charset=utf-8",
@@ -47,7 +47,7 @@ $(document).ready(function() {
 		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
 						//$('#loginFormResponse').text(response.userAlterQ.name);
 						consoleAlterQ("open: response= OK");
-						$('#loginFormResponse').text("Admin - Open - OK");
+						$('#openFormResponse').text("Admin - Open - OK");
 						//userLoged=true;
 						//idUserAlterQ=response.userAlterQ.id;
 						//$('#idData').val(response.userAlterQ.id);

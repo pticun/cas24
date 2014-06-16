@@ -283,7 +283,7 @@ var ctx = "<%=request.getContextPath()%>"
 				        </tr>
 				   		<tr align="right">
 				   			<td class="partido">&nbsp;</td>
-				   			<td class="partido"><button id="admin_open_btn" class="button" name="openRound" value="open">Open</button></td>
+				   			<td class="partido"><button id="admin_open_btn" class="button" name="openBtn" value="openBtn">Open</button></td>
 				        </tr>
 			   		</table>
 			   		<div id="openFormResponse">respuesta </div>
@@ -325,11 +325,11 @@ var ctx = "<%=request.getContextPath()%>"
 				        </tr>
 				   		<tr>
 				   			<td class="partido">Round:</td>
-				   			<td class="partido"><input id="roundSeason" name="round" type="text"/></td>
+				   			<td class="partido"><input id="roundClose" name="round" type="text"/></td>
 				        </tr>
 				   		<tr align="right">
 				   			<td class="partido">&nbsp;</td>
-				   			<td class="partido"><button id="admin_close_btn" class="button" name="closeRound" value="open">Close</button></td>
+				   			<td class="partido"><button id="admin_close_btn" class="button" name="closeBtn" value="closeBtn">Close</button></td>
 				        </tr>
 			   		</table>
 			   		<div id="closeFormResponse">respuesta </div>
@@ -367,11 +367,11 @@ var ctx = "<%=request.getContextPath()%>"
 			   		<table class="quiniela">
 				   		<tr>
 				   			<td class="partido">Season:</td>
-				   			<td  align="center" colspan=2 class="partido"><input id="seasonOpen" name="season" type="text"/></td>
+				   			<td  align="center" colspan=2 class="partido"><input id="seasonMatches" name="season" type="text"/></td>
 				        </tr>
 				   		<tr>
 				   			<td class="partido">Round:</td>
-				   			<td align="center" colspan=2 class="partido"><input id="roundOpen" name="round" type="text"/></td>
+				   			<td align="center" colspan=2 class="partido"><input id="roundMatches" name="round" type="text"/></td>
 				        </tr>
 				   		<tr>
 				   			<td class="partido">1</td>
@@ -450,7 +450,7 @@ var ctx = "<%=request.getContextPath()%>"
 				        </tr>
 				   		<tr align="right">
 				   			<td class="partido">&nbsp;</td>
-				   			<td align="center" colspan=2 class="partido"><button id="admin_matches_btn" class="button" name="metchesRound" value="matches">Update Matches</button></td>
+				   			<td align="center" colspan=2 class="partido"><button id="admin_matches_btn" class="button" name="matchesBtn" value="matchesBtn">Update Matches</button></td>
 				        </tr>
 			   		</table>
 			   		<div id="matchesFormResponse">respuesta </div>
@@ -488,19 +488,19 @@ var ctx = "<%=request.getContextPath()%>"
 			   		<table class="quiniela">
 				   		<tr>
 				   			<td class="partido">Season:</td>
-				   			<td class="partido"><input id="seasonOpen" name="season" type="text"/></td>
+				   			<td class="partido"><input id="seasonQuiniela" name="season" type="text"/></td>
 				        </tr>
 				   		<tr>
 				   			<td class="partido">Round:</td>
-				   			<td class="partido"><input id="roundOpen" name="round" type="text"/></td>
+				   			<td class="partido"><input id="roundQuiniela" name="round" type="text"/></td>
 				        </tr>
 				   		<tr>
 				   			<td class="partido">Final Quiniela:</td>
-				   			<td class="partido"><input id="quinielaOpen" name="quiniela" type="text"/></td>
+				   			<td class="partido"><input id="quinielaFinal" name="quiniela" type="text"/></td>
 				        </tr>
 				   		<tr align="right">
 				   			<td class="partido">&nbsp;</td>
-				   			<td class="partido"><button id="admin_open_btn" class="button" name="openRound" value="open">Open</button></td>
+				   			<td class="partido"><button id="admin_quiniela_btn" class="button" name="quinielaBtn" value="quinielaBtn">Quiniela</button></td>
 				        </tr>
 			   		</table>
 			   		<div id="quinielaFormResponse">respuesta </div>
@@ -538,19 +538,19 @@ var ctx = "<%=request.getContextPath()%>"
 			   		<table class="quiniela">
 				   		<tr>
 				   			<td class="partido">Season:</td>
-				   			<td class="partido"><input id="seasonOpen" name="season" type="text"/></td>
+				   			<td class="partido"><input id="seasonResults" name="season" type="text"/></td>
 				        </tr>
 				   		<tr>
 				   			<td class="partido">Round:</td>
-				   			<td class="partido"><input id="roundOpen" name="round" type="text"/></td>
+				   			<td class="partido"><input id="roundResults" name="round" type="text"/></td>
 				        </tr>
 				   		<tr>
 				   			<td class="partido">Result:</td>
-				   			<td class="partido"><input id="resultOpen" name="result" type="text"/></td>
+				   			<td class="partido"><input id="results" name="results" type="text"/></td>
 				        </tr>
 				   		<tr align="right">
 				   			<td class="partido">&nbsp;</td>
-				   			<td class="partido"><button id="admin_open_btn" class="button" name="openRound" value="open">Open</button></td>
+				   			<td class="partido"><button id="admin_results_btn" class="button" name="resultsBtn" value="resultsBtn">Set Results</button></td>
 				        </tr>
 			   		</table>
 			   		<div id="resutFormResponse">respuesta </div>
