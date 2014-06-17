@@ -61,8 +61,10 @@ public class AccountController {
 				userAlterQ.setName(user.getName());
 			if (user.getPhoneNumber() != null)
 				userAlterQ.setPhoneNumber(user.getPhoneNumber());
+			/*
 			if (user.getBalance() != null)
 				userAlterQ.setBalance(user.getBalance());
+			*/
 			userAlterQ.setDateUpdated(new Date());
 			userDao.save(userAlterQ);
 			dto.setUserAlterQ(userAlterQ);

@@ -571,14 +571,14 @@ function getTableMatches(bet, loadGames){
 			        </tr>
 			   		<tr>
 			   			<td class="partido">Saldo:</td>
-			   			<td class="partido"><input name="balance" id="balanceSaldo" type="text"/></td>
+			   			<td class="partido"><input name="balance" id="balanceSaldo" type="text" readonly="true"/></td>
 			        </tr>
-			   		<tr align="right">
+			   		<tr align="right" style="display:none" >
 			   			<td class="partido"></td>
 			   			<td class="partido"><button id="balanceAlterQFormSubmit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
 			        </tr>
 		   		</table>
-		         <div id="balanceAlterQFormResponse">Actualiza tu saldo y pulsa Enviar.</div>
+		         <div id="balanceAlterQFormResponse" style="display:none">Actualiza tu saldo y pulsa Enviar.</div>
 	        </form>
 		</div>
     </div>
