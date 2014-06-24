@@ -77,8 +77,17 @@ public class AdminController {
 		//if exist, update active=true
 		if (generalData != null){
 			log.debug("openRound: active=true");
-			generalData.setActive(true);
-			dao.update(generalData);
+			if ((company == generalData.getCompany()) && (season == generalData.getSeason()) && (round == generalData.getRound()) && (generalData.isActive()))
+			{
+				log.debug("openRound: Round is already actived");
+			}
+			else{
+				generalData.setCompany(company);
+				generalData.setSeason(season);
+				generalData.setRound(round);
+				generalData.setActive(true);
+				dao.update(generalData);
+			}
 		}
 		else{//if not exist, create a new generalData (active=true)
 			log.debug("openRound: new generalData active=true");
@@ -772,7 +781,7 @@ public class AdminController {
 //	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/{local01}/{visitor01}/{local02}/{visitor02}/{local03}/{visitor03}/{local04}/{visitor04}/{local05}/{visitor05}/{local06}/{visitor06}/{local07}/{visitor07}/{local08}/{visitor08}/{local09}/{visitor09}/{local10}/{visitor10}/{local11}/{visitor11}/{local12}/{visitor12}/{local13}/{visitor13}/{local14}/{visitor14}/{local15}/{visitor15}")
 //	public @ResponseBody 
 //	ResponseDto  addRoundGames(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable String local01, @PathVariable String visitor01, @PathVariable String local02, @PathVariable String visitor02, @PathVariable String local03, @PathVariable String visitor03, @PathVariable String local04, @PathVariable String visitor04, @PathVariable String local05, @PathVariable String visitor05, @PathVariable String local06, @PathVariable String visitor06, @PathVariable String local07, @PathVariable String visitor07, @PathVariable String local08, @PathVariable String visitor08, @PathVariable String local09, @PathVariable String visitor09, @PathVariable String local10, @PathVariable String visitor10, @PathVariable String local11, @PathVariable String visitor11, @PathVariable String local12, @PathVariable String visitor12, @PathVariable String local13, @PathVariable String visitor13, @PathVariable String local14, @PathVariable String visitor14, @PathVariable String local15, @PathVariable String visitor15) {
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}")
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/matches")
 	public @ResponseBody ResponseDto addRoundGames(@RequestBody Round round) {
 		ResponseDto dto = new ResponseDto();
 		Round myRound = new Round();
