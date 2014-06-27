@@ -279,6 +279,9 @@ $(document).ready(function() {
 	$("#myRankBtn").click(function(){
 		menuEvent($(this).text(), "#myRankDiv");
 	});
+	$("#myResumBtn").click(function(){
+		menuEvent($(this).text(), "#myResumDiv");
+	});
    	$('mydataDiv').click(function(){
 		$(sMyDataRef).show();
    	}); 
@@ -317,6 +320,39 @@ $(document).ready(function() {
 		});
 		event.preventDefault(); // prevent actual form submit and page reload
     });
+   	$( "#resumSelect" ).on( "click", "a", function( event ) {
+   		consoleAlterQ('resumSelect');
+   		texto=this.id;
+   		pos = texto.indexOf('_');
+   		temporada=texto.substring(0,pos);
+   		jornada=texto.substring(pos+1);
+   		consoleAlterQ("temporada_jornada="+temporada+"-"+jornada);
+   		//Remove table
+   		$('#rankingTable').find("tr").remove();
+   		jQuery.ajax ({
+   			url: ctx+'/myaccount/admin/season/'+temporada+'/round/'+jornada+'/bet',
+   			type: "GET",
+   			data: null,
+   			contentType: "application/json; charset=utf-8",
+   			async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+   			cache: false,    //This will force requested pages not to be cached by the browser  
+   			processData:false, //To avoid making query String instead of JSON
+   			success: function(response){
+   				if(response.errorDto!=null){
+   					consoleAlterQ("error:"+response.errorDto);
+   					$('#resumTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td colspan="4">ERROR</td></tr></tr>');       
+   				}
+   				else{
+   					consoleAlterQ("response:"+response);
+   					$('#resumTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td colspan="4">Jornada '+ jornada+'</td></tr>');
+   					$(response.roundRanking.rankings).each(function(index, objeto){  
+   						$('#resumTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td colspan="2" align="left">'+ objeto.user.id+'</td><td colspan="2" align="right">'+ objeto.points+'</td></tr>');
+   					});
+   				}
+   			}
+   		});
+   		event.preventDefault(); // prevent actual form submit and page reload
+   	});
 	
 	
 });

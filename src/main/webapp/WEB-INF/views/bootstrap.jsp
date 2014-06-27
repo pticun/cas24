@@ -148,6 +148,7 @@ End Analytics -->
 	var bMyBalance = 8;
 	var bMyBets = 9;
 	var bMyRank = 10;
+	var bMyResum = 11;
 	
 	//Texts
 	var sHome    = "Inicio";
@@ -171,6 +172,7 @@ End Analytics -->
 	var sMyBalanceRef = "#mybalanceDiv";
 	var sMyBetsRef = "#mybetsDiv";
 	var sMyRankRef = "#myRankDiv";
+	var sMyResumRef = "#myResumDiv";
 	
 	function initDiv() {
 		//document.getElementById("homeDiv").style.display = "block";
@@ -188,6 +190,7 @@ End Analytics -->
 		$(sMyBalanceRef).hide();
 		$(sMyBetsRef).hide();
 		$(sMyRankRef).hide();
+		$(sMyResumRef).hide();
 		
 		bActual = bHome;
 		
@@ -239,6 +242,9 @@ End Analytics -->
 		case bMyRank:
 			$(sMyRankRef).show();
 			break;
+		case bMyResum:
+			$(sMyResumRef).show();
+			break;
 		}
 
 		switch (bActual){
@@ -276,6 +282,9 @@ End Analytics -->
 			break;
 		case bMyRank:
 			$(sMyRankRef).hide();
+			break;
+		case bMyResum:
+			$(sMyResumRef).hide();
 			break;
 		}
 		
@@ -322,6 +331,10 @@ End Analytics -->
 			consoleAlterQ("Mybets");
 			getUserBets();
 			showDiv(bMyBets);
+		}else if (href == sMyResumRef){
+			consoleAlterQ("MyResum");
+			paintResum();
+			showDiv(bMyResum);
 		}else if (href == sMyRankRef){
 			consoleAlterQ("MyRank");
 			paintRanking();
@@ -370,6 +383,14 @@ End Analytics -->
 		$('#rankingSelect').append($("<li><a class='divider'></a></li>"));
 		for ( var num = 1; num < round; num++) {
 			$('#rankingSelect').append($("<li><a id='"+season+"_"+num+"' href='#'>"+num+"</a></li>"));
+		}
+	}
+	function paintResum(){
+		$('#resumSelect li').remove();
+		$('#resumSelect').append($("<li><a class='list-group-item' id="+season+"_0>"+(season-1)+"/"+season+"</a></li>"));
+		$('#resumSelect').append($("<li><a class='divider'></a></li>"));
+		for ( var num = 1; num < round; num++) {
+			$('#resumSelect').append($("<li><a id='"+season+"_"+num+"' href='#'>"+num+"</a></li>"));
 		}
 	}
 
@@ -490,6 +511,7 @@ function getTableMatches(bet, loadGames){
             	<div class="well" id="myBalanceBtn">Mi Saldo</div>
             	<div class="well" id="myBetsBtn">Mis Apuestas</div>
             	<div class="well" id="myRankBtn">Ranking</div>
+            	<div class="well" id="myResumBtn">Resumen</div>
             </div>
         </div>
 </div>
@@ -661,6 +683,57 @@ function getTableMatches(bet, loadGames){
 </div>
 </div>
 <!-- End Ranking Section -->
+<!-- Resum Section -->
+<div id="myResumDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Resumen</h2>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    <!-- MyData Form -->
+    <div class="row">
+		<div class="span3">&nbsp;</div>
+		<div class="span6">
+			<div class="btn-group dropdown">
+			  <button type="button" class="btn btn-default">Resum</button>
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+			  <ul class="dropdown-menu" id="resumSelect" role="menu" aria-labelledby="dropdownMenu">
+			    <li value="2013/2014"><a tabindex="-1" href="#">2013/2014</a></li>
+			    <li class="divider"></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
+			  </ul>
+			</div>    
+			<div id="resumResponse">
+				    <table class="quiniela" id="resumTable"></table>
+			</div>
+		</div>
+		<div class="span3">&nbsp;</div>
+    </div>
+    <!-- End MyData Form -->
+</div>
+</div>
+<!-- End Resum Section -->
 
 <!-- About Section -->
 <div id="about" class="page-alternate">
