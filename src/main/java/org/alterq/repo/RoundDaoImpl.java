@@ -3,6 +3,7 @@ package org.alterq.repo;
 import java.util.List;
 
 import org.alterq.domain.Round;
+import org.alterq.domain.RoundBets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -39,4 +40,11 @@ public class RoundDaoImpl implements RoundDao {
 		return;
 	}
 
+	public void deleteRound(int company, int season, int round) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("season").is(season).and("round").is(round));
+		mongoTemplate.remove(query, Round.class);
+		
+		return;
+	}
 }

@@ -790,11 +790,12 @@ public class AdminController {
 	public @ResponseBody ResponseDto addRoundGames(HttpServletRequest request, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
 		ResponseDto dto = new ResponseDto();
 		Round myRound = new Round();
+		Round tmpRound;
 		
 		Map<String, String[]> parameters = request.getParameterMap();
 		List<Game> lGames = new ArrayList<Game>();
 		
-		for (int i=1;i<15;i++)
+		for (int i=1;i<=15;i++)
 		{
 			Game gameTmp = new Game();
 			gameTmp.setId(i);
@@ -807,6 +808,13 @@ public class AdminController {
 		myRound.setSeason(season);
 		myRound.setRound(round);
 		myRound.setGames(lGames);
+		
+		tmpRound = roundDao.findBySeasonRound(season, round);
+		
+		if (tmpRound != null)
+		{
+			roundDao.deleteRound(company, season, round);
+		}
 		
 		roundDao.addRound(myRound);
 		

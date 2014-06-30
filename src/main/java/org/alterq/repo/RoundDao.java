@@ -12,4 +12,6 @@ public interface RoundDao {
 	public List<Round> findAllOrderedBySeason();
 
 	public void addRound(Round jornada);
+	
+	public void deleteRound(int company, int season, int round);
 }
