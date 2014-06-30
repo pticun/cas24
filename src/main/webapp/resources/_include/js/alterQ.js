@@ -328,7 +328,27 @@ $(document).ready(function() {
    		jornada=texto.substring(pos+1);
    		consoleAlterQ("temporada_jornada="+temporada+"-"+jornada);
    		//Remove table
-   		$('#rankingTable').find("tr").remove();
+   		$('#resumTable').find("tr").remove();
+   		var mygames;
+		jQuery.ajax ({
+		    url: ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round,
+		    type: "GET",
+		    data: null,
+		    contentType: "application/json; charset=utf-8",
+		    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	        cache: false,    //This will force requested pages not to be cached by the browser  
+	        processData:false, //To avoid making query String instead of JSON
+		    success: function(response){
+			    if(response.errorDto!=null){
+			    	$('#temporada').text(response.errorDto.stringError);
+			    }
+			    else{
+			    	mygames=response.round.games;
+			    }
+		    }
+		});
+
+   		
    		jQuery.ajax ({
    			url: ctx+'/myaccount/admin/season/'+temporada+'/round/'+jornada+'/bet',
    			type: "GET",
@@ -344,9 +364,14 @@ $(document).ready(function() {
    				}
    				else{
    					consoleAlterQ("response:"+response);
-   					$('#resumTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td colspan="4">Jornada '+ jornada+'</td></tr>');
-   					$(response.roundRanking.rankings).each(function(index, objeto){  
-   						$('#resumTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td colspan="2" align="left">'+ objeto.user.id+'</td><td colspan="2" align="right">'+ objeto.points+'</td></tr>');
+   					consoleAlterQ("response.roundBet:"+response.roundBet);
+   					consoleAlterQ("response.roundBet.bets:"+response.roundBet.bets);
+   					$(response.roundBet.bets).each(function(index, element){
+   						console.log("index="+index);
+   						console.log("user="+element.user + " bet="+element.bet);
+   						var row="";
+   						row+='<div align="center" id="apuesta'+index+'"><h3>'+getTableMatches(element.bet, mygames)+'</h3></div>';
+    					$('#resumTable').append(row);
    					});
    				}
    			}
