@@ -639,6 +639,7 @@ public class AdminController {
 		int singBet;
 		int singRes;
 		
+		try{
 		for (int i = 0; i<apu.length(); i++){
 			singBet = Integer.parseInt(apu.substring(i, i+1));
 			singRes = Integer.parseInt(resultBet.substring(i, i+1));		
@@ -666,7 +667,12 @@ public class AdminController {
 				break;
 			}
 		}
-		
+		} catch (Exception e){
+			rdo = 0;
+			doses = 0;
+			equis = 0;
+			unos = 0;
+		}
 		//Asignamos los resultados al vector final
 		//Numero de apuestas acertadas
 		salida[0]=rdo;

@@ -116,15 +116,53 @@ $(document).ready(function() {
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
 		   		    if(response.errorDto!=null){
-		   		    	consoleAlterQ("open: response="+response.errorDto.stringError);
+		   		    	consoleAlterQ("matches: response="+response.errorDto.stringError);
 		   		    	$('#matchesFormResponse').text(response.errorDto.stringError);
 		   		    	userLoged=false;
 		   		    }
 		   		    else{
 		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
 						//$('#loginFormResponse').text(response.userAlterQ.name);
-						consoleAlterQ("close: response= OK");
+						consoleAlterQ("matches: response= OK");
 						$('#matchesFormResponse').text("Admin - Matches - OK");
+						//userLoged=true;
+						//idUserAlterQ=response.userAlterQ.id;
+						//$('#idData').val(response.userAlterQ.id);
+						//$('#nameData').val(response.userAlterQ.name);
+						//$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
+						//$('#idSaldo').val(response.userAlterQ.id);
+						//$('#balanceSaldo').val(response.userAlterQ.balance);
+						//getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+						//showDiv(bHome);
+		   		    }
+				    //round=response.generalData.round;
+				    //season=response.generalData.season;
+			    }
+			});
+		 	event.preventDefault(); // prevent actual form submit and page reload
+	});
+	$('form#resultForm').submit(function(event) {
+		 var dataJson=JSON.stringify($('form#resultForm').serializeObject());
+		 consoleAlterQ(dataJson);
+		 jQuery.ajax ({
+			 url: ctx+'/admin'+ '/company/' + '1' + '/season/'+ $("input[id=seasonResults]").val() + '/round/' + $("input[id=roundResults]").val() + '/resultBet/' + $("input[id=results]").val(),
+			    type: "POST",
+			    data: dataJson,
+			    //contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=null){
+		   		    	consoleAlterQ("result: response="+response.errorDto.stringError);
+		   		    	$('#matchesFormResponse').text(response.errorDto.stringError);
+		   		    	userLoged=false;
+		   		    }
+		   		    else{
+		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
+						//$('#loginFormResponse').text(response.userAlterQ.name);
+						consoleAlterQ("result: response= OK");
+						$('#resutFormResponse').text("Admin - Result - OK");
 						//userLoged=true;
 						//idUserAlterQ=response.userAlterQ.id;
 						//$('#idData').val(response.userAlterQ.id);
