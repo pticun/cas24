@@ -651,7 +651,7 @@ function getTableMatches(bet, loadGames){
 			<div class="btn-group dropdown">
 			  <button type="button" class="btn btn-default">Ranking</button>
 			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-			  <ul class="dropdown-menu" id="rankingSelect" role="menu" aria-labelledby="dropdownMenu">
+			  <ul class="dropdown-menu" style="z-index: 100;position: relative;" id="rankingSelect" role="menu" aria-labelledby="dropdownMenu">
 			    <li value="2013/2014"><a tabindex="-1" href="#">2013/2014</a></li>
 			    <li class="divider"></li>
 			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
@@ -702,7 +702,7 @@ function getTableMatches(bet, loadGames){
 			<div class="btn-group dropdown">
 			  <button type="button" class="btn btn-default">Resum</button>
 			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-			  <ul class="dropdown-menu" id="resumSelect" role="menu" aria-labelledby="dropdownMenu">
+			  <ul class="dropdown-menu" style="z-index: 100;position: relative;" id="resumSelect" role="menu" aria-labelledby="dropdownMenu">
 			    <li value="2013/2014"><a tabindex="-1" href="#">2013/2014</a></li>
 			    <li class="divider"></li>
 			    <li value="2012/2013"><a tabindex="-1" href="#">2012/2013</a></li>
