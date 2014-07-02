@@ -495,8 +495,8 @@ var ctx = "<%=request.getContextPath()%>"
 				   			<td class="partido"><input id="roundQuiniela" name="round" type="text"/></td>
 				        </tr>
 				   		<tr>
-				   			<td class="partido">Final Quiniela:</td>
-				   			<td class="partido"><input id="quinielaFinal" name="quiniela" type="text"/></td>
+				   			<td class="partido">Type Quiniela(0=normal, 1=reduced):</td>
+				   			<td class="partido"><input id="tipoQuiniela" name="quiniela" type="text"/></td>
 				        </tr>
 				   		<tr align="right">
 				   			<td class="partido">&nbsp;</td>
