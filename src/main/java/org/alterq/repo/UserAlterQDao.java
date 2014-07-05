@@ -19,6 +19,7 @@ public interface UserAlterQDao {
 	public UserAlterQ validateLogin(String id, String password);
 	
 	public List<UserAlterQ> findUserWithAutomatics(int company);
+	public void remove(UserAlterQ userAlterQ) throws Exception;
 	
 	public DBObject getLastError();
 }

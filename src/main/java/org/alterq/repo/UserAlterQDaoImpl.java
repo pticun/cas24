@@ -99,8 +99,14 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 
 	@Override
 	public UserAlterQ findAdminByCompany(int company) {
-		Query query = new Query(Criteria.where("company").is(company)).addCriteria(Criteria.where("admin").is("true"));
+		Query query = new Query(Criteria.where("company").is(company)).addCriteria(Criteria.where("admin").is(Boolean.TRUE));
 		return mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
+	}
+
+	@Override
+	public void remove(UserAlterQ userAlterQ) throws Exception {
+		mongoTemplate.remove(userAlterQ, COLLECTION_NAME);
+		
 	}
 	
 }

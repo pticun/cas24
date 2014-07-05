@@ -69,7 +69,7 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#closeForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/admin'+ '/company/' + '1' + '/season/'+ $("input[name=season]").val() + '/round/' + $("input[name=round]").val() + '/close',
+			 url: ctx+'/admin'+ '/company/' + '1' + '/season/'+ $("input[id=seasonClose]").val() + '/round/' + $("input[id=roundClose]").val() + '/close',
 			    type: "POST",
 			    data: dataJson,
 			    contentType: "application/json; charset=utf-8",

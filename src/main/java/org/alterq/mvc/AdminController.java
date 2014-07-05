@@ -21,17 +21,20 @@ import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ResponseDto;
+import org.alterq.exception.SecurityException;
 import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.RoundRankingDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.UserAlterQDao;
+import org.alterq.security.UserAlterQSecurity;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,6 +57,8 @@ public class AdminController {
 	private RoundRankingDao roundRankingDao;
 	@Autowired
 	private RoundDao roundDao;
+	@Autowired
+	private UserAlterQSecurity userSecurity;
 	
 	
 	private static int doubles = 0;
@@ -69,53 +74,61 @@ public class AdminController {
 	
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/open")
 	public @ResponseBody 
-	GeneralData openRound(@PathVariable int company, @PathVariable int season, @PathVariable int round) {
+	GeneralData openRound(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round) {
 		GeneralData generalData = null;
 		
 		log.debug("openRound: start");
-		generalData = dao.findByCompany(company);
-		
-		//OPENING PROCESS STEPS
-		//---------------------
-
-		//STEP 1: update generalData
-		
-		//if exist, update active=true
-		if (generalData != null){
-			log.debug("openRound: active=true");
-			if ((company == generalData.getCompany()) && (season == generalData.getSeason()) && (round == generalData.getRound()) && (generalData.isActive()))
-			{
-				log.debug("openRound: Round is already actived");
-			}
-			else{
-				generalData.setCompany(company);
-				generalData.setSeason(season);
-				generalData.setRound(round);
-				generalData.setActive(true);
-				dao.update(generalData);
-			}
-		}
-		else{//if not exist, create a new generalData (active=true)
-			log.debug("openRound: new generalData active=true");
-			generalData = new GeneralData();
-			generalData.setActive(true);
-			generalData.setCompany(company);
-			generalData.setRound(round);
-			generalData.setSeason(season);
+		try {
+			userSecurity.isAdminUserInSession( cookieSession);
+			generalData = dao.findByCompany(company);
 			
-			dao.add(generalData);
+			//OPENING PROCESS STEPS
+			//---------------------
+
+			//STEP 1: update generalData
+			
+			//if exist, update active=true
+			if (generalData != null){
+				log.debug("openRound: active=true");
+				if ((company == generalData.getCompany()) && (season == generalData.getSeason()) && (round == generalData.getRound()) && (generalData.isActive()))
+				{
+					log.debug("openRound: Round is already actived");
+				}
+				else{
+					generalData.setCompany(company);
+					generalData.setSeason(season);
+					generalData.setRound(round);
+					generalData.setActive(true);
+					dao.update(generalData);
+				}
+			}
+			else{//if not exist, create a new generalData (active=true)
+				log.debug("openRound: new generalData active=true");
+				generalData = new GeneralData();
+				generalData.setActive(true);
+				generalData.setCompany(company);
+				generalData.setRound(round);
+				generalData.setSeason(season);
+				
+				dao.add(generalData);
+			}
+			
+			//STEP 2: Create roundData (RoundBets collection)
+			 RoundBets roundBets = roundBetDao.findAllBets(season, round);
+			//Check if exist this roundBet
+			if (roundBets == null){
+				RoundBets bean= new RoundBets();
+				bean.setCompany(company);
+				bean.setRound(round);
+				bean.setSeason(season);
+				roundBetDao.add(bean);
+			}
+			
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		//STEP 2: Create roundData (RoundBets collection)
-		 RoundBets roundBets = roundBetDao.findAllBets(season, round);
-		//Check if exist this roundBet
-		if (roundBets == null){
-			RoundBets bean= new RoundBets();
-			bean.setCompany(company);
-			bean.setRound(round);
-			bean.setSeason(season);
-			roundBetDao.add(bean);
-		}
+
 		
 		log.debug("openRound: end");
 		return generalData;
@@ -123,76 +136,80 @@ public class AdminController {
 	
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/close")
 	public @ResponseBody 
-	GeneralData closeRound(@PathVariable int company, @PathVariable int season, @PathVariable int round) {
+	GeneralData closeRound(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round) {
 		GeneralData generalData = null;
 		log.debug("closeRound: start");
 		
-		
-		generalData = dao.findByCompany(company);
-	
-		//CLOSING PROCESS STEPS
-		//
-		
-		//STEP 1: if exist, update active=false
-		//
-		if (generalData != null){
-			log.debug("closeRound: active=true");
-			generalData.setActive(false);
-			dao.update(generalData);
-		}
-		else{ //there is not round to close
-			return null;
-		}
-		
-		//STEP 2: Automatics Bets
-		//
-		//STEP 2.1 - Get Users with automatic bets
-		List<UserAlterQ> lUsers = userAlterQDao.findUserWithAutomatics(company);
-		//STEP 2.2 - For each user do as bets as automatic bets (It has to check user amount before make automatics bets)
-		for (UserAlterQ user : lUsers){
-			//STEP 2.2.1 - Check User Balance
-			float balance = new Float(user.getBalance()).floatValue();
-			if (balance < DEF_QUINIELA_BET_PRICE){
-				log.debug("closeRound: user("+user.getName()+") No enough money for automatic bet");
-				//STEP 2.2.1.error - Send an email to the user ("NOT ENOUGH MONEY")
-				continue;
-			}
-			//STEP 2.2.2 - Calc RandomBet
-			String randomBet = randomBet();
-			//STEP 2.2.3 - Make Automatic User Bet
-			Bet bet = new Bet();
-			bet.setPrice(DEF_QUINIELA_BET_PRICE);
-			bet.setBet(randomBet);
-			bet.setUser(user.getId());
-			bet.setCompany(company);
-			bet.setDateCreated(new Date());
-			bet.setDateUpdated(new Date());
-			bet.setId(new ObjectId().toStringMongod());			
+		try {
+			userSecurity.isAdminUserInSession( cookieSession);
+			generalData = dao.findByCompany(company);
 			
-			if (!roundBetDao.addBet(season, round, bet))
-			{
-				log.debug("closeRound: user("+user.getName()+") No enough money for automatic bet");
-				//STEP 2.2.3.error - Send an email to the admin ("ERROR making automatic bet")
-				continue;
+			//CLOSING PROCESS STEPS
+			//
+			
+			//STEP 1: if exist, update active=false
+			//
+			if (generalData != null){
+				log.debug("closeRound: active=true");
+				generalData.setActive(false);
+				dao.update(generalData);
 			}
-			//STEP 2.2.4 - Update User Balance
-			try{
-				user.setBalance(Float.toString((float)(balance - DEF_QUINIELA_BET_PRICE)));
-				userAlterQDao.save(user);
-				if(userAlterQDao.getLastError() != null){    
-					log.debug("closeRound: user("+user.getName()+") Error updating balance.");  
+			else{ //there is not round to close
+				return null;
+			}
+			
+			//STEP 2: Automatics Bets
+			//
+			//STEP 2.1 - Get Users with automatic bets
+			List<UserAlterQ> lUsers = userAlterQDao.findUserWithAutomatics(company);
+			//STEP 2.2 - For each user do as bets as automatic bets (It has to check user amount before make automatics bets)
+			for (UserAlterQ user : lUsers){
+				//STEP 2.2.1 - Check User Balance
+				float balance = new Float(user.getBalance()).floatValue();
+				if (balance < DEF_QUINIELA_BET_PRICE){
+					log.debug("closeRound: user("+user.getName()+") No enough money for automatic bet");
+					//STEP 2.2.1.error - Send an email to the user ("NOT ENOUGH MONEY")
+					continue;
+				}
+				//STEP 2.2.2 - Calc RandomBet
+				String randomBet = randomBet();
+				//STEP 2.2.3 - Make Automatic User Bet
+				Bet bet = new Bet();
+				bet.setPrice(DEF_QUINIELA_BET_PRICE);
+				bet.setBet(randomBet);
+				bet.setUser(user.getId());
+				bet.setCompany(company);
+				bet.setDateCreated(new Date());
+				bet.setDateUpdated(new Date());
+				bet.setId(new ObjectId().toStringMongod());	
+				
+				roundBetDao.addBet(season, round, bet);
+				
+				//STEP 2.2.4 - Update User Balance
+				try{
+					user.setBalance(Float.toString((float)(balance - DEF_QUINIELA_BET_PRICE)));
+					userAlterQDao.save(user);
+					/*
+					if(userAlterQDao.getLastError() != null){    
+						log.debug("closeRound: user("+user.getName()+") Error updating balance.");  
+						//STEP 2.2.4.error - Send an email to the admin ("ERROR updating user balance")
+						continue;
+					}
+					*/
+				} catch (Exception e){
+					log.debug("closeRound: user("+user.getName()+") Error updating balance.");
 					//STEP 2.2.4.error - Send an email to the admin ("ERROR updating user balance")
 					continue;
 				}
-			} catch (Exception e){
-				log.debug("closeRound: user("+user.getName()+") Error updating balance.");
-				//STEP 2.2.4.error - Send an email to the admin ("ERROR updating user balance")
-				continue;
-			}
-		} 
+			} 
 
+			
+			//STEP 3: Fixed Bets (¿?)
+		} catch (SecurityException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-		//STEP 3: Fixed Bets (¿?)
 
 
 		log.debug("closeRound: end");
@@ -201,58 +218,64 @@ public class AdminController {
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/finalBet/{type}")
 	public @ResponseBody 
-	GeneralData finalBetRound(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int type) {
+	GeneralData finalBetRound(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int type) {
 		GeneralData generalData = null;
 		log.debug("closeRound: start");
 		
+		try {
+			userSecurity.isAdminUserInSession( cookieSession);
+			generalData = dao.findByCompany(company);
+			
+			//FINAL BET PROCESS STEPS
+			//
+			
+
+			//STEP 4: Quiniela
+				//STEP 4.1 - Calc Number Bets
+				int numBets = roundBetDao.countAllBets(season, round);
+				
+				//STEP 4.2 - Calc Number of Doubles and Triples
+				calcBasicDoublesAndTriples(numBets, type);
+				
+				//STEP 4.3 - Calc Quiniela Price and Round Jackpot
+				float price = calcQuinielaPrice(doubles, triples, type);
+				float jackpot = ((price==0)?(float)0:(float)(numBets * DEF_QUINIELA_BET_PRICE - price));
+				
+				//STEP 4.4 - Update RoundData
+				RoundBets rBets = roundBetDao.findAllBets(season, round);
+				rBets.setJackpot(jackpot);
+				rBets.setPrice(price);
+				roundBetDao.update(rBets);
+
+				calcFinalDoublesAndTriples(type);
+				
+				//STEP 4.5 - Calc Final Quiniela
+				String finalQ = calcFinalQuiniela(season, round, doubles, triples, rBets.getBets());
+				
+				//STEP 4.6 - Add Final Bet (admin)
+
+				//**********************************************************************
+				//Check if exist admin bet for this round (Better optimization analizing rBets.getBets() for Admin)
+				RoundBets rBetsAdmin =roundBetDao.findAllUserBets(season, round, getAdmin());
+				if (rBetsAdmin.getBets().size() > 0)
+					roundBetDao.deleteAllUserBets(season, round, getAdmin());
+				//**********************************************************************
+				
+				Bet bet = new Bet();
+				bet.setPrice((float)0.0);
+				bet.setBet(finalQ);
+				bet.setUser(getAdmin());
+				bet.setCompany(company);
+				bet.setDateCreated(new Date());
+				bet.setDateUpdated(new Date());
+				bet.setId(new ObjectId().toStringMongod());
+				roundBetDao.addBet(season, round, bet);
+
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		generalData = dao.findByCompany(company);
-	
-		//FINAL BET PROCESS STEPS
-		//
-		
-
-		//STEP 4: Quiniela
-			//STEP 4.1 - Calc Number Bets
-			int numBets = roundBetDao.countAllBets(season, round);
-			
-			//STEP 4.2 - Calc Number of Doubles and Triples
-			calcBasicDoublesAndTriples(numBets, type);
-			
-			//STEP 4.3 - Calc Quiniela Price and Round Jackpot
-			float price = calcQuinielaPrice(doubles, triples, type);
-			float jackpot = ((price==0)?(float)0:(float)(numBets * DEF_QUINIELA_BET_PRICE - price));
-			
-			//STEP 4.4 - Update RoundData
-			RoundBets rBets = roundBetDao.findAllBets(season, round);
-			rBets.setJackpot(jackpot);
-			rBets.setPrice(price);
-			roundBetDao.update(rBets);
-
-			calcFinalDoublesAndTriples(type);
-			
-			//STEP 4.5 - Calc Final Quiniela
-			String finalQ = calcFinalQuiniela(season, round, doubles, triples, rBets.getBets());
-			
-			//STEP 4.6 - Add Final Bet (admin)
-
-			//**********************************************************************
-			//Check if exist admin bet for this round (Better optimization analizing rBets.getBets() for Admin)
-			RoundBets rBetsAdmin =roundBetDao.findAllUserBets(season, round, getAdmin());
-			if (rBetsAdmin.getBets().size() > 0)
-				roundBetDao.deleteAllUserBets(season, round, getAdmin());
-			//**********************************************************************
-			
-			Bet bet = new Bet();
-			bet.setPrice((float)0.0);
-			bet.setBet(finalQ);
-			bet.setUser(getAdmin());
-			bet.setCompany(company);
-			bet.setDateCreated(new Date());
-			bet.setDateUpdated(new Date());
-			bet.setId(new ObjectId().toStringMongod());
-			roundBetDao.addBet(season, round, bet);
-
 		
 		log.debug("closeRound: end");
 		return generalData;
@@ -281,13 +304,13 @@ public class AdminController {
     		aleat = Math.floor(aleat);
 			aleat = (inferior + aleat);
 			if (aleat>2){
-				solucion = solucion+"2";
+				solucion = solucion+"1";
 			}
 			else if (aleat>1){
-				solucion = solucion+"X";
+				solucion = solucion+"2";
 			}
 			else{
-				solucion = solucion+"1";
+				solucion = solucion+"4";
 			}
 		}
 		return solucion;
@@ -482,7 +505,7 @@ public class AdminController {
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/resultBet/{resultBet}")
 	public @ResponseBody 
-	ResponseDto  resutlBetRound(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable String resultBet) {
+	ResponseDto  resutlBetRound(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable String resultBet) {
 		ResponseDto dto = new ResponseDto();
 		UserAlterQ userAlterQ;
 
@@ -725,7 +748,7 @@ public class AdminController {
 //	public @ResponseBody 
 //	ResponseDto  prizesRound(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int count15, @PathVariable float amount15, @PathVariable int count14, @PathVariable float amount14, @PathVariable int count13, @PathVariable float amount13, @PathVariable int count12, @PathVariable float amount12, @PathVariable int count11, @PathVariable float amount11, @PathVariable int count10, @PathVariable float amount10) {
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody ResponseDto prizesRound(@RequestBody PrizesRound prizesRound) {
+	public @ResponseBody ResponseDto prizesRound(@CookieValue(value = "session", defaultValue = "") String cookieSession,@RequestBody PrizesRound prizesRound) {
 		ResponseDto dto = new ResponseDto();
 		RoundBets roundBets;
 		int numBets;
@@ -733,59 +756,65 @@ public class AdminController {
 		double betReward = 0;
 		UserAlterQ userAlterQ;
 		
-		
-		roundBets = roundBetDao.findAllBets(prizesRound.getSeason(), prizesRound.getRound());
-		
-		/*roundBets.setHit10(count10);
-		roundBets.setReward10(amount10);
-		
-		roundBets.setHit11(count11);
-		roundBets.setReward11(amount11);
-
-		roundBets.setHit12(count12);
-		roundBets.setReward12(amount12);
-
-		roundBets.setHit13(count13);
-		roundBets.setReward13(amount13);
-
-		roundBets.setHit14(count14);
-		roundBets.setReward14(amount14);
-
-		roundBets.setHit15(count15);
-		roundBets.setReward15(amount15);
-		*/
-		roundBets.setPrizes(prizesRound.getPrizes());
-		
-		
-		numBets = roundBets.getBets().size();
-		//rewardGlobal = roundBets.getJackpot() + count15*amount15 + count14*amount14 + count13*amount13 + count12*amount12 + count11*amount11 + count10*amount10;
-		rewardGlobal = roundBets.getJackpot();
-		List<Prize> lPrizes = roundBets.getPrizes();
-		for (Prize prize : lPrizes){
-			rewardGlobal+= prize.getAmount() * prize.getCount();
-		}
-		
-		
-		betReward = rewardGlobal / numBets;
-		
-		
-		List<Bet> lBets = roundBets.getBets();
-		for (Bet bet : lBets){
-			String user = bet.getUser();
+		try {
+			userSecurity.isAdminUserInSession( cookieSession);
+			roundBets = roundBetDao.findAllBets(prizesRound.getSeason(), prizesRound.getRound());
 			
-			userAlterQ = userAlterQDao.findById(user);
+			/*roundBets.setHit10(count10);
+			roundBets.setReward10(amount10);
 			
-			if (userAlterQ== null){
-				log.debug("pricesRound: user("+user+") Error resultBet user not find");  
-				//STEP 1.1.error - Send an email to the admin ("ERROR pricesRound user not find")
-				continue;
+			roundBets.setHit11(count11);
+			roundBets.setReward11(amount11);
+
+			roundBets.setHit12(count12);
+			roundBets.setReward12(amount12);
+
+			roundBets.setHit13(count13);
+			roundBets.setReward13(amount13);
+
+			roundBets.setHit14(count14);
+			roundBets.setReward14(amount14);
+
+			roundBets.setHit15(count15);
+			roundBets.setReward15(amount15);
+			*/
+			roundBets.setPrizes(prizesRound.getPrizes());
+			
+			
+			numBets = roundBets.getBets().size();
+			//rewardGlobal = roundBets.getJackpot() + count15*amount15 + count14*amount14 + count13*amount13 + count12*amount12 + count11*amount11 + count10*amount10;
+			rewardGlobal = roundBets.getJackpot();
+			List<Prize> lPrizes = roundBets.getPrizes();
+			for (Prize prize : lPrizes){
+				rewardGlobal+= prize.getAmount() * prize.getCount();
 			}
 			
-			userAlterQ.setBalance(Double.toString( Double.parseDouble(userAlterQ.getBalance())  + betReward));
-			userAlterQDao.save(userAlterQ);
-		}		
+			
+			betReward = rewardGlobal / numBets;
+			
+			
+			List<Bet> lBets = roundBets.getBets();
+			for (Bet bet : lBets){
+				String user = bet.getUser();
+				
+				userAlterQ = userAlterQDao.findById(user);
+				
+				if (userAlterQ== null){
+					log.debug("pricesRound: user("+user+") Error resultBet user not find");  
+					//STEP 1.1.error - Send an email to the admin ("ERROR pricesRound user not find")
+					continue;
+				}
+				
+				userAlterQ.setBalance(Double.toString( Double.parseDouble(userAlterQ.getBalance())  + betReward));
+				userAlterQDao.save(userAlterQ);
+			}		
+			
+			roundBetDao.update(roundBets);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		roundBetDao.update(roundBets);
 		
 		return dto;
 	}
@@ -794,36 +823,44 @@ public class AdminController {
 //	public @ResponseBody 
 //	ResponseDto  addRoundGames(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable String local01, @PathVariable String visitor01, @PathVariable String local02, @PathVariable String visitor02, @PathVariable String local03, @PathVariable String visitor03, @PathVariable String local04, @PathVariable String visitor04, @PathVariable String local05, @PathVariable String visitor05, @PathVariable String local06, @PathVariable String visitor06, @PathVariable String local07, @PathVariable String visitor07, @PathVariable String local08, @PathVariable String visitor08, @PathVariable String local09, @PathVariable String visitor09, @PathVariable String local10, @PathVariable String visitor10, @PathVariable String local11, @PathVariable String visitor11, @PathVariable String local12, @PathVariable String visitor12, @PathVariable String local13, @PathVariable String visitor13, @PathVariable String local14, @PathVariable String visitor14, @PathVariable String local15, @PathVariable String visitor15) {
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/matches")
-	public @ResponseBody ResponseDto addRoundGames(HttpServletRequest request, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
+	public @ResponseBody ResponseDto addMatches(@CookieValue(value = "session", defaultValue = "") String cookieSession,HttpServletRequest request, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
 		ResponseDto dto = new ResponseDto();
 		Round myRound = new Round();
 		Round tmpRound;
 		
-		Map<String, String[]> parameters = request.getParameterMap();
-		List<Game> lGames = new ArrayList<Game>();
-		
-		for (int i=1;i<=15;i++)
-		{
-			Game gameTmp = new Game();
-			gameTmp.setId(i);
-			gameTmp.setPlayer1(parameters.get("matchlocal" + ((i<10)?"0"+i:i))[0]);
-			gameTmp.setPlayer2(parameters.get("matchvisit" + ((i<10)?"0"+i:i))[0]);
-			lGames.add(gameTmp);
+		try {
+			userSecurity.isAdminUserInSession( cookieSession);
+			Map<String, String[]> parameters = request.getParameterMap();
+			List<Game> lGames = new ArrayList<Game>();
+			
+			for (int i=1;i<=15;i++)
+			{
+				Game gameTmp = new Game();
+				gameTmp.setId(i);
+				gameTmp.setPlayer1(parameters.get("matchlocal" + ((i<10)?"0"+i:i))[0]);
+				gameTmp.setPlayer2(parameters.get("matchvisit" + ((i<10)?"0"+i:i))[0]);
+				lGames.add(gameTmp);
+			}
+
+			myRound.setCompany(company);
+			myRound.setSeason(season);
+			myRound.setRound(round);
+			myRound.setGames(lGames);
+			
+			tmpRound = roundDao.findBySeasonRound(season, round);
+			
+			if (tmpRound != null)
+			{
+				roundDao.deleteRound(company, season, round);
+			}
+			
+			roundDao.addRound(myRound);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-		myRound.setCompany(company);
-		myRound.setSeason(season);
-		myRound.setRound(round);
-		myRound.setGames(lGames);
 		
-		tmpRound = roundDao.findBySeasonRound(season, round);
-		
-		if (tmpRound != null)
-		{
-			roundDao.deleteRound(company, season, round);
-		}
-		
-		roundDao.addRound(myRound);
 		
 		return dto;
 	}

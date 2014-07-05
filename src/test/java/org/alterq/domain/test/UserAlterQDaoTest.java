@@ -5,6 +5,7 @@ import java.util.Date;
 import junit.framework.Assert;
 
 import org.alterq.domain.UserAlterQ;
+import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.UserAlterQDao;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.FixMethodOrder;
@@ -74,9 +75,23 @@ public class UserAlterQDaoTest {
 		UserAlterQ userAlterQ = dao.validateLogin("idmail@arroba.es","password");
 		Assert.assertEquals("idmail@arroba.es", userAlterQ.getId());
 		
-
+	}
+	@Test
+	public void AD_testUserAdmin() {
+		UserAlterQ userAlterQ = dao.findAdminByCompany(AlterQConstants.COMPANY);
+		log.debug( userAlterQ.getId());
 		
 	}
+	
+	@Test
+	public void AD_testRemoveUser() throws Exception {
+		UserAlterQ userAlterQ = dao.findById("idmail@arroba.es");
+		dao.remove(userAlterQ);
+		
+	}
+
+	
+	
 
 
 }
