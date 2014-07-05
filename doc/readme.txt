@@ -1,4 +1,7 @@
-ESTO ES UN CONFLICTO!!
+AterQ Administrator
+-------------------
+USER: goldbittledev@gmail.com
+PASS: SysAlterQAdmin
 
 
 MongoDB 2.2 database added.  

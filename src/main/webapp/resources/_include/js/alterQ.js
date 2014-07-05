@@ -442,6 +442,7 @@ function calculatePrice(){
 
 function getQuiniela(){
 		consoleAlterQ('getQuiniela');
+		consoleAlterQ(loadBet);
 		if(loadBet){
 		 	loadBet=false;
 			jQuery.ajax ({
