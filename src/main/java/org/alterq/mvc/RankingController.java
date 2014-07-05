@@ -2,7 +2,7 @@ package org.alterq.mvc;
 
 import org.alterq.domain.RoundRanking;
 import org.alterq.dto.ErrorDto;
-import org.alterq.dto.ErrorType;
+import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.RoundRankingDao;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class RankingController {
 			roundRanking = rankingDao.findRanking(company, season, round);
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
-			error.setIdError(ErrorType.GET_LAST_ROUND);
+			error.setIdError(AlterQConstants.GET_LAST_ROUND);
 			error.setStringError("getRound (i18n error)");
 			dto.setErrorDto(error);
 			dto.setRound(null);

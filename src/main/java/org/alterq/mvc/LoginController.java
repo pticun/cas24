@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.alterq.domain.GeneralData;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
-import org.alterq.dto.ErrorType;
+import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.SessionAlterQDao;
@@ -52,7 +52,7 @@ public class LoginController {
 			gd = generalDataDao.findByCompany(userValidate.getCompany());
 		} else {
 			ErrorDto error = new ErrorDto();
-			error.setIdError(ErrorType.USER_NOT_VALIDATE);
+			error.setIdError(AlterQConstants.USER_NOT_VALIDATE);
 			error.setStringError("user not validate (i18n error)");
 			dto.setErrorDto(error);
 			dto.setUserAlterQ(null);
@@ -76,7 +76,7 @@ public class LoginController {
 			gd = generalDataDao.findByCompany(userAlterQ.getCompany());
 		} else {
 			ErrorDto error = new ErrorDto();
-			error.setIdError(ErrorType.USER_NOT_IN_SESSION);
+			error.setIdError(AlterQConstants.USER_NOT_IN_SESSION);
 			error.setStringError("user not in Session (i18n error)");
 			dto.setErrorDto(error);
 			dto.setUserAlterQ(null);

@@ -3,7 +3,7 @@ package org.alterq.mvc;
 import org.alterq.domain.GeneralData;
 import org.alterq.domain.Round;
 import org.alterq.dto.ErrorDto;
-import org.alterq.dto.ErrorType;
+import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.RoundBetDao;
@@ -54,7 +54,7 @@ public class RoundController {
 			j = roundDao.findBySeasonRound(season, round);
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
-			error.setIdError(ErrorType.GET_LAST_ROUND);
+			error.setIdError(AlterQConstants.GET_LAST_ROUND);
 			error.setStringError("getRound (i18n error)");
 			dto.setErrorDto(error);
 			dto.setRound(null);

@@ -19,6 +19,7 @@ import org.alterq.domain.Ranking;
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
+import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.RoundDao;
@@ -235,7 +236,6 @@ public class AdminController {
 			
 			//STEP 4.6 - Add Final Bet (admin)
 
-			//REVISAR NO BORRA LAS APUESTAS DE ADMIN
 			//**********************************************************************
 			//Check if exist admin bet for this round (Better optimization analizing rBets.getBets() for Admin)
 			RoundBets rBetsAdmin =roundBetDao.findAllUserBets(season, round, getAdmin());
@@ -261,9 +261,10 @@ public class AdminController {
 	/**
 	 * 
 	 * */
-	private static String getAdmin()
+	private String getAdmin()
 	{
-		return "admin";
+		UserAlterQ admin= userAlterQDao.findAdminByCompany(AlterQConstants.COMPANY);
+		return admin.getId();
 	}
 	/**
 	 * @return String randomBet
@@ -520,7 +521,7 @@ public class AdminController {
 			}
 			
 			//La apuesta globla no se debe gestionar para el ranking
-			if(user.equals("admin"))
+			if(user.equals(getAdmin()))
 			{
 				continue;
 			}

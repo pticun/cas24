@@ -96,6 +96,12 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 	public DBObject getLastError(){
 		return mongoTemplate.getDb().getLastError();
 	}
+
+	@Override
+	public UserAlterQ findAdminByCompany(int company) {
+		Query query = new Query(Criteria.where("company").is(company)).addCriteria(Criteria.where("admin").is("true"));
+		return mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
+	}
 	
 }
 

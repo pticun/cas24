@@ -10,7 +10,7 @@ import org.alterq.domain.Bet;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
-import org.alterq.dto.ErrorType;
+import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.repo.GeneralDataDao;
@@ -174,7 +174,7 @@ public class BetController {
 
 			} else {
 				ErrorDto error = new ErrorDto();
-				error.setIdError(ErrorType.USER_NOT_ENOUGH_MONEY);
+				error.setIdError(AlterQConstants.USER_NOT_ENOUGH_MONEY);
 				error.setStringError("user not enough money (i18n error)");
 				dto.setErrorDto(error);
 				dto.setUserAlterQ(null);

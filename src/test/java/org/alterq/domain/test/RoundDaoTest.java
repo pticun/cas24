@@ -24,15 +24,6 @@ public class RoundDaoTest {
 	private RoundDao roundDao;
 
 	@Test
-	public void testFindLastJornada() {
-		Round bean = roundDao.findLastRound();
-		
-		System.out.println(bean.getRound()+"-"+bean.getSeason());
-
-
-		return;
-	}
-	@Test
 	public void testFindByTemporadaJornada() {
 		Round bean = roundDao.findBySeasonRound(2013, 9);
 		

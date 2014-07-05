@@ -8,6 +8,7 @@ import com.mongodb.DBObject;
 
 public interface UserAlterQDao {
 	public UserAlterQ findById(String id);
+	public UserAlterQ findAdminByCompany(int company);
 
 	public List<UserAlterQ> findAllOrderedByName();
 

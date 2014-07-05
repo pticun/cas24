@@ -23,14 +23,6 @@ public class RoundDaoImpl implements RoundDao {
 		return mongoTemplate.findOne(query, Round.class, COLLECTION_NAME);
 	}
 
-	public Round findLastRound() {
-		Query query = new Query();
-		// TODO not use deprecated
-		//query on("season", Order.ASCENDING).on("round", Order.DESCENDING);
-		query.with(new Sort(Sort.Direction.ASC,"season")).with(new Sort(Sort.Direction.DESC,"round"));
-		return mongoTemplate.findOne(query, Round.class, COLLECTION_NAME);
-	}
-
 	public List<Round> findAllOrderedBySeason() {
 		return mongoTemplate.findAll(Round.class, COLLECTION_NAME);
 	}

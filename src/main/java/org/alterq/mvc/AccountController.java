@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.alterq.domain.GeneralData;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
-import org.alterq.dto.ErrorType;
+import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.repo.GeneralDataDao;
@@ -46,9 +46,6 @@ public class AccountController {
 	SendMail sendMail;
 	@Autowired
 	private UserAlterQSecurity userSecurity;
-
-	// TODO get company from user, session .....
-	int company = 1;
 
 	@RequestMapping(method = RequestMethod.PUT, value="/{id:.+}/update")
 	public @ResponseBody
@@ -100,7 +97,7 @@ public class AccountController {
 			dto.setErrorDto(error);
 		} else {
 			ErrorDto error = new ErrorDto();
-			error.setIdError(ErrorType.USER_NOT_EXIST);
+			error.setIdError(AlterQConstants.USER_NOT_EXIST);
 			error.setStringError("User not exist");
 			dto.setErrorDto(error);
 		}
@@ -120,7 +117,7 @@ public class AccountController {
 		try {
 			user.setActive(true);
 			user.setBalance("0");
-			user.setCompany(company);
+			user.setCompany(AlterQConstants.COMPANY);
 			user.setDateCreated(new Date());
 			user.setDateUpdated(new Date());
 			userDao.create(user);
@@ -130,7 +127,7 @@ public class AccountController {
 			response.addCookie(new Cookie("session", sessionID));
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
-			error.setIdError(ErrorType.USER_ALREADY_EXIST);
+			error.setIdError(AlterQConstants.USER_ALREADY_EXIST);
 			error.setStringError("User already exist");
 			dto.setErrorDto(error);
 			e.printStackTrace();
