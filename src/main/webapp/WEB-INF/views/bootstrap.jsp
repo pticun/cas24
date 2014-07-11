@@ -545,12 +545,20 @@ function getTableMatches(bet, loadGames){
 			   			<td class="partido"><input id="idData" name="id" type="text" readonly="readonly"/></td>
 			        </tr>
 			   		<tr>
+			   			<td class="partido">DNI:</td>
+			   			<td class="partido"><input name="idCard" id="idCardData" type="text"/></td>
+			        </tr>
+			   		<tr>
 			   			<td class="partido">Name:</td>
 			   			<td class="partido"><input name="name" id="nameData" type="text"/></td>
 			        </tr>
 			   		<tr>
 			   			<td class="partido">Phone Number:</td>
 			   			<td class="partido"><input name="phoneNumber" id="phoneNumberData" type="text"/></td>
+			        </tr>
+			   		<tr>
+			   			<td class="partido">Aceptar terminos y condiciones de uso.</td>
+			   			<td class="partido"><input name="accept" id="acceptData" type="checkbox"/></td>
 			        </tr>
 			   		<tr align="right">
 			   			<td class="partido"></td>

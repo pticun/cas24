@@ -17,6 +17,7 @@ import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.arch.core.mail.SendMail;
 import org.slf4j.Logger;
@@ -47,9 +48,9 @@ public class AccountController {
 	@Autowired
 	private UserAlterQSecurity userSecurity;
 
-	@RequestMapping(method = RequestMethod.PUT, value="/{id:.+}/update")
+	@RequestMapping(method = RequestMethod.PUT, value = "/{id:.+}/update")
 	public @ResponseBody
-	ResponseDto updateUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id,@RequestBody UserAlterQ user) {
+	ResponseDto updateUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id, @RequestBody UserAlterQ user) {
 		ResponseDto dto = new ResponseDto();
 		try {
 			userSecurity.isSameUserInSession(id, cookieSession);
@@ -58,10 +59,14 @@ public class AccountController {
 				userAlterQ.setName(user.getName());
 			if (user.getPhoneNumber() != null)
 				userAlterQ.setPhoneNumber(user.getPhoneNumber());
+			if (user.getIdCard() != null)
+				userAlterQ.setIdCard(user.getIdCard());
+			if (StringUtils.isNumeric(new String("" + user.getAutomatics())))
+				userAlterQ.setAutomatics(user.getAutomatics());
 			/*
-			if (user.getBalance() != null)
-				userAlterQ.setBalance(user.getBalance());
-			*/
+			 * if (user.getBalance() != null)
+			 * userAlterQ.setBalance(user.getBalance());
+			 */
 			userAlterQ.setDateUpdated(new Date());
 			userDao.save(userAlterQ);
 			dto.setUserAlterQ(userAlterQ);
