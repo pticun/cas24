@@ -56,7 +56,7 @@ public class RoundController {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(AlterQConstants.GET_LAST_ROUND);
 			error.setStringError("getRound (i18n error)");
-			dto.setErrorDto(error);
+			dto.addErrorDto(error);
 			dto.setRound(null);
 		}
 		dto.setRound(j);

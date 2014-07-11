@@ -106,8 +106,10 @@ $(document).ready(function() {
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
 		   		    if(response.errorDto!=null){
-		   		    	consoleAlterQ("login: response="+response.errorDto.stringError);
-		   		    	$('#loginFormResponse').text(response.errorDto.stringError);
+		   		    	consoleAlterQ("login: response="+response.errorDto);
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		$('#loginFormResponse').append(objeto.stringError+" - ");
+					    });
 		   		    	userLoged=false;
 		   		    }
 		   		    else{
@@ -143,7 +145,9 @@ $(document).ready(function() {
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
 		   		    if(response.errorDto!=null){
-		 		    	$('#forgotPwdFormResponse').text(response.errorDto.stringError);
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		$('#forgotPwdFormResponse').append(objeto.stringError+" - ");
+					    });
 		   		    }
 		   		    else{
 		   		    }
@@ -164,7 +168,9 @@ $(document).ready(function() {
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
 		   		    if(response.errorDto!=null){
-		 		    	$('#signupFormResponse').text(response.errorDto.stringError);
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		$('#signupFormResponse').append(objeto.stringError+" - ");
+					    });
 						showDiv(bSign);
 		   		    }
 		   		    else{
@@ -190,7 +196,9 @@ $(document).ready(function() {
 		    processData:false, //To avoid making query String instead of JSON
 		    success: function(response){
 				if(response.errorDto!=null){
-					$('#quinielaFormResponse').text(response.errorDto.stringError);
+	   		    	$(response.errorDto).each(function(index, objeto){  
+	   		    		$('#quinielaFormResponse').append(objeto.stringError+" - ");
+				    });
 				}
 				else{
 					$('#0_1').removeAttr('checked');$('#0_X').removeAttr('checked');$('#0_2').removeAttr('checked');
@@ -228,7 +236,9 @@ $(document).ready(function() {
 		        processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
 				    if(response.errorDto!=null){
-				    	$('#userAlterQFormResponse').text(response.errorDto.stringError);
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		$('#userAlterQFormResponse').append(objeto.stringError+" - ");
+					    });
 				    }
 				    else{
 						$('#userAlterQFormResponse').text(response.userAlterQ.name+", tus datos han sido actualizados.");
@@ -251,7 +261,9 @@ $(document).ready(function() {
 		        processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
 				    if(response.errorDto!=null){
-				    	$('#balanceAlterQFormResponse').text(response.errorDto.stringError);
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		$('#balanceAlterQFormResponse').append(objeto.stringError+" - ");
+					    });
 				    }
 				    else{
 						$('#balanceAlterQFormResponse').text(response.userAlterQ.name+", tu saldo ha sido actualizado.");
@@ -340,7 +352,9 @@ $(document).ready(function() {
 	        processData:false, //To avoid making query String instead of JSON
 		    success: function(response){
 			    if(response.errorDto!=null){
-			    	$('#temporada').text(response.errorDto.stringError);
+	   		    	$(response.errorDto).each(function(index, objeto){  
+	   		    		$('#temporada').append(objeto.stringError+" - ");
+				    });
 			    }
 			    else{
 			    	mygames=response.round.games;
@@ -428,7 +442,9 @@ function calculatePrice(){
 	    processData:false, //To avoid making query String instead of JSON
 	    success: function(response){
 			if(response.errorDto!=null){
-				$('#quinielaPrice').text(response.errorDto.stringError);
+   		    	$(response.errorDto).each(function(index, objeto){  
+   		    		$('#quinielaPrice').append(objeto.stringError+" - ");
+			    });
 			}
 			else{
 				$('#quinielaPrice').text(response.roundBet.bets[0].price);
@@ -455,7 +471,9 @@ function getQuiniela(){
 		        processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
 				    if(response.errorDto!=null){
-				    	$('#temporada').text(response.errorDto.stringError);
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		$('#temporada').append(objeto.stringError+" - ");
+					    });
 				    }
 				    else{
 						$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
@@ -556,7 +574,9 @@ function getUserBets(){
 				            processData:false, //To avoid making query String instead of JSON
 						    success: function(response2){
 					   		    if(response2.errorDto!=null){
-					   		    	consoleAlterQ("getUserBets: response="+response2.errorDto.stringError);
+					   		    	$(response2.errorDto).each(function(index, objeto){  
+					   		    		consoleAlterQ("getUserBets: response="+objeto.stringError);
+								    });
 					   		    }
 					   		    else{
 					   		    	consoleAlterQ("getUserBets: response OK");

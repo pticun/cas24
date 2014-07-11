@@ -39,8 +39,10 @@ $(document).ready(function() {
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
 		   		    if(response.errorDto!=null){
-		   		    	consoleAlterQ("open: response="+response.errorDto.stringError);
-		   		    	$('#openFormResponse').text(response.errorDto.stringError);
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		consoleAlterQ("open: response="+objeto.stringError);
+		   		    		$('#openFormResponse').append(objeto.stringError+" - ");
+					    });
 		   		    	userLoged=false;
 		   		    }
 		   		    else{
@@ -78,8 +80,10 @@ $(document).ready(function() {
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
 		   		    if(response.errorDto!=null){
-		   		    	consoleAlterQ("open: response="+response.errorDto.stringError);
-		   		    	$('#closeFormResponse').text(response.errorDto.stringError);
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		consoleAlterQ("open: response="+objeto.stringError);
+		   		    		$('#closeFormResponse').append(objeto.stringError+" - ");
+					    });
 		   		    	userLoged=false;
 		   		    }
 		   		    else{
@@ -116,8 +120,10 @@ $(document).ready(function() {
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
 		   		    if(response.errorDto!=null){
-		   		    	consoleAlterQ("matches: response="+response.errorDto.stringError);
-		   		    	$('#matchesFormResponse').text(response.errorDto.stringError);
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		consoleAlterQ("matches: response="+objeto.errorDto);
+		   		    		$('#matchesFormResponse').append(objeto.stringError+" - ");
+					    });
 		   		    	userLoged=false;
 		   		    }
 		   		    else{
@@ -154,8 +160,10 @@ $(document).ready(function() {
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
 		   		    if(response.errorDto!=null){
-		   		    	consoleAlterQ("result: response="+response.errorDto.stringError);
-		   		    	$('#matchesFormResponse').text(response.errorDto.stringError);
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		consoleAlterQ("result: response="+objeto.errorDto);
+		   		    		$('#matchesFormResponse').append(objeto.stringError+" - ");
+					    });
 		   		    	userLoged=false;
 		   		    }
 		   		    else{
@@ -192,8 +200,10 @@ $(document).ready(function() {
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
 		   		    if(response.errorDto!=null){
-		   		    	consoleAlterQ("result: response="+response.errorDto.stringError);
-		   		    	$('#quinielaFormResponse').text(response.errorDto.stringError);
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		consoleAlterQ("result: response="+objeto.errorDto);
+		   		    		$('#quinielaFormResponse').append(objeto.stringError+" - ");
+					    });
 		   		    	userLoged=false;
 		   		    }
 		   		    else{

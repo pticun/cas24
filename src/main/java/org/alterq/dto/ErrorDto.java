@@ -1,8 +1,16 @@
 package org.alterq.dto;
 
 public class ErrorDto {
-	public String idError;
-	public String stringError;
+	private String idError;
+	private String stringError;
+    
+	public ErrorDto(String idError, String stringError) {
+        this.idError = idError;
+        this.stringError = stringError;
+    }
+	public ErrorDto() {
+	}
+
 	public String getIdError() {
 		return idError;
 	}

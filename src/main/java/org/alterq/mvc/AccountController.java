@@ -5,10 +5,9 @@ import java.util.Date;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-import org.alterq.domain.GeneralData;
 import org.alterq.domain.UserAlterQ;
-import org.alterq.dto.ErrorDto;
 import org.alterq.dto.AlterQConstants;
+import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.repo.GeneralDataDao;
@@ -72,7 +71,7 @@ public class AccountController {
 			dto.setUserAlterQ(userAlterQ);
 		} catch (SecurityException e) {
 			log.error(ExceptionUtils.getStackTrace(e));
-			dto.setErrorDto(e.getError());
+			dto.addErrorDto(e.getError());
 		}
 
 		return dto;
@@ -99,12 +98,12 @@ public class AccountController {
 			ErrorDto error = new ErrorDto();
 			error.setIdError("KO sendmail");
 			error.setStringError("A mail has been send to email address.");
-			dto.setErrorDto(error);
+			dto.addErrorDto(error);
 		} else {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(AlterQConstants.USER_NOT_EXIST);
 			error.setStringError("User not exist");
-			dto.setErrorDto(error);
+			dto.addErrorDto(error);
 		}
 
 		return dto;
@@ -134,7 +133,7 @@ public class AccountController {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(AlterQConstants.USER_ALREADY_EXIST);
 			error.setStringError("User already exist");
-			dto.setErrorDto(error);
+			dto.addErrorDto(error);
 			e.printStackTrace();
 		}
 

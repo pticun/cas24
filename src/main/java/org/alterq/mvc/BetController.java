@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.alterq.domain.Bet;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
-import org.alterq.dto.ErrorDto;
 import org.alterq.dto.AlterQConstants;
+import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.repo.GeneralDataDao;
@@ -25,14 +25,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.NativeWebRequest;
 
 @Controller
 @RequestMapping(value = "/myaccount/{id:.+}/season/{season}/round/{round}")
@@ -56,7 +54,8 @@ public class BetController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/bet/price")
 	public @ResponseBody
-	ResponseDto calculatePrice(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,@PathVariable(value = "id") String id,@PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
+	ResponseDto calculatePrice(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,
+			@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
 		if (log.isDebugEnabled()) {
 			log.debug("init BetController.price");
 			log.debug("session:" + cookieSession);
@@ -68,7 +67,8 @@ public class BetController {
 		 * userDao.findById(idUserAlterQ); }
 		 */
 		// TODO control security
-		// TODO business logic to calculate Price (price depends company/round/season .......
+		// TODO business logic to calculate Price (price depends
+		// company/round/season .......
 		ResponseDto dto = new ResponseDto();
 		/*
 		 * if(userAlterQ==null){ ErrorDto error = new ErrorDto();
@@ -110,9 +110,10 @@ public class BetController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.POST,value="/bet")
+	@RequestMapping(method = RequestMethod.POST, value = "/bet")
 	public @ResponseBody
-	ResponseDto addBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,@PathVariable(value = "id") String id,@PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
+	ResponseDto addBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,
+			@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
 		if (log.isDebugEnabled()) {
 			log.debug("init AccountController.updateUserAlterQ");
 			log.debug("session:" + cookieSession);
@@ -176,14 +177,13 @@ public class BetController {
 				ErrorDto error = new ErrorDto();
 				error.setIdError(AlterQConstants.USER_NOT_ENOUGH_MONEY);
 				error.setStringError("user not enough money (i18n error)");
-				dto.setErrorDto(error);
+				dto.addErrorDto(error);
 				dto.setUserAlterQ(null);
 			}
 		} catch (SecurityException e) {
 			log.error(ExceptionUtils.getStackTrace(e));
-			dto.setErrorDto(e.getError());
+			dto.addErrorDto(e.getError());
 		}
-
 
 		return dto;
 
@@ -194,55 +194,21 @@ public class BetController {
 	// working /bet/season/2013/round/1/user/idmail@arroba.es/
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "/bet")
 	public @ResponseBody
-	ResponseDto findAllUserBetsParams(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,@PathVariable(value = "id") String id,@PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
+	ResponseDto findAllUserBetsParams(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,
+			@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
 		ResponseDto dto = new ResponseDto();
-		//TODO control security
+		// TODO control security
 		RoundBets rb = betDao.findAllUserBets(season, round, id);
 		dto.setRoundBet(rb);
 		return dto;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "season/{season}/round/{round}")
 	public @ResponseBody
 	RoundBets findAllBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round) {
 		// TODO this call must be request for an AdminUser
 		return betDao.findAllBets(season, round);
 	}
-
 
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "addBet", params = { "season", "round", "user", "bet" })
 	public @ResponseBody
