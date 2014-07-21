@@ -44,7 +44,7 @@ $(document).ready(function() {
 	        url: ctx+"/login",
  	    })
 	    .success (function(response) { 
-		    if(response.errorDto!=null){
+		    if(response.errorDto!=0){
 		    	if (bActual == bLogin)
 		    		showDiv(bLogin);
 		    	else
@@ -105,7 +105,7 @@ $(document).ready(function() {
 	            cache: false,    //This will force requested pages not to be cached by the browser  
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
-		   		    if(response.errorDto!=null){
+		   		    if(response.errorDto!=0){
 		   		    	consoleAlterQ("login: response="+response.errorDto);
 		   		    	$(response.errorDto).each(function(index, objeto){  
 		   		    		$('#loginFormResponse').append(objeto.stringError+" - ");
@@ -144,7 +144,7 @@ $(document).ready(function() {
 	            cache: false,    //This will force requested pages not to be cached by the browser  
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
-		   		    if(response.errorDto!=null){
+		   		    if(response.errorDto!=0){
 		   		    	$(response.errorDto).each(function(index, objeto){  
 		   		    		$('#forgotPwdFormResponse').append(objeto.stringError+" - ");
 					    });
@@ -167,7 +167,7 @@ $(document).ready(function() {
 	            cache: false,    //This will force requested pages not to be cached by the browser  
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
-		   		    if(response.errorDto!=null){
+		   		    if(response.errorDto!=0){
 		   		    	$(response.errorDto).each(function(index, objeto){  
 		   		    		$('#signupFormResponse').append(objeto.stringError+" - ");
 					    });
@@ -195,7 +195,7 @@ $(document).ready(function() {
 		    cache: false,    //This will force requested pages not to be cached by the browser  
 		    processData:false, //To avoid making query String instead of JSON
 		    success: function(response){
-				if(response.errorDto!=null){
+				if(response.errorDto!=0){
 	   		    	$(response.errorDto).each(function(index, objeto){  
 	   		    		$('#quinielaFormResponse').append(objeto.stringError+" - ");
 				    });
@@ -235,7 +235,7 @@ $(document).ready(function() {
 		        cache: false,    //This will force requested pages not to be cached by the browser  
 		        processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
-				    if(response.errorDto!=null){
+				    if(response.errorDto!=0){
 		   		    	$(response.errorDto).each(function(index, objeto){  
 		   		    		$('#userAlterQFormResponse').append(objeto.stringError+" - ");
 					    });
@@ -260,7 +260,7 @@ $(document).ready(function() {
 		        cache: false,    //This will force requested pages not to be cached by the browser  
 		        processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
-				    if(response.errorDto!=null){
+				    if(response.errorDto!=0){
 		   		    	$(response.errorDto).each(function(index, objeto){  
 		   		    		$('#balanceAlterQFormResponse').append(objeto.stringError+" - ");
 					    });
@@ -351,7 +351,7 @@ $(document).ready(function() {
 	        cache: false,    //This will force requested pages not to be cached by the browser  
 	        processData:false, //To avoid making query String instead of JSON
 		    success: function(response){
-			    if(response.errorDto!=null){
+			    if(response.errorDto!=0){
 	   		    	$(response.errorDto).each(function(index, objeto){  
 	   		    		$('#temporada').append(objeto.stringError+" - ");
 				    });
@@ -372,7 +372,7 @@ $(document).ready(function() {
    			cache: false,    //This will force requested pages not to be cached by the browser  
    			processData:false, //To avoid making query String instead of JSON
    			success: function(response){
-   				if(response.errorDto!=null){
+   				if(response.errorDto!=0){
    					consoleAlterQ("error:"+response.errorDto);
    					$('#resumTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td colspan="4">ERROR</td></tr></tr>');       
    				}
@@ -406,7 +406,7 @@ function doLogout(){
 			cache: false,    //This will force requested pages not to be cached by the browser  
 			processData:false, //To avoid making query String instead of JSON
 		    success: function(response){
-	   		    if(response.errorDto!=null){
+	   		    if(response.errorDto!=0){
 	   		    }
 	   		    else{
 					userLoged=false;
@@ -441,7 +441,7 @@ function calculatePrice(){
 	    cache: false,    //This will force requested pages not to be cached by the browser  
 	    processData:false, //To avoid making query String instead of JSON
 	    success: function(response){
-			if(response.errorDto!=null){
+			if(response.errorDto!=0){
    		    	$(response.errorDto).each(function(index, objeto){  
    		    		$('#quinielaPrice').append(objeto.stringError+" - ");
 			    });
@@ -470,7 +470,7 @@ function getQuiniela(){
 		        cache: false,    //This will force requested pages not to be cached by the browser  
 		        processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
-				    if(response.errorDto!=null){
+				    if(response.errorDto!=0){
 		   		    	$(response.errorDto).each(function(index, objeto){  
 		   		    		$('#temporada').append(objeto.stringError+" - ");
 					    });
@@ -538,7 +538,7 @@ function getUserBets(){
 	        cache: false,    //This will force requested pages not to be cached by the browser  
 	        processData:false, //To avoid making query String instead of JSON
 		    success: function(response){
-			    if(response.errorDto!=null){
+			    if(response.errorDto!=0){
 			    	var indicators="";
 			    	indicators+='<ol  class="carousel-indicators">';
 			        indicators+='<li data-target="#myCarousel" data-slide-to="0" class="active"></li>';
@@ -573,7 +573,7 @@ function getUserBets(){
 				            cache: false,    //This will force requested pages not to be cached by the browser  
 				            processData:false, //To avoid making query String instead of JSON
 						    success: function(response2){
-					   		    if(response2.errorDto!=null){
+					   		    if(response2.errorDto!=0){
 					   		    	$(response2.errorDto).each(function(index, objeto){  
 					   		    		consoleAlterQ("getUserBets: response="+objeto.stringError);
 								    });

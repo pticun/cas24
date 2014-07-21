@@ -38,8 +38,8 @@ public class LoginControllerTest {
 	@Test
 	public void login() throws Exception {
 		UserAlterQ bean = new UserAlterQ();
-		bean.setId("idmail@arroba.es");
-		bean.setPwd("password");
+		bean.setId("scabellog@gmail.com");
+		bean.setPwd("alterQ");
 		ObjectMapper mapper = new ObjectMapper();
 		ResultActions auth = this.mockMvc.perform(MockMvcRequestBuilders.post("/login").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON)
 				.content(mapper.writeValueAsBytes(bean)));
