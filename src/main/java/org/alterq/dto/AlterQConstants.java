@@ -2,14 +2,23 @@ package org.alterq.dto;
 
 public final class AlterQConstants {
 	
-	public static String USER_NOT_VALIDATE="1";
-	public static String USER_NOT_IN_SESSION="2";
-	public static String USER_NOT_EXIST="3";
-	public static String USER_ALREADY_EXIST="4";
-	public static String USER_NOT_SAME="5";
-	public static String USER_NOT_ADMIN="6";
-	public static String GET_LAST_ROUND="100";
-	public static String USER_NOT_ENOUGH_MONEY="200";
+	public static String USER_NOT_VALIDATE="USER_NOT_VALIDATE";
+	public static String USER_NOT_IN_SESSION="USER_NOT_IN_SESSION";
+	public static String USER_NOT_EXIST="USER_NOT_EXIST";
+	public static String USER_ALREADY_EXIST="USER_ALREADY_EXIST";
+	public static String USER_NOT_SAME="USER_NOT_SAME";
+	public static String USER_NOT_ADMIN="USER_NOT_ADMIN";
+	public static String USER_NULL="USER_NULL";
+	public static String GET_LAST_ROUND="GET_LAST_ROUND";
+	public static String USER_NOT_MONEY_ENOUGH="USER_NOT_MONEY_ENOUGH";
+	public static String USER_NAME_ERROR="USER_NAME_ERROR";
+	public static String USER_NAME_LENGTH="USER_NAME_LENGTH";
+	public static String USER_PHONE_ERROR="USER_PHONE_ERROR";
+	public static String USER_PHONE_NUMERIC="USER_PHONE_NUMERIC";
+	public static String USER_PHONE_LENGTH="USER_PHONE_LENGTH";
+	public static String USER_MAIL_ERROR="USER_MAIL_ERROR";
+	public static String USER_AUTOMATIC_ERROR="USER_AUTOMATIC_ERROR";
+	public static String USER_NIF_ERROR="USER_NIF_ERROR";
 	
 	public static int COMPANY=1;
 

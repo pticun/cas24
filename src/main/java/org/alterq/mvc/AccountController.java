@@ -9,12 +9,14 @@ import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
+import org.alterq.exception.AlterQException;
 import org.alterq.exception.SecurityException;
 import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
+import org.alterq.validator.UserAlterQValidator;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -46,6 +48,8 @@ public class AccountController {
 	SendMail sendMail;
 	@Autowired
 	private UserAlterQSecurity userSecurity;
+	@Autowired
+	private UserAlterQValidator userAlterQValidator;
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id:.+}/update")
 	public @ResponseBody
@@ -119,6 +123,7 @@ public class AccountController {
 		ResponseDto dto = new ResponseDto();
 		// TODO validate user data
 		try {
+			userAlterQValidator.createUserAlterQ(user);
 			user.setActive(true);
 			user.setBalance("0");
 			user.setCompany(AlterQConstants.COMPANY);
@@ -129,15 +134,16 @@ public class AccountController {
 			String sessionID = sessionDao.startSession(user.getId());
 			log.debug("Session ID is:" + sessionID);
 			response.addCookie(new Cookie("session", sessionID));
+		}catch (AlterQException ex){
+			dto.addErrorDto(ex.getErrorDto());
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(AlterQConstants.USER_ALREADY_EXIST);
 			error.setStringError("User already exist");
 			dto.addErrorDto(error);
-			e.printStackTrace();
+			log.error(ExceptionUtils.getStackTrace(e));
 		}
 
 		return dto;
 	}
-
 }

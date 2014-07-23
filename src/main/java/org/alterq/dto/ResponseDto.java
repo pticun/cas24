@@ -33,8 +33,12 @@ public class ResponseDto {
 		this.errorDto.add(errorDto);
 	}
 
-	public void addErrorDto(String path, String message) {
-		ErrorDto error = new ErrorDto(path, message);
+	public void addErrorDto(List<ErrorDto> error) {
+		this.errorDto = error;
+	}
+
+	public void addErrorDto(String idError, String stringError) {
+		ErrorDto error = new ErrorDto(idError, stringError);
 		errorDto.add(error);
 	}
 

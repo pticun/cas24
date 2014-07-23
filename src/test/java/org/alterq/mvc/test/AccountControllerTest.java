@@ -23,7 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(value = SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml", "classpath:/spring/app-servlet.xml" })
+@ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml" })
 public class AccountControllerTest {
 
 	@Autowired
@@ -49,9 +49,9 @@ public class AccountControllerTest {
 	@Test
 	public void createUserAlterQ() throws Exception {
 		UserAlterQ bean = new UserAlterQ();
-		bean.setId("prueba@arroba.es");
+		bean.setId("prueba");
 		bean.setPwd("password");
-		bean.setName("nombre");
+		bean.setName("  ");
 		bean.setPhoneNumber("1234567890");
 		ObjectMapper mapper = new ObjectMapper();
 		ResultActions auth = this.mockMvc.perform(MockMvcRequestBuilders.post("/myaccount").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON)

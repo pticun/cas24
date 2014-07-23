@@ -1,6 +1,6 @@
 package org.arch.core.i18n.resources;
 
-import org.arch.core.config.PropertiesConfiguration;
+import org.alterq.dto.AlterQConstants;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ public class MessageLocalizedResourcesTest {
 
 	@Test
 	public void configureTest() {
-		final String username = messageLocalizedResources.resolveLocalizedErrorMessage("USER_NOT_VALIDATE");
+		final String username = messageLocalizedResources.resolveLocalizedErrorMessage(AlterQConstants.USER_AUTOMATIC_ERROR);
 		logger.debug("message:" + username);
 	}
 

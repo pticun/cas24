@@ -175,7 +175,7 @@ public class BetController {
 
 			} else {
 				ErrorDto error = new ErrorDto();
-				error.setIdError(AlterQConstants.USER_NOT_ENOUGH_MONEY);
+				error.setIdError(AlterQConstants.USER_NOT_MONEY_ENOUGH);
 				error.setStringError("user not enough money (i18n error)");
 				dto.addErrorDto(error);
 				dto.setUserAlterQ(null);
