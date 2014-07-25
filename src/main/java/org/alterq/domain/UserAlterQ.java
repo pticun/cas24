@@ -17,7 +17,7 @@ public class UserAlterQ implements Serializable {
 	private String phoneNumber;
 	private String balance;
 	private int company;
-	private boolean accept;
+	private String accept;
 	private boolean active;
 	private boolean admin;
 	private Date dateCreated;
@@ -131,11 +131,11 @@ public class UserAlterQ implements Serializable {
 		this.idCard = idCard;
 	}
 
-	public boolean isAccept() {
+	public String getAccept() {
 		return accept;
 	}
 
-	public void setAccept(boolean accept) {
+	public void setAccept(String accept) {
 		this.accept = accept;
 	}
 }

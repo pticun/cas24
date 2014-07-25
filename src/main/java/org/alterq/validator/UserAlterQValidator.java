@@ -4,6 +4,7 @@ import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ErrorDto;
 import org.alterq.exception.ValidatorException;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.arch.core.i18n.resources.MessageLocalizedResources;
@@ -25,6 +26,13 @@ public class UserAlterQValidator {
 			dto.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(AlterQConstants.USER_NULL));
 			ve.addErrorDto(dto);
 		}
+		//CONDICIONES
+		if (!BooleanUtils.toBoolean(user.getAccept())) {
+			ErrorDto dto = new ErrorDto();
+			dto.setIdError(AlterQConstants.USER_ACCEPT_CONDITION);
+			dto.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(AlterQConstants.USER_ACCEPT_CONDITION));
+			ve.addErrorDto(dto);
+		}
 		//USERNAME
 		if (StringUtils.isBlank(user.getName())) {
 			ErrorDto dto = new ErrorDto();
@@ -36,6 +44,20 @@ public class UserAlterQValidator {
 				ErrorDto dto = new ErrorDto();
 				dto.setIdError(AlterQConstants.USER_NAME_LENGTH);
 				dto.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(AlterQConstants.USER_NAME_LENGTH));
+				ve.addErrorDto(dto);
+			}
+		}
+		//PASSWORD
+		if (StringUtils.isBlank(user.getPwd())) {
+			ErrorDto dto = new ErrorDto();
+			dto.setIdError(AlterQConstants.USER_PASSWORD_ERROR);
+			dto.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(AlterQConstants.USER_PASSWORD_ERROR));
+			ve.addErrorDto(dto);
+		} else {
+			if (StringUtils.length(user.getPwd()) < 5) {
+				ErrorDto dto = new ErrorDto();
+				dto.setIdError(AlterQConstants.USER_PASSWORD_LENGTH);
+				dto.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(AlterQConstants.USER_PASSWORD_LENGTH));
 				ve.addErrorDto(dto);
 			}
 		}
@@ -85,7 +107,7 @@ public class UserAlterQValidator {
 			ve.addErrorDto(dto);
 		}
 		//CONTROL ERROR
-		if (ve.getErrorDto()!=null){
+		if (!ve.getErrorDto().isEmpty()){
 			throw ve;
 		}
 

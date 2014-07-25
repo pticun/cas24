@@ -136,6 +136,7 @@ public class AccountController {
 			response.addCookie(new Cookie("session", sessionID));
 		}catch (AlterQException ex){
 			dto.addErrorDto(ex.getErrorDto());
+			log.error(ExceptionUtils.getStackTrace(ex));
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(AlterQConstants.USER_ALREADY_EXIST);

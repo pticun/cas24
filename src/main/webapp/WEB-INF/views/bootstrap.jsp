@@ -181,6 +181,7 @@ End Analytics -->
 		$(sLoginRef).hide();
 		//document.getElementById("signDiv").style.display = "none";
 		$(sSignRef).hide();
+		$('#signupFormResponse').hide();
 		//document.getElementById("forgotDiv").style.display = "none";
 		$(sForgotRef).hide();
 		//document.getElementById("quinielaDiv").style.display = "none";
@@ -545,7 +546,7 @@ function getTableMatches(bet, loadGames){
 			   			<td class="partido"><input id="idData" name="id" type="text" readonly="readonly"/></td>
 			        </tr>
 			   		<tr>
-			   			<td class="partido">DNI:</td>
+			   			<td class="partido">CIF:</td>
 			   			<td class="partido"><input name="idCard" id="idCardData" type="text"/></td>
 			        </tr>
 			   		<tr>
@@ -929,7 +930,7 @@ function getTableMatches(bet, loadGames){
 				   			<td class="partido"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
 				        </tr>
 			   		</table>
-			   		<a href="#signDiv">Crear un nuevo usuario</a><br>
+			   		<a id="signupA" href="#signDiv">Crear un nuevo usuario</a><br>
 			   		<a href="#forgotDiv">He olvidado mi contraseña</a>
 					<div id="loginFormResponse">respuesta </div>
 		        </form>
@@ -1001,25 +1002,36 @@ function getTableMatches(bet, loadGames){
 		   <form id="signupForm">
 		   		<table class="quiniela">
 		   			<tr class="quinielatitulo">
-						<td colspan="1">Sign up</td>
+						<td colspan="2">Sign up</td>
 					</tr>
 			   		<tr>
-			   			<td class="partido"><input id="idSign" name="id" type="text" placeholder="Login"/></td>
+			   			<td colspan="2" class="partido"><input id="idSign" name="id" type="text" placeholder="Login"/></td>
 			        </tr>
 			   		<tr>
-			   			<td class="partido"><input type="password" name="pwd" id="pwdSign" placeholder="password"/></td>
+			   			<td colspan="2" class="partido"><input type="password" name="pwd" id="pwdSign" placeholder="password"/></td>
 			        </tr>
 			   		<tr>
-			   			<td class="partido"><input type="text" name="name" id="nameSign" placeholder="name"/></td>
+			   			<td colspan="2" class="partido"><input type="text" name="idCard" id="nifSign" placeholder="nif"/></td>
 			        </tr>
 			   		<tr>
-			   			<td class="partido"><input type="text" name="phoneNumber" id="phoneNumberSign" placeholder="Phone Number"/></td>
+			   			<td colspan="2" class="partido"><input type="text" name="name" id="nameSign" placeholder="name"/></td>
+			        </tr>
+			   		<tr>
+			   			<td colspan="2" class="partido"><input type="text" name="phoneNumber" id="phoneNumberSign" placeholder="Phone Number"/></td>
+			        </tr>
+			   		<tr>
+			   			<td>Aceptar terminos y condiciones de uso.</td>
+			   			<td class="partido"><input name="accept" id="acceptData" type="checkbox"/></td>
 			        </tr>
 			   		<tr align="right">
-			   			<td class="partido"><button id="signup_btn" class="button" name="signup" value="signup">signup</button></td>
+			   			<td colspan="2" class="partido"><button id="signup_btn" class="button" name="signup" value="signup">signup</button></td>
+			        </tr>
+			   		<tr align="right">
+			   			<td colspan="2" class="partido">
+				   			<div class="alert fade in" id="signupFormResponse"></div>
+						</td>
 			        </tr>
 		   		</table>
-	            <div id="signupFormResponse">respuesta </div>
 	        </form>
 		</div>
     </div>

@@ -90,7 +90,8 @@ $(document).ready(function() {
 		}else if (href == sForgotRef){
 			consoleAlterQ("Forget");
 			showDiv(bForgot);
-		}		
+		}
+  		event.preventDefault();
     });
 	
 	$('form#loginForm').submit(function(event) {
@@ -168,10 +169,12 @@ $(document).ready(function() {
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
 		   		    if(response.errorDto!=0){
+		   		    	$('#signupFormResponse').html("");
 		   		    	$(response.errorDto).each(function(index, objeto){  
-		   		    		$('#signupFormResponse').append(objeto.stringError+" - ");
+		   		    		$('#signupFormResponse').append(objeto.stringError+" <br>");
 					    });
 						showDiv(bSign);
+						$('#signupFormResponse').show();
 		   		    }
 		   		    else{
 						userLoged=true;

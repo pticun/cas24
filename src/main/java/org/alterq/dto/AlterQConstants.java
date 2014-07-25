@@ -19,6 +19,9 @@ public final class AlterQConstants {
 	public static String USER_MAIL_ERROR="USER_MAIL_ERROR";
 	public static String USER_AUTOMATIC_ERROR="USER_AUTOMATIC_ERROR";
 	public static String USER_NIF_ERROR="USER_NIF_ERROR";
+	public static String USER_PASSWORD_ERROR="USER_PASSWORD_ERROR";
+	public static String USER_PASSWORD_LENGTH="USER_PASSWORD_LENGTH";
+	public static String USER_ACCEPT_CONDITION="USER_ACCEPT_CONDITION";
 	
 	public static int COMPANY=1;
 
