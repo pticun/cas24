@@ -517,43 +517,48 @@ public class AdminController {
 			List<UserAlterQ> lUsers = userAlterQDao.findUserWithAutomatics(company);
 			//STEP 2.2 - For each user do as bets as automatic bets (It has to check user amount before make automatics bets)
 			for (UserAlterQ user : lUsers){
-				//STEP 2.2.1 - Check User Balance
-				float balance = new Float(user.getBalance()).floatValue();
-				if (balance < DEF_QUINIELA_BET_PRICE){
-					log.debug("closeRound: user("+user.getName()+") No enough money for automatic bet");
-					//STEP 2.2.1.error - Send an email to the user ("NOT ENOUGH MONEY")
-					continue;
-				}
-				//STEP 2.2.2 - Calc RandomBet
-				String randomBet = randomBet();
-				//STEP 2.2.3 - Make Automatic User Bet
-				Bet bet = new Bet();
-				bet.setPrice(DEF_QUINIELA_BET_PRICE);
-				bet.setBet(randomBet);
-				bet.setUser(user.getId());
-				bet.setCompany(company);
-				bet.setDateCreated(new Date());
-				bet.setDateUpdated(new Date());
-				bet.setId(new ObjectId().toStringMongod());	
-				
-				roundBetDao.addBet(season, round, bet);
-				
-				//STEP 2.2.4 - Update User Balance
-				try{
-					user.setBalance(Float.toString((float)(balance - DEF_QUINIELA_BET_PRICE)));
-					userAlterQDao.save(user);
-					/*
-					if(userAlterQDao.getLastError() != null){    
-						log.debug("closeRound: user("+user.getName()+") Error updating balance.");  
-						//STEP 2.2.4.error - Send an email to the admin ("ERROR updating user balance")
+				//loop for number of automatic bets
+				int numAutom = user.getAutomatics();
+				for (int i=0; i<numAutom; i++)
+				{
+					//STEP 2.2.1 - Check User Balance
+					float balance = new Float(user.getBalance()).floatValue();
+					if (balance < DEF_QUINIELA_BET_PRICE){
+						log.debug("closeRound: user("+user.getName()+") No enough money for automatic bet");
+						//STEP 2.2.1.error - Send an email to the user ("NOT ENOUGH MONEY")
 						continue;
 					}
-					*/
-				} catch (Exception e){
-					log.debug("closeRound: user("+user.getName()+") Error updating balance.");
-					//STEP 2.2.4.error - Send an email to the admin ("ERROR updating user balance")
-					response.addErrorDto("AdminController:closeRound", " user("+user.getName()+") Error updating balance.");
-					continue;
+					//STEP 2.2.2 - Calc RandomBet
+					String randomBet = randomBet();
+					//STEP 2.2.3 - Make Automatic User Bet
+					Bet bet = new Bet();
+					bet.setPrice(DEF_QUINIELA_BET_PRICE);
+					bet.setBet(randomBet);
+					bet.setUser(user.getId());
+					bet.setCompany(company);
+					bet.setDateCreated(new Date());
+					bet.setDateUpdated(new Date());
+					bet.setId(new ObjectId().toStringMongod());	
+					
+					roundBetDao.addBet(season, round, bet);
+					
+					//STEP 2.2.4 - Update User Balance
+					try{
+						user.setBalance(Float.toString((float)(balance - DEF_QUINIELA_BET_PRICE)));
+						userAlterQDao.save(user);
+						/*
+						if(userAlterQDao.getLastError() != null){    
+							log.debug("closeRound: user("+user.getName()+") Error updating balance.");  
+							//STEP 2.2.4.error - Send an email to the admin ("ERROR updating user balance")
+							continue;
+						}
+						*/
+					} catch (Exception e){
+						log.debug("closeRound: user("+user.getName()+") Error updating balance.");
+						//STEP 2.2.4.error - Send an email to the admin ("ERROR updating user balance")
+						response.addErrorDto("AdminController:closeRound", " user("+user.getName()+") Error updating balance.");
+						continue;
+					}
 				}
 			} 
 

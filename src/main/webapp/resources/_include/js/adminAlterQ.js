@@ -38,7 +38,7 @@ $(document).ready(function() {
 	            cache: false,    //This will force requested pages not to be cached by the browser  
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
-		   		    if(response.errorDto!=null){
+		   		    if(response.errorDto!=0){
 		   		    	$(response.errorDto).each(function(index, objeto){  
 		   		    		consoleAlterQ("open: response="+objeto.stringError);
 		   		    		$('#openFormResponse').append(objeto.stringError+" - ");
@@ -79,7 +79,7 @@ $(document).ready(function() {
 	            cache: false,    //This will force requested pages not to be cached by the browser  
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
-		   		    if(response.errorDto!=null){
+			    	if(response.errorDto!=0){
 		   		    	$(response.errorDto).each(function(index, objeto){  
 		   		    		consoleAlterQ("open: response="+objeto.stringError);
 		   		    		$('#closeFormResponse').append(objeto.stringError+" - ");
@@ -119,7 +119,7 @@ $(document).ready(function() {
 	            cache: false,    //This will force requested pages not to be cached by the browser  
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
-		   		    if(response.errorDto!=null){
+			    	if(response.errorDto!=0){
 		   		    	$(response.errorDto).each(function(index, objeto){  
 		   		    		consoleAlterQ("matches: response="+objeto.errorDto);
 		   		    		$('#matchesFormResponse').append(objeto.stringError+" - ");
@@ -159,7 +159,7 @@ $(document).ready(function() {
 	            cache: false,    //This will force requested pages not to be cached by the browser  
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
-		   		    if(response.errorDto!=null){
+			    	if(response.errorDto!=0){
 		   		    	$(response.errorDto).each(function(index, objeto){  
 		   		    		consoleAlterQ("result: response="+objeto.errorDto);
 		   		    		$('#matchesFormResponse').append(objeto.stringError+" - ");
@@ -199,7 +199,7 @@ $(document).ready(function() {
 	            cache: false,    //This will force requested pages not to be cached by the browser  
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
-		   		    if(response.errorDto!=null){
+			    	if(response.errorDto!=0){
 		   		    	$(response.errorDto).each(function(index, objeto){  
 		   		    		consoleAlterQ("result: response="+objeto.errorDto);
 		   		    		$('#quinielaFormResponse').append(objeto.stringError+" - ");
