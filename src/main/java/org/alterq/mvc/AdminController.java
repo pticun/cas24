@@ -256,9 +256,27 @@ public class AdminController {
 					}
 				}
 			}
-			count1X2[aX][0] = -1;
-			count1X2[aX][1] = -1;
-			count1X2[aX][2] = -1;
+			//There isn't any candidate. It's choosen the first one.
+			if (aX == 0){
+				for(int j=0; j<14; j++){ //Don't put triples in plenoAlQuince
+					//check if it's a double
+					if((count1X2[j][0]!=-1 && count1X2[j][1]!=-1 && count1X2[j][2]!=-1) ||
+					   (count1X2[j][0]==-1 && count1X2[j][1]!=-1 && count1X2[j][2]!=-1) ||
+					   (count1X2[j][0]!=-1 && count1X2[j][1]==-1 && count1X2[j][2]!=-1) ||
+					   (count1X2[j][0]!=-1 && count1X2[j][1]!=-1 && count1X2[j][2]==-1))
+						
+					{
+						count1X2[j][0] = -1;
+						count1X2[j][1] = -1;
+						count1X2[j][2] = -1;
+						break;
+					}
+				}
+			}else{
+				count1X2[aX][0] = -1;
+				count1X2[aX][1] = -1;
+				count1X2[aX][2] = -1;
+			}
 		}
 		
 		//Set Final Quiniela
@@ -294,6 +312,35 @@ public class AdminController {
 		return 0.0;
 	}
 	
+	/**
+	 * Function translateResult1x2 that translates 1X2 signs to 421
+	 * 
+	 * ResultBet Signs:
+	 * 	1   = 100 = 4
+	 * 	 X  = 010 = 2
+	 *    2 = 001 = 1
+	 **/  	
+	private String translateResult1x2 (String apu)
+	{
+		String rdo = "";
+	
+		for (int i = 0; i<apu.length(); i++){
+			if (apu.substring(i, i+1).startsWith("1")){
+				rdo +="4";
+			}else if (apu.substring(i, i+1).startsWith("X")){
+				rdo +="2";
+			}else if (apu.substring(i, i+1).startsWith("2")){
+				rdo +="1";
+			}
+			else{
+				rdo = null;
+				break;
+			}
+		}
+		
+		return rdo;
+	}
+
 	/**
 	 * Function calcUserRightSigns that calcs bet user's right sings
 	 * 
@@ -341,6 +388,8 @@ public class AdminController {
 		int singRes;
 		
 		try{
+			//Translate 1X2 to 421
+			
 		for (int i = 0; i<apu.length(); i++){
 			singBet = Integer.parseInt(apu.substring(i, i+1));
 			singRes = Integer.parseInt(resultBet.substring(i, i+1));		
@@ -618,7 +667,7 @@ public class AdminController {
 				//**********************************************************************
 				//Check if exist admin bet for this round (Better optimization analizing rBets.getBets() for Admin)
 				RoundBets rBetsAdmin =roundBetDao.findAllUserBets(season, round, getAdmin());
-				if (rBetsAdmin.getBets().size() > 0)
+				if ((rBetsAdmin != null) && (rBetsAdmin.getBets().size() > 0))
 					roundBetDao.deleteAllUserBets(season, round, getAdmin());
 				//**********************************************************************
 				
@@ -693,6 +742,9 @@ public class AdminController {
 					continue;
 				}
 	
+				//Translate result from "1X2" to "421"
+				apu = translateResult1x2(resultBet);
+				
 				//STEP 2: calc user right signs
 				int[] vAciertos = calcUserRightSigns(resultBet, apu, userAlterQ, company);
 				if (vAciertos[0] == -1){

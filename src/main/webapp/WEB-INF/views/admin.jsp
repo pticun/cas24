@@ -545,7 +545,7 @@ var ctx = "<%=request.getContextPath()%>"
 				   			<td class="partido"><input id="roundResults" name="round" type="text"/></td>
 				        </tr>
 				   		<tr>
-				   			<td class="partido">Result:</td>
+				   			<td class="partido">Result(1-X-2):</td>
 				   			<td class="partido"><input id="results" name="results" type="text"/></td>
 				        </tr>
 				   		<tr align="right">
