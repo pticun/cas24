@@ -725,6 +725,9 @@ public class AdminController {
 				}
 			});
 			
+			//Translate result from "1X2" to "421"
+			resultBet = translateResult1x2(resultBet);
+
 			for (Bet bet : lBets){
 				String apu = bet.getBet();
 				String user = bet.getUser();
@@ -739,11 +742,10 @@ public class AdminController {
 				//La apuesta globla no se debe gestionar para el ranking
 				if(user.equals(getAdmin()))
 				{
+					bUpdate = true;
 					continue;
 				}
 	
-				//Translate result from "1X2" to "421"
-				apu = translateResult1x2(resultBet);
 				
 				//STEP 2: calc user right signs
 				int[] vAciertos = calcUserRightSigns(resultBet, apu, userAlterQ, company);
@@ -822,7 +824,7 @@ public class AdminController {
 //	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/prize15/{count15}/{amount15}/prize14/{count14}/{amount14}/prize13/{count13}/{amount13}/prize12/{count12}/{amount12}/prize11/{count11}/{amount11}/prize10/{count10}/{amount10}")
 //	public @ResponseBody 
 //	ResponseDto  prizesRound(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int count15, @PathVariable float amount15, @PathVariable int count14, @PathVariable float amount14, @PathVariable int count13, @PathVariable float amount13, @PathVariable int count12, @PathVariable float amount12, @PathVariable int count11, @PathVariable float amount11, @PathVariable int count10, @PathVariable float amount10) {
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/prizesBet")
 	public @ResponseBody ResponseDto prizesRound(@CookieValue(value = "session", defaultValue = "") String cookieSession,@RequestBody PrizesRound prizesRound) {
 		ResponseDto response = new ResponseDto();
 		RoundBets roundBets;

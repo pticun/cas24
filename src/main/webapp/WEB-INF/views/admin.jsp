@@ -96,6 +96,7 @@ var ctx = "<%=request.getContextPath()%>"
 	var bAddMatchesRounnSession = 3;
 	var bFinalQuiniela			= 4;
 	var bResultsRoundSession	= 5;
+	var bPrizesRoundSession		= 6;
 
 	//Refs
 	var sHomeRef 					= "#homeDiv";
@@ -104,6 +105,7 @@ var ctx = "<%=request.getContextPath()%>"
 	var sAddMatchesRounnSessionRef	= "#matchesDiv";
 	var sFinalQuinielaRef			= "#quinielaDiv";
 	var sResultsRoundSessionRef		= "#resultsDiv";
+	var sPrizesRoundSessionRef		= "#prizesDiv";
 	
 	function initDiv() {
 		consoleAlterQ("initDiv");		
@@ -113,6 +115,7 @@ var ctx = "<%=request.getContextPath()%>"
 		$(sAddMatchesRounnSessionRef).hide();
 		$(sFinalQuinielaRef).hide();
 		$(sResultsRoundSessionRef).hide();
+		$(sPrizesRoundSessionRef).hide();
 		
 		bActual = bHome;
 	}
@@ -140,6 +143,9 @@ var ctx = "<%=request.getContextPath()%>"
 		case bResultsRoundSession:
 			$(sResultsRoundSessionRef).show();
 			break;
+		case bPrizesRoundSession:
+			$(sPrizesRoundSessionRef).show();
+			break;
 		}
 
 		switch (bActual){
@@ -160,6 +166,9 @@ var ctx = "<%=request.getContextPath()%>"
 			break;
 		case bResultsRoundSession:
 			$(sResultsRoundSessionRef).hide();
+			break;
+		case bPrizesRoundSession:
+			$(sPrizesRoundSessionRef).hide();
 			break;
 		}
 		
@@ -189,6 +198,9 @@ var ctx = "<%=request.getContextPath()%>"
 		}else if (href == sResultsRoundSessionRef){
 			consoleAlterQ("ResultRoundSession");
 			showDiv(bResultsRoundSession);
+		}else if (href == sPrizesRoundSessionRef){
+			consoleAlterQ("PrizesRoundSession");
+			showDiv(bPrizesRoundSession);
 		}
 		return false;
 		
@@ -247,6 +259,12 @@ var ctx = "<%=request.getContextPath()%>"
           		<table class="quiniela">
 		   		<tr align="center">
 		   			<td class="partido"><button id="resultsBtn" class="button" name="resultsMenu" value="results">Results</button></td>
+		        </tr>
+	   			</table>
+          		<br>
+          		<table class="quiniela">
+		   		<tr align="center">
+		   			<td class="partido"><button id="prizesBtn" class="button" name="prizesMenu" value="prizes">Prizes</button></td>
 		        </tr>
 	   			</table>
         </div>
@@ -566,6 +584,95 @@ var ctx = "<%=request.getContextPath()%>"
 </div>
 </div>
 <!-- End ResultsRound Section -->
+
+
+<!-- PrizesRound Section -->
+<div id="prizesDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Admin - Prizes Round</h2>
+                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- PrizesRound Form -->
+    <div class="row table-responsive">
+		<div align="center">
+			<form id="prizesForm">
+			   		<table class="quiniela">
+				   		<tr>
+				   			<td class="partido">Season:</td>
+				   			<td class="partido"><input id="seasonResults" name="season" type="text"/></td>
+				   			<td class="partido">&nbsp</td>
+				   			<td class="partido">&nbsp</td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Round:</td>
+				   			<td class="partido"><input id="roundResults" name="round" type="text"/></td>
+				   			<td class="partido">&nbsp</td>
+				   			<td class="partido">&nbsp</td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Count10:</td>
+				   			<td class="partido"><input id="count10" name="count10" type="text"/></td>
+				   			<td class="partido">Prize10:</td>
+				   			<td class="partido"><input id="prize10" name="prize10" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Count11:</td>
+				   			<td class="partido"><input id="count11" name="count11" type="text"/></td>
+				   			<td class="partido">Prize11:</td>
+				   			<td class="partido"><input id="prize11" name="prize11" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Count12:</td>
+				   			<td class="partido"><input id="count12" name="count12" type="text"/></td>
+				   			<td class="partido">Prize12:</td>
+				   			<td class="partido"><input id="prize12" name="prize12" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Count13:</td>
+				   			<td class="partido"><input id="count13" name="count13" type="text"/></td>
+				   			<td class="partido">Prize13:</td>
+				   			<td class="partido"><input id="prize13" name="prize13" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Count14:</td>
+				   			<td class="partido"><input id="count14" name="count14" type="text"/></td>
+				   			<td class="partido">Prize14:</td>
+				   			<td class="partido"><input id="prize14" name="prize14" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Count15:</td>
+				   			<td class="partido"><input id="count15" name="count15" type="text"/></td>
+				   			<td class="partido">Prize15:</td>
+				   			<td class="partido"><input id="prize15" name="prize15" type="text"/></td>
+				        </tr>
+				   		<tr align="right">
+				   			<td class="partido">&nbsp;</td>
+				   			<td class="partido"><button id="admin_prizes_btn" class="button" name="prizesBtn" value="prizesBtn">Set Prizes</button></td>
+				   			<td class="partido">&nbsp</td>
+				   			<td class="partido">&nbsp</td>
+				        </tr>
+			   		</table>
+			   		<div id="prizesFormResponse">respuesta</div>
+			</form>
+	   		<table class="quiniela">
+	   			<tr align="center">
+		   			<td class="partido"><button id="homeBtn6" class="button" name="homeBtn6" value="homeBtn6">Admin Menu</button></td>
+		        </tr>
+	       </table>
+		</div>
+    </div>
+    <!-- End PrizesRound Form -->
+</div>
+</div>
+<!-- End PrizesRound Section -->
 
 
 <!-- Footer -->
