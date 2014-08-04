@@ -78,7 +78,6 @@ $(document).ready(function() {
 	    });
 	
 	
-	
 	$("form a").click(function(){
 //alert("Form ="+ $(this).text() +" href="+$(this).attr("href"));
 		var elem = $(this).text();
@@ -220,6 +219,7 @@ $(document).ready(function() {
 					$('#13_1').removeAttr('checked');$('#13_X').removeAttr('checked');$('#13_2').removeAttr('checked');
 					$('#14_1').removeAttr('checked');$('#14_X').removeAttr('checked');$('#14_2').removeAttr('checked');
 					$('#quinielaFormResponse').text("Apuesta realizada correctamente");
+					doLogin();					
 				}
 		    }
 		});
@@ -398,6 +398,28 @@ $(document).ready(function() {
 	
 	
 });
+
+function doLogin(){
+	var jqxhr =
+	    $.ajax({
+	        url: ctx+"/login",
+ 	    })
+	    .success (function(response) { 
+		    if(response.errorDto==0){
+		    	if (response.userAlterQ!=null){
+					idUserAlterQ=response.userAlterQ.id;
+					$('#idData').val(response.userAlterQ.id);
+					$('#nameData').val(response.userAlterQ.name);
+					$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
+					$('#idSaldo').val(response.userAlterQ.id);
+					$('#balanceSaldo').val(response.userAlterQ.balance);
+		    	}
+		    }
+		    round=response.generalData.round;
+		    season=response.generalData.season;
+	    });
+	
+}
 
 function doLogout(){
 	 jQuery.ajax ({
