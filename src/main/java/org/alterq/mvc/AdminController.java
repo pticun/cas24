@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -837,6 +838,21 @@ public class AdminController {
 			userSecurity.isAdminUserInSession( cookieSession);
 			roundBets = roundBetDao.findAllBets(prizesRound.getSeason(), prizesRound.getRound());
 			
+/*
+Map<String, String[]> parameters = request.getParameterMap();
+for (String parameter : parameters.keySet()) {
+	StringTokenizer st = new StringTokenizer(parameter, "_");
+	try {
+		int indice = Integer.parseInt(st.nextToken());
+		String signo = st.nextToken();
+		int signoN = (signo.equals("1")) ? 4 : (signo.equals("2") ? 1 : 2);
+		pro[indice] += signoN;
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+	// log.debug(sb.toString());
+}
+*/
 			/*roundBets.setHit10(count10);
 			roundBets.setReward10(amount10);
 			
