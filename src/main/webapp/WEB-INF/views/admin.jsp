@@ -607,13 +607,13 @@ var ctx = "<%=request.getContextPath()%>"
 			   		<table class="quiniela">
 				   		<tr>
 				   			<td class="partido">Season:</td>
-				   			<td class="partido"><input id="seasonResults" name="season" type="text"/></td>
+				   			<td class="partido"><input id="seasonPrizes" name="season" type="text"/></td>
 				   			<td class="partido">&nbsp</td>
 				   			<td class="partido">&nbsp</td>
 				        </tr>
 				   		<tr>
 				   			<td class="partido">Round:</td>
-				   			<td class="partido"><input id="roundResults" name="round" type="text"/></td>
+				   			<td class="partido"><input id="roundPrizes" name="round" type="text"/></td>
 				   			<td class="partido">&nbsp</td>
 				   			<td class="partido">&nbsp</td>
 				        </tr>

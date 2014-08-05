@@ -231,9 +231,9 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#prizesForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/admin'+ '/company/' + '1' + '/season/'+ $("input[id=seasonQuiniela]").val() + '/round/' + $("input[id=roundQuiniela]").val() + '/prizesBet',
+			 url: ctx+'/admin'+ '/company/' + '1' + '/season/'+ $("input[id=seasonPrizes]").val() + '/round/' + $("input[id=roundPrizes]").val() + '/prizesBet',
 			    type: "POST",
-			    data: dataJson,
+			    data: $(this).serialize(),
 			    //contentType: "application/json; charset=utf-8",
 			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
 	            cache: false,    //This will force requested pages not to be cached by the browser  

@@ -826,7 +826,9 @@ public class AdminController {
 //	public @ResponseBody 
 //	ResponseDto  prizesRound(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int count15, @PathVariable float amount15, @PathVariable int count14, @PathVariable float amount14, @PathVariable int count13, @PathVariable float amount13, @PathVariable int count12, @PathVariable float amount12, @PathVariable int count11, @PathVariable float amount11, @PathVariable int count10, @PathVariable float amount10) {
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/prizesBet")
-	public @ResponseBody ResponseDto prizesRound(@CookieValue(value = "session", defaultValue = "") String cookieSession,@RequestBody PrizesRound prizesRound) {
+	//public @ResponseBody ResponseDto prizesRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @RequestBody PrizesRound prizesRound) {
+	public @ResponseBody 
+	ResponseDto  prizesRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
 		ResponseDto response = new ResponseDto();
 		RoundBets roundBets;
 		int numBets;
@@ -836,48 +838,28 @@ public class AdminController {
 		
 		try {
 			userSecurity.isAdminUserInSession( cookieSession);
-			roundBets = roundBetDao.findAllBets(prizesRound.getSeason(), prizesRound.getRound());
+			roundBets = roundBetDao.findAllBets(season, round);
 			
-/*
-Map<String, String[]> parameters = request.getParameterMap();
-for (String parameter : parameters.keySet()) {
-	StringTokenizer st = new StringTokenizer(parameter, "_");
-	try {
-		int indice = Integer.parseInt(st.nextToken());
-		String signo = st.nextToken();
-		int signoN = (signo.equals("1")) ? 4 : (signo.equals("2") ? 1 : 2);
-		pro[indice] += signoN;
-	} catch (Exception e) {
-		// TODO: handle exception
-	}
-	// log.debug(sb.toString());
-}
-*/
-			/*roundBets.setHit10(count10);
-			roundBets.setReward10(amount10);
-			
-			roundBets.setHit11(count11);
-			roundBets.setReward11(amount11);
+			List<Prize> lPrizes = new ArrayList<Prize>();
+			Map<String, String[]> parameters = request.getParameterMap();
 
-			roundBets.setHit12(count12);
-			roundBets.setReward12(amount12);
+			for (int i=0;i<=5;i++)
+			{
+				Prize priceTmp = new Prize();
+				priceTmp.setId(i+10);
+				priceTmp.setCount(Integer.parseInt(parameters.get("count"+(i+10))[0]));
+				priceTmp.setAmount(Float.parseFloat(parameters.get("prize"+(i+10))[0]));
+				lPrizes.add(priceTmp);
+			}
 
-			roundBets.setHit13(count13);
-			roundBets.setReward13(amount13);
 
-			roundBets.setHit14(count14);
-			roundBets.setReward14(amount14);
-
-			roundBets.setHit15(count15);
-			roundBets.setReward15(amount15);
-			*/
-			roundBets.setPrizes(prizesRound.getPrizes());
+			roundBets.setPrizes(lPrizes);
 			
 			
-			numBets = roundBets.getBets().size();
+			numBets = roundBets.getBets().size() - 1; //Admin bet is not a real bet
 			//rewardGlobal = roundBets.getJackpot() + count15*amount15 + count14*amount14 + count13*amount13 + count12*amount12 + count11*amount11 + count10*amount10;
 			rewardGlobal = roundBets.getJackpot();
-			List<Prize> lPrizes = roundBets.getPrizes();
+			//List<Prize> lPrizes = roundBets.getPrizes();
 			for (Prize prize : lPrizes){
 				rewardGlobal+= prize.getAmount() * prize.getCount();
 			}
@@ -895,6 +877,12 @@ for (String parameter : parameters.keySet()) {
 				if (userAlterQ== null){
 					log.debug("pricesRound: user("+user+") Error resultBet user not find");  
 					//STEP 1.1.error - Send an email to the admin ("ERROR pricesRound user not find")
+					continue;
+				}
+				
+				//Admin unser don't win money, because his bet is not a real bet
+				if (userAlterQ.isAdmin())
+				{
 					continue;
 				}
 				
