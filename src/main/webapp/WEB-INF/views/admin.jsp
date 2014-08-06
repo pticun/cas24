@@ -97,6 +97,7 @@ var ctx = "<%=request.getContextPath()%>"
 	var bFinalQuiniela			= 4;
 	var bResultsRoundSession	= 5;
 	var bPrizesRoundSession		= 6;
+	var bUpdateBalanceUser		= 7;
 
 	//Refs
 	var sHomeRef 					= "#homeDiv";
@@ -106,6 +107,7 @@ var ctx = "<%=request.getContextPath()%>"
 	var sFinalQuinielaRef			= "#quinielaDiv";
 	var sResultsRoundSessionRef		= "#resultsDiv";
 	var sPrizesRoundSessionRef		= "#prizesDiv";
+	var sUpdateBalanceUserRef		= "#updateBalanceDiv";
 	
 	function initDiv() {
 		consoleAlterQ("initDiv");		
@@ -116,6 +118,7 @@ var ctx = "<%=request.getContextPath()%>"
 		$(sFinalQuinielaRef).hide();
 		$(sResultsRoundSessionRef).hide();
 		$(sPrizesRoundSessionRef).hide();
+		$(sUpdateBalanceUserRef).hide();
 		
 		bActual = bHome;
 	}
@@ -146,6 +149,9 @@ var ctx = "<%=request.getContextPath()%>"
 		case bPrizesRoundSession:
 			$(sPrizesRoundSessionRef).show();
 			break;
+		case bUpdateBalanceUser:
+			$(sUpdateBalanceUserRef).show();
+			break;
 		}
 
 		switch (bActual){
@@ -169,6 +175,9 @@ var ctx = "<%=request.getContextPath()%>"
 			break;
 		case bPrizesRoundSession:
 			$(sPrizesRoundSessionRef).hide();
+			break;
+		case bUpdateBalanceUser:
+			$(sUpdateBalanceUserRef).hide();
 			break;
 		}
 		
@@ -201,6 +210,9 @@ var ctx = "<%=request.getContextPath()%>"
 		}else if (href == sPrizesRoundSessionRef){
 			consoleAlterQ("PrizesRoundSession");
 			showDiv(bPrizesRoundSession);
+		}else if (href == sUpdateBalanceUserRef){
+			consoleAlterQ("UpdateBalanceUser");
+			showDiv(bUpdateBalanceUser);
 		}
 		return false;
 		
@@ -267,6 +279,13 @@ var ctx = "<%=request.getContextPath()%>"
 		   			<td class="partido"><button id="prizesBtn" class="button" name="prizesMenu" value="prizes">Prizes</button></td>
 		        </tr>
 	   			</table>
+	   			</table>
+          		<br>
+          		<table class="quiniela">
+		   		<tr align="center">
+		   			<td class="partido"><button id="updateBalanceBtn" class="button" name="updateBalanceprizesMenu" value="updateBalance">Update Balance</button></td>
+		        </tr>
+	   			</table>
         </div>
 </div>
 </div>
@@ -280,7 +299,6 @@ var ctx = "<%=request.getContextPath()%>"
         <div class="span12">
             <div class="title-page">
                 <h2 class="title">Admin - Open Round</h2>
-                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
             </div>
         </div>
     </div>
@@ -326,7 +344,6 @@ var ctx = "<%=request.getContextPath()%>"
         <div class="span12">
             <div class="title-page">
                 <h2 class="title">Admin - Close Round</h2>
-                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
             </div>
         </div>
     </div>
@@ -372,7 +389,6 @@ var ctx = "<%=request.getContextPath()%>"
         <div class="span12">
             <div class="title-page">
                 <h2 class="title">Admin - Matches Round</h2>
-                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
             </div>
         </div>
     </div>
@@ -493,7 +509,6 @@ var ctx = "<%=request.getContextPath()%>"
         <div class="span12">
             <div class="title-page">
                 <h2 class="title">Admin - Final Quiniela Round</h2>
-                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
             </div>
         </div>
     </div>
@@ -543,7 +558,6 @@ var ctx = "<%=request.getContextPath()%>"
         <div class="span12">
             <div class="title-page">
                 <h2 class="title">Admin - Results Round</h2>
-                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
             </div>
         </div>
     </div>
@@ -594,7 +608,6 @@ var ctx = "<%=request.getContextPath()%>"
         <div class="span12">
             <div class="title-page">
                 <h2 class="title">Admin - Prizes Round</h2>
-                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
             </div>
         </div>
     </div>
@@ -673,6 +686,51 @@ var ctx = "<%=request.getContextPath()%>"
 </div>
 </div>
 <!-- End PrizesRound Section -->
+
+<!-- ResultsRound Section -->
+<div id="updateBalanceDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Admin - Update User Balance</h2>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- ResultsRound Form -->
+    <div class="row table-responsive">
+		<div align="center">
+			<form id="updateBalanceForm">
+			   		<table class="quiniela">
+				   		<tr>
+				   			<td class="partido">User:</td>
+				   			<td class="partido"><input id="updateBalanceUser" name="user" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Balance:</td>
+				   			<td class="partido"><input id="updateBalanceBalance" name="balance" type="text"/></td>
+				        </tr>
+				   		<tr align="right">
+				   			<td class="partido">&nbsp;</td>
+				   			<td class="partido"><button id="admin_updateBalance_btn" class="button" name="updateBalanceBtn" value="updateBalanceBtn">Update Balance</button></td>
+				        </tr>
+			   		</table>
+			   		<div id="updateBalanceFormResponse">&nbsp</div>
+			</form>
+	   		<table class="quiniela">
+	   			<tr align="center">
+		   			<td class="partido"><button id="homeBtn7" class="button" name="homeBtn7" value="homeBtn7">Admin Menu</button></td>
+		        </tr>
+	       </table>
+		</div>
+    </div>
+    <!-- End ResultsRound Form -->
+</div>
+</div>
+<!-- End ResultsRound Section -->
 
 
 <!-- Footer -->

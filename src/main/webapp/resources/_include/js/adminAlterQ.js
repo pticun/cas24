@@ -43,7 +43,7 @@ $(document).ready(function() {
 		   		    		consoleAlterQ("open: response="+objeto.stringError);
 		   		    		$('#openFormResponse').append(objeto.stringError+" - ");
 					    });
-		   		    	userLoged=false;
+		   		    	
 		   		    }
 		   		    else{
 		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
@@ -84,7 +84,7 @@ $(document).ready(function() {
 		   		    		consoleAlterQ("open: response="+objeto.stringError);
 		   		    		$('#closeFormResponse').append(objeto.stringError+" - ");
 					    });
-		   		    	userLoged=false;
+		   		    	
 		   		    }
 		   		    else{
 		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
@@ -124,7 +124,7 @@ $(document).ready(function() {
 		   		    		consoleAlterQ("matches: response="+objeto.errorDto);
 		   		    		$('#matchesFormResponse').append(objeto.stringError+" - ");
 					    });
-		   		    	userLoged=false;
+		   		    	
 		   		    }
 		   		    else{
 		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
@@ -164,7 +164,7 @@ $(document).ready(function() {
 		   		    		consoleAlterQ("result: response="+objeto.errorDto);
 		   		    		$('#matchesFormResponse').append(objeto.stringError+" - ");
 					    });
-		   		    	userLoged=false;
+		   		    	
 		   		    }
 		   		    else{
 		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
@@ -204,7 +204,7 @@ $(document).ready(function() {
 		   		    		consoleAlterQ("result: response="+objeto.errorDto);
 		   		    		$('#quinielaFormResponse').append(objeto.stringError+" - ");
 					    });
-		   		    	userLoged=false;
+		   		    	
 		   		    }
 		   		    else{
 		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
@@ -244,13 +244,53 @@ $(document).ready(function() {
 		   		    		consoleAlterQ("result: response="+objeto.errorDto);
 		   		    		$('#prizesFormResponse').append(objeto.stringError+" - ");
 					    });
-		   		    	userLoged=false;
+		   		    	
 		   		    }
 		   		    else{
 		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
 						//$('#loginFormResponse').text(response.userAlterQ.name);
 						consoleAlterQ("result: response= OK");
 						$('#prizesFormResponse').text("Admin - Quiniela - OK");
+						//userLoged=true;
+						//idUserAlterQ=response.userAlterQ.id;
+						//$('#idData').val(response.userAlterQ.id);
+						//$('#nameData').val(response.userAlterQ.name);
+						//$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
+						//$('#idSaldo').val(response.userAlterQ.id);
+						//$('#balanceSaldo').val(response.userAlterQ.balance);
+						//getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+						//showDiv(bHome);
+		   		    }
+				    //round=response.generalData.round;
+				    //season=response.generalData.season;
+			    }
+			});
+		 	event.preventDefault(); // prevent actual form submit and page reload
+	});
+	$('form#updateBalanceForm').submit(function(event) {
+		 var dataJson=JSON.stringify($('form#updateBalanceForm').serializeObject());
+		 consoleAlterQ(dataJson);
+		 jQuery.ajax ({
+			 url: ctx+'/admin'+ '/company/' + '1' + '/user/'+ $("input[id=updateBalanceUser]").val() + '/balance/' + $("input[id=updateBalanceBalance]").val() + '/updateBalanceUser',
+			    type: "POST",
+			    data: dataJson,
+			    //contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+			    	if(response.errorDto!=0){
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		consoleAlterQ("result: response="+objeto.errorDto);
+		   		    		$('#updateBalanceFormResponse').text(objeto.stringError+" - ");
+					    });
+		   		    	
+		   		    }
+		   		    else{
+		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
+						//$('#loginFormResponse').text(response.userAlterQ.name);
+						consoleAlterQ("result: response= OK");
+						$('#updateBalanceFormResponse').text("Admin - UpdateBalanceUser - OK");
 						//userLoged=true;
 						//idUserAlterQ=response.userAlterQ.id;
 						//$('#idData').val(response.userAlterQ.id);
@@ -287,10 +327,10 @@ $("#resultsBtn").on('click', function(event){
 $("#prizesBtn").on('click', function(event){
 	menuEvent($(this).text(),  "#prizesDiv");
 });
-
-$("#homeBtn1").on('click', function(event){
-	menuEvent($(this).text(),  "#homeDiv");
+$("#updateBalanceBtn").on('click', function(event){
+	menuEvent($(this).text(),  "#updateBalanceDiv");
 });
+
 $("#homeBtn1").on('click', function(event){
 	menuEvent($(this).text(),  "#homeDiv");
 });
@@ -309,7 +349,9 @@ $("#homeBtn5").on('click', function(event){
 $("#homeBtn6").on('click', function(event){
 	menuEvent($(this).text(),  "#homeDiv");
 });
-
+$("#homeBtn7").on('click', function(event){
+	menuEvent($(this).text(),  "#homeDiv");
+});
 
 function consoleAlterQ(text){
 	if( (window['console'] !== undefined) ){

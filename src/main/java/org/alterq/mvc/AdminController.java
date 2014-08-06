@@ -21,6 +21,7 @@ import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
+import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.repo.GeneralDataDao;
@@ -947,4 +948,40 @@ public class AdminController {
 		
 		return response;
 	}
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/user/{user}/balance/{balance}/updateBalanceUser")
+	public @ResponseBody 
+	ResponseDto  updateBalanceUser(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable String user, @PathVariable String balance) {
+		ResponseDto response = new ResponseDto();
+		UserAlterQ userAlterQ;
+
+		try
+		{
+			userSecurity.isAdminUserInSession( cookieSession);
+			
+			userAlterQ = userAlterQDao.findById(user);
+			
+			if (userAlterQ == null){
+				log.debug("updateBalance: user("+user+") Error resultBet user not find");
+				
+				ErrorDto error = new ErrorDto();
+				error.setIdError(AlterQConstants.USER_NOT_EXIST);
+				error.setStringError("User does not exist");
+				response.addErrorDto(error);			
+			}
+			
+			userAlterQ.setBalance(Double.toString( Double.parseDouble(balance)));
+			userAlterQDao.save(userAlterQ);
+			
+		}catch (SecurityException e) {
+			response.addErrorDto("AdminController:updateBalance", "SecurityException");
+			e.printStackTrace();
+		}catch (Exception e) {
+			response.addErrorDto("AdminController:updateBalance", "Generic Update Error");
+			e.printStackTrace();
+		}
+		
+		
+		return response;
+	}
+	
 }
