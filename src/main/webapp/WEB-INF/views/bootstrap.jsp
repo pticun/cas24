@@ -149,6 +149,7 @@ End Analytics -->
 	var bMyBets = 9;
 	var bMyRank = 10;
 	var bMyResum = 11;
+	var bMyAdmin = 12;
 	
 	//Texts
 	var sHome    = "Inicio";
@@ -158,6 +159,7 @@ End Analytics -->
 	var sQuininiela = "Quiniela";
 	var sGuest = "Invitado";
 	var sLogout = "Logout";
+	var sAdmin = "Administration";
 	
 	//Refs
 	var sHomeRef = "#homeDiv";
@@ -173,6 +175,7 @@ End Analytics -->
 	var sMyBetsRef = "#mybetsDiv";
 	var sMyRankRef = "#myRankDiv";
 	var sMyResumRef = "#myResumDiv";
+	var sMyAdminRef = "admin";
 	
 	function initDiv() {
 		//document.getElementById("homeDiv").style.display = "block";
@@ -245,6 +248,9 @@ End Analytics -->
 			break;
 		case bMyResum:
 			$(sMyResumRef).show();
+			break;
+		case bMyAdmin:
+			$(sMyAdminRef).open();
 			break;
 		}
 
@@ -340,21 +346,31 @@ End Analytics -->
 			consoleAlterQ("MyRank");
 			paintRanking();
 			showDiv(bMyRank);
+		}else if (href == sMyAdminRef){
+			consoleAlterQ("MyAdmin");
+			showDiv(bMyAdmin);
 		}
 		return false;
 		
 	}
 	
-	function getMainMenuItems(userLoged, user)
+	function getMainMenuItems(userLoged, user, admin)
   	{
-		consoleAlterQ("getMainMenuItems userLoged="+userLoged+" user="+user);
+		consoleAlterQ("getMainMenuItems userLoged="+userLoged+" user="+user+" admin="+admin);
 		//MENU WEB 
 		$('#menu-nav li').remove();
 		
-    	$('#menu-nav').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
-    	$('#menu-nav').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
+		if (!admin)
+		{
+			$('#menu-nav').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
+			$('#menu-nav').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
+		}
+    	
     	if (userLoged){
-    		$('#menu-nav').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
+    		if (admin)
+    			$('#menu-nav').append('<li><a href="' + sMyAdminRef + '">' + sAdmin + '</a></li>');
+    		else
+    			$('#menu-nav').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
     		$('#menu-nav').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');
     	}
     	else{
@@ -366,10 +382,16 @@ End Analytics -->
     	
 		$('#menu-nav-mobile li').remove();
 		
-    	$('#menu-nav-mobile').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
-    	$('#menu-nav-mobile').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
+		if (!admin)
+		{
+	    	$('#menu-nav-mobile').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
+	    	$('#menu-nav-mobile').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
+		}
     	if (userLoged){
-    		$('#menu-nav-mobile').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
+    		if (admin)
+    			$('#menu-nav-mobile').append('<li><a href="' + sMyAdminRef + '">' + sAdmin + '</a></li>');
+    		else
+    			$('#menu-nav-mobile').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
     		$('#menu-nav-mobile').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');
     	}
     	else{

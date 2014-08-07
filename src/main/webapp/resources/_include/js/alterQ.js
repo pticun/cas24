@@ -24,7 +24,7 @@ $(document).ready(function() {
 	
 	initDiv(bHome);
 	//Paint Main Menu Items
-	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
     
 	//Menu Click Events
 	$('div').on("click", "nav#menu ul#menu-nav li a", function(event) {
@@ -54,7 +54,8 @@ $(document).ready(function() {
 		    }
 		    else{
 		    	if (response.userAlterQ!=null){
-					showDiv(bHome);
+	    			showDiv(bHome);
+		    			
 					idUserAlterQ=response.userAlterQ.id;
 
 					$('#idData').val(response.userAlterQ.id);
@@ -66,7 +67,7 @@ $(document).ready(function() {
 					userLoged=true;
 		    	}
 		    	else{
-   					showDiv(bHome);
+		    		showDiv(bHome);
     				userLoged=false;
 		    	}
 		    }
@@ -74,7 +75,7 @@ $(document).ready(function() {
 		    season=response.generalData.season;
 			//Paint Main Menu Items
 			consoleAlterQ("Menu: pintamos los elementos del menu");
-			getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+			getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
 	    });
 	
 	
@@ -122,7 +123,7 @@ $(document).ready(function() {
 						$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
 						$('#idSaldo').val(response.userAlterQ.id);
 						$('#balanceSaldo').val(response.userAlterQ.balance);
-						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
 						showDiv(bHome);
 		   		    }
 				    round=response.generalData.round;
@@ -177,8 +178,9 @@ $(document).ready(function() {
 		   		    }
 		   		    else{
 						userLoged=true;
-						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
 						showDiv(bHome);
+						
 		   		    }
 			    }
 			});
@@ -435,7 +437,7 @@ function doLogout(){
 	   		    }
 	   		    else{
 					userLoged=false;
-					getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+					getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
 	   		    }
 		    }
 		});
