@@ -21,6 +21,8 @@ GET		/myaccount/{id:.+}/season/{season}/round/{round}/ranking		RankingController
 GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet/{bet}		BetController			getBet
 GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet/price		BetController			calculatePrice(param Bet calculate price)
 GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet			BetController			findAllUserBetsParams
+	if userId is equals=mail@mail.es we must return BetFinal
+	BetFinal is bet season=season, round=round, and user=is find User where company=usercompanysession and admin=true
 PUT		/myaccount/{id:.+}/season/{season}/round/{round}/bet/{bet}		BetController			updateBet
 DELETE	/myaccount/{id:.+}/season/{season}/round/{round}/bet/{bet}		BetController			deleteBet
 DELETE	/myaccount/{id:.+}/season/{season}/round/{round}/bet			BetController			deleteAllUserBets
@@ -36,8 +38,8 @@ POST 	/admin/company/{company}/season/{season}/round/{round}/open							AdminCon
 POST 	/admin/company/{company}/season/{season}/round/{round}/close						AdminController			closeRound					(response GeneralData)
 POST 	/admin/company/{company}/season/{season}/round/{round}/finalBet/{type}				AdminController			finalBetRound				(response GeneralData)
 POST	/admin/company/{company}/season/{season}/round/{round}/resultBet/{resultBet}		AdminController			resutlBetRound				(response ResponseDto)
-POST	/admin/PrizesRound																	AdminController			prizesRound					(response ResponseDto)
-POST	/admin/Round																		AdminController			addRoundGames				(response ResponseDto)
+POST	/admin/company/{company}/season/{season}/round/{round}/prize15/{count15}/{amount15}/prize14/{count14}/{amount14}/prize13/{count13}/{amount13}/prize12/{count12}/{amount12}/prize11/{count11}/{amount11}/prize10/{count10}/{amount10}		AdminController			prizesRound				(response ResponseDto)
+POST	/admin/company/{company}/season/{season}/round/{round}/{local01}/{visitor01}/{local02}/{visitor02}/{local03}/{visitor03}/{local04}/{visitor04}/{local05}/{visitor05}/{local06}/{visitor06}/{local07}/{visitor07}/{local08}/{visitor08}/{local09}/{visitor09}/{local10}/{visitor10}/{local11}/{visitor11}/{local12}/{visitor12}/{local13}/{visitor13}/{local14}/{visitor14}/{local15}/{visitor15}		AdminController			addRoundGames				(response ResponseDto)
 
 
 
