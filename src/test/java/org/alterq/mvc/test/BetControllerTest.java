@@ -34,7 +34,6 @@ public class BetControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
 
-    @Test
     public void addBet() throws Exception {
 		UserAlterQ bean = new UserAlterQ();
 		bean.setId("prueba@arroba.es");
@@ -52,10 +51,10 @@ public class BetControllerTest {
     }
     @Test
     public void findAllUserBetsParams() throws Exception {
-    	this.mockMvc.perform(MockMvcRequestBuilders.get("/myaccount/prueba@arroba.es/season/2014/round/14/bet")).andDo(MockMvcResultHandlers.print());
+    	this.mockMvc.perform(MockMvcRequestBuilders.get("/myaccount/nuevo@nuevo.es/season/2014/round/1/bet")).andDo(MockMvcResultHandlers.print());
+    	this.mockMvc.perform(MockMvcRequestBuilders.get("/myaccount/mail@mail.es/season/2014/round/1/bet")).andDo(MockMvcResultHandlers.print());
     	
     }
-    @Test
     public void calculatePrice() throws Exception {
 		UserAlterQ bean = new UserAlterQ();
 		bean.setId("prueba@arroba.es");

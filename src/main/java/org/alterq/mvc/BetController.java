@@ -19,6 +19,7 @@ import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -189,15 +190,18 @@ public class BetController {
 
 	}
 
-	// TODO http://www.coderanch.com/t/622271/Spring/Spring-Path-Variable
-	// TODO with /bet/season/2013/round/1/user/idmail@arroba.es not working but
-	// working /bet/season/2013/round/1/user/idmail@arroba.es/
+	//if id=mail@mail.es means you must return FinalBet
+	//user is amdinUser for this company
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "/bet")
 	public @ResponseBody
 	ResponseDto findAllUserBetsParams(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,
 			@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
 		ResponseDto dto = new ResponseDto();
-		// TODO control security
+		if (StringUtils.equals(id, "mail@mail.es")){
+			//TODO we must controller company 
+			UserAlterQ adminCompany= userDao.findAdminByCompany(company);
+			id=adminCompany.getId();
+		}
 		RoundBets rb = betDao.findAllUserBets(season, round, id);
 		dto.setRoundBet(rb);
 		return dto;
