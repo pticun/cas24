@@ -9,7 +9,6 @@ public interface RoundRankingDao {
 	public RoundRanking findRankingGlobal(int company, int season);
 	
 	public boolean addRanking(int company, int season, int round, Ranking ranking);
-	public boolean addRankingGlobal(int company, int season, Ranking ranking);
 	
 	public void add(RoundRanking bean);
 	

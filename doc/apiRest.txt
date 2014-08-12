@@ -13,12 +13,12 @@ POST	/myaccount/forgotPwd											AccountController		forgotPwd
 GET		/myaccount/{id:.+}/season/{season}/round/{round}				RoundController			getRound					(reponse Round)
 	not necessary user, it can put in my account: mail@mail.es
 
-POST	/myaccount/{id:.+}/season/{season}/round/{round}/bet			BetController			addBet 
-																									(if season <0 automaticBet, if season<0 && round<0 automatic Bet)
 GET		/myaccount/{id:.+}/season/{season}/round/{round}/ranking		RankingController		getRanking  				(response RoundRanking)
 	not necessary user, it can put in my account: mail@mail.es
-	if round==0 o round==-1 get RankingGeneral
+	if round==0 get RankingGeneral
 
+POST	/myaccount/{id:.+}/season/{season}/round/{round}/bet			BetController			addBet 
+																									(if season <0 automaticBet, if season<0 && round<0 automatic Bet)
 GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet/{bet}		BetController			getBet
 GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet/price		BetController			calculatePrice(param Bet calculate price)
 GET		/myaccount/{id:.+}/season/{season}/round/{round}/bet			BetController			findAllUserBetsParams

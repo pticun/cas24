@@ -469,7 +469,7 @@ public class AdminController {
 		rnk.setPoints(points);
 		rnk.setUser(user);
 
-		roundRankingDao.addRankingGlobal(company, season, rnk);
+		roundRankingDao.addRanking(company, season, -1, rnk);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/open")

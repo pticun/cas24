@@ -370,7 +370,7 @@ $(document).ready(function() {
 
    		
    		jQuery.ajax ({
-   			url: ctx+'/myaccount/admin/season/'+temporada+'/round/'+jornada+'/bet',
+   			url: ctx+'/myaccount/mail@mail.es/season/'+temporada+'/round/'+jornada+'/bet',
    			type: "GET",
    			data: null,
    			contentType: "application/json; charset=utf-8",
