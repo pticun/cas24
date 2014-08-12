@@ -404,7 +404,7 @@ End Analytics -->
 		$('#rankingSelect li').remove();
 		$('#rankingSelect').append($("<li><a class='list-group-item' id="+season+"_0>"+(season-1)+"/"+season+"</a></li>"));
 		$('#rankingSelect').append($("<li><a class='divider'></a></li>"));
-		for ( var num = 1; num < round; num++) {
+		for ( var num = 1; num < round + 1; num++) {
 			$('#rankingSelect').append($("<li><a id='"+season+"_"+num+"' href='#'>"+num+"</a></li>"));
 		}
 	}
@@ -412,7 +412,7 @@ End Analytics -->
 		$('#resumSelect li').remove();
 		$('#resumSelect').append($("<li><a class='list-group-item' id="+season+"_0>"+(season-1)+"/"+season+"</a></li>"));
 		$('#resumSelect').append($("<li><a class='divider'></a></li>"));
-		for ( var num = 1; num < round; num++) {
+		for ( var num = 1; num < round + 1; num++) {
 			$('#resumSelect').append($("<li><a id='"+season+"_"+num+"' href='#'>"+num+"</a></li>"));
 		}
 	}

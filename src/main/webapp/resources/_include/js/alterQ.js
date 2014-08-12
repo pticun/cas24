@@ -322,12 +322,13 @@ $(document).ready(function() {
 		    cache: false,    //This will force requested pages not to be cached by the browser  
 		    processData:false, //To avoid making query String instead of JSON
 		    success: function(response){
-			    if(response.errorDto!=null){
-			    	consoleAlterQ("error:"+response.errorDto);
+			    if(response.errorDto!=0){
+	   		    	$(response.errorDto).each(function(index, objeto){  
+	   		    		consoleAlterQ("error:"+response.errorDto);
+				    });
 			    	$('#rankingTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td colspan="4">ERROR</td></tr></tr>');       
 			    }
 			    else{
-			    	consoleAlterQ("response:"+response);
 			    	$('#rankingTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td colspan="4">Jornada '+ jornada+'</td></tr>');
 				    $(response.roundRanking.rankings).each(function(index, objeto){  
 				    	$('#rankingTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td colspan="2" align="left">'+ objeto.user.id+'</td><td colspan="2" align="right">'+ objeto.points+'</td></tr>');
