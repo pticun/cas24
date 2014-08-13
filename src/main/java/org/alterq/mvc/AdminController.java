@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +14,6 @@ import org.alterq.domain.Bet;
 import org.alterq.domain.Game;
 import org.alterq.domain.GeneralData;
 import org.alterq.domain.Prize;
-import org.alterq.domain.PrizesRound;
 import org.alterq.domain.Ranking;
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
@@ -25,10 +23,10 @@ import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.repo.GeneralDataDao;
+import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.RoundRankingDao;
 import org.alterq.repo.SessionAlterQDao;
-import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
 import org.bson.types.ObjectId;
@@ -38,7 +36,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -460,18 +457,6 @@ public class AdminController {
 		roundRankingDao.addRanking(company, season, round, rnk);
 	}
 	
-	private void updateGlobalRanking(int company, int season, UserAlterQ user, int points, int ones, int equs, int twos){
-		Ranking rnk = new Ranking();
-		rnk.setCompany(company);
-		rnk.setOnes(ones);
-		rnk.setEqus(equs);
-		rnk.setTwos(twos);
-		rnk.setPoints(points);
-		rnk.setUser(user);
-
-		roundRankingDao.addRanking(company, season, -1, rnk);
-	}
-	
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/open")
 	public @ResponseBody 
 	ResponseDto openRound(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round) {
@@ -789,8 +774,8 @@ public class AdminController {
 					updateUserWeight(userAlterQ, vMaxAciertos[0]);
 					//STEP 4: update round ranking
 					updateRoundRanking(company, season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
-					//SETP 5: update global ranking
-					updateGlobalRanking(company, season, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
+					//SETP 5: update global ranking (round=0)
+					updateRoundRanking(company, season, 0,lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
 					
 					lastUser = user;
 					lastUserAlterQ = userAlterQ;
@@ -810,8 +795,8 @@ public class AdminController {
 				updateUserWeight(lastUserAlterQ, vMaxAciertos[0]);
 				//STEP 4: update round ranking
 				updateRoundRanking(company, season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
-				//SETP 5: update global ranking
-				updateGlobalRanking(company, season, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
+				//SETP 5: update global ranking (round=0)
+				updateRoundRanking(company, season, 0,lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
 			}
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block

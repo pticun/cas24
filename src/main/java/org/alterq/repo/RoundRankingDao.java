@@ -6,7 +6,6 @@ import org.alterq.domain.RoundRanking;
 
 public interface RoundRankingDao {
 	public RoundRanking findRanking(int company, int season, int round);
-	public RoundRanking findRankingGlobal(int company, int season);
 	
 	public boolean addRanking(int company, int season, int round, Ranking ranking);
 	

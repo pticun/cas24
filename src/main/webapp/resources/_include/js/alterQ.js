@@ -386,7 +386,8 @@ $(document).ready(function() {
    					consoleAlterQ("response:"+response);
    					consoleAlterQ("response.roundBet:"+response.roundBet);
    					consoleAlterQ("response.roundBet.bets:"+response.roundBet.bets);
-   					$(response.roundBet.bets).each(function(index, element){
+			    	$('#resumTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td colspan="4">Jornada '+ jornada+'</td></tr>');
+ 					$(response.roundBet.bets).each(function(index, element){
    						console.log("index="+index);
    						console.log("user="+element.user + " bet="+element.bet);
    						var row="";
@@ -482,57 +483,6 @@ function calculatePrice(){
 	event.preventDefault(); // prevent actual form submit and page reload
 	return false;
 }		
-function getAdminBet(){
-	consoleAlterQ('getAdminBet');
-//	var dataJson=JSON.stringify($("form#betForm").serializeObject());
-	var dataJson=$("form#betForm").serialize();
-	jQuery.ajax ({
-		url: ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round+'/bet',
-		type: "GET",
-		data: dataJson,
-//	    contentType: "application/json; charset=utf-8",
-		async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-		cache: false,    //This will force requested pages not to be cached by the browser  
-		processData:false, //To avoid making query String instead of JSON
-		success: function(response){
-			if(response.errorDto!=0){
-				$(response.errorDto).each(function(index, objeto){ tt 
-					$('#quinielaPrice').append(objeto.stringError+" - ");
-				});
-			}
-			else{
-				$(response.roundBet.bets).each(function(index, element){
-					console.log("index="+index);
-					console.log("user="+element.user + " bet="+element.bet);
-					var row="";
-				    if (index==0){
-				    	row+='<div class="active item">';
-				        indicators+='<li data-target="#myCarousel" data-slide-to="'+index+'" class="active"></li>';
-				    }
-				    else{
-				    	row+='<div class="item">';
-				        indicators+='<li data-target="#myCarousel" data-slide-to="'+index+'"></li>';
-				    }
-				    row+='<img class="mybetsimg" src="slide-1.jpg" alt="Slide">';
-				    row+='<div class="carousel-caption">';
-				    row+='<article>';
-				    row+='<header>';
-					row+='<h3> APUESTA '+index+'</h3>';
-					row+='<h3> JORNADA '+response.roundBet.round+'</h3>';
-					row+='<div align="center" id="apuesta'+index+'"><h3>'+getTableMatches(element.bet, mygames)+'</h3></div>';
-					row+='</header>';
-					row+='</article>';
-				    row+='</div>';
-				    row+='</div>';
-					$('#myItems').append(row);
-				});
-			}
-		}
-	});
-	event.preventDefault(); // prevent actual form submit and page reload
-	return false;
-}		
-
 
 function getQuiniela(){
 		consoleAlterQ('getQuiniela');
