@@ -140,8 +140,19 @@ Plantilla html5 (bootstrap-twitter) usado bajado de
 Hay más plantillas en http://bootswatch.com/
 	la más parecida http://bootswatch.com/	 
 
+JMeter-BlazeMeter-AlterQ
+	Se ha realizado una grabación de un script simple:
+		*ir a http://quinimobile-goldbittle.rhcloud.com
+		*login nuevo@nuevo.es/nuevo
+		*get a /myaccount/mail@mail.es/season/2014/round/1
+		*hacer un /logout
+	BlazeMeter (https://a.blazemeter.com)
+	user/pwd:racsor@gmail.com/alterQ
+	
 
 
 esto es mi cambio	
 no me enterado de lo que ha pasado
 http://examples.javacodegeeks.com/enterprise-java/spring/mail-spring/spring-e-mail-support-gmail-smtp-server-example/
+
+
