@@ -521,11 +521,13 @@ function getQuiniela(){
 							else{
 								temp=temp+" "+(index+1);
 							}
-							if(index==0 || index==4 || index==8 || index==11 || index==14){
-								row+='<tr id="rowBet_'+index+'"><td class="partidolinea">'+temp+'</td>';
+							if(index==0 || index==4 || index==8 || index==11){
+								row+='<tr id="rowBet_'+index+'"><td class="partidolinea"><label>'+temp+'</label></td>';
 							}
-							else{
-								row+='<tr id="rowBet_'+index+'"><td class="partido">'+temp+'</td>';
+							else if (index==14){
+								row+='<tr id="rowBet_'+index+'"><td class="partidoLast"><label>'+temp+'</label></td>';
+							}else{
+								row+='<tr id="rowBet_'+index+'"><td class="partido"><label>'+temp+'</label></td>';
 							}
 							row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
 							row+='<label class="quiniela" for="'+index+'_1"></label>';
@@ -575,7 +577,7 @@ function getUserBets(){
 			    	
 					var row="";
 			    	row+='<div class="active item">';
-			        row+='<img src="slide-1.jpg" alt="Slide">';
+			        row+='<img src="slide-1.jpg">';
 			        row+='<div class="carousel-caption">';
 			        row+='<article>';
 			        row+='<header>';
@@ -620,7 +622,7 @@ function getUserBets(){
 						    	
 								var row="";
 						    	row+='<div class="active item">';
-						        row+='<img class="mybetsimg" src="slide-1.jpg" alt="Slide">';
+						        row+='<img class="mybetsimg" src="slide-1.jpg">';
 						        row+='<div class="carousel-caption">';
 						        row+='<article>';
 						        row+='<header>';
@@ -649,7 +651,7 @@ function getUserBets(){
 					    	row+='<div class="item">';
 					        indicators+='<li data-target="#myCarousel" data-slide-to="'+index+'"></li>';
 					    }
-					    row+='<img class="mybetsimg" src="slide-1.jpg" alt="Slide">';
+					    row+='<img class="mybetsimg" src="slide-1.jpg">';
 					    row+='<div class="carousel-caption">';
 					    row+='<article>';
 					    row+='<header>';
@@ -675,7 +677,7 @@ function getUserBets(){
 		    	
 				var row="";
 		    	row+='<div class="active item">';
-		        row+='<img class="mybetsimg" src="slide-1.jpg" alt="Slide">';
+		        row+='<img class="mybetsimg" src="slide-1.jpg">';
 		        row+='<div class="carousel-caption">';
 		        row+='<article>';
 		        row+='<header>';

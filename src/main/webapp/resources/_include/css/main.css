@@ -1426,13 +1426,13 @@ input[type="checkbox"][class="class2"]:checked + label {
 
 table, tr [class="quiniela"]
 {
-	width: 457px;
-    border:4px solid #CC3333;
+    /* border:4px solid #CC3333*/;
     background-color: #FFF;	
     font-family: monospace;
 	color: #333399;
 /*  	table-layout:fixed;  */
 }
+
 
 tr[class="quinielatitulo"]
 {
@@ -1442,13 +1442,14 @@ tr[class="quinielatitulo"]
 	color: #333399;
 	text-align: center;
 	font-weight: bold;
+	
 }
 
 td[class="pronostico"]
 {
  	text-align: center; /* center checkbox horizontally */
   	vertical-align: middle; /* center checkbox vertically */
-   	border:4px solid #CC3333; 
+  	border:4px solid #CC3333
 }
 
 td[class="partido"]
@@ -1458,7 +1459,6 @@ td[class="partido"]
  	border:4px solid #CC3333; 
 	border-bottom: none;
 	border-top: none;
-	border-left: none;
 }
 td[class="partidolinea"]
 {
@@ -1468,7 +1468,15 @@ td[class="partidolinea"]
 	padding-right: 10px;
  	border:4px solid #CC3333; 
 	border-bottom: none;
-	border-left: none;
+}
+
+td[class="partidoLast"]
+{
+/*	text-align: center;*/ /* center checkbox horizontally */
+	vertical-align: middle; /* center checkbox vertically */
+	padding-left: 10px;
+	padding-right: 10px;
+ 	border:4px solid #CC3333; 
 }
 
 label[class="quiniela"]
@@ -1476,16 +1484,20 @@ label[class="quiniela"]
 font-family: Arial;
 color: #CC3333;
 margin-bottom: 0px;
+margin-top: 0px;
 }
 	
 img[class="mybetsimg"]{
     color: #666;
     background: #333;
-    height: 900px !important;
-    padding-top: 90px;
+    height: 750px !important;
     display: block;
     font-size: 52px;
     text-align: center;    
     font-family: "trebuchet ms", sans-serif;    
+}
+
+input[class="textbox"]{
+	border:none;
 }
 		

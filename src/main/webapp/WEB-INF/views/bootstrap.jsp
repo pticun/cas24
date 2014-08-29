@@ -30,8 +30,9 @@
 
 <!-- Bootstrap -->
 <!-- <link href="_include/css/bootstrap.min.css" rel="stylesheet"> --> 
- <link href="<c:url value="/static/resources/_include/css/bootstrap.min.css"/>" rel="stylesheet"> 
+<!-- <link href="<c:url value="/static/resources/_include/css/bootstrap.min.css"/>" rel="stylesheet"> --> 
 <!--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">-->
+<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Main Style -->
 <!-- <link href="_include/css/main.css" rel="stylesheet">-->
@@ -436,13 +437,12 @@ function getTableMatches(bet, loadGames){
 	$(loadGames).each(function(index, element){  
 		var temp=padding_right(element.player1+'-'+element.player2,".",28);
 		var num = (index+1)<10?(' '+(index+1)):(index+1);
-		tableBet+='<tr><td>' + num + ' - </td><td>' + temp + '</td><td align="left">'+ getSign(bet.charAt(index)) + '</td>';
+		tableBet+='<tr><td nowrap>' + num + ' - </td><td  nowrap>' + temp + '</td><td  nowrap align="left">'+ getSign(bet.charAt(index)) + '</td>';
 		tableBet+='</tr>';
 	});
 	tableBet+='</table>';		
         return tableBet;
 }
-
 
 </script>
 
@@ -563,29 +563,28 @@ function getTableMatches(bet, loadGames){
 		   			<tr class="quinielatitulo">
 						<td colspan="2">My Account</td>
 					</tr>
-			   		<tr>
-			   			<td class="partido">Username:</td>
-			   			<td class="partido"><input id="idData" name="id" type="text" readonly="readonly"/></td>
+			   		<tr class="quiniela">
+			   			<td class="partidoLast">Username:</td>
+			   			<td class="partidoLast"><input  class="textbox" id="idData" name="id" type="text" readonly="readonly"/></td>
 			        </tr>
-			   		<tr>
-			   			<td class="partido">CIF:</td>
-			   			<td class="partido"><input name="idCard" id="idCardData" type="text"/></td>
+			   		<tr class="quiniela">
+			   			<td class="partidoLast">CIF:</td>
+			   			<td class="partidoLast"><input class="textbox" name="idCard" id="idCardData" type="text"/></td>
 			        </tr>
-			   		<tr>
-			   			<td class="partido">Name:</td>
-			   			<td class="partido"><input name="name" id="nameData" type="text"/></td>
+			   		<tr class="quiniela">
+			   			<td class="partidoLast">Name:</td>
+			   			<td class="partidoLast"><input class="textbox" name="name" id="nameData" type="text"/></td>
 			        </tr>
-			   		<tr>
-			   			<td class="partido">Phone Number:</td>
-			   			<td class="partido"><input name="phoneNumber" id="phoneNumberData" type="text"/></td>
+			   		<tr class="quiniela">
+			   			<td class="partidoLast">Phone Number:</td>
+			   			<td class="partidoLast"><input class="textbox" name="phoneNumber" id="phoneNumberData" type="text"/></td>
 			        </tr>
-			   		<tr>
-			   			<td class="partido">Aceptar terminos y condiciones de uso.</td>
-			   			<td class="partido"><input name="accept" id="acceptData" type="checkbox"/></td>
+			   		<tr class="quiniela">
+			   			<td class="partidoLast">Aceptar terminos y condiciones de uso.</td>
+			   			<td class="partidoLast"><input class="textbox" name="accept" id="acceptData" type="checkbox"/></td>
 			        </tr>
-			   		<tr align="right">
-			   			<td class="partido"></td>
-			   			<td class="partido"><button id="myDataFormSubmit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
+			   		<tr class="quiniela" align="center">
+			   			<td align="center" colspan="2" class="partidoLast"><button id="myDataFormSubmit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
 			        </tr>
 		        </table>
 		        	<div id="userAlterQFormResponse">Actualiza tus datos y pulsa Enviar.</div>
@@ -619,16 +618,16 @@ function getTableMatches(bet, loadGames){
 						<td colspan="2">Saldo</td>
 					</tr>
 			   		<tr>
-			   			<td class="partido">Username:</td>
-			   			<td class="partido"><input id="idSaldo" name="id" type="text" readonly="readonly"/></td>
+			   			<td class="partidoLast">Username:</td>
+			   			<td class="partidoLast"><input class="textbox" id="idSaldo" name="id" type="text" readonly="readonly"/></td>
 			        </tr>
 			   		<tr>
-			   			<td class="partido">Saldo:</td>
-			   			<td class="partido"><input name="balance" id="balanceSaldo" type="text" readonly="true"/></td>
+			   			<td class="partidoLast">Saldo:</td>
+			   			<td class="partidoLast"><input class="textbox" name="balance" id="balanceSaldo" type="text" readonly="true"/></td>
 			        </tr>
 			   		<tr align="right" style="display:none" >
-			   			<td class="partido"></td>
-			   			<td class="partido"><button id="balanceAlterQFormSubmit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
+			   			<td class="partidoLast"></td>
+			   			<td class="partidoLast"><button id="balanceAlterQFormSubmit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
 			        </tr>
 		   		</table>
 		         <div id="balanceAlterQFormResponse" style="display:none">Actualiza tu saldo y pulsa Enviar.</div>
@@ -1081,11 +1080,7 @@ function getTableMatches(bet, loadGames){
     <div class="row table-responsive">
 		<div align="center">
 			<form id="betForm">
-				    <table class="quiniela" width="469px" border="1" id="quinielaTable">
-						<col width="309px">
-						<col width="43px">
-						<col width="43px">
-						<col width="43px">
+				    <table class="quiniela" border="1" id="quinielaTable">
 				    </table>
 				    <!-- <input type="submit" value="Enviar"> -->
 				    <div align="center" id="quinielaFormResponse">Rellena tu apuesta y pulsa enviar.</div>
@@ -1093,12 +1088,15 @@ function getTableMatches(bet, loadGames){
 			</form>
 		</div>
 	    <div align="center">
-		    <span id="quinielaPriceCaption">PRECIO:</span>
-		    <span id="quinielaPrice">0</span>
-		    <span id="quinielaPriceEur"> EUR</span>
+	    	<span id="quinielaPriceCaption">PULSA PARA CALCULAR EL PRECIO</span>
 	    </div>
 	    <div align="center">
 		    <button class="button" onclick="javascript:calculatePrice();">Precio</button>
+	    </div>
+	    <div align="center">
+		    <span id="quinielaPriceCaption">PRECIO:</span>
+		    <span id="quinielaPrice">0</span>
+		    <span id="quinielaPriceEur"> EUR</span>
 	    </div>
     </div>
     <!-- End Sign Up Form -->
