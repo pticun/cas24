@@ -553,8 +553,8 @@ function getQuiniela(){
 function getUserBets(){
 	consoleAlterQ('getUserBets');
 	if(loadBetUser){
-//		loadBetUser=false;
-		loadBetUser=true;
+		loadBetUser=false;
+//		loadBetUser=true;
 
    		consoleAlterQ('antes jQuery.ajax');
 		
