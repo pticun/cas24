@@ -904,9 +904,11 @@ function getUserBets(){
 			    	
 					var row="";
 			    	row+='<div class="active item">';
-			        row+='<img src="slide-1.jpg">';
-			        row+='<div class="carousel-caption">';
-			        row+='<article>';
+			        //row+='<img src="slide-1.jpg">';
+			    	//row+='<img class="mybetsimg" src="/quinimobile/static/resources/_include/img/slider-images/slide.jpg">';
+			    	//row+='<div  class="carousel-caption">';
+			    	row+='<div class="carousel-alterQ">';
+			    	row+='<article>';
 			        row+='<header>';
 					row+='<div align="center"><h3>SIN APUESTAS</h3></div>';
 					row+='</header>';
@@ -949,9 +951,11 @@ function getUserBets(){
 						    	
 								var row="";
 						    	row+='<div class="active item">';
-						        row+='<img class="mybetsimg" src="slide-1.jpg">';
-						        row+='<div class="carousel-caption">';
-						        row+='<article>';
+						        //row+='<img class="mybetsimg" src="slide-1.jpg">';
+						    	//row+='<img class="mybetsimg" src="/quinimobile/static/resources/_include/img/slider-images/slide.jpg">';
+						    	//row+='<div class="carousel-caption">';
+						    	row+='<div class="carousel-alterQ">';
+						    	row+='<article>';
 						        row+='<header>';
 								row+='<div><h3>&nbsp;</h3><h3>ERROR AL OBTENER</h3><h3>LOS PARTIDOS</h3></div>';
 								row+='</header>';
@@ -978,12 +982,15 @@ function getUserBets(){
 					    	row+='<div class="item">';
 					        indicators+='<li data-target="#myCarousel" data-slide-to="'+index+'"></li>';
 					    }
-					    row+='<img class="mybetsimg" src="slide-1.jpg">';
-					    row+='<div class="carousel-caption">';
+					    //row+='<img class="mybetsimg" src="slide-1.jpg">';
+					    //row+='<img class="mybetsimg" src="/quinimobile/static/resources/_include/img/slider-images/slide.jpg">';
+					    //row+='<div  class="carousel-caption">';
+					    row+='<div class="carousel-alterQ">';
 					    row+='<article>';
 					    row+='<header>';
-						row+='<h3> APUESTA '+index+'</h3>';
-						row+='<h3> JORNADA '+response.roundBet.round+'</h3>';
+						//row+='<h3> APUESTA '+index+'</h3>';
+						//row+='<h3> JORNADA '+response.roundBet.round+'</h3>';
+					    row+='<h4> APUESTA '+index+' - JORNADA '+response.roundBet.round+'</h4>';
 						row+='<div align="center" id="apuesta'+index+'"><h3>'+getTableMatches(element.bet, mygames)+'</h3></div>';
 						row+='</header>';
 						row+='</article>';
@@ -1004,8 +1011,10 @@ function getUserBets(){
 		    	
 				var row="";
 		    	row+='<div class="active item">';
-		        row+='<img class="mybetsimg" src="slide-1.jpg">';
-		        row+='<div class="carousel-caption">';
+		        //row+='<img class="mybetsimg" src="slide-1.jpg">';
+		    	//row+='<img class="mybetsimg" src="/quinimobile/static/resources/_include/img/slider-images/slide.jpg">';
+		    	//row+='<div class="carousel-caption">';
+		    	row+='<div class="carousel-alterQ">';
 		        row+='<article>';
 		        row+='<header>';
 				row+='<div><h3>&nbsp;</h3><h3>ERROR AL OBTENER</h3><h3>LAS APUESTAS</h3></div>';
