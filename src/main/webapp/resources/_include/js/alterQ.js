@@ -346,12 +346,12 @@ $(document).ready(function() {
 	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
     
 	//Menu Click Events
-	$('div').on("click", "nav#menu ul#menu-nav li a", function(event) {
+	$('div').on("click", "nav#menu ul#menu-nav li a", function( event ) {
 		menuEvent($(this).text(), $(this).attr("href"));
   		event.preventDefault();
 	});
 	//Menu Mobile Click Events
-	$('div').on("click", "nav#navigation-mobile ul#menu-nav-mobile li a", function(event) {
+	$('div').on("click", "nav#navigation-mobile ul#menu-nav-mobile li a", function( event ) {
 		menuEvent($(this).text(), $(this).attr("href"));
 		event.preventDefault();
 	});
@@ -398,7 +398,7 @@ $(document).ready(function() {
 	    });
 	
 	
-	$("form a").click(function(){
+	$("form a").click(function( event ){
 //alert("Form ="+ $(this).text() +" href="+$(this).attr("href"));
 		var elem = $(this).text();
 		var href = $(this).attr("href");
@@ -413,7 +413,7 @@ $(document).ready(function() {
   		event.preventDefault();
     });
 	
-	$('form#loginForm').submit(function(event) {
+	$('form#loginForm').submit(function( event ) {
 		 var dataJson=JSON.stringify($('form#loginForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
@@ -452,7 +452,7 @@ $(document).ready(function() {
 		 	event.preventDefault(); // prevent actual form submit and page reload
 	});
 	
-	 $('form#forgotPwdForm').submit(function(event) {
+	 $('form#forgotPwdForm').submit(function( event ) {
 		 var dataJson=JSON.stringify($('form#forgotPwdForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
@@ -475,7 +475,7 @@ $(document).ready(function() {
 			});
 		 	event.preventDefault(); // prevent actual form submit and page reload
 	 });
-	 $('form#signupForm').submit(function(event) {
+	 $('form#signupForm').submit(function( event ) {
 		 var dataJson=JSON.stringify($('form#signupForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
@@ -505,7 +505,7 @@ $(document).ready(function() {
 			});
 		 	event.preventDefault(); // prevent actual form submit and page reload
 	 });
-	 $('form#betForm').submit(function(event) {
+	 $('form#betForm').submit(function( event ) {
 		var dataJson=JSON.stringify($('form#betForm').serializeObject());
 		consoleAlterQ('betForm:'+dataJson);
 		// will pass the form date using the jQuery serialize function
@@ -547,7 +547,7 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
 	 });	 
 	
-   	 $('form#myDataForm').submit(function(event) {
+   	 $('form#myDataForm').submit(function( event ) {
    		 var dataJson=JSON.stringify($('form#myDataForm').serializeObject());
    		 consoleAlterQ('updateDataJsonAlterQ:'+dataJson);
 		 jQuery.ajax ({
@@ -572,7 +572,7 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
    	 });
 			  	 
-	$('form#balanceAlterQForm').submit(function(event) {
+	$('form#balanceAlterQForm').submit(function( event ) {
   		 var dataJson=JSON.stringify($('form#balanceAlterQForm').serializeObject());
    		 consoleAlterQ('update:balanceAlterQForm:'+dataJson);
 		 jQuery.ajax ({
@@ -596,31 +596,39 @@ $(document).ready(function() {
 		 });
 		event.preventDefault(); // prevent actual form submit and page reload
 	});	
-	$("#goUp").click(function(){
+	$("#goUp").click(function( event ){
 		menuEvent($(this).text(), $(this).attr("href"));
+		event.preventDefault(); // prevent actual form submit and page reload
     });
 	
-	$("#quinielaBtn").click(function(){
+	$("#quinielaBtn").click(function( event ){
 		menuEvent($(this).text(), $(this).attr("href"));
-    });
-	$("#myDataBtn").on('click', function(event){
+		event.preventDefault(); // prevent actual form submit and page reload
+   });
+	$("#myDataBtn").on('click', function( event ){
 		menuEvent($(this).text(),  "#mydataDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
     });
-	$("#myBalanceBtn").click(function(){
+	$("#myBalanceBtn").click(function( event ){
 		menuEvent($(this).text(), "#mybalanceDiv");
-    });
-	$("#myBetsBtn").click(function(){
+		event.preventDefault(); // prevent actual form submit and page reload
+   });
+	$("#myBetsBtn").click(function( event ){
 		menuEvent($(this).text(), "#mybetsDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
     });
-	$("#myRankBtn").click(function(){
+	$("#myRankBtn").click(function( event ){
 		menuEvent($(this).text(), "#myRankDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
 	});
-	$("#myResumBtn").click(function(){
+	$("#myResumBtn").click(function( event ){
 		menuEvent($(this).text(), "#myResumDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
 	});
-   	$('mydataDiv').click(function(){
+   	$('mydataDiv').click(function( event ){
 		$(sMyDataRef).show();
-   	}); 
+		event.preventDefault(); // prevent actual form submit and page reload
+  	}); 
 //    $("ul[id*=myid] li")
 //	$("ul[id*=rankingSelect]").click(function(event){
    	$( "#rankingSelect" ).on( "click", "a", function( event ) {
@@ -770,7 +778,6 @@ function doLogout(){
 	   		    }
 		    }
 		});
-		event.preventDefault(); // prevent actual form submit and page reload
 
 	showDiv(bHome);
 	consoleAlterQ("LogOut: userLoged="+userLoged);     
@@ -807,7 +814,6 @@ function calculatePrice(){
 			}
 	    }
 	});
-	event.preventDefault(); // prevent actual form submit and page reload
 	return false;
 }		
 
@@ -871,7 +877,6 @@ function getQuiniela(){
 				    }
 			    }
 		 });
-		event.preventDefault(); // prevent actual form submit and page reload
 		}
 }
 
@@ -1027,6 +1032,5 @@ function getUserBets(){
 	 });
 	consoleAlterQ('despues jQuery.ajax');
 	showDiv(bMyBets);
-	event.preventDefault(); // prevent actual form submit and page reload
 	}	
 }
