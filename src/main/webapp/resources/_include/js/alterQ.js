@@ -310,7 +310,7 @@ function getSign(sign){
 function getTableMatches(bet, loadGames){
 	tableBet='<table style="font-size:14px">';
 	$(loadGames).each(function(index, element){  
-		var temp=padding_right(element.player1+'-'+element.player2,".",28);
+		var temp=padding_right(element.player1+'-'+element.player2,".",27);
 		var num = (index+1)<10?(' '+(index+1)):(index+1);
 		tableBet+='<tr><td nowrap>' + num + ' - </td><td  nowrap>' + temp + '</td><td  nowrap align="left">'+ getSign(bet.charAt(index)) + '</td>';
 		tableBet+='</tr>';
