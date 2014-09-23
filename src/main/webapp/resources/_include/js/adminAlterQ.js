@@ -2,6 +2,30 @@ var round=0;
 var season=0;
 var idUserAlterQ="";
 
+// left padding s with c to a total of n chars
+function padding_left(s, c, n) {
+  if (! s || ! c || s.length >= n) {
+    return s;
+  }
+  var max = (n - s.length)/c.length;
+  for (var i = 0; i < max; i++) {
+    s = c + s;
+  }
+  return s;
+}
+ 
+// right padding s with c to a total of n chars
+function padding_right(s, c, n) {
+  if (! s || ! c || s.length >= n) {
+    return s;
+  }
+  var max = (n - s.length)/c.length;
+  for (var i = 0; i < max; i++) {
+    s += c;
+  }
+  return s;
+}
+
 //alert("context:"+ctx);
 $(document).ready(function() {
 //alert("$(document).ready: INICIO");	
@@ -183,10 +207,16 @@ $(document).ready(function() {
 		   		    }
 				    //round=response.generalData.round;
 				    //season=response.generalData.season;
-			    }
+			    }.val()
 			});
 		 	event.preventDefault(); // prevent actual form submit and page reload
 	});
+  	 $('#admin_getQuiniela_btn').click(function( event ) {
+		consoleAlterQ("temporada_jornada="+$("input[id=getSeasonQuiniela]").val()+"-"+$("input[id=getRoundQuiniela]").val());
+		callResum($("input[id=getSeasonQuiniela]").val(),$("input[id=getRoundQuiniela]").val());
+		event.preventDefault(); // prevent actual form submit and page reload
+   	 });
+
 	$('form#quinielaForm').submit(function(event) {
 		 var dataJson=JSON.stringify($('form#quinielaForm').serializeObject());
 		 consoleAlterQ(dataJson);
@@ -311,52 +341,153 @@ $(document).ready(function() {
 
 $("#openBtn").on('click', function(event){
 	menuEvent($(this).text(),  "#openDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#closeBtn").on('click', function(event){
 	menuEvent($(this).text(),  "#closeDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#matchesBtn").on('click', function(event){
 	menuEvent($(this).text(),  "#matchesDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#quinielaFinalBtn").on('click', function(event){
 	menuEvent($(this).text(),  "#quinielaDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
+});
+$("#getQuinielaFinalBtn").on('click', function(event){
+	menuEvent($(this).text(),  "#getQuinielaDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#resultsBtn").on('click', function(event){
 	menuEvent($(this).text(),  "#resultsDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#prizesBtn").on('click', function(event){
 	menuEvent($(this).text(),  "#prizesDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#updateBalanceBtn").on('click', function(event){
 	menuEvent($(this).text(),  "#updateBalanceDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
 });
 
 $("#homeBtn1").on('click', function(event){
 	menuEvent($(this).text(),  "#homeDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#homeBtn2").on('click', function(event){
 	menuEvent($(this).text(),  "#homeDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#homeBtn3").on('click', function(event){
 	menuEvent($(this).text(),  "#homeDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#homeBtn4").on('click', function(event){
 	menuEvent($(this).text(),  "#homeDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
+});
+$("#homeBtn04").on('click', function(event){
+	menuEvent($(this).text(),  "#homeDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#homeBtn5").on('click', function(event){
 	menuEvent($(this).text(),  "#homeDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#homeBtn6").on('click', function(event){
 	menuEvent($(this).text(),  "#homeDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#homeBtn7").on('click', function(event){
 	menuEvent($(this).text(),  "#homeDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
 });
 
 function consoleAlterQ(text){
 	if( (window['console'] !== undefined) ){
 		console.log(text);
 	}
-
 }
+function callResum(temporada,jornada){
+	//Remove table
+	$('#resumTable').find("tr").remove();
+	var mygames;
+	jQuery.ajax ({
+	    url: ctx+'/myaccount/mail@mail.es/season/'+ temporada+'/round/'+jornada,
+	    type: "GET",
+	    data: null,
+	    contentType: "application/json; charset=utf-8",
+	    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+        cache: false,    //This will force requested pages not to be cached by the browser  
+        processData:false, //To avoid making query String instead of JSON
+	    success: function(response){
+		    if(response.errorDto!=0){
+   		    	$(response.errorDto).each(function(index, objeto){  
+   		    		$('#temporada').append(objeto.stringError+" - ");
+			    });
+		    }
+		    else{
+		    	mygames=response.round.games;
+		    }
+	    }
+	});
+
+	
+	jQuery.ajax ({
+		url: ctx+'/myaccount/mail@mail.es/season/'+temporada+'/round/'+jornada+'/bet',
+		type: "GET",
+		data: null,
+		contentType: "application/json; charset=utf-8",
+		async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+		cache: false,    //This will force requested pages not to be cached by the browser  
+		processData:false, //To avoid making query String instead of JSON
+		success: function(response){
+			if(response.errorDto!=0){
+				consoleAlterQ("error:"+response.errorDto);
+				$('#resumTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td colspan="4">ERROR</td></tr></tr>');       
+			}
+			else{
+				consoleAlterQ("response:"+response);
+				consoleAlterQ("response.roundBet:"+response.roundBet);
+				consoleAlterQ("response.roundBet.bets:"+response.roundBet.bets);
+		    	$('#resumTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td colspan="4">Jornada '+ jornada+'</td></tr>');
+				$(response.roundBet.bets).each(function(index, element){
+					console.log("index="+index);
+					console.log("user="+element.user + " bet="+element.bet);
+					var row="";
+					row+='<div align="center" id="apuesta'+index+'"><h3>'+getTableMatches(element.bet, mygames)+'</h3></div>';
+					$('#resumTable').append(row);
+				});
+			}
+		}
+	});
+}
+
+function getTableMatches(bet, loadGames){
+	tableBet='<table style="font-size:14px">';
+	$(loadGames).each(function(index, element){  
+		var temp=padding_right(element.player1+'-'+element.player2,".",27);
+		var num = (index+1)<10?(' '+(index+1)):(index+1);
+		tableBet+='<tr><td nowrap>' + num + ' - </td><td  nowrap>' + temp + '</td><td  nowrap align="left">'+ getSign(bet.charAt(index)) + '</td>';
+		tableBet+='</tr>';
+	});
+	tableBet+='</table>';		
+    return tableBet;
+}
+function getSign(sign){
+	switch(sign)
+	{
+		case "4": return '1&nbsp;&nbsp;';break;
+		case "2": return '&nbsp;X&nbsp;';break;
+		case "1": return '&nbsp;&nbsp;2';break;
+		case "3": return '&nbsp;X2';break;
+		case "5": return '1&nbsp;2';break;
+		case "6": return '1X&nbsp;';break;
+		case "7": return '1X2';break;
+		default: return '&nbsp;&nbsp;&nbsp;';
+	}
+}
+
 

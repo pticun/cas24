@@ -98,6 +98,7 @@ var ctx = "<%=request.getContextPath()%>"
 	var bResultsRoundSession	= 5;
 	var bPrizesRoundSession		= 6;
 	var bUpdateBalanceUser		= 7;
+	var bGetQuinielaRef			= 8;
 
 	//Refs
 	var sHomeRef 					= "#homeDiv";
@@ -108,6 +109,7 @@ var ctx = "<%=request.getContextPath()%>"
 	var sResultsRoundSessionRef		= "#resultsDiv";
 	var sPrizesRoundSessionRef		= "#prizesDiv";
 	var sUpdateBalanceUserRef		= "#updateBalanceDiv";
+	var sGetQuinielaRef 			= "#getQuinielaDiv";
 	
 	function initDiv() {
 		consoleAlterQ("initDiv");		
@@ -119,6 +121,7 @@ var ctx = "<%=request.getContextPath()%>"
 		$(sResultsRoundSessionRef).hide();
 		$(sPrizesRoundSessionRef).hide();
 		$(sUpdateBalanceUserRef).hide();
+		$(sGetQuinielaRef).hide();
 		
 		bActual = bHome;
 	}
@@ -152,6 +155,9 @@ var ctx = "<%=request.getContextPath()%>"
 		case bUpdateBalanceUser:
 			$(sUpdateBalanceUserRef).show();
 			break;
+		case bGetQuinielaRef:
+			$(sGetQuinielaRef).show();
+			break;
 		}
 
 		switch (bActual){
@@ -178,6 +184,9 @@ var ctx = "<%=request.getContextPath()%>"
 			break;
 		case bUpdateBalanceUser:
 			$(sUpdateBalanceUserRef).hide();
+			break;
+		case bGetQuinielaRef:
+			$(sGetQuinielaRef).hide();
 			break;
 		}
 		
@@ -213,6 +222,9 @@ var ctx = "<%=request.getContextPath()%>"
 		}else if (href == sUpdateBalanceUserRef){
 			consoleAlterQ("UpdateBalanceUser");
 			showDiv(bUpdateBalanceUser);
+		}else if (href == sGetQuinielaRef){
+			consoleAlterQ("bGetQuinielaRef");
+			showDiv(bGetQuinielaRef);
 		}
 		return false;
 		
@@ -265,6 +277,12 @@ var ctx = "<%=request.getContextPath()%>"
           		<table class="quiniela">
 		   		<tr align="center">
 		   			<td class="partido"><button id="quinielaFinalBtn" class="button" name="quinielaFinalMenu" value="quinelaFinal">Quiniela</button></td>
+		        </tr>
+          		</table>
+          		<br>
+          		<table class="quiniela">
+		   		<tr align="center">
+		   			<td class="partido"><button id="getQuinielaFinalBtn" class="button" name="getQuinielaFinalMenu" value="getQuinelaFinal">Quiniela Final</button></td>
 		        </tr>
           		</table>
           		<br>
@@ -549,6 +567,64 @@ var ctx = "<%=request.getContextPath()%>"
 </div>
 </div>
 <!-- End FinalQuinielaRound Section -->
+
+<!-- GetQuinielaRound Section -->
+<div id="getQuinielaDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Admin - Get Final Quiniela Round</h2>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Quiniela</h2>
+                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+	<div id="resumResponse" align="center">
+		    <table class="quiniela" id="resumTable"></table>
+	</div>
+    
+    <!-- FinalQuinielaRound Form -->
+    <div class="row table-responsive">
+		<div align="center">
+ 			<div id="getQuinielaDiv" >  
+			   		<table class="quiniela">
+				   		<tr>
+				   			<td class="partido">Season:</td>
+				   			<td class="partido"><input id="getSeasonQuiniela" name="season" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Round:</td>
+				   			<td class="partido"><input id="getRoundQuiniela" name="round" type="text"/></td>
+				        </tr>
+				   		<tr align="right">
+				   			<td class="partido">&nbsp;</td>
+				   			<td class="partido"><button id="admin_getQuiniela_btn" class="button" name="getQuinielaBtn" value="quinielaBtn">Quiniela</button></td>
+				        </tr>
+			   		</table>
+			   		<div id="getQuinielaFormResponse">respuesta </div>
+ 			</div>
+	   		<table class="quiniela">
+	   			<tr align="center">
+		   			<td class="partido"><button id="homeBtn04" class="button" name="homeBtn04" value="homeBtn4">Admin Menu</button></td>
+		        </tr>
+	       </table>
+		</div>
+    </div>
+    <!-- End GetQuinielaRound Form -->
+</div>
+</div>
+<!-- End GetQuinielaRound Section -->
 
 <!-- ResultsRound Section -->
 <div id="resultsDiv" class="page">
