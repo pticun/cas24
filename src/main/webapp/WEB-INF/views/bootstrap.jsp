@@ -165,15 +165,6 @@ End Analytics -->
 <!-- Principal -->
 <div id="homeDiv" class="page">
 <div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">alterQ</h2>
-                <h3 class="title-description">Los amantes de las quinielas.</h3>
-            </div>
-        </div>
-    </div>
     <!-- End Title Page -->
 
     	<div class="row">
@@ -188,11 +179,9 @@ End Analytics -->
                         	<li class="item-thumbs span5">
                             	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
                             	<a class="hover-wrap" id="quinielaBtn" href="#quinielaDiv">
-                                	<span class="overlay-img"></span>
-                                    <span class="overlay-img-thumb font-icon-plus"></span>
                                 </a>
                                 <!-- Thumb Image and Description -->
-                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/image-01.jpg'/>" alt="Quiniela">
+                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/logo.gif'/>" alt="Quiniela">
                             </li>
                         	<!-- End Item Project -->
 
@@ -754,20 +743,13 @@ End Analytics -->
 <!-- Quiniela Section -->
 <div id="quinielaDiv" class="page">
 <div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
+    <!-- Quiniela Form -->
+    
+		<div align="center">
             <div class="title-page">
                 <h2 class="title">Quiniela</h2>
                 <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
             </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
-    <!-- Quiniela Form -->
-    <div class="row table-responsive">
-		<div align="center">
 			<form id="betForm">
 				    <table class="quiniela" border="1" id="quinielaTable">
 				    </table>
@@ -776,24 +758,11 @@ End Analytics -->
 				    <button id="quinielaButton" class="button" name="quiniela" value="Enviar">Enviar</button>
 			</form>
 		</div>
-	    <div align="center">
-	    	<span id="quinielaPriceCaption">PULSA PARA CALCULAR EL PRECIO</span>
-	    </div>
-	    <div align="center">
-		    <button class="button" onclick="javascript:calculatePrice();">Precio</button>
-	    </div>
-	    <div align="center">
-		    <span id="quinielaPriceCaption">PRECIO:</span>
-		    <span id="quinielaPrice">0</span>
-		    <span id="quinielaPriceEur"> EUR</span>
-	    </div>
-    </div>
+    
     <!-- End Sign Up Form -->
 </div>
 </div>
 <!-- End Sign Up Section -->
-
-
 
 
 <!-- Socialize -->
@@ -819,13 +788,6 @@ End Analytics -->
 	<p class="credits">&copy;2014 alterQ. </p>
 </footer>
 <!-- End Footer -->
-
-<!-- Back To Top -->
-<a id="back-to-top" href="#">
-	<i class="font-icon-arrow-simple-up"></i>
-</a>
-<!-- End Back to Top -->
-
 
 <!-- Js -->
 <script src="<c:url value="/static/resources/_include/js/jquery.1.9.1.min.js"/>"></script> <!-- jQuery Core -->
