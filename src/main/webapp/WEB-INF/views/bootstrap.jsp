@@ -30,9 +30,11 @@
 
 <!-- Bootstrap -->
 <!-- <link href="_include/css/bootstrap.min.css" rel="stylesheet"> --> 
-<!-- <link href="<c:url value="/static/resources/_include/css/bootstrap.min.css"/>" rel="stylesheet"> --> 
+<link href="<c:url value="/static/resources/_include/css/bootstrap.min.css"/>" rel="stylesheet">
 <!--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">-->
-<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+
+<!--<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">-->
 
 <!-- Main Style -->
 <!-- <link href="_include/css/main.css" rel="stylesheet">-->
@@ -597,46 +599,38 @@ End Analytics -->
 </div>
 <!-- End Contact Section -->
 
+
 <!-- Login Section -->
 <div id="loginDiv" class="page">
-<div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Login</h2>
-                <h3 class="title-description">Entra al mundo de las quinielas</h3>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
     <!-- Login Form -->
     <div class="row">
-			<div align="center">
-			   <form id="loginForm">
-			   		<table class="quiniela">
-				   		<tr>
-				   			<td class="partido">Username:</td>
-				   			<td class="partido"><input id="idLogin" name="id" type="text"/></td>
-				        </tr>
-				   		<tr>
-				   			<td class="partido">Password:</td>
-				   			<td class="partido"><input type="password" name="pwd" id="pwdLogin"/></td>
-				        </tr>
-				   		<tr align="right">
-				   			<td class="partido">&nbsp;</td>
-				   			<td class="partido"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
-				        </tr>
-			   		</table>
-			   		<a id="signupA" href="#signDiv">Crear un nuevo usuario</a><br>
-			   		<a href="#forgotDiv">He olvidado mi contraseña</a>
-					<div id="loginFormResponse">respuesta </div>
-		        </form>
-			</div>
+		<div align="center">
+		   <form id="loginForm">
+		   		<table class="quiniela">
+		   			<tr class="quinielatitulo">
+						<td colspan="2">LOGIN</td>
+					</tr>
+			   		<tr class="quiniela">
+			   			<td class="partidoLast">Username:</td>
+			   			<td class="partidoLast"><input id="idLogin" name="id" type="text"/></td>
+			        </tr>
+			   		<tr class="quiniela">
+			   			<td class="partidoLast">Password:</td>
+			   			<td class="partidoLast"><input type="password" name="pwd" id="pwdLogin"/></td>
+			        </tr>
+
+			   		<tr class="quiniela" align="center">
+			   			<td align="center" colspan="2" class="partidoLast"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
+			        </tr>
+
+		   		</table>
+		   		<a id="signupA" href="#signDiv">Crear un nuevo usuario</a><br>
+		   		<a href="#forgotDiv">He olvidado mi contraseña</a>
+				<div id="loginFormResponse">respuesta </div>
+	        </form>
+		</div>
     </div>
     <!-- End Login Form -->
-</div>
 </div>
 <!-- End Login Section -->
 
@@ -644,30 +638,20 @@ End Analytics -->
 <!-- Forgot Section -->
 <div id="forgotDiv" class="page">
 <div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Login</h2>
-                <h3 class="title-description">Entra al mundo de las quinielas</h3>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
     <!-- Forgot Form -->
     <div class="row">
 		<div align="center">
 		   <form id="forgotPwdForm">
 		   		<table class="quiniela">
 		   			<tr class="quinielatitulo">
-						<td colspan="2">Enter your email address and we'll send you a link to reset your password.</td>
+						<td colspan="2">RECORDAR PASSWORD</td>
 					</tr>
-			   		<tr class="quinielatitulo">
-			   			<td  colspan="2"><input id="idForgot" type="text" size="20" name="id" placeholder="idLogin"/></td>
+			   		<tr class="quiniela">
+			   			<td class="partidoLast">Login:</td>
+			   			<td class="partidoLast"><input id="idForgot" type="text" size="20" name="id" placeholder="idLogin"/></td>
 			        </tr>
-			   		<tr class="quinielatitulo" align="right">
-			   			<td colspan="2"><button id="forgot_btn" class="button" name="signup" value="send">Send</button></td>
+			   		<tr class="quiniela" align="center">
+			   			<td align="center" colspan="2" class="partidoLast"><button id="forgot_btn" class="button" name="signup" value="send">Send</button></td>
 			        </tr>
 		   		</table>
 		   		<div id="forgotPwdFormResponse">respuesta </div>
