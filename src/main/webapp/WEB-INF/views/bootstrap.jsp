@@ -668,17 +668,6 @@ End Analytics -->
 <!-- Sing Up Section -->
 <div id="signDiv" class="page">
 <div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Login</h2>
-                <h3 class="title-description">Entra al mundo de las quinielas</h3>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
     <!-- Sign Up Form -->
     <div class="row">
 		<div align="center">
@@ -688,28 +677,62 @@ End Analytics -->
 						<td colspan="2">Sign up</td>
 					</tr>
 			   		<tr>
-			   			<td colspan="2" class="partido"><input id="idSign" name="id" type="text" placeholder="Login"/></td>
+			   			<td colspan="2" class="partidoLast"><input id="nickSign" name="nick" type="text" placeholder="Nick"/></td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partido"><input type="password" name="pwd" id="pwdSign" placeholder="password"/></td>
+			   			<td colspan="2" class="partidoLast"><input type="text" name="name" id="nameSign" placeholder="Name"/></td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partido"><input type="text" name="idCard" id="nifSign" placeholder="nif"/></td>
+			   			<td colspan="2" class="partidoLast"><input type="text" name="surnames" id="surnamesSign" placeholder="Surnames"/></td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partido"><input type="text" name="name" id="nameSign" placeholder="name"/></td>
+			   			<td colspan="2" class="partidoLast">
+			   			<SELECT NAME="typeID" id="typeIDSign">
+   							<OPTION VALUE="1">NIF</OPTION>
+   							<OPTION VALUE="2">NIE</OPTION>
+   							<OPTION VALUE="3">Pasaporte</OPTION>
+							</SELECT> 
+			   			</td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partido"><input type="text" name="phoneNumber" id="phoneNumberSign" placeholder="Phone Number"/></td>
+			   			<td colspan="2" class="partidoLast"><input type="text" name="idCard" id="nifSign" placeholder="ID"/></td>
 			        </tr>
 			   		<tr>
-			   			<td>Aceptar terminos y condiciones de uso.</td>
-			   			<td class="partido"><input name="accept" id="acceptData" type="checkbox"/></td>
+			   			<td colspan="2" class="partidoLast"><input id="idSign" name="id" type="text" placeholder="E-Mail"/></td>
 			        </tr>
-			   		<tr align="right">
-			   			<td colspan="2" class="partido"><button id="signup_btn" class="button" name="signup" value="signup">signup</button></td>
+			   		<tr>
+			   			<td colspan="2" class="partidoLast"><input type="password" name="pwd" id="pwdSign" placeholder="Password"/></td>
 			        </tr>
-			   		<tr align="right">
+			   		<tr>
+			   			<td colspan="2" class="partidoLast"><input type="text" name="phoneNumber" id="phoneNumberSign" placeholder="Phone Number"/></td>
+			        </tr>
+			   		<tr>
+			   			<td colspan="2" class="partidoLast"><input type="text" name="birthDate" id="birthDateSign" placeholder="Birth Date"/></td>
+			        </tr>
+			   		<tr>
+			   			<td colspan="2" class="partidoLast">
+			   			<SELECT NAME="city" id="citySign">
+   							<OPTION VALUE="1">Alicante</OPTION>
+   							<OPTION VALUE="2">Barcelona</OPTION>
+   							<OPTION VALUE="3">Castellon</OPTION>
+   							<OPTION VALUE="4">Girona</OPTION>
+   							<OPTION VALUE="5">Lleida</OPTION>
+   							<OPTION VALUE="6">Tarragona</OPTION>
+   							<OPTION VALUE="6">Valencia</OPTION>
+   							<OPTION VALUE="0">No Residente</OPTION>
+							</SELECT> 
+			   			</td>
+			        </tr>
+			        
+			   		<tr>
+			   			<td class="partidoLast"><input name="accept" id="acceptData" type="checkbox"/></td>
+			   			<td class="partidoLast">Aceptar terminos y condiciones de uso.</td>
+			        </tr>
+			   		<tr class="quiniela" align="center">
+			   			<td align="center" colspan="2" class="partidoLast"><button id="signup_btn" class="button" name="signup" value="signup">signup</button></td>
+			        </tr>
+			        
+			   		<tr class="quiniela" align="center">
 			   			<td colspan="2" class="partido">
 				   			<div class="alert fade in" id="signupFormResponse"></div>
 						</td>
