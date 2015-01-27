@@ -726,7 +726,7 @@ End Analytics -->
 			        
 			   		<tr>
 			   			<td class="partidoLast"><input name="accept" id="acceptData" type="checkbox"/></td>
-			   			<td class="partidoLast">Aceptar terminos y condiciones de uso.</td>
+			   			<td class="partidoLast">Acepto los <a href="accept.html" target="_blank">terminos y condiciones de uso.</a></td>
 			        </tr>
 			   		<tr class="quiniela" align="center">
 			   			<td align="center" colspan="2" class="partidoLast"><button id="signup_btn" class="button" name="signup" value="signup">signup</button></td>
