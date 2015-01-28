@@ -11,10 +11,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class UserAlterQ implements Serializable {
 	@Id
 	private String id;
+	private String nick;
 	private String name;
+	private String surnames;
+	private int typeID;
 	private String idCard;
 	private String pwd;
 	private String phoneNumber;
+	private String birthday;
+	private String city;
 	private String balance;
 	private int company;
 	private String accept;
@@ -138,4 +143,44 @@ public class UserAlterQ implements Serializable {
 	public void setAccept(String accept) {
 		this.accept = accept;
 	}
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
+
+	public String getSurnames() {
+		return surnames;
+	}
+
+	public void setSurnames(String surnames) {
+		this.surnames = surnames;
+	}
+
+	public int getTypeID() {
+		return typeID;
+	}
+
+	public void setTypeID(int typeID) {
+		this.typeID = typeID;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
 }
