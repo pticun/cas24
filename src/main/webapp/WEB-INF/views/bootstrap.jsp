@@ -248,16 +248,49 @@ End Analytics -->
 			   			<td class="partidoLast"><input  class="textbox" id="idData" name="id" type="text" readonly="readonly"/></td>
 			        </tr>
 			   		<tr class="quiniela">
-			   			<td class="partidoLast">CIF:</td>
-			   			<td class="partidoLast"><input class="textbox" name="idCard" id="idCardData" type="text"/></td>
+			   			<td class="partidoLast">Nick:</td>
+			   			<td class="partidoLast"><input  class="textbox" id="nickData" name="nick" type="text"/></td>
 			        </tr>
 			   		<tr class="quiniela">
 			   			<td class="partidoLast">Name:</td>
 			   			<td class="partidoLast"><input class="textbox" name="name" id="nameData" type="text"/></td>
 			        </tr>
 			   		<tr class="quiniela">
+			   			<td class="partidoLast">Surnames:</td>
+			   			<td class="partidoLast"><input  class="textbox" id="idSurnames" name="surnames" type="text"/></td>
+			        </tr>
+			   		<tr class="quiniela">
+			   			<td class="partidoLast">
+			   			<SELECT NAME="typeID" id="typeIDSign">
+   							<OPTION VALUE="1">NIF</OPTION>
+   							<OPTION VALUE="2">NIE</OPTION>
+   							<OPTION VALUE="3">Pasaporte</OPTION>
+							</SELECT> 
+			   			</td>
+			   			<td class="partidoLast"><input class="textbox" name="idCard" id="idCardData" type="text"/></td>
+			        </tr>
+			   		<tr class="quiniela">
 			   			<td class="partidoLast">Phone Number:</td>
 			   			<td class="partidoLast"><input class="textbox" name="phoneNumber" id="phoneNumberData" type="text"/></td>
+			        </tr>
+			   		<tr>
+			   			<td class="partidoLast">Birth Date:</td>
+			   			<td class="partidoLast"><input class="textbox" name="birthDate" id="birthDateSign" type="text"/></td>
+			        </tr>
+			   		<tr>
+			   			<td class="partidoLast">City:</td>
+			   			<td class="partidoLast">
+			   			<SELECT NAME="city" id="citySign">
+   							<OPTION VALUE="1">Alicante</OPTION>
+   							<OPTION VALUE="2">Barcelona</OPTION>
+   							<OPTION VALUE="3">Castellon</OPTION>
+   							<OPTION VALUE="4">Girona</OPTION>
+   							<OPTION VALUE="5">Lleida</OPTION>
+   							<OPTION VALUE="6">Tarragona</OPTION>
+   							<OPTION VALUE="6">Valencia</OPTION>
+   							<OPTION VALUE="0">No Residente</OPTION>
+							</SELECT> 
+			   			</td>
 			        </tr>
 			   		<tr class="quiniela">
 			   			<td class="partidoLast">Aceptar terminos y condiciones de uso.</td>

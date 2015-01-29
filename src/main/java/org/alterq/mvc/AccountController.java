@@ -58,12 +58,24 @@ public class AccountController {
 		try {
 			userSecurity.isSameUserInSession(id, cookieSession);
 			UserAlterQ userAlterQ = userDao.findById(id);
+			if (user.getNick() != null)
+				userAlterQ.setNick(user.getNick());
 			if (user.getName() != null)
 				userAlterQ.setName(user.getName());
-			if (user.getPhoneNumber() != null)
-				userAlterQ.setPhoneNumber(user.getPhoneNumber());
+			if (user.getSurnames() != null)
+				userAlterQ.setSurnames(user.getSurnames());
+			if (user.getTypeID() != 0)
+				userAlterQ.setTypeID(user.getTypeID());
 			if (user.getIdCard() != null)
 				userAlterQ.setIdCard(user.getIdCard());
+			if (user.getPwd() != null)
+				userAlterQ.setPwd(user.getPwd());
+			if (user.getPhoneNumber() != null)
+				userAlterQ.setPhoneNumber(user.getPhoneNumber());
+			if (user.getBirthday() != null)
+				userAlterQ.setBirthday(user.getBirthday());
+			if (user.getCity() != null)
+				userAlterQ.setCity(user.getCity());
 			if (StringUtils.isNumeric(new String("" + user.getAutomatics())))
 				userAlterQ.setAutomatics(user.getAutomatics());
 			/*
