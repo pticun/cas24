@@ -355,22 +355,15 @@ End Analytics -->
 <!-- MyBets Section -->
 <div id="mybetsDiv" class="page">
 <div class="container">
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Carousel indicators -->
-        <div id="myIndicators"> 
-        </div>
-        
-        <!-- Carousel items -->
-        <div id="myItems" class="carousel-inner">
-        </div>
-        <!-- Carousel nav -->
-        <a class="carousel-control left" href="#myCarousel" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-        </a>
-        <a class="carousel-control right" href="#myCarousel" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-        </a>
-    </div>
+    <!-- Quiniela Form -->
+		<div align="center">
+			<form id="betsForm">
+				    <table class="quiniela" border="1" id="apuestasTable">
+				    </table>
+			</form>
+		</div>
+    
+    <!-- End Sign Up Form -->
 </div>
 </div>
 <!-- End MyBets Section -->

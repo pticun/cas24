@@ -880,8 +880,72 @@ function getQuiniela(){
 		}
 }
 
+function getUserBets(){
+	consoleAlterQ('getUserBets');
+	if(loadBetUser){
+		loadBetUser=false;
+//		loadBetUser=true;
+		var row="";
+		
+   		consoleAlterQ('antes jQuery.ajax');
+   		
+   		
+		
+   		consoleAlterQ('url:'+ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet');  		
+		jQuery.ajax ({
+			url: ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet',
+		    type: "GET",
+		    data: null,
+		    contentType: "application/json; charset=utf-8",
+		    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	        cache: false,    //This will force requested pages not to be cached by the browser  
+	        processData:false, //To avoid making query String instead of JSON
+		    success: function(response){
+			    if(response.errorDto!=0){
+					row="";
+			    	row+='<tr class="quinielatitulo">';
+			    	row+='<td>My Bets</td>';
+			    	row+='</tr>';
+			        row+='<tr class="quiniela">';
+					row+='<td class="partidoLast"><h3>SIN APUESTAS</h3></td>';
+					row+='</tr>';
+					$('#apuestasTable').append(row);
+			    }
+			    else{
+			    	row+='<tr class="quinielatitulo">';
+			    	row+='<td colspan="2">My Bets</td>';
+			    	row+='</tr>';
+					$('#apuestasTable').append(row);
+					$(response.roundBet.bets).each(function(index, element){
+						console.log("index="+index);
+						console.log("user="+element.user + " bet="+element.bet);
+						row="";
+				    	row+='<tr class="quinielatitulo">';
+				    	row+='<td class="partidoLast">';
+				    	row+='Apuesta'+(((index+1)<10)?'0':'')+(index+1)+' Jornada'+response.roundBet.round+ ' '+element.price + ' EUR';
+				    	row+='</td>';
+				    	row+='</tr>';
+						$('#apuestasTable').append(row);
+					});
+			    }
+		    },
+		    error : function (xhr, textStatus, errorThrown) {
+				var row="";
+		    	row+='<tr class="quinielatitulo">';
+		    	row+='<td colspan="2">My Bets</td>';
+		    	row+='</tr>';
+		        row+='<tr class="quiniela">';
+				row+='<td class="partidoLast"><h3>ERROR AL OBTENER</h3><h3>LAS APUESTAS</h3></td>';
+				row+='</tr>';
+				$('#apuestasTable').append(row);
+            }
+	 });
+	consoleAlterQ('despues jQuery.ajax');
+	showDiv(bMyBets);
+	}	
+}
 
-
+/*
 function getUserBets(){
 	consoleAlterQ('getUserBets');
 	if(loadBetUser){
@@ -1034,3 +1098,4 @@ function getUserBets(){
 	showDiv(bMyBets);
 	}	
 }
+*/
