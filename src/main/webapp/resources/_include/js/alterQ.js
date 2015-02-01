@@ -21,6 +21,7 @@ var bMyBets = 9;
 var bMyRank = 10;
 var bMyResum = 11;
 var bMyAdmin = 12;
+var bQuinielaDetail = 13;
 
 //Texts
 var sHome    = "Inicio";
@@ -31,6 +32,7 @@ var sQuininiela = "Quiniela";
 var sGuest = "Invitado";
 var sLogout = "Logout";
 var sAdmin = "Administration";
+var sQuiniDetail = "";
 
 //Refs
 var sHomeRef = "#homeDiv";
@@ -47,6 +49,7 @@ var sMyBetsRef = "#mybetsDiv";
 var sMyRankRef = "#myRankDiv";
 var sMyResumRef = "#myResumDiv";
 var sMyAdminRef = "admin";
+var sQuinielaDetailRef = "#quinielaDetailDiv";
 
 function initDiv() {
 	//document.getElementById("homeDiv").style.display = "block";
@@ -66,6 +69,7 @@ function initDiv() {
 	$(sMyBetsRef).hide();
 	$(sMyRankRef).hide();
 	$(sMyResumRef).hide();
+	$(sQuinielaDetailRef).hide();
 	
 	bActual = bHome;
 	
@@ -123,6 +127,9 @@ function showDiv(elem) {
 	case bMyAdmin:
 		$(sMyAdminRef).open();
 		break;
+	case bQuiniela:
+		$(sQuinielaDetailRef).show();
+		break;
 	}
 
 	switch (bActual){
@@ -163,6 +170,9 @@ function showDiv(elem) {
 		break;
 	case bMyResum:
 		$(sMyResumRef).hide();
+		break;
+	case bQuinielaDetail:
+		$(sQuinielaDetailRef).hide();
 		break;
 	}
 	

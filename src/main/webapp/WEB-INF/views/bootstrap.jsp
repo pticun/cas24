@@ -797,6 +797,20 @@ End Analytics -->
 </div>
 <!-- End Sign Up Section -->
 
+<!-- Quiniela Detail Section -->
+<div id="quinielaDetailDiv" class="page">
+<div class="container">
+		<div align="center">
+            <div class="title-page">
+                <h2 class="title">Quiniela</h2>
+                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
+            </div>
+		    <table class="quiniela" border="1" id="quinielaDetailTable">
+		    </table>
+		</div>
+</div>
+</div>
+<!-- End Sign Up Section -->
 
 <!-- Socialize -->
 <div id="social-area" class="page">
