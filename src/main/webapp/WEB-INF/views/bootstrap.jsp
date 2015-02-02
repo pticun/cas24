@@ -805,8 +805,8 @@ End Analytics -->
                 <h2 class="title">Quiniela</h2>
                 <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
             </div>
-		    <table class="quiniela" border="1" id="quinielaDetailTable">
-		    </table>
+		    	<table class="quiniela" border="1" id="quinielaDetailTable">
+			    </table>
 		</div>
 </div>
 </div>

@@ -662,7 +662,6 @@ $(document).ready(function() {
    		event.preventDefault(); // prevent actual form submit and page reload
    	});
 	
-	
 });
 
 function callRanking(idUserAlterQ,temporada,jornada){
@@ -932,7 +931,9 @@ function getUserBets(){
 						row="";
 				    	row+='<tr class="quinielatitulo">';
 				    	row+='<td class="partidoLast">';
+				    	row+='<a href="javascript:betDetail('+index+','+element.bet+')" >';
 				    	row+='Apuesta'+(((index+1)<10)?'0':'')+(index+1)+' Jornada'+response.roundBet.round+ ' '+element.price + ' EUR';
+				    	row+='</a>';
 				    	row+='</td>';
 				    	row+='</tr>';
 						$('#apuestasTable').append(row);
@@ -955,6 +956,70 @@ function getUserBets(){
 	}	
 }
 
+function betDetail(index, bet)
+{
+	var row="";
+	var mygames;
+	
+	consoleAlterQ('betDetail');
+	consoleAlterQ('index='+index+" bet="+bet);
+	consoleAlterQ('antes jQuery.ajax mygames');
+	consoleAlterQ('url:'+ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round);
+	
+	
+    jQuery.ajax ({
+		    url: ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round,
+		    type: "GET",
+		    data: null,
+		    contentType: "application/json; charset=utf-8",
+		    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+            cache: false,    //This will force requested pages not to be cached by the browser  
+            processData:false, //To avoid making query String instead of JSON
+		    success: function(response2){
+	   		    if(response2.errorDto!=0){
+	   		    	$(response2.errorDto).each(function(index, objeto){  
+	   		    		consoleAlterQ("getUserBets: response="+objeto.stringError);
+				    });
+	   		    }
+	   		    else{
+	   		    	consoleAlterQ("getUserBets: response OK");
+	   		    	mygames=response2.round.games;
+	   		    }
+		    },
+		    error : function (xhr, textStatus, errorThrown) {
+		    	var indicators="";
+		    	indicators+='<ol  class="carousel-indicators">';
+		        indicators+='<li data-target="#myCarousel" data-slide-to="0" class="active"></li>';
+		        indicators+='</ol>';   
+		        $('#myIndicators').append(indicators);
+		    	
+				var row="";
+		    	row+='<div class="active item">';
+		    	row+='<div class="carousel-alterQ">';
+		    	row+='<article>';
+		        row+='<header>';
+				row+='<div><h3>&nbsp;</h3><h3>ERROR AL OBTENER</h3><h3>LOS PARTIDOS</h3></div>';
+				row+='</header>';
+				row+='</article>';
+			    row+='</div>';
+			    row+='</div>';
+				$('#myItems').append(row);						    
+		    }
+		    
+	});
+    consoleAlterQ('despues jQuery.ajax mygames');
+    row+='<td>';
+    row+='<article>';
+    row+='<header>';
+    row+='<h4> APUESTA '+index +'</h4>';
+	row+='<div align="center" id="apuesta'+index+'"><h3>'+getTableMatches(bet.toString(), mygames)+'</h3></div>';
+	row+='</header>';
+	row+='</article>';
+    row+='</td>';
+	$('#quinielaDetailTable').append(row);
+	
+	showDiv(bQuinielaDetail);
+}
 /*
 function getUserBets(){
 	consoleAlterQ('getUserBets');
