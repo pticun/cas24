@@ -127,7 +127,7 @@ function showDiv(elem) {
 	case bMyAdmin:
 		$(sMyAdminRef).open();
 		break;
-	case bQuiniela:
+	case bQuinielaDetail:
 		$(sQuinielaDetailRef).show();
 		break;
 	}
@@ -319,13 +319,13 @@ function getSign(sign){
 
 function getTableMatches(bet, loadGames){
 	tableBet='<table style="font-size:14px">';
-	$(loadGames).each(function(index, element){  
+	$(loadGames).each(function(index, element){ 
 		var temp=padding_right(element.player1+'-'+element.player2,".",27);
 		var num = (index+1)<10?(' '+(index+1)):(index+1);
 		tableBet+='<tr><td nowrap>' + num + ' - </td><td  nowrap>' + temp + '</td><td  nowrap align="left">'+ getSign(bet.charAt(index)) + '</td>';
 		tableBet+='</tr>';
 	});
-	tableBet+='</table>';		
+	tableBet+='</table>';
     return tableBet;
 }
 
@@ -961,12 +961,10 @@ function betDetail(index, bet)
 	var row="";
 	var mygames;
 	
-	consoleAlterQ('betDetail');
-	consoleAlterQ('index='+index+" bet="+bet);
 	consoleAlterQ('antes jQuery.ajax mygames');
 	consoleAlterQ('url:'+ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round);
 	
-	
+	$('#quinielaDetailTable').empty();
     jQuery.ajax ({
 		    url: ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round,
 		    type: "GET",
@@ -984,6 +982,7 @@ function betDetail(index, bet)
 	   		    else{
 	   		    	consoleAlterQ("getUserBets: response OK");
 	   		    	mygames=response2.round.games;
+	   		    	consoleAlterQ("mygames="+mygames);
 	   		    }
 		    },
 		    error : function (xhr, textStatus, errorThrown) {
@@ -994,30 +993,28 @@ function betDetail(index, bet)
 		        $('#myIndicators').append(indicators);
 		    	
 				var row="";
-		    	row+='<div class="active item">';
-		    	row+='<div class="carousel-alterQ">';
-		    	row+='<article>';
-		        row+='<header>';
-				row+='<div><h3>&nbsp;</h3><h3>ERROR AL OBTENER</h3><h3>LOS PARTIDOS</h3></div>';
-				row+='</header>';
-				row+='</article>';
-			    row+='</div>';
-			    row+='</div>';
-				$('#myItems').append(row);						    
+		    	row+='<tr class="quinielatitulo">';
+		    	row+='<td colspan="2">My Bets</td>';
+		    	row+='</tr>';
+		        row+='<tr class="quiniela">';
+				row+='<td class="partidoLast"><h3>ERROR AL OBTENER</h3><h3>LOS PARTIDOS</h3></td>';
+				row+='</tr>';
+				$('#quinielaDetailTable').append(row);
 		    }
 		    
 	});
     consoleAlterQ('despues jQuery.ajax mygames');
+    row+='<tr>';
     row+='<td>';
     row+='<article>';
     row+='<header>';
-    row+='<h4> APUESTA '+index +'</h4>';
+    row+='<div align="center"><p> APUESTA '+ (index+1) +'</p></div>';
 	row+='<div align="center" id="apuesta'+index+'"><h3>'+getTableMatches(bet.toString(), mygames)+'</h3></div>';
 	row+='</header>';
 	row+='</article>';
     row+='</td>';
+    row+='</tr>';
 	$('#quinielaDetailTable').append(row);
-	
 	showDiv(bQuinielaDetail);
 }
 /*

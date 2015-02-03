@@ -198,16 +198,6 @@ End Analytics -->
 <!-- My Account -->
 <div id="myaccountDiv" class="page">
 <div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Mi Cuenta</h2>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-
     	<div class="row">
             <div class="span12">
             	<div class="well" id="myDataBtn">Mis Datos</div>
@@ -225,16 +215,6 @@ End Analytics -->
 <!-- MyData Section -->
 <div id="mydataDiv" class="page">
 <div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Mis Datos</h2>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
     <!-- MyData Form -->
     <div class="row">
 		<div align="center">
@@ -261,7 +241,7 @@ End Analytics -->
 			        </tr>
 			   		<tr class="quiniela">
 			   			<td class="partidoLast">
-			   			<SELECT NAME="typeID" id="typeIDSign">
+			   			<SELECT NAME="typeID" id="typeIDSign" width="100%">
    							<OPTION VALUE="1">NIF</OPTION>
    							<OPTION VALUE="2">NIE</OPTION>
    							<OPTION VALUE="3">Pasaporte</OPTION>
@@ -270,11 +250,11 @@ End Analytics -->
 			   			<td class="partidoLast"><input class="textbox" name="idCard" id="idCardData" type="text"/></td>
 			        </tr>
 			   		<tr class="quiniela">
-			   			<td class="partidoLast">Phone Number:</td>
+			   			<td class="partidoLast">PhoneNumber:</td>
 			   			<td class="partidoLast"><input class="textbox" name="phoneNumber" id="phoneNumberData" type="text"/></td>
 			        </tr>
 			   		<tr>
-			   			<td class="partidoLast">Birth Date:</td>
+			   			<td class="partidoLast">BirthDate:</td>
 			   			<td class="partidoLast"><input class="textbox" name="birthDate" id="birthDateSign" type="text"/></td>
 			        </tr>
 			   		<tr>
@@ -293,8 +273,7 @@ End Analytics -->
 			   			</td>
 			        </tr>
 			   		<tr class="quiniela">
-			   			<td class="partidoLast">Aceptar terminos y condiciones de uso.</td>
-			   			<td class="partidoLast"><input class="textbox" name="accept" id="acceptData" type="checkbox"/></td>
+			   			<td class="partidoLast" colspan="2"><input class="textbox" name="accept" id="acceptData" type="checkbox"/>Aceptar terminos y condiciones de uso.</td>
 			        </tr>
 			   		<tr class="quiniela" align="center">
 			   			<td align="center" colspan="2" class="partidoLast"><button id="myDataFormSubmit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
@@ -801,12 +780,8 @@ End Analytics -->
 <div id="quinielaDetailDiv" class="page">
 <div class="container">
 		<div align="center">
-            <div class="title-page">
-                <h2 class="title">Quiniela</h2>
-                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
-            </div>
-		    	<table class="quiniela" border="1" id="quinielaDetailTable">
-			    </table>
+	    	<table class="quiniela" border="1" id="quinielaDetailTable">
+		    </table>
 		</div>
 </div>
 </div>
