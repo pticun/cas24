@@ -329,7 +329,25 @@ function getTableMatches(bet, loadGames){
     return tableBet;
 }
 
-
+function formatMatches(team1, team2){
+	var rdo ="";
+	
+	
+	consoleAlterQ("team1="+team1+" length="+team1.length);
+	consoleAlterQ("team2="+team2+" length="+team2.length);
+	if ((team1.length + team2.length)>20){
+		if (team1.length > 10){
+			team1 = team1.substring(0, 10);
+		}
+		if (team2.length > 10){
+			team2 = team2.substring(0, 10);
+		}
+	}
+		
+	rdo = padding_right(team1+'-'+team2,".",22);
+	
+	return rdo;
+}
 
 //alert("context:"+ctx);
 $(document).ready(function() {
@@ -849,14 +867,13 @@ function getQuiniela(){
 						$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
 					    $('#quinielaTable').append('<input type="hidden" name="season" id="season" value="'+ response.round.season+'"/>');       
 					    $('#quinielaTable').append('<input type="hidden" name="round" id="round" value="'+ response.round.round+'"/>');       
-						var temp=padding_right("Jornada","&nbsp;",95);
-						temp=padding_left(temp,"&nbsp;",165);
+						var temp= "Jorn "+ response.round.round + " - Temp "+ (response.round.season - 2000)+"/"+(response.round.season + 1 - 2000);
 					    $('#quinielaTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td>'+ temp +'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
 			
 						$(response.round.games).each(function(index, element){  
 							consoleAlterQ(element);
 							var row="";
-							var temp=padding_right(element.player1+'-'+element.player2,".",28);
+							var temp=formatMatches(element.player1, element.player2);
 							if(index>8){
 								temp=temp+(index+1);
 							}
