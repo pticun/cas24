@@ -731,7 +731,7 @@ End Analytics -->
 			        
 			   		<tr>
 			   			<td class="partidoLast"><input name="accept" id="acceptData" type="checkbox"/></td>
-			   			<td class="partidoLast">Acepto los <a href="accept.html" target="_blank">terminos y condiciones de uso.</a></td>
+			   			<td class="partidoLast"><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Acepto los terminos y condiciones de uso.</button></td>
 			        </tr>
 			   		<tr class="quiniela" align="center">
 			   			<td align="center" colspan="2" class="partidoLast"><button id="signup_btn" class="button" name="signup" value="signup">signup</button></td>
@@ -804,6 +804,29 @@ End Analytics -->
     </div>
 </div>
 <!-- End Socialize -->
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Condiciones Legales</h4>
+      </div>
+      <div class="modal-body">
+			Condiciones de uso de los servicios  
+<h4>2.1. Aceptación y disponibilidad de las CGU</h4>  
+<p>El usuario declara que acepta la vinculaciÃ³n de este acuerdo y que entiende y acepta totalmente las presentes CGU establecidas en el presente documento para la utilizaciÃ³n de los servicios prestados en <strong>LA WEB</strong>. La no aceptaciÃ³n de las presentes CGU impedirÃ¡ la utilizaciÃ³n de los servicios ofrecidos en <strong>LA WEB</strong>.</p>  
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
 
 <!-- Footer -->
 <footer>
