@@ -332,19 +332,16 @@ function getTableMatches(bet, loadGames){
 function formatMatches(team1, team2){
 	var rdo ="";
 	
-	
-	consoleAlterQ("team1="+team1+" length="+team1.length);
-	consoleAlterQ("team2="+team2+" length="+team2.length);
-	if ((team1.length + team2.length)>20){
-		if (team1.length > 10){
-			team1 = team1.substring(0, 10);
+	if ((team1.length + team2.length)>18){
+		if (team1.length > 9){
+			team1 = team1.substring(0, 9);
 		}
-		if (team2.length > 10){
-			team2 = team2.substring(0, 10);
+		if (team2.length > 9){
+			team2 = team2.substring(0, 9);
 		}
 	}
 		
-	rdo = padding_right(team1+'-'+team2,".",22);
+	rdo = padding_right(team1+'-'+team2,".",21);
 	
 	return rdo;
 }
@@ -881,12 +878,12 @@ function getQuiniela(){
 								temp=temp+" "+(index+1);
 							}
 							if(index==0 || index==4 || index==8 || index==11){
-								row+='<tr id="rowBet_'+index+'"><td class="partidolinea"><label>'+temp+'</label></td>';
+								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap" class="partidolinea"><label>'+temp+'</label></td>';
 							}
 							else if (index==14){
-								row+='<tr id="rowBet_'+index+'"><td class="partidoLast"><label>'+temp+'</label></td>';
+								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap" class="partidoLast"><label>'+temp+'</label></td>';
 							}else{
-								row+='<tr id="rowBet_'+index+'"><td class="partido"><label>'+temp+'</label></td>';
+								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap" class="partido"><label>'+temp+'</label></td>';
 							}
 							row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
 							row+='<label class="quiniela" for="'+index+'_1"></label>';
@@ -1034,157 +1031,3 @@ function betDetail(index, bet)
 	$('#quinielaDetailTable').append(row);
 	showDiv(bQuinielaDetail);
 }
-/*
-function getUserBets(){
-	consoleAlterQ('getUserBets');
-	if(loadBetUser){
-		loadBetUser=false;
-//		loadBetUser=true;
-
-   		consoleAlterQ('antes jQuery.ajax');
-		
-   		consoleAlterQ('url:'+ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet');  		
-		jQuery.ajax ({
-			url: ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet',
-		    type: "GET",
-		    data: null,
-		    contentType: "application/json; charset=utf-8",
-		    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-	        cache: false,    //This will force requested pages not to be cached by the browser  
-	        processData:false, //To avoid making query String instead of JSON
-		    success: function(response){
-			    if(response.errorDto!=0){
-			    	var indicators="";
-			    	indicators+='<ol  class="carousel-indicators">';
-			        indicators+='<li data-target="#myCarousel" data-slide-to="0" class="active"></li>';
-			        indicators+='</ol>';   
-			        $('#myIndicators').append(indicators);
-			    	
-					var row="";
-			    	row+='<div class="active item">';
-			        //row+='<img src="slide-1.jpg">';
-			    	//row+='<img class="mybetsimg" src="/quinimobile/static/resources/_include/img/slider-images/slide.jpg">';
-			    	//row+='<div  class="carousel-caption">';
-			    	row+='<div class="carousel-alterQ">';
-			    	row+='<article>';
-			        row+='<header>';
-					row+='<div align="center"><h3>SIN APUESTAS</h3></div>';
-					row+='</header>';
-					row+='</article>';
-				    row+='</div>';
-				    row+='</div>';
-					$('#myItems').append(row);
-			    }
-			    else{
-					//hacemos la llamada para obtener los partidos
-					var mygames;
-					consoleAlterQ('antes jQuery.ajax mygames');
-					consoleAlterQ('url:'+ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round);
-					
-				    jQuery.ajax ({
-						    url: ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round,
-						    type: "GET",
-						    data: null,
-						    contentType: "application/json; charset=utf-8",
-						    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-				            cache: false,    //This will force requested pages not to be cached by the browser  
-				            processData:false, //To avoid making query String instead of JSON
-						    success: function(response2){
-					   		    if(response2.errorDto!=0){
-					   		    	$(response2.errorDto).each(function(index, objeto){  
-					   		    		consoleAlterQ("getUserBets: response="+objeto.stringError);
-								    });
-					   		    }
-					   		    else{
-					   		    	consoleAlterQ("getUserBets: response OK");
-					   		    	mygames=response2.round.games;
-					   		    }
-						    },
-						    error : function (xhr, textStatus, errorThrown) {
-						    	var indicators="";
-						    	indicators+='<ol  class="carousel-indicators">';
-						        indicators+='<li data-target="#myCarousel" data-slide-to="0" class="active"></li>';
-						        indicators+='</ol>';   
-						        $('#myIndicators').append(indicators);
-						    	
-								var row="";
-						    	row+='<div class="active item">';
-						        //row+='<img class="mybetsimg" src="slide-1.jpg">';
-						    	//row+='<img class="mybetsimg" src="/quinimobile/static/resources/_include/img/slider-images/slide.jpg">';
-						    	//row+='<div class="carousel-caption">';
-						    	row+='<div class="carousel-alterQ">';
-						    	row+='<article>';
-						        row+='<header>';
-								row+='<div><h3>&nbsp;</h3><h3>ERROR AL OBTENER</h3><h3>LOS PARTIDOS</h3></div>';
-								row+='</header>';
-								row+='</article>';
-							    row+='</div>';
-							    row+='</div>';
-								$('#myItems').append(row);						    
-						    }
-						    
-					});
-				    consoleAlterQ('despues jQuery.ajax mygames');
-			    	var indicators="";
-			    	indicators+='<ol  class="carousel-indicators">';
-
-					$(response.roundBet.bets).each(function(index, element){
-						console.log("index="+index);
-						console.log("user="+element.user + " bet="+element.bet);
-						var row="";
-					    if (index==0){
-					    	row+='<div class="active item">';
-					        indicators+='<li data-target="#myCarousel" data-slide-to="'+index+'" class="active"></li>';
-					    }
-					    else{
-					    	row+='<div class="item">';
-					        indicators+='<li data-target="#myCarousel" data-slide-to="'+index+'"></li>';
-					    }
-					    //row+='<img class="mybetsimg" src="slide-1.jpg">';
-					    //row+='<img class="mybetsimg" src="/quinimobile/static/resources/_include/img/slider-images/slide.jpg">';
-					    //row+='<div  class="carousel-caption">';
-					    row+='<div class="carousel-alterQ">';
-					    row+='<article>';
-					    row+='<header>';
-						//row+='<h3> APUESTA '+index+'</h3>';
-						//row+='<h3> JORNADA '+response.roundBet.round+'</h3>';
-					    row+='<h4> APUESTA '+index+' - JORNADA '+response.roundBet.round+'</h4>';
-						row+='<div align="center" id="apuesta'+index+'"><h3>'+getTableMatches(element.bet, mygames)+'</h3></div>';
-						row+='</header>';
-						row+='</article>';
-					    row+='</div>';
-					    row+='</div>';
-						$('#myItems').append(row);
-					});
-			    }
-		        indicators+='</ol>';   
-		        $('#myIndicators').append(indicators);
-		    },
-		    error : function (xhr, textStatus, errorThrown) {
-		    	var indicators="";
-		    	indicators+='<ol  class="carousel-indicators">';
-		        indicators+='<li data-target="#myCarousel" data-slide-to="0" class="active"></li>';
-		        indicators+='</ol>';   
-		        $('#myIndicators').append(indicators);
-		    	
-				var row="";
-		    	row+='<div class="active item">';
-		        //row+='<img class="mybetsimg" src="slide-1.jpg">';
-		    	//row+='<img class="mybetsimg" src="/quinimobile/static/resources/_include/img/slider-images/slide.jpg">';
-		    	//row+='<div class="carousel-caption">';
-		    	row+='<div class="carousel-alterQ">';
-		        row+='<article>';
-		        row+='<header>';
-				row+='<div><h3>&nbsp;</h3><h3>ERROR AL OBTENER</h3><h3>LAS APUESTAS</h3></div>';
-				row+='</header>';
-				row+='</article>';
-			    row+='</div>';
-			    row+='</div>';
-				$('#myItems').append(row);
-            }
-	 });
-	consoleAlterQ('despues jQuery.ajax');
-	showDiv(bMyBets);
-	}	
-}
-*/
