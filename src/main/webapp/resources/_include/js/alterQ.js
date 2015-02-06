@@ -187,7 +187,8 @@ function showDiv(elem) {
 	}
 	
 	bActual = elem;
-//	alert ("actual="+bActual);		
+//	alert ("actual="+bActual);
+	$('html, body').animate({ scrollTop: '0px' }, 0);
 }
 
 //Manage Menu Events 
