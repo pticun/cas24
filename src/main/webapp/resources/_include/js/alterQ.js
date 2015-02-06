@@ -22,6 +22,7 @@ var bMyRank = 10;
 var bMyResum = 11;
 var bMyAdmin = 12;
 var bQuinielaDetail = 13;
+var bMyModal = 14;
 
 //Texts
 var sHome    = "Inicio";
@@ -33,6 +34,7 @@ var sGuest = "Invitado";
 var sLogout = "Logout";
 var sAdmin = "Administration";
 var sQuiniDetail = "";
+var sMyModal = "";
 
 //Refs
 var sHomeRef = "#homeDiv";
@@ -50,6 +52,7 @@ var sMyRankRef = "#myRankDiv";
 var sMyResumRef = "#myResumDiv";
 var sMyAdminRef = "admin";
 var sQuinielaDetailRef = "#quinielaDetailDiv";
+var sMyModalRef = "#myModal";
 
 function initDiv() {
 	//document.getElementById("homeDiv").style.display = "block";
@@ -70,6 +73,7 @@ function initDiv() {
 	$(sMyRankRef).hide();
 	$(sMyResumRef).hide();
 	$(sQuinielaDetailRef).hide();
+	$(sMyModalRef).hide();
 	
 	bActual = bHome;
 	
@@ -130,6 +134,9 @@ function showDiv(elem) {
 	case bQuinielaDetail:
 		$(sQuinielaDetailRef).show();
 		break;
+	case bMyModal:
+		$(sMyModalRef).show();
+		break;
 	}
 
 	switch (bActual){
@@ -173,6 +180,9 @@ function showDiv(elem) {
 		break;
 	case bQuinielaDetail:
 		$(sQuinielaDetailRef).hide();
+		break;
+	case bMyModal:
+		$(sMyModalRef).hide();
 		break;
 	}
 	
