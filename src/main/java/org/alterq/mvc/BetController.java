@@ -125,7 +125,7 @@ public class BetController {
 			userSecurity.isSameUserInSession(id, cookieSession);
 			UserAlterQ userAlterQ = userDao.findById(id);
 			String apuesta = "";
-			int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 			Map<String, String[]> parameters = request.getParameterMap();
 			for (String parameter : parameters.keySet()) {
@@ -134,6 +134,30 @@ public class BetController {
 					int indice = Integer.parseInt(st.nextToken());
 					String signo = st.nextToken();
 					int signoN = (signo.equals("1")) ? 4 : (signo.equals("2") ? 1 : 2);
+
+					//el pleno al 15 tiene un tratamiento especial
+					if (indice == 14)
+					{
+						if (signo.equals("0"))
+							signoN = 1;
+						else if (signo.equals("1"))
+							signoN = 2;
+						else if (signo.equals("2"))
+							signoN = 4;
+						else if (signo.equals("3"))
+							signoN = 8;
+					}
+					if (indice == 15)
+					{
+						if (signo.equals("0"))
+							signoN = 1;
+						else if (signo.equals("1"))
+							signoN = 2;
+						else if (signo.equals("2"))
+							signoN = 4;
+						else if (signo.equals("3"))
+							signoN = 8;
+					}
 					pro[indice] += signoN;
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -143,11 +167,16 @@ public class BetController {
 			int dobles = 0;
 			int triples = 0;
 			for (int i = 0; i < pro.length; i++) {
-				apuesta += pro[i];
-				if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 6))
-					dobles++;
-				else if (pro[i] == 7)
-					triples++;
+				if ((i==14)||(i==15))
+					apuesta +=  Integer.toHexString(pro[i]);
+				else
+					apuesta += pro[i];
+				if ((i!=14)&&(i!=15)){
+					if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 6))
+						dobles++;
+					else if (pro[i] == 7)
+						triples++;
+				}
 			}
 
 			// data for test only!!

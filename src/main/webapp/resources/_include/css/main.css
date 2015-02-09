@@ -1423,6 +1423,30 @@ input[type="checkbox"][class="class2"] + label {
 input[type="checkbox"][class="class2"]:checked + label {
     background:url(img/t2.png) center no-repeat;
 }
+input[type="checkbox"][class="class0"] {
+    display:none;
+}
+input[type="checkbox"][class="class0"] + label {
+    width:35px;
+    height:35px;
+    background:url(img/s0.png) center  no-repeat;
+    cursor:pointer;
+}
+input[type="checkbox"][class="class0"]:checked + label {
+    background:url(img/t0.png) center  no-repeat;
+}
+input[type="checkbox"][class="classM"] {
+    display:none;
+}
+input[type="checkbox"][class="classM"] + label {
+    width:35px;
+    height:35px;
+    background:url(img/sM.png) center  no-repeat;
+    cursor:pointer;
+}
+input[type="checkbox"][class="classM"]:checked + label {
+    background:url(img/tM.png) center  no-repeat;
+}
 
 table, tr [class="quiniela"]
 {
