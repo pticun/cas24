@@ -237,15 +237,15 @@ End Analytics -->
 			        </tr>
 			   		<tr class="quiniela">
 			   			<td class="partidoLast">Surnames:</td>
-			   			<td class="partidoLast"><input  class="textbox" id="idSurnames" name="surnames" type="text"/></td>
+			   			<td class="partidoLast"><input  class="textbox" id="idSurnamesData" name="surnames" type="text"/></td>
 			        </tr>
 			   		<tr class="quiniela">
 			   			<td class="partidoLast">
-			   			<SELECT NAME="typeID" id="typeIDSign" width="100%">
-   							<OPTION VALUE="1">NIF</OPTION>
-   							<OPTION VALUE="2">NIE</OPTION>
-   							<OPTION VALUE="3">Pasaporte</OPTION>
-							</SELECT> 
+			   			<select name="typeID" id="typeIDSign">
+   							<option value="1">NIF</option>
+   							<option value="2">NIE</option>
+   							<option value="3">Pasaporte</option>
+						</select> 
 			   			</td>
 			   			<td class="partidoLast"><input class="textbox" name="idCard" id="idCardData" type="text"/></td>
 			        </tr>
@@ -255,21 +255,21 @@ End Analytics -->
 			        </tr>
 			   		<tr>
 			   			<td class="partidoLast">BirthDate:</td>
-			   			<td class="partidoLast"><input class="textbox" name="birthDate" id="birthDateSign" type="text"/></td>
+			   			<td class="partidoLast"><input class="textbox" name="birthday" id="birthDateData" type="text"/></td>
 			        </tr>
 			   		<tr>
 			   			<td class="partidoLast">City:</td>
 			   			<td class="partidoLast">
-			   			<SELECT NAME="city" id="citySign">
-   							<OPTION VALUE="1">Alicante</OPTION>
-   							<OPTION VALUE="2">Barcelona</OPTION>
-   							<OPTION VALUE="3">Castellon</OPTION>
-   							<OPTION VALUE="4">Girona</OPTION>
-   							<OPTION VALUE="5">Lleida</OPTION>
-   							<OPTION VALUE="6">Tarragona</OPTION>
-   							<OPTION VALUE="6">Valencia</OPTION>
-   							<OPTION VALUE="0">No Residente</OPTION>
-							</SELECT> 
+			   			<select name="city" id="citySign">
+   							<option value="1">Alicante</option>
+   							<option value="2">Barcelona</option>
+   							<option value="3">Castellon</option>
+   							<option value="4">Girona</option>
+   							<option value="5">Lleida</option>
+   							<option value="6">Tarragona</option>
+   							<option value="6">Valencia</option>
+   							<option value="0">No Residente</option>
+						</select> 
 			   			</td>
 			        </tr>
 			   		<tr class="quiniela">
@@ -682,7 +682,7 @@ End Analytics -->
 						<td colspan="2">Sign up</td>
 					</tr>
 			   		<tr>
-			   			<td colspan="2" class="partidoLast"><input id="nickSign" name="nick" type="text" placeholder="Nick"/></td>
+			   			<td colspan="2" class="partidoLast"><input type="text" name="nick" id="nickSign" placeholder="Nick"/></td>
 			        </tr>
 			   		<tr>
 			   			<td colspan="2" class="partidoLast"><input type="text" name="name" id="nameSign" placeholder="Name"/></td>
@@ -692,18 +692,18 @@ End Analytics -->
 			        </tr>
 			   		<tr>
 			   			<td colspan="2" class="partidoLast">
-			   			<SELECT NAME="typeID" id="typeIDSign">
-   							<OPTION VALUE="1">NIF</OPTION>
-   							<OPTION VALUE="2">NIE</OPTION>
-   							<OPTION VALUE="3">Pasaporte</OPTION>
-							</SELECT> 
+			   			<select name="typeID" id="typeIDSign">
+   							<option value="1">NIF</option>
+   							<option value="2">NIE</option>
+   							<option value="3">Pasaporte</option>
+							</select> 
 			   			</td>
 			        </tr>
 			   		<tr>
 			   			<td colspan="2" class="partidoLast"><input type="text" name="idCard" id="nifSign" placeholder="ID"/></td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partidoLast"><input id="idSign" name="id" type="text" placeholder="E-Mail"/></td>
+			   			<td colspan="2" class="partidoLast"><input type="text" name="id" id="idSign" placeholder="E-Mail"/></td>
 			        </tr>
 			   		<tr>
 			   			<td colspan="2" class="partidoLast"><input type="password" name="pwd" id="pwdSign" placeholder="Password"/></td>
@@ -712,25 +712,25 @@ End Analytics -->
 			   			<td colspan="2" class="partidoLast"><input type="text" name="phoneNumber" id="phoneNumberSign" placeholder="Phone Number"/></td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partidoLast"><input type="text" name="birthDate" id="birthDateSign" placeholder="Birth Date"/></td>
+			   			<td colspan="2" class="partidoLast"><input type="text" name="birthday" id="birthDateSign" placeholder="Birth Date"/></td>
 			        </tr>
 			   		<tr>
 			   			<td colspan="2" class="partidoLast">
-			   			<SELECT NAME="city" id="citySign">
-   							<OPTION VALUE="1">Alicante</OPTION>
-   							<OPTION VALUE="2">Barcelona</OPTION>
-   							<OPTION VALUE="3">Castellon</OPTION>
-   							<OPTION VALUE="4">Girona</OPTION>
-   							<OPTION VALUE="5">Lleida</OPTION>
-   							<OPTION VALUE="6">Tarragona</OPTION>
-   							<OPTION VALUE="6">Valencia</OPTION>
-   							<OPTION VALUE="0">No Residente</OPTION>
-							</SELECT> 
+			   			<select name="city" id="citySign">
+   							<option value="1">Alicante</option>
+   							<option value="2">Barcelona</option>
+   							<option value="3">Castellon</option>
+   							<option value="4">Girona</option>
+   							<option value="5">Lleida</option>
+   							<option value="6">Tarragona</option>
+   							<option value="6">Valencia</option>
+   							<option value="0">No Residente</option>
+						</select> 
 			   			</td>
 			        </tr>
 			        
 			   		<tr>
-			   			<td class="partidoLast"><input name="accept" id="acceptData" type="checkbox"/></td>
+			   			<td class="partidoLast"><input type="checkbox" name="accept" id="acceptData"/></td>
 			   			<td class="partidoLast"><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Acepto los terminos y condiciones de uso.</button></td>
 			        </tr>
 			   		<tr class="quiniela" align="center">
