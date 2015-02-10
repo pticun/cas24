@@ -413,11 +413,7 @@ $(document).ready(function() {
 		    			
 					idUserAlterQ=response.userAlterQ.id;
 
-					$('#idData').val(response.userAlterQ.id);
-					$('#nameData').val(response.userAlterQ.name);
-					$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
-					$('#idSaldo').val(response.userAlterQ.id);
-					$('#balanceSaldo').val(response.userAlterQ.balance);
+					fillUserData(response);
 					
 					userLoged=true;
 		    	}
@@ -473,11 +469,7 @@ $(document).ready(function() {
 						$('#loginFormResponse').text(response.userAlterQ.name);
 						userLoged=true;
 						idUserAlterQ=response.userAlterQ.id;
-						$('#idData').val(response.userAlterQ.id);
-						$('#nameData').val(response.userAlterQ.name);
-						$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
-						$('#idSaldo').val(response.userAlterQ.id);
-						$('#balanceSaldo').val(response.userAlterQ.balance);
+						fillUserData(response);
 						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
 						showDiv(bHome);
 		   		    }
@@ -793,6 +785,22 @@ function doLogin(){
 		    round=response.generalData.round;
 		    season=response.generalData.season;
 	    });
+	
+}
+
+function fillUserData(response){
+	$('#idData').val(response.userAlterQ.id);
+	$('#nameData').val(response.userAlterQ.name);
+	$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
+	$('#nickData').val(response.userAlterQ.nick);
+	$('#idSurnamesData').val(response.userAlterQ.surnames);
+	$('#birthDateData').val(response.userAlterQ.birthday);
+	$('#idCardData').val(response.userAlterQ.idCard);
+	$('#citySign').val(response.userAlterQ.city);
+	$('#typeIDSign').val(response.userAlterQ.typeID);
+	
+	$('#idSaldo').val(response.userAlterQ.id);
+	$('#balanceSaldo').val(response.userAlterQ.balance);	
 	
 }
 
