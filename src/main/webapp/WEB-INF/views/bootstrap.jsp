@@ -291,16 +291,6 @@ End Analytics -->
 <!-- MyBalande Section -->
 <div id="mybalanceDiv" class="page">
 <div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Mis Datos</h2>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
     <!-- MyBalance Form -->
     <div class="row">
 		<div align="center">
