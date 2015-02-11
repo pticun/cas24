@@ -1,3 +1,4 @@
+// comentario
 var round=0;
 var season=0;
 var idUserAlterQ="";
@@ -328,12 +329,40 @@ function getSign(sign){
 	}
 }
 
+function getSignPleno15(sign){
+	switch(sign)
+	{
+		case "1": return '0&nbsp;&nbsp;&nbsp;';break;
+		case "2": return '&nbsp;1&nbsp;&nbsp;';break;
+		case "3": return '01&nbsp;&nbsp;';break;
+		case "4": return '&nbsp;&nbsp;2&nbsp;';break;
+		case "5": return '0&nbsp;2&nbsp;';break;
+		case "6": return '&nbsp;12&nbsp;';break;
+		case "7": return '0&nbsp;&nbsp;&nbsp;';break;
+		case "8": return '&nbsp;&nbsp;&nbsp;M';break;
+		case "9": return '0&nbsp;&nbsp;M';break;
+		case "a": return '&nbsp;1&nbsp;M';break;
+		case "b": return '01&nbsp;M';break;
+		case "c": return '0&nbsp;2M';break;
+		case "e": return '&nbsp;12M';break;
+		case "f": return '012M';break;
+		default: return '&nbsp;&nbsp;&nbsp;';
+	}
+}
+
 function getTableMatches(bet, loadGames){
+	consoleAlterQ("getTableMatches() bet="+bet);	
 	tableBet='<table style="font-size:14px">';
 	$(loadGames).each(function(index, element){ 
 		var temp=padding_right(element.player1+'-'+element.player2,".",27);
 		var num = (index+1)<10?(' '+(index+1)):(index+1);
-		tableBet+='<tr><td nowrap>' + num + ' - </td><td  nowrap>' + temp + '</td><td  nowrap align="left">'+ getSign(bet.charAt(index)) + '</td>';
+		if ((index == 14) || (index == 15)){
+			tableBet+='<tr><td colspan ="3" nowrap align="center">PLENO AL QUINCE</td></tr>';
+			tableBet+='<tr><td></td><td colspan ="2" nowrap align="left">' + padding_right(element.player1,".",23) + '&nbsp;'+ getSignPleno15(bet.charAt(index)) + '</td></tr>';
+			tableBet+='<tr><td></td><td colspan ="2" nowrap align="left">' + padding_right(element.player2,".",23) + '&nbsp;'+ getSignPleno15(bet.charAt(index)) + '</td>';
+		}
+		else
+			tableBet+='<tr><td nowrap>' + num + ' - </td><td  nowrap>' + temp + '</td><td  nowrap align="left">'+ getSign(bet.charAt(index)) + '</td>';
 		tableBet+='</tr>';
 	});
 	tableBet+='</table>';
@@ -1006,7 +1035,7 @@ function getUserBets(){
 						row="";
 				    	row+='<tr class="quinielatitulo">';
 				    	row+='<td class="partidoLast">';
-				    	row+='<a href="javascript:betDetail('+index+','+element.bet+')" >';
+				    	row+='<a href="javascript:betDetail('+index+',\''+element.bet+'\')" >';
 				    	row+='Apuesta'+(((index+1)<10)?'0':'')+(index+1)+' Jornada'+response.roundBet.round+ ' '+element.price + ' EUR';
 				    	row+='</a>';
 				    	row+='</td>';
