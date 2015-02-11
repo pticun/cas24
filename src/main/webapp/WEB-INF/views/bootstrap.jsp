@@ -203,8 +203,8 @@ End Analytics -->
             	<div class="well" id="myDataBtn">Mis Datos</div>
             	<div class="well" id="myBalanceBtn">Mi Saldo</div>
             	<div class="well" id="myBetsBtn">Mis Apuestas</div>
-            	<div class="well" id="myRankBtn">Ranking</div>
-            	<div class="well" id="myResumBtn">Resumen</div>
+<!--            	<div class="well" id="myRankBtn">Ranking</div>	 -->
+<!--            	<div class="well" id="myResumBtn">Resumen</div>	 -->
             </div>
         </div>
 </div>
@@ -791,9 +791,9 @@ End Analytics -->
             <div class="span12">
                 <nav id="social">
                     <ul>
-                        <li><a href="https://twitter.com/alterqnews" title="Follow Me on Twitter" target="_blank"><span class="font-icon-social-twitter"></span></a></li>
-                        <li><a href="https://www.facebook.com/pages/AlterQ/494875553982412" title="Follow Me on Facebook" target="_blank"><span class="font-icon-social-facebook"></span></a></li>
-                        <li><a href="https://plus.google.com/117228446295186578088" title="Follow Me on Google Plus" target="_blank"><span class="font-icon-social-google-plus"></span></a></li>
+                        <li><a href="https://www.twitter.com/QuiniGold" title="Follow Me on Twitter" target="_blank"><span class="font-icon-social-twitter"></span></a></li>
+                        <li><a href="https://www.facebook.com/pages/Quini-Gold/1418720568341058 " title="Follow Me on Facebook" target="_blank"><span class="font-icon-social-facebook"></span></a></li>
+                        <li><a href="https://plus.google.com/u/1/104217035683501099204/posts" title="Follow Me on Google Plus" target="_blank"><span class="font-icon-social-google-plus"></span></a></li>
                     </ul>
                 </nav>
             </div>
@@ -827,7 +827,7 @@ End Analytics -->
 
 <!-- Footer -->
 <footer>
-	<p class="credits">&copy;2014 alterQ. </p>
+	<p class="credits">&copy;2015 quiniGold. </p>
 </footer>
 <!-- End Footer -->
 
