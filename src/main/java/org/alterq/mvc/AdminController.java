@@ -89,19 +89,61 @@ public class AdminController {
 		for(int i = 1; i <= 15; i++){
 			int inferior = 1;
 			int superior = 3;
-    		int numPosibilidades = (superior + 1) - inferior;
-		    double aleat = Math.random() * numPosibilidades;
-    		aleat = Math.floor(aleat);
-			aleat = (inferior + aleat);
-			if (aleat>2){
-				solucion = solucion+"1";
-			}
-			else if (aleat>1){
-				solucion = solucion+"2";
-			}
-			else{
-				solucion = solucion+"4";
-			}
+			int infPleno15 = 1;
+			int supPleno15 = 4;
+    		int numPosibilidades = 0;
+		    double aleat = 0;
+    		
+		    if (i !=15){
+			    numPosibilidades = (superior + 1) - inferior;
+			    aleat = Math.random() * numPosibilidades;
+			    aleat = Math.floor(aleat);
+				aleat = (inferior + aleat);
+				if (aleat>2){
+					solucion = solucion+"1";
+				}
+				else if (aleat>1){
+					solucion = solucion+"2";
+				}
+				else{
+					solucion = solucion+"4";
+				}
+		    }
+		    else{
+			    numPosibilidades = (supPleno15 + 1) - infPleno15;
+			    //Calculo primer partido del Pleno al 15
+			    aleat = Math.random() * numPosibilidades;
+			    aleat = Math.floor(aleat);
+				aleat = (inferior + aleat);
+				if (aleat>3){
+					solucion = solucion+"1";
+				}
+				else if (aleat>2){
+					solucion = solucion+"2";
+				}
+				else if (aleat>1){
+					solucion = solucion+"4";
+				}
+				else{
+					solucion = solucion+"8";
+				}
+				//Calculo segundo partido del Pleno al 15
+			    aleat = Math.random() * numPosibilidades;
+			    aleat = Math.floor(aleat);
+				aleat = (inferior + aleat);
+				if (aleat>3){
+					solucion = solucion+"1";
+				}
+				else if (aleat>2){
+					solucion = solucion+"2";
+				}
+				else if (aleat>1){
+					solucion = solucion+"4";
+				}
+				else{
+					solucion = solucion+"8";
+				}
+		    }
 		}
 		return solucion;
 		
@@ -124,21 +166,34 @@ public class AdminController {
 	
 	private static int getQuinielaNumBets(int type){
 		switch (type){
-		case 0: return 1;
-		case 1: return 9;
-		case 2: return 24;
+		case 0: return 1;	//Sencilla
+		case 1: return 9;	//Reduccion Primera (4T)
+		case 2: return 16;	//Reduccion Segunda (7D)
+		case 3: return 24;	//Reduccion Tercera (3D + 3T)
+		case 4: return 64;	//Reduccion Cuarta	(6D + 2T)
+		case 5: return 81;	//Reduccion Quinta	(8T)
 		default: return 1;
 		}
 	}
 	private static void calcFinalDoublesAndTriples(int type)
 	{
 		switch(type){
-		case 1: //reduction 4 triples
+		case 1: //Reduccion Primera (4T)
 			triples+=4;
 			break;
-		case 2: //reduction 3 triples and 3 dobles
+		case 2: //Reduccion Segunda (7D)
+			doubles+=7;
+			break;
+		case 3: //Reduccion Tercera (3D + 3T)
 			triples+=3;
 			doubles+=3;
+			break;
+		case 4: //Reduccion Cuarta	(6D + 2T)
+			triples+=2;
+			doubles+=6;
+			break;
+		case 5: //Reduccion Quinta	(8T)
+			triples+=8;
 			break;
 			
 		default:
@@ -146,6 +201,11 @@ public class AdminController {
 	}
 	/**
 	 * Function calcFinalQuiniela that return the final quiniela
+	 * 
+	 * *************************************************************************
+	 * PENDIENTE REVISAR ESTA FUNCION: SE UTILIZARA CUANDO SE ACTIVEN LAS PEÑAS
+	 * Y HABRA QUE GESTIONAR EL NUEVO PLENO AL QUINCE (012M)
+	 * *************************************************************************
 	 * 
 	 * Signs:
 	 * 	1   = 100 = 4
@@ -314,26 +374,50 @@ public class AdminController {
 	/**
 	 * Function translateResult1x2 that translates 1X2 signs to 421
 	 * 
-	 * ResultBet Signs:
+	 * Format BET: S01S02S03S04S05S06S07S08S09S10S11S12S13S14P01P02
+	 * 
+	 * ResultBet Signs (Sxx):
 	 * 	1   = 100 = 4
 	 * 	 X  = 010 = 2
 	 *    2 = 001 = 1
+	 *    
+	 *  pleno 15 (Pxx)
+	 *  0   = 1
+	 *  1   = 2
+	 *  2   = 4
+	 *  M   = 8
 	 **/  	
 	private String translateResult1x2 (String apu)
 	{
 		String rdo = "";
 	
 		for (int i = 0; i<apu.length(); i++){
-			if (apu.substring(i, i+1).startsWith("1")){
-				rdo +="4";
-			}else if (apu.substring(i, i+1).startsWith("X")){
-				rdo +="2";
-			}else if (apu.substring(i, i+1).startsWith("2")){
-				rdo +="1";
-			}
-			else{
-				rdo = null;
-				break;
+			if (i<14){
+				if (apu.substring(i, i+1).startsWith("1")){
+					rdo +="4";
+				}else if (apu.substring(i, i+1).startsWith("X")){
+					rdo +="2";
+				}else if (apu.substring(i, i+1).startsWith("2")){
+					rdo +="1";
+				}
+				else{
+					rdo = null;
+					break;
+				}
+			}else{
+				if (apu.substring(i, i+1).startsWith("0")){
+					rdo +="1";
+				}else if (apu.substring(i, i+1).startsWith("1")){
+					rdo +="2";
+				}else if (apu.substring(i, i+1).startsWith("2")){
+					rdo +="4";
+				}else if (apu.substring(i, i+1).startsWith("M")){
+					rdo +="8";
+				}
+				else{
+					rdo = null;
+					break;
+				}
 			}
 		}
 		
@@ -357,6 +441,23 @@ public class AdminController {
 	 *   X2 = 011 = 3
 	 *  1X2 = 111 = 7
 
+	 * Pleno15 Signs:
+	 * 	0    = 0001 = 1
+	 * 	 1   = 0010 = 2
+	 * 	01   = 0011 = 3
+	 * 	  2  = 0100 = 4
+	 * 	0 2  = 0101 = 5
+	 * 	 12  = 0110 = 6
+	 * 	012  = 0111 = 7
+	 * 	   M = 1000 = 8
+	 * 	0  M = 1001 = 9
+	 * 	 1 M = 1010 = a
+	 * 	0 2M = 1011 = b
+	 * 	  2M = 1100 = c
+	 * 	01 M = 1101 = d
+	 * 	 12M = 1110 = e
+	 * 	012M = 1111 = f
+
 	 *   Gets users Bets, and calculate right signs for each bet
 	 * @return int[]   
 	 * Devuelve un vector de int donde:
@@ -374,53 +475,87 @@ public class AdminController {
 	
 	private int[] calcUserRightSigns(String resultBet, String apu, UserAlterQ user, int company){
 		
-		int rdo, doses, equis, unos;
-		int [] salida = new int[4];
-		salida[0]=salida[1]=salida[2]= salida[3]= -1;
+		int rdo, doses, equis, unos, p15;
+		int [] salida = new int[5];
+		salida[0]=salida[1]=salida[2]= salida[3]= salida[4] =-1;
 		
 		rdo = 0;
 		doses = 0;
 		equis = 0;
 		unos = 0;
+		p15 = 0;
 		
 		int singBet;
 		int singRes;
 		
 		try{
 			//Translate 1X2 to 421
+			//Pleno15 012M to 1248
 			
-		for (int i = 0; i<apu.length(); i++){
-			singBet = Integer.parseInt(apu.substring(i, i+1));
-			singRes = Integer.parseInt(resultBet.substring(i, i+1));		
-			switch (singRes)
-			{
-			case 4:// sign 1
-				if ((singBet == 4) || (singBet == 6) || (singBet == 5) || (singBet == 7)){
-					rdo++;
-					unos++;
+			for (int i = 0; i<apu.length(); i++){
+				singBet = Integer.parseInt(apu.substring(i, i+1));
+				singRes = Integer.parseInt(resultBet.substring(i, i+1));
+				if (i<14)
+				{
+					switch (singRes)
+					{
+					case 4:// sign 1
+						if ((singBet == 4) || (singBet == 6) || (singBet == 5) || (singBet == 7)){
+							rdo++;
+							unos++;
+						}
+						break;
+					case 2://sign X
+						if ((singBet == 2) || (singBet == 3) || (singBet == 6) || (singBet == 7)){
+							rdo++;
+							unos++;
+						}
+						break;
+					case 1: //sign 2
+						if ((singBet == 1) || (singBet == 3) || (singBet == 5) || (singBet == 7)){
+							rdo++;
+							unos++;
+						}
+						break;
+					default: //something wrong
+						break;
+					}
 				}
-				break;
-			case 2://sign X
-				if ((singBet == 2) || (singBet == 3) || (singBet == 6) || (singBet == 7)){
-					rdo++;
-					equis++;
+				else{
+					switch (singRes)
+					{
+					case 1:// sign 0
+						if ((singBet == 1) || (singBet == 3) || (singBet == 5) || (singBet == 7) || (singBet == 9) || (singBet == 11) || (singBet == 13) || (singBet == 15)){
+							p15++;
+						}
+						break;
+					case 2://sign 1
+						if ((singBet == 2) || (singBet == 3) || (singBet == 6) || (singBet == 7) || (singBet == 10) || (singBet == 13) || (singBet == 14) || (singBet == 15)){
+							p15++;
+						}
+						break;
+					case 4: //sign 2
+						if ((singBet == 4) || (singBet == 5) || (singBet == 6) || (singBet == 7) || (singBet == 11) || (singBet == 12) || (singBet == 14) || (singBet == 15)){
+							p15++;
+						}
+						break;
+					case 8: //sign M
+						if ((singBet == 8) || (singBet == 9) || (singBet == 10) || (singBet == 11)|| (singBet == 12)|| (singBet == 13)|| (singBet == 14)|| (singBet == 15)){
+							p15++;
+						}
+						break;
+					default: //something wrong
+						break;
+					}
+					
 				}
-				break;
-			case 1: //sign 2
-				if ((singBet == 1) || (singBet == 3) || (singBet == 5) || (singBet == 7)){
-					rdo++;
-					doses++;
-				}
-				break;
-			default: //something wrong
-				break;
 			}
-		}
 		} catch (Exception e){
 			rdo = 0;
 			doses = 0;
 			equis = 0;
 			unos = 0;
+			p15 = 0;
 		}
 		//Asignamos los resultados al vector final
 		//Numero de apuestas acertadas
@@ -431,10 +566,16 @@ public class AdminController {
 		salida[2]= equis;
 		//Número de unos acertados
 		salida[3]= unos;
+		salida[4]= p15;
 		
 		return salida;
 	}
 	
+	/**
+	 * Funcion para calcular el peso de cada usuario
+	 * 
+	 * Se utilizará cuando se activen las peñas. De momento no se utilizará
+	 * */
 	private void updateUserWeight(UserAlterQ user, int rightSigns){
 		double oldWeight = user.getWeight();
 		
@@ -445,6 +586,7 @@ public class AdminController {
 		return;
 	}
 	
+	//Funciona
 	private void updateRoundRanking(int company, int season, int round, UserAlterQ user, int points, int ones, int equs, int twos){
 		Ranking rnk = new Ranking();
 		rnk.setCompany(company);
@@ -696,7 +838,7 @@ public class AdminController {
 			String lastUser = null;
 			UserAlterQ lastUserAlterQ = null;
 			
-			int[] vMaxAciertos = {0,0,0,0};
+			int[] vMaxAciertos = {0,0,0,0,0};
 			boolean bUpdate = false;
 		
 			RoundBets bean = roundBetDao.findAllBets(season, round);
@@ -750,6 +892,7 @@ public class AdminController {
 							vMaxAciertos[1] = vAciertos[1];
 							vMaxAciertos[2] = vAciertos[2];
 							vMaxAciertos[3] = vAciertos[3];
+							vMaxAciertos[4] = vAciertos[4];
 						}
 						bUpdate = false;
 					}				
@@ -763,6 +906,7 @@ public class AdminController {
 					vMaxAciertos[1] = vAciertos[1];
 					vMaxAciertos[2] = vAciertos[2];
 					vMaxAciertos[3] = vAciertos[3];
+					vMaxAciertos[4] = vAciertos[4];
 					bUpdate = false;
 				}
 				
@@ -811,7 +955,93 @@ public class AdminController {
 //	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/prize15/{count15}/{amount15}/prize14/{count14}/{amount14}/prize13/{count13}/{amount13}/prize12/{count12}/{amount12}/prize11/{count11}/{amount11}/prize10/{count10}/{amount10}")
 //	public @ResponseBody 
 //	ResponseDto  prizesRound(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int count15, @PathVariable float amount15, @PathVariable int count14, @PathVariable float amount14, @PathVariable int count13, @PathVariable float amount13, @PathVariable int count12, @PathVariable float amount12, @PathVariable int count11, @PathVariable float amount11, @PathVariable int count10, @PathVariable float amount10) {
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/prizesBet")
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/prizesBetPenya")
+	//public @ResponseBody ResponseDto prizesRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @RequestBody PrizesRound prizesRound) {
+	public @ResponseBody 
+	ResponseDto  prizesRoundPenya(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
+		ResponseDto response = new ResponseDto();
+		RoundBets roundBets;
+		int numBets;
+		double rewardGlobal;
+		double betReward = 0;
+		UserAlterQ userAlterQ;
+		
+		try {
+			userSecurity.isAdminUserInSession( cookieSession);
+			roundBets = roundBetDao.findAllBets(season, round);
+			
+			List<Prize> lPrizes = new ArrayList<Prize>();
+			Map<String, String[]> parameters = request.getParameterMap();
+
+			for (int i=0;i<=5;i++)
+			{
+				Prize priceTmp = new Prize();
+				priceTmp.setId(i+10);
+				priceTmp.setCount(Integer.parseInt(parameters.get("count"+(i+10))[0]));
+				priceTmp.setAmount(Float.parseFloat(parameters.get("prize"+(i+10))[0]));
+				lPrizes.add(priceTmp);
+			}
+
+
+			roundBets.setPrizes(lPrizes);
+			
+			
+			numBets = roundBets.getBets().size() - 1; //Admin bet is not a real bet
+			//rewardGlobal = roundBets.getJackpot() + count15*amount15 + count14*amount14 + count13*amount13 + count12*amount12 + count11*amount11 + count10*amount10;
+			rewardGlobal = roundBets.getJackpot();
+			//List<Prize> lPrizes = roundBets.getPrizes();
+			for (Prize prize : lPrizes){
+				rewardGlobal+= prize.getAmount() * prize.getCount();
+			}
+			
+			
+			betReward = rewardGlobal / numBets;
+			
+			
+			List<Bet> lBets = roundBets.getBets();
+			for (Bet bet : lBets){
+				String user = bet.getUser();
+				
+				userAlterQ = userAlterQDao.findById(user);
+				
+				if (userAlterQ== null){
+					log.debug("pricesRound: user("+user+") Error resultBet user not find");  
+					//STEP 1.1.error - Send an email to the admin ("ERROR pricesRound user not find")
+					continue;
+				}
+				
+				//Admin unser don't win money, because his bet is not a real bet
+				if (userAlterQ.isAdmin())
+				{
+					continue;
+				}
+				
+				userAlterQ.setBalance(Double.toString( Double.parseDouble(userAlterQ.getBalance())  + betReward));
+				userAlterQDao.save(userAlterQ);
+			}		
+			
+			roundBetDao.update(roundBets);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			response.addErrorDto("AdminController:prizesRound", "SecurityException");
+			e.printStackTrace();
+		}
+		
+		
+		return response;
+	}
+	
+	
+	
+	
+	/*PENDIENTE
+	 * 
+	 * Hay que mirar todas las apuestas, comprobar el numero de aciertos que tiene y repartir los premios en funcion
+	 * a la cantidad de premios obtenidos
+	 * 
+	 *  
+	 * */
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/season/{season}/round/{round}/prizesBet")
 	//public @ResponseBody ResponseDto prizesRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @RequestBody PrizesRound prizesRound) {
 	public @ResponseBody 
 	ResponseDto  prizesRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
@@ -886,7 +1116,7 @@ public class AdminController {
 		
 		return response;
 	}
-	
+
 //	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/{local01}/{visitor01}/{local02}/{visitor02}/{local03}/{visitor03}/{local04}/{visitor04}/{local05}/{visitor05}/{local06}/{visitor06}/{local07}/{visitor07}/{local08}/{visitor08}/{local09}/{visitor09}/{local10}/{visitor10}/{local11}/{visitor11}/{local12}/{visitor12}/{local13}/{visitor13}/{local14}/{visitor14}/{local15}/{visitor15}")
 //	public @ResponseBody 
 //	ResponseDto  addRoundGames(@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable String local01, @PathVariable String visitor01, @PathVariable String local02, @PathVariable String visitor02, @PathVariable String local03, @PathVariable String visitor03, @PathVariable String local04, @PathVariable String visitor04, @PathVariable String local05, @PathVariable String visitor05, @PathVariable String local06, @PathVariable String visitor06, @PathVariable String local07, @PathVariable String visitor07, @PathVariable String local08, @PathVariable String visitor08, @PathVariable String local09, @PathVariable String visitor09, @PathVariable String local10, @PathVariable String visitor10, @PathVariable String local11, @PathVariable String visitor11, @PathVariable String local12, @PathVariable String visitor12, @PathVariable String local13, @PathVariable String visitor13, @PathVariable String local14, @PathVariable String visitor14, @PathVariable String local15, @PathVariable String visitor15) {

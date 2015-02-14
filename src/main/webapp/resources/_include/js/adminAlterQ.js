@@ -261,7 +261,7 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#prizesForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/admin'+ '/company/' + '1' + '/season/'+ $("input[id=seasonPrizes]").val() + '/round/' + $("input[id=roundPrizes]").val() + '/prizesBet',
+			 url: ctx+'/admin' + '/season/'+ $("input[id=seasonPrizes]").val() + '/round/' + $("input[id=roundPrizes]").val() + '/prizesBet',
 			    type: "POST",
 			    data: $(this).serialize(),
 			    //contentType: "application/json; charset=utf-8",

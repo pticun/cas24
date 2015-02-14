@@ -274,6 +274,7 @@ var ctx = "<%=request.getContextPath()%>"
 		        </tr>
           		</table>
           		<br>
+<!--           		
           		<table class="quiniela">
 		   		<tr align="center">
 		   			<td class="partido"><button id="quinielaFinalBtn" class="button" name="quinielaFinalMenu" value="quinelaFinal">Quiniela</button></td>
@@ -286,6 +287,7 @@ var ctx = "<%=request.getContextPath()%>"
 		        </tr>
           		</table>
           		<br>
+ -->          		
           		<table class="quiniela">
 		   		<tr align="center">
 		   			<td class="partido"><button id="resultsBtn" class="button" name="resultsMenu" value="results">Results</button></td>
