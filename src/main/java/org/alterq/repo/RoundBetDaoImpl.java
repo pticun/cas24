@@ -145,12 +145,14 @@ public class RoundBetDaoImpl implements RoundBetDao {
 
 		Update update = new Update();
 		
+		/*
 		List<Prize> lPrizes = rounBets.getPrizes();
 		if (lPrizes != null){
 			for (Prize prize : lPrizes){
 				addPrize(rounBets.getSeason(), rounBets.getRound(), prize);
 			}
 		}
+		*/
 		
 		update.addToSet("reward", rounBets.getReward());
 		

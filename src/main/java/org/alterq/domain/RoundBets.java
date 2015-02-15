@@ -32,7 +32,6 @@ public class RoundBets {
 	private float reward11;
 	private int hit10;
 	private float reward10;*/
-	private List<Prize> prizes;
 	private List<Bet> bets;
     
     public int getSeason() {
@@ -58,18 +57,6 @@ public class RoundBets {
 			this.bets=new ArrayList<Bet>();
 		}
 		return this.bets.add(bet);
-	}
-	public List<Prize> getPrizes() {
-		return prizes;
-	}
-	public void setPrizes(List<Prize> prizes) {
-		this.prizes = prizes;
-	}
-	public boolean addPrize(Prize prize) {
-		if(this.prizes==null){
-			this.prizes=new ArrayList<Prize>();
-		}
-		return this.prizes.add(prize);
 	}
 	public String getId() {
 		return id;

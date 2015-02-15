@@ -1,6 +1,8 @@
 package org.alterq.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,6 +19,7 @@ public class Bet {
 	private String user;
 	private String bet;
 	private float price;
+	private List<Prize> prizes;
 
 	public String getUser() {
 		return user;
@@ -76,5 +79,17 @@ public class Bet {
 
 	public void setDateUpdated(Date dateUpdated) {
 		this.dateUpdated = dateUpdated;
+	}
+	public List<Prize> getPrizes() {
+		return prizes;
+	}
+	public void setPrizes(List<Prize> prizes) {
+		this.prizes = prizes;
+	}
+	public boolean addPrize(Prize prize) {
+		if(this.prizes==null){
+			this.prizes=new ArrayList<Prize>();
+		}
+		return this.prizes.add(prize);
 	}
 }
