@@ -287,16 +287,16 @@ var ctx = "<%=request.getContextPath()%>"
 		        </tr>
           		</table>
           		<br>
- -->          		
           		<table class="quiniela">
 		   		<tr align="center">
 		   			<td class="partido"><button id="resultsBtn" class="button" name="resultsMenu" value="results">Results</button></td>
 		        </tr>
 	   			</table>
           		<br>
+ -->          		
           		<table class="quiniela">
 		   		<tr align="center">
-		   			<td class="partido"><button id="prizesBtn" class="button" name="prizesMenu" value="prizes">Prizes</button></td>
+		   			<td class="partido"><button id="prizesBtn" class="button" name="prizesMenu" value="prizes">Results</button></td>
 		        </tr>
 	   			</table>
 	   			</table>
@@ -629,52 +629,52 @@ var ctx = "<%=request.getContextPath()%>"
 <!-- End GetQuinielaRound Section -->
 
 <!-- ResultsRound Section -->
-<div id="resultsDiv" class="page">
-<div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Admin - Results Round</h2>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
+<!-- <div id="resultsDiv" class="page"> -->
+<!-- <div class="container"> -->
+<!--     Title Page -->
+<!--     <div class="row"> -->
+<!--         <div class="span12"> -->
+<!--             <div class="title-page"> -->
+<!--                 <h2 class="title">Admin - Results Round</h2> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </div> -->
+<!--     End Title Page -->
     
-    <!-- ResultsRound Form -->
-    <div class="row table-responsive">
-		<div align="center">
-			<form id="resultForm">
-			   		<table class="quiniela">
-				   		<tr>
-				   			<td class="partido">Season:</td>
-				   			<td class="partido"><input id="seasonResults" name="season" type="text"/></td>
-				        </tr>
-				   		<tr>
-				   			<td class="partido">Round:</td>
-				   			<td class="partido"><input id="roundResults" name="round" type="text"/></td>
-				        </tr>
-				   		<tr>
-				   			<td class="partido">Result(1-X-2):</td>
-				   			<td class="partido"><input id="results" name="results" type="text"/></td>
-				        </tr>
-				   		<tr align="right">
-				   			<td class="partido">&nbsp;</td>
-				   			<td class="partido"><button id="admin_results_btn" class="button" name="resultsBtn" value="resultsBtn">Set Results</button></td>
-				        </tr>
-			   		</table>
-			   		<div id="resutFormResponse">respuesta </div>
-			</form>
-	   		<table class="quiniela">
-	   			<tr align="center">
-		   			<td class="partido"><button id="homeBtn5" class="button" name="homeBtn5" value="homeBtn5">Admin Menu</button></td>
-		        </tr>
-	       </table>
-		</div>
-    </div>
-    <!-- End ResultsRound Form -->
-</div>
-</div>
+<!--     ResultsRound Form -->
+<!--     <div class="row table-responsive"> -->
+<!-- 		<div align="center"> -->
+<%-- 			<form id="resultForm"> --%>
+<!-- 			   		<table class="quiniela"> -->
+<!-- 				   		<tr> -->
+<!-- 				   			<td class="partido">Season:</td> -->
+<!-- 				   			<td class="partido"><input id="seasonResults" name="season" type="text"/></td> -->
+<!-- 				        </tr> -->
+<!-- 				   		<tr> -->
+<!-- 				   			<td class="partido">Round:</td> -->
+<!-- 				   			<td class="partido"><input id="roundResults" name="round" type="text"/></td> -->
+<!-- 				        </tr> -->
+<!-- 				   		<tr> -->
+<!-- 				   			<td class="partido">Result(1-X-2):</td> -->
+<!-- 				   			<td class="partido"><input id="results" name="results" type="text"/></td> -->
+<!-- 				        </tr> -->
+<!-- 				   		<tr align="right"> -->
+<!-- 				   			<td class="partido">&nbsp;</td> -->
+<!-- 				   			<td class="partido"><button id="admin_results_btn" class="button" name="resultsBtn" value="resultsBtn">Set Results</button></td> -->
+<!-- 				        </tr> -->
+<!-- 			   		</table> -->
+<!-- 			   		<div id="resutFormResponse">respuesta </div> -->
+<%-- 			</form> --%>
+<!-- 	   		<table class="quiniela"> -->
+<!-- 	   			<tr align="center"> -->
+<!-- 		   			<td class="partido"><button id="homeBtn5" class="button" name="homeBtn5" value="homeBtn5">Admin Menu</button></td> -->
+<!-- 		        </tr> -->
+<!-- 	       </table> -->
+<!-- 		</div> -->
+<!--     </div> -->
+<!--     End ResultsRound Form -->
+<!-- </div> -->
+<!-- </div> -->
 <!-- End ResultsRound Section -->
 
 
@@ -699,56 +699,42 @@ var ctx = "<%=request.getContextPath()%>"
 				   		<tr>
 				   			<td class="partido">Season:</td>
 				   			<td class="partido"><input id="seasonPrizes" name="season" type="text"/></td>
-				   			<td class="partido">&nbsp</td>
-				   			<td class="partido">&nbsp</td>
 				        </tr>
 				   		<tr>
 				   			<td class="partido">Round:</td>
 				   			<td class="partido"><input id="roundPrizes" name="round" type="text"/></td>
-				   			<td class="partido">&nbsp</td>
-				   			<td class="partido">&nbsp</td>
 				        </tr>
 				   		<tr>
-				   			<td class="partido">Count10:</td>
-				   			<td class="partido"><input id="count10" name="count10" type="text"/></td>
+				   			<td class="partido">Result(1-X-2)[012M]:</td>
+				   			<td class="partido"><input id="results" name="results" type="text"/></td>
+				        </tr>
+				   		<tr>
 				   			<td class="partido">Prize10:</td>
 				   			<td class="partido"><input id="prize10" name="prize10" type="text"/></td>
 				        </tr>
 				   		<tr>
-				   			<td class="partido">Count11:</td>
-				   			<td class="partido"><input id="count11" name="count11" type="text"/></td>
 				   			<td class="partido">Prize11:</td>
 				   			<td class="partido"><input id="prize11" name="prize11" type="text"/></td>
 				        </tr>
 				   		<tr>
-				   			<td class="partido">Count12:</td>
-				   			<td class="partido"><input id="count12" name="count12" type="text"/></td>
 				   			<td class="partido">Prize12:</td>
 				   			<td class="partido"><input id="prize12" name="prize12" type="text"/></td>
 				        </tr>
 				   		<tr>
-				   			<td class="partido">Count13:</td>
-				   			<td class="partido"><input id="count13" name="count13" type="text"/></td>
 				   			<td class="partido">Prize13:</td>
 				   			<td class="partido"><input id="prize13" name="prize13" type="text"/></td>
 				        </tr>
 				   		<tr>
-				   			<td class="partido">Count14:</td>
-				   			<td class="partido"><input id="count14" name="count14" type="text"/></td>
 				   			<td class="partido">Prize14:</td>
 				   			<td class="partido"><input id="prize14" name="prize14" type="text"/></td>
 				        </tr>
 				   		<tr>
-				   			<td class="partido">Count15:</td>
-				   			<td class="partido"><input id="count15" name="count15" type="text"/></td>
 				   			<td class="partido">Prize15:</td>
 				   			<td class="partido"><input id="prize15" name="prize15" type="text"/></td>
 				        </tr>
 				   		<tr align="right">
 				   			<td class="partido">&nbsp;</td>
 				   			<td class="partido"><button id="admin_prizes_btn" class="button" name="prizesBtn" value="prizesBtn">Set Prizes</button></td>
-				   			<td class="partido">&nbsp</td>
-				   			<td class="partido">&nbsp</td>
 				        </tr>
 			   		</table>
 			   		<div id="prizesFormResponse">respuesta</div>

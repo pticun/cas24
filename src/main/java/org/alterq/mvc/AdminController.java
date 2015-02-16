@@ -587,7 +587,7 @@ public class AdminController {
 	}
 	
 	
-	private static int[] calcularAciertos(String bet){
+	private static int[] calcularAciertos(String bet, String resultBet){
 		
 		return null;
 	}
@@ -1079,9 +1079,8 @@ public class AdminController {
 					//STEP 1.1.error - Send an email to the admin ("ERROR pricesRound user not find")
 					continue;
 				}
-				
 
-				countPrizes = calcularAciertos(bet.getBet());
+				countPrizes = calcularAciertos(bet.getBet(), parameters.get("results").toString());
 				
 				for (int i=0;i<=5;i++)
 				{
@@ -1092,8 +1091,14 @@ public class AdminController {
 					lPrizes.add(priceTmp);
 				}
 
-				bet.setPrizes(lPrizes)
-				; 
+				bet.setPrizes(lPrizes); 
+				
+				betReward=0;
+				
+				for (Prize prize : lPrizes){
+					betReward+= prize.getAmount() * prize.getCount();
+				}
+				
 				userAlterQ.setBalance(Double.toString( Double.parseDouble(userAlterQ.getBalance())  + betReward));
 				userAlterQDao.save(userAlterQ);
 			}		
