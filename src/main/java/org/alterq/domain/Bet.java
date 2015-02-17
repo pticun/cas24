@@ -20,6 +20,25 @@ public class Bet {
 	private String bet;
 	private float price;
 	private List<Prize> prizes;
+	private String reduction;
+	private int typeReduction;
+
+	
+	public String getReduction() {
+		return reduction;
+	}
+
+	public void setReduction(String reduction) {
+		this.reduction = reduction;
+	}
+
+	public int getTypeReduction() {
+		return typeReduction;
+	}
+
+	public void setTypeReduction(int typeReduction) {
+		this.typeReduction = typeReduction;
+	}
 
 	public String getUser() {
 		return user;

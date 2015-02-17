@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.alterq.util.CalculateRigths;
 import org.alterq.domain.Bet;
 import org.alterq.domain.Game;
 import org.alterq.domain.GeneralData;
@@ -1080,8 +1081,8 @@ public class AdminController {
 					continue;
 				}
 
-				countPrizes = calcularAciertos(bet.getBet(), parameters.get("results").toString());
-				
+				CalculateRigths util = new CalculateRigths();
+				countPrizes = util.Calculate(parameters.get("results").toString(), bet.getBet(), bet.getReduction(), bet.getTypeReduction() );
 				for (int i=0;i<=5;i++)
 				{
 					Prize priceTmp = new Prize();
