@@ -110,6 +110,15 @@ PASO4 - Subir los cambios:
           - Ponemos en la descripción un comentario que identifique la modificacion
           - Push & Commit
           
+Merge branch developer to branch master
+
+step 1 - Local in master
+step 2 - Merge with local - developer
+step 3 - push remote master
+
+Pull master to remote repository(openshift pre and openshift pro)
+step 1 - pull master to remote repository
+
           
 ====
 1 = 100		=4
