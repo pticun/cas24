@@ -112,13 +112,18 @@ PASO4 - Subir los cambios:
           
 Merge branch developer to branch master
 
-step 1 - Local in remote/master
-step 2 - Merge with local - developer
-step 3 - push remote master
+step 1 - set local/master
+step 2 - Merge with local/master - (select local/developer)
+step 3 - pull remote master
 
 Pull master to remote repository(openshift pre and openshift pro)
 step 1 - pull master to remote repository
 
+PRE quinimobile-goldbittle  user/pwd:goldbittledev@gmail.com/gbd2013
+ssh://51dd73e55973ca1d89000148@quinimobile-goldbittle.rhcloud.com/~/git/quinimobile.git/
+
+PRO quinigold  user/pwd:admin@quinigold.com/adminAlterQ2014
+ssh://54a72909e0b8cd121c000053@quinigold-quinigold.rhcloud.com/~/git/quinigold.git/
           
 ====
 1 = 100		=4
