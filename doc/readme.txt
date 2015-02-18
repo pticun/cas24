@@ -112,7 +112,7 @@ PASO4 - Subir los cambios:
           
 Merge branch developer to branch master
 
-step 1 - Local in master
+step 1 - Local in remote/master
 step 2 - Merge with local - developer
 step 3 - push remote master
 
