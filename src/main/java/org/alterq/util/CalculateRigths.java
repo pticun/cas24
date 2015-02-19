@@ -61,10 +61,11 @@ public class CalculateRigths{
 
 			//Calculamos el numero de combinaciones de la reduccion
 			int numCombinaciones = 0;
-			if (dobles.length==0)
-				numCombinaciones = ((String)triples[0]).length();
-			else
+			if (dobles.length!=0)
 				numCombinaciones = ((String)dobles[0]).length();
+			if (triples.length!=0)
+				numCombinaciones = ((String)triples[0]).length();
+				
 
 			//Analizamos las casillas reducidas
 			String [] despliegue = new String [numCombinaciones];
