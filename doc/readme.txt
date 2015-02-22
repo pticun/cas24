@@ -78,20 +78,6 @@ http://localhost:8080/quinimobile/bet/delAllBets?season=2013&round=9
 
 	
 	
-http://quinimobile-goldbittle.rhcloud.com/
-
-acceso a openshift
-con usuario goldbittledev@gmail.com/gbd2013
-
-gmail:
-	user: goldbittledev@gmail.com
-	pass: gold7bittle4
-
-SSH de openshift
-	ssh://51dd73e55973ca1d89000148@quinimobile-goldbittle.rhcloud.com/~/git/quinimobile.git/
-
-
-
 *********************************************
 GIT
 *********************************************
@@ -124,6 +110,50 @@ ssh://51dd73e55973ca1d89000148@quinimobile-goldbittle.rhcloud.com/~/git/quinimob
 
 PRO quinigold  user/pwd:admin@quinigold.com/adminAlterQ2014
 ssh://54a72909e0b8cd121c000053@quinigold-quinigold.rhcloud.com/~/git/quinigold.git/
+
+********************************************
+		MONGOLAB
+********************************************		
+
+MongoDB - PRE
+	mongolab
+	www.mongolab.com   user/pwd:racsor/Segunda2
+	mongo ds035338.mongolab.com:35338/racsor -u <dbuser> -p <dbpassword>
+
+MongoDB - PRO
+	Database: quinigold User: admin Password: SN5JEtlTdewd
+	https://quinigold-quinigold.rhcloud.com/rockmongo/index.php?action=login.index&host=0
+
+*************************************
+		OPENSHIFT
+*************************************		
+
+	PRE
+
+		http://quinimobile-goldbittle.rhcloud.com/
+		
+		acceso a openshift con usuario goldbittledev@gmail.com/gbd2013
+		
+		gmail:
+			user: goldbittledev@gmail.com
+			pass: gold7bittle4
+		
+		SSH de openshift
+			ssh://51dd73e55973ca1d89000148@quinimobile-goldbittle.rhcloud.com/~/git/quinimobile.git/
+
+ 
+ 	PRO
+ 		
+ 		http://quinigold-quinigold.rhcloud.com/
+ 		
+ 		acceso a openshift con user/pwd: admin@quinigold.com / adminAlterQ2014
+ 	
+ 	 	(MAIL)  www.zoho.com
+		    administrator:admin@quinigold.com / adminAlterQ2014
+			user:quinigold@quinigold.com / alterQ2014
+	
+ 		SSH de openshift
+ 			ssh://54a72909e0b8cd121c000053@quinigold-quinigold.rhcloud.com/~/git/quinigold.git/
           
 ====
 1 = 100		=4

@@ -16,9 +16,9 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Expires" content="Sat, 01 Dec 2001 00:00:00 GMT">
-<title>alterQ</title>   
+<title>Quinigold</title>   
 
-<meta name="description" content="Insert Your Site Description" /> 
+<meta name="description" content="quinigold" /> 
 
 <!-- Mobile Specifics -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
