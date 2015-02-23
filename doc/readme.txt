@@ -118,8 +118,16 @@ ssh://54a72909e0b8cd121c000053@quinigold-quinigold.rhcloud.com/~/git/quinigold.g
 MongoDB - PRE
 	mongolab
 	www.mongolab.com   user/pwd:racsor/Segunda2
-	mongo ds035338.mongolab.com:35338/racsor -u <dbuser> -p <dbpassword>
-
+	mongo ds035338.mongolab.com:35338/racsor -u quinimobile -p quinimobile
+	NOFUNCIONA mongodump -h ds035338.mongolab.com:35338 -d racsor -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_quinimobile 
+	mongoexport -h ds035338.mongolab.com:35338 -d racsor -c generalData -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_generalData
+	mongoexport -h ds035338.mongolab.com:35338 -d racsor -c round -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_round
+	mongoexport -h ds035338.mongolab.com:35338 -d racsor -c roundBets -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_roundBets
+	mongoexport -h ds035338.mongolab.com:35338 -d racsor -c roundRanking -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_roundRanking
+	mongoexport -h ds035338.mongolab.com:35338 -d racsor -c sessionalterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_sessionalterq
+	mongoexport -h ds035338.mongolab.com:35338 -d racsor -c useralterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_useralterq
+	
+	
 MongoDB - PRO
 	Database: quinigold User: admin Password: SN5JEtlTdewd
 	https://quinigold-quinigold.rhcloud.com/rockmongo/index.php?action=login.index&host=0
