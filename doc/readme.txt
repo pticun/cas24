@@ -120,18 +120,25 @@ MongoDB - PRE
 	www.mongolab.com   user/pwd:racsor/Segunda2
 	mongo ds035338.mongolab.com:35338/racsor -u quinimobile -p quinimobile
 	NOFUNCIONA mongodump -h ds035338.mongolab.com:35338 -d racsor -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_quinimobile 
-	mongoexport -h ds035338.mongolab.com:35338 -d racsor -c generalData -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_generalData
-	mongoexport -h ds035338.mongolab.com:35338 -d racsor -c round -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_round
-	mongoexport -h ds035338.mongolab.com:35338 -d racsor -c roundBets -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_roundBets
-	mongoexport -h ds035338.mongolab.com:35338 -d racsor -c roundRanking -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_roundRanking
-	mongoexport -h ds035338.mongolab.com:35338 -d racsor -c sessionalterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_sessionalterq
-	mongoexport -h ds035338.mongolab.com:35338 -d racsor -c useralterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_useralterq
-	
+	NOPROBAR EXPORTA A EXTENDED JSON Y NO SE IMPORTA BIEN EN ROCKMONGO
+	*********mongoexport -h ds035338.mongolab.com:35338 -d racsor -c generalData -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_generalData
+	*********mongoexport -h ds035338.mongolab.com:35338 -d racsor -c round -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_round
+	*********mongoexport -h ds035338.mongolab.com:35338 -d racsor -c roundBets -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_roundBets
+	*********mongoexport -h ds035338.mongolab.com:35338 -d racsor -c roundRanking -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_roundRanking
+	*********mongoexport -h ds035338.mongolab.com:35338 -d racsor -c sessionalterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_sessionalterq
+	*********mongoexport -h ds035338.mongolab.com:35338 -d racsor -c useralterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_useralterq
+	mongodump -h ds035338.mongolab.com:35338 -d racsor -c generalData -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_generalDataBin
 	
 MongoDB - PRO
-	Database: quinigold User: admin Password: SN5JEtlTdewd
-	https://quinigold-quinigold.rhcloud.com/rockmongo/index.php?action=login.index&host=0
-
+	En mongolab crear un clone de la base de datos de pre y crear usuario
+	*********Database: quinigold User: admin Password: SN5JEtlTdewd
+	*********https://quinigold-quinigold.rhcloud.com/rockmongo/index.php?action=login.index&host=0
+	*********mongo ds039351.mongolab.com:39351/pro_quinigold -u quinigold -p quinigold
+	NOPROBAR NO SE IMPORTA BIEN EN ROCKMONGO
+	*********mongoimport -h ds039351.mongolab.com:39351 -d pro_quinigold -c generalData -u quinigold -p quinigold --file /home/kotto/Downloads/20150223_generalData
+	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c generalData -u quinigold -p quinigold /home/kotto/Downloads/20150223_generalDataBin/racsor/generalData.bson 	
+	
+	
 *************************************
 		OPENSHIFT
 *************************************		
