@@ -1,6 +1,7 @@
 package org.alterq.util;
 
 import java.util.Vector;
+import java.lang.Math;
 
 public class CalculateRigths{
 	public static final int REDUCCION_1 = 1; //Reduccion al 13 de 4 triples
@@ -19,6 +20,50 @@ public class CalculateRigths{
 	private int [] vPosTripleReducido;
 	private int [] vPosDobleReducido;
 	
+	/** Funcion calcularApuestasQuinielaDirecta
+	 * @param String quiniela :quiniela Realiza para dicha jornada
+	 * @return int salida: Devuelve el numero de apuestas de la quiniela
+	 */
+	public int calcularApuestasQuinielaDirecta (String quiniela)
+	{
+		int apuestas = 0;
+		int triples = 0;
+		int dobles = 0;
+		
+		
+		for (int i=0;i<14;i++)
+		{
+			
+			if (quiniela.charAt(i)=='7')
+			{
+				vTriples[i] = true;
+				triples++;
+			}
+			else if ((quiniela.charAt(i)=='3') || ((quiniela.charAt(i)=='5')) || ((quiniela.charAt(i)=='6')))
+			{
+				
+				vDobles[i] = true;
+				dobles++;
+			}
+			else
+			{
+				vTriples[i] = false;
+				vDobles[i] = false;
+			}
+		}
+
+		if ((dobles==0)&&(triples==0))
+			apuestas = 1;
+		else if (dobles==0)
+			apuestas = (int)Math.pow(3, triples);
+		else if (triples==0)
+			apuestas = (int)Math.pow(2, dobles);
+		else
+			apuestas = (int)(Math.pow(2, dobles) * Math.pow(3, triples));
+			
+		return apuestas;
+	}
+	
 	/** Funcion Calcular
 	 * @param String quinielaResultado :quiniela Resultado de la jornada
 	 * @param String quinielaRealizada :quiniela Realiza para dicha jornada
@@ -29,11 +74,11 @@ public class CalculateRigths{
 	 */
 	public int[] Calculate(String quinielaResultado, String quinielaRealizada, String casillasReducidas, int tipoReduccion){
 		int salida[] = {0,0,0,0,0,0};
-		vTriples = new boolean[15];
-		vPosTripleReducido = new int[15];
+		vTriples = new boolean[16];
+		vPosTripleReducido = new int[16];
 
-		vDobles = new boolean[15];
-		vPosDobleReducido = new int[15];
+		vDobles = new boolean[16];
+		vPosDobleReducido = new int[16];
 		
 		int contTriplesReducidos = 0;
 		int contDoblesReducidos = 0;
@@ -63,8 +108,10 @@ public class CalculateRigths{
 			int numCombinaciones = 0;
 			if (dobles.length!=0)
 				numCombinaciones = ((String)dobles[0]).length();
-			if (triples.length!=0)
+			else if (triples.length!=0)
 				numCombinaciones = ((String)triples[0]).length();
+			else//es una apuesta directa
+				numCombinaciones = calcularApuestasQuinielaDirecta(quinielaRealizada);
 				
 
 			//Analizamos las casillas reducidas
