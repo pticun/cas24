@@ -74,11 +74,11 @@ public class CalculateRigths{
 	 */
 	public int[] Calculate(String quinielaResultado, String quinielaRealizada, String casillasReducidas, int tipoReduccion){
 		int salida[] = {0,0,0,0,0,0};
-		vTriples = new boolean[16];
-		vPosTripleReducido = new int[16];
+		vTriples = new boolean[14];
+		vPosTripleReducido = new int[14];
 
-		vDobles = new boolean[16];
-		vPosDobleReducido = new int[16];
+		vDobles = new boolean[14];
+		vPosDobleReducido = new int[14];
 		
 		int contTriplesReducidos = 0;
 		int contDoblesReducidos = 0;
@@ -111,14 +111,15 @@ public class CalculateRigths{
 			else if (triples.length!=0)
 				numCombinaciones = ((String)triples[0]).length();
 			else//es una apuesta directa
-				numCombinaciones = calcularApuestasQuinielaDirecta(quinielaRealizada);
+				numCombinaciones = 1; // las apuestas directas el despliegue
+				//numCombinaciones = calcularApuestasQuinielaDirecta(quinielaRealizada);
 				
 
 			//Analizamos las casillas reducidas
 			String [] despliegue = new String [numCombinaciones];
 
 			//Analizamos la quiniela Realizada
-			for (int i=0;i<15;i++)
+			for (int i=0;i<14;i++)
 			{
 				vPosTripleReducido[i] = -1;
 				vPosDobleReducido[i] = -1;
@@ -157,7 +158,7 @@ public class CalculateRigths{
 			
 			//Incorporamos la reduccion a la base anterior
 			int orden = -1;
-			for (int j=0;j<15;j++)
+			for (int j=0;j<14;j++)
 			{
 				//Comprobamos si el elemento es una reduccion para desplegar el valor correspondiente de su reduccion
 				if (esReducido(j))
@@ -223,7 +224,7 @@ public class CalculateRigths{
 			}
 			
 			//Realizamos el despliegue de los dobles y triples no reducidos
-			for (int j=0;j<15;j++)
+			for (int j=0;j<14;j++)
 			{
 				if (!esReducido(j))
 				{
@@ -362,6 +363,7 @@ public class CalculateRigths{
 	private int Comparar(String q1, String q2)
 	{
 		int rdo = 0;
+		int pleno15 = 0;
 		if (q1.length()!= q2.length()) return -1;
 		for (int i=0;i<q1.length();i++)
 		{
@@ -369,10 +371,14 @@ public class CalculateRigths{
 			{
 				if (i==14)//El pleno al quince solo lo contabilizaremos si se han acertado los anteriores resultados
 				{
-					if(rdo==14)
+					pleno15++;
+				}else if (i==15){
+					pleno15++;
+					if((rdo==14) && (pleno15==2))
 					{
 						rdo++;
 					}
+
 				}
 				else // para el resto de los casos aumentamos el contador de aciertos
 				{
