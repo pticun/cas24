@@ -1,6 +1,13 @@
 package org.arch.core.file;
 
-public class CabeceraBetElectronicFile {
+/**
+ * 
+ * Example Header
+ * C12430101011401
+ * @author racsor
+ *
+ */
+public class HeaderBetElectronicFile {
 	private String claveRegistro = "C";
 	private String numSecuencialVolumen = "1";
 	private String tipoJuego = "243";
