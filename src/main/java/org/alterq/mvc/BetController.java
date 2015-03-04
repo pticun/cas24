@@ -100,6 +100,7 @@ public class BetController {
 			else if (pro[i] == 7)
 				triples++;
 		}
+		//pendiente revisar el pleno al 15, ya que puede ser multiple y eso cambia el precio de la apuesta
 		Bet bet = new Bet();
 		bet.setPrice(new Double(0.5 * Math.pow(2, dobles) * Math.pow(3, triples)).floatValue());
 		RoundBets roundBet = new RoundBets();

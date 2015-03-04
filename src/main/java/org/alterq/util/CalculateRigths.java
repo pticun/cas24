@@ -307,6 +307,135 @@ public class CalculateRigths{
 				}
 			}
 			
+			//gestionamos el despliegue para el pleno al 15
+			for (int j=14;j<16;j++)
+			{
+				int apuestas = 0;
+				char car1 = ' ';
+				char car2 = ' ';
+				char car3 = ' ';
+				char car4 = ' ';
+				int multi = 0;
+				
+				String [] nuevoDespliegue = new String[apuestas];
+
+				if (quinielaRealizada.charAt(j) == '3')
+				{
+					multi = 2;
+					
+					car1 = '0';
+					car2 = '1';
+				}
+				if (quinielaRealizada.charAt(j) == '5')
+				{
+					multi = 2;
+					
+					car1 = '0';
+					car2 = '2';
+				}
+				if (quinielaRealizada.charAt(j) == '6')
+				{
+					multi = 2;
+					
+					car1 = '1';
+					car2 = '2';
+				}
+				if (quinielaRealizada.charAt(j) == '9')
+				{
+					multi = 2;
+					
+					car1 = '0';
+					car2 = 'M';
+				}
+				if (quinielaRealizada.charAt(j) == 'a')
+				{
+					multi = 2;
+					
+					car1 = '1';
+					car2 = 'M';
+				}
+				if (quinielaRealizada.charAt(j) == 'c')
+				{
+					multi = 2;
+					
+					car1 = '2';
+					car2 = 'M';
+				}
+				if (quinielaRealizada.charAt(j) == '7')
+				{
+					multi = 4;
+					
+					car1 = '0';
+					car2 = '1';
+					car3 = '2';
+				}
+				if (quinielaRealizada.charAt(j) == 'b')
+				{
+					multi = 4;
+					
+					car1 = '0';
+					car2 = '2';
+					car3 = 'M';
+				}
+				if (quinielaRealizada.charAt(j) == 'b')
+				{
+					multi = 4;
+					
+					car1 = '0';
+					car2 = '2';
+					car3 = 'M';
+				}
+				
+				if (quinielaRealizada.charAt(j) == 'd')
+				{
+					multi = 4;
+					
+					car1 = '0';
+					car2 = '1';
+					car3 = 'M';
+				}
+
+				if (quinielaRealizada.charAt(j) == 'e')
+				{
+					multi = 4;
+					
+					car1 = '1';
+					car2 = '2';
+					car3 = 'M';
+				}
+				if (quinielaRealizada.charAt(j) == 'f')
+				{
+					multi = 8;
+					
+					car1 = '0';
+					car2 = '1';
+					car3 = '2';
+					car3 = 'M';
+				}
+				
+				apuestas = despliegue.length * multi;
+				numCombinaciones *= multi;
+				
+				for (int i=0; i<apuestas/multi ; i++)
+				{
+					//Primera parte del doble
+					StringBuffer sbDespliegue1 = new StringBuffer(despliegue[i]);
+					sbDespliegue1.setCharAt(j,car1); // modificamos por el valor de la primera parte del doble
+					nuevoDespliegue[i*2]=sbDespliegue1.toString();
+					
+					//Segunda parte del doble
+					StringBuffer sbDespliegueX = new StringBuffer(despliegue[i]);
+					sbDespliegueX.setCharAt(j,car2); // modificamos por el valor de la segunda parte del doble
+					nuevoDespliegue[i*2 + 1]=sbDespliegueX.toString();
+				}
+				
+				despliegue = new String[apuestas];
+                for (int i=0; i<apuestas ; i++){
+                	despliegue[i] = nuevoDespliegue[i];
+                }                
+				
+			}
+			
 			//Analizamos la quiniela Resultado de la Jornada
 			int cont15 = 0;
 			int cont14 = 0;
