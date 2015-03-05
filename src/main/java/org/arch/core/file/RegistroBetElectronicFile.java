@@ -1,34 +1,41 @@
 package org.arch.core.file;
 
 public class RegistroBetElectronicFile {
+	private String claveRegistro="D";
+	private String numBloque="12345678";
+	private String numApuestaBloque="1";
+	private String pronosticoPartido="1x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21x21";
+	private String pronostico15="MM";
+	
 	public String getClaveRegistro() {
 		return claveRegistro;
 	}
 	public void setClaveRegistro(String claveRegistro) {
 		this.claveRegistro = claveRegistro;
 	}
-	public String getNumSecuencialVolumen() {
-		return numSecuencialVolumen;
+	public String getNumBloque() {
+		return numBloque;
 	}
-	public void setNumSecuencialVolumen(String numSecuencialVolumen) {
-		this.numSecuencialVolumen = numSecuencialVolumen;
+	public void setNumBloque(String numBloque) {
+		this.numBloque = numBloque;
 	}
-	public String getTipoJuego() {
-		return tipoJuego;
+	public String getNumApuestaBloque() {
+		return numApuestaBloque;
 	}
-	public void setTipoJuego(String tipoJuego) {
-		this.tipoJuego = tipoJuego;
+	public void setNumApuestaBloque(String numApuestaBloque) {
+		this.numApuestaBloque = numApuestaBloque;
 	}
-	public String getNumTotalSoporte() {
-		return numTotalSoporte;
+	public String getPronosticoPartido() {
+		return pronosticoPartido;
 	}
-	public void setNumTotalSoporte(String numTotalSoporte) {
-		this.numTotalSoporte = numTotalSoporte;
+	public void setPronosticoPartido(String pronosticoPartido) {
+		this.pronosticoPartido = pronosticoPartido;
 	}
-	private String claveRegistro="D";
-	private String numSecuencialVolumen="1";
-	private String tipoJuego="243";
-	private String numTotalSoporte="1";
-	
+	public String getPronostico15() {
+		return pronostico15;
+	}
+	public void setPronostico15(String pronostico15) {
+		this.pronostico15 = pronostico15;
+	}
 
 }

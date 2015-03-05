@@ -11,10 +11,48 @@ public class HeaderBetElectronicFile {
 	private String claveRegistro = "C";
 	private String numSecuencialVolumen = "1";
 	private String tipoJuego = "243";
-	private String numTotalSoporte = "1";
+	private String numTotalSoporte = "01";
+	private String numTotalApuestas = "123456";
+	private String numTotalBloquess = "123456";
 
-	private String idDelegacion = "";
-	private String idReceptor = "";
+	private String idDelegacion = "00";
+	private String idReceptor = "00000";
+	
+	private String numJornada="01";
+	private String fechaJornada="010101";
+
+
+	public String getNumTotalApuestas() {
+		return numTotalApuestas;
+	}
+
+	public void setNumTotalApuestas(String numTotalApuestas) {
+		this.numTotalApuestas = numTotalApuestas;
+	}
+
+	public String getNumTotalBloquess() {
+		return numTotalBloquess;
+	}
+
+	public void setNumTotalBloquess(String numTotalBloquess) {
+		this.numTotalBloquess = numTotalBloquess;
+	}
+
+	public String getNumJornada() {
+		return numJornada;
+	}
+
+	public void setNumJornada(String numJornada) {
+		this.numJornada = numJornada;
+	}
+
+	public String getFechaJornada() {
+		return fechaJornada;
+	}
+
+	public void setFechaJornada(String fechaJornada) {
+		this.fechaJornada = fechaJornada;
+	}
 
 	public String calculoCaracterControl() {
 		int caractControl = 0;
