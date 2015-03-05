@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class CalculateRigthsTest {
 
 	@Test
-	public void test01Calculate01() {
+	public void test01Calculate() {
 		int rdo[] = {0,0,0,0,0,0};
 		CalculateRigths aux = new CalculateRigths();
 		rdo = aux.Calculate("1111111111111100", "1111111111111100", "NNNNNNNNNNNNNNNN", 0);
@@ -24,7 +24,7 @@ public class CalculateRigthsTest {
 		Assert.assertNull(rdo);
 	}
 	@Test
-	public void test02Calculate01() {
+	public void test02Calculate() {
 		int rdo[] = {0,0,0,0,0,0};
 		CalculateRigths aux = new CalculateRigths();
 		rdo = aux.Calculate("1111111111111100", "3567111111111100", "NNNNNNNNNNNNNNNN", 0);
@@ -32,4 +32,12 @@ public class CalculateRigthsTest {
 		Assert.assertNull(rdo);
 	}
 	
+	@Test
+	public void test03Calculate() {
+		int rdo[] = {0,0,0,0,0,0};
+		CalculateRigths aux = new CalculateRigths();
+		rdo = aux.Calculate("1111111111111100", "11111111111111ff", "NNNNNNNNNNNNNNNN", 0);
+		
+		Assert.assertNull(rdo);
+	}
 }

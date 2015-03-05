@@ -63,17 +63,28 @@ public class CalculateRigths{
 			
 		return apuestas;
 	}
+	public boolean pleno15EsMultiple(char pleno15)
+	{
+		switch (pleno15){
+		case '3':
+		case '5':
+		case '6':
+		case '7':
+		case '9':
+		case 'a':
+		case 'b':
+		case 'c':
+		case 'd':
+		case 'e':
+		case 'f': return true;
+					
+		}
+		return false;
+	}
 	
-	/** Funcion Calcular
-	 * @param String quinielaResultado :quiniela Resultado de la jornada
-	 * @param String quinielaRealizada :quiniela Realiza para dicha jornada
-	 * @param String casillasReducidas: indica si la casilla esta reducida o no ('D' = doble reducido 'T' = triple reducido y 'N'= no reducida)
-	 * @param int tipoReducion: indica el tipo de reduccion que se ha utilizado (reduccion 1 = 4 triples, reduccion 2 = 7 dobles, reduccion 3 = 3triples y 3 dobles, etc)
-	 * @return Vector salida: Devuelve el numero de aciertos de 10, 11, 12, 13, 14 y 15 que ha obtenido la quinelaRealizada
-	 * comparandola con la quinielaResultado y teniendo en cuenta el tipo de reduccion utilizado
-	 */
-	public int[] Calculate(String quinielaResultado, String quinielaRealizada, String casillasReducidas, int tipoReduccion){
-		int salida[] = {0,0,0,0,0,0};
+	public String[] Despliegue(String quinielaRealizada, String casillasReducidas, int tipoReduccion)
+	{
+		String [] despliegue;
 		vTriples = new boolean[14];
 		vPosTripleReducido = new int[14];
 
@@ -83,7 +94,7 @@ public class CalculateRigths{
 		int contTriplesReducidos = 0;
 		int contDoblesReducidos = 0;
 		
-		System.out.println("CalcularAciertos:Calcular(quinielaResultado="+quinielaResultado+", quinielaRealizada="+quinielaRealizada+", casillasReducidas="+casillasReducidas+", tipoReduccion="+tipoReduccion+")");
+		System.out.println("CalcularAciertos:Calcular(quinielaRealizada="+quinielaRealizada+", casillasReducidas="+casillasReducidas+", tipoReduccion="+tipoReduccion+")");
 		
 		try {
 			//Analizamos el tipo de reduccion para saber el fichero xml a elegir
@@ -116,7 +127,7 @@ public class CalculateRigths{
 				
 
 			//Analizamos las casillas reducidas
-			String [] despliegue = new String [numCombinaciones];
+			despliegue = new String [numCombinaciones];
 
 			//Analizamos la quiniela Realizada
 			for (int i=0;i<14;i++)
@@ -310,131 +321,191 @@ public class CalculateRigths{
 			//gestionamos el despliegue para el pleno al 15
 			for (int j=14;j<16;j++)
 			{
-				int apuestas = 0;
-				char car1 = ' ';
-				char car2 = ' ';
-				char car3 = ' ';
-				char car4 = ' ';
-				int multi = 0;
-				
-				String [] nuevoDespliegue = new String[apuestas];
-
-				if (quinielaRealizada.charAt(j) == '3')
+				if (pleno15EsMultiple(quinielaRealizada.charAt(j)))
 				{
-					multi = 2;
+					int apuestas = 0;
+					char car1 = ' ';
+					char car2 = ' ';
+					char car3 = ' ';
+					char car4 = ' ';
+					int multi = 0;
 					
-					car1 = '0';
-					car2 = '1';
-				}
-				if (quinielaRealizada.charAt(j) == '5')
-				{
-					multi = 2;
+					String [] nuevoDespliegue = new String[apuestas];
+	
+					if (quinielaRealizada.charAt(j) == '3')
+					{
+						multi = 2;
+						
+						car1 = '0';
+						car2 = '1';
+					}
+					if (quinielaRealizada.charAt(j) == '5')
+					{
+						multi = 2;
+						
+						car1 = '0';
+						car2 = '2';
+					}
+					if (quinielaRealizada.charAt(j) == '6')
+					{
+						multi = 2;
+						
+						car1 = '1';
+						car2 = '2';
+					}
+					if (quinielaRealizada.charAt(j) == '9')
+					{
+						multi = 2;
+						
+						car1 = '0';
+						car2 = 'M';
+					}
+					if (quinielaRealizada.charAt(j) == 'a')
+					{
+						multi = 2;
+						
+						car1 = '1';
+						car2 = 'M';
+					}
+					if (quinielaRealizada.charAt(j) == 'c')
+					{
+						multi = 2;
+						
+						car1 = '2';
+						car2 = 'M';
+					}
+					if (quinielaRealizada.charAt(j) == '7')
+					{
+						multi = 3;
+						
+						car1 = '0';
+						car2 = '1';
+						car3 = '2';
+					}
+					if (quinielaRealizada.charAt(j) == 'b')
+					{
+						multi = 3;
+						
+						car1 = '0';
+						car2 = '2';
+						car3 = 'M';
+					}
+					if (quinielaRealizada.charAt(j) == 'd')
+					{
+						multi = 3;
+						
+						car1 = '0';
+						car2 = '1';
+						car3 = 'M';
+					}
+	
+					if (quinielaRealizada.charAt(j) == 'e')
+					{
+						multi = 3;
+						
+						car1 = '1';
+						car2 = '2';
+						car3 = 'M';
+					}
+					if (quinielaRealizada.charAt(j) == 'f')
+					{
+						multi = 4;
+						
+						car1 = '0';
+						car2 = '1';
+						car3 = '2';
+						car4 = 'M';
+					}
 					
-					car1 = '0';
-					car2 = '2';
-				}
-				if (quinielaRealizada.charAt(j) == '6')
-				{
-					multi = 2;
+					apuestas = despliegue.length * multi;
+					numCombinaciones *= multi;
 					
-					car1 = '1';
-					car2 = '2';
-				}
-				if (quinielaRealizada.charAt(j) == '9')
-				{
-					multi = 2;
+					nuevoDespliegue = new String[apuestas];
 					
-					car1 = '0';
-					car2 = 'M';
-				}
-				if (quinielaRealizada.charAt(j) == 'a')
-				{
-					multi = 2;
+					for (int i=0; i<apuestas/multi ; i++)
+					{
+						if (multi == 2)
+						{
+							//Primera parte
+							StringBuffer sbDespliegue1 = new StringBuffer(despliegue[i]);
+							sbDespliegue1.setCharAt(j,car1); // modificamos por el valor de la primera parte del doble
+							nuevoDespliegue[i*multi]=sbDespliegue1.toString();
+							
+							//Segunda parte
+							StringBuffer sbDespliegue2 = new StringBuffer(despliegue[i]);
+							sbDespliegue2.setCharAt(j,car2); // modificamos por el valor de la segunda parte del doble
+							nuevoDespliegue[i*multi + 1]=sbDespliegue2.toString();
+						}else if (multi == 3)
+						{
+							//Primera parte
+							StringBuffer sbDespliegue1 = new StringBuffer(despliegue[i]);
+							sbDespliegue1.setCharAt(j,car1); // modificamos por el valor de la primera parte del doble
+							nuevoDespliegue[i*multi]=sbDespliegue1.toString();
+							
+							//Segunda parte
+							StringBuffer sbDespliegue2 = new StringBuffer(despliegue[i]);
+							sbDespliegue2.setCharAt(j,car2); // modificamos por el valor de la segunda parte del doble
+							nuevoDespliegue[i*multi + 1]=sbDespliegue2.toString();
+	
+							//Tercera parte
+							StringBuffer sbDespliegue3 = new StringBuffer(despliegue[i]);
+							sbDespliegue3.setCharAt(j,car3); // modificamos por el valor de la segunda parte del doble
+							nuevoDespliegue[i*multi + 2]=sbDespliegue3.toString();
+							
+						}else if (multi ==4)
+						{
+							//Primera parte
+							StringBuffer sbDespliegue1 = new StringBuffer(despliegue[i]);
+							sbDespliegue1.setCharAt(j,car1); // modificamos por el valor de la primera parte del doble
+							nuevoDespliegue[i*multi]=sbDespliegue1.toString();
+							
+							//Segunda parte
+							StringBuffer sbDespliegue2 = new StringBuffer(despliegue[i]);
+							sbDespliegue2.setCharAt(j,car2); // modificamos por el valor de la segunda parte del doble
+							nuevoDespliegue[i*multi + 1]=sbDespliegue2.toString();
+	
+							//Tercera parte
+							StringBuffer sbDespliegue3 = new StringBuffer(despliegue[i]);
+							sbDespliegue3.setCharAt(j,car3); // modificamos por el valor de la segunda parte del doble
+							nuevoDespliegue[i*multi + 2]=sbDespliegue3.toString();
+							
+							//Cuarta parte
+							StringBuffer sbDespliegue4 = new StringBuffer(despliegue[i]);
+							sbDespliegue4.setCharAt(j,car4); // modificamos por el valor de la segunda parte del doble
+							nuevoDespliegue[i*multi + 3]=sbDespliegue4.toString();
+						}
+					}
 					
-					car1 = '1';
-					car2 = 'M';
-				}
-				if (quinielaRealizada.charAt(j) == 'c')
-				{
-					multi = 2;
-					
-					car1 = '2';
-					car2 = 'M';
-				}
-				if (quinielaRealizada.charAt(j) == '7')
-				{
-					multi = 4;
-					
-					car1 = '0';
-					car2 = '1';
-					car3 = '2';
-				}
-				if (quinielaRealizada.charAt(j) == 'b')
-				{
-					multi = 4;
-					
-					car1 = '0';
-					car2 = '2';
-					car3 = 'M';
-				}
-				if (quinielaRealizada.charAt(j) == 'b')
-				{
-					multi = 4;
-					
-					car1 = '0';
-					car2 = '2';
-					car3 = 'M';
-				}
-				
-				if (quinielaRealizada.charAt(j) == 'd')
-				{
-					multi = 4;
-					
-					car1 = '0';
-					car2 = '1';
-					car3 = 'M';
-				}
-
-				if (quinielaRealizada.charAt(j) == 'e')
-				{
-					multi = 4;
-					
-					car1 = '1';
-					car2 = '2';
-					car3 = 'M';
-				}
-				if (quinielaRealizada.charAt(j) == 'f')
-				{
-					multi = 8;
-					
-					car1 = '0';
-					car2 = '1';
-					car3 = '2';
-					car3 = 'M';
-				}
-				
-				apuestas = despliegue.length * multi;
-				numCombinaciones *= multi;
-				
-				for (int i=0; i<apuestas/multi ; i++)
-				{
-					//Primera parte del doble
-					StringBuffer sbDespliegue1 = new StringBuffer(despliegue[i]);
-					sbDespliegue1.setCharAt(j,car1); // modificamos por el valor de la primera parte del doble
-					nuevoDespliegue[i*2]=sbDespliegue1.toString();
-					
-					//Segunda parte del doble
-					StringBuffer sbDespliegueX = new StringBuffer(despliegue[i]);
-					sbDespliegueX.setCharAt(j,car2); // modificamos por el valor de la segunda parte del doble
-					nuevoDespliegue[i*2 + 1]=sbDespliegueX.toString();
-				}
-				
-				despliegue = new String[apuestas];
-                for (int i=0; i<apuestas ; i++){
-                	despliegue[i] = nuevoDespliegue[i];
-                }                
-				
+					despliegue = new String[apuestas];
+	                for (int i=0; i<apuestas ; i++){
+	                	despliegue[i] = nuevoDespliegue[i];
+	                }                
+				}				
 			}
+		}catch (Exception ex) { 
+			System.out.println("ERROR: " + ex.getMessage());
+			return null;
+		}
+		
+		return despliegue;
+	}
+	
+	/** Funcion Calcular
+	 * @param String quinielaResultado :quiniela Resultado de la jornada
+	 * @param String quinielaRealizada :quiniela Realiza para dicha jornada
+	 * @param String casillasReducidas: indica si la casilla esta reducida o no ('D' = doble reducido 'T' = triple reducido y 'N'= no reducida)
+	 * @param int tipoReducion: indica el tipo de reduccion que se ha utilizado (reduccion 1 = 4 triples, reduccion 2 = 7 dobles, reduccion 3 = 3triples y 3 dobles, etc)
+	 * @return Vector salida: Devuelve el numero de aciertos de 10, 11, 12, 13, 14 y 15 que ha obtenido la quinelaRealizada
+	 * comparandola con la quinielaResultado y teniendo en cuenta el tipo de reduccion utilizado
+	 */
+	public int[] Calculate(String quinielaResultado, String quinielaRealizada, String casillasReducidas, int tipoReduccion){
+		int salida[] = {0,0,0,0,0,0};
+		String[] despliegue;
+		System.out.println("CalcularAciertos:Calcular(quinielaResultado="+quinielaResultado+", quinielaRealizada="+quinielaRealizada+", casillasReducidas="+casillasReducidas+", tipoReduccion="+tipoReduccion+")");
+		
+		try {
+			
+			despliegue = Despliegue(quinielaRealizada, casillasReducidas, tipoReduccion);
 			
 			//Analizamos la quiniela Resultado de la Jornada
 			int cont15 = 0;
@@ -444,7 +515,7 @@ public class CalculateRigths{
 			int cont11 = 0;
 			int cont10 = 0;
 			
-			for (int z=0;z<numCombinaciones;z++){
+			for (int z=0;z<despliegue.length;z++){
 				switch (Comparar(despliegue[z], quinielaResultado))
 				{
 				case 10:
