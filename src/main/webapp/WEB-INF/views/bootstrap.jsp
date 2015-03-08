@@ -581,6 +581,8 @@ End Analytics -->
 				    </table>
 				    <table class="quiniela" border="1" id="quinielaTablePleno15">
 				    </table>
+				    <table class="quiniela" border="1" id="quinielaTableReduced">
+				    </table>
 				    <!-- <input type="submit" value="Enviar"> -->
 				    <div align="center" id="quinielaFormResponse">Rellena tu apuesta y pulsa enviar.</div>
 				    <button id="quinielaButton" class="button" name="quiniela" value="Enviar">Enviar</button>

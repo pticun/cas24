@@ -709,7 +709,10 @@ $(document).ready(function() {
    		callResum(temporada,jornada);
    		event.preventDefault(); // prevent actual form submit and page reload
    	});
-	
+   	
+   	$( "label#reducedCHKlabel" ).click(function( event ){
+   		alert('hola');
+   	});
 });
 
 function callRanking(idUserAlterQ,temporada,jornada){
@@ -914,7 +917,7 @@ function getQuiniela(){
 					    $('#quinielaTable').append('<input type="hidden" name="season" id="season" value="'+ response.round.season+'"/>');       
 					    $('#quinielaTable').append('<input type="hidden" name="round" id="round" value="'+ response.round.round+'"/>');       
 						var temp= "Jorn "+ response.round.round + " - Temp "+ (response.round.season - 2000)+"/"+(response.round.season + 1 - 2000);
-					    $('#quinielaTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td>'+ temp +'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
+					    $('#quinielaTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td>'+ temp +'</td><td colspan="3">APUESTA</td><td>R</td></tr><tr><td colspan="4"></td></tr>');       
 			
 						$(response.round.games).each(function(index, element){  
 							consoleAlterQ(element);
@@ -982,11 +985,26 @@ function getQuiniela(){
 								row+='<td class="pronostico"><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
 								row+='<label class="quiniela" for="'+index+'_2"></label>';
 								row+='</td>';
+								row+='<td class="pronostico"><input class="classM" type="checkbox" id="'+index+'_R" name="'+index+'_R" />';
+								row+='<label class="quiniela" for="'+index+'_R"></label>';
+								row+='</td>';
 								row+='</tr>';
 								$('#quinielaTable').append(row);
 							}
 							
 						});
+						//añadimos el check de la reducción
+						var row="";
+						row+='<tr">';
+						
+						row+='<td class="quinielatitulo"><input class="class0" type="checkbox" id="reducedCHK" name="reducedCHK" />';
+						row+='<label id="reducedCHKlabel" class="quiniela" for="reducedCHK"></label>';
+						row+='</td>';
+						row+='<td class="quinielatitulo" colspan="4" style="white-space: nowrap" class="partidolinea"><label>REDUCIR QUINIELA </label></td>';
+						row+='</tr>';
+
+						$('#quinielaTableReduced').append(row);
+						
 				    }
 			    }
 		 });
