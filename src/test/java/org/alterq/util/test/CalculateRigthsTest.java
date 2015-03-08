@@ -21,7 +21,7 @@ public class CalculateRigthsTest {
 		CalculateRigths aux = new CalculateRigths();
 		rdo = aux.Calculate("1111111111111100", "1111111111111100", "NNNNNNNNNNNNNNNN", 0);
 
-		Assert.assertNull(rdo);
+		Assert.assertNotNull(rdo);
 	}
 	@Test
 	public void test02Calculate() {
@@ -29,15 +29,25 @@ public class CalculateRigthsTest {
 		CalculateRigths aux = new CalculateRigths();
 		rdo = aux.Calculate("1111111111111100", "3567111111111100", "NNNNNNNNNNNNNNNN", 0);
 		
-		Assert.assertNull(rdo);
+		Assert.assertNotNull(rdo);
 	}
-	
 	@Test
 	public void test03Calculate() {
 		int rdo[] = {0,0,0,0,0,0};
 		CalculateRigths aux = new CalculateRigths();
 		rdo = aux.Calculate("1111111111111100", "11111111111111ff", "NNNNNNNNNNNNNNNN", 0);
 		
-		Assert.assertNull(rdo);
+		Assert.assertNotNull(rdo);
+	}
+	@Test
+	public void test04Desglose() {
+		String rdo[]; 
+		CalculateRigths aux = new CalculateRigths();
+		rdo = aux.Despliegue("77771111111111ff", "TTTTNNNNNNNNNNNN", 1);
+		
+		for (String rdoString : rdo) {
+			System.out.println(rdoString);
+		}
+		Assert.assertNotNull(rdo);
 	}
 }
