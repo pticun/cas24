@@ -577,8 +577,18 @@ End Analytics -->
     <!-- Quiniela Form -->
 		<div align="center">
 			<form id="betForm">
-				    <table class="quiniela" border="1" id="quinielaTable">
-				    </table>
+					<table>
+						<tr>
+							<td>
+							    <table class="quiniela" border="1" id="quinielaTable">
+							    </table>
+							</td>
+							<td>
+							    <table class="quiniela" border="1" id="quinielaTableRec" style="display: none">
+							    </table>
+							</td>
+						</tr>
+					</table>
 				    <table class="quiniela" border="1" id="quinielaTablePleno15">
 				    </table>
 				    <table class="quiniela" border="1" id="quinielaTableReduced">
