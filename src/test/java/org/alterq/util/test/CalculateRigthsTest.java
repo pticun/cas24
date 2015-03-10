@@ -50,4 +50,12 @@ public class CalculateRigthsTest {
 		}
 		Assert.assertNotNull(rdo);
 	}
+	@Test
+	public void test04Desglose() {
+		String rdo[]; 
+		CalculateRigths aux = new CalculateRigths();
+		rdo = aux.Despliegue("77771111111111ff", "TTTTNNNNNNNNNNNN", 1);
+		
+		Assert.assertNull(rdo);
+	}
 }
