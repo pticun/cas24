@@ -22,6 +22,8 @@ public final class AlterQConstants {
 	public static String USER_PASSWORD_ERROR="USER_PASSWORD_ERROR";
 	public static String USER_PASSWORD_LENGTH="USER_PASSWORD_LENGTH";
 	public static String USER_ACCEPT_CONDITION="USER_ACCEPT_CONDITION";
+	public static String BET_NOT_ALLOWED="BET_NOT_ALLOWED";
+	
 	
 	public static int COMPANY=1;
 

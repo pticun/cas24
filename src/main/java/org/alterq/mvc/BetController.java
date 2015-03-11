@@ -112,6 +112,61 @@ public class BetController {
 
 	}
 
+	public int isBetAllowed(int dobles, int doblesRed, int triples, int triplesRed){
+		boolean redOk = false;
+		boolean betOk = false;
+		
+		if ((triplesRed>0) && (doblesRed>0)) //QUINIELA REDUCIDA
+		{
+			if((triplesRed == 4) && (doblesRed == 0)){ //Reduccion 1 (4T: 9 apuestas)
+				redOk= true; 
+			}else if((triplesRed == 0) && (doblesRed == 7)){ //Reduccion 2 (7D: 16 apuestas)
+				redOk = true; 
+			}else if((triplesRed == 3) && (doblesRed == 3)){ //Reduccion 3 (3T + 3D: 24 apuestas)
+				redOk = true;
+			}else if((triplesRed == 2) && (doblesRed == 6)){ //Reduccion 4 (2T + 6D: 64 apuestas)
+				redOk = true;
+			}else if((triplesRed == 8) && (doblesRed == 0)){ //Reduccion 5 (8T: 81 apuestas)
+				redOk = true;
+			}else if((triplesRed == 0) && (doblesRed == 11)){ //Reduccion 6 (11D: 132 apuestas)
+				redOk = true;
+			}
+			
+			if (!redOk){
+				return -1;
+			}
+		}else{ //QUINIELA DIRECTA
+			if ((triples == 9) && (dobles == 0)){
+				betOk = true;
+			}else if ((triples == 8) && (dobles <= 2)){
+				betOk = true;
+			}else if ((triples == 7) && (dobles <= 3)){
+				betOk = true;
+			}else if ((triples == 6) && (dobles <= 5)){
+				betOk = true;
+			}else if ((triples == 5) && (dobles <= 7)){
+				betOk = true;
+			}else if ((triples == 4) && (dobles <= 8)){
+				betOk = true;
+			}else if ((triples == 3) && (dobles <= 10)){
+				betOk = true;
+			}else if ((triples == 2) && (dobles <= 11)){
+				betOk = true;
+			}else if ((triples == 1) && (dobles <= 13)){
+				betOk = true;
+			}else if ((triples == 0) && (dobles <= 14)){
+				betOk = true;
+			}
+			
+			if (!betOk)
+				return -2;
+			
+		}
+		
+		
+		return 0;
+	}
+	
 	@RequestMapping(method = RequestMethod.POST, value = "/bet")
 	public @ResponseBody
 	ResponseDto addBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,
@@ -126,7 +181,9 @@ public class BetController {
 			userSecurity.isSameUserInSession(id, cookieSession);
 			UserAlterQ userAlterQ = userDao.findById(id);
 			String apuesta = "";
+			String reduccion = "";
 			int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			int red[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 			Map<String, String[]> parameters = request.getParameterMap();
 			for (String parameter : parameters.keySet()) {
@@ -134,6 +191,12 @@ public class BetController {
 				try {
 					int indice = Integer.parseInt(st.nextToken());
 					String signo = st.nextToken();
+					if (signo.equals("R"))
+					{
+						red[indice] = 1;
+						continue;
+					}
+					
 					int signoN = (signo.equals("1")) ? 4 : (signo.equals("2") ? 1 : 2);
 
 					//el pleno al 15 tiene un tratamiento especial
@@ -179,38 +242,75 @@ public class BetController {
 						triples++;
 				}
 			}
+			
+			int doblesRed = 0;
+			int triplesRed = 0;
+			for (int i = 0; i < red.length; i++) {
+				if (red[i] == 1){
+					if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 6)){
+						reduccion += "D";
+						doblesRed++;
+						dobles--;
+					}
+					else if (pro[i] == 7){
+						reduccion += "T";
+						triplesRed++;
+						triples--;
+					}
+				}else{
+					reduccion += "N";
+				}
+			}
+			
+			switch (isBetAllowed(dobles, doblesRed, triples, triplesRed))
+			{
+			case 0:
+				float price = new Double(0.5 * Math.pow(2, dobles) * Math.pow(3, triples)).floatValue();
 
-			// data for test only!!
+				float balance = new Float(userAlterQ.getBalance()).floatValue();
+				if (balance - price > 0) {
+					balance -= price;
+					userAlterQ.setBalance("" + balance);
+					Bet bet = new Bet();
+					bet.setPrice(price);
+					bet.setBet(apuesta);
+					bet.setUser(userAlterQ.getId());
+					bet.setCompany(company);
+					bet.setDateCreated(new Date());
+					bet.setDateUpdated(new Date());
+					bet.setId(new ObjectId().toStringMongod());
+					StringBuffer sb = new StringBuffer();
+					sb.append("New Bet: season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
+					log.debug(sb.toString());
 
-			float price = new Double(0.5 * Math.pow(2, dobles) * Math.pow(3, triples)).floatValue();
+					// Insert new bet into the BBDD
+					betDao.addBet(season, round, bet);
+					userDao.save(userAlterQ);
 
-			float balance = new Float(userAlterQ.getBalance()).floatValue();
-			if (balance - price > 0) {
-				balance -= price;
-				userAlterQ.setBalance("" + balance);
-				Bet bet = new Bet();
-				bet.setPrice(price);
-				bet.setBet(apuesta);
-				bet.setUser(userAlterQ.getId());
-				bet.setCompany(company);
-				bet.setDateCreated(new Date());
-				bet.setDateUpdated(new Date());
-				bet.setId(new ObjectId().toStringMongod());
-				StringBuffer sb = new StringBuffer();
-				sb.append("New Bet: season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
-				log.debug(sb.toString());
-
-				// Insert new bet into the BBDD
-				betDao.addBet(season, round, bet);
-				userDao.save(userAlterQ);
-
-			} else {
+				} else {
+					ErrorDto error = new ErrorDto();
+					error.setIdError(AlterQConstants.USER_NOT_MONEY_ENOUGH);
+					error.setStringError("user not enough money (i18n error)");
+					dto.addErrorDto(error);
+					dto.setUserAlterQ(null);
+				}
+				break;
+			case -1:	
 				ErrorDto error = new ErrorDto();
-				error.setIdError(AlterQConstants.USER_NOT_MONEY_ENOUGH);
-				error.setStringError("user not enough money (i18n error)");
+				error.setIdError(AlterQConstants.BET_NOT_ALLOWED);
+				error.setStringError("apuesta no permitida (Error: no existe esta reducción)");
 				dto.addErrorDto(error);
 				dto.setUserAlterQ(null);
+				break;
+			case -2:
+				ErrorDto error1 = new ErrorDto();
+				error1.setIdError(AlterQConstants.BET_NOT_ALLOWED);
+				error1.setStringError("apuesta no permitida (Error: demasiados mútiples)");
+				dto.addErrorDto(error1);
+				dto.setUserAlterQ(null);
+				break;
 			}
+
 		} catch (SecurityException e) {
 			log.error(ExceptionUtils.getStackTrace(e));
 			dto.addErrorDto(e.getError());
