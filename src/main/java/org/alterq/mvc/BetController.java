@@ -119,22 +119,62 @@ public class BetController {
 		if ((triplesRed>0) && (doblesRed>0)) //QUINIELA REDUCIDA
 		{
 			if((triplesRed == 4) && (doblesRed == 0)){ //Reduccion 1 (4T: 9 apuestas)
-				redOk= true; 
+				redOk= true;
+				if ( ((triples == 7) && (dobles == 0)) || ((triples == 6) && (dobles <= 2)) ||
+					 ((triples == 5) && (dobles <= 3)) || ((triples == 4) && (dobles <= 5)) ||
+					 ((triples == 3) && (dobles <= 7))){
+					betOk = true;
+				}
+				
 			}else if((triplesRed == 0) && (doblesRed == 7)){ //Reduccion 2 (7D: 16 apuestas)
 				redOk = true; 
+				if ( ((triples == 7) && (dobles == 0)) || ((triples == 6) && (dobles <= 1)) ||
+					 ((triples == 5) && (dobles <= 3)) || ((triples == 4) && (dobles <= 5)) ||
+					 ((triples == 3) && (dobles <= 7)) || ((triples == 2) && (dobles <= 8)) ||
+					 ((triples == 1) && (dobles <= 10))|| ((triples == 0) && (dobles <= 12)))
+				{
+					betOk = true;
+				}
 			}else if((triplesRed == 3) && (doblesRed == 3)){ //Reduccion 3 (3T + 3D: 24 apuestas)
 				redOk = true;
+				if ( ((triples == 6) && (dobles == 0)) || ((triples == 5) && (dobles <= 2)) ||
+					 ((triples == 4) && (dobles <= 4)) || ((triples == 3) && (dobles <= 5)) ||
+					 ((triples == 2) && (dobles <= 6)) || ((triples == 1) && (dobles <= 9)) ||
+					 ((triples == 0) && (dobles <= 11)))
+				{
+					betOk = true;
+				}
 			}else if((triplesRed == 2) && (doblesRed == 6)){ //Reduccion 4 (2T + 6D: 64 apuestas)
 				redOk = true;
+				if ( ((triples == 5) && (dobles <= 1)) || ((triples == 4) && (dobles <= 2)) ||
+					 ((triples == 3) && (dobles <= 4)) || ((triples == 2) && (dobles <= 6)) ||
+					 ((triples == 1) && (dobles <= 8)) || ((triples == 0) && (dobles <= 9)))
+				{
+					betOk = true;
+				}
 			}else if((triplesRed == 8) && (doblesRed == 0)){ //Reduccion 5 (8T: 81 apuestas)
 				redOk = true;
+				if ( ((triples == 5) && (dobles == 0)) || ((triples == 4) && (dobles <= 2)) ||
+					 ((triples == 3) && (dobles <= 3)) || ((triples == 2) && (dobles <= 5)) ||
+					 ((triples == 1) && (dobles <= 8)) || ((triples == 0) && (dobles <= 9)))
+				{
+					betOk = true;
+				}
 			}else if((triplesRed == 0) && (doblesRed == 11)){ //Reduccion 6 (11D: 132 apuestas)
 				redOk = true;
+				if ( ((triples == 3) && (dobles <= 4)) || ((triples == 2) && (dobles <= 6)) ||
+					 ((triples == 1) && (dobles <= 8)) || ((triples == 0) && (dobles <= 9)))
+					{
+						betOk = true;
+					}
 			}
 			
-			if (!redOk){
+			if (!redOk)
 				return -1;
-			}
+			
+			if (!betOk)
+				return -2;
+			
 		}else{ //QUINIELA DIRECTA
 			if ((triples == 9) && (dobles == 0)){
 				betOk = true;
