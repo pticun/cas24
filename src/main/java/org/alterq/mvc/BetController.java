@@ -207,6 +207,43 @@ public class BetController {
 		return 0;
 	}
 	
+	public int getReductionType(int doblesRed, int triplesRed){
+		int rdo = -1;
+		
+		if ((doblesRed == 0) && (triplesRed == 0))//Quiniela Directa sin Reduccion
+			rdo = 0;
+		else if ((doblesRed == 0) && (triplesRed == 4))//Reduccion 1 (4T: 9 apuestas)
+			rdo = 1;
+		else if ((doblesRed == 7) && (triplesRed == 0))//Reduccion 2 (7D: 16 apuestas)
+			rdo = 2;
+		else if ((doblesRed == 3) && (triplesRed == 3))//Reduccion 3 (3T + 3D: 24 apuestas)
+			rdo = 3;
+		else if ((doblesRed == 2) && (triplesRed == 6))//Reduccion 4 (2T + 6D: 64 apuestas)
+			rdo = 4;
+		else if ((doblesRed == 0) && (triplesRed == 8))//Reduccion 5 (8T: 81 apuestas)
+			rdo = 5;
+		else if ((doblesRed == 11) && (triplesRed == 0))//Reduccion 6 (11D: 132 apuestas)
+			rdo = 6;
+				
+		return rdo;
+	}
+	
+	public double getNumberBets(int typeReduction, int dobles, int triples){
+		double numBets = Math.pow(2, dobles) * Math.pow(3, triples);
+		switch (typeReduction){
+			case 0: numBets *= 1;	break;//Quiniela Directa sin Reduccion
+			case 1: numBets *= 9;	break;//Reduccion 1 (4T: 9 apuestas)
+			case 2: numBets *= 16;	break;//Reduccion 2 (7D: 16 apuestas)
+			case 3: numBets *= 24;	break;//Reduccion 3 (3T + 3D: 24 apuestas)
+			case 4: numBets *= 64;	break;//Reduccion 4 (2T + 6D: 64 apuestas)
+			case 5: numBets *= 81;	break;//Reduccion 5 (8T: 81 apuestas)
+			case 6: numBets *= 132;	break;//Reduccion 6 (11D: 132 apuestas)
+			default: numBets = 0;	break;
+		}
+			
+		return numBets;
+	}
+
 	@RequestMapping(method = RequestMethod.POST, value = "/bet")
 	public @ResponseBody
 	ResponseDto addBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,
@@ -280,6 +317,13 @@ public class BetController {
 						dobles++;
 					else if (pro[i] == 7)
 						triples++;
+				}else{ //gestionamos los múltiples en el pleno al 15
+					if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 9) || (pro[i] == 6) || (pro[i] == 10) || (pro[i] == 12))
+						dobles++;
+					else if ((pro[i] == 7) || (pro[i] == 11) || (pro[i] == 14))
+						dobles+=2;
+					else if((pro[i] == 15))
+						dobles+=3;
 				}
 			}
 			
@@ -305,7 +349,8 @@ public class BetController {
 			switch (isBetAllowed(dobles, doblesRed, triples, triplesRed))
 			{
 			case 0:
-				float price = new Double(0.5 * Math.pow(2, dobles) * Math.pow(3, triples)).floatValue();
+				//float price = new Double(0.5 * Math.pow(2, dobles) * Math.pow(3, triples)).floatValue();
+				float price = new Double(0.5 * getNumberBets(getReductionType(doblesRed, triplesRed), doblesRed, triplesRed)).floatValue();
 
 				float balance = new Float(userAlterQ.getBalance()).floatValue();
 				if (balance - price > 0) {
@@ -319,6 +364,8 @@ public class BetController {
 					bet.setDateCreated(new Date());
 					bet.setDateUpdated(new Date());
 					bet.setId(new ObjectId().toStringMongod());
+					bet.setReduction(reduccion);
+					bet.setTypeReduction(getReductionType(doblesRed, triplesRed));
 					StringBuffer sb = new StringBuffer();
 					sb.append("New Bet: season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
 					log.debug(sb.toString());
