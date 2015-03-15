@@ -77,9 +77,13 @@ public class BetController {
 		 * error.setStringError("user not in Session (i18n error)");
 		 * dto.setErrorDto(error); dto.setUserAlterQ(null); return dto; }
 		 */
-		int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		
+		int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		int red[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		int dobles = 0;
 		int triples = 0;
+		int pleno1 = 1;
+		int pleno2 = 1;
 
 		Map<String, String[]> parameters = request.getParameterMap();
 		for (String parameter : parameters.keySet()) {
@@ -87,32 +91,120 @@ public class BetController {
 			try {
 				int indice = Integer.parseInt(st.nextToken());
 				String signo = st.nextToken();
+				if (signo.equals("R"))
+				{
+					red[indice] = 1;
+					continue;
+				}
+				
 				int signoN = (signo.equals("1")) ? 4 : (signo.equals("2") ? 1 : 2);
+
+				//el pleno al 15 tiene un tratamiento especial
+				if (indice == 14)
+				{
+					if (signo.equals("0"))
+						signoN = 1;
+					else if (signo.equals("1"))
+						signoN = 2;
+					else if (signo.equals("2"))
+						signoN = 4;
+					else if (signo.equals("3"))
+						signoN = 8;
+				}
+				if (indice == 15)
+				{
+					if (signo.equals("0"))
+						signoN = 1;
+					else if (signo.equals("1"))
+						signoN = 2;
+					else if (signo.equals("2"))
+						signoN = 4;
+					else if (signo.equals("3"))
+						signoN = 8;
+				}
 				pro[indice] += signoN;
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 			// log.debug(sb.toString());
 		}
-		for (int i = 0; i < pro.length; i++) {
-			if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 6))
-				dobles++;
-			else if (pro[i] == 7)
-				triples++;
-		}
-		//pendiente revisar el pleno al 15, ya que puede ser multiple y eso cambia el precio de la apuesta
-		Bet bet = new Bet();
-		bet.setPrice(new Double(0.5 * Math.pow(2, dobles) * Math.pow(3, triples)).floatValue());
-		RoundBets roundBet = new RoundBets();
-		roundBet.addBet(bet);
 
-		dto.setRoundBet(roundBet);
+		for (int i = 0; i < pro.length; i++) {
+			if ((i!=14)&&(i!=15)){
+				if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 6))
+					dobles++;
+				else if (pro[i] == 7)
+					triples++;
+			}else{ //gestionamos los múltiples en el pleno al 15
+				if (i==14){
+					if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 9) || (pro[i] == 6) || (pro[i] == 10) || (pro[i] == 12))
+						pleno1=2;
+					else if ((pro[i] == 7) || (pro[i] == 11) || (pro[i] == 14))
+						pleno1=3;
+					else if((pro[i] == 15))
+						pleno1=4;
+				}else if (i==15){
+					if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 9) || (pro[i] == 6) || (pro[i] == 10) || (pro[i] == 12))
+						pleno2=2;
+					else if ((pro[i] == 7) || (pro[i] == 11) || (pro[i] == 14))
+						pleno2=3;
+					else if((pro[i] == 15))
+						pleno2=4;
+				}
+			}
+		}
+		
+		int doblesRed = 0;
+		int triplesRed = 0;
+		for (int i = 0; i < red.length; i++) {
+			if (red[i] == 1){
+				if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 6)){
+					doblesRed++;
+					dobles--;
+				}
+				else if (pro[i] == 7){
+					triplesRed++;
+					triples--;
+				}
+			}
+		}
+		
+
+		switch (isBetAllowed(dobles, doblesRed, triples, triplesRed, pleno1, pleno2))
+		{
+		case 0:
+			int typeRed = getReductionType(doblesRed, triplesRed);
+			double numBets = getNumberBets(typeRed, dobles, triples, pleno1, pleno2);
+			float prize = new Double(0.5 * numBets).floatValue();
+
+			Bet bet = new Bet();
+			bet.setPrice(prize);
+			bet.setNumBets(numBets);
+			RoundBets roundBet = new RoundBets();
+			roundBet.addBet(bet);
+
+			dto.setRoundBet(roundBet);
+			break;
+		case -1:	
+			ErrorDto error = new ErrorDto();
+			error.setIdError(AlterQConstants.BET_NOT_ALLOWED);
+			error.setStringError("apuesta no permitida (Error: no existe esta reducción)");
+			dto.addErrorDto(error);
+			dto.setUserAlterQ(null);
+			break;
+		case -2:
+			ErrorDto error1 = new ErrorDto();
+			error1.setIdError(AlterQConstants.BET_NOT_ALLOWED);
+			error1.setStringError("apuesta no permitida (Error: demasiados mútiples)");
+			dto.addErrorDto(error1);
+			dto.setUserAlterQ(null);
+			break;
+		}
 
 		return dto;
-
 	}
 
-	public int isBetAllowed(int dobles, int doblesRed, int triples, int triplesRed){
+	public int isBetAllowed(int dobles, int doblesRed, int triples, int triplesRed, int pleno1, int pleno2){
 		boolean redOk = false;
 		boolean betOk = false;
 		
@@ -131,7 +223,7 @@ public class BetController {
 				if ( ((triples == 7) && (dobles == 0)) || ((triples == 6) && (dobles <= 1)) ||
 					 ((triples == 5) && (dobles <= 3)) || ((triples == 4) && (dobles <= 5)) ||
 					 ((triples == 3) && (dobles <= 7)) || ((triples == 2) && (dobles <= 8)) ||
-					 ((triples == 1) && (dobles <= 10))|| ((triples == 0) && (dobles <= 12)))
+					 ((triples == 1) && (dobles <= 10))|| ((triples == 0) && (dobles < 12)))
 				{
 					betOk = true;
 				}
@@ -176,8 +268,10 @@ public class BetController {
 				return -2;
 			
 		}else{ //QUINIELA DIRECTA
+			double nBets= getNumberBets(0, dobles, triples, pleno1, pleno2);
 			if ((triples == 9) && (dobles == 0)){
-				betOk = true;
+				if(pleno1==0 && pleno2==0)
+					betOk = true;
 			}else if ((triples == 8) && (dobles <= 2)){
 				betOk = true;
 			}else if ((triples == 7) && (dobles <= 3)){
@@ -191,11 +285,14 @@ public class BetController {
 			}else if ((triples == 3) && (dobles <= 10)){
 				betOk = true;
 			}else if ((triples == 2) && (dobles <= 11)){
-				betOk = true;
+				if(nBets<=27648)
+					betOk = true;
 			}else if ((triples == 1) && (dobles <= 13)){
-				betOk = true;
+				if(nBets<=24576)
+					betOk = true;
 			}else if ((triples == 0) && (dobles <= 14)){
-				betOk = true;
+				if(nBets<=24576)
+					betOk = true;
 			}
 			
 			if (!betOk)
@@ -228,8 +325,8 @@ public class BetController {
 		return rdo;
 	}
 	
-	public double getNumberBets(int typeReduction, int dobles, int triples){
-		double numBets = Math.pow(2, dobles) * Math.pow(3, triples);
+	public double getNumberBets(int typeReduction, int dobles, int triples, int pleno1, int pleno2){
+		double numBets = Math.pow(2, dobles) * Math.pow(3, triples)*pleno1*pleno2;
 		switch (typeReduction){
 			case 0: numBets *= 1;	break;//Quiniela Directa sin Reduccion
 			case 1: numBets *= 9;	break;//Reduccion 1 (4T: 9 apuestas)
@@ -261,6 +358,8 @@ public class BetController {
 			String reduccion = "";
 			int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 			int red[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			int pleno1 = 1;
+			int pleno2 = 1;
 
 			Map<String, String[]> parameters = request.getParameterMap();
 			for (String parameter : parameters.keySet()) {
@@ -318,12 +417,21 @@ public class BetController {
 					else if (pro[i] == 7)
 						triples++;
 				}else{ //gestionamos los múltiples en el pleno al 15
-					if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 9) || (pro[i] == 6) || (pro[i] == 10) || (pro[i] == 12))
-						dobles++;
-					else if ((pro[i] == 7) || (pro[i] == 11) || (pro[i] == 14))
-						dobles+=2;
-					else if((pro[i] == 15))
-						dobles+=3;
+					if (i==14){
+						if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 9) || (pro[i] == 6) || (pro[i] == 10) || (pro[i] == 12))
+							pleno1=2;
+						else if ((pro[i] == 7) || (pro[i] == 11) || (pro[i] == 14))
+							pleno1=3;
+						else if((pro[i] == 15))
+							pleno1=4;
+					}else if (i==15){
+						if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 9) || (pro[i] == 6) || (pro[i] == 10) || (pro[i] == 12))
+							pleno2=2;
+						else if ((pro[i] == 7) || (pro[i] == 11) || (pro[i] == 14))
+							pleno2=3;
+						else if((pro[i] == 15))
+							pleno2=4;
+					}
 				}
 			}
 			
@@ -346,11 +454,11 @@ public class BetController {
 				}
 			}
 			
-			switch (isBetAllowed(dobles, doblesRed, triples, triplesRed))
+			switch (isBetAllowed(dobles, doblesRed, triples, triplesRed, pleno1, pleno2))
 			{
 			case 0:
 				//float price = new Double(0.5 * Math.pow(2, dobles) * Math.pow(3, triples)).floatValue();
-				float price = new Double(0.5 * getNumberBets(getReductionType(doblesRed, triplesRed), doblesRed, triplesRed)).floatValue();
+				float price = new Double(0.5 * getNumberBets(getReductionType(doblesRed, triplesRed), doblesRed, triplesRed, pleno1, pleno2)).floatValue();
 
 				float balance = new Float(userAlterQ.getBalance()).floatValue();
 				if (balance - price > 0) {
@@ -406,7 +514,135 @@ public class BetController {
 		return dto;
 
 	}
+/*
+	@RequestMapping(method = RequestMethod.POST, value = "/prize")
+	public @ResponseBody
+	ResponseDto getPrize(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,
+			@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
+		if (log.isDebugEnabled()) {
+			log.debug("init BetController.updateUserAlterQ");
+			log.debug("session:" + cookieSession);
+		}
+		ResponseDto dto = new ResponseDto();
 
+		try {
+			userSecurity.isSameUserInSession(id, cookieSession);
+			int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			int red[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+			Map<String, String[]> parameters = request.getParameterMap();
+			for (String parameter : parameters.keySet()) {
+				StringTokenizer st = new StringTokenizer(parameter, "_");
+				try {
+					int indice = Integer.parseInt(st.nextToken());
+					String signo = st.nextToken();
+					if (signo.equals("R"))
+					{
+						red[indice] = 1;
+						continue;
+					}
+					
+					int signoN = (signo.equals("1")) ? 4 : (signo.equals("2") ? 1 : 2);
+
+					//el pleno al 15 tiene un tratamiento especial
+					if (indice == 14)
+					{
+						if (signo.equals("0"))
+							signoN = 1;
+						else if (signo.equals("1"))
+							signoN = 2;
+						else if (signo.equals("2"))
+							signoN = 4;
+						else if (signo.equals("3"))
+							signoN = 8;
+					}
+					if (indice == 15)
+					{
+						if (signo.equals("0"))
+							signoN = 1;
+						else if (signo.equals("1"))
+							signoN = 2;
+						else if (signo.equals("2"))
+							signoN = 4;
+						else if (signo.equals("3"))
+							signoN = 8;
+					}
+					pro[indice] += signoN;
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				// log.debug(sb.toString());
+			}
+			int dobles = 0;
+			int triples = 0;
+			for (int i = 0; i < pro.length; i++) {
+				if ((i!=14)&&(i!=15)){
+					if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 6))
+						dobles++;
+					else if (pro[i] == 7)
+						triples++;
+				}else{ //gestionamos los múltiples en el pleno al 15
+					if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 9) || (pro[i] == 6) || (pro[i] == 10) || (pro[i] == 12))
+						dobles++;
+					else if ((pro[i] == 7) || (pro[i] == 11) || (pro[i] == 14))
+						dobles+=2;
+					else if((pro[i] == 15))
+						dobles+=3;
+				}
+			}
+			
+			int doblesRed = 0;
+			int triplesRed = 0;
+			for (int i = 0; i < red.length; i++) {
+				if (red[i] == 1){
+					if ((pro[i] == 3) || (pro[i] == 5) || (pro[i] == 6)){
+						doblesRed++;
+						dobles--;
+					}
+					else if (pro[i] == 7){
+						triplesRed++;
+						triples--;
+					}
+				}
+			}
+			
+
+			switch (isBetAllowed(dobles, doblesRed, triples, triplesRed))
+			{
+			case 0:
+				double numBets = getNumberBets(getReductionType(doblesRed, triplesRed), doblesRed, triplesRed);
+				float prize = new Double(0.5 * numBets).floatValue();
+
+				
+				dto.setNumBets(numBets);
+				dto.setPrize(prize);
+				
+				break;
+			case -1:	
+				ErrorDto error = new ErrorDto();
+				error.setIdError(AlterQConstants.BET_NOT_ALLOWED);
+				error.setStringError("apuesta no permitida (Error: no existe esta reducción)");
+				dto.addErrorDto(error);
+				dto.setUserAlterQ(null);
+				break;
+			case -2:
+				ErrorDto error1 = new ErrorDto();
+				error1.setIdError(AlterQConstants.BET_NOT_ALLOWED);
+				error1.setStringError("apuesta no permitida (Error: demasiados mútiples)");
+				dto.addErrorDto(error1);
+				dto.setUserAlterQ(null);
+				break;
+			}
+
+		} catch (SecurityException e) {
+			log.error(ExceptionUtils.getStackTrace(e));
+			dto.addErrorDto(e.getError());
+		}
+
+		return dto;
+
+	}
+*/	
 	//if id=mail@mail.es means you must return FinalBet
 	//user is amdinUser for this company
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "/bet")

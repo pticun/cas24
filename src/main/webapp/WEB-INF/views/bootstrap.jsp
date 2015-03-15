@@ -593,10 +593,18 @@ End Analytics -->
 				    </table>
 				    <table class="quiniela" border="1" id="quinielaTableReduced">
 				    </table>
+				    <table class="quiniela" border="1" id="quinielaTablePrize">
+				    <tr>
+				    <td>APUESTAS</td>
+				    <td width="50"><label id="labelApuestas">&nbsp;</label></td>
+				    <td>PRECIO</td>
+				    <td width="50"><label id="labelPrecio">&nbsp;</label></td>
+				    </tr>
+				    </table>
 				    <!-- <input type="submit" value="Enviar"> -->
 				    <div align="center" id="quinielaFormResponse">Rellena tu apuesta y pulsa enviar.</div>
-				    <button id="quinielaButton" class="button" name="quiniela" value="Enviar" dir="quiniela">Enviar</button>
-				    <button id="prizeButton" class="button" name="prize" value="Precio" dir="prize">Precio</button>
+				    <button id="quinielaButton" class="button" name="quiniela" value="Enviar">Enviar</button>
+				    <button id="prizeButton" class="button" name="prize" value="Precio">Precio</button>
 			</form>
 		</div>
     

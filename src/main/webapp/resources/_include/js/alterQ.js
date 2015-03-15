@@ -617,6 +617,7 @@ $(document).ready(function() {
 			});
 		}
 		if (buttonpressed=='Precio'){
+			calculatePrice();
 		}
 		event.preventDefault(); // prevent actual form submit and page reload
 	 });	 
@@ -900,9 +901,10 @@ function consoleAlterQ(text){
 function calculatePrice(){
 	consoleAlterQ('calculatePrice');
 //	var dataJson=JSON.stringify($("form#betForm").serializeObject());
+	consoleAlterQ(ctx+'/bet/price');	
 	var dataJson=$("form#betForm").serialize();
 	jQuery.ajax ({
-		url: ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet/price',
+		url: ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round+'/bet/price',
 	    type: "POST",
 	    data: dataJson,
 //	    contentType: "application/json; charset=utf-8",
@@ -911,12 +913,20 @@ function calculatePrice(){
 	    processData:false, //To avoid making query String instead of JSON
 	    success: function(response){
 			if(response.errorDto!=0){
+				$('#quinielaFormResponse').empty();
    		    	$(response.errorDto).each(function(index, objeto){  
-   		    		$('#quinielaPrice').append(objeto.stringError+" - ");
+   		    		$('#quinielaFormResponse').append(objeto.stringError+" - ");
 			    });
+   		    	$('#labelPrecio').empty();
+   		    	$('#labelApuestas').empty();
 			}
 			else{
-				$('#quinielaPrice').text(response.roundBet.bets[0].price);
+				$('#quinielaFormResponse').empty();
+				$('#quinielaFormResponse').append("Rellena tu apuesta y pulsa enviar.");
+				$('#labelPrecio').empty();
+				$('#labelPrecio').append(response.roundBet.bets[0].price);
+				$('#labelApuestas').empty();
+				$('#labelApuestas').append(response.roundBet.bets[0].numBets);
 			}
 	    }
 	});

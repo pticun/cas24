@@ -19,6 +19,14 @@ public class Bet {
 	private String user;
 	private String bet;
 	private float price;
+	private double numBets;
+	public double getNumBets() {
+		return numBets;
+	}
+
+	public void setNumBets(double numBets) {
+		this.numBets = numBets;
+	}
 	private List<Prize> prizes;
 	private String reduction;
 	private int typeReduction;
