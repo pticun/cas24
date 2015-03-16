@@ -1448,6 +1448,18 @@ input[type="checkbox"][class="classM"]:checked + label {
     background:url(img/tM.png) center  no-repeat;
 }
 
+input[type="checkbox"][class="classR"] {
+    display:none;
+}
+input[type="checkbox"][class="classR"] + label {
+    width:35px;
+    height:35px;
+    background:url(img/sR.png) center  no-repeat;
+    cursor:pointer;
+}
+input[type="checkbox"][class="classR"]:checked + label {
+    background:url(img/tR.png) center  no-repeat;
+}
 table, tr [class="quiniela"]
 {
     /* border:4px solid #CC3333*/;

@@ -591,16 +591,19 @@ End Analytics -->
 					</table>
 				    <table class="quiniela" border="1" id="quinielaTablePleno15">
 				    </table>
+				    <p></p>
 				    <table class="quiniela" border="1" id="quinielaTableReduced">
 				    </table>
+				    <p></p>
 				    <table class="quiniela" border="1" id="quinielaTablePrize">
-				    <tr>
-				    <td>APUESTAS</td>
-				    <td width="50"><label id="labelApuestas">&nbsp;</label></td>
-				    <td>PRECIO</td>
-				    <td width="50"><label id="labelPrecio">&nbsp;</label></td>
+				    <tr class="quinielatitulo">
+				    <td class="pronostico">APUESTAS</td>
+				    <td class="pronostico" width="70"><label id="labelApuestas">&nbsp;</label></td>
+				    <td class="pronostico">PRECIO</td>
+				    <td class="pronostico" width="70"><label id="labelPrecio">&nbsp;</label></td>
 				    </tr>
 				    </table>
+				    <p></p>
 				    <!-- <input type="submit" value="Enviar"> -->
 				    <div align="center" id="quinielaFormResponse">Rellena tu apuesta y pulsa enviar.</div>
 				    <button id="quinielaButton" class="button" name="quiniela" value="Enviar">Enviar</button>

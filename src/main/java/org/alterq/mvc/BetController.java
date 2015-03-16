@@ -270,7 +270,7 @@ public class BetController {
 		}else{ //QUINIELA DIRECTA
 			double nBets= getNumberBets(0, dobles, triples, pleno1, pleno2);
 			if ((triples == 9) && (dobles == 0)){
-				if(pleno1==0 && pleno2==0)
+				if(pleno1==1 && pleno2==1)
 					betOk = true;
 			}else if ((triples == 8) && (dobles <= 2)){
 				betOk = true;

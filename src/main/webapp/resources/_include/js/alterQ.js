@@ -1025,7 +1025,7 @@ function getQuiniela(){
 								row+='<td class="pronostico"><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
 								row+='<label class="quiniela" for="'+index+'_2"></label>';
 								row+='</td>';
-								rowRec+='<tr><td class="pronostico"><input class="classM" type="checkbox" id="'+index+'_R" name="'+index+'_R" />';
+								rowRec+='<tr><td class="pronostico"><input class="classR" type="checkbox" id="'+index+'_R" name="'+index+'_R" />';
 								rowRec+='<label class="quiniela" for="'+index+'_R"></label>';
 								rowRec+='</td>';
 								rowRec+='</tr>';
@@ -1037,12 +1037,12 @@ function getQuiniela(){
 						});
 						//añadimos el check de la reducción
 						var row="";
-						row+='<tr">';
+						row+='<tr class="quinielatitulo"">';
 						
-						row+='<td class="quinielatitulo"><input class="classM" type="checkbox" id="reducedCHK" name="reducedCHK" />';
+						row+='<td class="pronostico"><input class="classR" type="checkbox" id="reducedCHK" name="reducedCHK" />';
 						row+='<label id="reducedCHKlabel" class="quiniela" for="reducedCHK"></label>';
 						row+='</td>';
-						row+='<td class="quinielatitulo" colspan="4" style="white-space: nowrap" class="partidolinea"><label>REDUCIR QUINIELA </label></td>';
+						row+='<td class="pronostico" colspan="4" style="white-space: nowrap" class="partidolinea"><label>REDUCIR QUINIELA </label></td>';
 						row+='</tr>';
 
 						$('#quinielaTableReduced').append(row);
