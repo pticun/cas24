@@ -208,33 +208,108 @@ public class BetController {
 		boolean redOk = false;
 		boolean betOk = false;
 		
+		double nBets= getNumberBets(0, dobles, triples, pleno1, pleno2);
 		if ((triplesRed>0) && (doblesRed>0)) //QUINIELA REDUCIDA
 		{
 			if((triplesRed == 4) && (doblesRed == 0)){ //Reduccion 1 (4T: 9 apuestas)
 				redOk= true;
-				if ( ((triples == 7) && (dobles == 0)) || ((triples == 6) && (dobles <= 2)) ||
-					 ((triples == 5) && (dobles <= 3)) || ((triples == 4) && (dobles <= 5)) ||
-					 ((triples == 3) && (dobles <= 7))){
-					betOk = true;
+				switch (triples){
+				case 7:
+					if (dobles == 0 && pleno1==1 && pleno2==1)
+						betOk = true;
+					break;
+				case 6:
+					if (dobles <= 2 && nBets<=26244)
+						betOk = true;
+					break;
+				case 5:
+					if (dobles <= 3 && nBets<=26244)
+						betOk = true;
+					break;
+				case 4:
+					if (dobles <= 5 && nBets<=23328)
+						betOk = true;
+					break;
+				case 3:
+					if (dobles <= 7 && nBets<=31104)
+						betOk = true;
+					break;
+				case 2:
+					if (dobles <= 8 && nBets<=31104)
+						betOk = true;
+					break;
+				case 1:
+					if (dobles <= 9 && nBets<=31104)
+						betOk = true;
+					break;
+				case 0:
+					if (dobles <= 10 && nBets<=27648)
+						betOk = true;
+					break;
 				}
-				
 			}else if((triplesRed == 0) && (doblesRed == 7)){ //Reduccion 2 (7D: 16 apuestas)
 				redOk = true; 
-				if ( ((triples == 7) && (dobles == 0)) || ((triples == 6) && (dobles <= 1)) ||
-					 ((triples == 5) && (dobles <= 3)) || ((triples == 4) && (dobles <= 5)) ||
-					 ((triples == 3) && (dobles <= 7)) || ((triples == 2) && (dobles <= 8)) ||
-					 ((triples == 1) && (dobles <= 10))|| ((triples == 0) && (dobles < 12)))
-				{
-					betOk = true;
+				switch (triples){
+				case 6:
+					if (dobles <= 1 && nBets<=23328)
+						betOk = true;
+					break;
+				case 5:
+					if (dobles <= 2 && nBets<=31104)
+						betOk = true;
+					break;
+				case 4:
+					if (dobles <= 3 && nBets<=31104)
+						betOk = true;
+					break;
+				case 3:
+					if (dobles <= 4 && nBets<=27648)
+						betOk = true;
+					break;
+				case 2:
+					if (dobles <= 5 && nBets<=27648)
+						betOk = true;
+					break;
+				case 1:
+					if (dobles <= 6 && nBets<=24576)
+						betOk = true;
+					break;
+				case 0:
+					if (dobles <= 7 && nBets<=24576)
+						betOk = true;
+					break;
 				}
 			}else if((triplesRed == 3) && (doblesRed == 3)){ //Reduccion 3 (3T + 3D: 24 apuestas)
 				redOk = true;
-				if ( ((triples == 6) && (dobles == 0)) || ((triples == 5) && (dobles <= 2)) ||
-					 ((triples == 4) && (dobles <= 4)) || ((triples == 3) && (dobles <= 5)) ||
-					 ((triples == 2) && (dobles <= 6)) || ((triples == 1) && (dobles <= 9)) ||
-					 ((triples == 0) && (dobles <= 11)))
-				{
-					betOk = true;
+				switch (triples){
+				case 6:
+					if (dobles==0 && pleno1==1 && pleno2==1)
+						betOk = true;
+					break;
+				case 5:
+					if (dobles<=2 && nBets<=23328)
+						betOk = true;
+					break;
+				case 4:
+					if (dobles<=4 && nBets<=31104)
+						betOk = true;
+					break;
+				case 3:
+					if (dobles<=5 && nBets<=31104)
+						betOk = true;
+					break;
+				case 2:
+					if (dobles<=6 && nBets<=27648)
+						betOk = true;
+					break;
+				case 1:
+					if (dobles<=7 && nBets<=27648)
+						betOk = true;
+					break;
+				case 0:
+					if (dobles<=8 && nBets<=24576)
+						betOk = true;
+					break;
 				}
 			}else if((triplesRed == 2) && (doblesRed == 6)){ //Reduccion 4 (2T + 6D: 64 apuestas)
 				redOk = true;
@@ -268,38 +343,52 @@ public class BetController {
 				return -2;
 			
 		}else{ //QUINIELA DIRECTA
-			double nBets= getNumberBets(0, dobles, triples, pleno1, pleno2);
-			if ((triples == 9) && (dobles == 0)){
-				if(pleno1==1 && pleno2==1)
+			switch (triples){
+			case 9:
+				if (dobles == 0 && pleno1==1 && pleno2==1)
 					betOk = true;
-			}else if ((triples == 8) && (dobles <= 2)){
-				betOk = true;
-			}else if ((triples == 7) && (dobles <= 3)){
-				betOk = true;
-			}else if ((triples == 6) && (dobles <= 5)){
-				betOk = true;
-			}else if ((triples == 5) && (dobles <= 7)){
-				betOk = true;
-			}else if ((triples == 4) && (dobles <= 8)){
-				betOk = true;
-			}else if ((triples == 3) && (dobles <= 10)){
-				betOk = true;
-			}else if ((triples == 2) && (dobles <= 11)){
-				if(nBets<=27648)
+				break;
+			case 8:
+				if (dobles<=2 && nBets<=26244)
 					betOk = true;
-			}else if ((triples == 1) && (dobles <= 13)){
-				if(nBets<=24576)
+				break;
+			case 7:
+				if (dobles <= 3 && nBets<=17496)
 					betOk = true;
-			}else if ((triples == 0) && (dobles <= 14)){
-				if(nBets<=24576)
+				break;
+			case 6:
+				if (dobles <= 5 && nBets<=23328)
 					betOk = true;
+				break;
+			case 5:
+				if (dobles <= 7 && nBets<=31104)
+					betOk = true;
+				break;
+			case 4:
+				if (dobles <= 8 && nBets<=31104)
+					betOk = true;
+				break;
+			case 3:
+				if (dobles <= 10 && nBets<=27648)
+					betOk = true;
+				break;
+			case 2:
+				if (dobles <= 11 && nBets<=27648)
+					betOk = true;
+				break;
+			case 1:
+				if (dobles <= 13 && nBets<=27648)
+					betOk = true;
+				break;
+			case 0:
+				if (dobles <= 14 && nBets<=24576)
+				break;
 			}
 			
 			if (!betOk)
 				return -2;
 			
 		}
-		
 		
 		return 0;
 	}
