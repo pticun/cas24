@@ -313,27 +313,81 @@ public class BetController {
 				}
 			}else if((triplesRed == 2) && (doblesRed == 6)){ //Reduccion 4 (2T + 6D: 64 apuestas)
 				redOk = true;
-				if ( ((triples == 5) && (dobles <= 1)) || ((triples == 4) && (dobles <= 2)) ||
-					 ((triples == 3) && (dobles <= 4)) || ((triples == 2) && (dobles <= 6)) ||
-					 ((triples == 1) && (dobles <= 8)) || ((triples == 0) && (dobles <= 9)))
-				{
-					betOk = true;
+				switch (triples){
+				case 5:
+					if (dobles<=1 && nBets<=31104)
+						betOk = true;
+					break;
+				case 4:
+					if (dobles<=2 && nBets<=31104)
+						betOk = true;
+					break;
+				case 3:
+					if (dobles<=3 && nBets<=31104)
+						betOk = true;
+					break;
+				case 2:
+					if (dobles<=4 && nBets<=27648)
+						betOk = true;
+					break;
+				case 1:
+					if (dobles<=5 && nBets<=27648)
+						betOk = true;
+					break;
+				case 0:
+					if (dobles<=6 && nBets<=24567)
+						betOk = true;
+					break;
+				
 				}
 			}else if((triplesRed == 8) && (doblesRed == 0)){ //Reduccion 5 (8T: 81 apuestas)
 				redOk = true;
-				if ( ((triples == 5) && (dobles == 0)) || ((triples == 4) && (dobles <= 2)) ||
-					 ((triples == 3) && (dobles <= 3)) || ((triples == 2) && (dobles <= 5)) ||
-					 ((triples == 1) && (dobles <= 8)) || ((triples == 0) && (dobles <= 9)))
-				{
-					betOk = true;
+				switch (triples){
+				case 5:
+					if (dobles==0 && pleno1==1 && pleno1==1)
+						betOk = true;
+					break;
+				case 4:
+					if (dobles<=2 && nBets<=26244)
+						betOk = true;
+					break;
+				case 3:
+					if (dobles<=3 && nBets<=26244)
+						betOk = true;
+					break;
+				case 2:
+					if (dobles<=4 && nBets<=23328)
+						betOk = true;
+					break;
+				case 1:
+					if (dobles<=5 && nBets<=23328)
+						betOk = true;
+					break;
+				case 0:
+					if (dobles<=6 && nBets<=31104)
+						betOk = true;
+					break;
 				}
 			}else if((triplesRed == 0) && (doblesRed == 11)){ //Reduccion 6 (11D: 132 apuestas)
 				redOk = true;
-				if ( ((triples == 3) && (dobles <= 4)) || ((triples == 2) && (dobles <= 6)) ||
-					 ((triples == 1) && (dobles <= 8)) || ((triples == 0) && (dobles <= 9)))
-					{
+				switch(triples){
+				case 3:
+					if (dobles==0 && nBets<=28512)
 						betOk = true;
-					}
+					break;
+				case 2:
+					if (dobles<=1 && nBets<=28512)
+						betOk = true;
+					break;
+				case 1:
+					if (dobles<=2)
+						betOk = true;
+					break;
+				case 0:
+					if (dobles<=3)
+						betOk = true;
+					break;
+				}
 			}
 			
 			if (!redOk)
