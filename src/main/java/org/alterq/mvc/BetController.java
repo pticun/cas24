@@ -436,6 +436,7 @@ public class BetController {
 				break;
 			case 0:
 				if (dobles <= 14 && nBets<=24576)
+					betOk = true;
 				break;
 			}
 			
