@@ -127,7 +127,11 @@ MongoDB - PRE
 	*********mongoexport -h ds035338.mongolab.com:35338 -d racsor -c roundRanking -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_roundRanking
 	*********mongoexport -h ds035338.mongolab.com:35338 -d racsor -c sessionalterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_sessionalterq
 	*********mongoexport -h ds035338.mongolab.com:35338 -d racsor -c useralterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_useralterq
-	mongodump -h ds035338.mongolab.com:35338 -d racsor -c generalData -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_generalDataBin
+	mongodump -h ds035338.mongolab.com:35338 -d racsor -c generalData -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds035338.mongolab.com:35338 -d racsor -c round -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds035338.mongolab.com:35338 -d racsor -c roundBets -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds035338.mongolab.com:35338 -d racsor -c roundRanking -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds035338.mongolab.com:35338 -d racsor -c useralterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
 	
 MongoDB - PRO
 	En mongolab crear un clone de la base de datos de pre y crear usuario
@@ -136,7 +140,11 @@ MongoDB - PRO
 	*********mongo ds039351.mongolab.com:39351/pro_quinigold -u quinigold -p quinigold
 	NOPROBAR NO SE IMPORTA BIEN EN ROCKMONGO
 	*********mongoimport -h ds039351.mongolab.com:39351 -d pro_quinigold -c generalData -u quinigold -p quinigold --file /home/kotto/Downloads/20150223_generalData
-	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c generalData -u quinigold -p quinigold /home/kotto/Downloads/20150223_generalDataBin/racsor/generalData.bson 	
+	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c generalData -u quinigold -p quinigold /home/kotto/Downloads/quinigold/racsor/generalData.bson 	
+	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c round -u quinigold -p quinigold /home/kotto/Downloads/quinigold/racsor/round.bson 	
+	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c roundBets -u quinigold -p quinigold /home/kotto/Downloads/quinigold/racsor/roundBets.bson 	
+	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c roundRanking -u quinigold -p quinigold /home/kotto/Downloads/quinigold/racsor/roundRanking.bson 	
+	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c useralterq -u quinigold -p quinigold /home/kotto/Downloads/quinigold/racsor/useralterq.bson 	
 	
 	
 *************************************
