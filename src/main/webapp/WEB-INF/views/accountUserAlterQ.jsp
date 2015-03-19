@@ -91,6 +91,22 @@
 </div>
 <!-- End MyData Section -->
 
+<!-- MyBets Section -->
+<div id="mybetsDiv" class="page">
+<div class="container">
+    <!-- Quiniela Form -->
+		<div align="center">
+			<form id="betsForm">
+				    <table class="quiniela" border="1" id="apuestasTable">
+				    </table>
+			</form>
+		</div>
+    
+    <!-- End Sign Up Form -->
+</div>
+</div>
+<!-- End MyBets Section -->
+
 
 <!-- Sing Up Section -->
 <div id="signDiv" class="page">

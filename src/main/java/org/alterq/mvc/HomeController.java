@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value = {  "/", "/bootstrap" })
-public class BootstrapController {
+@RequestMapping(value = {  "/", "/home" })
+public class HomeController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private SessionAlterQDao sessionDao;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String initPage() {
-		log.debug("init bootstrap.jsp");
-		return "bootstrap";
+		log.debug("init home.jsp");
+		return "home";
 	}
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public @ResponseBody
