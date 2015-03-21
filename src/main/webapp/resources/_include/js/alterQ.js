@@ -24,6 +24,8 @@ var bMyResum = 11;
 var bMyAdmin = 12;
 var bQuinielaDetail = 13;
 var bMyModal = 14;
+var bConfirmQuiniela = 15;
+var bModalReduced = 16;
 
 //Texts
 var sHome    = "Inicio";
@@ -36,6 +38,8 @@ var sLogout = "Logout";
 var sAdmin = "Administration";
 var sQuiniDetail = "";
 var sMyModal = "";
+var sConfirmQuiniela = "";
+var sModalReduced ="";
 
 //Refs
 var sHomeRef = "#homeDiv";
@@ -54,6 +58,8 @@ var sMyResumRef = "#myResumDiv";
 var sMyAdminRef = "admin";
 var sQuinielaDetailRef = "#quinielaDetailDiv";
 var sMyModalRef = "#myModal";
+var sConfirmQuinielaRef = "#confirmarQuinielaDiv";
+var sModalReducedRef = "#modalReduced";
 
 var buttonpressed;
 
@@ -77,6 +83,9 @@ function initDiv() {
 	$(sMyResumRef).hide();
 	$(sQuinielaDetailRef).hide();
 	$(sMyModalRef).hide();
+	$(sConfirmQuinielaRef).hide();
+	$(sModalReducedRef).hide();
+	
 	
 	bActual = bHome;
 	
@@ -140,6 +149,13 @@ function showDiv(elem) {
 	case bMyModal:
 		$(sMyModalRef).show();
 		break;
+	case bConfirmQuiniela:
+		$(sConfirmQuinielaRef).show();
+		break;
+	case bModalReduced:
+		$(sModalReducedRef).show();
+		break;
+		
 	}
 
 	switch (bActual){
@@ -186,6 +202,12 @@ function showDiv(elem) {
 		break;
 	case bMyModal:
 		$(sMyModalRef).hide();
+		break;
+	case bConfirmQuiniela:
+		$(sConfirmQuinielaRef).hide();
+		break;
+	case bModalReduced:
+		$(sModalReducedRef).hide();
 		break;
 	}
 	
@@ -746,6 +768,10 @@ function hideReducciones(){
 	$('#quinielaTableRec').hide();	
 }
 
+function showModalReduced(){
+	alert("showModal");
+	showDiv(bModalReduced);
+}
 function callRanking(idUserAlterQ,temporada,jornada){
 	//Remove table
 	$('#rankingTable').find("tr").remove();
@@ -1042,7 +1068,8 @@ function getQuiniela(){
 						row+='<td class="pronostico"><input class="classR" type="checkbox" id="reducedCHK" name="reducedCHK" />';
 						row+='<label id="reducedCHKlabel" class="quiniela" for="reducedCHK"></label>';
 						row+='</td>';
-						row+='<td class="pronostico" colspan="4" style="white-space: nowrap" class="partidolinea"><label>REDUCIR QUINIELA </label></td>';
+						row+='<td class="pronostico" style="white-space: nowrap" class="partidolinea"><label>REDUCIR QUINIELA </label></td>';
+						row+='<td class="pronostico" style="white-space: nowrap" class="partidolinea"><button type="button" class="button button-small" data-toggle="modal" data-target="#modalReduced"><strong>?</strong></button></td>';
 						row+='</tr>';
 
 						$('#quinielaTableReduced').append(row);

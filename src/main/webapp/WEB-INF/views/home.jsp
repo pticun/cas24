@@ -400,20 +400,52 @@ End Analytics -->
 				    <td class="pronostico" width="70"><label id="labelApuestas">&nbsp;</label></td>
 				    <td class="pronostico">PRECIO</td>
 				    <td class="pronostico" width="70"><label id="labelPrecio">&nbsp;</label></td>
+				    <td class="pronostico"><button id="prizeButton" class="button button-mini" name="prize" value="Precio">Precio</button></td>
 				    </tr>
 				    </table>
 				    <p></p>
 				    <!-- <input type="submit" value="Enviar"> -->
 				    <div align="center" id="quinielaFormResponse">Rellena tu apuesta y pulsa enviar.</div>
 				    <button id="quinielaButton" class="button" name="quiniela" value="Enviar">Enviar</button>
-				    <button id="prizeButton" class="button" name="prize" value="Precio">Precio</button>
+				    
 			</form>
 		</div>
     
-    <!-- End Sign Up Form -->
+    <!-- End Quiniela Form -->
 </div>
 </div>
-<!-- End Sign Up Section -->
+<!-- End Quiniela Section -->
+
+<!-- Confirm Quiniela Section -->
+<div id="confirmarQuinielaDiv" class="page">
+<div class="container">
+    <!-- Confirm Bet Form -->
+		<div align="center">
+			<form id="confirmBetForm">
+					<table>
+						<tr>
+							<td>
+							    <table class="quiniela" border="1" id="confirmarQuinielaTable">
+							    </table>
+							</td>
+						</tr>
+					</table>
+				    <table class="quiniela" border="1" id="confirmarQuinielaTablePleno15">
+				    </table>
+				    <p></p>
+				    <table class="quiniela" border="1" id="confirmarQuinielaTablePrize">
+				    </table>
+				    <p></p>
+				    <div align="center" id="confirmarQuinielaFormResponse">pulsa Confirmar para validar tu apuesta.</div>
+				    <button id="confirmarQuinielaButton" class="button" name="confirmarQuiniela" value="Confirmar">Confirmar</button>
+				    <button id="modificarQuinielaButton" class="button" name="modificarQuiniela" value="Modificar">Modificar</button>
+			</form>
+		</div>
+    
+    <!-- End Confirm Bet Form -->
+</div>
+</div>
+<!-- End Confirm Quiniela Section -->
 
 <!-- Quiniela Detail Section -->
 <div id="quinielaDetailDiv" class="page">
@@ -424,7 +456,7 @@ End Analytics -->
 		</div>
 </div>
 </div>
-<!-- End Sign Up Section -->
+<!-- End Quiniela Section -->
 
 <%@ include file="/WEB-INF/views/social.jsp" %>
 
@@ -434,20 +466,45 @@ End Analytics -->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Condiciones Legales</h4>
+        <p class="modal-title" id="myModalLabel">Condiciones Legales</p>
       </div>
       <div class="modal-body">
 			Condiciones de uso de los servicios  
-<h4>2.1. Aceptación y disponibilidad de las CGU</h4>  
-<p>El usuario declara que acepta la vinculaciÃ³n de este acuerdo y que entiende y acepta totalmente las presentes CGU establecidas en el presente documento para la utilizaciÃ³n de los servicios prestados en <strong>LA WEB</strong>. La no aceptaciÃ³n de las presentes CGU impedirÃ¡ la utilizaciÃ³n de los servicios ofrecidos en <strong>LA WEB</strong>.</p>  
+<p>1.1. Aceptaci&oacute;n y disponibilidad de las CGU</p>  
+<p>El usuario declara que acepta la vinculaci&oacute;n de este acuerdo y que entiende y acepta totalmente las presentes CGU establecidas en el presente documento para la utilizaci&oacute;n de los servicios prestados en <strong>LA WEB</strong>. La no aceptaci&oacute;n de las presentes CGU impedir&aacute; la utilizaci&oacute;n de los servicios ofrecidos en <strong>LA WEB</strong>.</p>  
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div>
+
+<!-- Modal Reduced-->
+<div class="modal fade" id="modalReduced" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p class="modal-title" id="myModalLabel">REDUCCIONES PERMIIDAS</p>
+      </div>
+      <div class="modal-body">
+		<p align="center">REDUCCIONES PERMITIDAS</p>  
+		<p><strong>REDUCCION PRIMERA:</strong> 4 Triples (9 apuestas).</p>  
+		<p><strong>REDUCCION SEGUNDA:</strong> 7 Dobles (16 apuestas).</p>  
+		<p><strong>REDUCCION TERCERA:</strong> 3 Triples y 3 Dobles (24 apuestas).</p>  
+		<p><strong>REDUCCION CUARTA :</strong> 2 Triples y 6 Dobles (64 apuestas).</p>  
+		<p><strong>REDUCCION QUINTA :</strong> 8 Triples (81 apuestas).</p>  
+		<p><strong>REDUCCION SEXTA  :</strong> 11 Dobles (132 apuestas).</p>  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+<!-- End Modal Reduced-->
 
 <!-- Footer -->
 <footer>

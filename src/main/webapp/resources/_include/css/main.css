@@ -1464,7 +1464,7 @@ table, tr [class="quiniela"]
 {
     /* border:4px solid #CC3333*/;
     background-color: #FFF;	
-    font-family: monospace;
+    font-family: monospace; /* este es el campo a modificar para el texto de las quinielas*/
 	color: #333399;
 /*  	table-layout:fixed;  */
 }

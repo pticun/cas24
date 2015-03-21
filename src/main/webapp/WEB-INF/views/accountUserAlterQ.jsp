@@ -161,7 +161,7 @@
    							<option value="4">Girona</option>
    							<option value="5">Lleida</option>
    							<option value="6">Tarragona</option>
-   							<option value="6">Valencia</option>
+   							<option value="7">Valencia</option>
    							<option value="0">No Residente</option>
 						</select> 
 			   			</td>
@@ -169,7 +169,7 @@
 			        
 			   		<tr>
 			   			<td class="partidoLast"><input type="checkbox" name="accept" id="acceptData"/></td>
-			   			<td class="partidoLast"><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Acepto los terminos y condiciones de uso.</button></td>
+			   			<td class="partidoLast"><button type="button" class="button button-mini" data-toggle="modal" data-target="#myModal">Acepto los terminos y condiciones de uso.</button></td>
 			        </tr>
 			   		<tr class="quiniela" align="center">
 			   			<td align="center" colspan="2" class="partidoLast"><button id="signup_btn" class="button" name="signup" value="signup">signup</button></td>
