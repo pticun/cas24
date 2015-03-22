@@ -430,15 +430,10 @@ End Analytics -->
 							</td>
 						</tr>
 					</table>
-				    <table class="quiniela" border="1" id="confirmarQuinielaTablePleno15">
-				    </table>
-				    <p></p>
-				    <table class="quiniela" border="1" id="confirmarQuinielaTablePrize">
-				    </table>
 				    <p></p>
 				    <div align="center" id="confirmarQuinielaFormResponse">pulsa Confirmar para validar tu apuesta.</div>
-				    <button id="confirmarQuinielaButton" class="button" name="confirmarQuiniela" value="Confirmar">Confirmar</button>
 				    <button id="modificarQuinielaButton" class="button" name="modificarQuiniela" value="Modificar">Modificar</button>
+				    <button id="confirmarQuinielaButton" class="button" name="confirmarQuiniela" value="Confirmar">Confirmar</button>
 			</form>
 		</div>
     

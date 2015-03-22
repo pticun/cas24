@@ -354,6 +354,7 @@ function getSign(sign){
 }
 
 function getSignPleno15(sign){
+	//alert('getSignPleno15 - sign='+sign);
 	switch(sign)
 	{
 		case "1": return '0&nbsp;&nbsp;&nbsp;';break;
@@ -362,7 +363,7 @@ function getSignPleno15(sign){
 		case "4": return '&nbsp;&nbsp;2&nbsp;';break;
 		case "5": return '0&nbsp;2&nbsp;';break;
 		case "6": return '&nbsp;12&nbsp;';break;
-		case "7": return '0&nbsp;&nbsp;&nbsp;';break;
+		case "7": return '012&nbsp;';break;
 		case "8": return '&nbsp;&nbsp;&nbsp;M';break;
 		case "9": return '0&nbsp;&nbsp;M';break;
 		case "a": return '&nbsp;1&nbsp;M';break;
@@ -380,17 +381,37 @@ function getTableMatches(bet, loadGames){
 	$(loadGames).each(function(index, element){ 
 		var temp=padding_right(element.player1+'-'+element.player2,".",27);
 		var num = (index+1)<10?(' '+(index+1)):(index+1);
-		if ((index == 14) || (index == 15)){
-			tableBet+='<tr><td colspan ="3" nowrap align="center">PLENO AL QUINCE</td></tr>';
+		if (index == 14){
+			tableBet+='<tr><td colspan ="3" nowrap align="center">PLENO AL 15</td></tr>';
 			tableBet+='<tr><td></td><td colspan ="2" nowrap align="left">' + padding_right(element.player1,".",23) + '&nbsp;'+ getSignPleno15(bet.charAt(index)) + '</td></tr>';
-			tableBet+='<tr><td></td><td colspan ="2" nowrap align="left">' + padding_right(element.player2,".",23) + '&nbsp;'+ getSignPleno15(bet.charAt(index)) + '</td>';
-		}
-		else
+			tableBet+='<tr><td></td><td colspan ="2" nowrap align="left">' + padding_right(element.player2,".",23) + '&nbsp;'+ getSignPleno15(bet.charAt(index+1)) + '</td>';
+		}else if (index != 15)
 			tableBet+='<tr><td nowrap>' + num + ' - </td><td  nowrap>' + temp + '</td><td  nowrap align="left">'+ getSign(bet.charAt(index)) + '</td>';
 		tableBet+='</tr>';
 	});
 	tableBet+='</table>';
     return tableBet;
+}
+
+function getPrizeInfo(apuestas, precio){
+	tablePrize='<table style="font-size:14px">';
+	tablePrize+='<tr><td>===================================</td></tr>';
+	tablePrize+='<tr><td align="center">APUESTAS: ' + apuestas + '</td></tr>';
+	tablePrize+='<tr><td align="center">PRECIO: ' + precio + ' EUR</td></tr>';
+	tablePrize+='<tr><td>===================================</td></tr>';
+	tablePrize+='</table>';
+	
+    return tablePrize;
+}
+
+function getHeadInfo(temporada, jornada){
+	tableHead='<table style="font-size:14px">';
+	tableHead+='<tr><td align="center">QUINIGOLD</td></tr>';
+	tableHead+='<tr><td align="center">Jornada ' + jornada + ' Temporada ' +temporada+'/'+(temporada+1)+'</td></tr>';
+	tableHead+='<tr><td>===================================</td></tr>';
+	tableHead+='</table>';
+	
+    return tableHead;
 }
 
 function formatMatches(team1, team2){
@@ -616,6 +637,49 @@ $(document).ready(function() {
 					    });
 					}
 					else{
+						$('#quinielaFormResponse').text("Apuesta realizada correctamente");
+						//doLogin();
+						confirmBet(response.bet.bet, response.round.games, response.bet.numBets, response.bet.price, season, round);
+						showDiv(bConfirmQuiniela);
+					}
+			    }
+			});
+		}
+		if (buttonpressed=='Precio'){
+			calculatePrice();
+		}
+		event.preventDefault(); // prevent actual form submit and page reload
+	 });	 
+	
+	 $('form#confirmBetForm button#modificarQuinielaButton').click(function() {
+		 buttonpressed = $('form#confirmBetForm button#modificarQuinielaButton').val();
+		});
+	 $('form#confirmBetForm button#confirmarQuinielaButton').click(function() {
+		 buttonpressed = $('form#betForm button#confirmarQuinielaButton').val();
+		});
+		
+	 $('form#confirmBetForm').submit(function( event ) {
+
+		var dataJson=JSON.stringify($('form#confirmBetForm').serializeObject());
+		consoleAlterQ('confirmBetForm:'+dataJson);
+		if (buttonpressed == 'Confirmar')
+		{
+			// will pass the form date using the jQuery serialize function
+			jQuery.ajax ({
+				url: ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet/confirm',
+			    type: "POST",
+			    data: $(this).serialize(),
+	//		    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+			    cache: false,    //This will force requested pages not to be cached by the browser  
+			    processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+					if(response.errorDto!=0){
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		$('#quinielaFormResponse').append(objeto.stringError+" - ");
+					    });
+					}
+					else{
 						$('#0_1').removeAttr('checked');$('#0_X').removeAttr('checked');$('#0_2').removeAttr('checked');
 						$('#1_1').removeAttr('checked');$('#1_X').removeAttr('checked');$('#1_2').removeAttr('checked');
 						$('#2_1').removeAttr('checked');$('#2_X').removeAttr('checked');$('#2_2').removeAttr('checked');
@@ -633,18 +697,19 @@ $(document).ready(function() {
 						$('#14_0').removeAttr('checked');$('#14_1').removeAttr('checked');$('#14_2').removeAttr('checked');$('#14_3').removeAttr('checked');
 						$('#15_0').removeAttr('checked');$('#15_1').removeAttr('checked');$('#15_2').removeAttr('checked');$('#15_3').removeAttr('checked');
 						$('#quinielaFormResponse').text("Apuesta realizada correctamente");
-						doLogin();					
+						//doLogin();
+						showDiv(bConfirmQuiniela);
 					}
 			    }
 			});
 		}
-		if (buttonpressed=='Precio'){
-			calculatePrice();
+		if (buttonpressed=='Modificar'){
+			showDiv(bQuiniela);
 		}
 		event.preventDefault(); // prevent actual form submit and page reload
 	 });	 
-	
-   	 $('form#myDataForm').submit(function( event ) {
+
+	 $('form#myDataForm').submit(function( event ) {
    		 var dataJson=JSON.stringify($('form#myDataForm').serializeObject());
    		 consoleAlterQ('updateDataJsonAlterQ:'+dataJson);
 		 jQuery.ajax ({
@@ -1207,4 +1272,26 @@ function betDetail(index, bet)
     row+='</tr>';
 	$('#quinielaDetailTable').append(row);
 	showDiv(bQuinielaDetail);
+}
+
+function confirmBet(bet, mygames, apuestas, precio, temporada, jornada)
+{
+	var row="";
+	
+	consoleAlterQ('confirmBet');
+	consoleAlterQ('bet=' + bet);
+	$('#confirmarQuinielaTable').empty();
+    row+='<tr>';
+    row+='<td>';
+    row+='<article>';
+    row+='<header>';
+	row+='<div align="center"><h3>'+getHeadInfo(temporada, jornada)+'</h3></div>';
+	row+='<div align="center"><h3>'+getTableMatches(bet.toString(), mygames)+'</h3></div>';
+	row+='</header>';
+	row+='<div align="center"><h3>'+getPrizeInfo(apuestas, precio)+'</h3></div>';
+	row+='</article>';
+    row+='</td>';
+    row+='</tr>';
+	$('#confirmarQuinielaTable').append(row);
+	//showDiv(bQuinielaDetail);
 }

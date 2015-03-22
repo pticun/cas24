@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.alterq.util.BetTools;
+import org.alterq.domain.Round;
 
 @Controller
 @RequestMapping(value = "/myaccount/{id:.+}/season/{season}/round/{round}")
@@ -329,7 +330,8 @@ public class BetController {
 			{
 			case 0:
 				//float price = new Double(0.5 * Math.pow(2, dobles) * Math.pow(3, triples)).floatValue();
-				float price = new Double(0.5 * betTools.getNumberBets(betTools.getReductionType(doblesRed, triplesRed), doblesRed, triplesRed, pleno1, pleno2)).floatValue();
+				double numBets = betTools.getNumberBets(betTools.getReductionType(doblesRed, triplesRed), dobles, triples, pleno1, pleno2);
+				float price = new Double(0.5 * numBets).floatValue();
 
 				float balance = new Float(userAlterQ.getBalance()).floatValue();
 				if (balance - price > 0) {
@@ -345,13 +347,24 @@ public class BetController {
 					bet.setId(new ObjectId().toStringMongod());
 					bet.setReduction(reduccion);
 					bet.setTypeReduction(betTools.getReductionType(doblesRed, triplesRed));
+					bet.setNumBets(numBets);
 					StringBuffer sb = new StringBuffer();
 					sb.append("New Bet: season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
 					log.debug(sb.toString());
 
+					//Pasamos los parámetros necesarios para la pantalla de CONFIRMACION
+					dto.setBet(bet);
+					dto.setUserAlterQ(userAlterQ);
+					
+					Round r = new Round();
+					r = roundDao.findBySeasonRound(season, round);
+					
+					dto.setRound(r);
+					
+					
 					// Insert new bet into the BBDD
-					betDao.addBet(season, round, bet);
-					userDao.save(userAlterQ);
+					//betDao.addBet(season, round, bet);
+					//userDao.save(userAlterQ);
 
 				} else {
 					ErrorDto error = new ErrorDto();
