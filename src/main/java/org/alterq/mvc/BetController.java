@@ -335,8 +335,6 @@ public class BetController {
 
 				float balance = new Float(userAlterQ.getBalance()).floatValue();
 				if (balance - price > 0) {
-					balance -= price;
-					userAlterQ.setBalance("" + balance);
 					Bet bet = new Bet();
 					bet.setPrice(price);
 					bet.setBet(apuesta);
@@ -360,11 +358,6 @@ public class BetController {
 					r = roundDao.findBySeasonRound(season, round);
 					
 					dto.setRound(r);
-					
-					
-					// Insert new bet into the BBDD
-					//betDao.addBet(season, round, bet);
-					//userDao.save(userAlterQ);
 
 				} else {
 					ErrorDto error = new ErrorDto();
@@ -399,6 +392,85 @@ public class BetController {
 
 	}
 	
+	@RequestMapping(method = RequestMethod.POST, value = "/bet/confirm")
+	public @ResponseBody
+	ResponseDto confirmBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,
+			@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
+		if (log.isDebugEnabled()) {
+			log.debug("init AccountController.updateUserAlterQ");
+			log.debug("session:" + cookieSession);
+		}
+		ResponseDto dto = new ResponseDto();
+
+		try {
+			userSecurity.isSameUserInSession(id, cookieSession);
+			UserAlterQ userAlterQ = userDao.findById(id);
+			String apuesta = "";
+			String reduccion = "";
+			int tipoReduccion = 0;
+			int numBets = 0;
+
+			Map<String, String[]> parameters = request.getParameterMap();
+			for (String parameter : parameters.keySet()) {
+				try {
+					if (parameter.equals("param_apuesta"))
+					{
+						apuesta = request.getParameter(parameter) ;
+					}else if (parameter.equals("param_reduccion")){
+						reduccion = request.getParameter(parameter) ;
+					}else if (parameter.equals("param_tiporeduccion")){
+						tipoReduccion = Integer.parseInt(request.getParameter(parameter));
+					}else if (parameter.equals("param_numbets")){
+						numBets = Integer.parseInt(request.getParameter(parameter));
+					}
+				} catch (Exception e) {
+					// TODO: handle exceptionBets
+				}
+			}
+			
+			float price = new Double(0.5 * numBets).floatValue();
+
+			float balance = new Float(userAlterQ.getBalance()).floatValue();
+			balance -= price;
+			userAlterQ.setBalance("" + balance);
+			Bet bet = new Bet();
+			bet.setPrice(price);
+			bet.setBet(apuesta);
+			bet.setUser(userAlterQ.getId());
+			bet.setCompany(company);
+			bet.setDateCreated(new Date());
+			bet.setDateUpdated(new Date());
+			bet.setId(new ObjectId().toStringMongod());
+			bet.setReduction(reduccion);
+			bet.setTypeReduction(tipoReduccion);
+			bet.setNumBets(numBets);
+			StringBuffer sb = new StringBuffer();
+			sb.append("New Bet: season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
+			log.debug(sb.toString());
+
+			//Pasamos los parámetros necesarios para la pantalla de FINALIZACION
+			dto.setBet(bet);
+			dto.setUserAlterQ(userAlterQ);
+			
+			Round r = new Round();
+			r = roundDao.findBySeasonRound(season, round);
+			dto.setRound(r);
+			
+			
+			// Insert new bet into the BBDD
+			betDao.addBet(season, round, bet);
+			userDao.save(userAlterQ);
+
+
+		} catch (SecurityException e) {
+			log.error(ExceptionUtils.getStackTrace(e));
+			dto.addErrorDto(e.getError());
+		}
+
+		return dto;
+
+	}
+
 	//if id=mail@mail.es means you must return FinalBet
 	//user is amdinUser for this company
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "/bet")

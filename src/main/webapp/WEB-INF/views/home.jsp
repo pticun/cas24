@@ -422,18 +422,46 @@ End Analytics -->
     <!-- Confirm Bet Form -->
 		<div align="center">
 			<form id="confirmBetForm">
-					<table>
-						<tr>
-							<td>
-							    <table class="quiniela" border="1" id="confirmarQuinielaTable">
-							    </table>
-							</td>
-						</tr>
-					</table>
-				    <p></p>
-				    <div align="center" id="confirmarQuinielaFormResponse">pulsa Confirmar para validar tu apuesta.</div>
-				    <button id="modificarQuinielaButton" class="button" name="modificarQuiniela" value="Modificar">Modificar</button>
-				    <button id="confirmarQuinielaButton" class="button" name="confirmarQuiniela" value="Confirmar">Confirmar</button>
+				<input type="hidden" id="param_apuesta" name="param_apuesta" value="">
+				<input type="hidden" id="param_reduccion" name="param_reduccion" value="">
+				<input type="hidden" id="param_tiporeduccion" name="param_tiporeduccion" value="">
+				<input type="hidden" id="param_numbets" name="param_numbets" value="">
+				<table>
+					<tr>
+						<td>
+						    <table class="quiniela" border="1" id="confirmarQuinielaTable">
+						    </table>
+						</td>
+					</tr>
+				</table>
+			    <p></p>
+			    <div align="center" id="confirmarQuinielaFormResponse">pulsa Confirmar para validar tu apuesta.</div>
+			    <button id="modificarQuinielaButton" class="button" name="modificarQuiniela" value="Modificar">Modificar</button>
+			    <button id="confirmarQuinielaButton" class="button" name="confirmarQuiniela" value="Confirmar">Confirmar</button>
+			</form>
+		</div>
+    
+    <!-- End Confirm Bet Form -->
+</div>
+</div>
+<!-- End Confirm Quiniela Section -->
+
+<!-- Confirmed Quiniela Section -->
+<div id="confirmadaQuinielaDiv" class="page">
+<div class="container">
+    <!-- Confirm Bet Form -->
+		<div align="center">
+			<form id="confirmedBetForm">
+				<table>
+					<tr>
+						<td>
+						    <table class="quiniela" border="1" id="confirmadaQuinielaTable">
+						    </table>
+						</td>
+					</tr>
+				</table>
+			    <p></p>
+			    <button id="confirmadaQuinielaButton" class="button" name="confirmadaQuiniela" value="Finalizar">Finalizar</button>
 			</form>
 		</div>
     

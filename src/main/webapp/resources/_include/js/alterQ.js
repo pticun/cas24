@@ -26,6 +26,7 @@ var bQuinielaDetail = 13;
 var bMyModal = 14;
 var bConfirmQuiniela = 15;
 var bModalReduced = 16;
+var bConfirmedQuiniela = 17;
 
 //Texts
 var sHome    = "Inicio";
@@ -39,6 +40,7 @@ var sAdmin = "Administration";
 var sQuiniDetail = "";
 var sMyModal = "";
 var sConfirmQuiniela = "";
+var sConfirmedQuiniela = "";
 var sModalReduced ="";
 
 //Refs
@@ -59,6 +61,7 @@ var sMyAdminRef = "admin";
 var sQuinielaDetailRef = "#quinielaDetailDiv";
 var sMyModalRef = "#myModal";
 var sConfirmQuinielaRef = "#confirmarQuinielaDiv";
+var sConfirmedQuinielaRef = "#confirmadaQuinielaDiv";
 var sModalReducedRef = "#modalReduced";
 
 var buttonpressed;
@@ -84,6 +87,7 @@ function initDiv() {
 	$(sQuinielaDetailRef).hide();
 	$(sMyModalRef).hide();
 	$(sConfirmQuinielaRef).hide();
+	$(sConfirmedQuinielaRef).hide();
 	$(sModalReducedRef).hide();
 	
 	
@@ -122,6 +126,11 @@ function showDiv(elem) {
 		$(sQuinielaRef).show();
 		//document.getElementById("quinielaDiv").style.display = "block";
 		break;
+	case bQuiniela:
+		getQuiniela();
+		$(sQuinielaRef).show();
+		//document.getElementById("quinielaDiv").style.display = "block";
+		break;
 	case bMyAccount:
 		$(sMyaccountRef).show();
 		break;
@@ -151,6 +160,9 @@ function showDiv(elem) {
 		break;
 	case bConfirmQuiniela:
 		$(sConfirmQuinielaRef).show();
+		break;
+	case bConfirmedQuiniela:
+		$(sConfirmedQuinielaRef).show();
 		break;
 	case bModalReduced:
 		$(sModalReducedRef).show();
@@ -205,6 +217,9 @@ function showDiv(elem) {
 		break;
 	case bConfirmQuiniela:
 		$(sConfirmQuinielaRef).hide();
+		break;
+	case bConfirmedQuiniela:
+		$(sConfirmedQuinielaRef).hide();
 		break;
 	case bModalReduced:
 		$(sModalReducedRef).hide();
@@ -640,6 +655,12 @@ $(document).ready(function() {
 						$('#quinielaFormResponse').text("Apuesta realizada correctamente");
 						//doLogin();
 						confirmBet(response.bet.bet, response.round.games, response.bet.numBets, response.bet.price, season, round);
+						//pasamos los parámetros
+						$('#param_apuesta').val(response.bet.bet);
+						$('#param_reduccion').val(response.bet.reduction);
+						$('#param_tiporeduccion').val(response.bet.typeReduction);
+						$('#param_numbets').val(response.bet.numBets);
+						
 						showDiv(bConfirmQuiniela);
 					}
 			    }
@@ -655,7 +676,7 @@ $(document).ready(function() {
 		 buttonpressed = $('form#confirmBetForm button#modificarQuinielaButton').val();
 		});
 	 $('form#confirmBetForm button#confirmarQuinielaButton').click(function() {
-		 buttonpressed = $('form#betForm button#confirmarQuinielaButton').val();
+		 buttonpressed = $('form#confirmBetForm button#confirmarQuinielaButton').val();
 		});
 		
 	 $('form#confirmBetForm').submit(function( event ) {
@@ -664,6 +685,7 @@ $(document).ready(function() {
 		consoleAlterQ('confirmBetForm:'+dataJson);
 		if (buttonpressed == 'Confirmar')
 		{
+			consoleAlterQ(ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet/confirm');
 			// will pass the form date using the jQuery serialize function
 			jQuery.ajax ({
 				url: ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet/confirm',
@@ -696,9 +718,12 @@ $(document).ready(function() {
 						$('#13_1').removeAttr('checked');$('#13_X').removeAttr('checked');$('#13_2').removeAttr('checked');
 						$('#14_0').removeAttr('checked');$('#14_1').removeAttr('checked');$('#14_2').removeAttr('checked');$('#14_3').removeAttr('checked');
 						$('#15_0').removeAttr('checked');$('#15_1').removeAttr('checked');$('#15_2').removeAttr('checked');$('#15_3').removeAttr('checked');
-						$('#quinielaFormResponse').text("Apuesta realizada correctamente");
+						$('#confirmarQuinielaFormResponse').text("Apuesta realizada correctamente");
 						//doLogin();
-						showDiv(bConfirmQuiniela);
+						
+						confirmedBet(response.bet.bet, response.round.games, response.bet.numBets, response.bet.price, season, round);
+						
+						showDiv(bConfirmedQuiniela);
 					}
 			    }
 			});
@@ -709,6 +734,12 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
 	 });	 
 
+	 $('form#confirmedBetForm').submit(function( event ) {
+
+		showDiv(bHome);
+	 });	 
+
+	 
 	 $('form#myDataForm').submit(function( event ) {
    		 var dataJson=JSON.stringify($('form#myDataForm').serializeObject());
    		 consoleAlterQ('updateDataJsonAlterQ:'+dataJson);
@@ -1293,5 +1324,28 @@ function confirmBet(bet, mygames, apuestas, precio, temporada, jornada)
     row+='</td>';
     row+='</tr>';
 	$('#confirmarQuinielaTable').append(row);
+	//showDiv(bQuinielaDetail);
+}
+
+function confirmedBet(bet, mygames, apuestas, precio, temporada, jornada)
+{
+	var row="";
+	
+	consoleAlterQ('confirmedBet');
+	consoleAlterQ('bet=' + bet);
+	
+	$('#confirmadaQuinielaTable').empty();
+    row+='<tr>';
+    row+='<td>';
+    row+='<article>';
+    row+='<header>';
+	row+='<div align="center"><h3>'+getHeadInfo(temporada, jornada)+'</h3></div>';
+	row+='<div align="center"><h3>'+getTableMatches(bet.toString(), mygames)+'</h3></div>';
+	row+='</header>';
+	row+='<div align="center"><h3>'+getPrizeInfo(apuestas, precio)+'</h3></div>';
+	row+='</article>';
+    row+='</td>';
+    row+='</tr>';
+	$('#confirmadaQuinielaTable').append(row);
 	//showDiv(bQuinielaDetail);
 }
