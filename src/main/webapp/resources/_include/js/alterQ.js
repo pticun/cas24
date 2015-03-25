@@ -390,9 +390,9 @@ function getSignPleno15(sign){
 	}
 }
 
-function getTableMatches(bet, loadGames){
+function getTableMatches(bet, loadGames, color){
 	consoleAlterQ("getTableMatches() bet="+bet);	
-	tableBet='<table style="font-size:14px">';
+	tableBet='<table style="font-size:14px; color:'+color+';">';
 	$(loadGames).each(function(index, element){ 
 		var temp=padding_right(element.player1+'-'+element.player2,".",27);
 		var num = (index+1)<10?(' '+(index+1)):(index+1);
@@ -408,8 +408,8 @@ function getTableMatches(bet, loadGames){
     return tableBet;
 }
 
-function getPrizeInfo(apuestas, precio){
-	tablePrize='<table style="font-size:14px">';
+function getPrizeInfo(apuestas, precio, color){
+	tablePrize='<table style="font-size:14px; color:'+color+';">';
 	tablePrize+='<tr><td>===================================</td></tr>';
 	tablePrize+='<tr><td align="center">APUESTAS: ' + apuestas + '</td></tr>';
 	tablePrize+='<tr><td align="center">PRECIO: ' + precio + ' EUR</td></tr>';
@@ -419,8 +419,8 @@ function getPrizeInfo(apuestas, precio){
     return tablePrize;
 }
 
-function getHeadInfo(temporada, jornada){
-	tableHead='<table style="font-size:14px">';
+function getHeadInfo(temporada, jornada, color){
+	tableHead='<table style="font-size:14px; color:'+color+';">';
 	tableHead+='<tr><td align="center">QUINIGOLD</td></tr>';
 	tableHead+='<tr><td align="center">Jornada ' + jornada + ' Temporada ' +temporada+'/'+(temporada+1)+'</td></tr>';
 	tableHead+='<tr><td>===================================</td></tr>';
@@ -943,7 +943,7 @@ function callResum(temporada,jornada){
 					console.log("index="+index);
 					console.log("user="+element.user + " bet="+element.bet);
 					var row="";
-					row+='<div align="center" id="apuesta'+index+'"><h3>'+getTableMatches(element.bet, mygames)+'</h3></div>';
+					row+='<div align="center" id="apuesta'+index+'"><h3>'+getTableMatches(element.bet, mygames, "#0000ff")+'</h3></div>';
 					$('#resumTable').append(row);
 				});
 			}
@@ -1296,7 +1296,7 @@ function betDetail(index, bet)
     row+='<article>';
     row+='<header>';
     row+='<div align="center"><p> APUESTA '+ (index+1) +'</p></div>';
-	row+='<div align="center" id="apuesta'+index+'"><h3>'+getTableMatches(bet.toString(), mygames)+'</h3></div>';
+	row+='<div align="center" id="apuesta'+index+'"><h3>'+getTableMatches(bet.toString(), mygames, "#0000ff")+'</h3></div>';
 	row+='</header>';
 	row+='</article>';
     row+='</td>';
@@ -1316,10 +1316,10 @@ function confirmBet(bet, mygames, apuestas, precio, temporada, jornada)
     row+='<td>';
     row+='<article>';
     row+='<header>';
-	row+='<div align="center"><h3>'+getHeadInfo(temporada, jornada)+'</h3></div>';
-	row+='<div align="center"><h3>'+getTableMatches(bet.toString(), mygames)+'</h3></div>';
+	row+='<div align="center"><h3>'+getHeadInfo(temporada, jornada, "#0000ff")+'</h3></div>';
+	row+='<div align="center"><h3>'+getTableMatches(bet.toString(), mygames, "#0000ff")+'</h3></div>';
 	row+='</header>';
-	row+='<div align="center"><h3>'+getPrizeInfo(apuestas, precio)+'</h3></div>';
+	row+='<div align="center"><h3>'+getPrizeInfo(apuestas, precio, "#0000ff")+'</h3></div>';
 	row+='</article>';
     row+='</td>';
     row+='</tr>';
@@ -1339,10 +1339,10 @@ function confirmedBet(bet, mygames, apuestas, precio, temporada, jornada)
     row+='<td>';
     row+='<article>';
     row+='<header>';
-	row+='<div align="center"><h3>'+getHeadInfo(temporada, jornada)+'</h3></div>';
-	row+='<div align="center"><h3>'+getTableMatches(bet.toString(), mygames)+'</h3></div>';
+	row+='<div align="center"><h3>'+getHeadInfo(temporada, jornada, "#ff0000")+'</h3></div>';
+	row+='<div align="center"><h3>'+getTableMatches(bet.toString(), mygames, "#ff0000")+'</h3></div>';
 	row+='</header>';
-	row+='<div align="center"><h3>'+getPrizeInfo(apuestas, precio)+'</h3></div>';
+	row+='<div align="center"><h3>'+getPrizeInfo(apuestas, precio, "#ff0000")+'</h3></div>';
 	row+='</article>';
     row+='</td>';
     row+='</tr>';
