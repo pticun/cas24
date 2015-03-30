@@ -636,35 +636,41 @@ $(document).ready(function() {
 		consoleAlterQ('betForm:'+dataJson);
 		if (buttonpressed == 'Enviar')
 		{
-			// will pass the form date using the jQuery serialize function
-			jQuery.ajax ({
-				url: ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet',
-			    type: "POST",
-			    data: $(this).serialize(),
-	//		    contentType: "application/json; charset=utf-8",
-			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-			    cache: false,    //This will force requested pages not to be cached by the browser  
-			    processData:false, //To avoid making query String instead of JSON
-			    success: function(response){
-					if(response.errorDto!=0){
-		   		    	$(response.errorDto).each(function(index, objeto){  
-		   		    		$('#quinielaFormResponse').append(objeto.stringError+" - ");
-					    });
-					}
-					else{
-						$('#quinielaFormResponse').text("Apuesta realizada correctamente");
-						//doLogin();
-						confirmBet(response.bet.bet, response.round.games, response.bet.numBets, response.bet.price, season, round);
-						//pasamos los parámetros
-						$('#param_apuesta').val(response.bet.bet);
-						$('#param_reduccion').val(response.bet.reduction);
-						$('#param_tiporeduccion').val(response.bet.typeReduction);
-						$('#param_numbets').val(response.bet.numBets);
-						
-						showDiv(bConfirmQuiniela);
-					}
-			    }
-			});
+			//consoleAlterQ('/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet');
+			if (idUserAlterQ != ''){
+				// will pass the form date using the jQuery serialize function
+				jQuery.ajax ({
+					url: ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet',
+				    type: "POST",
+				    data: $(this).serialize(),
+		//		    contentType: "application/json; charset=utf-8",
+				    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+				    cache: false,    //This will force requested pages not to be cached by the browser  
+				    processData:false, //To avoid making query String instead of JSON
+				    success: function(response){
+						if(response.errorDto!=0){
+			   		    	$(response.errorDto).each(function(index, objeto){  
+			   		    		$('#quinielaFormResponse').append(objeto.stringError+" - ");
+						    });
+						}
+						else{
+							$('#quinielaFormResponse').text("Apuesta realizada correctamente");
+							//doLogin();
+							confirmBet(response.bet.bet, response.round.games, response.bet.numBets, response.bet.price, season, round);
+							//pasamos los parámetros
+							$('#param_apuesta').val(response.bet.bet);
+							$('#param_reduccion').val(response.bet.reduction);
+							$('#param_tiporeduccion').val(response.bet.typeReduction);
+							$('#param_numbets').val(response.bet.numBets);
+							
+							showDiv(bConfirmQuiniela);
+						}
+				    }
+				});
+			}
+			else{
+				$('#quinielaFormResponse').text("No se puede hacer apuestas sin usuario.");				
+			}
 		}
 		if (buttonpressed=='Precio'){
 			calculatePrice();
@@ -1219,7 +1225,7 @@ function getUserBets(){
 				    	row+='<tr class="quinielatitulo">';
 				    	row+='<td class="partidoLast">';
 				    	row+='<a href="javascript:betDetail('+index+',\''+element.bet+'\')" >';
-				    	row+='Apuesta'+(((index+1)<10)?'0':'')+(index+1)+' Jornada'+response.roundBet.round+ ' '+element.price + ' EUR';
+				    	row+='Apuesta'+(((index+1)<10)?'0':'')+(index+1)+' Jornada'+response.roundBet.round+ ' '+parseFloat(element.price).toFixed(2) + ' EUR';
 				    	row+='</a>';
 				    	row+='</td>';
 				    	row+='</tr>';
