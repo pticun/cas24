@@ -332,7 +332,7 @@ End Analytics -->
 
 		   		</table>
 		   		<a id="signupA" href="#signDiv">Crear un nuevo usuario</a><br>
-		   		<a href="#forgotDiv">He olvidado mi contraseña</a>
+		   		<a href="#forgotDiv">He olvidado mi contrase&ntilde;a</a>
 				<div id="loginFormResponse">respuesta </div>
 	        </form>
 		</div>
