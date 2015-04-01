@@ -163,6 +163,11 @@ MongoDB - PRO
 		
 		SSH de openshift
 			ssh://51dd73e55973ca1d89000148@quinimobile-goldbittle.rhcloud.com/~/git/quinimobile.git/
+			
+		Jenkins
+			https://jenkins-goldbittle.rhcloud.com/me/configure
+				User: admin
+   				Password: 163JSUX4W3Uv
 
  
  	PRO
