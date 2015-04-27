@@ -1546,6 +1546,12 @@ input[class="textbox"]{
 	display: block;
 
 }
+select{
+	width:120px;
+}
 
+input{
+	width:90%;
+}
 		
 		
