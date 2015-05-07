@@ -548,6 +548,7 @@ $(document).ready(function() {
 			    success: function(response){
 		   		    if(response.errorDto!=0){
 		   		    	consoleAlterQ("login: response="+response.errorDto);
+		   		    	$('#loginFormResponse').html("");
 		   		    	$(response.errorDto).each(function(index, objeto){  
 		   		    		$('#loginFormResponse').append(objeto.stringError+" - ");
 					    });
@@ -614,6 +615,7 @@ $(document).ready(function() {
 		   		    }
 		   		    else{
 						userLoged=true;
+						fillUserData(response);
 						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
 						showDiv(bHome);
 						

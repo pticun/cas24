@@ -120,6 +120,9 @@
 						<td colspan="2">Sign up</td>
 					</tr>
 			   		<tr>
+			   			<td colspan="2" class="partidoLast"><input type="text" name="id" id="idSign" placeholder="E-Mail Identifier"/></td>
+			        </tr>
+			   		<tr>
 			   			<td colspan="2" class="partidoLast"><input type="text" name="nick" id="nickSign" placeholder="Nick"/></td>
 			        </tr>
 			   		<tr>
@@ -138,10 +141,7 @@
 			   			</td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partidoLast"><input type="text" name="idCard" id="nifSign" placeholder="ID"/></td>
-			        </tr>
-			   		<tr>
-			   			<td colspan="2" class="partidoLast"><input type="text" name="id" id="idSign" placeholder="E-Mail"/></td>
+			   			<td colspan="2" class="partidoLast"><input type="text" name="idCard" id="nifSign" placeholder="CardID"/></td>
 			        </tr>
 			   		<tr>
 			   			<td colspan="2" class="partidoLast"><input type="password" name="pwd" id="pwdSign" placeholder="Password"/></td>
