@@ -1,6 +1,8 @@
 package org.alterq.util.test;
 
 
+import java.util.Iterator;
+
 import org.alterq.util.*;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
@@ -45,6 +47,13 @@ public class CalculateRigthsTest {
 		CalculateRigths aux = new CalculateRigths();
 		rdo = aux.Despliegue("77771111111111ff", "TTTTNNNNNNNNNNNN", 1);
 		
-		Assert.assertNull(rdo);
+		for (int i = 0; i < rdo.length; i++) {
+			String linea = rdo[i];
+			System.out.println(linea);
+			
+		}
+		
+		
+		Assert.assertNotNull(rdo);
 	}
 }

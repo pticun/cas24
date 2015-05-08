@@ -47,7 +47,7 @@ public class BetElectronicFile {
 		sb.append(StringUtils.leftPad(getCabecera().getIdReceptor(), 5, '0'));
 		sb.append(StringUtils.leftPad(getCabecera().getNumTotalApuestas(), 6, '0'));
 		sb.append(StringUtils.leftPad(getCabecera().getNumTotalSoporte(), 2, '0'));
-		sb.append(StringUtils.leftPad(getCabecera().getNumTotalBloquess(), 6, '0'));
+		sb.append(StringUtils.leftPad(getCabecera().getNumTotalBloques(), 6, '0'));
 		sb.append(StringUtils.leftPad(getCabecera().calculoCaracterControl(), 2, '0'));
 		sb.append(StringUtils.leftPad("", 87, ' '));
 		
