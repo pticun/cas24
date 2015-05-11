@@ -1,5 +1,6 @@
 package org.alterq.domain;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -15,6 +16,7 @@ public class Round {
 	private int season;
 	private int round;
 	private List<Game> games;
+	private Date dateRound;
 
 	public int getSeason() {
 		return season;
@@ -46,5 +48,13 @@ public class Round {
 
 	public void setCompany(int company) {
 		this.company = company;
+	}
+
+	public Date getDateRound() {
+		return dateRound;
+	}
+
+	public void setDateRound(Date dateRound) {
+		this.dateRound = dateRound;
 	}
 }

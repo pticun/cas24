@@ -3,6 +3,8 @@ package org.alterq.util;
 import java.util.Vector;
 import java.lang.Math;
 
+import org.springframework.web.bind.annotation.PathVariable;
+
 public class CalculateRigths{
 	public static final int REDUCCION_1 = 1; //Reduccion al 13 de 4 triples
 	public static final int REDUCCION_2 = 2; //Reduccion al 13 de 7 dobles
