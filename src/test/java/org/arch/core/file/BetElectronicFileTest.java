@@ -21,7 +21,7 @@ public class BetElectronicFileTest {
 
 		String rdo[]; 
 		CalculateRigths aux = new CalculateRigths();
-		rdo = aux.Despliegue("7777111111111100", "NNNNNNNNNNNNNNNN", 1);
+		rdo = aux.Despliegue("7777111111111100", "NNNNNNNNNNNNNN", 0);
 
 		cb.setFechaJornada("010115");
 		cb.setNumTotalApuestas(StringUtils.leftPad(""+rdo.length, 6, '0'));
