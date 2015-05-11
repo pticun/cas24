@@ -39,6 +39,7 @@ public class BetElectronicFileTest {
 			registroBe.setPronostico15(StringUtils.right(linea, 2));
 			registroBe.setPronosticoPartido(StringUtils.right(linea, 14));
 			registro[i]=registroBe;
+			System.out.println(linea);
 		}
 		
 		befile.setRegistro(registro);
