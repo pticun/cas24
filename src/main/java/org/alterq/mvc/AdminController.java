@@ -1196,5 +1196,48 @@ public class AdminController {
 		
 		return response;
 	}
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/getFile")
+	public @ResponseBody 
+	ResponseDto getElectricFile(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round) {
+		GeneralData generalData = null;
+		ResponseDto response = new ResponseDto();
+		
+		log.debug("getElectricFile: start");
+		try {
+			userSecurity.isAdminUserInSession( cookieSession);
+			generalData = dao.findByCompany(company);
+			
+			//Get All Round Bets
+			 RoundBets roundBets = roundBetDao.findAllBets(season, round);
+			 if (roundBets == null){
+				 response.addErrorDto("AdminController:getElectricFile", "No Bets");
+			 }
+			 else{
+					CalculateRigths aux = new CalculateRigths();
+					String rdo[] = new String[0];
+					String despApuesta[];
+					List<Bet> lBets = roundBets.getBets();
+					for (Bet bet : lBets){
+						//Calculamos el desglose de cada apuesta
+						despApuesta = aux.Despliegue(bet.getBet(), bet.getReduction(), bet.getTypeReduction());
+						rdo = aux.Acumula(rdo, despApuesta);
+						
+						//En este punto tenemos ya el array con todas las apuestas desplegadas
+						
+					}				 
+			 }
+
+			
+		} catch (SecurityException e) {
+			response.addErrorDto("AdminController:getElectricFile", "SecurityException");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		log.debug("openRound: end");
+		return response;
+	}
+	
 	
 }

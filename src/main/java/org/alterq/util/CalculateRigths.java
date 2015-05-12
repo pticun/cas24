@@ -84,6 +84,24 @@ public class CalculateRigths{
 		return false;
 	}
 	
+	public String[] Acumula(String[] total, String[]parcial)
+	{
+		int cont = 0;
+		
+		String [] rdo = new String[total.length + parcial.length];
+ 		
+		for (int i=0;i<total.length;i++){
+			rdo[i] = total[i];
+			cont++;
+		}
+		for (int i=0; i<parcial.length; i++){
+			rdo[i+cont] = parcial[i];
+			cont++;
+		}
+		
+		return rdo;
+	}
+	
 	public String[] Despliegue(String quinielaRealizada, String casillasReducidas, int tipoReduccion)
 	{
 		String [] despliegue;
