@@ -1,6 +1,13 @@
 package org.arch.core.file;
 
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeMap;
+
 import org.alterq.util.CalculateRigths;
+import org.apache.commons.collections.MultiHashMap;
+import org.apache.commons.collections.MultiMap;
+import org.apache.commons.collections.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -31,7 +38,23 @@ public class BetElectronicFileTest {
 
 		RegistroBetElectronicFile[] registro=new RegistroBetElectronicFile[rdo.length];
 
+		System.out.println("numBloques="+calculoNumBloques(rdo.length));
 		System.out.println("numApuestas="+rdo.length);
+		
+		MultiValueMap mhm=ordenarApuestas(rdo);
+		Set<String> keys = mhm.keySet();
+		int numBloquesPleno15=keys.size();
+		System.out.println("numBloquesPleno15="+numBloquesPleno15);
+		for (Object k : keys) {  
+		    System.out.println("("+k+" : "+mhm.get(k)+")");  
+		    int numApuestasIgualPleno15=mhm.getCollection(k).size();
+		    System.out.println("numApuestasIgualPleno15="+numApuestasIgualPleno15);
+		    for (Iterator iterator = mhm.getCollection(k).iterator(); iterator.hasNext();) {
+				String string = (String) iterator.next();
+				System.out.println(string);
+			}
+		}  	
+		
 		for (int i = 0; i < rdo.length; i++) {
 			String linea = rdo[i];
 			RegistroBetElectronicFile registroBe=new RegistroBetElectronicFile();
@@ -40,7 +63,7 @@ public class BetElectronicFileTest {
 			registroBe.setPronostico15(StringUtils.right(linea, 2));
 			registroBe.setPronosticoPartido(StringUtils.right(linea, 14));
 			registro[i]=registroBe;
-			System.out.println(linea);
+//			System.out.println(linea);
 		}
 		
 		befile.setRegistro(registro);
@@ -49,6 +72,28 @@ public class BetElectronicFileTest {
 		System.out.println(befile.getCabeceraString());
 		System.out.println(befile.getRegistroString());
 
+	}
+	public MultiValueMap ordenarApuestas(String rdo[]){
+		MultiValueMap mhm = new MultiValueMap();
+		
+		for (int i = 0; i < rdo.length; i++) {
+			String linea = rdo[i];
+			mhm.put(StringUtils.right(linea, 2), StringUtils.right(linea, 14));
+		}
+		System.out.println("results: "+mhm);
+		return mhm;
+	}
+	
+	public int calculoNumBloques(int numApuestas){
+		int numBloques=0;
+		
+		int moduloNumBloques=numApuestas%8;
+		numBloques=numApuestas/8;
+		if(moduloNumBloques==1){
+			numBloques++;
+		}
+		
+		return numBloques;
 	}
 
 	
