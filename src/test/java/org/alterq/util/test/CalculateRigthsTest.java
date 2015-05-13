@@ -1,9 +1,7 @@
 package org.alterq.util.test;
 
 
-import java.util.Iterator;
-
-import org.alterq.util.*;
+import org.alterq.util.CalculateRigths;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

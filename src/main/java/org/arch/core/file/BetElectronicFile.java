@@ -58,11 +58,14 @@ public class BetElectronicFile {
 		StringBuffer sb=new StringBuffer();
 		
 		for (RegistroBetElectronicFile registroBetElectronicFile : registro) {
-			sb.append(registroBetElectronicFile.getClaveRegistro());
-			sb.append(StringUtils.leftPad(registroBetElectronicFile.getNumBloque(), 8, '0') );
-			sb.append(registroBetElectronicFile.getNumApuestaBloque());
-			sb.append(registroBetElectronicFile.getPronosticoPartido());
-			sb.append(registroBetElectronicFile.getPronostico15());
+			if (registroBetElectronicFile!=null){
+				sb.append(registroBetElectronicFile.getClaveRegistro());
+				sb.append(StringUtils.leftPad(registroBetElectronicFile.getNumBloque(), 8, '0') );
+				sb.append(registroBetElectronicFile.getNumApuestaBloque());
+				sb.append(registroBetElectronicFile.getPronosticoPartido());
+				sb.append(registroBetElectronicFile.getPronostico15());
+				sb.append("\n");
+			}
 		}
 			
 		return sb.toString();
