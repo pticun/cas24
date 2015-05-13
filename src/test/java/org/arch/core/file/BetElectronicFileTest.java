@@ -2,11 +2,8 @@ package org.arch.core.file;
 
 import java.util.Iterator;
 import java.util.Set;
-import java.util.TreeMap;
 
 import org.alterq.util.CalculateRigths;
-import org.apache.commons.collections.MultiHashMap;
-import org.apache.commons.collections.MultiMap;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.FixMethodOrder;
@@ -49,12 +46,33 @@ public class BetElectronicFileTest {
 		    System.out.println("("+k+" : "+mhm.get(k)+")");  
 		    int numApuestasIgualPleno15=mhm.getCollection(k).size();
 		    System.out.println("numApuestasIgualPleno15="+numApuestasIgualPleno15);
+		    System.out.println("numBloques="+calculoNumBloques(numApuestasIgualPleno15));
+		    int indexBloques=1;
+		    int indexIterator=0;
+		    int numApuestaBloque=0;
+		    int numBloques=numApuestasIgualPleno15/8;
+		    StringBuffer pronosticoPartido=new StringBuffer();
 		    for (Iterator iterator = mhm.getCollection(k).iterator(); iterator.hasNext();) {
 				String string = (String) iterator.next();
+				indexIterator++;
+				pronosticoPartido.append(string);
+				//esto es un nuevo bloque
+				if (indexIterator%8==0){
+					RegistroBetElectronicFile registroBe=new RegistroBetElectronicFile();
+					registroBe.setNumApuestaBloque("8");
+					registroBe.setNumBloque(StringUtils.leftPad(""+indexBloques, 8, '0') );
+					registroBe.setPronostico15(StringUtils.right(""+k, 2));
+					registroBe.setPronosticoPartido(StringUtils.rightPad(pronosticoPartido.toString(), 112,' '));
+					registro[indexBloques-1]=registroBe;
+					
+					indexBloques++;
+				}
 				System.out.println(string);
 			}
+		    befile.setRegistro(registro);
 		}  	
-		
+
+		/*
 		for (int i = 0; i < rdo.length; i++) {
 			String linea = rdo[i];
 			RegistroBetElectronicFile registroBe=new RegistroBetElectronicFile();
@@ -65,8 +83,8 @@ public class BetElectronicFileTest {
 			registro[i]=registroBe;
 //			System.out.println(linea);
 		}
+		*/
 		
-		befile.setRegistro(registro);
 		
 		
 		System.out.println(befile.getCabeceraString());
