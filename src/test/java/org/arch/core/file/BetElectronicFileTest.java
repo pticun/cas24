@@ -43,15 +43,16 @@ public class BetElectronicFileTest {
 		Set<String> keys = mhm.keySet();
 		int numBloquesPleno15=keys.size();
 		System.out.println("numBloquesPleno15="+numBloquesPleno15);
+		int indexBloques=1;
+		int numBloques=1;
 		for (Object k : keys) {  
 		    System.out.println("("+k+" : "+mhm.get(k)+")");  
 		    int numApuestasIgualPleno15=mhm.getCollection(k).size();
 		    System.out.println("numApuestasIgualPleno15="+numApuestasIgualPleno15);
 		    System.out.println("numBloques="+calculoNumBloques(numApuestasIgualPleno15));
-		    int indexBloques=1;
 		    int indexIterator=0;
-		    int numApuestaLastBloque=0;
-		    int numBloques=numApuestasIgualPleno15/8+1;
+		    int numApuestaLastBloque=1;
+		    numBloques=numApuestasIgualPleno15/8+1;
 		    boolean lastBloque=false;
 		    StringBuffer pronosticoPartido=new StringBuffer();
 		    for (Iterator iterator = mhm.getCollection(k).iterator(); iterator.hasNext();) {
@@ -84,8 +85,9 @@ public class BetElectronicFileTest {
 			registroBe.setPronostico15(StringUtils.right(""+k, 2));
 			registroBe.setPronosticoPartido(StringUtils.rightPad(pronosticoPartido.toString(), 112,' '));
 			registro[indexBloques]=registroBe;
-		    befile.setRegistro(registro);
+			indexBloques++;
 		}  	
+		befile.setRegistro(registro);
 
 		/*
 		for (int i = 0; i < rdo.length; i++) {
