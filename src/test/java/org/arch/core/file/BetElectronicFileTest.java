@@ -26,11 +26,8 @@ public class BetElectronicFileTest {
 		String rdo[]; 
 		CalculateRigths aux = new CalculateRigths();
 		rdo = aux.Despliegue("7777111111111100", "TNNNNNNNNNNNNN", 1);
-		rdo = aux.Despliegue("77771111111111ff", "TTTTNNNNNNNNNNNN", 1);
+		rdo = aux.Despliegue("77777711111111ff", "TTTTNNNNNNNNNNNN", 1);
 
-		cb.setFechaJornada("010115");
-		cb.setNumTotalApuestas(StringUtils.leftPad(""+rdo.length, 6, '0'));
-		cb.setNumTotalBloques(StringUtils.leftPad(""+rdo.length, 6, '0'));
 		BetElectronicFile befile=new BetElectronicFile();
 		befile.setCabecera(cb);
 
@@ -102,7 +99,9 @@ public class BetElectronicFileTest {
 		}
 		*/
 		
-		
+		cb.setFechaJornada("010115");
+		cb.setNumTotalApuestas(StringUtils.leftPad(""+rdo.length, 6, '0'));
+		cb.setNumTotalBloques(StringUtils.leftPad(""+(indexBloques-1), 6, '0'));
 		
 		System.out.println(befile.getCabeceraString());
 		System.out.println(befile.getRegistroString());
