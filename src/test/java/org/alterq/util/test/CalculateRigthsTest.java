@@ -19,7 +19,7 @@ public class CalculateRigthsTest {
 	public void test01Calculate() {
 		int rdo[] = {0,0,0,0,0,0};
 		CalculateRigths aux = new CalculateRigths();
-		rdo = aux.Calculate("1111111111111100", "1111111111111100", "NNNNNNNNNNNNNNNN", 0);
+		rdo = aux.calculate("1111111111111100", "1111111111111100", "NNNNNNNNNNNNNNNN", 0);
 
 		Assert.assertNotNull(rdo);
 	}
@@ -27,7 +27,7 @@ public class CalculateRigthsTest {
 	public void test02Calculate() {
 		int rdo[] = {0,0,0,0,0,0};
 		CalculateRigths aux = new CalculateRigths();
-		rdo = aux.Calculate("1111111111111100", "3567111111111100", "NNNNNNNNNNNNNNNN", 0);
+		rdo = aux.calculate("1111111111111100", "3567111111111100", "NNNNNNNNNNNNNNNN", 0);
 		
 		Assert.assertNotNull(rdo);
 	}
@@ -35,7 +35,7 @@ public class CalculateRigthsTest {
 	public void test03Calculate() {
 		int rdo[] = {0,0,0,0,0,0};
 		CalculateRigths aux = new CalculateRigths();
-		rdo = aux.Calculate("1111111111111100", "11111111111111ff", "NNNNNNNNNNNNNNNN", 0);
+		rdo = aux.calculate("1111111111111100", "11111111111111ff", "NNNNNNNNNNNNNNNN", 0);
 		
 		Assert.assertNotNull(rdo);
 	}
@@ -43,7 +43,7 @@ public class CalculateRigthsTest {
 	public void test04Desglose() {
 		String rdo[]; 
 		CalculateRigths aux = new CalculateRigths();
-		rdo = aux.Despliegue("77771111111111ff", "TTTTNNNNNNNNNNNN", 1);
+		rdo = aux.unfolding("77771111111111ff", "TTTTNNNNNNNNNNNN", 1);
 		
 		for (int i = 0; i < rdo.length; i++) {
 			String linea = rdo[i];

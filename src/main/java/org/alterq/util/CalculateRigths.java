@@ -1,11 +1,12 @@
 package org.alterq.util;
 
 import java.util.Vector;
-import java.lang.Math;
 
-import org.springframework.web.bind.annotation.PathVariable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CalculateRigths{
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	public static final int REDUCCION_1 = 1; //Reduccion al 13 de 4 triples
 	public static final int REDUCCION_2 = 2; //Reduccion al 13 de 7 dobles
 	public static final int REDUCCION_3 = 3; //Reduccion al 13 de 3 dobles y 3 triples
@@ -84,7 +85,7 @@ public class CalculateRigths{
 		return false;
 	}
 	
-	public String[] Acumula(String[] total, String[]parcial)
+	public String[] acumula(String[] total, String[]parcial)
 	{
 		int cont = 0;
 		
@@ -101,8 +102,15 @@ public class CalculateRigths{
 		
 		return rdo;
 	}
-	
-	public String[] Despliegue(String quinielaRealizada, String casillasReducidas, int tipoReduccion)
+
+	/**
+	 * Despliegue de la quiniela teniendo en cuenta las reducidas y el tipo de reducción
+	 * @param quinielaRealizada
+	 * @param casillasReducidas
+	 * @param tipoReduccion
+	 * @return
+	 */
+	public String[] unfolding(String quinielaRealizada, String casillasReducidas, int tipoReduccion)
 	{
 		String [] despliegue;
 		vTriples = new boolean[14];
@@ -114,7 +122,7 @@ public class CalculateRigths{
 		int contTriplesReducidos = 0;
 		int contDoblesReducidos = 0;
 		
-		System.out.println("CalcularAciertos:Calcular(quinielaRealizada="+quinielaRealizada+", casillasReducidas="+casillasReducidas+", tipoReduccion="+tipoReduccion+")");
+		log.debug("CalcularAciertos:Calcular(quinielaRealizada="+quinielaRealizada+", casillasReducidas="+casillasReducidas+", tipoReduccion="+tipoReduccion+")");
 		
 		try {
 			//Analizamos el tipo de reduccion para saber el fichero xml a elegir
@@ -503,7 +511,7 @@ public class CalculateRigths{
 				}				
 			}
 		}catch (Exception ex) { 
-			System.out.println("ERROR: " + ex.getMessage());
+			log.error("ERROR: " + ex.getMessage());
 			return null;
 		}
 		
@@ -518,14 +526,14 @@ public class CalculateRigths{
 	 * @return Vector salida: Devuelve el numero de aciertos de 10, 11, 12, 13, 14 y 15 que ha obtenido la quinelaRealizada
 	 * comparandola con la quinielaResultado y teniendo en cuenta el tipo de reduccion utilizado
 	 */
-	public int[] Calculate(String quinielaResultado, String quinielaRealizada, String casillasReducidas, int tipoReduccion){
+	public int[] calculate(String quinielaResultado, String quinielaRealizada, String casillasReducidas, int tipoReduccion){
 		int salida[] = {0,0,0,0,0,0};
 		String[] despliegue;
-		System.out.println("CalcularAciertos:Calcular(quinielaResultado="+quinielaResultado+", quinielaRealizada="+quinielaRealizada+", casillasReducidas="+casillasReducidas+", tipoReduccion="+tipoReduccion+")");
+		log.debug("CalcularAciertos:Calcular(quinielaResultado="+quinielaResultado+", quinielaRealizada="+quinielaRealizada+", casillasReducidas="+casillasReducidas+", tipoReduccion="+tipoReduccion+")");
 		
 		try {
 			
-			despliegue = Despliegue(quinielaRealizada, casillasReducidas, tipoReduccion);
+			despliegue = unfolding(quinielaRealizada, casillasReducidas, tipoReduccion);
 			
 			//Analizamos la quiniela Resultado de la Jornada
 			int cont15 = 0;
@@ -567,9 +575,9 @@ public class CalculateRigths{
 			salida[4] = cont14;
 			salida[5] = cont15;
 			
-			System.out.println("CalcularAciertos: RESULTADO - Aciertos de 15=" + cont15 +  " Aciertos de 14=" + cont14 +  " Aciertos de 13=" + cont13 +  " Aciertos de 12=" + cont12 +  " Aciertos de 11=" + cont11 +  " Aciertos de 10=" + cont10);			
+			log.debug("CalcularAciertos: RESULTADO - Aciertos de 15=" + cont15 +  " Aciertos de 14=" + cont14 +  " Aciertos de 13=" + cont13 +  " Aciertos de 12=" + cont12 +  " Aciertos de 11=" + cont11 +  " Aciertos de 10=" + cont10);			
 		}catch (Exception ex) { 
-			System.out.println("ERROR: " + ex.getMessage());
+			log.error("ERROR: " + ex.getMessage());
 			return null;
 		}
 		return salida;

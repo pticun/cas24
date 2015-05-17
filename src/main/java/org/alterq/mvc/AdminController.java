@@ -1082,7 +1082,7 @@ public class AdminController {
 				}
 
 				CalculateRigths util = new CalculateRigths();
-				countPrizes = util.Calculate(parameters.get("results").toString(), bet.getBet(), bet.getReduction(), bet.getTypeReduction() );
+				countPrizes = util.calculate(parameters.get("results").toString(), bet.getBet(), bet.getReduction(), bet.getTypeReduction() );
 				for (int i=0;i<=5;i++)
 				{
 					Prize priceTmp = new Prize();
@@ -1219,8 +1219,8 @@ public class AdminController {
 					List<Bet> lBets = roundBets.getBets();
 					for (Bet bet : lBets){
 						//Calculamos el desglose de cada apuesta
-						despApuesta = aux.Despliegue(bet.getBet(), bet.getReduction(), bet.getTypeReduction());
-						rdo = aux.Acumula(rdo, despApuesta);
+						despApuesta = aux.unfolding(bet.getBet(), bet.getReduction(), bet.getTypeReduction());
+						rdo = aux.acumula(rdo, despApuesta);
 						
 						//En este punto tenemos ya el array con todas las apuestas desplegadas
 						
