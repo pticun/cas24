@@ -122,7 +122,7 @@ public class AdminControllerTest {
 		//System.out.println("new GeneralData.active:" + bean.isActive());
 		//Assert.assertTrue(bean.isActive());
 	}
-*/
+
 	@Test
 	public void AA_prizeRound() throws Exception {
 		PrizesRound bean = new PrizesRound();
@@ -182,7 +182,6 @@ public class AdminControllerTest {
 		//System.out.println("new GeneralData.id:" + rdo.getRound());
 		
 	}
-/*	
 	@Test
 	public void AA_newRoundGames() throws Exception {
 		Round bean = new Round();
@@ -296,6 +295,21 @@ public class AdminControllerTest {
 		//System.out.println("new GeneralData.id:" + rdo.getRound());
 		
 	}
-*/	
+*/
+
+	@Test
+	public void AA_fileGenation() throws Exception {
+		//GeneralData bean = new GeneralData();
+		//ObjectMapper mapper = new ObjectMapper();
+		
+//		ResultActions ra = this.mockMvc.perform(post("/admin/company/1/season/2014/round/34/getFile"));
+		ResultActions ra = this.mockMvc.perform(post("/admin/company/1/season/2014/round/41/getFile"));
+		ra.andDo(MockMvcResultHandlers.print());
+		ra.andExpect(status().isOk());
+		//bean = mapper.readValue(ra.andReturn().getResponse().getContentAsString(), GeneralData.class);
+		//System.out.println("new GeneralData.active:" + bean.isActive());
+		//Assert.assertTrue(bean.isActive());
+	}
+	
 	
 }

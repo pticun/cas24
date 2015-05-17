@@ -30,6 +30,10 @@ import org.alterq.repo.RoundRankingDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
+import org.apache.commons.lang3.StringUtils;
+import org.arch.core.file.BetElectronicFile;
+import org.arch.core.file.HeaderBetElectronicFile;
+import org.arch.core.file.RegistroBetElectronicFile;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1203,9 +1207,11 @@ public class AdminController {
 		ResponseDto response = new ResponseDto();
 		
 		log.debug("getElectricFile: start");
+/*		
 		try {
 			userSecurity.isAdminUserInSession( cookieSession);
 			generalData = dao.findByCompany(company);
+*/			
 			
 			//Get All Round Bets
 			 RoundBets roundBets = roundBetDao.findAllBets(season, round);
@@ -1219,20 +1225,82 @@ public class AdminController {
 					List<Bet> lBets = roundBets.getBets();
 					for (Bet bet : lBets){
 						//Calculamos el desglose de cada apuesta
-						despApuesta = aux.unfolding(bet.getBet(), bet.getReduction(), bet.getTypeReduction());
+						if ((bet.getBet()==null) || (bet.getBet().length()<16)){
+							//Tenemos que enviar un aviso al usuario
+							System.out.println("APUESTA ERRONEA (BET="+bet.getBet()+"USER="+bet.getUser());
+							continue;
+						}
+						if ((bet.getReduction()==null)||(bet.getReduction().length()<14)){
+							//Tenemos que enviar un aviso al usuario
+							System.out.println("APUESTA ERRONEA (BET="+bet.getBet()+" REDUCTION="+bet.getReduction()+" USER="+bet.getUser());
+							continue;
+						}
+						if ((bet.getTypeReduction()<0)){
+							//Tenemos que enviar un aviso al usuario
+							System.out.println("APUESTA ERRONEA (BET="+bet.getBet()+" REDUCTION="+bet.getReduction()+" TIPO="+ bet.getTypeReduction() +" USER="+bet.getUser());
+							continue;
+						}
+						try{
+							
+							despApuesta = aux.unfolding(bet.getBet(), bet.getReduction(), bet.getTypeReduction());
+							if (despApuesta == null){
+								//Tenemos que enviar un aviso al usuario
+								System.out.println("ERROR EN DESGLOSE USER="+bet.getUser());
+								continue;
+							}
+						
+						}catch (Exception e){
+							//Tenemos que enviar un aviso al usuario
+							System.out.println("ERROR EN DESGLOSE USER="+bet.getUser());
+							continue;
+						}
+						
 						rdo = aux.acumula(rdo, despApuesta);
 						
-						//En este punto tenemos ya el array con todas las apuestas desplegadas
-						
-					}				 
+					}
+					//En este punto tenemos ya el array con todas las apuestas desplegadas
+					
+					//Hay que ordenar las apuestas por el pleno al 15
+					
+					//Hay que calcular cuantas apuestas y cuantos bloques hay para cada pleno al 15 distinto
+					int bloques = rdo.length;//Pendiente revisar
+					
+					//Creamos la cabecera del fichero
+					HeaderBetElectronicFile cb = new HeaderBetElectronicFile();
+					cb.setIdDelegacion("64");
+					cb.setIdReceptor("65428");
+					cb.setFechaJornada("010115");
+					cb.setNumTotalApuestas(StringUtils.leftPad(""+rdo.length, 6, '0'));
+					cb.setNumTotalBloques(StringUtils.leftPad(""+bloques, 6, '0'));
+					BetElectronicFile befile=new BetElectronicFile();
+					befile.setCabecera(cb);
+					
+					RegistroBetElectronicFile[] registro=new RegistroBetElectronicFile[rdo.length];
+
+					for (int i = 0; i < rdo.length; i++) {
+						String linea = rdo[i];
+						RegistroBetElectronicFile registroBe=new RegistroBetElectronicFile();
+						registroBe.setNumApuestaBloque("1");
+						registroBe.setNumBloque(StringUtils.leftPad(""+i, 6, '0') );
+						registroBe.setPronostico15(StringUtils.right(linea, 2));
+						registroBe.setPronosticoPartido(StringUtils.right(linea, 14));
+						registro[i]=registroBe;
+						System.out.println(linea);
+					}
+					
+					befile.setRegistro(registro);	
+					
+					System.out.println(befile.getCabeceraString());
+					System.out.println(befile.getRegistroString());
+
 			 }
 
 			
-		} catch (SecurityException e) {
+		/*} catch (SecurityException e) {
 			response.addErrorDto("AdminController:getElectricFile", "SecurityException");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 
 		
 		log.debug("openRound: end");

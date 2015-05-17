@@ -96,7 +96,7 @@ public class CalculateRigths{
 			cont++;
 		}
 		for (int i=0; i<parcial.length; i++){
-			rdo[i+cont] = parcial[i];
+			rdo[cont] = parcial[i];
 			cont++;
 		}
 		
@@ -123,6 +123,10 @@ public class CalculateRigths{
 		int contDoblesReducidos = 0;
 		
 		log.debug("CalcularAciertos:Calcular(quinielaRealizada="+quinielaRealizada+", casillasReducidas="+casillasReducidas+", tipoReduccion="+tipoReduccion+")");
+		if ((casillasReducidas == null) || (casillasReducidas.length() < 14)){
+			casillasReducidas = "NNNNNNNNNNNNNN";
+			tipoReduccion = 0;
+		}
 		
 		try {
 			//Analizamos el tipo de reduccion para saber el fichero xml a elegir
