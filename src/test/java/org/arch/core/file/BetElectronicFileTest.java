@@ -23,26 +23,38 @@ public class BetElectronicFileTest {
 		cb.setIdDelegacion("64");
 		cb.setIdReceptor("65428");
 
-		String rdo[]; 
+		String rdo[] = new String[0];
+		String rdoAux[];
+
 		CalculateRigths aux = new CalculateRigths();
 		//Directa (1 apuesta)
-		rdo = aux.unfolding("1111111111111100", "NNNNNNNNNNNNNN", 0);
+		rdoAux = aux.unfolding("1111111111111100", "NNNNNNNNNNNNNN", 0);
+		rdo = aux.acumula(rdo, rdoAux);
 		//Directa - 1 Triple (3 apuestas)
-		rdo = aux.unfolding("7111111111111100", "TNNNNNNNNNNNNN", 0);
-		//Directa - 1 Triple (3 apuestas)
-		rdo = aux.unfolding("5111111111111100", "DNNNNNNNNNNNNN", 0);
+		rdoAux = aux.unfolding("7111111111111100", "NNNNNNNNNNNNNN", 0);
+		rdo = aux.acumula(rdo, rdoAux);
+		//Directa - 1 Doble (2 apuestas)
+		rdoAux = aux.unfolding("5111111111111100", "NNNNNNNNNNNNNN", 0);
+		rdo = aux.acumula(rdo, rdoAux);
 		//Reduccion 1 - 4 triples (9 apuestas)
-		rdo = aux.unfolding("7777111111111100", "TTTTNNNNNNNNNN", 1);
+		rdoAux = aux.unfolding("7777111111111100", "TTTTNNNNNNNNNN", 1);
+		rdo = aux.acumula(rdo, rdoAux);
 		//Reduccion 2 - 7 dobles (16 apuestas)
-		rdo = aux.unfolding("5555555111111100", "DDDDDDDNNNNNNN", 2);
+		rdoAux = aux.unfolding("5555555111111101", "DDDDDDDNNNNNNN", 2);
+		rdo = aux.acumula(rdo, rdoAux);
 		//Reduccion 3 - 3 Triples y 3 Dobles (24 apuestas)
-		rdo = aux.unfolding("7775551111111100", "TTTDDDNNNNNNNN", 3);
+		rdoAux = aux.unfolding("7775551111111102", "TTTDDDNNNNNNNN", 3);
+		rdo = aux.acumula(rdo, rdoAux);
 		//Reduccion 4 - 2 Triples y 6 Dobles (64 apuestas)
-		rdo = aux.unfolding("7755555511111100", "TTDDDDDDNNNNNN", 4);
+		rdoAux = aux.unfolding("775555551111110M", "TTDDDDDDNNNNNN", 4);
+		rdo = aux.acumula(rdo, rdoAux);
 		//Reduccion 5 - 8 Triples (81 apuestas)
-		rdo = aux.unfolding("7777777711111100", "TTTTTTTTNNNNNN", 5);
+		rdoAux = aux.unfolding("7777777711111110", "TTTTTTTTNNNNNN", 5);
+		rdo = aux.acumula(rdo, rdoAux);
 		//Reduccion 6 - 11 Dobles (132 apuestas)
-		rdo = aux.unfolding("5555555555511100", "DDDDDDDDDDDNNN", 6);
+		rdoAux = aux.unfolding("5555555555511120", "DDDDDDDDDDDNNN", 6);
+		rdo = aux.acumula(rdo, rdoAux);
+
 
 		BetElectronicFile befile=new BetElectronicFile();
 		befile.setCabecera(cb);
