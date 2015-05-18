@@ -25,8 +25,24 @@ public class BetElectronicFileTest {
 
 		String rdo[]; 
 		CalculateRigths aux = new CalculateRigths();
-		rdo = aux.unfolding("7777111111111100", "TNNNNNNNNNNNNN", 1);
-		rdo = aux.unfolding("77777711111111ff", "TTTTNNNNNNNNNNNN", 1);
+		//Directa (1 apuesta)
+		rdo = aux.unfolding("1111111111111100", "NNNNNNNNNNNNNN", 0);
+		//Directa - 1 Triple (3 apuestas)
+		rdo = aux.unfolding("7111111111111100", "TNNNNNNNNNNNNN", 0);
+		//Directa - 1 Triple (3 apuestas)
+		rdo = aux.unfolding("5111111111111100", "DNNNNNNNNNNNNN", 0);
+		//Reduccion 1 - 4 triples (9 apuestas)
+		rdo = aux.unfolding("7777111111111100", "TTTTNNNNNNNNNN", 1);
+		//Reduccion 2 - 7 dobles (16 apuestas)
+		rdo = aux.unfolding("5555555111111100", "DDDDDDDNNNNNNN", 2);
+		//Reduccion 3 - 3 Triples y 3 Dobles (24 apuestas)
+		rdo = aux.unfolding("7775551111111100", "TTTDDDNNNNNNNN", 3);
+		//Reduccion 4 - 2 Triples y 6 Dobles (64 apuestas)
+		rdo = aux.unfolding("7755555511111100", "TTDDDDDDNNNNNN", 4);
+		//Reduccion 5 - 8 Triples (81 apuestas)
+		rdo = aux.unfolding("7777777711111100", "TTTTTTTTNNNNNN", 5);
+		//Reduccion 6 - 11 Dobles (132 apuestas)
+		rdo = aux.unfolding("5555555555511100", "DDDDDDDDDDDNNN", 6);
 
 		BetElectronicFile befile=new BetElectronicFile();
 		befile.setCabecera(cb);
