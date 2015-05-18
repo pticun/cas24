@@ -60,7 +60,7 @@ public class BetElectronicFileTest {
 
 		RegistroBetElectronicFile[] registro=new RegistroBetElectronicFile[rdo.length];
 
-		System.out.println("numBloques="+calculoNumBloques(rdo.length));
+//		System.out.println("numBloques="+calculoNumBloques(rdo.length));
 		System.out.println("numApuestas="+rdo.length);
 		
 		MultiValueMap mhm=ordenarApuestas(rdo);
@@ -73,15 +73,18 @@ public class BetElectronicFileTest {
 		    System.out.println("("+k+" : "+mhm.get(k)+")");  
 		    int numApuestasIgualPleno15=mhm.getCollection(k).size();
 		    System.out.println("numApuestasIgualPleno15="+numApuestasIgualPleno15);
-		    System.out.println("numBloques="+calculoNumBloques(numApuestasIgualPleno15));
+//		    System.out.println("numBloques="+calculoNumBloques(numApuestasIgualPleno15));
 		    System.out.println("modulusBloque="+modulusBloque(numApuestasIgualPleno15));
 		    int indexIterator=0;
 		    int numApuestaLastBloque=0;
 		    int modulusBloque=modulusBloque(numApuestasIgualPleno15);
-		    numBloques=numApuestasIgualPleno15/modulusBloque+1;
+		    numBloques=calculoNumBloques(numApuestasIgualPleno15,modulusBloque);
 		    boolean lastBloque=false;
 		    StringBuffer pronosticoPartido=new StringBuffer();
 		    for (Iterator iterator = mhm.getCollection(k).iterator(); iterator.hasNext();) {
+		    	if(indexBloques==numBloques){
+		    		lastBloque=true;
+		    	}
 				String linea = (String) iterator.next();
 				indexIterator++;
 				pronosticoPartido.append(StringUtils.left(linea, 14));
@@ -100,9 +103,6 @@ public class BetElectronicFileTest {
 				}
 				if (lastBloque){
 					numApuestaLastBloque++;
-				}
-				if(indexBloques==numBloques){
-					lastBloque=true;
 				}
 				System.out.println(linea);
 			}
@@ -148,12 +148,12 @@ public class BetElectronicFileTest {
 		return mhm;
 	}
 	
-	public int calculoNumBloques(int numApuestas){
+	public int calculoNumBloques(int numApuestas,int modulo){
 		int numBloques=0;
 		
-		int moduloNumBloques=numApuestas%8;
-		numBloques=numApuestas/8;
-		if(moduloNumBloques==1){
+		int moduloNumBloques=numApuestas%modulo;
+		numBloques=numApuestas/modulo;
+		if(moduloNumBloques>0){
 			numBloques++;
 		}
 		
