@@ -63,9 +63,11 @@ public class BetElectronicFileTest {
 		    int numApuestasIgualPleno15=mhm.getCollection(k).size();
 		    System.out.println("numApuestasIgualPleno15="+numApuestasIgualPleno15);
 		    System.out.println("numBloques="+calculoNumBloques(numApuestasIgualPleno15));
+		    System.out.println("modulusBloque="+modulusBloque(numApuestasIgualPleno15));
 		    int indexIterator=0;
-		    int numApuestaLastBloque=1;
-		    numBloques=numApuestasIgualPleno15/8+1;
+		    int numApuestaLastBloque=0;
+		    int modulusBloque=modulusBloque(numApuestasIgualPleno15);
+		    numBloques=numApuestasIgualPleno15/modulusBloque+1;
 		    boolean lastBloque=false;
 		    StringBuffer pronosticoPartido=new StringBuffer();
 		    for (Iterator iterator = mhm.getCollection(k).iterator(); iterator.hasNext();) {
@@ -73,9 +75,10 @@ public class BetElectronicFileTest {
 				indexIterator++;
 				pronosticoPartido.append(StringUtils.left(linea, 14));
 				//esto es un nuevo bloque
-				if (indexIterator%8==0 && !lastBloque){
+				if(indexIterator%modulusBloque==0 && !lastBloque){
+//				if (indexIterator%8==0 && !lastBloque){
 					RegistroBetElectronicFile registroBe=new RegistroBetElectronicFile();
-					registroBe.setNumApuestaBloque("8");
+					registroBe.setNumApuestaBloque(""+modulusBloque);
 					registroBe.setNumBloque(StringUtils.leftPad(""+indexBloques, 8, '0') );
 					registroBe.setPronostico15(StringUtils.right(""+k, 2));
 					registroBe.setPronosticoPartido(StringUtils.rightPad(pronosticoPartido.toString(), 112,' '));
@@ -144,6 +147,18 @@ public class BetElectronicFileTest {
 		}
 		
 		return numBloques;
+	}
+	public int modulusBloque(int numApuestas){
+		int moduloNumBloques=0;
+		int i=8;
+		
+		for (; i > 0; i--) {
+			moduloNumBloques=numApuestas%i;
+			if(moduloNumBloques!=1){
+				break;
+			}	
+		}
+		return i;
 	}
 
 	
