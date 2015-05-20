@@ -16,10 +16,6 @@ import org.junit.runners.MethodSorters;
  * @author osruiz
  *
  */
-/**
- * @author osruiz
- *
- */
 @RunWith(BlockJUnit4ClassRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BetElectronicFileTest {
