@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,6 +32,7 @@ import org.alterq.repo.RoundRankingDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
+import org.apache.commons.collections.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 import org.arch.core.file.BetElectronicFile;
 import org.arch.core.file.HeaderBetElectronicFile;
@@ -1269,30 +1272,73 @@ public class AdminController {
 					HeaderBetElectronicFile cb = new HeaderBetElectronicFile();
 					cb.setIdDelegacion("64");
 					cb.setIdReceptor("65428");
-					cb.setFechaJornada("010115");
-					cb.setNumTotalApuestas(StringUtils.leftPad(""+rdo.length, 6, '0'));
-					cb.setNumTotalBloques(StringUtils.leftPad(""+bloques, 6, '0'));
+
 					BetElectronicFile befile=new BetElectronicFile();
 					befile.setCabecera(cb);
-					
+
 					RegistroBetElectronicFile[] registro=new RegistroBetElectronicFile[rdo.length];
 
-					for (int i = 0; i < rdo.length; i++) {
-						String linea = rdo[i];
-						RegistroBetElectronicFile registroBe=new RegistroBetElectronicFile();
-						registroBe.setNumApuestaBloque("1");
-						registroBe.setNumBloque(StringUtils.leftPad(""+i, 6, '0') );
-						registroBe.setPronostico15(StringUtils.right(linea, 2));
-						registroBe.setPronosticoPartido(StringUtils.right(linea, 14));
-						registro[i]=registroBe;
-						System.out.println(linea);
-					}
+					System.out.println("numApuestas="+rdo.length);
 					
-					befile.setRegistro(registro);	
+					MultiValueMap mhm=ordenarApuestas(rdo);
+					Set<String> keys = mhm.keySet();
+					int numBloquesPleno15=keys.size();
+					System.out.println("numBloquesPleno15="+numBloquesPleno15);
+					int indexBloquesTotal=1;
+					for (Object k : keys) {  
+					    System.out.println("("+k+" : "+mhm.get(k)+")");  
+					    int numApuestasIgualPleno15=mhm.getCollection(k).size();
+					    int[] modulusBloque=modulusBloque(numApuestasIgualPleno15);
+						int numBloques=modulusBloque[0];
+						int indexIterator=0;
+						int numApuestaLastBloque=0;
+						int numBloquesContador=1;
+					    System.out.println("numBloque="+modulusBloque[0]);
+					    System.out.println("modBloque="+modulusBloque[1]);
+					    System.out.println("numApuestasIgualPleno15="+numApuestasIgualPleno15);
+					    boolean lastBloque=false;
+					    StringBuffer pronosticoPartido=new StringBuffer();
+					    for (Iterator iterator = mhm.getCollection(k).iterator(); iterator.hasNext();) {
+					    	if(numBloquesContador==numBloques){
+					    		lastBloque=true;
+					    		numApuestaLastBloque++;
+					    	}
+							String linea = (String) iterator.next();
+							indexIterator++;
+							pronosticoPartido.append(StringUtils.left(linea, 14));
+							//esto es un nuevo bloque
+							if(indexIterator%modulusBloque[1]==0 && !lastBloque){
+								RegistroBetElectronicFile registroBe=new RegistroBetElectronicFile();
+								registroBe.setNumApuestaBloque(""+modulusBloque[1]);
+								registroBe.setNumBloque(StringUtils.leftPad(""+indexBloquesTotal, 8, '0') );
+								registroBe.setPronostico15(StringUtils.right(""+k, 2));
+								registroBe.setPronosticoPartido(StringUtils.rightPad(pronosticoPartido.toString(), 112,' '));
+								registro[indexBloquesTotal]=registroBe;
+								
+								pronosticoPartido=new StringBuffer();
+								numBloquesContador++;
+								indexBloquesTotal++;
+							}
+//							System.out.println(linea);
+						}
+						RegistroBetElectronicFile registroBe=new RegistroBetElectronicFile();
+						registroBe.setNumApuestaBloque(""+numApuestaLastBloque);
+						registroBe.setNumBloque(StringUtils.leftPad(""+indexBloquesTotal, 8, '0') );
+						registroBe.setPronostico15(StringUtils.right(""+k, 2));
+						registroBe.setPronosticoPartido(StringUtils.rightPad(pronosticoPartido.toString(), 112,' '));
+						registro[indexBloquesTotal]=registroBe;
+						indexBloquesTotal++;
+					} 
+					
+					
+					befile.setRegistro(registro);
+					
+					cb.setFechaJornada("010115");
+					cb.setNumTotalApuestas(StringUtils.leftPad(""+rdo.length, 6, '0'));
+					cb.setNumTotalBloques(StringUtils.leftPad(""+(indexBloquesTotal-1), 6, '0'));
 					
 					System.out.println(befile.getCabeceraString());
 					System.out.println(befile.getRegistroString());
-
 			 }
 
 			
@@ -1307,5 +1353,60 @@ public class AdminController {
 		return response;
 	}
 	
+	private MultiValueMap ordenarApuestas(String rdo[]){
+		MultiValueMap mhm = new MultiValueMap();
+		
+		for (int i = 0; i < rdo.length; i++) {
+			String linea = rdo[i];
+			mhm.put(StringUtils.right(linea, 2), StringUtils.left(linea, 14));
+		}
+		System.out.println("results: "+mhm);
+		return mhm;
+	}
+	
+	private int calculoNumBloques(int numApuestas,int modulo){
+		int numBloques=0;
+		
+		int moduloNumBloques=numApuestas%modulo;
+		numBloques=numApuestas/modulo;
+		if(moduloNumBloques>0){
+			numBloques++;
+		}
+		
+		return numBloques;
+	}
+	/**
+	 * @param numBets
+	 * @return [numBlock,modBlock]
+	 */
+	private int[] modulusBloque(int numBets){
+		int[] modulusBloque={0,0};
+		int numBlock=0;
+		int modBlock=0;
+		int i=8;
+		
+		if(numBets==0){
+			return modulusBloque;
+		}
+		
+		for (; i > 0; i--) {
+			int resto=numBets%i;
+			modBlock=i;
+			if(resto!=1){
+				break;
+			}
+		}
+		
+		int resto=numBets%i;
+		numBlock=numBets/i;
+		if (resto!=0){
+			numBlock++;
+		}
+
+		modulusBloque[0]=numBlock;
+		modulusBloque[1]=modBlock;
+		
+		return modulusBloque;
+	}
 	
 }
