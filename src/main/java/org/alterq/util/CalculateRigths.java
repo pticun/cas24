@@ -135,7 +135,18 @@ public class CalculateRigths{
 			
 			String [] triples = null;
 			
-			quinielaRealizada = quinielaRealizada.replace('4', '2');
+			String quiniela = quinielaRealizada.substring(0, 14);
+			String pleno15 = quinielaRealizada.substring(14, 16);
+			
+			quiniela = quiniela.replace('2', 'X');
+			quiniela = quiniela.replace('1', '2');
+			quiniela = quiniela.replace('4', '1');
+			
+			pleno15 = pleno15.replace('1', '0');
+			pleno15 = pleno15.replace('2', '1');
+			pleno15 = pleno15.replace('4', '2');
+			
+			quinielaRealizada = quiniela + pleno15;
 			
 			if (reducciones.elementAt(0) != null)
 				dobles = (String[]) reducciones.elementAt(0);
@@ -312,7 +323,7 @@ public class CalculateRigths{
 						char car1 = ' ';
 						char car2 = ' ';
 						
-						if (quinielaRealizada.charAt(j) == '3')
+						if (quinielaRealizada.charAt(j) == '6')
 						{
 							car1 = '1';
 							car2 = 'X';
@@ -322,7 +333,7 @@ public class CalculateRigths{
 							car1 = '1';
 							car2 = '2';
 						}
-						else if (quinielaRealizada.charAt(j) == '6')
+						else if (quinielaRealizada.charAt(j) == '3')
 						{
 							car1 = 'X';
 							car2 = '2';
