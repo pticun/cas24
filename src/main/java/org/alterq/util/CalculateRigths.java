@@ -145,6 +145,7 @@ public class CalculateRigths{
 			pleno15 = pleno15.replace('1', '0');
 			pleno15 = pleno15.replace('2', '1');
 			pleno15 = pleno15.replace('4', '2');
+			pleno15 = pleno15.replace('8', 'M');
 			
 			quinielaRealizada = quiniela + pleno15;
 			

@@ -219,6 +219,7 @@ function showDiv(elem) {
 		$(sConfirmQuinielaRef).hide();
 		break;
 	case bConfirmedQuiniela:
+//alert("$(sConfirmedQuinielaRef).hide()");		
 		$(sConfirmedQuinielaRef).hide();
 		break;
 	case bModalReduced:
@@ -743,8 +744,8 @@ $(document).ready(function() {
 	 });	 
 
 	 $('form#confirmedBetForm').submit(function( event ) {
-
 		showDiv(bHome);
+		event.preventDefault(); // prevent actual form submit and page reload
 	 });	 
 
 	 
@@ -873,7 +874,7 @@ function hideReducciones(){
 }
 
 function showModalReduced(){
-	alert("showModal");
+//	alert("showModal");
 	showDiv(bModalReduced);
 }
 function callRanking(idUserAlterQ,temporada,jornada){
