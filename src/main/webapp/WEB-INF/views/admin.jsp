@@ -99,6 +99,7 @@ var ctx = "<%=request.getContextPath()%>"
 	var bPrizesRoundSession		= 6;
 	var bUpdateBalanceUser		= 7;
 	var bGetQuinielaRef			= 8;
+	var bGetFileRef				= 9;
 
 	//Refs
 	var sHomeRef 					= "#homeDiv";
@@ -110,6 +111,7 @@ var ctx = "<%=request.getContextPath()%>"
 	var sPrizesRoundSessionRef		= "#prizesDiv";
 	var sUpdateBalanceUserRef		= "#updateBalanceDiv";
 	var sGetQuinielaRef 			= "#getQuinielaDiv";
+	var sGetFileRef 				= "#getFileDiv";
 	
 	function initDiv() {
 		consoleAlterQ("initDiv");		
@@ -122,6 +124,7 @@ var ctx = "<%=request.getContextPath()%>"
 		$(sPrizesRoundSessionRef).hide();
 		$(sUpdateBalanceUserRef).hide();
 		$(sGetQuinielaRef).hide();
+		$(sGetFileRef).hide();
 		
 		bActual = bHome;
 	}
@@ -158,6 +161,9 @@ var ctx = "<%=request.getContextPath()%>"
 		case bGetQuinielaRef:
 			$(sGetQuinielaRef).show();
 			break;
+		case bGetFileRef:
+			$(sGetFileRef).show();
+			break;
 		}
 
 		switch (bActual){
@@ -187,6 +193,9 @@ var ctx = "<%=request.getContextPath()%>"
 			break;
 		case bGetQuinielaRef:
 			$(sGetQuinielaRef).hide();
+			break;
+		case bGetFileRef:
+			$(sGetFileRef).hide();
 			break;
 		}
 		
@@ -225,6 +234,9 @@ var ctx = "<%=request.getContextPath()%>"
 		}else if (href == sGetQuinielaRef){
 			consoleAlterQ("bGetQuinielaRef");
 			showDiv(bGetQuinielaRef);
+		}else if (href == sGetFileRef){
+			consoleAlterQ("bGetFileRef");
+			showDiv(bGetFileRef);
 		}
 		return false;
 		
@@ -304,6 +316,12 @@ var ctx = "<%=request.getContextPath()%>"
           		<table class="quiniela">
 		   		<tr align="center">
 		   			<td class="partido"><button id="updateBalanceBtn" class="button" name="updateBalanceprizesMenu" value="updateBalance">Update Balance</button></td>
+		        </tr>
+	   			</table>
+          		<br>
+          		<table class="quiniela">
+		   		<tr align="center">
+		   			<td class="partido"><button id="fileBtn" class="button" name="fileMenu" value="file">File</button></td>
 		        </tr>
 	   			</table>
         </div>
@@ -795,6 +813,59 @@ var ctx = "<%=request.getContextPath()%>"
 </div>
 </div>
 <!-- End ResultsRound Section -->
+
+
+
+
+<!-- GetFile Section -->
+<div id="getFileDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Admin - Get Final File</h2>
+            </div>
+        </div>
+    </div>
+   
+	<div id="resumResponse" align="center">
+		    <table class="quiniela" id="resumTable"></table>
+	</div>
+    
+    <!-- FinalQuinielaRound Form -->
+    <div class="row table-responsive">
+		<div align="center">
+			<form id="getFileForm">
+			   		<table class="quiniela">
+				   		<tr>
+				   			<td class="partido">Season:</td>
+				   			<td class="partido"><input id="seasonGetFile" name="season" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td class="partido">Round:</td>
+				   			<td class="partido"><input id="roundFGetile" name="round" type="text"/></td>
+				        </tr>
+				   		<tr align="right">
+				   			<td class="partido">&nbsp;</td>
+				   			<td class="partido"><button id="admin_getFile_btn" class="button" name="getFileBtn" value="fileBtn">Get File</button></td>
+				        </tr>
+			   		</table>
+			   		<div id="getFileFormResponse">respuesta </div>
+			</form>
+	   		<table class="quiniela">
+	   			<tr align="center">
+		   			<td class="partido"><button id="homeBtn8" class="button" name="homeBtn04" value="homeBtn8">Admin Menu</button></td>
+		        </tr>
+	       </table>
+		</div>
+    </div>
+    <!-- End GetQuinielaRound Form -->
+</div>
+</div>
+
+
+
 
 
 <!-- Footer -->
