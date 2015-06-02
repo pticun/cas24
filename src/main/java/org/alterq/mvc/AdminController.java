@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import org.alterq.util.CalculateRigths;
 import org.alterq.domain.Bet;
 import org.alterq.domain.Game;
 import org.alterq.domain.GeneralData;
@@ -32,6 +32,7 @@ import org.alterq.repo.RoundRankingDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
+import org.alterq.util.CalculateRigths;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 import org.arch.core.file.BetElectronicFile;
@@ -41,6 +42,8 @@ import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -1203,19 +1206,21 @@ public class AdminController {
 		
 		return response;
 	}
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/getFile")
-	public @ResponseBody 
-	ResponseDto getElectricFile(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round) {
+	@RequestMapping(method = RequestMethod.POST, produces = MediaType.TEXT_PLAIN_VALUE, value = "/company/{company}/season/{season}/round/{round}/getFile")
+	public @ResponseBody String getElectricFile(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round,HttpServletResponse resp) {
 		GeneralData generalData = null;
 		ResponseDto response = new ResponseDto();
+		String responseString=new String();
+		
 		
 		log.debug("getElectricFile: start");
-/*		
+		
 		try {
 			userSecurity.isAdminUserInSession( cookieSession);
 			generalData = dao.findByCompany(company);
-*/			
+		
 			
+			Round tmpRound = roundDao.findBySeasonRound(season, round);
 			//Get All Round Bets
 			 RoundBets roundBets = roundBetDao.findAllBets(season, round);
 			 if (roundBets == null){
@@ -1230,17 +1235,17 @@ public class AdminController {
 						//Calculamos el desglose de cada apuesta
 						if ((bet.getBet()==null) || (bet.getBet().length()<16)){
 							//Tenemos que enviar un aviso al usuario
-							System.out.println("APUESTA ERRONEA (BET="+bet.getBet()+"USER="+bet.getUser());
+							log.debug("APUESTA ERRONEA (BET="+bet.getBet()+"USER="+bet.getUser());
 							continue;
 						}
 						if ((bet.getReduction()==null)||(bet.getReduction().length()<14)){
 							//Tenemos que enviar un aviso al usuario
-							System.out.println("APUESTA ERRONEA (BET="+bet.getBet()+" REDUCTION="+bet.getReduction()+" USER="+bet.getUser());
+							log.debug("APUESTA ERRONEA (BET="+bet.getBet()+" REDUCTION="+bet.getReduction()+" USER="+bet.getUser());
 							continue;
 						}
 						if ((bet.getTypeReduction()<0)){
 							//Tenemos que enviar un aviso al usuario
-							System.out.println("APUESTA ERRONEA (BET="+bet.getBet()+" REDUCTION="+bet.getReduction()+" TIPO="+ bet.getTypeReduction() +" USER="+bet.getUser());
+							log.debug("APUESTA ERRONEA (BET="+bet.getBet()+" REDUCTION="+bet.getReduction()+" TIPO="+ bet.getTypeReduction() +" USER="+bet.getUser());
 							continue;
 						}
 						try{
@@ -1248,13 +1253,13 @@ public class AdminController {
 							despApuesta = aux.unfolding(bet.getBet(), bet.getReduction(), bet.getTypeReduction());
 							if (despApuesta == null){
 								//Tenemos que enviar un aviso al usuario
-								System.out.println("ERROR EN DESGLOSE USER="+bet.getUser());
+								log.debug("ERROR EN DESGLOSE USER="+bet.getUser());
 								continue;
 							}
 						
 						}catch (Exception e){
 							//Tenemos que enviar un aviso al usuario
-							System.out.println("ERROR EN DESGLOSE USER="+bet.getUser());
+							log.debug("ERROR EN DESGLOSE USER="+bet.getUser());
 							continue;
 						}
 						
@@ -1278,24 +1283,24 @@ public class AdminController {
 
 					RegistroBetElectronicFile[] registro=new RegistroBetElectronicFile[rdo.length];
 
-					System.out.println("numApuestas="+rdo.length);
+					log.debug("numApuestas="+rdo.length);
 					
 					MultiValueMap mhm=ordenarApuestas(rdo);
 					Set<String> keys = mhm.keySet();
 					int numBloquesPleno15=keys.size();
-					System.out.println("numBloquesPleno15="+numBloquesPleno15);
+					log.debug("numBloquesPleno15="+numBloquesPleno15);
 					int indexBloquesTotal=1;
 					for (Object k : keys) {  
-					    System.out.println("("+k+" : "+mhm.get(k)+")");  
+					    log.debug("("+k+" : "+mhm.get(k)+")");  
 					    int numApuestasIgualPleno15=mhm.getCollection(k).size();
 					    int[] modulusBloque=modulusBloque(numApuestasIgualPleno15);
 						int numBloques=modulusBloque[0];
 						int indexIterator=0;
 						int numApuestaLastBloque=0;
 						int numBloquesContador=1;
-					    System.out.println("numBloque="+modulusBloque[0]);
-					    System.out.println("modBloque="+modulusBloque[1]);
-					    System.out.println("numApuestasIgualPleno15="+numApuestasIgualPleno15);
+					    log.debug("numBloque="+modulusBloque[0]);
+					    log.debug("modBloque="+modulusBloque[1]);
+					    log.debug("numApuestasIgualPleno15="+numApuestasIgualPleno15);
 					    boolean lastBloque=false;
 					    StringBuffer pronosticoPartido=new StringBuffer();
 					    for (Iterator iterator = mhm.getCollection(k).iterator(); iterator.hasNext();) {
@@ -1319,7 +1324,7 @@ public class AdminController {
 								numBloquesContador++;
 								indexBloquesTotal++;
 							}
-//							System.out.println(linea);
+//							log.debug(linea);
 						}
 						RegistroBetElectronicFile registroBe=new RegistroBetElectronicFile();
 						registroBe.setNumApuestaBloque(""+numApuestaLastBloque);
@@ -1333,24 +1338,35 @@ public class AdminController {
 					
 					befile.setRegistro(registro);
 					
+					//check data round in create Round
 					cb.setFechaJornada("010115");
+//					cb.setFechaJornada(tmpRound.getDateRound());
 					cb.setNumTotalApuestas(StringUtils.leftPad(""+rdo.length, 6, '0'));
 					cb.setNumTotalBloques(StringUtils.leftPad(""+(indexBloquesTotal-1), 6, '0'));
 					
-					System.out.println(befile.getCabeceraString());
-					System.out.println(befile.getRegistroString());
+					log.debug(befile.getCabeceraString());
+					log.debug(befile.getRegistroString());
+					
+					responseString=befile.getCabeceraString()+""+befile.getRegistroString();
+					
+//					resp.setContentType("application/force-download"); //.exe file
+//					resp.setHeader("Content-Disposition", "attachment; filename=\"LargeFile.exe\"");
+//					resp.getOutputStream().write((befile.getCabeceraString()+""+befile.getRegistroString()).getBytes());
+//					resp.flushBuffer();
 			 }
 
 			
-		/*} catch (SecurityException e) {
+		} catch (Exception e) {
 			response.addErrorDto("AdminController:getElectricFile", "SecurityException");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+			return "";
+		}
 
+		log.debug("getElectricFile: end");
+		return responseString;
 		
-		log.debug("openRound: end");
-		return response;
+//		return response;
 	}
 	
 	private MultiValueMap ordenarApuestas(String rdo[]){
@@ -1360,7 +1376,7 @@ public class AdminController {
 			String linea = rdo[i];
 			mhm.put(StringUtils.right(linea, 2), StringUtils.left(linea, 14));
 		}
-		System.out.println("results: "+mhm);
+		log.debug("results: "+mhm);
 		return mhm;
 	}
 	
