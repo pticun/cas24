@@ -341,42 +341,17 @@ $(document).ready(function() {
 	$('form#getFileForm').submit(function(event) {
 		 var dataJson=JSON.stringify($('form#getFileForm').serializeObject());
 		 consoleAlterQ(dataJson);
-		 jQuery.ajax ({
-			 url: ctx+'/admin'+ '/company/' + '1' + '/season/'+ $("input[id=seasonGetFile]").val() + '/round/' + $("input[id=roundFGetile]").val() + '/getFile',
-			    type: "POST",
-			    data: dataJson,
-			    //contentType: "application/json; charset=utf-8",
-			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-	            cache: false,    //This will force requested pages not to be cached by the browser  
-	            processData:false, //To avoid making query String instead of JSON
-			    success: function(response){
-			    	if(response.errorDto!=0){
-		   		    	$(response.errorDto).each(function(index, objeto){  
-		   		    		consoleAlterQ("result: response="+objeto.errorDto);
-		   		    		$('#getFileFormResponse').text(objeto.stringError+" - ");
-					    });
-		   		    	
-		   		    }
-		   		    else{
-		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
-						//$('#loginFormResponse').text(response.userAlterQ.name);
-						consoleAlterQ("result: response= OK");
-						$('#getFileFormResponse').text("Admin - GetFile - OK");
-						//userLoged=true;
-						//idUserAlterQ=response.userAlterQ.id;
-						//$('#idData').val(response.userAlterQ.id);
-						//$('#nameData').val(response.userAlterQ.name);
-						//$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
-						//$('#idSaldo').val(response.userAlterQ.id);
-						//$('#balanceSaldo').val(response.userAlterQ.balance);
-						//getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
-						//showDiv(bHome);
-		   		    }
-				    //round=response.generalData.round;
-				    //season=response.generalData.season;
-			    }
-			});
-		 	event.preventDefault(); // prevent actual form submit and page reload
+		 
+		 var url= ctx+'/admin'+ '/company/' + '1' + '/season/'+ $("input[id=seasonGetFile]").val() + '/round/' + $("input[id=roundFGetile]").val() + '/getFile';
+//		 alert(url);
+		 var NWin = window.open(url, '', 'height=800,width=800');
+ 	     if (window.focus)
+ 	     {
+ 	       NWin.focus();
+ 	     }
+ //	     return false;		 
+
+ 	     event.preventDefault(); // prevent actual form submit and page reload
 	});
 
 });

@@ -1206,8 +1206,8 @@ public class AdminController {
 		
 		return response;
 	}
-	@RequestMapping(method = RequestMethod.POST, produces = MediaType.TEXT_PLAIN_VALUE, value = "/company/{company}/season/{season}/round/{round}/getFile")
-	public @ResponseBody String getElectricFile(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round,HttpServletResponse resp) {
+	@RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE, value = "/company/{company}/season/{season}/round/{round}/getFile")
+	public @ResponseBody void getElectricFile(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round,HttpServletResponse resp) {
 		GeneralData generalData = null;
 		ResponseDto response = new ResponseDto();
 		String responseString=new String();
@@ -1349,10 +1349,10 @@ public class AdminController {
 					
 					responseString=befile.getCabeceraString()+""+befile.getRegistroString();
 					
-//					resp.setContentType("application/force-download"); //.exe file
-//					resp.setHeader("Content-Disposition", "attachment; filename=\"LargeFile.exe\"");
-//					resp.getOutputStream().write((befile.getCabeceraString()+""+befile.getRegistroString()).getBytes());
-//					resp.flushBuffer();
+					resp.setContentType("application/force-download"); 
+					resp.setHeader("Content-Disposition", "attachment; filename=\"AD243\"");
+					resp.getOutputStream().write((befile.getCabeceraString()+""+befile.getRegistroString()).getBytes());
+					resp.flushBuffer();
 			 }
 
 			
@@ -1360,11 +1360,11 @@ public class AdminController {
 			response.addErrorDto("AdminController:getElectricFile", "SecurityException");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "";
+//			return "";
 		}
 
 		log.debug("getElectricFile: end");
-		return responseString;
+//		return responseString;
 		
 //		return response;
 	}
