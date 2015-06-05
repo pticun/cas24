@@ -1275,8 +1275,8 @@ public class AdminController {
 					
 					//Creamos la cabecera del fichero
 					HeaderBetElectronicFile cb = new HeaderBetElectronicFile();
-					cb.setIdDelegacion("64");
-					cb.setIdReceptor("65428");
+					cb.setIdDelegacion("12");
+					cb.setIdReceptor("24380");
 
 					BetElectronicFile befile=new BetElectronicFile();
 					befile.setCabecera(cb);
