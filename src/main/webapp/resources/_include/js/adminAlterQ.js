@@ -356,6 +356,10 @@ $(document).ready(function() {
 
 });
 
+$("#homeBtn").on('click', function(event){
+	menuEvent($(this).text(),  "home");
+	event.preventDefault(); // prevent actual form submit and page reload
+});
 $("#openBtn").on('click', function(event){
 	menuEvent($(this).text(),  "#openDiv");
 	event.preventDefault(); // prevent actual form submit and page reload

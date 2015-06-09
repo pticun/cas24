@@ -100,6 +100,7 @@ var ctx = "<%=request.getContextPath()%>"
 	var bUpdateBalanceUser		= 7;
 	var bGetQuinielaRef			= 8;
 	var bGetFileRef				= 9;
+	var bAdminIni				= 10;
 
 	//Refs
 	var sHomeRef 					= "#homeDiv";
@@ -112,6 +113,7 @@ var ctx = "<%=request.getContextPath()%>"
 	var sUpdateBalanceUserRef		= "#updateBalanceDiv";
 	var sGetQuinielaRef 			= "#getQuinielaDiv";
 	var sGetFileRef 				= "#getFileDiv";
+	var sAdminIni					= "home";
 	
 	function initDiv() {
 		consoleAlterQ("initDiv");		
@@ -134,6 +136,9 @@ var ctx = "<%=request.getContextPath()%>"
 			return;
 		
 		switch (elem){
+		case bAdminIni:
+			window.history.back();
+			break;
 		case bHome:
 			$(sHomeRef).show();
 			break;
@@ -206,8 +211,11 @@ var ctx = "<%=request.getContextPath()%>"
 	function menuEvent(name, href)
 	{
   		consoleAlterQ("menuEvent elem="+ name +" href="+href);
-
-		if (href == sHomeRef){
+  		
+		if (href == sAdminIni){
+			consoleAlterQ("AdminIni");
+			showDiv(bAdminIni);
+		}else if (href == sHomeRef){
 			consoleAlterQ("Home");
 			showDiv(bHome);
 		}else if (href == sOpenRoundSessionRef){
@@ -268,6 +276,12 @@ var ctx = "<%=request.getContextPath()%>"
     <!-- End Title Page -->
 
     	<div class="row" align="center">
+          		<table class="quiniela">
+		   		<tr align="center">
+		   			<td class="partido"><button id="homeBtn" class="button" name="homeBtn" value="homeBtn">Home</button></td>
+		        </tr>
+          		</table>
+          		<br>
           		<table class="quiniela">
 		   		<tr align="center">
 		   			<td class="partido"><button id="openBtn" class="button" name="openBtn" value="openBtn">Open</button></td>
