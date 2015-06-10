@@ -339,7 +339,7 @@ public class BetController {
 					bet.setPrice(price);
 					bet.setBet(apuesta);
 					bet.setUser(userAlterQ.getId());
-					bet.setCompany(company);
+					bet.setCompany(userAlterQ.getCompany());
 					bet.setDateCreated(new Date());
 					bet.setDateUpdated(new Date());
 					bet.setId(new ObjectId().toStringMongod());
@@ -437,7 +437,7 @@ public class BetController {
 			bet.setPrice(price);
 			bet.setBet(apuesta);
 			bet.setUser(userAlterQ.getId());
-			bet.setCompany(company);
+			bet.setCompany(userAlterQ.getCompany());
 			bet.setDateCreated(new Date());
 			bet.setDateUpdated(new Date());
 			bet.setId(new ObjectId().toStringMongod());
