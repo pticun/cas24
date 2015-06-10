@@ -1,6 +1,8 @@
 package org.alterq.mvc;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -1138,6 +1140,8 @@ public class AdminController {
 			userSecurity.isAdminUserInSession( cookieSession);
 			Map<String, String[]> parameters = request.getParameterMap();
 			List<Game> lGames = new ArrayList<Game>();
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			Date dt = df.parse(parameters.get("dateMatches")[0]);
 			
 			for (int i=1;i<=15;i++)
 			{
@@ -1151,6 +1155,7 @@ public class AdminController {
 			myRound.setCompany(company);
 			myRound.setSeason(season);
 			myRound.setRound(round);
+			myRound.setDateRound(dt);
 			myRound.setGames(lGames);
 			
 			tmpRound = roundDao.findBySeasonRound(season, round);
@@ -1164,6 +1169,9 @@ public class AdminController {
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			response.addErrorDto("AdminController:addMatches", "SecurityException");
+			e.printStackTrace();
+		} catch (Exception e){
+			response.addErrorDto("AdminController:addMatches", "Exception");
 			e.printStackTrace();
 		}
 
@@ -1339,8 +1347,12 @@ public class AdminController {
 					befile.setRegistro(registro);
 					
 					//check data round in create Round
-					cb.setFechaJornada("010115");
-//					cb.setFechaJornada(tmpRound.getDateRound());
+					//cb.setFechaJornada("010115");
+					Date dt = tmpRound.getDateRound();
+					DateFormat df = new SimpleDateFormat("ddMMyy");
+					String dtf = df.format(dt); 
+					
+					cb.setFechaJornada(dtf);
 					cb.setNumTotalApuestas(StringUtils.leftPad(""+rdo.length, 6, '0'));
 					cb.setNumTotalBloques(StringUtils.leftPad(""+(indexBloquesTotal-1), 6, '0'));
 					

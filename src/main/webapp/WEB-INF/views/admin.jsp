@@ -460,6 +460,10 @@ var ctx = "<%=request.getContextPath()%>"
 				   			<td align="center" colspan=2 class="partido"><input id="roundMatches" name="round" type="text"/></td>
 				        </tr>
 				   		<tr>
+				   			<td class="partido">Date:</td>
+				   			<td align="center" colspan=2 class="partido"><input id="dateMatches" name="dateMatches" type="date"/></td>
+				        </tr>
+				   		<tr>
 				   			<td class="partido">1</td>
 				   			<td class="partido"><input id="matchlocal01" name="matchlocal01" type="text"/></td>
 				   			<td class="partido"><input id="matchvisit01" name="matchvisit01" type="text"/></td>
