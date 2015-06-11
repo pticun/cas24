@@ -16,6 +16,10 @@ public class GeneralData implements Serializable {
 	private boolean active;
 	private int dobles;
 	private int triples;
+	private int type;
+	private boolean visibility;
+	private String nick;
+	private String description;
 
 	public int getSeason() {
 		return season;
@@ -71,6 +75,38 @@ public class GeneralData implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public boolean isVisibility() {
+		return visibility;
+	}
+
+	public void setVisibility(boolean visibility) {
+		this.visibility = visibility;
+	}
+
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }
