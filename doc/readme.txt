@@ -134,6 +134,8 @@ MongoDB - PRE
 	mongodump -h ds035338.mongolab.com:35338 -d racsor -c useralterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
 	
 MongoDB - PRO
+	mongolab
+	www.mongolab.com   user/pwd:racsor/Segunda2
 	En mongolab crear un clone de la base de datos de pre y crear usuario
 	*********Database: quinigold User: admin Password: SN5JEtlTdewd
 	*********https://quinigold-quinigold.rhcloud.com/rockmongo/index.php?action=login.index&host=0
