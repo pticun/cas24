@@ -1353,6 +1353,7 @@ public class AdminController {
 					String dtf = df.format(dt); 
 					
 					cb.setFechaJornada(dtf);
+					cb.setNumJornada(StringUtils.leftPad(""+tmpRound.getRound(), 2, '0'));
 					cb.setNumTotalApuestas(StringUtils.leftPad(""+rdo.length, 6, '0'));
 					cb.setNumTotalBloques(StringUtils.leftPad(""+(indexBloquesTotal-1), 6, '0'));
 					

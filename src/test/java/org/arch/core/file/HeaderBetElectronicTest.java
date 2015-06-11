@@ -13,8 +13,8 @@ public class HeaderBetElectronicTest {
 	@Test
 	public void test01Cabecera() {
 		HeaderBetElectronicFile cb = new HeaderBetElectronicFile();
-		cb.setIdDelegacion("64");
-		cb.setIdReceptor("65428");
+		cb.setIdDelegacion("12");
+		cb.setIdReceptor("24380");
 
 		System.out.println("calculoCaracterControl(64,65428)=" + cb.calculoCaracterControl());
 

@@ -37,8 +37,8 @@ public class HeaderBetElectronicFile {
 			caractControl += (total[i]- '0') * (i + 1);
 		}
 		
-		caractControl=caractControl%12;
-		System.out.println(caractControl%12);
+		caractControl=caractControl%11;
+		System.out.println(caractControl);
 		if(caractControl<10){
 			stringControl="0"+caractControl;
 		}
