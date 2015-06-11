@@ -37,7 +37,6 @@ public class RoundDaoTest {
 		Round bean =new Round();
 		bean.setRound(12);
 		bean.setSeason(2014);
-		bean.setCompany(1);
 		
 		List<Game> matchs=new ArrayList<Game>();
 		for (int i = 0; i < 15; i++) {

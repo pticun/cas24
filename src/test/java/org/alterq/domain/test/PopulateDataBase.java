@@ -64,7 +64,6 @@ public class PopulateDataBase {
 		Round bean = new Round();
 		bean.setRound(round);
 		bean.setSeason(season);
-		bean.setCompany(company);
 
 		List<Game> matchs = new ArrayList<Game>();
 		for (int i = 0; i < 15; i++) {

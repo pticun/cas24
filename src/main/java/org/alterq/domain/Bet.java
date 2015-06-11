@@ -18,8 +18,18 @@ public class Bet {
 	private Date dateUpdated;
 	private String user;
 	private String bet;
+	private boolean finalBet;
 	private float price;
 	private double numBets;
+	
+	public boolean isFinalBet() {
+		return finalBet;
+	}
+
+	public void setFinalBet(boolean finalBet) {
+		this.finalBet = finalBet;
+	}
+
 	public double getNumBets() {
 		return numBets;
 	}

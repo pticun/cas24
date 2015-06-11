@@ -12,7 +12,6 @@ public class Round {
 	@Id
 	private String id;
 
-	private int company;
 	private int season;
 	private int round;
 	private List<Game> games;
@@ -40,14 +39,6 @@ public class Round {
 
 	public void setGames(List<Game> games) {
 		this.games = games;
-	}
-
-	public int getCompany() {
-		return company;
-	}
-
-	public void setCompany(int company) {
-		this.company = company;
 	}
 
 	public Date getDateRound() {

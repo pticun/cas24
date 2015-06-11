@@ -1152,7 +1152,6 @@ public class AdminController {
 				lGames.add(gameTmp);
 			}
 
-			myRound.setCompany(company);
 			myRound.setSeason(season);
 			myRound.setRound(round);
 			myRound.setDateRound(dt);
