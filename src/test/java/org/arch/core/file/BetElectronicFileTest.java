@@ -43,8 +43,8 @@ public class BetElectronicFileTest {
 	public void test01BetElectronicFile() {
 		
 		HeaderBetElectronicFile cb = new HeaderBetElectronicFile();
-		cb.setIdDelegacion("64");
-		cb.setIdReceptor("65428");
+		cb.setIdDelegacion("12");
+		cb.setIdReceptor("24380");
 
 		String rdo[] = new String[0];
 		String rdoAux[];

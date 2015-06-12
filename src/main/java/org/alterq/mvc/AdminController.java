@@ -1362,7 +1362,7 @@ public class AdminController {
 					responseString=befile.getCabeceraString()+""+befile.getRegistroString();
 					
 					resp.setContentType("application/force-download"); 
-					resp.setHeader("Content-Disposition", "attachment; filename=\"AD243\"");
+					resp.setHeader("Content-Disposition", "attachment; filename=\"ad243\"");
 					resp.getOutputStream().write((befile.getCabeceraString()+""+befile.getRegistroString()).getBytes());
 					resp.flushBuffer();
 			 }

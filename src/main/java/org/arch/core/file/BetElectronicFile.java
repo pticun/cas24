@@ -64,7 +64,7 @@ public class BetElectronicFile {
 				sb.append(registroBetElectronicFile.getNumApuestaBloque());
 				sb.append(registroBetElectronicFile.getPronosticoPartido());
 				sb.append(registroBetElectronicFile.getPronostico15());
-				sb.append("\n");
+//				sb.append("\n");
 			}
 		}
 			
