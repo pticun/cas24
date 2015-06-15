@@ -1,9 +1,10 @@
-package org.alterq.repo;
+package org.alterq.repo.impl;
 
 import java.util.List;
 
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
+import org.alterq.repo.RoundDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;

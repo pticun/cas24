@@ -10,6 +10,11 @@ public class Company implements Serializable {
 	@Id
 	private String id;
 	
+	private int company;
+	
+	//Type
+	//1=collaborative
+	//2=non-collaborative
 	private int type;
 	private boolean visibility;
 	private String nick;

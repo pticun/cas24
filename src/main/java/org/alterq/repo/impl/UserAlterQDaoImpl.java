@@ -1,4 +1,4 @@
-package org.alterq.repo;
+package org.alterq.repo.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.alterq.domain.Round;
 import org.alterq.domain.UserAlterQ;
+import org.alterq.repo.UserAlterQDao;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
