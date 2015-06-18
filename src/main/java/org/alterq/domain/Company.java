@@ -1,6 +1,7 @@
 package org.alterq.domain;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

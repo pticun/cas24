@@ -31,18 +31,18 @@ public class CompanyDaoImpl implements CompanyDao {
 	}
 
 	@Override
-	public void add(Company generalData) {
-		mongoTemplate.insert(generalData, COLLECTION_NAME);
+	public void add(Company company) {
+		mongoTemplate.insert(company, COLLECTION_NAME);
 	}
 
 	@Override
-	public void update(Company generalData) {
-		mongoTemplate.save(generalData, COLLECTION_NAME);
+	public void update(Company company) {
+		mongoTemplate.save(company, COLLECTION_NAME);
 	}
 
 	@Override
-	public void delete(Company generalData) {
-		mongoTemplate.remove(generalData, COLLECTION_NAME);
+	public void delete(Company company) {
+		mongoTemplate.remove(company, COLLECTION_NAME);
 	}
 	@Override
 	public List<Company> findAll() {

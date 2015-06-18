@@ -1,7 +1,6 @@
 package org.alterq.domain.test;
 
 import org.alterq.domain.Company;
-import org.alterq.domain.GeneralData;
 import org.alterq.repo.CompanyDao;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
@@ -35,32 +34,29 @@ public class CompanyDaoTest {
 		return;
 	}
 
-	@Test
 	public void test02ReadUpdate() throws Exception {
 		Company bean = dao.findByCompany(1);
 		Assert.assertNotNull(bean.getDescription());
-		bean.setRound(bean.getRound() + 1);
+		bean.setDescription("description");
 		dao.update(bean);
-		log.debug("ReadUpdate:round:" + bean.getRound());
+		log.debug("description:" + bean.getDescription());
 		log.debug("ReadUpdate:id:" + bean.getId());
 		return;
 	}
 
-	@Test
 	public void test03Read() throws Exception {
 		Company bean = dao.findByCompany(1);
-		Assert.assertNotNull(bean.getRound());
+		Assert.assertNotNull(bean.getDescription());
 		String id = bean.getId();
 		Company otherBean = dao.findById(id);
 		Assert.assertEquals(bean.getId(), otherBean.getId());
 		return;
 	}
 
-	@Test
 	public void test04Delete() throws Exception {
 		Company bean = dao.findByCompany(1);
-		Assert.assertNotNull(bean.getRound());
-		bean.setRound(bean.getRound() + 1);
+		Assert.assertNotNull(bean.getDescription());
+		bean.setDescription(bean.getDescription() + "---");
 		dao.delete(bean);
 		return;
 	}
