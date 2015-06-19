@@ -2,6 +2,7 @@ package org.alterq.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 import org.springframework.data.annotation.Id;
@@ -29,7 +30,16 @@ public class UserAlterQ implements Serializable {
 	private Date dateUpdated;
 	private int automatics;
 	private double weight;
+	private List<RolCompany> rols;
 	
+
+	public List<RolCompany> getRols() {
+		return rols;
+	}
+
+	public void setRols(List<RolCompany> rols) {
+		this.rols = rols;
+	}
 
 	public String getId() {
 		return id;

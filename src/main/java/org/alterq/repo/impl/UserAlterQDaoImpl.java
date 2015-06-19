@@ -5,7 +5,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import org.alterq.domain.Round;
+import org.alterq.domain.RolCompany;
+import org.alterq.domain.RolNameEnum;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.repo.UserAlterQDao;
 import org.apache.commons.codec.binary.Base64;
@@ -24,7 +25,7 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 	public static final String COLLECTION_NAME = "useralterq";
 
 	public UserAlterQ findById(String id) {
-		//TODO if exist control throw
+		// TODO if exist control throw
 		return mongoTemplate.findById(id, UserAlterQ.class, COLLECTION_NAME);
 	}
 
@@ -34,12 +35,12 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 
 	public void create(UserAlterQ userAlterQ) throws Exception {
 		String password = userAlterQ.getPwd();
-		//TODO makePasswordHash made in layer Controller
-//		String passwordHash = makePasswordHash(password, userAlterQ.getId());
+		// TODO makePasswordHash made in layer Controller
+		// String passwordHash = makePasswordHash(password, userAlterQ.getId());
 
 		userAlterQ.setPwd(password);
-		UserAlterQ dao = mongoTemplate.findById(userAlterQ.getId(), UserAlterQ.class,COLLECTION_NAME);
-		if(dao!=null)
+		UserAlterQ dao = mongoTemplate.findById(userAlterQ.getId(), UserAlterQ.class, COLLECTION_NAME);
+		if (dao != null)
 			throw new Exception();
 		mongoTemplate.insert(userAlterQ, COLLECTION_NAME);
 
@@ -61,22 +62,21 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 
 	@Override
 	public UserAlterQ validateLogin(String id, String password) {
-		UserAlterQ dao = mongoTemplate.findById(id, UserAlterQ.class,COLLECTION_NAME);
-		if (dao==null)
+		UserAlterQ dao = mongoTemplate.findById(id, UserAlterQ.class, COLLECTION_NAME);
+		if (dao == null)
 			return null;
 		String hashedAndSalted = password;
-		
-		if(!hashedAndSalted.equals(dao.getPwd())){
+
+		if (!hashedAndSalted.equals(dao.getPwd())) {
 			System.out.println("Submitted password is not a match");
 			return null;
 		}
-/*
-		String salt = hashedAndSalted.split(",")[1];
-		if (!hashedAndSalted.equals(makePasswordHash(password, salt))) {
-			System.out.println("Submitted password is not a match");
-			return null;
-		}
-*/
+		/*
+		 * String salt = hashedAndSalted.split(",")[1]; if
+		 * (!hashedAndSalted.equals(makePasswordHash(password, salt))) {
+		 * System.out.println("Submitted password is not a match"); return null;
+		 * }
+		 */
 		return dao;
 
 	}
@@ -84,17 +84,17 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 	@Override
 	public void save(UserAlterQ userAlterQ) {
 		mongoTemplate.save(userAlterQ, COLLECTION_NAME);
-		
+
 	}
-	
+
 	@Override
-	public List<UserAlterQ> findUserWithAutomatics(int company){
+	public List<UserAlterQ> findUserWithAutomatics(int company) {
 		Query query = new Query(Criteria.where("company").is(company).and("automatics").gt(0));
 		return mongoTemplate.find(query, UserAlterQ.class, COLLECTION_NAME);
 	}
-	
+
 	@Override
-	public DBObject getLastError(){
+	public DBObject getLastError() {
 		return mongoTemplate.getDb().getLastError();
 	}
 
@@ -107,9 +107,62 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 	@Override
 	public void remove(UserAlterQ userAlterQ) throws Exception {
 		mongoTemplate.remove(userAlterQ, COLLECTION_NAME);
-		
+
 	}
-	
+
+	@Override
+	public void addRolForCompany(UserAlterQ userAlterQ, RolCompany rc) {
+		Query query = new Query(Criteria.where("id").is(userAlterQ.getId()));
+		query.addCriteria(Criteria.where("rols.company").is(rc.getCompany()));
+		query.addCriteria(Criteria.where("rols.rol").is(rc.getRol()));
+		UserAlterQ uaq = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
+		if (uaq == null) {
+			uaq = mongoTemplate.findById(userAlterQ.getId(), UserAlterQ.class, COLLECTION_NAME);
+			uaq.getRols().add(rc);
+			mongoTemplate.save(uaq, COLLECTION_NAME);
+		}
+	}
+
+	@Override
+	public void deleteRolForCompany(UserAlterQ userAlterQ, RolCompany rc) {
+		Query query = new Query(Criteria.where("id").is(userAlterQ.getId()));
+		query.addCriteria(Criteria.where("rols.company").is(rc.getCompany()));
+		query.addCriteria(Criteria.where("rols.rol").is(rc.getRol()));
+		UserAlterQ uaq = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
+		if (uaq != null) {
+			uaq = mongoTemplate.findById(userAlterQ.getId(), UserAlterQ.class, COLLECTION_NAME);
+			if (uaq != null) {
+				uaq.getRols().remove(rc);
+				mongoTemplate.save(uaq, COLLECTION_NAME);
+			}
+		}
+	}
+
+	@Override
+	public boolean isUserRolForCompany(UserAlterQ userAlterQ, RolCompany rc) {
+		Query query = new Query(Criteria.where("id").is(userAlterQ.getId()));
+		query.addCriteria(Criteria.where("rols.company").is(rc.getCompany()));
+		query.addCriteria(Criteria.where("rols.rol").is(rc.getRol()));
+		UserAlterQ uaqL = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
+		if (uaqL != null)
+			return true;
+		return false;
+	}
+
+	@Override
+	public boolean isUserAuthorizedRolForCompany(UserAlterQ userAlterQ, RolCompany rc) {
+		UserAlterQ  uaq = mongoTemplate.findById(userAlterQ.getId(), UserAlterQ.class, COLLECTION_NAME);
+		List<RolCompany> rcL= userAlterQ.getRols();
+		int maxRol=RolNameEnum.ROL_USER.getValue();
+		//find out the max value rol
+		for (RolCompany rolCompany : rcL) {
+			if(maxRol<=rolCompany.getRol())
+				maxRol=rolCompany.getRol();
+		} 
+		//if rol user >=
+		if(maxRol>=rc.getRol()){
+			return true;
+		}
+		return false;
+	}
 }
-
-

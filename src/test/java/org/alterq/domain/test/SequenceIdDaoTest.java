@@ -1,7 +1,9 @@
 package org.alterq.domain.test;
 
 import org.alterq.domain.SequenceId;
+import org.alterq.domain.SequenceNameEnum;
 import org.alterq.repo.SequenceIdDao;
+import org.apache.log4j.pattern.SequenceNumberPatternConverter;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -23,19 +25,22 @@ public class SequenceIdDaoTest {
 
 	@Test
 	public void test01Create() throws Exception {
-		SequenceId bean = new SequenceId();
-		bean.setId("sequenceCompany");
-		dao.add(bean);
+		SequenceId bean =dao.findById(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
+		if(null==bean){
+			dao.add(bean);
+			log.debug("Create:" + bean.getId());
+		}
 		Assert.assertNotNull(bean.getId());
-		log.debug("Create:" + bean.getId());
 		return;
 	}
 
+	@Test
 	public void test02IncreaseSequenceCompany() throws Exception {
-		SequenceId bean = dao.findById("sequenceCompany");
+		SequenceId bean = dao.findById(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
 		Assert.assertNotNull(bean.getId());
-		dao.getNextSequenceId("sequenceCompany");
+		int seq=dao.getNextSequenceId(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
 		log.debug("ReadUpdate:id:" + bean.getId());
+		log.debug("ReadUpdate:sequence:" + bean.getSequence());
 		return;
 	}
 

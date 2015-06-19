@@ -1,7 +1,9 @@
 package org.alterq.domain.test;
 
 import org.alterq.domain.Company;
+import org.alterq.domain.SequenceNameEnum;
 import org.alterq.repo.CompanyDao;
+import org.alterq.repo.SequenceIdDao;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -20,17 +22,20 @@ public class CompanyDaoTest {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private CompanyDao dao;
+	@Autowired
+	private SequenceIdDao daoSequence;
 
 	@Test
 	public void test01Create() throws Exception {
 		Company bean = new Company();
+		bean.setCompany(daoSequence.getNextSequenceId(SequenceNameEnum.SEQUENCE_COMPANY.getValue()));
 		bean.setDescription("description");
 		bean.setNick("Nich");
 		bean.setType(1);
 		bean.setVisibility(Boolean.TRUE);
 		dao.add(bean);
 		Assert.assertNotNull(bean.getDescription());
-		log.debug("Create:" + bean.getDescription());
+		log.debug("Create:" +bean.getCompany()+"-"+ bean.getDescription());
 		return;
 	}
 
@@ -39,7 +44,7 @@ public class CompanyDaoTest {
 		Assert.assertNotNull(bean.getDescription());
 		bean.setDescription("description");
 		dao.update(bean);
-		log.debug("description:" + bean.getDescription());
+		log.debug("description:" +bean.getCompany()+"-"+ bean.getDescription());
 		log.debug("ReadUpdate:id:" + bean.getId());
 		return;
 	}

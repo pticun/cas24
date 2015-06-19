@@ -51,6 +51,12 @@ public class Company implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	public int getCompany() {
+		return company;
+	}
+	public void setCompany(int company) {
+		this.company = company;
+	}
 	
 	
 }

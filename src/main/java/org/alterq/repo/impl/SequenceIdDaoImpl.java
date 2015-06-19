@@ -5,12 +5,10 @@ import java.util.List;
 import org.alterq.domain.SequenceId;
 import org.alterq.repo.SequenceIdDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class SequenceIdDaoImpl implements SequenceIdDao {
 	@Autowired
 	private MongoTemplate mongoTemplate;
@@ -44,28 +42,12 @@ public class SequenceIdDaoImpl implements SequenceIdDao {
 
 	@Override
 	public int getNextSequenceId(String key) {
-		// get sequence id
-		Query query = new Query(Criteria.where("_id").is(key));
-
-		// increase sequence id by 1
-		Update update = new Update();
-		update.inc("sequence", 1);
-
-		// return new increased id
-		FindAndModifyOptions options = new FindAndModifyOptions();
-		options.returnNew(true);
-
-		// this is the magic happened.
-		SequenceId seqId = mongoTemplate.findAndModify(query, update, options, SequenceId.class);
-
-		// if no id, throws SequenceException
-		// optional, just a way to tell user when the sequence id is failed to
-		// generate.
-		if (seqId == null) {
-			return 0;
-		}
-
-		return seqId.getSequence();
+		SequenceId bean = mongoTemplate.findById(key, SequenceId.class, COLLECTION_NAME);
+		int seq = bean.getSequence();
+		seq++;
+		bean.setSequence(seq);
+		mongoTemplate.save(bean, COLLECTION_NAME);
+		return bean.getSequence();
 	}
 
 }
