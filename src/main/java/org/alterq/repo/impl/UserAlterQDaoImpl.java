@@ -151,7 +151,13 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 
 	@Override
 	public boolean isUserAuthorizedRolForCompany(UserAlterQ userAlterQ, RolCompany rc) {
-		UserAlterQ  uaq = mongoTemplate.findById(userAlterQ.getId(), UserAlterQ.class, COLLECTION_NAME);
+		Query query = new Query(Criteria.where("id").is(userAlterQ.getId()));
+		query.addCriteria(Criteria.where("rols.company").is(rc.getCompany()));
+		UserAlterQ uaqL = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
+		//user not exists or not rol for this company
+		if (uaqL == null) {
+			return false;
+		}
 		List<RolCompany> rcL= userAlterQ.getRols();
 		int maxRol=RolNameEnum.ROL_USER.getValue();
 		//find out the max value rol
