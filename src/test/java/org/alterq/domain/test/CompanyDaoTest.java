@@ -1,6 +1,7 @@
 package org.alterq.domain.test;
 
 import org.alterq.domain.Company;
+import org.alterq.domain.CompanyTypeEnum;
 import org.alterq.domain.SequenceNameEnum;
 import org.alterq.repo.CompanyDao;
 import org.alterq.repo.SequenceIdDao;
@@ -31,7 +32,7 @@ public class CompanyDaoTest {
 		bean.setCompany(daoSequence.getNextSequenceId(SequenceNameEnum.SEQUENCE_COMPANY.getValue()));
 		bean.setDescription("description");
 		bean.setNick("Nich");
-		bean.setType(1);
+		bean.setType(CompanyTypeEnum.COMPANY_COLLABORATIVE.getValue());
 		bean.setVisibility(Boolean.TRUE);
 		dao.add(bean);
 		Assert.assertNotNull(bean.getDescription());
