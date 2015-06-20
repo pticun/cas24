@@ -1,4 +1,4 @@
-package org.alterq.domain;
+package org.alterq.util.enumeration;
 
 public enum CompanyTypeEnum {
 	COMPANY_COLLABORATIVE(1),COMPANY_NON_COLLABORATIVE(2);

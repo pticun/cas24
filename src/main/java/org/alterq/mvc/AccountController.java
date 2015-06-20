@@ -1,10 +1,13 @@
 package org.alterq.mvc;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ErrorDto;
@@ -16,6 +19,7 @@ import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
+import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.UserAlterQValidator;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -133,14 +137,25 @@ public class AccountController {
 			log.debug("user.getId:" + user.getId());
 		}
 		ResponseDto dto = new ResponseDto();
-		// TODO validate user data
 		try {
+			//TODO check company validator
 			userAlterQValidator.createUserAlterQ(user);
 			user.setActive(true);
 			user.setBalance("0");
-			user.setCompany(AlterQConstants.COMPANY);
+//			user.setCompany(AlterQConstants.COMPANY);
 			user.setDateCreated(new Date());
 			user.setDateUpdated(new Date());
+			List<RolCompany> rcL=new ArrayList<RolCompany>();
+			RolCompany rc=new RolCompany();
+			if(StringUtils.isBlank(""+user.getCompany())){
+				rc.setCompany(AlterQConstants.COMPANY);
+			}
+			else{
+				rc.setCompany(user.getCompany());
+			}
+			rc.setRol(RolNameEnum.ROL_USER.getValue());
+			rcL.add(rc);
+			user.setRols(rcL);
 			userDao.create(user);
 			dto.setUserAlterQ(user);
 			String sessionID = sessionDao.startSession(user.getId());

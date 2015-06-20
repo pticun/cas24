@@ -1,5 +1,7 @@
 package org.alterq.dto;
 
+import org.alterq.util.enumeration.MessageResourcesNameEnum;
+
 public class ErrorDto {
 	private String idError;
 	private String stringError;
@@ -13,6 +15,9 @@ public class ErrorDto {
 
 	public String getIdError() {
 		return idError;
+	}
+	public void setIdError(MessageResourcesNameEnum mrne) {
+		this.idError = mrne.getValue();
 	}
 	public void setIdError(String idError) {
 		this.idError = idError;

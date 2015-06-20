@@ -6,10 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.alterq.domain.RolCompany;
-import org.alterq.domain.RolNameEnum;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.UserAlterQDao;
+import org.alterq.util.enumeration.RolNameEnum;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;

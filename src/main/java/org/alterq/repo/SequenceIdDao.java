@@ -14,6 +14,6 @@ public interface SequenceIdDao {
 	public void delete(SequenceId generalData);
 
 	public List<SequenceId> findAll();
-	
+
 	public int getNextSequenceId(String key);
 }

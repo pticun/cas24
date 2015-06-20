@@ -6,9 +6,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.alterq.domain.RolCompany;
-import org.alterq.domain.RolNameEnum;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.repo.UserAlterQDao;
+import org.alterq.util.enumeration.RolNameEnum;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -25,7 +25,6 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 	public static final String COLLECTION_NAME = "useralterq";
 
 	public UserAlterQ findById(String id) {
-		// TODO if exist control throw
 		return mongoTemplate.findById(id, UserAlterQ.class, COLLECTION_NAME);
 	}
 
@@ -118,8 +117,10 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 		UserAlterQ uaq = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
 		if (uaq == null) {
 			uaq = mongoTemplate.findById(userAlterQ.getId(), UserAlterQ.class, COLLECTION_NAME);
-			uaq.getRols().add(rc);
-			mongoTemplate.save(uaq, COLLECTION_NAME);
+			if(uaq!=null){
+				uaq.getRols().add(rc);
+				mongoTemplate.save(uaq, COLLECTION_NAME);
+			}
 		}
 	}
 
@@ -159,7 +160,7 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 			return false;
 		}
 		List<RolCompany> rcL= userAlterQ.getRols();
-		int maxRol=RolNameEnum.ROL_USER.getValue();
+		int maxRol=RolNameEnum.ROL_PUBLIC.getValue();
 		//find out the max value rol
 		for (RolCompany rolCompany : rcL) {
 			if(maxRol<=rolCompany.getRol())

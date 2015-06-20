@@ -1,4 +1,4 @@
-package org.alterq.domain;
+package org.alterq.util.enumeration;
 
 public enum SequenceNameEnum {
 	SEQUENCE_COMPANY("sequenceCompany"),SEQUENCE_OTHER("otherSequence");
