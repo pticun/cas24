@@ -146,18 +146,19 @@ public class AccountController {
 //			user.setCompany(AlterQConstants.COMPANY);
 			user.setDateCreated(new Date());
 			user.setDateUpdated(new Date());
-			//At this moment user not belongs any conpany
-//			List<RolCompany> rcL=new ArrayList<RolCompany>();
-//			RolCompany rc=new RolCompany();
-//			if(StringUtils.isBlank(""+user.getCompany())){
-//				rc.setCompany(AlterQConstants.COMPANY);
-//			}
-//			else{
-//				rc.setCompany(user.getCompany());
-//			}
-//			rc.setRol(RolNameEnum.ROL_USER.getValue());
-//			rcL.add(rc);
-//			user.setRols(rcL);
+			//At this moment user belongs defect conpany
+			List<RolCompany> rcL=new ArrayList<RolCompany>();
+			RolCompany rc=new RolCompany();
+			rc.setCompany(AlterQConstants.COMPANY);
+			if(StringUtils.isBlank(""+user.getCompany())){
+				rc.setCompany(AlterQConstants.COMPANY);
+			}
+			else{
+				rc.setCompany(user.getCompany());
+			}
+			rc.setRol(RolNameEnum.ROL_ADMIN.getValue());
+			rcL.add(rc);
+			user.setRols(rcL);
 			userDao.create(user);
 			dto.setUserAlterQ(user);
 			String sessionID = sessionDao.startSession(user.getId());
