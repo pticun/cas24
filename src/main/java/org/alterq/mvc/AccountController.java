@@ -19,6 +19,7 @@ import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
+import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.UserAlterQValidator;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -121,7 +122,7 @@ public class AccountController {
 			dto.addErrorDto(error);
 		} else {
 			ErrorDto error = new ErrorDto();
-			error.setIdError(AlterQConstants.USER_NOT_EXIST);
+			error.setIdError(MessageResourcesNameEnum.USER_NOT_EXIST);
 			error.setStringError("User not exist");
 			dto.addErrorDto(error);
 		}
@@ -145,17 +146,18 @@ public class AccountController {
 //			user.setCompany(AlterQConstants.COMPANY);
 			user.setDateCreated(new Date());
 			user.setDateUpdated(new Date());
-			List<RolCompany> rcL=new ArrayList<RolCompany>();
-			RolCompany rc=new RolCompany();
-			if(StringUtils.isBlank(""+user.getCompany())){
-				rc.setCompany(AlterQConstants.COMPANY);
-			}
-			else{
-				rc.setCompany(user.getCompany());
-			}
-			rc.setRol(RolNameEnum.ROL_USER.getValue());
-			rcL.add(rc);
-			user.setRols(rcL);
+			//At this moment user not belongs any conpany
+//			List<RolCompany> rcL=new ArrayList<RolCompany>();
+//			RolCompany rc=new RolCompany();
+//			if(StringUtils.isBlank(""+user.getCompany())){
+//				rc.setCompany(AlterQConstants.COMPANY);
+//			}
+//			else{
+//				rc.setCompany(user.getCompany());
+//			}
+//			rc.setRol(RolNameEnum.ROL_USER.getValue());
+//			rcL.add(rc);
+//			user.setRols(rcL);
 			userDao.create(user);
 			dto.setUserAlterQ(user);
 			String sessionID = sessionDao.startSession(user.getId());
@@ -166,7 +168,7 @@ public class AccountController {
 			log.error(ExceptionUtils.getStackTrace(ex));
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
-			error.setIdError(AlterQConstants.USER_ALREADY_EXIST);
+			error.setIdError(MessageResourcesNameEnum.USER_ALREADY_EXIST);
 			error.setStringError("User already exist");
 			dto.addErrorDto(error);
 			log.error(ExceptionUtils.getStackTrace(e));

@@ -10,9 +10,12 @@ import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
+import org.alterq.util.enumeration.MessageResourcesNameEnum;
+import org.arch.core.i18n.resources.MessageLocalizedResources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,32 +37,32 @@ public class RoundController {
 	private SessionAlterQDao sessionDao;
 	@Autowired
 	private GeneralDataDao generalDataDao;
-
-	// TODO get company from user, session .....
-	int company = 1;
+	@Autowired
+	@Qualifier("messageLocalizedResources")
+	private MessageLocalizedResources messageLocalizedResources;
 
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "{id:.+}/season/{season}/round/{round}")
 	public @ResponseBody
 	ResponseDto getRound(@PathVariable(value = "id") String id,@PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
 		ResponseDto dto = new ResponseDto();
-		Round j = new Round();
+		Round roundBean = new Round();
 		try {
 		    //TODO control security by id user
 		    //TODO control security by id-company
 			if(round==-1){
-				GeneralData generalData = generalDataDao.findByCompany(company);
+				GeneralData generalData = generalDataDao.findByCompany(AlterQConstants.COMPANY);
 				round=generalData.getRound();
 			}
 			// TODO create a new Service layer
-			j = roundDao.findBySeasonRound(season, round);
+			roundBean = roundDao.findBySeasonRound(season, round);
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
-			error.setIdError(AlterQConstants.GET_LAST_ROUND);
-			error.setStringError("getRound (i18n error)");
+			error.setIdError(MessageResourcesNameEnum.GET_LAST_ROUND);
+			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.GET_LAST_ROUND));
 			dto.addErrorDto(error);
 			dto.setRound(null);
 		}
-		dto.setRound(j);
+		dto.setRound(roundBean);
 		return dto;
 	}
 
