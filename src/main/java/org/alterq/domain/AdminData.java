@@ -10,6 +10,7 @@ public class AdminData implements Serializable {
 	@Id
 	private String id;
 	
+	private int company;
 	private int season;
 	private int round;
 	private String idDelegacion = "00";
@@ -43,6 +44,12 @@ public class AdminData implements Serializable {
 	}
 	public void setRound(int round) {
 		this.round = round;
+	}
+	public int getCompany() {
+		return company;
+	}
+	public void setCompany(int company) {
+		this.company = company;
 	}
 	
 }

@@ -110,7 +110,7 @@ public class UserAlterQValidator {
 			dto.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_MAIL_ERROR));
 			ve.addErrorDto(dto);
 		}
-		// User not exists
+		// User already exists
 		UserAlterQ bean = dao.findById(user.getId());
 		if (bean == null) {
 			ErrorDto dto = new ErrorDto();
