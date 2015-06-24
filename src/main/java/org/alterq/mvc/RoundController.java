@@ -50,7 +50,7 @@ public class RoundController {
 		    //TODO control security by id user
 		    //TODO control security by id-company
 			if(round==-1){
-				GeneralData generalData = generalDataDao.findByCompany(AlterQConstants.COMPANY);
+				GeneralData generalData = generalDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
 				round=generalData.getRound();
 			}
 			// TODO create a new Service layer

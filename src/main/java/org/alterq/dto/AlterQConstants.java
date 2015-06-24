@@ -25,6 +25,7 @@ public final class AlterQConstants {
 //	public static String BET_NOT_ALLOWED="BET_NOT_ALLOWED";
 //	
 //	
-	public static int COMPANY=1;
+	public static int DEFECT_COMPANY=1;
+	public static int ADMIN_COMPANY=0;
 
 }

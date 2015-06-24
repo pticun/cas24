@@ -143,15 +143,14 @@ public class AccountController {
 			userAlterQValidator.createUserAlterQ(user);
 			user.setActive(true);
 			user.setBalance("0");
-//			user.setCompany(AlterQConstants.COMPANY);
 			user.setDateCreated(new Date());
 			user.setDateUpdated(new Date());
 			//At this moment user belongs defect conpany
 			List<RolCompany> rcL=new ArrayList<RolCompany>();
 			RolCompany rc=new RolCompany();
-			rc.setCompany(AlterQConstants.COMPANY);
+			rc.setCompany(AlterQConstants.DEFECT_COMPANY);
 			if(StringUtils.isBlank(""+user.getCompany())){
-				rc.setCompany(AlterQConstants.COMPANY);
+				rc.setCompany(AlterQConstants.DEFECT_COMPANY);
 			}
 			else{
 				rc.setCompany(user.getCompany());

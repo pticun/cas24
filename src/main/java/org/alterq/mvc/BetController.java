@@ -468,7 +468,7 @@ public class BetController {
 		ResponseDto dto = new ResponseDto();
 		if (StringUtils.equals(id, "mail@mail.es")) {
 			// TODO we must controller company
-			UserAlterQ adminCompany = userDao.findAdminByCompany(AlterQConstants.COMPANY);
+			UserAlterQ adminCompany = userDao.findAdminByCompany(AlterQConstants.DEFECT_COMPANY);
 			id = adminCompany.getId();
 		}
 		RoundBets rb = betDao.findAllUserBets(season, round, id);
@@ -490,7 +490,7 @@ public class BetController {
 		Bet bAux = new Bet();
 		bAux.setBet(bet);
 		bAux.setUser(user);
-		bAux.setCompany(AlterQConstants.COMPANY);
+		bAux.setCompany(AlterQConstants.DEFECT_COMPANY);
 		bAux.setDateCreated(new Date());
 		bAux.setDateUpdated(new Date());
 		return betDao.addBet(season, round, bAux);

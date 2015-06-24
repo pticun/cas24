@@ -1,8 +1,10 @@
 package org.alterq.domain.test;
 
 import org.alterq.domain.AdminData;
+import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.SequenceIdDao;
+import org.alterq.repo.impl.AdminDataDaoImpl;
 import org.alterq.repo.impl.CompanyDaoImpl;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
@@ -27,7 +29,7 @@ public class AdminDataDaoTest {
 
 	@Test
 	public void test00CreateCollection() throws Exception {
-		((CompanyDaoImpl) dao).createCollection();
+		((AdminDataDaoImpl) dao).createCollection();
 		log.debug("CreateCollection:");
 		return;
 	}
@@ -35,7 +37,7 @@ public class AdminDataDaoTest {
 	@Test
 	public void test01Create() throws Exception {
 		AdminData bean = new AdminData();
-		bean.setCompany(Integer.MAX_VALUE);
+		bean.setCompany(AlterQConstants.ADMIN_COMPANY);
 		bean.setRound(1);
 		bean.setSeason(2015);
 		bean.setIdDelegacion("12345");

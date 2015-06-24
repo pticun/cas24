@@ -39,11 +39,11 @@ public class UserAlterQDaoTest {
 		userAlterQ.setId("idmail@arroba.es");
 		userAlterQ.setBalance("10");
 		userAlterQ.setActive(true);
-		userAlterQ.setCompany(AlterQConstants.COMPANY);
+		userAlterQ.setCompany(AlterQConstants.DEFECT_COMPANY);
 		userAlterQ.setDateCreated(new Date());
 		
 		RolCompany rc=new RolCompany();
-		rc.setCompany(AlterQConstants.COMPANY);
+		rc.setCompany(AlterQConstants.DEFECT_COMPANY);
 		rc.setRol(RolNameEnum.ROL_USER.getValue());
 		
 		ArrayList<RolCompany> rcL=new ArrayList<RolCompany>();
@@ -86,7 +86,7 @@ public class UserAlterQDaoTest {
 	public void AD_testIsUserInRolForCompany() {
 		UserAlterQ userAlterQ = dao.findById("idmail@arroba.es");
 		RolCompany rc=new RolCompany();
-		rc.setCompany(AlterQConstants.COMPANY);
+		rc.setCompany(AlterQConstants.DEFECT_COMPANY);
 		rc.setRol(RolNameEnum.ROL_USER.getValue());
 		Assert.assertTrue(dao.isUserRolForCompany(userAlterQ, rc));
 		rc.setRol(RolNameEnum.ROL_ADMIN.getValue());
@@ -97,7 +97,7 @@ public class UserAlterQDaoTest {
 	public void AD_testRolForCompany() {
 		UserAlterQ userAlterQ = dao.findById("idmail@arroba.es");
 		RolCompany rc=new RolCompany();
-		rc.setCompany(AlterQConstants.COMPANY);
+		rc.setCompany(AlterQConstants.DEFECT_COMPANY);
 		rc.setRol(RolNameEnum.ROL_ADMIN.getValue());
 		//Add RolAdmin
 		dao.addRolForCompany(userAlterQ, rc);
@@ -111,7 +111,7 @@ public class UserAlterQDaoTest {
 		
 		//Check if user with RolAdmin authorized for execute action with RolUserAdvanced
 		RolCompany rcAdvanced=new RolCompany();
-		rcAdvanced.setCompany(AlterQConstants.COMPANY);
+		rcAdvanced.setCompany(AlterQConstants.DEFECT_COMPANY);
 		rcAdvanced.setRol(RolNameEnum.ROL_USERADVANCED.getValue());
 		Assert.assertTrue(dao.isUserAuthorizedRolForCompany(userAlterQ, rcAdvanced));
 		dao.deleteRolForCompany(userAlterQ, rc);
@@ -123,7 +123,7 @@ public class UserAlterQDaoTest {
 		} 
 		Assert.assertFalse(rcL.contains(rc));
 		//Check if user with RolAdmin authorized for execute action with RolUserAdvanced
-		rcAdvanced.setCompany(AlterQConstants.COMPANY);
+		rcAdvanced.setCompany(AlterQConstants.DEFECT_COMPANY);
 		rcAdvanced.setRol(RolNameEnum.ROL_USERADVANCED.getValue());
 		Assert.assertFalse(dao.isUserAuthorizedRolForCompany(userAlterQ, rcAdvanced));
 
@@ -140,7 +140,7 @@ public class UserAlterQDaoTest {
 	}
 	@Test
 	public void AD_testUserAdmin() {
-		UserAlterQ userAlterQ = dao.findAdminByCompany(AlterQConstants.COMPANY);
+		UserAlterQ userAlterQ = dao.findAdminByCompany(AlterQConstants.DEFECT_COMPANY);
 		log.debug( userAlterQ.getId());
 	}
 	@Test

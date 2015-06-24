@@ -61,7 +61,7 @@ public class LoginController {
 			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_VALIDATE));
 			dto.addErrorDto(error);
 			dto.setUserAlterQ(null);
-			gd = generalDataDao.findByCompany(AlterQConstants.COMPANY);
+			gd = generalDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
 		}
 		dto.setGeneralData(gd);
 		return dto;
@@ -85,7 +85,7 @@ public class LoginController {
 			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_IN_SESSION));
 			dto.addErrorDto(error);
 			dto.setUserAlterQ(null);
-			gd = generalDataDao.findByCompany(AlterQConstants.COMPANY);
+			gd = generalDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
 		}
 		dto.setGeneralData(gd);
 		return dto;

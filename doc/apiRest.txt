@@ -10,6 +10,11 @@ POST	/myaccount														AccountController		createUserAlterQ
 PUT		/myaccount/{id:.+}/update										AccountController		updateUserAlterQ
 POST	/myaccount/forgotPwd											AccountController		forgotPwd
 
+GET		/myaccount/{id:.+}/rolcompany									RolCompanyController	getCompanyRol
+POST	/myaccount/{id:.+}/rolcompany									RolCompanyController	addCompanyRol
+PUT		/myaccount/{id:.+}/rolcompany									RolCompanyController	updateCompanyRol
+DELETE	/myaccount/{id:.+}/rolcompany									RolCompanyController	deleteCompanyRol
+
 GET		/myaccount/{id:.+}/season/{season}/round/{round}				RoundController			getRound					(reponse Round)
 	not necessary user, it can put in my account: mail@mail.es
 

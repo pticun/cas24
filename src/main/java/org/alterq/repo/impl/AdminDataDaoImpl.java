@@ -33,7 +33,7 @@ public class AdminDataDaoImpl extends MongoCollection implements AdminDataDao {
 
 	@Override
 	public AdminData get() {
-		Query query = new Query(Criteria.where("company").is(AlterQConstants.COMPANY));
+		Query query = new Query(Criteria.where("company").is(AlterQConstants.ADMIN_COMPANY));
 		AdminData dao = mongoTemplate.findOne(query, AdminData.class, COLLECTION_NAME);
 		return dao;
 	}

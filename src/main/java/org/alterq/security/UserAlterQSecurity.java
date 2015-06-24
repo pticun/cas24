@@ -58,7 +58,7 @@ public class UserAlterQSecurity {
 			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_IN_SESSION));
 			throw new SecurityException(error);
 		}
-		UserAlterQ idAdmin = userDao.findAdminByCompany(AlterQConstants.COMPANY);
+		UserAlterQ idAdmin = userDao.findAdminByCompany(AlterQConstants.DEFECT_COMPANY);
 		String idUser = sessionDao.findUserAlterQIdBySessionId(cookieSession);
 		if (!StringUtils.equals(idAdmin.getId(), idUser)) {
 			ErrorDto error = new ErrorDto();

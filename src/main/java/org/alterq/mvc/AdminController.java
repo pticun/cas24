@@ -89,7 +89,7 @@ public class AdminController {
 	 * */
 	private String getAdmin()
 	{
-		UserAlterQ admin= userAlterQDao.findAdminByCompany(AlterQConstants.COMPANY);
+		UserAlterQ admin= userAlterQDao.findAdminByCompany(AlterQConstants.DEFECT_COMPANY);
 		return admin.getId();
 	}
 	/**

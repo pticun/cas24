@@ -36,7 +36,7 @@ public class RankingController {
 		try {
 			// TODO control security by id user
 			// TODO control security by id-company
-			roundRanking = rankingDao.findRanking(AlterQConstants.COMPANY, season, round);
+			roundRanking = rankingDao.findRanking(AlterQConstants.DEFECT_COMPANY, season, round);
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.GET_LAST_ROUND);
