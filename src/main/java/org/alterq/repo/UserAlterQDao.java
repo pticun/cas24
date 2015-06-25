@@ -33,13 +33,18 @@ public interface UserAlterQDao {
 	public boolean isUserRolForCompany(UserAlterQ userAlterQ, RolCompany rc);
 
 	/**
-	 * Method uses for knowing if user is authorized for this operation
-	 * is based max rol for user is greater or equal than RolCompany passed 
+	 * Method uses for knowing if user is authorized for this operation is based
+	 * max rol for user is greater or equal than RolCompany passed
+	 * 
 	 * @param userAlterQ
 	 * @param rc
 	 * @return
 	 */
 	public boolean isUserAuthorizedRolForCompany(UserAlterQ userAlterQ, RolCompany rc);
+
+	public List<RolCompany> getRols(UserAlterQ userAlterQ);
+
+	public List<RolCompany> getRolsForCompany(UserAlterQ userAlterQ, RolCompany rc);
 
 	public DBObject getLastError();
 }

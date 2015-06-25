@@ -11,14 +11,6 @@ import org.alterq.domain.UserAlterQ;
 import org.alterq.domain.Bet;
 
 public class ResponseDto {
-	public Bet getBet() {
-		return bet;
-	}
-
-	public void setBet(Bet bet) {
-		this.bet = bet;
-	}
-
 	private UserAlterQ userAlterQ;
 	private List<ErrorDto> errorDto = new ArrayList<ErrorDto>();
 	private Round round;
@@ -26,6 +18,14 @@ public class ResponseDto {
 	private GeneralData generalData;
 	private RoundRanking roundRanking;
 	private Bet bet;
+
+	public Bet getBet() {
+		return bet;
+	}
+
+	public void setBet(Bet bet) {
+		this.bet = bet;
+	}
 
 	public UserAlterQ getUserAlterQ() {
 		return userAlterQ;

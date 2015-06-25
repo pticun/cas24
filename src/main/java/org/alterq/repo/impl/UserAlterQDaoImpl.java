@@ -172,4 +172,29 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 		}
 		return false;
 	}
+
+	@Override
+	public List<RolCompany> getRols(UserAlterQ userAlterQ) {
+		Query query = new Query(Criteria.where("id").is(userAlterQ.getId()));
+		UserAlterQ uaqL = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
+		//user not exists or not rol for this company
+		if (uaqL == null) {
+			return null;
+		}
+		List<RolCompany> rcL= userAlterQ.getRols();
+		return rcL;
+	}
+
+	@Override
+	public List<RolCompany> getRolsForCompany(UserAlterQ userAlterQ, RolCompany rc) {
+		Query query = new Query(Criteria.where("id").is(userAlterQ.getId()));
+		query.addCriteria(Criteria.where("rols.company").is(rc.getCompany()));
+		UserAlterQ uaqL = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
+		//user not exists or not rol for this company
+		if (uaqL == null) {
+			return null;
+		}
+		List<RolCompany> rcL= userAlterQ.getRols();
+		return rcL;
+	}
 }
