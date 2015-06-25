@@ -1,7 +1,9 @@
 package org.alterq.domain;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 public class RolCompany {
 
 	private int company;

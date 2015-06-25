@@ -10,7 +10,7 @@ POST	/myaccount														AccountController		createUserAlterQ
 PUT		/myaccount/{id:.+}/update										AccountController		updateUserAlterQ
 POST	/myaccount/forgotPwd											AccountController		forgotPwd
 
-GET		/myaccount/{id:.+}/rolcompany									RolCompanyController	getCompanyRol
+GET		/myaccount/{id:.+}/rolcompany									RolCompanyController	getAllCompanyRolForUser
 POST	/myaccount/{id:.+}/rolcompany									RolCompanyController	addCompanyRol
 PUT		/myaccount/{id:.+}/rolcompany									RolCompanyController	updateCompanyRol
 DELETE	/myaccount/{id:.+}/rolcompany									RolCompanyController	deleteCompanyRol

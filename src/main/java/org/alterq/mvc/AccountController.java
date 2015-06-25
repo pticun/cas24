@@ -52,7 +52,7 @@ public class AccountController {
 	@Autowired
 	SendMail sendMail;
 	@Autowired
-	private UserAlterQSecurity userSecurity;
+	private UserAlterQSecurity userAlterQSecurity;
 	@Autowired
 	private UserAlterQValidator userAlterQValidator;
 
@@ -61,7 +61,9 @@ public class AccountController {
 	ResponseDto updateUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id, @RequestBody UserAlterQ user) {
 		ResponseDto dto = new ResponseDto();
 		try {
-			userSecurity.isSameUserInSession(id, cookieSession);
+			userAlterQValidator.isUserIdOk(user);
+			userAlterQSecurity.isSameUserInSession(id, cookieSession);
+			userAlterQSecurity.existsUserAlterQ(user);
 			UserAlterQ userAlterQ = userDao.findById(id);
 			if (user.getNick() != null)
 				userAlterQ.setNick(user.getNick());
@@ -90,9 +92,9 @@ public class AccountController {
 			userAlterQ.setDateUpdated(new Date());
 			userDao.save(userAlterQ);
 			dto.setUserAlterQ(userAlterQ);
-		} catch (SecurityException e) {
-			log.error(ExceptionUtils.getStackTrace(e));
-			dto.addErrorDto(e.getError());
+		} catch (AlterQException ex) {
+			dto.addErrorDto(ex.getErrorDto());
+			log.error(ExceptionUtils.getStackTrace(ex));
 		}
 
 		return dto;
@@ -141,6 +143,7 @@ public class AccountController {
 		try {
 			//TODO check company validator
 			userAlterQValidator.createUserAlterQ(user);
+			userAlterQSecurity.existsUserAlterQ(user);
 			user.setActive(true);
 			user.setBalance("0");
 			user.setDateCreated(new Date());

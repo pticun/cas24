@@ -3,7 +3,6 @@ package org.alterq.validator;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
 import org.alterq.exception.ValidatorException;
-import org.alterq.repo.UserAlterQDao;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -18,9 +17,29 @@ public class UserAlterQValidator {
 	@Autowired
 	@Qualifier("messageLocalizedResources")
 	private MessageLocalizedResources messageLocalizedResources;
-
-	@Autowired
-	private UserAlterQDao dao;
+	
+	public void isUserIdOk(UserAlterQ user) throws ValidatorException {
+		ValidatorException ve = new ValidatorException("errorValidation");
+		if (user == null) {
+			ErrorDto dto = new ErrorDto();
+			dto.setIdError(MessageResourcesNameEnum.USER_NULL);
+			dto.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NULL));
+			ve.addErrorDto(dto);
+		}
+		// EMAIL - ID
+		EmailValidator validator = EmailValidator.getInstance();
+		boolean emailValid = validator.isValid(user.getId());
+		if (!emailValid) {
+			ErrorDto dto = new ErrorDto();
+			dto.setIdError(MessageResourcesNameEnum.USER_MAIL_ERROR);
+			dto.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_MAIL_ERROR));
+			ve.addErrorDto(dto);
+		}
+		// CONTROL ERROR
+		if (!ve.getErrorDto().isEmpty()) {
+			throw ve;
+		}
+	}
 
 	public void createUserAlterQ(UserAlterQ user) throws ValidatorException {
 		ValidatorException ve = new ValidatorException("errorValidation");
@@ -108,14 +127,6 @@ public class UserAlterQValidator {
 			ErrorDto dto = new ErrorDto();
 			dto.setIdError(MessageResourcesNameEnum.USER_MAIL_ERROR);
 			dto.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_MAIL_ERROR));
-			ve.addErrorDto(dto);
-		}
-		// User already exists
-		UserAlterQ bean = dao.findById(user.getId());
-		if (bean == null) {
-			ErrorDto dto = new ErrorDto();
-			dto.setIdError(MessageResourcesNameEnum.USER_ALREADY_EXIST);
-			dto.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_ALREADY_EXIST));
 			ve.addErrorDto(dto);
 		}
 		// CONTROL ERROR
