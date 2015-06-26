@@ -72,7 +72,7 @@ public class UserAlterQSecurity {
 	public void existsUserAlterQ(UserAlterQ user) throws SecurityException {
 		// User already exists
 		UserAlterQ bean = userDao.findById(user.getId());
-		if (bean == null) {
+		if (bean != null) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_ALREADY_EXIST);
 			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_ALREADY_EXIST));

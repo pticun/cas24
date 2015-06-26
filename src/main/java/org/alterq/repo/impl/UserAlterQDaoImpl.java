@@ -3,12 +3,12 @@ package org.alterq.repo.impl;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.repo.UserAlterQDao;
-import org.alterq.util.enumeration.RolNameEnum;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -140,48 +140,14 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 	}
 
 	@Override
-	public boolean isUserRolForCompany(UserAlterQ userAlterQ, RolCompany rc) {
-		Query query = new Query(Criteria.where("id").is(userAlterQ.getId()));
-		query.addCriteria(Criteria.where("rols.company").is(rc.getCompany()));
-		query.addCriteria(Criteria.where("rols.rol").is(rc.getRol()));
-		UserAlterQ uaqL = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
-		if (uaqL != null)
-			return true;
-		return false;
-	}
-
-	@Override
-	public boolean isUserAuthorizedRolForCompany(UserAlterQ userAlterQ, RolCompany rc) {
-		Query query = new Query(Criteria.where("id").is(userAlterQ.getId()));
-		query.addCriteria(Criteria.where("rols.company").is(rc.getCompany()));
-		UserAlterQ uaqL = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
-		//user not exists or not rol for this company
-		if (uaqL == null) {
-			return false;
-		}
-		List<RolCompany> rcL= userAlterQ.getRols();
-		int maxRol=RolNameEnum.ROL_PUBLIC.getValue();
-		//find out the max value rol
-		for (RolCompany rolCompany : rcL) {
-			if(maxRol<=rolCompany.getRol())
-				maxRol=rolCompany.getRol();
-		} 
-		//if rol user >=
-		if(maxRol>=rc.getRol()){
-			return true;
-		}
-		return false;
-	}
-
-	@Override
 	public List<RolCompany> getRols(UserAlterQ userAlterQ) {
 		Query query = new Query(Criteria.where("id").is(userAlterQ.getId()));
 		UserAlterQ uaqL = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
 		//user not exists or not rol for this company
-		if (uaqL == null) {
-			return null;
+		List<RolCompany> rcL=new ArrayList<RolCompany>();
+		if (uaqL != null) {
+			rcL= userAlterQ.getRols();
 		}
-		List<RolCompany> rcL= userAlterQ.getRols();
 		return rcL;
 	}
 
@@ -191,10 +157,10 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 		query.addCriteria(Criteria.where("rols.company").is(rc.getCompany()));
 		UserAlterQ uaqL = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
 		//user not exists or not rol for this company
-		if (uaqL == null) {
-			return null;
+		List<RolCompany> rcL=new ArrayList<RolCompany>();
+		if (uaqL != null) {
+			rcL= userAlterQ.getRols();
 		}
-		List<RolCompany> rcL= userAlterQ.getRols();
 		return rcL;
 	}
 }
