@@ -79,4 +79,14 @@ public class UserAlterQSecurity {
 			throw new SecurityException(error);
 		}
 	}
+	public void notExistsUserAlterQ(UserAlterQ user) throws SecurityException {
+		// User already exists
+		UserAlterQ bean = userDao.findById(user.getId());
+		if (bean == null) {
+			ErrorDto error = new ErrorDto();
+			error.setIdError(MessageResourcesNameEnum.USER_NOT_EXIST);
+			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_EXIST));
+			throw new SecurityException(error);
+		}
+	}
 }

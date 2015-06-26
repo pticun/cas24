@@ -1,4 +1,4 @@
-package org.alterq.mvc.test;
+package org.alterq.mvc;
 
 import java.util.ArrayList;
 import java.util.Date;

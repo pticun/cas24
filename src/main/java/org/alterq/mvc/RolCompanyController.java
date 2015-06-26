@@ -62,33 +62,38 @@ public class RolCompanyController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody ResponseDto addCompanyRol(@CookieValue(value = "session", defaultValue = "") String cookieSession,@RequestBody UserAlterQ user,List<RolCompany> rcList) {
+	public @ResponseBody ResponseDto addCompanyRol(@CookieValue(value = "session", defaultValue = "") String cookieSession,@RequestBody UserAlterQ user) {
 		ResponseDto dto = new ResponseDto();
 		try {
 			userAlterQValidator.isUserIdOk(user);
-			userAlterQSecurity.existsUserAlterQ(user);
+			userAlterQSecurity.notExistsUserAlterQ(user);
 			userAlterQSecurity.isSameUserInSession(user.getId(), cookieSession);
 			//Validate List<RolCompany>
-			rolCompanyValidator.isRolCompanyEmptyAll(rcList);
-			List<RolCompany> oldRolCompany=new ArrayList<RolCompany>();
-			oldRolCompany=userDao.getRols(user);
+			rolCompanyValidator.isRolCompanyEmptyAll(user.getRols());
+			List<RolCompany> rolCompany=new ArrayList<RolCompany>();
+			//get from json web part
+			List<RolCompany> rolCompanyForUpdate=new ArrayList<RolCompany>();
+			rolCompanyForUpdate=userDao.getRols(user);
+			UserAlterQ userRetrieve=userDao.findById(user.getId());
+			rolCompany=userRetrieve.getRols();
 			
-			//SORT not necessary
-			Collections.sort(oldRolCompany, new RolCompanyComparator());
-			Collections.sort(rcList,new RolCompanyComparator());
-			
-			for (RolCompany rolCompanyForUpdate : rcList) {
-				//only add for RolUser
-				if(RolNameEnum.ROL_USER.getValue()== rolCompanyForUpdate.getRol()){
-					if (!oldRolCompany.contains(rolCompanyForUpdate)){
-						oldRolCompany.add(rolCompanyForUpdate);
-					}
-				}
-			}
+//			Collections.sort(rolCompanyForUpdate,new RolCompanyComparator());
 			
 			//compare rol from user mongo to List<RolCompany> rcList
 			//if company not in list add rol_company only ROL_USER
-			
+			for (RolCompany rolCompanyTemp : rolCompanyForUpdate) {
+				if(RolNameEnum.ROL_USER.getValue()== rolCompanyTemp.getRol()){
+					if (!rolCompany.contains(rolCompanyTemp)){
+						rolCompany.add(rolCompanyTemp);
+//						userDao.addRolForCompany(user, rolCompany);
+					}
+				}
+			}
+			Collections.sort(rolCompany, new RolCompanyComparator());
+			userRetrieve.setRols(rolCompany);
+			//update user
+			userDao.save(userRetrieve);
+			dto.setUserAlterQ(userRetrieve);
 		}catch (AlterQException ex){
 			dto.addErrorDto(ex.getErrorDto());
 			log.error(ExceptionUtils.getStackTrace(ex));
