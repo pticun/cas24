@@ -70,7 +70,7 @@ public class UserAlterQSecurity {
 	}
 
 	public void existsUserAlterQ(UserAlterQ user) throws SecurityException {
-		// User already exists
+		// User exists
 		UserAlterQ bean = userDao.findById(user.getId());
 		if (bean != null) {
 			ErrorDto error = new ErrorDto();
@@ -80,7 +80,7 @@ public class UserAlterQSecurity {
 		}
 	}
 	public void notExistsUserAlterQ(UserAlterQ user) throws SecurityException {
-		// User already exists
+		// User not exists
 		UserAlterQ bean = userDao.findById(user.getId());
 		if (bean == null) {
 			ErrorDto error = new ErrorDto();

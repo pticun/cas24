@@ -1,10 +1,11 @@
 package org.alterq.mvc;
 
-import org.alterq.domain.GeneralData;
+import org.alterq.domain.AdminData;
 import org.alterq.domain.Round;
-import org.alterq.dto.ErrorDto;
 import org.alterq.dto.AlterQConstants;
+import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
+import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
@@ -20,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -38,6 +38,8 @@ public class RoundController {
 	@Autowired
 	private GeneralDataDao generalDataDao;
 	@Autowired
+	private AdminDataDao adminDataDao;
+	@Autowired
 	@Qualifier("messageLocalizedResources")
 	private MessageLocalizedResources messageLocalizedResources;
 
@@ -50,8 +52,8 @@ public class RoundController {
 		    //TODO control security by id user
 		    //TODO control security by id-company
 			if(round==-1){
-				GeneralData generalData = generalDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
-				round=generalData.getRound();
+				AdminData adminData = adminDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
+				round=adminData.getRound();
 			}
 			// TODO create a new Service layer
 			roundBean = roundDao.findBySeasonRound(season, round);

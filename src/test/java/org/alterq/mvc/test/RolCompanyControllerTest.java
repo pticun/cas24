@@ -1,9 +1,8 @@
 package org.alterq.mvc.test;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
- 
+
 @RunWith(value = SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml" })
@@ -69,18 +68,19 @@ public class RolCompanyControllerTest {
 		System.out.println("cookieSession:" + cookies.getValue());
 
 	}
+
 	@Test
-	public void AB_addCompanyRol() throws Exception {
+	public void AB_addCompanyRol1() throws Exception {
 		UserAlterQ bean = new UserAlterQ();
 		bean.setId("prueba@prueba.es");
-		List<RolCompany> rcList=new ArrayList<RolCompany>();
-		RolCompany rc1=new RolCompany();
+		List<RolCompany> rcList = new ArrayList<RolCompany>();
+		RolCompany rc1 = new RolCompany();
 		rc1.setCompany(10);
 		rc1.setRol(RolNameEnum.ROL_USERADVANCED.getValue());
-		RolCompany rc2=new RolCompany();
+		RolCompany rc2 = new RolCompany();
 		rc2.setCompany(10);
 		rc2.setRol(RolNameEnum.ROL_USER.getValue());
-		RolCompany rc3=new RolCompany();
+		RolCompany rc3 = new RolCompany();
 		rc3.setCompany(5);
 		rc3.setRol(RolNameEnum.ROL_USER.getValue());
 		rcList.add(rc1);
@@ -88,10 +88,53 @@ public class RolCompanyControllerTest {
 		rcList.add(rc3);
 		bean.setRols(rcList);
 		ObjectMapper mapper = new ObjectMapper();
-		ResultActions auth = this.mockMvc.perform(MockMvcRequestBuilders.post("/myaccount/"+bean.getId()+"/rolcompany").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(bean)).cookie(cookies));
+		ResultActions auth = this.mockMvc.perform(MockMvcRequestBuilders.post("/myaccount/" + bean.getId() + "/rolcompany").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(bean)).cookie(cookies));
 		auth.andDo(MockMvcResultHandlers.print());
 		auth.andExpect(jsonPath("$.userAlterQ.id", is("prueba@prueba.es")));
-//		auth.andExpect(jsonPath("$.userAlterQ.rols.rolCompany[0].company", is(10)));
+		auth.andExpect(jsonPath("$.userAlterQ.rols[0].company", is(10)));
+	}
+
+	@Test
+	public void AB_addCompanyRol2() throws Exception {
+		UserAlterQ bean = new UserAlterQ();
+		bean.setId("prueba@prueba.es");
+		List<RolCompany> rcList = new ArrayList<RolCompany>();
+		RolCompany rc1 = new RolCompany();
+		rc1.setCompany(15);
+		rc1.setRol(RolNameEnum.ROL_USER.getValue());
+		rcList.add(rc1);
+		bean.setRols(rcList);
+		ObjectMapper mapper = new ObjectMapper();
+		ResultActions auth = this.mockMvc.perform(MockMvcRequestBuilders.post("/myaccount/" + bean.getId() + "/rolcompany").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(bean)).cookie(cookies));
+		auth.andDo(MockMvcResultHandlers.print());
+		auth.andExpect(jsonPath("$.userAlterQ.id", is("prueba@prueba.es")));
+		auth.andExpect(jsonPath("$.userAlterQ.rols[0].company", is(15)));
+	}
+	@Test
+	public void AC_getAllCompanyRolForUser() throws Exception {
+		UserAlterQ bean = new UserAlterQ();
+		bean.setId("prueba@prueba.es");
+		ObjectMapper mapper = new ObjectMapper();
+		ResultActions auth = this.mockMvc.perform(MockMvcRequestBuilders.get("/myaccount/" + bean.getId() + "/rolcompany").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(bean)));
+		auth.andDo(MockMvcResultHandlers.print());
+		auth.andExpect(jsonPath("$.userAlterQ.id", is("prueba@prueba.es")));
+		auth.andExpect(jsonPath("$.userAlterQ.rols[0].company", is(15)));
+	}
+	@Test
+	public void AD_deleteCompanyRolForUser() throws Exception {
+		UserAlterQ bean = new UserAlterQ();
+		bean.setId("prueba@prueba.es");
+		List<RolCompany> rcList = new ArrayList<RolCompany>();
+		RolCompany rc1 = new RolCompany();
+		rc1.setCompany(15);
+		rc1.setRol(RolNameEnum.ROL_USER.getValue());
+		rcList.add(rc1);
+		bean.setRols(rcList);
+		ObjectMapper mapper = new ObjectMapper();
+		ResultActions auth = this.mockMvc.perform(MockMvcRequestBuilders.delete("/myaccount/" + bean.getId() + "/rolcompany").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(bean)).cookie(cookies));
+		auth.andDo(MockMvcResultHandlers.print());
+		auth.andExpect(jsonPath("$.userAlterQ.id", is("prueba@prueba.es")));
+		auth.andExpect(jsonPath("$.userAlterQ.rols[0].company", is(10)));
 	}
 
 	@Test
@@ -101,15 +144,9 @@ public class RolCompanyControllerTest {
 		bean.setPwd("password");
 		ObjectMapper mapper = new ObjectMapper();
 		ResultActions auth = this.mockMvc.perform(MockMvcRequestBuilders.post("/test/deleteUser").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(bean)));
-//		auth.andExpect(jsonPath("$.userAlterQ", is()));
+		// auth.andExpect(jsonPath("$.userAlterQ", is()));
 		auth.andExpect(status().isOk());
-		MvcResult result = auth.andReturn();
-		MockHttpSession session = (MockHttpSession) result.getRequest().getSession();
 		auth.andDo(MockMvcResultHandlers.print());
-		// Cookie c = result.getResponse().getCookie("session");
-		// System.out.println("cookieSession:" + c.getValue());
-		// bean.setBalance("100");
-		// this.mockMvc.perform(MockMvcRequestBuilders.put("/myaccount/prueba@arroba.es/update").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(bean)).cookie(c)).andDo(MockMvcResultHandlers.print());
 	}
 
 }

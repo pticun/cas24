@@ -146,7 +146,7 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 		//user not exists or not rol for this company
 		List<RolCompany> rcL=new ArrayList<RolCompany>();
 		if (uaqL != null) {
-			rcL= userAlterQ.getRols();
+			rcL= uaqL.getRols();
 		}
 		return rcL;
 	}

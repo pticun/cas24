@@ -11,8 +11,6 @@ import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.AlterQException;
-import org.alterq.repo.GeneralDataDao;
-import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
@@ -23,7 +21,6 @@ import org.alterq.validator.RolCompanyValidator;
 import org.alterq.validator.UserAlterQValidator;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.arch.core.i18n.resources.MessageLocalizedResources;
-import org.arch.core.mail.SendMail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +45,9 @@ public class RolCompanyController {
 	@Autowired
 	private SessionAlterQDao sessionDao;
 	@Autowired
-	private UserAlterQSecurity userAlterQSecurity;
+	private UserAlterQSecurity userSecurity;
 	@Autowired
-	private UserAlterQValidator userAlterQValidator;
+	private UserAlterQValidator userValidator;
 	@Autowired
 	private RolCompanyValidator rolCompanyValidator;
 
@@ -65,19 +62,17 @@ public class RolCompanyController {
 	public @ResponseBody ResponseDto addCompanyRol(@CookieValue(value = "session", defaultValue = "") String cookieSession,@RequestBody UserAlterQ user) {
 		ResponseDto dto = new ResponseDto();
 		try {
-			userAlterQValidator.isUserIdOk(user);
-			userAlterQSecurity.notExistsUserAlterQ(user);
-			userAlterQSecurity.isSameUserInSession(user.getId(), cookieSession);
+			userValidator.isUserIdOk(user);
+			userSecurity.notExistsUserAlterQ(user);
+			userSecurity.isSameUserInSession(user.getId(), cookieSession);
 			//Validate List<RolCompany>
 			rolCompanyValidator.isRolCompanyEmptyAll(user.getRols());
 			List<RolCompany> rolCompany=new ArrayList<RolCompany>();
 			//get from json web part
 			List<RolCompany> rolCompanyForUpdate=new ArrayList<RolCompany>();
-			rolCompanyForUpdate=userDao.getRols(user);
+			rolCompanyForUpdate=user.getRols();
 			UserAlterQ userRetrieve=userDao.findById(user.getId());
 			rolCompany=userRetrieve.getRols();
-			
-//			Collections.sort(rolCompanyForUpdate,new RolCompanyComparator());
 			
 			//compare rol from user mongo to List<RolCompany> rcList
 			//if company not in list add rol_company only ROL_USER
@@ -119,11 +114,45 @@ public class RolCompanyController {
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE)
-	public @ResponseBody ResponseDto deleteCompanyRol(@RequestBody UserAlterQ user, HttpServletResponse response) {
+	public @ResponseBody ResponseDto deleteCompanyRol(@CookieValue(value = "session", defaultValue = "") String cookieSession,@RequestBody UserAlterQ user) {
 		ResponseDto dto = new ResponseDto();
 		//get user from mongo
 		//compare rol from user mongo to List<RolCompany> rcList
 		//if company in list add delete rol_company only ROL_USER
+		try {
+			userValidator.isUserIdOk(user);
+			userSecurity.notExistsUserAlterQ(user);
+			userSecurity.isSameUserInSession(user.getId(), cookieSession);
+			//Validate List<RolCompany>
+			rolCompanyValidator.isRolCompanyEmptyAll(user.getRols());
+			List<RolCompany> rolCompany=new ArrayList<RolCompany>();
+			//get from json web part
+			List<RolCompany> rolCompanyForUpdate=new ArrayList<RolCompany>();
+			rolCompanyForUpdate=user.getRols();
+			UserAlterQ userRetrieve=userDao.findById(user.getId());
+			rolCompany=userRetrieve.getRols();
+			for (RolCompany rolCompanyTemp : rolCompanyForUpdate) {
+				if(RolNameEnum.ROL_USER.getValue()== rolCompanyTemp.getRol()){
+					if (rolCompany.contains(rolCompanyTemp)){
+						rolCompany.remove(rolCompanyTemp);
+					}
+				}
+			}
+			Collections.sort(rolCompany, new RolCompanyComparator());
+			userRetrieve.setRols(rolCompany);
+			//update user
+			userDao.save(userRetrieve);
+			dto.setUserAlterQ(userRetrieve);
+		}catch (AlterQException ex){
+			dto.addErrorDto(ex.getErrorDto());
+			log.error(ExceptionUtils.getStackTrace(ex));
+		} catch (Exception e) {
+			ErrorDto error = new ErrorDto();
+			error.setIdError(MessageResourcesNameEnum.GENERIC_ERROR);
+			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.GENERIC_ERROR));
+			dto.addErrorDto(error);
+			log.error(ExceptionUtils.getStackTrace(e));
+		}
 		return dto;
 	}
 }

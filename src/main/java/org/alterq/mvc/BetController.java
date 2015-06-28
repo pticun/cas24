@@ -209,7 +209,8 @@ public class BetController {
 	@RequestMapping(method = RequestMethod.POST, value = "/bet")
 	public @ResponseBody
 	ResponseDto addBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,
-			@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
+			@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round,
+			@PathVariable(value = "company") int company) {
 		if (log.isDebugEnabled()) {
 			log.debug("init AccountController.updateUserAlterQ");
 			log.debug("session:" + cookieSession);
@@ -328,7 +329,8 @@ public class BetController {
 					bet.setPrice(price);
 					bet.setBet(apuesta);
 					bet.setUser(userAlterQ.getId());
-					bet.setCompany(userAlterQ.getCompany());
+//					bet.setCompany(userAlterQ.getCompany());
+					bet.setCompany(company);
 					bet.setDateCreated(new Date());
 					bet.setDateUpdated(new Date());
 					bet.setId(new ObjectId().toStringMongod());
@@ -385,7 +387,8 @@ public class BetController {
 	@RequestMapping(method = RequestMethod.POST, value = "/bet/confirm")
 	public @ResponseBody
 	ResponseDto confirmBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,
-			@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
+			@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round,
+			@PathVariable(value = "company") int company) {
 		if (log.isDebugEnabled()) {
 			log.debug("init AccountController.updateUserAlterQ");
 			log.debug("session:" + cookieSession);
@@ -426,7 +429,8 @@ public class BetController {
 			bet.setPrice(price);
 			bet.setBet(apuesta);
 			bet.setUser(userAlterQ.getId());
-			bet.setCompany(userAlterQ.getCompany());
+//			bet.setCompany(userAlterQ.getCompany());
+			bet.setCompany(company);
 			bet.setDateCreated(new Date());
 			bet.setDateUpdated(new Date());
 			bet.setId(new ObjectId().toStringMongod());

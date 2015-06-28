@@ -15,6 +15,7 @@ public class AdminData implements Serializable {
 	private int round;
 	private String idDelegacion = "00";
 	private String idReceptor = "00000";
+	private boolean active;
 	public String getId() {
 		return id;
 	}
@@ -50,6 +51,12 @@ public class AdminData implements Serializable {
 	}
 	public void setCompany(int company) {
 		this.company = company;
+	}
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 	
 }
