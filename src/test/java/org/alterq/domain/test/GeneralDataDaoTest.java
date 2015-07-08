@@ -27,10 +27,8 @@ public class GeneralDataDaoTest {
 		GeneralData bean = new GeneralData();
 		bean.setCompany(1);
 		bean.setActive(true);
-		bean.setDobles(2);
 		bean.setRound(1);
 		bean.setSeason(5);
-		bean.setTriples(3);
 		dao.add(bean);
 		Assert.assertNotNull(bean.getRound());
 		log.debug("Create:" + bean.getRound());

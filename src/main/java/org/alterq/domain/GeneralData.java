@@ -14,12 +14,11 @@ public class GeneralData implements Serializable {
 	private int season;
 	private int round;
 	private boolean active;
-	private int dobles;
-	private int triples;
 	private int type;
 	private boolean visibility;
 	private String nick;
 	private String description;
+	private int numBets;
 
 	public int getSeason() {
 		return season;
@@ -45,22 +44,6 @@ public class GeneralData implements Serializable {
 		this.active = active;
 	}
 
-	public int getDobles() {
-		return dobles;
-	}
-
-	public void setDobles(int dobles) {
-		this.dobles = dobles;
-	}
-
-	public int getTriples() {
-		return triples;
-	}
-
-	public void setTriples(int triples) {
-		this.triples = triples;
-	}
-
 	public int getCompany() {
 		return company;
 	}
@@ -77,36 +60,12 @@ public class GeneralData implements Serializable {
 		this.id = id;
 	}
 
-	public int getType() {
-		return type;
+	public int getNumBets() {
+		return numBets;
 	}
 
-	public void setType(int type) {
-		this.type = type;
-	}
-
-	public boolean isVisibility() {
-		return visibility;
-	}
-
-	public void setVisibility(boolean visibility) {
-		this.visibility = visibility;
-	}
-
-	public String getNick() {
-		return nick;
-	}
-
-	public void setNick(String nick) {
-		this.nick = nick;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setNumBets(int numBets) {
+		this.numBets = numBets;
 	}
 
 }
