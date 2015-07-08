@@ -168,29 +168,25 @@ End Analytics -->
 <div id="homeDiv" class="page">
 <div class="container">
     <!-- End Title Page -->
-
+        
     	<div class="row">
-            <div class="span12">
-
-            			<ul>
-							<!-- Item Project and Filter Name -->
-                        	<li class="item-thumbs span3">
-                            </li>
-                        	<!-- End Item Project -->
-							<!-- Item Project and Filter Name -->
-                        	<li class="item-thumbs span5">
-                            	<!-- Fancybox Media - Gallery Enabled - Title - Link to Video -->
-                            	<a class="hover-wrap" id="quinielaBtn" href="#quinielaDiv">
-                                </a>
-                                <!-- Thumb Image and Description -->
-                                <img src="<c:url value='/static/resources/_include/img/work/thumbs/logo.gif'/>" alt="Quiniela">
-                            </li>
-                        	<!-- End Item Project -->
-
-            			</ul>
-
-            </div>
+	    	<div class="span4 profile">
+	        	<div class="image-wrap">
+	                
+	            </div>
+	        </div>
+	    	<div class="span4 profile">
+	        	<div class="image-wrap">
+	                <img src="<c:url value='/static/resources/_include/img/work/thumbs/logo.gif'/>" alt="Quiniela">
+	            </div>
+	        </div>
+	    	<div class="span4 profile">
+	        	<div class="image-wrap">
+	                
+	            </div>
+	        </div>
         </div>
+        
 </div>
 </div>
 <!-- End Principal -->
@@ -313,27 +309,30 @@ End Analytics -->
     <div class="row">
 		<div align="center">
 		   <form id="loginForm">
-		   		<table class="quiniela">
-		   			<tr class="quinielatitulo">
+		   		<table class="tablaQuiniGold">
+		   			<tr align="center">
 						<td colspan="2">LOGIN</td>
 					</tr>
-			   		<tr class="quiniela">
-			   			<td class="partidoLast">Username:</td>
-			   			<td class="partidoLast"><input id="idLogin" name="id" type="text"/></td>
+			   		<tr>
+			   			<td >Usuario :</td>
+			   			<td ><input id="idLogin" name="id" type="text"/></td>
 			        </tr>
-			   		<tr class="quiniela">
-			   			<td class="partidoLast">Password:</td>
-			   			<td class="partidoLast"><input type="password" name="pwd" id="pwdLogin"/></td>
-			        </tr>
-
-			   		<tr class="quiniela" align="center">
-			   			<td align="center" colspan="2" class="partidoLast"><button id="login_btn" class="button" name="login" value="login">Login</button></td>
+			   		<tr>
+			   			<td>Password:</td>
+			   			<td><input type="password" name="pwd" id="pwdLogin"/></td>
 			        </tr>
 
+			   		<tr align="center">
+			   			<td align="center" colspan="2"><button id="login_btn" class="btn btn-danger" name="login" value="login">Login</button></td>
+			        </tr>
 		   		</table>
-		   		<a id="signupA" href="#signDiv">Crear un nuevo usuario</a><br>
-		   		<a href="#forgotDiv">He olvidado mi contrase&ntilde;a</a>
-				<div id="loginFormResponse">respuesta </div>
+		   		<br>
+		   		<a id="signupA" href="#signDiv" class="linkQuiniGold">Crear un nuevo usuario</a><br>
+		   		<br>
+		   		<a href="#forgotDiv" class="linkQuiniGold">He olvidado mi contrase&ntilde;a</a>
+		   		<br>
+		   		<br>
+				<div id="loginFormResponse" class="linkQuiniGold">respuesta </div>
 	        </form>
 		</div>
     </div>

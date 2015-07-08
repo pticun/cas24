@@ -115,24 +115,24 @@
     <div class="row">
 		<div align="center">
 		   <form id="signupForm">
-		   		<table class="quiniela">
-		   			<tr class="quinielatitulo">
-						<td colspan="2">Sign up</td>
+		   		<table class="tablaQuiniGold">
+		   			<tr align="center">
+						<td colspan="2">NUEVO USUARIO</td>
 					</tr>
 			   		<tr>
-			   			<td colspan="2" class="partidoLast"><input type="text" name="id" id="idSign" placeholder="E-Mail Identifier"/></td>
+			   			<td colspan="2"><input type="text" name="id" id="idSign" placeholder="e-Mail"/></td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partidoLast"><input type="text" name="nick" id="nickSign" placeholder="Nick"/></td>
+			   			<td colspan="2"><input type="text" name="nick" id="nickSign" placeholder="Nick"/></td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partidoLast"><input type="text" name="name" id="nameSign" placeholder="Name"/></td>
+			   			<td colspan="2"><input type="text" name="name" id="nameSign" placeholder="Nombre"/></td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partidoLast"><input type="text" name="surnames" id="surnamesSign" placeholder="Surnames"/></td>
+			   			<td colspan="2"><input type="text" name="surnames" id="surnamesSign" placeholder="Apellidos"/></td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partidoLast">
+			   			<td colspan="2">
 			   			<select name="typeID" id="typeIDSign">
    							<option value="1">NIF</option>
    							<option value="2">NIE</option>
@@ -141,19 +141,19 @@
 			   			</td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partidoLast"><input type="text" name="idCard" id="nifSign" placeholder="CardID"/></td>
+			   			<td colspan="2"><input type="text" name="idCard" id="nifSign" placeholder="NIF-NIE-Pasaporte"/></td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partidoLast"><input type="password" name="pwd" id="pwdSign" placeholder="Password"/></td>
+			   			<td colspan="2"><input type="password" name="pwd" id="pwdSign" placeholder="Password"/></td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partidoLast"><input type="text" name="phoneNumber" id="phoneNumberSign" placeholder="Phone Number"/></td>
+			   			<td colspan="2"><input type="text" name="phoneNumber" id="phoneNumberSign" placeholder="Telefono"/></td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partidoLast"><input type="text" name="birthday" id="birthDateSign" placeholder="Birth Date"/></td>
+			   			<td colspan="2"><input type="text" name="birthday" id="birthDateSign" placeholder="Fecha de Nacimiento"/></td>
 			        </tr>
 			   		<tr>
-			   			<td colspan="2" class="partidoLast">
+			   			<td colspan="2">
 			   			<select name="city" id="citySign">
    							<option value="1">Alicante</option>
    							<option value="2">Barcelona</option>
@@ -168,15 +168,21 @@
 			        </tr>
 			        
 			   		<tr>
-			   			<td class="partidoLast"><input type="checkbox" name="accept" id="acceptData"/></td>
-			   			<td class="partidoLast"><button type="button" class="button button-mini" data-toggle="modal" data-target="#myModal">Acepto los terminos y condiciones de uso.</button></td>
+			   			<td><input type="checkbox" name="accept" id="acceptData"/></td>
+			   			<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Acepto los terminos y condiciones.</button></td>
 			        </tr>
-			   		<tr class="quiniela" align="center">
-			   			<td align="center" colspan="2" class="partidoLast"><button id="signup_btn" class="button" name="signup" value="signup">signup</button></td>
+			   		<tr>
+			   			<td colspan="2"><br></td>
 			        </tr>
-			        
-			   		<tr class="quiniela" align="center">
-			   			<td colspan="2" class="partido">
+			   		<tr align="center">
+			   			<td align="center" colspan="2"><button id="signup_btn" class="btn btn-danger" name="signup" value="signup">Crear Usuario</button></td>
+			        </tr>
+			   		<tr>
+			   			<td colspan="2"><br></td>
+			        </tr>
+        
+			   		<tr align="center">
+			   			<td colspan="2">
 				   			<div class="alert fade in" id="signupFormResponse"></div>
 						</td>
 			        </tr>
