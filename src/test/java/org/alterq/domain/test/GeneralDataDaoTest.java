@@ -1,6 +1,7 @@
 package org.alterq.domain.test;
 
 import org.alterq.domain.GeneralData;
+import org.alterq.domain.GeneralData.TypeGeneralData;
 import org.alterq.repo.GeneralDataDao;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
@@ -27,8 +28,9 @@ public class GeneralDataDaoTest {
 		GeneralData bean = new GeneralData();
 		bean.setCompany(1);
 		bean.setActive(true);
-		bean.setRound(1);
-		bean.setSeason(5);
+		bean.setType(1);
+		bean.setNick("Nich");
+		bean.setDescription("description";
 		dao.add(bean);
 		Assert.assertNotNull(bean.getRound());
 		log.debug("Create:" + bean.getRound());

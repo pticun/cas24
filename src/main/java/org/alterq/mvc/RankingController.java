@@ -5,9 +5,12 @@ import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.RoundRankingDao;
+import org.alterq.util.enumeration.MessageResourcesNameEnum;
+import org.arch.core.i18n.resources.MessageLocalizedResources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +24,9 @@ public class RankingController {
 	@Autowired
 	private RoundRankingDao rankingDao;
 
-	// TODO get company from user, session .....
-	int company = 1;
+	@Autowired
+	@Qualifier("messageLocalizedResources")
+	private MessageLocalizedResources messageLocalizedResources;
 
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
@@ -32,11 +36,11 @@ public class RankingController {
 		try {
 			// TODO control security by id user
 			// TODO control security by id-company
-			roundRanking = rankingDao.findRanking(company, season, round);
+			roundRanking = rankingDao.findRanking(AlterQConstants.DEFECT_COMPANY, season, round);
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
-			error.setIdError(AlterQConstants.GET_LAST_ROUND);
-			error.setStringError("getRound (i18n error)");
+			error.setIdError(MessageResourcesNameEnum.GET_LAST_ROUND);
+			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.GET_LAST_ROUND));
 			dto.addErrorDto(error);
 			dto.setRound(null);
 		}

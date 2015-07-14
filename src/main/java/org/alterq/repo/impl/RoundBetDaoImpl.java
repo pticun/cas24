@@ -1,10 +1,11 @@
-package org.alterq.repo;
+package org.alterq.repo.impl;
 
 import java.util.List;
 
 import org.alterq.domain.Bet;
 import org.alterq.domain.Prize;
 import org.alterq.domain.RoundBets;
+import org.alterq.repo.RoundBetDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -13,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+
 
 
 

@@ -11,10 +11,13 @@ import org.alterq.dto.ResponseDto;
 import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
+import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.apache.commons.lang3.StringUtils;
+import org.arch.core.i18n.resources.MessageLocalizedResources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +31,9 @@ public class LoginController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
+	@Qualifier("messageLocalizedResources")
+	private MessageLocalizedResources messageLocalizedResources;
+	@Autowired
 	private UserAlterQDao userDao;
 	@Autowired
 	private SessionAlterQDao sessionDao;
@@ -35,7 +41,6 @@ public class LoginController {
 	private GeneralDataDao generalDataDao;
 
 	// TODO get company from user, session .....
-	int company = 1;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody
@@ -52,15 +57,11 @@ public class LoginController {
 			gd = generalDataDao.findByCompany(userValidate.getCompany());
 		} else {
 			ErrorDto error = new ErrorDto();
-			error.setIdError(AlterQConstants.USER_NOT_VALIDATE);
-			error.setStringError("user not validate (i18n error)");
-			dto.addErrorDto(error);
-			error = new ErrorDto();
-			error.setIdError(AlterQConstants.USER_NOT_VALIDATE);
-			error.setStringError("la has cagado");
+			error.setIdError(MessageResourcesNameEnum.USER_NOT_VALIDATE);
+			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_VALIDATE));
 			dto.addErrorDto(error);
 			dto.setUserAlterQ(null);
-			gd = generalDataDao.findByCompany(company);
+			gd = generalDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
 		}
 		dto.setGeneralData(gd);
 		return dto;
@@ -80,11 +81,11 @@ public class LoginController {
 			gd = generalDataDao.findByCompany(userAlterQ.getCompany());
 		} else {
 			ErrorDto error = new ErrorDto();
-			error.setIdError(AlterQConstants.USER_NOT_IN_SESSION);
-			error.setStringError("user not in Session (i18n error)");
+			error.setIdError(MessageResourcesNameEnum.USER_NOT_IN_SESSION);
+			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_IN_SESSION));
 			dto.addErrorDto(error);
 			dto.setUserAlterQ(null);
-			gd = generalDataDao.findByCompany(company);
+			gd = generalDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
 		}
 		dto.setGeneralData(gd);
 		return dto;

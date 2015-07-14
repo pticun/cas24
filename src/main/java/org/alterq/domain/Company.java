@@ -1,6 +1,7 @@
 package org.alterq.domain;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,6 +11,11 @@ public class Company implements Serializable {
 	@Id
 	private String id;
 	
+	private int company;
+	
+	//Type
+	//1=collaborative
+	//2=non-collaborative
 	private int type;
 	private boolean visibility;
 	private String nick;
@@ -44,6 +50,12 @@ public class Company implements Serializable {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public int getCompany() {
+		return company;
+	}
+	public void setCompany(int company) {
+		this.company = company;
 	}
 	
 	

@@ -1,8 +1,9 @@
-package org.alterq.repo;
+package org.alterq.repo.impl;
 
 import java.security.SecureRandom;
 
 import org.alterq.domain.SessionAlterQ;
+import org.alterq.repo.SessionAlterQDao;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

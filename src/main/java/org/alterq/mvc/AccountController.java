@@ -1,10 +1,13 @@
 package org.alterq.mvc;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ErrorDto;
@@ -16,6 +19,8 @@ import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
+import org.alterq.util.enumeration.MessageResourcesNameEnum;
+import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.UserAlterQValidator;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -47,7 +52,7 @@ public class AccountController {
 	@Autowired
 	SendMail sendMail;
 	@Autowired
-	private UserAlterQSecurity userSecurity;
+	private UserAlterQSecurity userAlterQSecurity;
 	@Autowired
 	private UserAlterQValidator userAlterQValidator;
 
@@ -56,7 +61,9 @@ public class AccountController {
 	ResponseDto updateUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id, @RequestBody UserAlterQ user) {
 		ResponseDto dto = new ResponseDto();
 		try {
-			userSecurity.isSameUserInSession(id, cookieSession);
+			userAlterQValidator.isUserIdOk(user);
+			userAlterQSecurity.isSameUserInSession(id, cookieSession);
+			userAlterQSecurity.existsUserAlterQ(user);
 			UserAlterQ userAlterQ = userDao.findById(id);
 			if (user.getNick() != null)
 				userAlterQ.setNick(user.getNick());
@@ -85,9 +92,9 @@ public class AccountController {
 			userAlterQ.setDateUpdated(new Date());
 			userDao.save(userAlterQ);
 			dto.setUserAlterQ(userAlterQ);
-		} catch (SecurityException e) {
-			log.error(ExceptionUtils.getStackTrace(e));
-			dto.addErrorDto(e.getError());
+		} catch (AlterQException ex) {
+			dto.addErrorDto(ex.getErrorDto());
+			log.error(ExceptionUtils.getStackTrace(ex));
 		}
 
 		return dto;
@@ -117,7 +124,7 @@ public class AccountController {
 			dto.addErrorDto(error);
 		} else {
 			ErrorDto error = new ErrorDto();
-			error.setIdError(AlterQConstants.USER_NOT_EXIST);
+			error.setIdError(MessageResourcesNameEnum.USER_NOT_EXIST);
 			error.setStringError("User not exist");
 			dto.addErrorDto(error);
 		}
@@ -133,14 +140,27 @@ public class AccountController {
 			log.debug("user.getId:" + user.getId());
 		}
 		ResponseDto dto = new ResponseDto();
-		// TODO validate user data
 		try {
+			//TODO check company validator
 			userAlterQValidator.createUserAlterQ(user);
+			userAlterQSecurity.existsUserAlterQ(user);
 			user.setActive(true);
 			user.setBalance("0");
-			user.setCompany(AlterQConstants.COMPANY);
 			user.setDateCreated(new Date());
 			user.setDateUpdated(new Date());
+			//At this moment user belongs defect conpany
+			List<RolCompany> rcL=new ArrayList<RolCompany>();
+			RolCompany rc=new RolCompany();
+			rc.setCompany(AlterQConstants.DEFECT_COMPANY);
+			if(StringUtils.isBlank(""+user.getCompany())){
+				rc.setCompany(AlterQConstants.DEFECT_COMPANY);
+			}
+			else{
+				rc.setCompany(user.getCompany());
+			}
+			rc.setRol(RolNameEnum.ROL_ADMIN.getValue());
+			rcL.add(rc);
+			user.setRols(rcL);
 			userDao.create(user);
 			dto.setUserAlterQ(user);
 			String sessionID = sessionDao.startSession(user.getId());
@@ -151,7 +171,7 @@ public class AccountController {
 			log.error(ExceptionUtils.getStackTrace(ex));
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
-			error.setIdError(AlterQConstants.USER_ALREADY_EXIST);
+			error.setIdError(MessageResourcesNameEnum.USER_ALREADY_EXIST);
 			error.setStringError("User already exist");
 			dto.addErrorDto(error);
 			log.error(ExceptionUtils.getStackTrace(e));

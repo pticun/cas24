@@ -1,7 +1,8 @@
-package org.alterq.repo;
+package org.alterq.repo.impl;
 
 import org.alterq.domain.Ranking;
 import org.alterq.domain.RoundRanking;
+import org.alterq.repo.RoundRankingDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

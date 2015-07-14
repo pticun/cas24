@@ -15,6 +15,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
 import org.alterq.domain.Game;
 import org.alterq.domain.GeneralData;
@@ -27,6 +28,7 @@ import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
+import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
@@ -71,6 +73,8 @@ public class AdminController {
 	private RoundDao roundDao;
 	@Autowired
 	private UserAlterQSecurity userSecurity;
+	@Autowired
+	private AdminDataDao adminDataDao;
 	
 	
 	private static int doubles = 0;
@@ -89,7 +93,7 @@ public class AdminController {
 	 * */
 	private String getAdmin()
 	{
-		UserAlterQ admin= userAlterQDao.findAdminByCompany(AlterQConstants.COMPANY);
+		UserAlterQ admin= userAlterQDao.findAdminByCompany(AlterQConstants.DEFECT_COMPANY);
 		return admin.getId();
 	}
 	/**
@@ -622,12 +626,13 @@ public class AdminController {
 	public @ResponseBody 
 	ResponseDto openRound(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round) {
 		GeneralData generalData = null;
+		AdminData adminData = null;
 		ResponseDto response = new ResponseDto();
 		
 		log.debug("openRound: start");
 		try {
 			userSecurity.isAdminUserInSession( cookieSession);
-			generalData = dao.findByCompany(company);
+			adminData = adminDataDao.findByCompany(company);
 			
 			//OPENING PROCESS STEPS
 			//---------------------
@@ -637,27 +642,27 @@ public class AdminController {
 			//if exist, update active=true
 			if (generalData != null){
 				log.debug("openRound: active=true");
-				if ((company == generalData.getCompany()) && (season == generalData.getSeason()) && (round == generalData.getRound()) && (generalData.isActive()))
+				if ((company == adminData.getCompany()) && (season == adminData.getSeason()) && (round == adminData.getRound()) && (adminData.isActive()))
 				{
 					log.debug("openRound: Round is already actived");
 				}
 				else{
-					generalData.setCompany(company);
-					generalData.setSeason(season);
-					generalData.setRound(round);
-					generalData.setActive(true);
-					dao.update(generalData);
+					adminData.setCompany(company);
+					adminData.setSeason(season);
+					adminData.setRound(round);
+					adminData.setActive(true);
+					adminDataDao.update(adminData);
 				}
 			}
 			else{//if not exist, create a new generalData (active=true)
 				log.debug("openRound: new generalData active=true");
-				generalData = new GeneralData();
-				generalData.setActive(true);
-				generalData.setCompany(company);
-				generalData.setRound(round);
-				generalData.setSeason(season);
+				adminData = new AdminData();
+				adminData.setActive(true);
+				adminData.setCompany(company);
+				adminData.setRound(round);
+				adminData.setSeason(season);
 				
-				dao.add(generalData);
+				adminDataDao.add(adminData);
 			}
 			
 			//STEP 2: Create roundData (RoundBets collection)
@@ -1182,22 +1187,15 @@ public class AdminController {
 	public @ResponseBody 
 	ResponseDto  updateBalanceUser(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable String user, @PathVariable String balance) {
 		ResponseDto response = new ResponseDto();
-		UserAlterQ userAlterQ;
+		UserAlterQ userAlterQ=new UserAlterQ();
 
 		try
 		{
 			userSecurity.isAdminUserInSession( cookieSession);
+			userAlterQ.setId(user);
+			userSecurity.notExistsUserAlterQ(userAlterQ);
 			
 			userAlterQ = userAlterQDao.findById(user);
-			
-			if (userAlterQ == null){
-				log.debug("updateBalance: user("+user+") Error resultBet user not find");
-				
-				ErrorDto error = new ErrorDto();
-				error.setIdError(AlterQConstants.USER_NOT_EXIST);
-				error.setStringError("User does not exist");
-				response.addErrorDto(error);			
-			}
 			
 			userAlterQ.setBalance(Double.toString( Double.parseDouble(balance)));
 			userAlterQDao.save(userAlterQ);
