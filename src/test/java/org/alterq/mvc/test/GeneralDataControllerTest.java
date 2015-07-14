@@ -53,8 +53,8 @@ public class GeneralDataControllerTest {
 		GeneralData bean = new GeneralData();
 		bean.setCompany(2);
 		bean.setActive(true);
-		bean.setRound(1);
-		bean.setSeason(5);
+//		bean.setRound(1);
+//		bean.setSeason(5);
 		ObjectMapper mapper = new ObjectMapper();
 		System.out.println("Elmapper:" + mapper.writeValueAsString(bean));
 		ResultActions ra = this.mockMvc.perform(post("/generalData").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(bean)));

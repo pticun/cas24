@@ -49,11 +49,11 @@ public class PopulateDataBase {
 		GeneralData bean = new GeneralData();
 		bean.setCompany(company);
 		bean.setActive(true);
-		bean.setRound(round);
-		bean.setSeason(season);
+//		bean.setRound(round);
+//		bean.setSeason(season);
 		generalDao.add(bean);
-		Assert.assertNotNull(bean.getRound());
-		log.debug("Create:" + bean.getRound());
+//		Assert.assertNotNull(bean.getRound());
+//		log.debug("Create:" + bean.getRound());
 		return;
 	}
 
