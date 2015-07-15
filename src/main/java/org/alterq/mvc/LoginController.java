@@ -4,10 +4,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.alterq.domain.GeneralData;
+import org.alterq.domain.AdminData;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
+import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
@@ -39,6 +41,8 @@ public class LoginController {
 	private SessionAlterQDao sessionDao;
 	@Autowired
 	private GeneralDataDao generalDataDao;
+	@Autowired
+	private AdminDataDao adminDataDao;
 
 	// TODO get company from user, session .....
 
@@ -49,12 +53,14 @@ public class LoginController {
 		UserAlterQ userValidate = userDao.validateLogin(user.getId(), user.getPwd());
 		ResponseDto dto = new ResponseDto();
 		GeneralData gd;
+		AdminData ad;
 		if (userValidate != null) {
 			String sessionID = sessionDao.startSession(userValidate.getId());
 			log.debug("Session ID is:" + sessionID);
 			response.addCookie(new Cookie("session", sessionID));
 			dto.setUserAlterQ(userValidate);
 			gd = generalDataDao.findByCompany(userValidate.getCompany());
+			ad = adminDataDao.get();
 		} else {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_NOT_VALIDATE);
@@ -62,8 +68,10 @@ public class LoginController {
 			dto.addErrorDto(error);
 			dto.setUserAlterQ(null);
 			gd = generalDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
+			ad = adminDataDao.get();
 		}
 		dto.setGeneralData(gd);
+		dto.setAdminData(ad);
 		return dto;
 	}
 

@@ -512,8 +512,12 @@ $(document).ready(function() {
     				userLoged=false;
 		    	}
 		    }
-		    round=response.generalData.round;
-		    season=response.generalData.season;
+		    //round=response.generalData.round;
+		    //season=response.generalData.season;
+		    //Round & Season --> from AdminData
+		    round = response.adminData.round;
+		    season = response.adminData.season;
+
 			//Paint Main Menu Items
 			consoleAlterQ("Menu: pintamos los elementos del menu");
 			getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
@@ -564,8 +568,12 @@ $(document).ready(function() {
 						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
 						showDiv(bHome);
 		   		    }
-				    round=response.generalData.round;
-				    season=response.generalData.season;
+				    //round=response.generalData.round;
+				    //season=response.generalData.season;
+				    //Round & Season --> from AdminData
+				    round = response.adminData.round;
+				    season = response.adminData.season;
+
 			    }
 			});
 		 	event.preventDefault(); // prevent actual form submit and page reload
@@ -981,8 +989,12 @@ function doLogin(){
 					$('#balanceSaldo').val(response.userAlterQ.balance);
 		    	}
 		    }
-		    round=response.generalData.round;
-		    season=response.generalData.season;
+		    //round=response.generalData.round;
+		    //season=response.generalData.season;
+		    //Round & Season --> from AdminData
+		    round = response.adminData.round;
+		    season = response.adminData.season;
+		    
 	    });
 	
 }
@@ -1185,6 +1197,10 @@ function getQuiniela(){
 						$('#quinielaTableReduced').append(row);
 						
 				    }
+			    },
+			    error: function(){
+			    	consoleAlterQ('Error en getQuiniela');
+			        loadBet=true;
 			    }
 		 });
 		}

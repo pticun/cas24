@@ -3,6 +3,7 @@ package org.alterq.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alterq.domain.AdminData;
 import org.alterq.domain.GeneralData;
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
@@ -15,6 +16,7 @@ public class ResponseDto {
 	private List<ErrorDto> errorDto = new ArrayList<ErrorDto>();
 	private Round round;
 	private RoundBets roundBet;
+	private AdminData adminData;
 	private GeneralData generalData;
 	private RoundRanking roundRanking;
 	private Bet bet;
@@ -66,6 +68,14 @@ public class ResponseDto {
 
 	public void setRoundBet(RoundBets roundBet) {
 		this.roundBet = roundBet;
+	}
+
+	public AdminData getAdminData() {
+		return adminData;
+	}
+
+	public void setAdminData(AdminData adminData) {
+		this.adminData = adminData;
 	}
 
 	public GeneralData getGeneralData() {
