@@ -348,19 +348,21 @@ End Analytics -->
     <div class="row">
 		<div align="center">
 		   <form id="forgotPwdForm">
-		   		<table class="quiniela">
-		   			<tr class="quinielatitulo">
+		   		<table class="tablaQuiniGold">
+		   			<tr  align="center">
 						<td colspan="2">RECORDAR PASSWORD</td>
 					</tr>
-			   		<tr class="quiniela">
-			   			<td class="partidoLast">Login:</td>
-			   			<td class="partidoLast"><input id="idForgot" type="text" size="20" name="id" placeholder="idLogin"/></td>
+			   		<tr>
+			   			<td>Usuario:</td>
+			   			<td><input id="idForgot" type="text" size="20" name="id" placeholder="idLogin"/></td>
 			        </tr>
-			   		<tr class="quiniela" align="center">
-			   			<td align="center" colspan="2" class="partidoLast"><button id="forgot_btn" class="button" name="signup" value="send">Send</button></td>
+			   		<tr align="center">
+			   			<td align="center" colspan="2"><button id="forgot_btn" class="btn btn-danger" name="signup" value="send">Recordar</button></td>
 			        </tr>
 		   		</table>
-		   		<div id="forgotPwdFormResponse">respuesta </div>
+		   		<br>
+		   		<br>
+		   		<div id="forgotPwdFormResponse" class="linkQuiniGold">respuesta </div>
 	        </form>
 		</div>
     </div>

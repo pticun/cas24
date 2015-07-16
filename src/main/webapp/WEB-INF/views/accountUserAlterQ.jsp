@@ -2,12 +2,31 @@
 <div id="myaccountDiv" class="page">
 <div class="container">
     	<div class="row">
-            <div class="span12">
-            	<div class="well" id="myDataBtn">Mis Datos</div>
-            	<div class="well" id="myBalanceBtn">Mi Saldo</div>
-            	<div class="well" id="myBetsBtn">Mis Apuestas</div>
+            <div  align="center" >
+            <table class="tablaQuiniGold">
+		   			<tr align="center">
+		   				
+						<td><br>INFORMACION DEL USUARIO</td>
+					</tr>
+			   		<tr align="center">
+			   			<td align="center">
+							<br>
+							<button id="myDataBtn" type="button" class="btn btn-danger btn-block">Mis Datos</button>
+							<br>
+		  					<button id="myBalanceBtn" type="button" class="btn btn-danger btn-block">Mi Saldo</button>
+		  					<br>
+		  					<button id="myBetsBtn" type="button" class="btn btn-danger btn-block">Mis Apuestas</button>
+		  					<br>
+			   			</td>
+			        </tr>
+			</table>            
+<!--            	<div class="well" id="myDataBtn">Mis Datos</div>	-->
+<!--	           	<div class="well" id="myBalanceBtn">Mi Saldo</div>	-->
+<!--    	       	<div class="well" id="myBetsBtn">Mis Apuestas</div>	-->
+
 <!--            	<div class="well" id="myRankBtn">Ranking</div>	 -->
 <!--            	<div class="well" id="myResumBtn">Resumen</div>	 -->
+			</div>
             </div>
         </div>
 </div>
