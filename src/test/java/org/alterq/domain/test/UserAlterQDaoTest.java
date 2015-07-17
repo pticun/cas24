@@ -45,7 +45,7 @@ public class UserAlterQDaoTest {
 
 		RolCompany rc = new RolCompany();
 		rc.setCompany(AlterQConstants.DEFECT_COMPANY);
-		rc.setRol(RolNameEnum.ROL_USER.getValue());
+		rc.setRol(RolNameEnum.ROL_ADMIN.getValue());
 
 		ArrayList<RolCompany> rcL = new ArrayList<RolCompany>();
 		rcL.add(rc);

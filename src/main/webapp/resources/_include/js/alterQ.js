@@ -1,6 +1,8 @@
 // comentario
 var round=0;
 var season=0;
+var company=1;
+var rols="";
 var idUserAlterQ="";
 
 var loadBet=true;
@@ -501,8 +503,6 @@ $(document).ready(function() {
 		    	if (response.userAlterQ!=null){
 	    			showDiv(bHome);
 		    			
-					idUserAlterQ=response.userAlterQ.id;
-
 					fillUserData(response);
 					
 					userLoged=true;
@@ -512,11 +512,7 @@ $(document).ready(function() {
     				userLoged=false;
 		    	}
 		    }
-		    //round=response.generalData.round;
-		    //season=response.generalData.season;
-		    //Round & Season --> from AdminData
-		    round = response.adminData.round;
-		    season = response.adminData.season;
+		    fillRoundSeasonCompany(response);
 
 			//Paint Main Menu Items
 			consoleAlterQ("Menu: pintamos los elementos del menu");
@@ -563,17 +559,11 @@ $(document).ready(function() {
 		   		    	consoleAlterQ("login: response="+response.userAlterQ.name);
 						$('#loginFormResponse').text(response.userAlterQ.name);
 						userLoged=true;
-						idUserAlterQ=response.userAlterQ.id;
 						fillUserData(response);
 						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
 						showDiv(bHome);
 		   		    }
-				    //round=response.generalData.round;
-				    //season=response.generalData.season;
-				    //Round & Season --> from AdminData
-				    round = response.adminData.round;
-				    season = response.adminData.season;
-
+				    fillRoundSeasonCompany(response);
 			    }
 			});
 		 	event.preventDefault(); // prevent actual form submit and page reload
@@ -981,25 +971,19 @@ function doLogin(){
 	    .success (function(response) { 
 		    if(response.errorDto==0){
 		    	if (response.userAlterQ!=null){
-					idUserAlterQ=response.userAlterQ.id;
-					$('#idData').val(response.userAlterQ.id);
-					$('#nameData').val(response.userAlterQ.name);
-					$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
-					$('#idSaldo').val(response.userAlterQ.id);
-					$('#balanceSaldo').val(response.userAlterQ.balance);
+					fillUserData(response);
 		    	}
 		    }
-		    //round=response.generalData.round;
-		    //season=response.generalData.season;
-		    //Round & Season --> from AdminData
-		    round = response.adminData.round;
-		    season = response.adminData.season;
-		    
+		    fillRoundSeasonCompany(response);
 	    });
-	
 }
-
+function fillRoundSeasonCompany(response){
+    round = response.adminData.round;
+    season = response.adminData.season;
+    company = response.adminData.company;
+}
 function fillUserData(response){
+	idUserAlterQ=response.userAlterQ.id;
 	$('#idData').val(response.userAlterQ.id);
 	$('#nameData').val(response.userAlterQ.name);
 	$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
@@ -1012,7 +996,7 @@ function fillUserData(response){
 	
 	$('#idSaldo').val(response.userAlterQ.id);
 	$('#balanceSaldo').val(response.userAlterQ.balance);	
-	
+	rols=response.userAlterQ.rols;
 }
 
 function doLogout(){

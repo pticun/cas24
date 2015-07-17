@@ -3,7 +3,6 @@ package org.alterq.mvc;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-import org.alterq.domain.GeneralData;
 import org.alterq.domain.AdminData;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
@@ -52,25 +51,21 @@ public class LoginController {
 		log.debug("login name:" + user.getId() + "-:pwd:" + user.getPwd());
 		UserAlterQ userValidate = userDao.validateLogin(user.getId(), user.getPwd());
 		ResponseDto dto = new ResponseDto();
-		GeneralData gd;
 		AdminData ad;
 		if (userValidate != null) {
 			String sessionID = sessionDao.startSession(userValidate.getId());
 			log.debug("Session ID is:" + sessionID);
 			response.addCookie(new Cookie("session", sessionID));
 			dto.setUserAlterQ(userValidate);
-			gd = generalDataDao.findByCompany(userValidate.getCompany());
-			ad = adminDataDao.get();
+			ad = adminDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
 		} else {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_NOT_VALIDATE);
 			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_VALIDATE));
 			dto.addErrorDto(error);
 			dto.setUserAlterQ(null);
-			gd = generalDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
-			ad = adminDataDao.get();
+			ad = adminDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
 		}
-		dto.setGeneralData(gd);
 		dto.setAdminData(ad);
 		return dto;
 	}
@@ -81,21 +76,21 @@ public class LoginController {
 		log.debug("init LoginController.getUser");
 		log.debug("session:" + cookieSession);
 		ResponseDto dto = new ResponseDto();
-		GeneralData gd;
+		AdminData ad;
 		if (StringUtils.isNotBlank(cookieSession)) {
 			String idUserAlterQ = sessionDao.findUserAlterQIdBySessionId(cookieSession);
 			UserAlterQ userAlterQ = userDao.findById(idUserAlterQ);
 			dto.setUserAlterQ(userAlterQ);
-			gd = generalDataDao.findByCompany(userAlterQ.getCompany());
+			ad = adminDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
 		} else {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_NOT_IN_SESSION);
 			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_IN_SESSION));
 			dto.addErrorDto(error);
 			dto.setUserAlterQ(null);
-			gd = generalDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
+			ad = adminDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
 		}
-		dto.setGeneralData(gd);
+		dto.setAdminData(ad);
 		return dto;
 	}
 
