@@ -377,37 +377,39 @@ End Analytics -->
     <!-- Quiniela Form -->
 		<div align="center">
 			<form id="betForm">
-					<table>
+					<table class="tablaQuiniGold">
 						<tr>
 							<td>
-							    <table class="quiniela" border="1" id="quinielaTable">
+							    <table class="tablaQuiniGold" border="1" id="quinielaTable">
 							    </table>
 							</td>
 							<td>
-							    <table class="quiniela" border="1" id="quinielaTableRec" style="display: none">
+							    <table class="tablaQuiniGold" border="1" id="quinielaTableRec" style="display: none">
 							    </table>
 							</td>
 						</tr>
 					</table>
-				    <table class="quiniela" border="1" id="quinielaTablePleno15">
+				    <table class="tablaQuiniGold" id="quinielaTablePleno15">
 				    </table>
 				    <p></p>
-				    <table class="quiniela" border="1" id="quinielaTableReduced">
+				    <table class="tablaQuiniGold" id="quinielaTableReduced">
 				    </table>
 				    <p></p>
-				    <table class="quiniela" border="1" id="quinielaTablePrize">
-				    <tr class="quinielatitulo">
-				    <td class="pronostico">APUESTAS</td>
-				    <td class="pronostico" width="70"><label id="labelApuestas">&nbsp;</label></td>
-				    <td class="pronostico">PRECIO</td>
-				    <td class="pronostico" width="70"><label id="labelPrecio">&nbsp;</label></td>
-				    <td class="pronostico"><button id="prizeButton" class="button button-mini" name="prize" value="Precio">Precio</button></td>
+				    <table class="tablaQuiniGold" id="quinielaTablePrize">
+				    <tr align="center">
+				    <td>APUESTAS</td>
+				    <td width="70"><label id="labelApuestas">&nbsp;</label></td>
+				    <td>PRECIO</td>
+				    <td width="70"><label id="labelPrecio">&nbsp;</label></td>
+				    <td><button id="prizeButton" class="btn btn-danger" name="prize" value="Precio">Precio</button></td>
 				    </tr>
 				    </table>
 				    <p></p>
 				    <!-- <input type="submit" value="Enviar"> -->
-				    <div align="center" id="quinielaFormResponse">Rellena tu apuesta y pulsa enviar.</div>
-				    <button id="quinielaButton" class="button" name="quiniela" value="Enviar">Enviar</button>
+				    <div align="center" id="quinielaFormResponse" class="linkQuiniGold">Rellena tu apuesta y pulsa enviar.</div>
+				    <br>
+				    <br>
+				    <button id="quinielaButton" class="btn btn-danger" name="quiniela" value="Enviar">Enviar</button>
 				    
 			</form>
 		</div>
