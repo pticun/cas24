@@ -5,24 +5,24 @@
     <div class="row">
 		<div align="center">
 		   <form id="balanceAlterQForm">
-		   		<table class="quiniela">
-		   			<tr class="quinielatitulo">
-						<td colspan="2">Saldo</td>
+		   		<table class="tablaQuiniGold">
+		   			<tr align="center">
+						<td colspan="2">SALDO</td>
 					</tr>
 			   		<tr>
-			   			<td class="partidoLast">Username:</td>
-			   			<td class="partidoLast"><input class="textbox" id="idSaldo" name="id" type="text" readonly="readonly"/></td>
+			   			<td>Usuario:</td>
+			   			<td><input class="textbox" id="idSaldo" name="id" type="text" readonly="readonly"/></td>
 			        </tr>
 			   		<tr>
-			   			<td class="partidoLast">Saldo:</td>
-			   			<td class="partidoLast"><input class="textbox" name="balance" id="balanceSaldo" type="text" readonly="true"/></td>
+			   			<td>Saldo:</td>
+			   			<td><input class="textbox" name="balance" id="balanceSaldo" type="text" readonly="true"/></td>
 			        </tr>
 			   		<tr align="right" style="display:none" >
-			   			<td class="partidoLast"></td>
-			   			<td class="partidoLast"><button id="balanceAlterQFormSubmit_btn" class="button" name="submitBtn" value="submitBtn">Enviar</button></td>
+			   			<td></td>
+			   			<td><button id="balanceAlterQFormSubmit_btn" class="btn btn-danger" name="submitBtn" value="submitBtn">Enviar</button></td>
 			        </tr>
 		   		</table>
-		         <div id="balanceAlterQFormResponse" style="display:none">Actualiza tu saldo y pulsa Enviar.</div>
+		         <div id="balanceAlterQFormResponse" class="linkQuiniGold" style="display:none">Actualiza tu saldo y pulsa Enviar.</div>
 	        </form>
 		</div>
     </div>
