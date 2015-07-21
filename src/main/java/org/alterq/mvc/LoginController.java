@@ -57,14 +57,14 @@ public class LoginController {
 			log.debug("Session ID is:" + sessionID);
 			response.addCookie(new Cookie("session", sessionID));
 			dto.setUserAlterQ(userValidate);
-			ad = adminDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
+			ad = adminDataDao.findByCompany(AlterQConstants.ADMIN_COMPANY);
 		} else {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_NOT_VALIDATE);
 			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_VALIDATE));
 			dto.addErrorDto(error);
 			dto.setUserAlterQ(null);
-			ad = adminDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
+			ad = adminDataDao.findByCompany(AlterQConstants.ADMIN_COMPANY);
 		}
 		dto.setAdminData(ad);
 		return dto;
@@ -81,14 +81,14 @@ public class LoginController {
 			String idUserAlterQ = sessionDao.findUserAlterQIdBySessionId(cookieSession);
 			UserAlterQ userAlterQ = userDao.findById(idUserAlterQ);
 			dto.setUserAlterQ(userAlterQ);
-			ad = adminDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
+			ad = adminDataDao.findByCompany(AlterQConstants.ADMIN_COMPANY);
 		} else {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_NOT_IN_SESSION);
 			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_IN_SESSION));
 			dto.addErrorDto(error);
 			dto.setUserAlterQ(null);
-			ad = adminDataDao.findByCompany(AlterQConstants.DEFECT_COMPANY);
+			ad = adminDataDao.findByCompany(AlterQConstants.ADMIN_COMPANY);
 		}
 		dto.setAdminData(ad);
 		return dto;

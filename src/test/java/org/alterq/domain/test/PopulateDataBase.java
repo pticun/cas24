@@ -3,14 +3,23 @@ package org.alterq.domain.test;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
+import org.alterq.domain.Company;
 import org.alterq.domain.Game;
 import org.alterq.domain.GeneralData;
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
+import org.alterq.dto.AlterQConstants;
+import org.alterq.repo.AdminDataDao;
+import org.alterq.repo.CompanyDao;
 import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
+import org.alterq.repo.SequenceIdDao;
+import org.alterq.repo.impl.AdminDataDaoImpl;
+import org.alterq.repo.impl.CompanyDaoImpl;
+import org.alterq.util.enumeration.CompanyTypeEnum;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -38,52 +47,59 @@ public class PopulateDataBase {
 			"CÓRDOBA", "SPORTING", "MÁLAGA", "BETIS" };
 
 	@Autowired
-	private GeneralDataDao generalDao;
+	private CompanyDao companyDao;
 	@Autowired
-	private RoundDao roundDao;
-	@Autowired
-	private RoundBetDao rondBetDao;
+	private SequenceIdDao daoSequence;
+	private AdminDataDao dao;
 
 	@Test
-	public void AA_Create_GeneralData() throws Exception {
-		GeneralData bean = new GeneralData();
-		bean.setCompany(company);
-		bean.setActive(true);
-//		bean.setRound(round);
-//		bean.setSeason(season);
-		generalDao.add(bean);
-//		Assert.assertNotNull(bean.getRound());
-//		log.debug("Create:" + bean.getRound());
+	public void test00CreateCollection() throws Exception {
+		createCollectionAdmin();
+		createCollectionCompany();
+		return;
+	}
+	@Test
+	public void test01Create() throws Exception {
+		createAdminData();
+		createCompanyData();
 		return;
 	}
 
-	@Test
-	public void AB_Create_Round() {
-		Round bean = new Round();
-		bean.setRound(round);
-		bean.setSeason(season);
-
-		List<Game> matchs = new ArrayList<Game>();
-		for (int i = 0; i < 15; i++) {
-			Game game = new Game();
-			game.setPlayer1(games1[i]);
-			game.setPlayer2(games2[i]);
-			game.setId(i + 1);
-			matchs.add(game);
-		}
-		bean.setGames(matchs);
-		roundDao.addRound(bean);
+	public void createCollectionCompany() throws Exception {
+		((CompanyDaoImpl) companyDao).createCollection();
+		log.debug("CreateCollection:");
+		return;
+	}
+	public void createCollectionAdmin() throws Exception {
+		((AdminDataDaoImpl) dao).createCollection();
+		log.debug("CreateCollection:");
 		return;
 	}
 
-	@Test
-	public void AC_Create_RoundBet() throws Exception {
-		RoundBets roundBeat=new RoundBets();
-		roundBeat.setCompany(company);
-		roundBeat.setPrice(price);
-		roundBeat.setRound(round);
-		roundBeat.setSeason(season);
-		rondBetDao.add(roundBeat);
+	public void createAdminData() throws Exception {
+		AdminData bean = new AdminData();
+		bean.setCompany(AlterQConstants.ADMIN_COMPANY);
+		bean.setRound(1);
+		bean.setSeason(2015);
+		bean.setIdDelegacion("12345");
+		bean.setIdReceptor("12");
+		dao.add(bean);
+		Assert.assertNotNull(bean.getIdDelegacion());
+		log.debug("Create:" + bean.getCompany() + "-" + bean.getIdDelegacion());
+		return;
+	}
+
+	public void createCompanyData() throws Exception {
+		Company bean = new Company();
+		bean.setCompany(AlterQConstants.DEFECT_COMPANY);
+		bean.setDescription("description");
+		bean.setNick("Nich");
+		bean.setType(CompanyTypeEnum.COMPANY_NON_COLLABORATIVE.getValue());
+		bean.setVisibility(Boolean.TRUE);
+		companyDao.add(bean);
+		Assert.assertNotNull(bean.getDescription());
+		log.debug("Create:" + bean.getCompany() + "-" + bean.getDescription());
+		return;
 	}
 
 }
