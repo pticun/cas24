@@ -1,6 +1,7 @@
 var round=0;
 var season=0;
 var idUserAlterQ="";
+var company=1;
 
 // left padding s with c to a total of n chars
 function padding_left(s, c, n) {
@@ -439,12 +440,12 @@ function consoleAlterQ(text){
 		console.log(text);
 	}
 }
-function callResum(temporada,jornada){
+function callResum(company,temporada,jornada){
 	//Remove table
 	$('#resumTable').find("tr").remove();
 	var mygames;
 	jQuery.ajax ({
-	    url: ctx+'/myaccount/mail@mail.es/season/'+ temporada+'/round/'+jornada,
+	    url: ctx+'/myaccount/mail@mail.es/'+company+'/'+ temporada+'/'+jornada+'/round',
 	    type: "GET",
 	    data: null,
 	    contentType: "application/json; charset=utf-8",
@@ -465,7 +466,7 @@ function callResum(temporada,jornada){
 
 	
 	jQuery.ajax ({
-		url: ctx+'/myaccount/mail@mail.es/season/'+temporada+'/round/'+jornada+'/bet',
+		url: ctx+'/myaccount/mail@mail.es/'+company+'/'+temporada+'/'+jornada+'/bet',
 		type: "GET",
 		data: null,
 		contentType: "application/json; charset=utf-8",

@@ -344,7 +344,7 @@ function paintRanking(){
 	for ( num = 1; num < round + 1; num++) {
 		$('#rankingSelect').append($("<li><a id='"+season+"_"+num+"' href='#'>"+num+"</a></li>"));
 	}
-	callRanking(idUserAlterQ,season,round);
+	callRanking(idUserAlterQ,company,season,round);
 }
 
 function paintResum(){
@@ -637,11 +637,10 @@ $(document).ready(function() {
 		consoleAlterQ('betForm:'+dataJson);
 		if (buttonpressed == 'Enviar')
 		{
-			//consoleAlterQ('/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet');
 			if (idUserAlterQ != ''){
 				// will pass the form date using the jQuery serialize function
 				jQuery.ajax ({
-					url: ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet',
+					url: ctx+'/myaccount/'+ idUserAlterQ+'/'+company+'/'+ season+'/'+round+'/bet',
 				    type: "POST",
 				    data: $(this).serialize(),
 		//		    contentType: "application/json; charset=utf-8",
@@ -692,10 +691,10 @@ $(document).ready(function() {
 		consoleAlterQ('confirmBetForm:'+dataJson);
 		if (buttonpressed == 'Confirmar')
 		{
-			consoleAlterQ(ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet/confirm');
+			consoleAlterQ(ctx+'/myaccount/'+ idUserAlterQ+'/'+company+'/'+ season+'/'+round+'/bet/confirm');
 			// will pass the form date using the jQuery serialize function
 			jQuery.ajax ({
-				url: ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet/confirm',
+				url: ctx+'/myaccount/'+ idUserAlterQ+'/'+company+'/'+ season+'/'+round+'/bet/confirm',
 			    type: "POST",
 			    data: $(this).serialize(),
 	//		    contentType: "application/json; charset=utf-8",
@@ -842,8 +841,8 @@ $(document).ready(function() {
 		pos = texto.indexOf('_');
 		temporada=texto.substring(0,pos);
 		jornada=texto.substring(pos+1);
-		consoleAlterQ("temporada_jornada="+temporada+"-"+jornada);
-		callRanking(idUserAlterQ,temporada,jornada);
+		consoleAlterQ("company_temporada_jornada="+company+"-"+temporada+"-"+jornada);
+		callRanking(idUserAlterQ,company,temporada,jornada);
 		event.preventDefault(); // prevent actual form submit and page reload
     });
    	$( "#resumSelect" ).on( "click", "a", function( event ) {
@@ -880,11 +879,11 @@ function showModalReduced(){
 //	alert("showModal");
 	showDiv(bModalReduced);
 }
-function callRanking(idUserAlterQ,temporada,jornada){
+function callRanking(idUserAlterQ,company,temporada,jornada){
 	//Remove table
 	$('#rankingTable').find("tr").remove();
 	jQuery.ajax ({
-	    url: ctx+'/myaccount/'+ idUserAlterQ +'/season/'+temporada+'/round/'+jornada+'/ranking',
+	    url: ctx+'/myaccount/'+ idUserAlterQ +'/'+company+'/'+temporada+'/'+jornada+'/ranking',
 	    type: "GET",
 	    data: null,
 	    contentType: "application/json; charset=utf-8",
@@ -908,12 +907,12 @@ function callRanking(idUserAlterQ,temporada,jornada){
 	});
 }
 
-function callResum(temporada,jornada){
+function callResum(company,temporada,jornada){
 	//Remove table
 	$('#resumTable').find("tr").remove();
 	var mygames;
 	jQuery.ajax ({
-	    url: ctx+'/myaccount/mail@mail.es/season/'+ temporada+'/round/'+jornada,
+	    url: ctx+'/myaccount/mail@mail.es/'+company+'/'+ temporada+'/'+jornada+'/round',
 	    type: "GET",
 	    data: null,
 	    contentType: "application/json; charset=utf-8",
@@ -934,7 +933,7 @@ function callResum(temporada,jornada){
 
 	
 	jQuery.ajax ({
-		url: ctx+'/myaccount/mail@mail.es/season/'+season+'/round/'+round+'/bet',
+		url: ctx+'/myaccount/mail@mail.es/'+company+'/'+season+'/'+round+'/bet',
 		type: "GET",
 		data: null,
 		contentType: "application/json; charset=utf-8",
@@ -1036,7 +1035,7 @@ function calculatePrice(){
 	consoleAlterQ(ctx+'/bet/price');	
 	var dataJson=$("form#betForm").serialize();
 	jQuery.ajax ({
-		url: ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round+'/bet/price',
+		url: ctx+'/myaccount/mail@mail.es/'+company+'/'+ season+'/'+round+'/bet/price',
 	    type: "POST",
 	    data: dataJson,
 //	    contentType: "application/json; charset=utf-8",
@@ -1071,7 +1070,7 @@ function getQuiniela(){
 		if(loadBet){
 		 	loadBet=false;
 			jQuery.ajax ({
-			    url: ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round,
+			    url: ctx+'/myaccount/mail@mail.es/'+company+'/'+ season+'/'+round+'/round',
 			    type: "GET",
 			    data: null,
 			    contentType: "application/json; charset=utf-8",
@@ -1201,9 +1200,9 @@ function getUserBets(){
    		
    		
 		
-   		consoleAlterQ('url:'+ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet');  		
+   		consoleAlterQ('url:'+ctx+'/myaccount/'+ idUserAlterQ+'/'+company+'/'+ season+'/'+round+'/bet');  		
 		jQuery.ajax ({
-			url: ctx+'/myaccount/'+ idUserAlterQ+'/season/'+ season+'/round/'+round+'/bet',
+			url: ctx+'/myaccount/'+ idUserAlterQ+'/'+company+'/'+ season+'/'+round+'/bet',
 		    type: "GET",
 		    data: null,
 		    contentType: "application/json; charset=utf-8",
@@ -1263,11 +1262,11 @@ function betDetail(index, bet)
 	var mygames;
 	
 	consoleAlterQ('antes jQuery.ajax mygames');
-	consoleAlterQ('url:'+ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round);
+	consoleAlterQ('url:'+ctx+'/myaccount/mail@mail.es/'+company+'/'+ season+'/'+round+'/round');
 	
 	$('#quinielaDetailTable').empty();
     jQuery.ajax ({
-		    url: ctx+'/myaccount/mail@mail.es/season/'+ season+'/round/'+round,
+		    url: ctx+'/myaccount/mail@mail.es/'+company+'/'+ season+'/'+round+'/round',
 		    type: "GET",
 		    data: null,
 		    contentType: "application/json; charset=utf-8",

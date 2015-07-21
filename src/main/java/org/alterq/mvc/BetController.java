@@ -14,6 +14,7 @@ import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
+import org.alterq.exception.ValidatorException;
 import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
@@ -22,6 +23,7 @@ import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.BetTools;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
+import org.alterq.validator.CompanyValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.arch.core.i18n.resources.MessageLocalizedResources;
@@ -39,7 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value = "/myaccount/{id:.+}/season/{season}/round/{round}")
+@RequestMapping(value = "/myaccount/{id:.+}/{company}/{season}/{round}")
 public class BetController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
@@ -54,6 +56,8 @@ public class BetController {
 	private GeneralDataDao generalDataDao;
 	@Autowired
 	private UserAlterQSecurity userSecurity;
+	@Autowired
+	private CompanyValidator companyValidator;
 
 	BetTools betTools = new BetTools();
 
@@ -62,9 +66,8 @@ public class BetController {
 	private MessageLocalizedResources messageLocalizedResources;
 
 	@RequestMapping(method = RequestMethod.POST, value = "/bet/price")
-	public @ResponseBody
-	ResponseDto calculatePrice(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,
-			@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
+	public @ResponseBody ResponseDto calculatePrice(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round,
+			@PathVariable(value = "company") String company) {
 		if (log.isDebugEnabled()) {
 			log.debug("init BetController.price");
 			log.debug("session:" + cookieSession);
@@ -207,9 +210,7 @@ public class BetController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/bet")
-	public @ResponseBody
-	ResponseDto addBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,
-			@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round,
+	public @ResponseBody ResponseDto addBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round,
 			@PathVariable(value = "company") int company) {
 		if (log.isDebugEnabled()) {
 			log.debug("init AccountController.updateUserAlterQ");
@@ -219,6 +220,8 @@ public class BetController {
 
 		try {
 			userSecurity.isSameUserInSession(id, cookieSession);
+			companyValidator.isCompanyOk(company);
+
 			UserAlterQ userAlterQ = userDao.findById(id);
 			String apuesta = "";
 			String reduccion = "";
@@ -329,7 +332,7 @@ public class BetController {
 					bet.setPrice(price);
 					bet.setBet(apuesta);
 					bet.setUser(userAlterQ.getId());
-//					bet.setCompany(userAlterQ.getCompany());
+					// bet.setCompany(userAlterQ.getCompany());
 					bet.setCompany(company);
 					bet.setDateCreated(new Date());
 					bet.setDateUpdated(new Date());
@@ -378,6 +381,9 @@ public class BetController {
 		} catch (SecurityException e) {
 			log.error(ExceptionUtils.getStackTrace(e));
 			dto.addErrorDto(e.getError());
+		} catch (ValidatorException e) {
+			log.error(ExceptionUtils.getStackTrace(e));
+			dto.addErrorDto(e.getError());
 		}
 
 		return dto;
@@ -385,9 +391,7 @@ public class BetController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/bet/confirm")
-	public @ResponseBody
-	ResponseDto confirmBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,
-			@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round,
+	public @ResponseBody ResponseDto confirmBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round,
 			@PathVariable(value = "company") int company) {
 		if (log.isDebugEnabled()) {
 			log.debug("init AccountController.updateUserAlterQ");
@@ -397,6 +401,7 @@ public class BetController {
 
 		try {
 			userSecurity.isSameUserInSession(id, cookieSession);
+			companyValidator.isCompanyOk(company);
 			UserAlterQ userAlterQ = userDao.findById(id);
 			String apuesta = "";
 			String reduccion = "";
@@ -429,7 +434,7 @@ public class BetController {
 			bet.setPrice(price);
 			bet.setBet(apuesta);
 			bet.setUser(userAlterQ.getId());
-//			bet.setCompany(userAlterQ.getCompany());
+			// bet.setCompany(userAlterQ.getCompany());
 			bet.setCompany(company);
 			bet.setDateCreated(new Date());
 			bet.setDateUpdated(new Date());
@@ -457,6 +462,9 @@ public class BetController {
 		} catch (SecurityException e) {
 			log.error(ExceptionUtils.getStackTrace(e));
 			dto.addErrorDto(e.getError());
+		} catch (ValidatorException e) {
+			log.error(ExceptionUtils.getStackTrace(e));
+			dto.addErrorDto(e.getError());
 		}
 
 		return dto;
@@ -466,31 +474,35 @@ public class BetController {
 	// if id=mail@mail.es means you must return FinalBet
 	// user is amdinUser for this company
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "/bet")
-	public @ResponseBody
-	ResponseDto findAllUserBetsParams(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request,
-			@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
+	public @ResponseBody ResponseDto findAllUserBetsParams(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable(value = "id") String id, @PathVariable(value = "season") int season,
+			@PathVariable(value = "round") int round, @PathVariable(value = "company") int company) {
 		ResponseDto dto = new ResponseDto();
-		if (StringUtils.equals(id, "mail@mail.es")) {
-			// TODO we must controller company
-			UserAlterQ adminCompany = userDao.findAdminByCompany(AlterQConstants.DEFECT_COMPANY);
-			id = adminCompany.getId();
+		
+		try {
+			companyValidator.isCompanyOk(company);
+			if (StringUtils.equals(id, "mail@mail.es")) {
+				// TODO we must controller company
+				UserAlterQ adminCompany = userDao.findAdminByCompany(company);
+				id = adminCompany.getId();
+			}
+			RoundBets rb = betDao.findAllUserBets(season, round, id);
+			dto.setRoundBet(rb);
+		} catch (ValidatorException e) {
+			log.error(ExceptionUtils.getStackTrace(e));
+			dto.addErrorDto(e.getError());
 		}
-		RoundBets rb = betDao.findAllUserBets(season, round, id);
-		dto.setRoundBet(rb);
+
 		return dto;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "season/{season}/round/{round}")
-	public @ResponseBody
-	RoundBets findAllBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round) {
+	@RequestMapping(method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody RoundBets findAllBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round) {
 		// TODO this call must be request for an AdminUser
 		return betDao.findAllBets(season, round);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "addBet", params = { "season", "round", "user", "bet" })
-	public @ResponseBody
-	boolean addBetParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round, @RequestParam(value = "user") String user,
-			@RequestParam(value = "bet") String bet) {
+	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "addBet")
+	public @ResponseBody boolean addBetParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round, @RequestParam(value = "user") String user, @RequestParam(value = "bet") String bet) {
 		Bet bAux = new Bet();
 		bAux.setBet(bet);
 		bAux.setUser(user);
@@ -500,22 +512,18 @@ public class BetController {
 		return betDao.addBet(season, round, bAux);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "delAllBets", params = { "season", "round" })
-	public @ResponseBody
-	boolean delAllUserBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round) {
+	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "delAllBets")
+	public @ResponseBody boolean delAllUserBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round) {
 		return betDao.deleteAllBets(season, round);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "delUserBets", params = { "season", "round", "user" })
-	public @ResponseBody
-	boolean delAllUserBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round, @RequestParam(value = "user") String user) {
+	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "delUserBets")
+	public @ResponseBody boolean delAllUserBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round, @RequestParam(value = "user") String user) {
 		return betDao.deleteAllUserBets(season, round, user);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "delUserBet", params = { "season", "round", "user", "bet" })
-	public @ResponseBody
-	boolean delUserBet(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round, @RequestParam(value = "user") String user,
-			@RequestParam(value = "bet") String bet) {
+	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "delUserBet")
+	public @ResponseBody boolean delUserBet(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round, @RequestParam(value = "user") String user, @RequestParam(value = "bet") String bet) {
 		Bet bAux = new Bet();
 		bAux.setBet(bet);
 		bAux.setUser(user);

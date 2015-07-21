@@ -6,7 +6,9 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class NIFCIFValidator {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 

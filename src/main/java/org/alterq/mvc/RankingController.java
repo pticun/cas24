@@ -6,6 +6,8 @@ import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.RoundRankingDao;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
+import org.alterq.validator.CompanyValidator;
+import org.apache.commons.lang3.StringUtils;
 import org.arch.core.i18n.resources.MessageLocalizedResources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value = "/myaccount/{id:.+}/season/{season}/round/{round}/ranking")
+@RequestMapping(value = "/myaccount/{id:.+}/{company}/{season}/{round}/ranking")
 public class RankingController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
@@ -27,16 +29,20 @@ public class RankingController {
 	@Autowired
 	@Qualifier("messageLocalizedResources")
 	private MessageLocalizedResources messageLocalizedResources;
-
+	@Autowired
+	private CompanyValidator companyValidator;
+	
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	ResponseDto getRanking(@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round) {
+	ResponseDto getRanking(@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round
+			, @PathVariable(value = "company") int company) {
 		ResponseDto dto = new ResponseDto();
 		RoundRanking roundRanking = new RoundRanking();
 		try {
 			// TODO control security by id user
 			// TODO control security by id-company
-			roundRanking = rankingDao.findRanking(AlterQConstants.DEFECT_COMPANY, season, round);
+			companyValidator.isCompanyOk(company);
+			roundRanking = rankingDao.findRanking(company, season, round);
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.GET_LAST_ROUND);
