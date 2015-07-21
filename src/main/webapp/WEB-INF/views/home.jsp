@@ -194,6 +194,7 @@ End Analytics -->
 
 <%@ include file="/WEB-INF/views/accountUserAlterQ.jsp" %>
 <%@ include file="/WEB-INF/views/myBalance.jsp" %>
+<%@ include file="/WEB-INF/views/company.jsp" %>
 
 
 <!-- Ranking Section -->

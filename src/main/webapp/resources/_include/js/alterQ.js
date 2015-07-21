@@ -10,6 +10,8 @@ var loadBetUser=true;
 
 var userLoged=false;
 
+var companySelected = false;
+
 //Divs Graphics
 var bActual  = 0;
 var bHome    = 1;
@@ -29,6 +31,7 @@ var bMyModal = 14;
 var bConfirmQuiniela = 15;
 var bModalReduced = 16;
 var bConfirmedQuiniela = 17;
+var bCompany = 18;
 
 //Texts
 var sHome    = "Inicio";
@@ -44,6 +47,8 @@ var sMyModal = "";
 var sConfirmQuiniela = "";
 var sConfirmedQuiniela = "";
 var sModalReduced ="";
+var sCompany ="";
+var sCompanyDefault ="QuiniGold";
 
 //Refs
 var sHomeRef = "#homeDiv";
@@ -65,6 +70,7 @@ var sMyModalRef = "#myModal";
 var sConfirmQuinielaRef = "#confirmarQuinielaDiv";
 var sConfirmedQuinielaRef = "#confirmadaQuinielaDiv";
 var sModalReducedRef = "#modalReduced";
+var sCompanyRef ="#myCompanyDiv";
 
 var buttonpressed;
 
@@ -91,6 +97,7 @@ function initDiv() {
 	$(sConfirmQuinielaRef).hide();
 	$(sConfirmedQuinielaRef).hide();
 	$(sModalReducedRef).hide();
+	$(sCompanyRef).hide();
 	
 	
 	bActual = bHome;
@@ -169,7 +176,9 @@ function showDiv(elem) {
 	case bModalReduced:
 		$(sModalReducedRef).show();
 		break;
-		
+	case bCompany:
+		$(sCompanyRef).show();
+		break;
 	}
 
 	switch (bActual){
@@ -226,6 +235,9 @@ function showDiv(elem) {
 		break;
 	case bModalReduced:
 		$(sModalReducedRef).hide();
+		break;
+	case bCompany:
+		$(sCompanyRef).hide();
 		break;
 	}
 	
@@ -284,6 +296,9 @@ function menuEvent(name, href)
 	}else if (href == sMyAdminRef){
 		consoleAlterQ("MyAdmin");
 		showDiv(bMyAdmin);
+	}else if (href == sCompanyRef){
+		consoleAlterQ("MyCompany");
+		showDiv(bCompany);
 	}
 	return false;
 	
@@ -304,14 +319,22 @@ function getMainMenuItems(userLoged, user, admin)
 	if (userLoged){
 		if (admin)
 			$('#menu-nav').append('<li><a href="' + sMyAdminRef + '">' + sAdmin + '</a></li>');
-		else
+		else{
 			$('#menu-nav').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
+			if (companySelected){
+				$('#menu-nav').append('<li><a href="' + sCompanyRef + '">['+sCompany+']</a></li>');
+			}else{
+				$('#menu-nav').append('<li><a href="' + sCompanyRef + '">['+sCompanyDefault+']</a></li>');
+			}
+
+		}
 		$('#menu-nav').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');
 	}
 	else{
 		$('#menu-nav').append('<li><a href="' + sGuestRef + '">'+sGuest+'</a></li>');
 		$('#menu-nav').append('<li><a href="' + sLoginRef + '">' + sLogin + '</a></li>');
 	}
+	
 	
 	// MENU MOBILE 
 	
@@ -325,8 +348,14 @@ function getMainMenuItems(userLoged, user, admin)
 	if (userLoged){
 		if (admin)
 			$('#menu-nav-mobile').append('<li><a href="' + sMyAdminRef + '">' + sAdmin + '</a></li>');
-		else
+		else{
 			$('#menu-nav-mobile').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
+			if (companySelected){
+				$('#menu-nav-mobile').append('<li><a href="' + sCompanyRef + '">['+sCompany+']</a></li>');
+			}else{
+				$('#menu-nav-mobile').append('<li><a href="' + sCompanyRef + '">['+sCompanyDefault+']</a></li>');
+			}
+		}
 		$('#menu-nav-mobile').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');
 	}
 	else{
@@ -334,6 +363,7 @@ function getMainMenuItems(userLoged, user, admin)
 		$('#menu-nav-mobile').append('<li><a href="' + sLoginRef + '">' + sLogin + '</a></li>');
 	}
 	
+
 	}
 
 function paintRanking(){
@@ -799,7 +829,14 @@ $(document).ready(function() {
 			    }
 		 });
 		event.preventDefault(); // prevent actual form submit and page reload
-	});	
+	});
+	
+	 $('form#myCompanyForm').submit(function( event ) {
+   		 var dataJson=JSON.stringify($('form#myCompanyForm').serializeObject());
+   		 consoleAlterQ('updateDataJsonAlterQ:'+dataJson);
+		event.preventDefault(); // prevent actual form submit and page reload
+   	 });
+	
 	$("#goUp").click(function( event ){
 		menuEvent($(this).text(), $(this).attr("href"));
 		event.preventDefault(); // prevent actual form submit and page reload
