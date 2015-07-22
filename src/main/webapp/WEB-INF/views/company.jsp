@@ -14,7 +14,7 @@
 			   			<td>Grupo:</td>
 			   			<td>
 			   			<select name="companyID" id="companyToChoose">
-   							<option value="1">QuiniGold</option>
+<!--    							<option value="1">QuiniGold</option>	-->
 						</select> 
 			   			</td>
 			        </tr>

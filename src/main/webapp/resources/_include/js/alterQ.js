@@ -7,6 +7,7 @@ var idUserAlterQ="";
 
 var loadBet=true;
 var loadBetUser=true;
+var loadCompanies=true;
 
 var userLoged=false;
 
@@ -177,6 +178,7 @@ function showDiv(elem) {
 		$(sModalReducedRef).show();
 		break;
 	case bCompany:
+		getCompanies()
 		$(sCompanyRef).show();
 		break;
 	}
@@ -1049,6 +1051,7 @@ function doLogout(){
 	   		    }
 	   		    else{
 					userLoged=false;
+					loadCompanies = false;
 					getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
 	   		    }
 		    }
@@ -1226,6 +1229,32 @@ function getQuiniela(){
 		}
 }
 
+function getCompanies(){
+	consoleAlterQ('getCompanies');
+	consoleAlterQ(loadCompanies);
+	consoleAlterQ('rols'+rols);
+	loadCompanies=true;
+	if(loadCompanies)
+	{
+		loadCompanies=false;
+		if (rols != null)
+		{
+			consoleAlterQ('hay companies');
+			$(rols).each(function(index, element){  
+				consoleAlterQ("index:"+index);
+				consoleAlterQ("company:"+element.company);
+				consoleAlterQ("rol:"+element.rol);
+				$('#companyToChoose').append('<option value="'+element.company+'">'+element.company+'</option>');
+			});
+		}
+		else
+		{
+			consoleAlterQ('no hay companies');
+			$('#companyToChoose').append('<option value="1">QuiniGold</option>');
+		}
+		
+	}
+}
 function getUserBets(){
 	consoleAlterQ('getUserBets');
 	if(loadBetUser){
