@@ -50,6 +50,7 @@ public class PopulateDataBase {
 	private CompanyDao companyDao;
 	@Autowired
 	private SequenceIdDao daoSequence;
+	@Autowired
 	private AdminDataDao dao;
 
 	@Test
@@ -92,8 +93,8 @@ public class PopulateDataBase {
 	public void createCompanyData() throws Exception {
 		Company bean = new Company();
 		bean.setCompany(AlterQConstants.DEFECT_COMPANY);
-		bean.setDescription("description");
-		bean.setNick("Nich");
+		bean.setDescription("QuiniGold");
+		bean.setNick("QuiniGold");
 		bean.setType(CompanyTypeEnum.COMPANY_NON_COLLABORATIVE.getValue());
 		bean.setVisibility(Boolean.TRUE);
 		companyDao.add(bean);
