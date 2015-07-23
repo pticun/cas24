@@ -1232,12 +1232,42 @@ function getQuiniela(){
 function getCompanies(){
 	consoleAlterQ('getCompanies');
 	consoleAlterQ(loadCompanies);
-	consoleAlterQ('rols'+rols);
-	loadCompanies=true;
+	
 	if(loadCompanies)
 	{
 		loadCompanies=false;
-		if (rols != null)
+		
+	   		consoleAlterQ('url:'+ctx+'/company/myaccount/'+ idUserAlterQ);  		
+			jQuery.ajax ({
+				url: ctx+'/company/myaccount/'+ idUserAlterQ,
+			    type: "GET",
+			    data: null,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+		        cache: false,    //This will force requested pages not to be cached by the browser  
+		        processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+				    if(response.errorDto!=0){
+						consoleAlterQ('Success: no hay companies');
+						$('#companyToChoose').append('<option value="1">QuiniGold</option>');
+						loadCompanies=true;
+				    }
+				    else{
+						$(response.company).each(function(index, element){
+							console.log("index="+index);
+							console.log("id="+element.id + " company="+element.company);
+						});
+				    }
+			    },
+			    error : function (xhr, textStatus, errorThrown) {
+					consoleAlterQ('Error: no hay companies');
+					$('#companyToChoose').append('<option value="1">QuiniGold</option>');
+					loadCompanies=true;
+	            }
+		 });
+		
+		
+/*		if (rols != null)
 		{
 			consoleAlterQ('hay companies');
 			$(rols).each(function(index, element){  
@@ -1252,6 +1282,7 @@ function getCompanies(){
 			consoleAlterQ('no hay companies');
 			$('#companyToChoose').append('<option value="1">QuiniGold</option>');
 		}
+*/		
 		
 	}
 }
