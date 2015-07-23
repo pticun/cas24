@@ -24,7 +24,7 @@ public class RolCompanySecurity {
 	private MessageLocalizedResources messageLocalizedResources;
 	@Autowired
 	private UserAlterQDao userDao;
-
+	
 	/**
 	 * Method uses for knowing if user is authorized for this operation is based
 	 * max rol for user is greater or equal than RolCompany passed

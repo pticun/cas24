@@ -819,7 +819,7 @@ public class AdminController {
 
 				//**********************************************************************
 				//Check if exist admin bet for this round (Better optimization analizing rBets.getBets() for Admin)
-				RoundBets rBetsAdmin =roundBetDao.findAllUserBets(season, round, getAdmin());
+				RoundBets rBetsAdmin =roundBetDao.findAllUserBets(season, round, getAdmin(), company);
 				if ((rBetsAdmin != null) && (rBetsAdmin.getBets().size() > 0))
 					roundBetDao.deleteAllUserBets(season, round, getAdmin());
 				//**********************************************************************

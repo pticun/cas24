@@ -3,6 +3,7 @@ package org.alterq.domain.test;
 
 import org.alterq.domain.Bet;
 import org.alterq.domain.RoundBets;
+import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.RoundBetDao;
 import org.bson.types.ObjectId;
 import org.junit.Assert;
@@ -40,7 +41,7 @@ public class RoundBetDaoTest {
 		bet3.setUser("john.smith@mailinator.com");
 		betDao.addBet(2013, 9, bet3);
 
-		RoundBets roundBets = betDao.findAllUserBets(2013, 9,"john.smith@mailinator.com");
+		RoundBets roundBets = betDao.findAllUserBets(2013, 9,"john.smith@mailinator.com", AlterQConstants.DEFECT_COMPANY);
 		
 		Assert.assertEquals("john.smith@mailinator.com", roundBets.getBets().get(0).getUser());
 		Assert.assertEquals("111111111111111", roundBets.getBets().get(0).getBet());

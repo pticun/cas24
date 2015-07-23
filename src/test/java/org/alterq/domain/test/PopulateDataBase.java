@@ -1,25 +1,16 @@
 package org.alterq.domain.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alterq.domain.AdminData;
-import org.alterq.domain.Bet;
 import org.alterq.domain.Company;
-import org.alterq.domain.Game;
-import org.alterq.domain.GeneralData;
-import org.alterq.domain.Round;
-import org.alterq.domain.RoundBets;
+import org.alterq.domain.SequenceId;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.CompanyDao;
-import org.alterq.repo.GeneralDataDao;
-import org.alterq.repo.RoundBetDao;
-import org.alterq.repo.RoundDao;
 import org.alterq.repo.SequenceIdDao;
 import org.alterq.repo.impl.AdminDataDaoImpl;
 import org.alterq.repo.impl.CompanyDaoImpl;
 import org.alterq.util.enumeration.CompanyTypeEnum;
+import org.alterq.util.enumeration.SequenceNameEnum;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -100,6 +91,19 @@ public class PopulateDataBase {
 		companyDao.add(bean);
 		Assert.assertNotNull(bean.getDescription());
 		log.debug("Create:" + bean.getCompany() + "-" + bean.getDescription());
+		
+//		SequenceId beanSeq = daoSequence.findById(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
+//		int seq = daoSequence.getNextSequenceId(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
+//		
+//		bean=new Company();
+//		bean.setCompany(seq);
+//		bean.setDescription("QuiniGold2");
+//		bean.setNick("QuiniGold2");
+//		bean.setType(CompanyTypeEnum.COMPANY_NON_COLLABORATIVE.getValue());
+//		bean.setVisibility(Boolean.TRUE);
+//		companyDao.add(bean);
+//		Assert.assertNotNull(bean.getDescription());
+//		log.debug("Create:" + bean.getCompany() + "-" + bean.getDescription());
 		return;
 	}
 

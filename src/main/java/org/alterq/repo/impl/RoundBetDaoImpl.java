@@ -36,13 +36,13 @@ public class RoundBetDaoImpl implements RoundBetDao {
 		return (aux.getBets()==null?0:aux.getBets().size());
 	}
 
-	public RoundBets findAllUserBets(int season, int round, String user) {
+	public RoundBets findAllUserBets(int season, int round, String user, int company) {
         Aggregation agg = newAggregation( 
                 unwind("bets"),
-                //match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round).and("company").is(company)),
-                //group("_id").first("company").as("company").first("season").as("season").first("round").as("round").push("bets").as("bets")
-                match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round)),
-                group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
+                match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round).and("company").is(company)),
+                group("_id").first("company").as("company").first("season").as("season").first("round").as("round").push("bets").as("bets")
+//                match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round)),
+//                group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
         );
         AggregationResults<RoundBets> result = mongoTemplate.aggregate(agg, "roundBets", RoundBets.class);
         if ( !result.getMappedResults().isEmpty()){

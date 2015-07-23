@@ -413,6 +413,11 @@ public class BetController {
 			userSecurity.isSameUserInSession(id, cookieSession);
 			companyValidator.isCompanyOk(company);
 			UserAlterQ userAlterQ = userDao.findById(id);
+			RolCompany rc=new RolCompany();
+			rc.setCompany(company);
+			rc.setRol(RolNameEnum.ROL_USER.getValue());
+			
+			rolCompanySecurity.isUserAuthorizedRolForCompany(userAlterQ, rc);
 			String apuesta = "";
 			String reduccion = "";
 			int tipoReduccion = 0;
@@ -495,7 +500,7 @@ public class BetController {
 				UserAlterQ adminCompany = userDao.findAdminByCompany(company);
 				id = adminCompany.getId();
 			}
-			RoundBets rb = betDao.findAllUserBets(season, round, id);
+			RoundBets rb = betDao.findAllUserBets(season, round, id, company);
 			dto.setRoundBet(rb);
 		} catch (ValidatorException e) {
 			log.error(ExceptionUtils.getStackTrace(e));
