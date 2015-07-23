@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.alterq.domain.AdminData;
-import org.alterq.domain.GeneralData;
+import org.alterq.domain.Bet;
+import org.alterq.domain.Company;
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.RoundRanking;
 import org.alterq.domain.UserAlterQ;
-import org.alterq.domain.Bet;
 
 public class ResponseDto {
 	private UserAlterQ userAlterQ;
@@ -17,9 +17,9 @@ public class ResponseDto {
 	private Round round;
 	private RoundBets roundBet;
 	private AdminData adminData;
-	private GeneralData generalData;
 	private RoundRanking roundRanking;
 	private Bet bet;
+	private List<Company> company;
 
 	public Bet getBet() {
 		return bet;
@@ -78,20 +78,31 @@ public class ResponseDto {
 		this.adminData = adminData;
 	}
 
-	public GeneralData getGeneralData() {
-		return generalData;
-	}
-
-	public void setGeneralData(GeneralData generalData) {
-		this.generalData = generalData;
-	}
-
 	public RoundRanking getRoundRanking() {
 		return roundRanking;
 	}
 
 	public void setRoundRanking(RoundRanking roundRanking) {
 		this.roundRanking = roundRanking;
+	}
+
+	public void setErrorDto(List<ErrorDto> errorDto) {
+		this.errorDto = errorDto;
+	}
+
+	public List<Company> getCompany() {
+		return company;
+	}
+
+	public void setCompany(List<Company> company) {
+		this.company = company;
+	}
+
+	public void setCompany(Company company) {
+		if (this.company == null) {
+			this.company = new ArrayList<Company>();
+		}
+		this.company.add(company);
 	}
 
 }

@@ -22,17 +22,19 @@ GET		/myaccount/{id:.+}/{company}/{season}/{round}/ranking			RankingController		
 	not necessary user, it can put in my account: mail@mail.es
 	if round==0 get RankingGeneral
 
-POST	/myaccount/{id:.+}/{company}/{season}/{round}/bet			BetController			addBet 
-																									(if season <0 automaticBet, if season<0 && round<0 automatic Bet)
-GET		/myaccount/{id:.+}/{company}/{season}/{round}/bet/{bet}		BetController			getBet
-GET		/myaccount/{id:.+}/{company}/{season}/{round}/bet/price		BetController			calculatePrice(param Bet calculate price)
-GET		/myaccount/{id:.+}/{company}/{season}/{round}/bet			BetController			findAllUserBetsParams
+POST	/myaccount/{id:.+}/{company}/{season}/{round}/bet				BetController			addBet 
+																				(if season <0 automaticBet, if season<0 && round<0 automatic Bet)
+GET		/myaccount/{id:.+}/{company}/{season}/{round}/bet/{bet}			BetController			getBet
+GET		/myaccount/{id:.+}/{company}/{season}/{round}/bet/price			BetController			calculatePrice(param Bet calculate price)
+GET		/myaccount/{id:.+}/{company}/{season}/{round}/bet				BetController			findAllUserBetsParams
 	if userId is equals=mail@mail.es we must return BetFinal
 	BetFinal is bet season=season, round=round, and user=is find User where company=usercompanysession and admin=true
-PUT		/myaccount/{id:.+}/{company}/{season}/{round}/bet/{bet}		BetController			updateBet
-DELETE	/myaccount/{id:.+}/{company}/{season}/{round}/bet/{bet}		BetController			deleteBet
-DELETE	/myaccount/{id:.+}/{company}/{season}/{round}/bet			BetController			deleteAllUserBets
+PUT		/myaccount/{id:.+}/{company}/{season}/{round}/bet/{bet}			BetController			updateBet
+DELETE	/myaccount/{id:.+}/{company}/{season}/{round}/bet/{bet}			BetController			deleteBet
+DELETE	/myaccount/{id:.+}/{company}/{season}/{round}/bet				BetController			deleteAllUserBets
 
+GET		/company/{company}												CompanyController		getCompany
+GET		/company/myaccount/{idUser:.+}									CompanyController		getCompanyUser
 
 GET		/generalData													GeneralDataController	getGeneralDataCompany
 GET		/generalData/{id}												GeneralDataController	getGeneralDataCompany

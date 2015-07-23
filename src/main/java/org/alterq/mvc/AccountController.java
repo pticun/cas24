@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.alterq.domain.Company;
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
@@ -14,6 +15,7 @@ import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.AlterQException;
 import org.alterq.exception.SecurityException;
+import org.alterq.exception.ValidatorException;
 import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
