@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 
 import org.alterq.domain.Bet;
+import org.alterq.domain.RolCompany;
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
@@ -20,9 +21,11 @@ import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
+import org.alterq.security.RolCompanySecurity;
 import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.BetTools;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
+import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.CompanyValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -58,6 +61,8 @@ public class BetController {
 	private UserAlterQSecurity userSecurity;
 	@Autowired
 	private CompanyValidator companyValidator;
+	@Autowired
+	private RolCompanySecurity rolCompanySecurity;
 
 	BetTools betTools = new BetTools();
 
@@ -221,8 +226,13 @@ public class BetController {
 		try {
 			userSecurity.isSameUserInSession(id, cookieSession);
 			companyValidator.isCompanyOk(company);
-
+			RolCompany rc=new RolCompany();
+			rc.setCompany(company);
+			rc.setRol(RolNameEnum.ROL_USER.getValue());
 			UserAlterQ userAlterQ = userDao.findById(id);
+			
+			rolCompanySecurity.isUserAuthorizedRolForCompany(userAlterQ, rc);
+			
 			String apuesta = "";
 			String reduccion = "";
 			int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };

@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
+import org.alterq.dto.ErrorDto;
+import org.alterq.exception.SecurityException;
 import org.alterq.repo.UserAlterQDao;
+import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.arch.core.i18n.resources.MessageLocalizedResources;
 import org.slf4j.Logger;
@@ -30,7 +33,7 @@ public class RolCompanySecurity {
 	 * @param rc
 	 * @return
 	 */
-	public boolean isUserAuthorizedRolForCompany(UserAlterQ userAlterQ, RolCompany rc) {
+	public boolean isUserAuthorizedRolForCompany(UserAlterQ userAlterQ, RolCompany rc) throws SecurityException {
 		boolean result = false;
 		List<RolCompany> rcL = userDao.getRolsForCompany(userAlterQ, rc);
 		int maxRol = RolNameEnum.ROL_PUBLIC.getValue();
@@ -43,6 +46,12 @@ public class RolCompanySecurity {
 		// if rol user >=
 		if (maxRol >= rc.getRol()) {
 			result = true;
+		}
+		else{
+			ErrorDto error = new ErrorDto();
+			error.setIdError(MessageResourcesNameEnum.BET_NOT_ALLOWED_FOR_USER);
+			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.BET_NOT_ALLOWED_FOR_USER));
+			throw new SecurityException(error);
 		}
 		return result;
 	}

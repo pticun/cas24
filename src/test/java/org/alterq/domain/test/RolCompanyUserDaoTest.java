@@ -7,6 +7,7 @@ import java.util.List;
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
+import org.alterq.exception.SecurityException;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.RolCompanySecurity;
 import org.alterq.util.enumeration.RolNameEnum;
@@ -42,14 +43,14 @@ public class RolCompanyUserDaoTest {
 		userAlterQ.setActive(true);
 		userAlterQ.setCompany(AlterQConstants.DEFECT_COMPANY);
 		userAlterQ.setDateCreated(new Date());
-		
-		RolCompany rc=new RolCompany();
+
+		RolCompany rc = new RolCompany();
 		rc.setCompany(AlterQConstants.DEFECT_COMPANY);
 		rc.setRol(RolNameEnum.ROL_USER.getValue());
-		
-		ArrayList<RolCompany> rcL=new ArrayList<RolCompany>();
+
+		ArrayList<RolCompany> rcL = new ArrayList<RolCompany>();
 		rcL.add(rc);
-		
+
 		userAlterQ.setRols(rcL);
 		dao.create(userAlterQ);
 		String id = userAlterQ.getId();
@@ -62,68 +63,74 @@ public class RolCompanyUserDaoTest {
 	@Test
 	public void AD_testIsUserInRolForCompany() {
 		UserAlterQ userAlterQ = dao.findById("idmail@arroba.es");
-		RolCompany rc=new RolCompany();
+		RolCompany rc = new RolCompany();
 		rc.setCompany(AlterQConstants.DEFECT_COMPANY);
 		rc.setRol(RolNameEnum.ROL_USER.getValue());
 		Assert.assertTrue(rolCompanySecurity.isUserRolForCompany(userAlterQ, rc));
 		rc.setRol(RolNameEnum.ROL_ADMIN.getValue());
 		Assert.assertFalse(rolCompanySecurity.isUserRolForCompany(userAlterQ, rc));
-		log.debug( userAlterQ.getId());
+		log.debug(userAlterQ.getId());
 	}
+
 	@Test
 	public void AD_testRolForCompany() {
 		UserAlterQ userAlterQ = dao.findById("idmail@arroba.es");
-		RolCompany rc=new RolCompany();
+		RolCompany rc = new RolCompany();
 		rc.setCompany(AlterQConstants.DEFECT_COMPANY);
 		rc.setRol(RolNameEnum.ROL_ADMIN.getValue());
-		//Add RolAdmin
+		// Add RolAdmin
 		dao.addRolForCompany(userAlterQ, rc);
 		userAlterQ = dao.findById("idmail@arroba.es");
 		log.debug("addRolAdmin");
-		List<RolCompany> rcL= userAlterQ.getRols();
+		List<RolCompany> rcL = userAlterQ.getRols();
 		for (RolCompany rolCompany : rcL) {
-			log.debug("company:rol="+rolCompany.getCompany()+"-"+rolCompany.getRol());
-		} 
+			log.debug("company:rol=" + rolCompany.getCompany() + "-" + rolCompany.getRol());
+		}
 		Assert.assertTrue(rcL.contains(rc));
-		
-		//Check if user with RolAdmin authorized for execute action with RolUserAdvanced
-		RolCompany rcAdvanced=new RolCompany();
-		rcAdvanced.setCompany(AlterQConstants.DEFECT_COMPANY);
-		rcAdvanced.setRol(RolNameEnum.ROL_USERADVANCED.getValue());
-		Assert.assertTrue(rolCompanySecurity.isUserAuthorizedRolForCompany(userAlterQ, rcAdvanced));
-		dao.deleteRolForCompany(userAlterQ, rc);
-		userAlterQ = dao.findById("idmail@arroba.es");
-		log.debug("deleteRolAdmin");
-		rcL= userAlterQ.getRols();
-		for (RolCompany rolCompany : rcL) {
-			log.debug("company:rol="+rolCompany.getCompany()+"-"+rolCompany.getRol());
-		} 
-		Assert.assertFalse(rcL.contains(rc));
-		//Check if user with RolAdmin authorized for execute action with RolUserAdvanced
-		rcAdvanced.setCompany(AlterQConstants.DEFECT_COMPANY);
-		rcAdvanced.setRol(RolNameEnum.ROL_USERADVANCED.getValue());
-		Assert.assertFalse(rolCompanySecurity.isUserAuthorizedRolForCompany(userAlterQ, rcAdvanced));
 
-		log.debug( userAlterQ.getId());
+		// Check if user with RolAdmin authorized for execute action with
+		// RolUserAdvanced
+		RolCompany rcAdvanced = new RolCompany();
+		rcAdvanced.setCompany(AlterQConstants.DEFECT_COMPANY);
+		rcAdvanced.setRol(RolNameEnum.ROL_USERADVANCED.getValue());
+		try {
+			Assert.assertTrue(rolCompanySecurity.isUserAuthorizedRolForCompany(userAlterQ, rcAdvanced));
+			dao.deleteRolForCompany(userAlterQ, rc);
+			userAlterQ = dao.findById("idmail@arroba.es");
+			log.debug("deleteRolAdmin");
+			rcL = userAlterQ.getRols();
+			for (RolCompany rolCompany : rcL) {
+				log.debug("company:rol=" + rolCompany.getCompany() + "-" + rolCompany.getRol());
+			}
+			Assert.assertFalse(rcL.contains(rc));
+			// Check if user with RolAdmin authorized for execute action with
+			// RolUserAdvanced
+			rcAdvanced.setCompany(AlterQConstants.DEFECT_COMPANY);
+			rcAdvanced.setRol(RolNameEnum.ROL_USERADVANCED.getValue());
+			Assert.assertFalse(rolCompanySecurity.isUserAuthorizedRolForCompany(userAlterQ, rcAdvanced));
+
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		log.debug(userAlterQ.getId());
 	}
+
 	@Test
 	public void AD_testUserRol() {
 		UserAlterQ userAlterQ = dao.findById("idmail@arroba.es");
-		List<RolCompany> rcL= userAlterQ.getRols();
+		List<RolCompany> rcL = userAlterQ.getRols();
 		for (RolCompany rolCompany : rcL) {
-			log.debug("company:rol="+rolCompany.getCompany()+"-"+rolCompany.getRol());
-		} 
-		log.debug( userAlterQ.getId());
+			log.debug("company:rol=" + rolCompany.getCompany() + "-" + rolCompany.getRol());
+		}
+		log.debug(userAlterQ.getId());
 	}
-	
+
 	@Test
 	public void AZ_testRemoveUser() throws Exception {
 		UserAlterQ userAlterQ = dao.findById("idmail@arroba.es");
 		dao.remove(userAlterQ);
 	}
-
-	
-	
-
 
 }
