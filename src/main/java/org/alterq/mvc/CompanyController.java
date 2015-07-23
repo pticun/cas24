@@ -1,5 +1,7 @@
 package org.alterq.mvc;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.alterq.domain.Company;
@@ -59,10 +61,14 @@ public class CompanyController {
 			userAlterQValidator.isUserIdOk(user);
 			UserAlterQ userAlterQ = userDao.findById(idUser);
 			List<RolCompany> rc=userAlterQ.getRols();
+			HashSet<Company> uniqueValues = new HashSet<Company>();
 			for (RolCompany rolCompany : rc) {
 				int companyId=rolCompany.getCompany();
-				dto.setCompany(companyDao.findByCompany(companyId));
+				uniqueValues.add(companyDao.findByCompany(companyId));
+//				dto.setCompany(companyDao.findByCompany(comçpanyId));
 			}
+			List<Company> listCompany = new ArrayList<Company>(uniqueValues);
+			dto.setCompany(listCompany);
 		} catch (ValidatorException e) {
 			log.error(ExceptionUtils.getStackTrace(e));
 			dto.addErrorDto(e.getError());

@@ -1,7 +1,6 @@
 package org.alterq.domain;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -56,6 +55,26 @@ public class Company implements Serializable {
 	}
 	public void setCompany(int company) {
 		this.company = company;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + company;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Company other = (Company) obj;
+		if (company != other.company)
+			return false;
+		return true;
 	}
 	
 	
