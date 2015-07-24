@@ -839,7 +839,12 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
    	 });
 	
-	$("#goUp").click(function( event ){
+	 $('form#myCompanyForm').submit(function( event ) {
+			showDiv(bHome);
+			event.preventDefault(); // prevent actual form submit and page reload
+	 });	 
+
+	 $("#goUp").click(function( event ){
 		menuEvent($(this).text(), $(this).attr("href"));
 		event.preventDefault(); // prevent actual form submit and page reload
     });
@@ -906,7 +911,10 @@ $(document).ready(function() {
 	});
 	$('#companyToChoose').on('change', function() {
 		company=this.value;
-		alert( company); // or $(this).val()
+		sCompany = $(this).find(":selected").text();
+		companySelected = true;
+		consoleAlterQ('vamos a repintar el menu');
+		getMainMenuItems(true, $('#nameData').val(), false);		
 	});
 	
 });
