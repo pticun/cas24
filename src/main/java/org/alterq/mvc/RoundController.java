@@ -5,7 +5,6 @@ import org.alterq.domain.Round;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.AdminDataDao;
-import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
@@ -35,8 +34,6 @@ public class RoundController {
 	private UserAlterQDao userDao;
 	@Autowired
 	private SessionAlterQDao sessionDao;
-	@Autowired
-	private GeneralDataDao generalDataDao;
 	@Autowired
 	private AdminDataDao adminDataDao;
 	@Autowired

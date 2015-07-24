@@ -16,7 +16,6 @@ import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.exception.ValidatorException;
-import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
@@ -55,8 +54,6 @@ public class BetController {
 	private UserAlterQDao userDao;
 	@Autowired
 	private SessionAlterQDao sessionDao;
-	@Autowired
-	private GeneralDataDao generalDataDao;
 	@Autowired
 	private UserAlterQSecurity userSecurity;
 	@Autowired
@@ -351,7 +348,7 @@ public class BetController {
 					bet.setTypeReduction(betTools.getReductionType(doblesRed, triplesRed));
 					bet.setNumBets(numBets);
 					StringBuffer sb = new StringBuffer();
-					sb.append("New Bet: company="+company+" season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
+					sb.append("New addBet: company="+company+" season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
 					log.debug(sb.toString());
 
 					// Pasamos los parámetros necesarios para la pantalla de
@@ -458,7 +455,7 @@ public class BetController {
 			bet.setTypeReduction(tipoReduccion);
 			bet.setNumBets(numBets);
 			StringBuffer sb = new StringBuffer();
-			sb.append("New Bet: season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
+			sb.append("New addBet: company="+company+" season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
 			log.debug(sb.toString());
 
 			// Pasamos los parámetros necesarios para la pantalla de

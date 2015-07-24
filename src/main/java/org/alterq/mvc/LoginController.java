@@ -9,7 +9,6 @@ import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.AdminDataDao;
-import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
@@ -38,8 +37,6 @@ public class LoginController {
 	private UserAlterQDao userDao;
 	@Autowired
 	private SessionAlterQDao sessionDao;
-	@Autowired
-	private GeneralDataDao generalDataDao;
 	@Autowired
 	private AdminDataDao adminDataDao;
 
