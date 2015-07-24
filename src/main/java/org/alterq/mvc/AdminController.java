@@ -625,7 +625,6 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/open")
 	public @ResponseBody 
 	ResponseDto openRound(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round) {
-		GeneralData generalData = null;
 		AdminData adminData = null;
 		ResponseDto response = new ResponseDto();
 		
@@ -640,7 +639,7 @@ public class AdminController {
 			//STEP 1: update generalData
 			
 			//if exist, update active=true
-			if (generalData != null){
+			if (adminData != null){
 				log.debug("openRound: active=true");
 				if ((company == adminData.getCompany()) && (season == adminData.getSeason()) && (round == adminData.getRound()) && (adminData.isActive()))
 				{
@@ -691,22 +690,26 @@ public class AdminController {
 	public @ResponseBody 
 	ResponseDto closeRound(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round) {
 		GeneralData generalData = null;
+		AdminData adminData = null;
 		ResponseDto response = new ResponseDto();
 		log.debug("closeRound: start");
 		
 		try {
 			userSecurity.isAdminUserInSession( cookieSession);
 			generalData = dao.findByCompany(company);
+			adminData = adminDataDao.findByCompany(company);
 			
 			//CLOSING PROCESS STEPS
 			//
 			
 			//STEP 1: if exist, update active=false
 			//
-			if (generalData != null){
+			if (adminData != null){
 				log.debug("closeRound: active=true");
-				generalData.setActive(false);
-				dao.update(generalData);
+				adminData.setActive(false);
+//				generalData.setActive(false);
+//				dao.update(generalData);
+				adminDataDao.update(adminData);
 			}
 			else{ //there is not round to close
 				response.addErrorDto("AdminController:closeRound", "There is not round to close");
@@ -782,12 +785,14 @@ public class AdminController {
 	public @ResponseBody 
 	ResponseDto finalBetRound(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int type) {
 		GeneralData generalData = null;
+		AdminData adminData = null;
 		ResponseDto response = new ResponseDto();
 		log.debug("closeRound: start");
 		
 		try {
 			userSecurity.isAdminUserInSession( cookieSession);
 			generalData = dao.findByCompany(company);
+			adminData = adminDataDao.findByCompany(company);
 			
 			//FINAL BET PROCESS STEPS
 			//
@@ -795,7 +800,7 @@ public class AdminController {
 
 			//STEP 4: Quiniela
 				//STEP 4.1 - Calc Number Bets
-				int numBets = roundBetDao.countAllBets(season, round);
+				int numBets = roundBetDao.countAllBets(season, round, company);
 				
 				//STEP 4.2 - Calc Number of Doubles and Triples
 				calcBasicDoublesAndTriples(numBets, type);
@@ -805,7 +810,7 @@ public class AdminController {
 				float jackpot = ((price==0)?(float)0:(float)(numBets * DEF_QUINIELA_BET_PRICE - price));
 				
 				//STEP 4.4 - Update RoundData
-				RoundBets rBets = roundBetDao.findAllBets(season, round);
+				RoundBets rBets = roundBetDao.findAllBets(season, round, company);
 				rBets.setJackpot(jackpot);
 				rBets.setPrice(price);
 				roundBetDao.update(rBets);

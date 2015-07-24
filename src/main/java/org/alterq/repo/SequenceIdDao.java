@@ -7,11 +7,11 @@ import org.alterq.domain.SequenceId;
 public interface SequenceIdDao {
 	public SequenceId findById(Object id);
 
-	public void add(SequenceId generalData);
+	public void add(SequenceId sequence);
 
-	public void update(SequenceId generalData);
+	public void update(SequenceId sequence);
 
-	public void delete(SequenceId generalData);
+	public void delete(SequenceId sequence);
 
 	public List<SequenceId> findAll();
 

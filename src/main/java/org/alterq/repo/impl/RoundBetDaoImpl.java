@@ -29,7 +29,18 @@ public class RoundBetDaoImpl implements RoundBetDao {
 		RoundBets aux =mongoTemplate.findOne(query, RoundBets.class, COLLECTION_NAME);
 		return aux;
 	}
+	public RoundBets findAllBets(int season, int round, int company) {
+		Query query = new Query(Criteria.where("season").is(season).and("round").is(round).and("company").is(company));
+		RoundBets aux =mongoTemplate.findOne(query, RoundBets.class, COLLECTION_NAME);
+		return aux;
+	}
 	
+	@Override
+	public int countAllBets(int season, int round, int company) {
+		Query query = new Query(Criteria.where("season").is(season).and("round").is(round).and("company").is(company));
+		RoundBets aux =mongoTemplate.findOne(query, RoundBets.class, COLLECTION_NAME);
+		return (aux.getBets()==null?0:aux.getBets().size());
+	}
 	public int countAllBets(int season, int round) {
 		Query query = new Query(Criteria.where("season").is(season).and("round").is(round));
 		RoundBets aux =mongoTemplate.findOne(query, RoundBets.class, COLLECTION_NAME);
@@ -155,6 +166,7 @@ public class RoundBetDaoImpl implements RoundBetDao {
 
 		mongoTemplate.upsert(query,update, RoundBets.class);
 	}
+
 }
 
 

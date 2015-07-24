@@ -9,11 +9,11 @@ public interface CompanyDao {
 
 	public Company findByCompany(int id);
 
-	public void add(Company generalData);
+	public void add(Company company);
 
-	public void update(Company generalData);
+	public void update(Company company);
 
-	public void delete(Company generalData);
+	public void delete(Company company);
 
 	public List<Company> findAll();
 }

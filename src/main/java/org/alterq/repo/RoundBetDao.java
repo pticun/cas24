@@ -6,7 +6,9 @@ import org.alterq.domain.RoundBets;
 
 public interface RoundBetDao {
 	public RoundBets findAllBets(int season, int round);
+	public RoundBets findAllBets(int season, int round,int company);
 	public int countAllBets(int season, int round);
+	public int countAllBets(int season, int round,int company);
 	public RoundBets findAllUserBets(int season, int round, String user, int company);
 	
 	public boolean addBet(int season, int round, Bet bet);
