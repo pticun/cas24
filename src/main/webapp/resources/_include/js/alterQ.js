@@ -1237,9 +1237,9 @@ function getCompanies(){
 	{
 		loadCompanies=false;
 		
-	   		consoleAlterQ('url:'+ctx+'/company/myaccount/'+ idUserAlterQ);  		
+	   		consoleAlterQ('url:'+ctx+'/company/myaccount/'+ idUserAlterQ+'/');  		
 			jQuery.ajax ({
-				url: ctx+'/company/myaccount/'+ idUserAlterQ,
+				url: ctx+'/company/myaccount/'+ idUserAlterQ+'/',
 			    type: "GET",
 			    data: null,
 			    contentType: "application/json; charset=utf-8",
@@ -1256,6 +1256,7 @@ function getCompanies(){
 						$(response.company).each(function(index, element){
 							console.log("index="+index);
 							console.log("id="+element.id + " company="+element.company);
+							$('#companyToChoose').append('<option value="'+element.company+'">'+element.nick+'</option>');
 						});
 				    }
 			    },
