@@ -1023,7 +1023,7 @@ function doLogin(){
 function fillRoundSeasonCompany(response){
     round = response.adminData.round;
     season = response.adminData.season;
-    company = response.adminData.company;
+//    company = response.adminData.company;
 }
 function fillUserData(response){
 	idUserAlterQ=response.userAlterQ.id;
