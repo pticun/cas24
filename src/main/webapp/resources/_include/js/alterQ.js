@@ -904,6 +904,11 @@ $(document).ready(function() {
    		}
    		
 	});
+	$('#companyToChoose').on('change', function() {
+		company=this.value;
+		alert( company); // or $(this).val()
+	});
+	
 });
 
 function showReducciones(){

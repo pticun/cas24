@@ -351,7 +351,7 @@ public class BetController {
 					bet.setTypeReduction(betTools.getReductionType(doblesRed, triplesRed));
 					bet.setNumBets(numBets);
 					StringBuffer sb = new StringBuffer();
-					sb.append("New Bet: season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
+					sb.append("New Bet: company="+company+" season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
 					log.debug(sb.toString());
 
 					// Pasamos los parámetros necesarios para la pantalla de
