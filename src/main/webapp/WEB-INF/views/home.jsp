@@ -381,17 +381,37 @@ End Analytics -->
 					<table class="tablaQuiniGold">
 						<tr>
 							<td>
-							    <table class="tablaQuiniGold" border="1" id="quinielaTable">
-							    </table>
+ 							    <table id="quinielaTable">
+								</table>
+						    	<table class="tablaQuiniGold" id="quinielaTable_1_to_4">
+						    	</table>
+						    	<table class="tablaQuiniGold" id="quinielaTable_5_to_8">
+						    	</table>
+						    	<table class="tablaQuiniGold" id="quinielaTable_9_to_11">
+						    	</table>
+						    	<table class="tablaQuiniGold" id="quinielaTable_12_to_14">
+						    	</table>
 							</td>
 							<td>
-							    <table class="tablaQuiniGold" border="1" id="quinielaTableRec" style="display: none">
+							    <table id="quinielaTableRec" style="display: none">
+							    </table>
+							    <table class="tablaQuiniGold" id="quinielaTableRec_1_to_4" style="display: none">
+							    </table>
+							    <table class="tablaQuiniGold" id="quinielaTableRec_5_to_8" style="display: none">
+							    </table>
+							    <table class="tablaQuiniGold" id="quinielaTableRec_9_to_11" style="display: none">
+							    </table>
+							    <table class="tablaQuiniGold" id="quinielaTableRec_12_to_14" style="display: none">
 							    </table>
 							</td>
 						</tr>
+						<tr align="center">
+							<td colspan="2">
+								<table class="tablaQuiniGold" id="quinielaTablePleno15">
+				    			</table>
+							</td>
+						</tr>
 					</table>
-				    <table class="tablaQuiniGold" id="quinielaTablePleno15">
-				    </table>
 				    <p></p>
 				    <table class="tablaQuiniGold" id="quinielaTableReduced">
 				    </table>
@@ -514,7 +534,7 @@ End Analytics -->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <p class="modal-title" id="myModalLabel">REDUCCIONES PERMIIDAS</p>
+        <p class="modal-title" id="myModalLabel">QUINIELA REDUCIDA</p>
       </div>
       <div class="modal-body">
 		<p align="center">REDUCCIONES PERMITIDAS</p>  

@@ -921,10 +921,18 @@ $(document).ready(function() {
 
 function showReducciones(){
 	$('#quinielaTableRec').show();	
+	$('#quinielaTableRec_1_to_4').show();
+	$('#quinielaTableRec_5_to_8').show();
+	$('#quinielaTableRec_9_to_11').show();
+	$('#quinielaTableRec_12_to_14').show();
 }
 
 function hideReducciones(){
-	$('#quinielaTableRec').hide();	
+	$('#quinielaTableRec').hide();
+	$('#quinielaTableRec_1_to_4').hide();
+	$('#quinielaTableRec_5_to_8').hide();
+	$('#quinielaTableRec_9_to_11').hide();
+	$('#quinielaTableRec_12_to_14').hide();
 }
 
 function showModalReduced(){
@@ -1141,8 +1149,8 @@ function getQuiniela(){
 					    $('#quinielaTable').append('<input type="hidden" name="season" id="season" value="'+ response.round.season+'"/>');       
 					    $('#quinielaTable').append('<input type="hidden" name="round" id="round" value="'+ response.round.round+'"/>');       
 						var temp= "Jorn "+ response.round.round + " - Temp "+ (response.round.season - 2000)+"/"+(response.round.season + 1 - 2000);
-					    $('#quinielaTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td>'+ temp +'</td><td colspan="3">APUESTA</td></tr><tr><td colspan="4"></td></tr>');       
-					    $('#quinielaTableRec').append('<tr id="rowBetTitleRec" class="quinielatitulo"><td>R</td></tr><tr><td></td></tr>');       
+					    $('#quinielaTable').append('<tr align="center id="rowBetTitle"><td>'+ temp +' - APUESTA</tr>');       
+					    $('#quinielaTableRec').append('<tr align="center id="rowBetTitleRec"><td>REDU</td></tr>');       
 						$(response.round.games).each(function(index, element){  
 							consoleAlterQ(element);
 							var row="";
@@ -1154,19 +1162,24 @@ function getQuiniela(){
 							else{
 								temp=temp+" "+(index+1);
 							}
-							if(index==0 || index==4 || index==8 || index==11){
-								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap" class="partidolinea"><label>'+temp+'</label></td>';
-							}
-							else if (index==13){
-								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap" class="partidoLast"><label>'+temp+'</label></td>';
-							}else if (index!=14){
-								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap" class="partido"><label>'+temp+'</label></td>';
-							}
-
+							
+							
+//							if(index==0 || index==4 || index==8 || index==11){
+//								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap" class="partidolinea"><label>'+temp+'</label></td>';
+//							}
+//							else if (index==13){
+//								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap" class="partidoLast"><label>'+temp+'</label></td>';
+//							}else if (index!=14){
+//								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap" class="partido"><label>'+temp+'</label></td>';
+//							}
+							
+							
+							
+							//agrupamos el pleno al 15
 							if (index == 14)
 							{
-								row+='<tr class="quinielatitulo"><td colspan="5" style="text-align: center; white-space: nowrap"><label>PLENO AL 15</label></td><tr>';
-								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap" class="partidoLast"><label>'+element.player1+'</label></td>';
+								row+='<tr><td colspan="5" style="text-align: center; white-space: nowrap"><label>PLENO AL 15</label></td><tr>';
+								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap"><label>'+element.player1+'</label></td>';
 								
 								row+='<td class="pronostico"><input class="class0" type="checkbox" id="'+index+'_0" name="'+index+'_0" />';
 								row+='<label class="quiniela" for="'+index+'_0"></label>';
@@ -1182,7 +1195,7 @@ function getQuiniela(){
 								row+='</td>';
 								row+='</tr>';
 
-								row+='<tr id="rowBet_'+(index+1)+'"><td style="white-space: nowrap" class="partidoLast"><label>'+element.player2+'</label></td>';
+								row+='<tr id="rowBet_'+(index+1)+'"><td style="white-space: nowrap"><label>'+element.player2+'</label></td>';
 								row+='<td class="pronostico"><input class="class0" type="checkbox" id="'+(index+1)+'_0" name="'+(index+1)+'_0" />';
 								row+='<label class="quiniela" for="'+(index+1)+'_0"></label>';
 								row+='</td>';
@@ -1200,6 +1213,8 @@ function getQuiniela(){
 								$('#quinielaTablePleno15').append(row);
 							}
 							else{
+								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap"><label>'+temp+'</label></td>';
+								
 								row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
 								row+='<label class="quiniela" for="'+index+'_1"></label>';
 								row+='</td>';
@@ -1209,25 +1224,48 @@ function getQuiniela(){
 								row+='<td class="pronostico"><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
 								row+='<label class="quiniela" for="'+index+'_2"></label>';
 								row+='</td>';
+								row+='</tr>';
+
 								rowRec+='<tr><td class="pronostico"><input class="classR" type="checkbox" id="'+index+'_R" name="'+index+'_R" />';
 								rowRec+='<label class="quiniela" for="'+index+'_R"></label>';
 								rowRec+='</td>';
 								rowRec+='</tr>';
-								row+='</tr>';
-								$('#quinielaTable').append(row);
-								$('#quinielaTableRec').append(rowRec);
+								
+								if(index==0 || index==1 || index==2 || index==3)//agrupamos los partidos 1-2-3-4
+								{
+									$('#quinielaTable_1_to_4').append(row);
+									$('#quinielaTableRec_1_to_4').append(rowRec);
+								}
+								else if(index==4 || index==5 || index==6 || index==7)//agrupamos los partidos 5-6-7-8
+								{
+									$('#quinielaTable_5_to_8').append(row);
+									$('#quinielaTableRec_5_to_8').append(rowRec);
+								}
+								else if(index==8 || index==9 || index==10)//agrupamos los partidos 9-10-11
+								{
+									$('#quinielaTable_9_to_11').append(row);
+									$('#quinielaTableRec_9_to_11').append(rowRec);
+								}
+								else if(index==11 || index==12 || index==13)//agrupamos los partidos 12-13-14
+								{
+									$('#quinielaTable_12_to_14').append(row);
+									$('#quinielaTableRec_12_to_14').append(rowRec);
+								}	
+								
+								//$('#quinielaTable').append(row);
+								//$('#quinielaTableRec').append(rowRec);
+								
 							}
 							
 						});
 						//añadimos el check de la reducción
 						var row="";
-						row+='<tr class="quinielatitulo"">';
-						
-						row+='<td class="pronostico"><input class="classR" type="checkbox" id="reducedCHK" name="reducedCHK" />';
+						row+='<tr>';
+						row+='<td><input class="classR" type="checkbox" id="reducedCHK" name="reducedCHK" />';
 						row+='<label id="reducedCHKlabel" class="quiniela" for="reducedCHK"></label>';
 						row+='</td>';
-						row+='<td class="pronostico" style="white-space: nowrap" class="partidolinea"><label>REDUCIR QUINIELA </label></td>';
-						row+='<td class="pronostico" style="white-space: nowrap" class="partidolinea"><button type="button" class="button button-small" data-toggle="modal" data-target="#modalReduced"><strong>?</strong></button></td>';
+						row+='<td style="white-space: nowrap"><label>REDUCIR QUINIELA </label></td>';
+						row+='<td style="white-space: nowrap"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalReduced"><strong>Info</strong></button></td>';
 						row+='</tr>';
 
 						$('#quinielaTableReduced').append(row);
