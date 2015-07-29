@@ -1340,6 +1340,7 @@ function getCompanies(){
 }
 function getUserBets(){
 	consoleAlterQ('getUserBets');
+	consoleAlterQ('loadBetUser='+loadBetUser);
 	if(loadBetUser){
 		loadBetUser=false;
 //		loadBetUser=true;

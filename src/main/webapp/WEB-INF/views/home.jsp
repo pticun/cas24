@@ -407,8 +407,16 @@ End Analytics -->
 						</tr>
 						<tr align="center">
 							<td colspan="2">
+							    <br>
 								<table class="tablaQuiniGold" id="quinielaTablePleno15">
 				    			</table>
+							</td>
+						</tr>
+						<tr align="center">
+							<td colspan="2">
+							    <br>
+							    <button id="quinielaButton" class="btn btn-danger" name="quiniela" value="Enviar">Enviar</button>
+							    <br>
 							</td>
 						</tr>
 					</table>
@@ -428,10 +436,6 @@ End Analytics -->
 				    <p></p>
 				    <!-- <input type="submit" value="Enviar"> -->
 				    <div align="center" id="quinielaFormResponse" class="linkQuiniGold">Rellena tu apuesta y pulsa enviar.</div>
-				    <br>
-				    <br>
-				    <button id="quinielaButton" class="btn btn-danger" name="quiniela" value="Enviar">Enviar</button>
-				    
 			</form>
 		</div>
     
@@ -450,18 +454,22 @@ End Analytics -->
 				<input type="hidden" id="param_reduccion" name="param_reduccion" value="">
 				<input type="hidden" id="param_tiporeduccion" name="param_tiporeduccion" value="">
 				<input type="hidden" id="param_numbets" name="param_numbets" value="">
-				<table>
+				<table class="tablaQuiniGold">
 					<tr>
 						<td>
-						    <table class="quiniela" border="1" id="confirmarQuinielaTable">
+						    <table id="confirmarQuinielaTable">
 						    </table>
+						</td>
+					</tr>
+					<tr align="center">
+						<td>
+						    <button id="modificarQuinielaButton" class="btn btn-primary" name="modificarQuiniela" value="Modificar">Modificar</button>
+						    <button id="confirmarQuinielaButton" class="btn btn-primary" name="confirmarQuiniela" value="Confirmar">Confirmar</button>
 						</td>
 					</tr>
 				</table>
 			    <p></p>
-			    <div align="center" id="confirmarQuinielaFormResponse">pulsa Confirmar para validar tu apuesta.</div>
-			    <button id="modificarQuinielaButton" class="button" name="modificarQuiniela" value="Modificar">Modificar</button>
-			    <button id="confirmarQuinielaButton" class="button" name="confirmarQuiniela" value="Confirmar">Confirmar</button>
+			    <div align="center" id="confirmarQuinielaFormResponse" class="linkQuiniGold">pulsa Confirmar para validar tu apuesta.</div>
 			</form>
 		</div>
     
@@ -476,16 +484,19 @@ End Analytics -->
     <!-- Confirm Bet Form -->
 		<div align="center">
 			<form id="confirmedBetForm">
-				<table>
+				<table class="tablaQuiniGold">
 					<tr>
 						<td>
-						    <table class="quiniela" border="1" id="confirmadaQuinielaTable">
+						    <table id="confirmadaQuinielaTable">
 						    </table>
 						</td>
 					</tr>
+					<tr align="center">
+						<td>
+						    <button id="confirmadaQuinielaButton" class="btn btn-danger" name="confirmadaQuiniela" value="Finalizar">Finalizar</button>
+						</td>
+					</tr>
 				</table>
-			    <p></p>
-			    <button id="confirmadaQuinielaButton" class="button" name="confirmadaQuiniela" value="Finalizar">Finalizar</button>
 			</form>
 		</div>
     
