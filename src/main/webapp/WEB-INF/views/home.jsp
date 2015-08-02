@@ -509,8 +509,10 @@ End Analytics -->
 <div id="quinielaDetailDiv" class="page">
 <div class="container">
 		<div align="center">
-	    	<table class="quiniela" border="1" id="quinielaDetailTable">
+		<form id="detalleUserBetForm">
+	    	<table class="tablaQuiniGold" id="quinielaDetailTable">
 		    </table>
+		</form>
 		</div>
 </div>
 </div>

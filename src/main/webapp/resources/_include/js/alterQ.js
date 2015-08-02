@@ -917,6 +917,13 @@ $(document).ready(function() {
 		getMainMenuItems(true, $('#nameData').val(), false);		
 	});
 	
+	$('form#detalleUserBetForm').submit(function( event ) {
+		consoleAlterQ("Mybets Btn");
+		getUserBets();
+		showDiv(bMyBets);
+		event.preventDefault(); // prevent actual form submit and page reload
+	});
+	
 });
 
 function showReducciones(){
@@ -1338,6 +1345,10 @@ function getCompanies(){
 		
 	}
 }
+function cleanUserBets(){
+	consoleAlterQ('cleanUserBets');
+	$('#apuestasTable').empty();
+}
 function getUserBets(){
 	consoleAlterQ('getUserBets');
 	consoleAlterQ('loadBetUser='+loadBetUser);
@@ -1345,6 +1356,8 @@ function getUserBets(){
 		loadBetUser=false;
 //		loadBetUser=true;
 		var row="";
+		
+		cleanUserBets();
 		
    		consoleAlterQ('antes jQuery.ajax');
    		
@@ -1362,25 +1375,25 @@ function getUserBets(){
 		    success: function(response){
 			    if(response.errorDto!=0){
 					row="";
-			    	row+='<tr class="quinielatitulo">';
-			    	row+='<td>My Bets</td>';
+			    	row+='<tr align="center">';
+			    	row+='<td>MIS APUESTAS</td>';
 			    	row+='</tr>';
-			        row+='<tr class="quiniela">';
-					row+='<td class="partidoLast"><h3>SIN APUESTAS</h3></td>';
+			        row+='<tr>';
+					row+='<td><h3>SIN APUESTAS</h3></td>';
 					row+='</tr>';
 					$('#apuestasTable').append(row);
 			    }
 			    else{
-			    	row+='<tr class="quinielatitulo">';
-			    	row+='<td colspan="2">My Bets</td>';
+			    	row+='<tr align="center">';
+			    	row+='<td colspan="2">MIS APUESTAS</td>';
 			    	row+='</tr>';
 					$('#apuestasTable').append(row);
 					$(response.roundBet.bets).each(function(index, element){
 						console.log("index="+index);
 						console.log("user="+element.user + " bet="+element.bet);
 						row="";
-				    	row+='<tr class="quinielatitulo">';
-				    	row+='<td class="partidoLast">';
+				    	row+='<tr>';
+				    	row+='<td>';
 				    	row+='<a href="javascript:betDetail('+index+',\''+element.bet+'\')" >';
 				    	row+='Apuesta'+(((index+1)<10)?'0':'')+(index+1)+' Jornada'+response.roundBet.round+ ' '+parseFloat(element.price).toFixed(2) + ' EUR';
 				    	row+='</a>';
@@ -1392,11 +1405,11 @@ function getUserBets(){
 		    },
 		    error : function (xhr, textStatus, errorThrown) {
 				var row="";
-		    	row+='<tr class="quinielatitulo">';
-		    	row+='<td colspan="2">My Bets</td>';
+		    	row+='<tr align="center>';
+		    	row+='<td colspan="2">MIS APUESTAS<br><br></td>';
 		    	row+='</tr>';
-		        row+='<tr class="quiniela">';
-				row+='<td class="partidoLast"><h3>ERROR AL OBTENER</h3><h3>LAS APUESTAS</h3></td>';
+		        row+='<tr>';
+				row+='<td><h3>ERROR AL OBTENER</h3><h3>LAS APUESTAS</h3></td>';
 				row+='</tr>';
 				$('#apuestasTable').append(row);
             }
@@ -1465,6 +1478,9 @@ function betDetail(index, bet)
     row+='</td>';
     row+='</tr>';
 	$('#quinielaDetailTable').append(row);
+	row='<tr align="center"><td><button id="detalleUserBetBtn" class="btn btn-danger" name="detalleUserBet" value="detalleUserBet">Mis Apuestas</button></td></tr>';
+	$('#quinielaDetailTable').append(row);
+
 	showDiv(bQuinielaDetail);
 }
 

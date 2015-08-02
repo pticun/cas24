@@ -164,7 +164,7 @@
     <!-- Quiniela Form -->
 		<div align="center">
 			<form id="betsForm">
-				    <table class="quiniela" border="1" id="apuestasTable">
+				    <table class="tablaQuiniGold" id="apuestasTable">
 				    </table>
 			</form>
 		</div>
