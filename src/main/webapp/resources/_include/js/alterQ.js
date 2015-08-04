@@ -1190,31 +1190,31 @@ function getQuiniela(){
 								row+='<tr><td colspan="5" style="text-align: center; white-space: nowrap"><label>PLENO AL 15</label></td><tr>';
 								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap"><label>'+element.player1+'</label></td>';
 								
-								row+='<td class="pronostico"><input class="class0" type="checkbox" id="'+index+'_0" name="'+index+'_0" />';
+								row+='<td><input class="class0" type="checkbox" id="'+index+'_0" name="'+index+'_0" />';
 								row+='<label class="quiniela" for="'+index+'_0"></label>';
 								row+='</td>';
-								row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
+								row+='<td><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
 								row+='<label class="quiniela" for="'+index+'_1"></label>';
 								row+='</td>';
-								row+='<td class="pronostico"><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
+								row+='<td><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
 								row+='<label class="quiniela" for="'+index+'_2"></label>';
 								row+='</td>';
-								row+='<td class="pronostico"><input class="classM" type="checkbox" id="'+index+'_3" name="'+index+'_3" />';
+								row+='<td><input class="classM" type="checkbox" id="'+index+'_3" name="'+index+'_3" />';
 								row+='<label class="quiniela" for="'+index+'_3"></label>';
 								row+='</td>';
 								row+='</tr>';
 
 								row+='<tr id="rowBet_'+(index+1)+'"><td style="white-space: nowrap"><label>'+element.player2+'</label></td>';
-								row+='<td class="pronostico"><input class="class0" type="checkbox" id="'+(index+1)+'_0" name="'+(index+1)+'_0" />';
+								row+='<td><input class="class0" type="checkbox" id="'+(index+1)+'_0" name="'+(index+1)+'_0" />';
 								row+='<label class="quiniela" for="'+(index+1)+'_0"></label>';
 								row+='</td>';
-								row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+(index+1)+'_1" name="'+(index+1)+'_1" />';
+								row+='<td><input class="class1" type="checkbox" id="'+(index+1)+'_1" name="'+(index+1)+'_1" />';
 								row+='<label class="quiniela" for="'+(index+1)+'_1"></label>';
 								row+='</td>';
-								row+='<td class="pronostico"><input class="class2" type="checkbox" id="'+(index+1)+'_2" name="'+(index+1)+'_2" />';
+								row+='<td><input class="class2" type="checkbox" id="'+(index+1)+'_2" name="'+(index+1)+'_2" />';
 								row+='<label class="quiniela" for="'+(index+1)+'_2"></label>';
 								row+='</td>';
-								row+='<td class="pronostico"><input class="classM" type="checkbox" id="'+(index+1)+'_3" name="'+(index+1)+'_3" />';
+								row+='<td><input class="classM" type="checkbox" id="'+(index+1)+'_3" name="'+(index+1)+'_3" />';
 								row+='<label class="quiniela" for="'+(index+1)+'_3"></label>';
 								row+='</td>';
 								row+='</tr>';
@@ -1224,18 +1224,18 @@ function getQuiniela(){
 							else{
 								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap"><label>'+temp+'</label></td>';
 								
-								row+='<td class="pronostico"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
+								row+='<td><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
 								row+='<label class="quiniela" for="'+index+'_1"></label>';
 								row+='</td>';
-								row+='<td class="pronostico"><input class="classX" type="checkbox" id="'+index+'_X" name="'+index+'_X" />';
+								row+='<td><input class="classX" type="checkbox" id="'+index+'_X" name="'+index+'_X" />';
 								row+='<label class="quiniela" for="'+index+'_X"></label>';
 								row+='</td>';
-								row+='<td class="pronostico"><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
+								row+='<td><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
 								row+='<label class="quiniela" for="'+index+'_2"></label>';
 								row+='</td>';
 								row+='</tr>';
 
-								rowRec+='<tr><td class="pronostico"><input class="classR" type="checkbox" id="'+index+'_R" name="'+index+'_R" />';
+								rowRec+='<tr><td ><input class="classR" type="checkbox" id="'+index+'_R" name="'+index+'_R" />';
 								rowRec+='<label class="quiniela" for="'+index+'_R"></label>';
 								rowRec+='</td>';
 								rowRec+='</tr>';
