@@ -914,7 +914,9 @@ $(document).ready(function() {
 		sCompany = $(this).find(":selected").text();
 		companySelected = true;
 		consoleAlterQ('vamos a repintar el menu');
-		getMainMenuItems(true, $('#nameData').val(), false);		
+		getMainMenuItems(true, $('#nameData').val(), false);
+		loadBetUser = true;
+		cleanUserBets();
 	});
 	
 	$('form#detalleUserBetForm').submit(function( event ) {
@@ -1379,37 +1381,63 @@ function getUserBets(){
 			    	row+='<td>MIS APUESTAS</td>';
 			    	row+='</tr>';
 			        row+='<tr>';
-					row+='<td><h3>SIN APUESTAS</h3></td>';
+					row+='<td><br><br>SIN APUESTAS<br><br></td>';
 					row+='</tr>';
 					$('#apuestasTable').append(row);
 			    }
 			    else{
-			    	row+='<tr align="center">';
-			    	row+='<td colspan="2">MIS APUESTAS</td>';
-			    	row+='</tr>';
-					$('#apuestasTable').append(row);
-					$(response.roundBet.bets).each(function(index, element){
-						console.log("index="+index);
-						console.log("user="+element.user + " bet="+element.bet);
+			    	if (response.roundBet == null)
+			    	{
 						row="";
+				    	row+='<tr align="center">';
+				    	row+='<td>MIS APUESTAS</td>';
+				    	row+='</tr>';
+				    	row+='<tr align="center">';
+				    	row+='<td>'+((sCompany == '')?sCompanyDefault:sCompany)+'</td>';
+				    	row+='</tr>';
 				    	row+='<tr>';
-				    	row+='<td>';
-				    	row+='<a href="javascript:betDetail('+index+',\''+element.bet+'\')" >';
-				    	row+='Apuesta'+(((index+1)<10)?'0':'')+(index+1)+' Jornada'+response.roundBet.round+ ' '+parseFloat(element.price).toFixed(2) + ' EUR';
-				    	row+='</a>';
-				    	row+='</td>';
+						row+='<td><br><br>SIN APUESTAS<br><br></td>';
+						row+='</tr>';
+						$('#apuestasTable').append(row);
+			    	}
+			    	else
+			    	{
+				    	row+='<tr align="center">';
+				    	row+='<td colspan="2">MIS APUESTAS</td>';
+				    	row+='</tr>';
+				    	row+='<tr align="center">';
+				    	row+='<td>'+((sCompany == '')?sCompanyDefault:sCompany)+'</td>';
 				    	row+='</tr>';
 						$('#apuestasTable').append(row);
-					});
+						$(response.roundBet.bets).each(function(index, element){
+							console.log("index="+index);
+							console.log("user="+element.user + " bet="+element.bet);
+							row="";
+					    	row+='<tr>';
+					    	row+='<td>';
+					    	row+='<a href="javascript:betDetail('+index+',\''+element.bet+'\')" >';
+					    	row+='Apuesta'+(((index+1)<10)?'0':'')+(index+1)+' Jornada'+response.roundBet.round+ ' '+parseFloat(element.price).toFixed(2) + ' EUR';
+					    	row+='</a>';
+					    	row+='</td>';
+					    	row+='</tr>';
+							$('#apuestasTable').append(row);
+						});
+			    	}
 			    }
 		    },
 		    error : function (xhr, textStatus, errorThrown) {
 				var row="";
 		    	row+='<tr align="center>';
-		    	row+='<td colspan="2">MIS APUESTAS<br><br></td>';
+		    	row+='<td>MIS APUESTAS</td>';
+		    	row+='</tr>';
+		    	row+='<tr align="center">';
+		    	row+='<td>('+sCompany+')<br><br></td>';
 		    	row+='</tr>';
 		        row+='<tr>';
-				row+='<td><h3>ERROR AL OBTENER</h3><h3>LAS APUESTAS</h3></td>';
+				row+='<td><br><br>ERROR AL OBTENER</td>';
+				row+='</tr>';
+		        row+='<tr>';
+				row+='<td>LAS APUESTAS<br><br></td>';
 				row+='</tr>';
 				$('#apuestasTable').append(row);
             }
