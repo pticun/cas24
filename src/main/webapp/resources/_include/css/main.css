@@ -1392,8 +1392,8 @@ input[type="checkbox"][class="class1"] {
     display:none;
 }
 input[type="checkbox"][class="class1"] + label {
-    width:35px;
-    height:35px;
+    width:25px;
+    height:25px;
     background:url(img/s1.png) center  no-repeat;
     cursor:pointer;
 }
@@ -1404,8 +1404,8 @@ input[type="checkbox"][class="classX"] {
     display:none;
 }
 input[type="checkbox"][class="classX"] + label {
-    width:35px;
-    height:35px;
+    width:25px;
+    height:25px;
     background:url(img/sx.png) center no-repeat;
     cursor:pointer;
 }
@@ -1416,8 +1416,8 @@ input[type="checkbox"][class="class2"] {
     display:none;
 }
 input[type="checkbox"][class="class2"] + label {
-    width:35px;
-    height:35px;
+    width:25px;
+    height:25px;
     background:url(img/s2.png) center no-repeat;
     cursor:pointer;
 }
@@ -1428,8 +1428,8 @@ input[type="checkbox"][class="class0"] {
     display:none;
 }
 input[type="checkbox"][class="class0"] + label {
-    width:35px;
-    height:35px;
+    width:25px;
+    height:25px;
     background:url(img/s0.png) center  no-repeat;
     cursor:pointer;
 }
@@ -1440,8 +1440,8 @@ input[type="checkbox"][class="classM"] {
     display:none;
 }
 input[type="checkbox"][class="classM"] + label {
-    width:35px;
-    height:35px;
+    width:25px;
+    height:25px;
     background:url(img/sM.png) center  no-repeat;
     cursor:pointer;
 }
@@ -1453,8 +1453,8 @@ input[type="checkbox"][class="classR"] {
     display:none;
 }
 input[type="checkbox"][class="classR"] + label {
-    width:35px;
-    height:35px;
+    width:25px;
+    height:25px;
     background:url(img/sR.png) center  no-repeat;
     cursor:pointer;
 }
