@@ -1559,11 +1559,20 @@ input{
 {
 	border-collapse: inherit;
 	border-style : Solid;
-	border-color : #C13142;
-	border-color : rgba(193, 49, 66, 1);
+	border-color : #C43C3C;
+	border-color : rgba(196, 60, 60, 1);
 	border-width : 3px;
 	border-radius : 24px;
 	padding: 5px;
+}
+.tablaRedQuiniGold
+{
+	border-collapse: inherit;
+	border-style : Solid;
+	border-color : #FFFFFF;
+	border-color : rgba(255, 255, 255, 1);
+	border-width : 3px;
+	border-radius : 24px;
 }
 .xavi2
 {
@@ -1583,8 +1592,8 @@ input{
 	background-color: #FFF;
 	border-collapse: inherit;
 	border-style : Solid;
-	border-color : #C1C142;
-	border-color : rgba(193, 49, 66, 1);
+	border-color : #C43C3C;
+	border-color : rgba(196, 60, 60, 1);
 	border-width : 3px;
 	padding: 5px;
 	border-radius : 24px;

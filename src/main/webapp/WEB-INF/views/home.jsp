@@ -177,7 +177,7 @@ End Analytics -->
 	        </div>
 	    	<div class="span4 profile">
 	        	<div class="image-wrap">
-	                <img src="<c:url value='/static/resources/_include/img/work/thumbs/logo.gif'/>" alt="Quiniela">
+	                <img src="<c:url value='/static/resources/_include/img/work/thumbs/logo.png'/>" alt="Quiniela">
 	            </div>
 	        </div>
 	    	<div class="span4 profile">
@@ -383,25 +383,15 @@ End Analytics -->
 							<td>
  							    <table id="quinielaTable">
 								</table>
-						    	<table class="tablaQuiniGold" id="quinielaTable_1_to_4">
-						    	</table>
-						    	<table class="tablaQuiniGold" id="quinielaTable_5_to_8">
-						    	</table>
-						    	<table class="tablaQuiniGold" id="quinielaTable_9_to_11">
-						    	</table>
-						    	<table class="tablaQuiniGold" id="quinielaTable_12_to_14">
+								<br>
+						    	<table class="tablaQuiniGold" id="quinielaTable_in">
 						    	</table>
 							</td>
 							<td>
 							    <table id="quinielaTableRec" style="display: none">
 							    </table>
-							    <table class="tablaQuiniGold" id="quinielaTableRec_1_to_4" style="display: none">
-							    </table>
-							    <table class="tablaQuiniGold" id="quinielaTableRec_5_to_8" style="display: none">
-							    </table>
-							    <table class="tablaQuiniGold" id="quinielaTableRec_9_to_11" style="display: none">
-							    </table>
-							    <table class="tablaQuiniGold" id="quinielaTableRec_12_to_14" style="display: none">
+							    <br>
+							    <table class="tablaRedQuiniGold" id="quinielaTableRec_in" style="display: none">
 							    </table>
 							</td>
 						</tr>
