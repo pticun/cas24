@@ -6,16 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.alterq.domain.Company;
 import org.alterq.domain.RolCompany;
+import org.alterq.domain.SequenceId;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.CompanyDao;
 import org.alterq.repo.SequenceIdDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.RolCompanySecurity;
+import org.alterq.util.enumeration.CompanyTypeEnum;
 import org.alterq.util.enumeration.RolNameEnum;
+import org.alterq.util.enumeration.SequenceNameEnum;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,50 +31,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml" })
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml" })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PopulateMigrateUser {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
-//	@Autowired
-//	private UserAlterQDao dao;
-//	@Autowired
-//	private RolCompanySecurity rolCompanySecurity;
-//	@Autowired
-//	private CompanyDao companyDao;
-//	@Autowired
-//	private SequenceIdDao daoSequence;
+	@Autowired
+	private UserAlterQDao userDao;
+	@Autowired
+	private RolCompanySecurity rolCompanySecurity;
+	@Autowired
+	private CompanyDao companyDao;
+	@Autowired
+	private SequenceIdDao daoSequence;
 
 	@Test
 	public void AA_testCreate() throws Exception {
-//		UserAlterQ userAlterQ = new UserAlterQ();
-//		userAlterQ.setName("Primera");
-//		userAlterQ.setPhoneNumber("2125552121");
-//		userAlterQ.setPwd("password");
-//		userAlterQ.setId("idmail@arroba.es");
-//		userAlterQ.setBalance("10");
-//		userAlterQ.setActive(true);
-//		userAlterQ.setCompany(AlterQConstants.DEFECT_COMPANY);
-//		userAlterQ.setDateCreated(new Date());
-//
-//		RolCompany rc = new RolCompany();
-//		rc.setCompany(AlterQConstants.DEFECT_COMPANY);
-//		rc.setRol(RolNameEnum.ROL_ADMIN.getValue());
-//
-//		ArrayList<RolCompany> rcL = new ArrayList<RolCompany>();
-//		rcL.add(rc);
-//
-//		userAlterQ.setRols(rcL);
-//		dao.create(userAlterQ);
-//		String id = userAlterQ.getId();
-//		Assert.assertNotNull(id);
-//
-//		log.debug(userAlterQ.getPwd());
+		Company company=createCompany();
+		List<UserAlterQ> userToImport=readCSVFile(company);
+		for (UserAlterQ userAlterQ : userToImport) {
+			System.out.println(ToStringBuilder.reflectionToString(userAlterQ));
+			userDao.create(userAlterQ);
+		}
 		return;
 	}
 
-	@Test
-	public void AAreadCSVFile() throws IOException{
+	public List<UserAlterQ> readCSVFile(Company company) throws IOException{
 		File fileUsers = new File(Thread.currentThread().getContextClassLoader().getResource("PERSONAS.csv").getFile());
 		
 		List<UserAlterQ> userToImport=new ArrayList<UserAlterQ>();
@@ -98,31 +85,31 @@ public class PopulateMigrateUser {
 			rcL.add(rc);
 
 			RolCompany rc1 = new RolCompany();
-			rc1.setCompany(34);
+			rc1.setCompany(company.getCompany());
 			rc1.setRol(RolNameEnum.ROL_USER.getValue());
 			rcL.add(rc1);
 
 			user.setRols(rcL);
 
-			System.out.println(ToStringBuilder.reflectionToString(user));
 			userToImport.add(user);
 		}
+		return userToImport;
 	}
 	
-	@Test
-	public void AA_createCompany() {
-//		SequenceId beanSeq = daoSequence.findById(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
-//		int seq = daoSequence.getNextSequenceId(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
-//		
-//		bean=new Company();
-//		bean.setCompany(seq);
-//		bean.setDescription("QuiniGold2");
-//		bean.setNick("QuiniGold2");
-//		bean.setType(CompanyTypeEnum.COMPANY_NON_COLLABORATIVE.getValue());
-//		bean.setVisibility(Boolean.TRUE);
-//		companyDao.add(bean);
-//		Assert.assertNotNull(bean.getDescription());
-//		log.debug("Create:" + bean.getCompany() + "-" + bean.getDescription());
+	public Company createCompany() {
+		SequenceId beanSeq = daoSequence.findById(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
+		int seq = daoSequence.getNextSequenceId(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
+		
+		Company bean=new Company();
+		bean.setCompany(seq);
+		bean.setDescription("quinielagold");
+		bean.setNick("quinielagold");
+		bean.setType(CompanyTypeEnum.COMPANY_NON_COLLABORATIVE.getValue());
+		bean.setVisibility(Boolean.TRUE);
+		companyDao.add(bean);
+		Assert.assertNotNull(bean.getDescription());
+		log.debug("Create:" + bean.getCompany() + "-" + bean.getDescription());
+		return bean;
 
 	}
 	
