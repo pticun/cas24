@@ -80,7 +80,7 @@ public class AdminController {
 	private static int doubles = 0;
 	private static int triples = 0;
 
-	private static final float DEF_QUINIELA_BET_PRICE = (float)0.5;
+	private static final float DEF_QUINIELA_BET_PRICE = (float)0.75;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String initPage() {
@@ -665,7 +665,7 @@ public class AdminController {
 			}
 			
 			//STEP 2: Create roundData (RoundBets collection)
-			 RoundBets roundBets = roundBetDao.findAllBets(season, round);
+			 RoundBets roundBets = roundBetDao.findAllBets(season, round, company);
 			//Check if exist this roundBet
 			if (roundBets == null){
 				RoundBets bean= new RoundBets();
