@@ -132,6 +132,9 @@ MongoDB - PRE
 	mongodump -h ds035338.mongolab.com:35338 -d racsor -c roundBets -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
 	mongodump -h ds035338.mongolab.com:35338 -d racsor -c roundRanking -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
 	mongodump -h ds035338.mongolab.com:35338 -d racsor -c useralterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds035338.mongolab.com:35338 -d racsor -c adminData -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds035338.mongolab.com:35338 -d racsor -c company -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds035338.mongolab.com:35338 -d racsor -c sequenceId -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
 	
 MongoDB - PRO
 	mongolab
