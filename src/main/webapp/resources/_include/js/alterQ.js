@@ -13,6 +13,9 @@ var userLoged=false;
 
 var companySelected = false;
 
+var admin = false;
+var superAdmin = false;
+
 //Divs Graphics
 var bActual  = 0;
 var bHome    = 1;
@@ -306,20 +309,20 @@ function menuEvent(name, href)
 	
 }
 
-function getMainMenuItems(userLoged, user, admin)
+function getMainMenuItems(userLoged, user, admin, superAdmin)
 	{
-	consoleAlterQ("getMainMenuItems userLoged="+userLoged+" user="+user+" admin="+admin);
+	consoleAlterQ("getMainMenuItems userLoged="+userLoged+" user="+user+" admin="+admin + " superAdmin="+superAdmin);
 	//MENU WEB 
 	$('#menu-nav li').remove();
 	
-	if (!admin)
+	if (!superAdmin)
 	{
 		$('#menu-nav').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
 		$('#menu-nav').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
 	}
 	
 	if (userLoged){
-		if (admin)
+		if (superAdmin)
 			$('#menu-nav').append('<li><a href="' + sMyAdminRef + '">' + sAdmin + '</a></li>');
 		else{
 			$('#menu-nav').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
@@ -502,8 +505,9 @@ $(document).ready(function() {
 	};
 	
 	initDiv(bHome);
+	
 	//Paint Main Menu Items
-	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
+	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.admin:false, userLoged?response.superAdmin:false);
     
 	//Menu Click Events
 	$('div').on("click", "nav#menu ul#menu-nav li a", function( event ) {
@@ -548,7 +552,7 @@ $(document).ready(function() {
 
 			//Paint Main Menu Items
 			consoleAlterQ("Menu: pintamos los elementos del menu");
-			getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
+			getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.admin:false, userLoged?response.superAdmin:false);
 	    });
 	
 	
@@ -592,7 +596,7 @@ $(document).ready(function() {
 						$('#loginFormResponse').text(response.userAlterQ.name);
 						userLoged=true;
 						fillUserData(response);
-						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
+						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.admin:false, userLoged?response.superAdmin:false);
 						showDiv(bHome);
 		   		    }
 				    fillRoundSeasonCompany(response);
@@ -647,7 +651,7 @@ $(document).ready(function() {
 		   		    else{
 						userLoged=true;
 						fillUserData(response);
-						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
+						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.admin:false, userLoged?response.superAdmin:false);
 						showDiv(bHome);
 						
 		   		    }
@@ -914,7 +918,7 @@ $(document).ready(function() {
 		sCompany = $(this).find(":selected").text();
 		companySelected = true;
 		consoleAlterQ('vamos a repintar el menu');
-		getMainMenuItems(true, $('#nameData').val(), false);
+		getMainMenuItems(true, $('#nameData').val(), false, false);
 		loadBetUser = true;
 		cleanUserBets();
 	});
@@ -1076,7 +1080,7 @@ function doLogout(){
 	   		    else{
 					userLoged=false;
 					loadCompanies = false;
-					getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.userAlterQ.admin:false);
+					getMainMenuItems(false, null, false);
 	   		    }
 		    }
 		});

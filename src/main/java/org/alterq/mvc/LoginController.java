@@ -54,6 +54,8 @@ public class LoginController {
 			log.debug("Session ID is:" + sessionID);
 			response.addCookie(new Cookie("session", sessionID));
 			dto.setUserAlterQ(userValidate);
+			dto.setAdmin(userValidate.isAdmin());
+			dto.setSuperAdmin(userValidate.isSuperAdmin());
 			ad = adminDataDao.findByCompany(AlterQConstants.ADMIN_COMPANY);
 		} else {
 			ErrorDto error = new ErrorDto();
@@ -78,6 +80,8 @@ public class LoginController {
 			String idUserAlterQ = sessionDao.findUserAlterQIdBySessionId(cookieSession);
 			UserAlterQ userAlterQ = userDao.findById(idUserAlterQ);
 			dto.setUserAlterQ(userAlterQ);
+			dto.setAdmin(userAlterQ.isAdmin());
+			dto.setSuperAdmin(userAlterQ.isSuperAdmin());
 			ad = adminDataDao.findByCompany(AlterQConstants.ADMIN_COMPANY);
 		} else {
 			ErrorDto error = new ErrorDto();
