@@ -12,6 +12,7 @@ public interface UserAlterQDao {
 
 	@Deprecated
 	public UserAlterQ findAdminByCompany(int company);
+	public UserAlterQ findSuperAdmin(int company);
 
 	public List<UserAlterQ> findAllOrderedByName();
 

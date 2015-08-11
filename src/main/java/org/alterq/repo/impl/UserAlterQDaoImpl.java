@@ -8,7 +8,10 @@ import java.util.List;
 
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
+import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.UserAlterQDao;
+import org.alterq.util.enumeration.CompanyTypeEnum;
+import org.alterq.util.enumeration.RolNameEnum;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -99,8 +102,19 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 
 	@Override
 	public UserAlterQ findAdminByCompany(int company) {
-		Query query = new Query(Criteria.where("company").is(company)).addCriteria(Criteria.where("admin").is(Boolean.TRUE));
-		return mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
+		Query query = new Query();
+		query.addCriteria(Criteria.where("rols.company").is(company));
+		query.addCriteria(Criteria.where("rols.rol").is(RolNameEnum.ROL_ADMIN));
+		UserAlterQ uaq = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
+		return uaq;
+	}
+	@Override
+	public UserAlterQ findSuperAdmin(int company) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("rols.company").is(AlterQConstants.DEFECT_COMPANY));
+		query.addCriteria(Criteria.where("rols.rol").is(RolNameEnum.ROL_ADMIN));
+		UserAlterQ uaq = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
+		return uaq;
 	}
 
 	@Override
@@ -163,4 +177,5 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 		}
 		return rcL;
 	}
+
 }

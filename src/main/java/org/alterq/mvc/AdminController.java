@@ -21,6 +21,7 @@ import org.alterq.domain.Game;
 import org.alterq.domain.GeneralData;
 import org.alterq.domain.Prize;
 import org.alterq.domain.Ranking;
+import org.alterq.domain.RolCompany;
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
@@ -35,8 +36,11 @@ import org.alterq.repo.RoundDao;
 import org.alterq.repo.RoundRankingDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
+import org.alterq.security.RolCompanySecurity;
 import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.CalculateRigths;
+import org.alterq.util.enumeration.RolNameEnum;
+import org.alterq.validator.CompanyValidator;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 import org.arch.core.file.BetElectronicFile;
@@ -75,7 +79,11 @@ public class AdminController {
 	private UserAlterQSecurity userSecurity;
 	@Autowired
 	private AdminDataDao adminDataDao;
-	
+	@Autowired
+	private RolCompanySecurity rolCompanySecurity;
+	@Autowired
+	private CompanyValidator companyValidator;
+
 	
 	private static int doubles = 0;
 	private static int triples = 0;
@@ -784,15 +792,21 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/finalBet/{type}")
 	public @ResponseBody 
 	ResponseDto finalBetRound(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int type) {
-		GeneralData generalData = null;
-		AdminData adminData = null;
 		ResponseDto response = new ResponseDto();
 		log.debug("closeRound: start");
 		
 		try {
-			userSecurity.isAdminUserInSession( cookieSession);
-			generalData = dao.findByCompany(company);
-			adminData = adminDataDao.findByCompany(company);
+//			userSecurity.isAdminUserInSession( cookieSession);
+			String idUser = sessionDao.findUserAlterQIdBySessionId(cookieSession);
+			companyValidator.isCompanyOk(company);
+			RolCompany rc=new RolCompany();
+			rc.setCompany(company);
+			rc.setRol(RolNameEnum.ROL_SUPER_ADMIN.getValue());
+			UserAlterQ userAlterQ = new UserAlterQ();
+			userAlterQ.setId(idUser);
+			
+			rolCompanySecurity.isUserAuthorizedRolForCompany(userAlterQ, rc);
+
 			
 			//FINAL BET PROCESS STEPS
 			//
@@ -839,7 +853,7 @@ public class AdminController {
 				bet.setId(new ObjectId().toStringMongod());
 				roundBetDao.addBet(season, round, bet);
 
-		} catch (SecurityException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			response.addErrorDto("AdminController:finalBetRound", "SecurityException");
 			e.printStackTrace();
@@ -860,7 +874,16 @@ public class AdminController {
 		try
 		{
 			userSecurity.isAdminUserInSession( cookieSession);
-			//RESULT ROUND STEPS
+			String idUser = sessionDao.findUserAlterQIdBySessionId(cookieSession);
+			companyValidator.isCompanyOk(company);
+			RolCompany rc=new RolCompany();
+			rc.setCompany(company);
+			rc.setRol(RolNameEnum.ROL_SUPER_ADMIN.getValue());
+			userAlterQ = new UserAlterQ();
+			userAlterQ.setId(idUser);
+			
+			rolCompanySecurity.isUserAuthorizedRolForCompany(userAlterQ, rc);
+		//RESULT ROUND STEPS
 			//---------------------
 	
 			//STEP 1: get users with bet
@@ -971,7 +994,7 @@ public class AdminController {
 				//SETP 5: update global ranking (round=0)
 				updateRoundRanking(company, season, 0,lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
 			}
-		} catch (SecurityException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			response.addErrorDto("AdminController:addMatches", "SecurityException");
 			e.printStackTrace();

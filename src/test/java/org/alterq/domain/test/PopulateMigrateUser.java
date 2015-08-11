@@ -72,6 +72,7 @@ public class PopulateMigrateUser {
 			user.setName((String)st.nextElement());
 			user.setSurnames((String)st.nextElement()+" "+(String)st.nextElement());
 			user.setId((String)st.nextElement());
+			user.setActive(true);
 //			while (st.hasMoreElements()) {
 //				
 //				String object = (String) st.nextElement();
