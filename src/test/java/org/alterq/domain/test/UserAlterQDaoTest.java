@@ -89,7 +89,9 @@ public class UserAlterQDaoTest {
 	@Test
 	public void AD_testUserAdmin() {
 		UserAlterQ userAlterQ = dao.findAdminByCompany(AlterQConstants.DEFECT_COMPANY);
-		log.debug(userAlterQ.getId());
+		log.debug("adminbycompany:"+userAlterQ.getId());
+		userAlterQ = dao.findSuperAdmin();
+		log.debug("Superadminbycompany:"+userAlterQ.getId());
 	}
 
 	@Test

@@ -70,7 +70,7 @@ public class PopulateDataBase {
 
 	public void createAdminData() throws Exception {
 		AdminData bean = new AdminData();
-		bean.setCompany(AlterQConstants.ADMIN_COMPANY);
+		bean.setCompany(AlterQConstants.DEFECT_COMPANY);
 		bean.setRound(1);
 		bean.setSeason(2015);
 		bean.setIdDelegacion("12345");

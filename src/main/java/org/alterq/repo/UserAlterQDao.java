@@ -10,9 +10,8 @@ import com.mongodb.DBObject;
 public interface UserAlterQDao {
 	public UserAlterQ findById(String id);
 
-	@Deprecated
 	public UserAlterQ findAdminByCompany(int company);
-	public UserAlterQ findSuperAdmin(int company);
+	public UserAlterQ findSuperAdmin();
 
 	public List<UserAlterQ> findAllOrderedByName();
 

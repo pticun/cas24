@@ -102,6 +102,7 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 
 	@Override
 	public UserAlterQ findAdminByCompany(int company) {
+		//TODO not working
 		Query query = new Query();
 		query.addCriteria(Criteria.where("rols.company").is(company));
 		query.addCriteria(Criteria.where("rols.rol").is(RolNameEnum.ROL_ADMIN));
@@ -109,10 +110,11 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 		return uaq;
 	}
 	@Override
-	public UserAlterQ findSuperAdmin(int company) {
+	public UserAlterQ findSuperAdmin() {
+		//TODO not working
 		Query query = new Query();
 		query.addCriteria(Criteria.where("rols.company").is(AlterQConstants.DEFECT_COMPANY));
-		query.addCriteria(Criteria.where("rols.rol").is(RolNameEnum.ROL_ADMIN));
+		query.addCriteria(Criteria.where("rols.rol").is(RolNameEnum.ROL_SUPER_ADMIN));
 		UserAlterQ uaq = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
 		return uaq;
 	}

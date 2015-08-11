@@ -47,37 +47,60 @@ public class PopulateMigrateUser {
 
 	@Test
 	public void AA_testCreate() throws Exception {
-		Company company=createCompany();
-		List<UserAlterQ> userToImport=readCSVFile(company);
+		Company company = createCompany();
+		List<UserAlterQ> userToImport = readCSVFile(company);
 		for (UserAlterQ userAlterQ : userToImport) {
 			System.out.println(ToStringBuilder.reflectionToString(userAlterQ));
 			userDao.create(userAlterQ);
 		}
+		createSuperAdminUser();
 		return;
 	}
 
-	public List<UserAlterQ> readCSVFile(Company company) throws IOException{
-		File fileUsers = new File(Thread.currentThread().getContextClassLoader().getResource("PERSONAS.csv").getFile());
-		
-		List<UserAlterQ> userToImport=new ArrayList<UserAlterQ>();
+	private void createSuperAdminUser() throws Exception {
+		UserAlterQ user = new UserAlterQ();
+		user.setNick("nick");
+		user.setPwd("SysAlterQAdmin");
+		user.setBalance("100");
+		user.setName("Administgrador");
+		user.setSurnames("admin");
+		user.setId("goldbittledev@gmail.com");
+		user.setActive(true);
+		ArrayList<RolCompany> rcL = new ArrayList<RolCompany>();
+		RolCompany rc = new RolCompany();
+		rc.setCompany(AlterQConstants.DEFECT_COMPANY);
+		rc.setRol(RolNameEnum.ROL_ADMIN.getValue());
+		rcL.add(rc);
+		RolCompany rc1 = new RolCompany();
+		rc1.setCompany(AlterQConstants.DEFECT_COMPANY);
+		rc1.setRol(RolNameEnum.ROL_SUPER_ADMIN.getValue());
+		rcL.add(rc1);
+		user.setRols(rcL);
+		userDao.create(user);
+	}
 
-		List<String> lines=FileUtils.readLines(fileUsers);
+	public List<UserAlterQ> readCSVFile(Company company) throws IOException {
+		File fileUsers = new File(Thread.currentThread().getContextClassLoader().getResource("PERSONAS.csv").getFile());
+
+		List<UserAlterQ> userToImport = new ArrayList<UserAlterQ>();
+
+		List<String> lines = FileUtils.readLines(fileUsers);
 		for (String allLine : lines) {
-			UserAlterQ user=new UserAlterQ();
+			UserAlterQ user = new UserAlterQ();
 			System.out.println(allLine);
-			StringTokenizer st=new StringTokenizer(allLine, ";");
-			user.setNick((String)st.nextElement());
-			user.setPwd((String)st.nextElement());
-			user.setBalance((String)st.nextElement());
-			user.setName((String)st.nextElement());
-			user.setSurnames((String)st.nextElement()+" "+(String)st.nextElement());
-			user.setId((String)st.nextElement());
+			StringTokenizer st = new StringTokenizer(allLine, ";");
+			user.setNick((String) st.nextElement());
+			user.setPwd((String) st.nextElement());
+			user.setBalance((String) st.nextElement());
+			user.setName((String) st.nextElement());
+			user.setSurnames((String) st.nextElement() + " " + (String) st.nextElement());
+			user.setId((String) st.nextElement());
 			user.setActive(true);
-//			while (st.hasMoreElements()) {
-//				
-//				String object = (String) st.nextElement();
-//				System.out.println(object);
-//			}
+			// while (st.hasMoreElements()) {
+			//
+			// String object = (String) st.nextElement();
+			// System.out.println(object);
+			// }
 			ArrayList<RolCompany> rcL = new ArrayList<RolCompany>();
 
 			RolCompany rc = new RolCompany();
@@ -96,12 +119,12 @@ public class PopulateMigrateUser {
 		}
 		return userToImport;
 	}
-	
+
 	public Company createCompany() {
 		SequenceId beanSeq = daoSequence.findById(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
 		int seq = daoSequence.getNextSequenceId(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
-		
-		Company bean=new Company();
+
+		Company bean = new Company();
 		bean.setCompany(seq);
 		bean.setDescription("quinielagold");
 		bean.setNick("quinielagold");
@@ -113,5 +136,5 @@ public class PopulateMigrateUser {
 		return bean;
 
 	}
-	
+
 }
