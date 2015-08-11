@@ -25,6 +25,7 @@ public class UserAlterQ implements Serializable {
 	private int company;
 	private String accept;
 	private boolean active;
+	private boolean admin;
 	private Date dateCreated;
 	private Date dateUpdated;
 	private int automatics;
@@ -127,6 +128,14 @@ public class UserAlterQ implements Serializable {
 	
 	public void setWeight(double weight) {
 		this.weight = weight;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 
 	public String getIdCard() {
