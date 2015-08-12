@@ -1,7 +1,7 @@
 var round=0;
 var season=0;
 var idUserAlterQ="";
-var company=1;
+var company=0;
 
 // left padding s with c to a total of n chars
 function padding_left(s, c, n) {

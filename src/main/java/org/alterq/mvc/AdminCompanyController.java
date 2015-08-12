@@ -631,7 +631,7 @@ public class AdminCompanyController {
 		log.debug("openRound: start");
 		try {
 			userSecurity.isAdminUserInSession( cookieSession);
-			adminData = adminDataDao.findByCompany(company);
+			adminData = adminDataDao.findById(company);
 			
 			//OPENING PROCESS STEPS
 			//---------------------
@@ -697,7 +697,7 @@ public class AdminCompanyController {
 		try {
 			userSecurity.isAdminUserInSession( cookieSession);
 			generalData = dao.findByCompany(company);
-			adminData = adminDataDao.findByCompany(company);
+			adminData = adminDataDao.findById(company);
 			
 			//CLOSING PROCESS STEPS
 			//
@@ -792,7 +792,7 @@ public class AdminCompanyController {
 		try {
 			userSecurity.isAdminUserInSession( cookieSession);
 			generalData = dao.findByCompany(company);
-			adminData = adminDataDao.findByCompany(company);
+			adminData = adminDataDao.findById(company);
 			
 			//FINAL BET PROCESS STEPS
 			//

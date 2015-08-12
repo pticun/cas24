@@ -1,7 +1,7 @@
 // comentario
 var round=0;
 var season=0;
-var company=1;
+var company=0;
 var rols="";
 var idUserAlterQ="";
 

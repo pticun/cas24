@@ -62,7 +62,7 @@ public class PopulateMigrateUser {
 		user.setNick("nick");
 		user.setPwd("SysAlterQAdmin");
 		user.setBalance("100");
-		user.setName("Administgrador");
+		user.setName("Administrador");
 		user.setSurnames("admin");
 		user.setId("goldbittledev@gmail.com");
 		user.setActive(true);
@@ -87,7 +87,7 @@ public class PopulateMigrateUser {
 		List<String> lines = FileUtils.readLines(fileUsers);
 		for (String allLine : lines) {
 			UserAlterQ user = new UserAlterQ();
-			System.out.println(allLine);
+//			System.out.println(allLine);
 			StringTokenizer st = new StringTokenizer(allLine, ";");
 			user.setNick((String) st.nextElement());
 			user.setPwd((String) st.nextElement());
