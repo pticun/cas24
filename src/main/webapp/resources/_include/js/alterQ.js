@@ -36,6 +36,7 @@ var bConfirmQuiniela = 15;
 var bModalReduced = 16;
 var bConfirmedQuiniela = 17;
 var bCompany = 18;
+var bMyAdminCompany = 19;
 
 //Texts
 var sHome    = "Inicio";
@@ -46,6 +47,7 @@ var sQuininiela = "Quiniela";
 var sGuest = "Invitado";
 var sLogout = "Logout";
 var sAdmin = "Administration";
+var sAdminCompany = "AdminCompany";
 var sQuiniDetail = "";
 var sMyModal = "";
 var sConfirmQuiniela = "";
@@ -69,12 +71,14 @@ var sMyBetsRef = "#mybetsDiv";
 var sMyRankRef = "#myRankDiv";
 var sMyResumRef = "#myResumDiv";
 var sMyAdminRef = "admin";
+var sMyAdminCompanyRef = "adminCompany";
 var sQuinielaDetailRef = "#quinielaDetailDiv";
 var sMyModalRef = "#myModal";
 var sConfirmQuinielaRef = "#confirmarQuinielaDiv";
 var sConfirmedQuinielaRef = "#confirmadaQuinielaDiv";
 var sModalReducedRef = "#modalReduced";
 var sCompanyRef ="#myCompanyDiv";
+var sMyAdminCompanyRef = "adminCompany";
 
 var buttonpressed;
 
@@ -164,6 +168,9 @@ function showDiv(elem) {
 		break;
 	case bMyAdmin:
 		$(sMyAdminRef).open();
+		break;
+	case bMyAdminCompany:
+		$(sMyAdminCompanyRef).open();
 		break;
 	case bQuinielaDetail:
 		$(sQuinielaDetailRef).show();
@@ -301,6 +308,9 @@ function menuEvent(name, href)
 	}else if (href == sMyAdminRef){
 		consoleAlterQ("MyAdmin");
 		showDiv(bMyAdmin);
+	}else if (href == sMyAdminCompanyRef){
+		consoleAlterQ("MyAdminCompany");
+		showDiv(bMyAdminCompany);
 	}else if (href == sCompanyRef){
 		consoleAlterQ("MyCompany");
 		showDiv(bCompany);
@@ -324,6 +334,8 @@ function getMainMenuItems(userLoged, user, admin, superAdmin)
 	if (userLoged){
 		if (superAdmin)
 			$('#menu-nav').append('<li><a href="' + sMyAdminRef + '">' + sAdmin + '</a></li>');
+		else if (admin)
+			$('#menu-nav').append('<li><a href="' + sMyAdminCompanyRef + '">' + sAdminCompany + '</a></li>');
 		else{
 			$('#menu-nav').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
 			if (companySelected){
@@ -369,6 +381,7 @@ function getMainMenuItems(userLoged, user, admin, superAdmin)
 	}
 	
 
+	consoleAlterQ("getMainMenuItems fin");
 	}
 
 function paintRanking(){
