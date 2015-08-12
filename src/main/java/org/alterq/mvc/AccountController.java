@@ -148,12 +148,12 @@ public class AccountController {
 			List<RolCompany> rcL=new ArrayList<RolCompany>();
 			RolCompany rc=new RolCompany();
 			rc.setCompany(AlterQConstants.DEFECT_COMPANY);
-			if(StringUtils.isBlank(""+user.getCompany())){
-				rc.setCompany(AlterQConstants.DEFECT_COMPANY);
-			}
-			else{
-				rc.setCompany(user.getCompany());
-			}
+//			if(StringUtils.isBlank(""+user.getCompany())){
+//				rc.setCompany(AlterQConstants.DEFECT_COMPANY);
+//			}
+//			else{
+//				rc.setCompany(user.getCompany());
+//			}
 			rc.setRol(RolNameEnum.ROL_ADMIN.getValue());
 			rcL.add(rc);
 			user.setRols(rcL);
