@@ -26,20 +26,7 @@ public class AdminDataDaoImpl extends MongoCollection implements AdminDataDao {
 	}
 
 	@Override
-	public AdminData findById(Object id) {
-		AdminData dao = mongoTemplate.findById(id, AdminData.class, COLLECTION_NAME);
-		return dao;
-	}
-
-	@Override
-	public AdminData get() {
-		Query query = new Query(Criteria.where("company").is(AlterQConstants.ADMIN_COMPANY));
-		AdminData dao = mongoTemplate.findOne(query, AdminData.class, COLLECTION_NAME);
-		return dao;
-	}
-
-	@Override
-	public AdminData findByCompany(int id) {
+	public AdminData findById(int id) {
 		Query query = new Query(Criteria.where("company").is(id));
 		AdminData dao = mongoTemplate.findOne(query, AdminData.class, COLLECTION_NAME);
 		return dao;

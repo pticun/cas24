@@ -23,13 +23,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class AdminDataDaoTest {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
-	private AdminDataDao dao;
+	private AdminDataDao adminDataDao;
 	@Autowired
 	private SequenceIdDao daoSequence;
 
 	@Test
 	public void test00CreateCollection() throws Exception {
-		((AdminDataDaoImpl) dao).createCollection();
+		((AdminDataDaoImpl) adminDataDao).createCollection();
 		log.debug("CreateCollection:");
 		return;
 	}
@@ -37,12 +37,12 @@ public class AdminDataDaoTest {
 	@Test
 	public void test01Create() throws Exception {
 		AdminData bean = new AdminData();
-		bean.setCompany(AlterQConstants.ADMIN_COMPANY);
+		bean.setCompany(AlterQConstants.DEFECT_ADMINDATA);
 		bean.setRound(1);
 		bean.setSeason(2015);
 		bean.setIdDelegacion("12345");
 		bean.setIdReceptor("12");
-		dao.add(bean);
+		adminDataDao.add(bean);
 		Assert.assertNotNull(bean.getIdDelegacion());
 		log.debug("Create:" + bean.getCompany() + "-" + bean.getIdDelegacion());
 		return;
@@ -50,10 +50,10 @@ public class AdminDataDaoTest {
 
 	@Test
 	public void test02ReadUpdate() throws Exception {
-		AdminData bean = dao.get();
+		AdminData bean = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		Assert.assertNotNull(bean.getCompany());
 		bean.setIdDelegacion("54321");
-		dao.update(bean);
+		adminDataDao.update(bean);
 		log.debug("description:" + bean.getCompany() + "-" + bean.getIdDelegacion());
 		log.debug("ReadUpdate:id:" + bean.getId());
 		return;
@@ -61,18 +61,18 @@ public class AdminDataDaoTest {
 
 	@Test
 	public void test03Read() throws Exception {
-		AdminData bean = dao.get();
+		AdminData bean = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		Assert.assertNotNull(bean.getCompany());
-		AdminData otherBean = dao.get();
+		AdminData otherBean = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		Assert.assertEquals(bean.getId(), otherBean.getId());
 		return;
 	}
 
 	@Test
 	public void test04Delete() throws Exception {
-		AdminData bean = dao.get();
+		AdminData bean = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		Assert.assertNotNull(bean.getIdDelegacion());
-		dao.delete(bean);
+		adminDataDao.delete(bean);
 		return;
 	}
 }

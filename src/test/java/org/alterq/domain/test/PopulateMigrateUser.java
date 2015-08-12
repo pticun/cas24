@@ -126,8 +126,8 @@ public class PopulateMigrateUser {
 
 		Company bean = new Company();
 		bean.setCompany(seq);
-		bean.setDescription("quinielagold");
-		bean.setNick("quinielagold");
+		bean.setDescription("QuiniGold es la familia de los quinieleros de siempre");
+		bean.setNick("QuiniGoldClassic");
 		bean.setType(CompanyTypeEnum.COMPANY_NON_COLLABORATIVE.getValue());
 		bean.setVisibility(Boolean.TRUE);
 		companyDao.add(bean);

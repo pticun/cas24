@@ -53,7 +53,7 @@ public class RoundController {
 			if (round == -1) {
 				AdminData adminData = null;
 				companyValidator.isCompanyOk(company);
-				adminData = adminDataDao.findByCompany(company);
+				adminData = adminDataDao.findById(company);
 				round = adminData.getRound();
 			}
 			// TODO create a new Service layer

@@ -3,14 +3,15 @@ package org.alterq.repo;
 import java.util.List;
 
 import org.alterq.domain.AdminData;
-import org.alterq.domain.GeneralData;
 
 public interface AdminDataDao {
-	public AdminData findById(Object id);
-
-	public AdminData get();
-
-	public AdminData findByCompany(int id);
+	/**
+	 * 
+	 * Return de Defect AdminData data 
+	 * @param id
+	 * @return AdminData
+	 */
+	public AdminData findById(int id);
 
 	public void add(AdminData generalData);
 

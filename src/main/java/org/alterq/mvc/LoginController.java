@@ -56,14 +56,14 @@ public class LoginController {
 			dto.setUserAlterQ(userValidate);
 			dto.setAdmin(userValidate.isAdmin());
 			dto.setSuperAdmin(userValidate.isSuperAdmin());
-			ad = adminDataDao.findByCompany(AlterQConstants.ADMIN_COMPANY);
+			ad = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		} else {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_NOT_VALIDATE);
 			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_VALIDATE));
 			dto.addErrorDto(error);
 			dto.setUserAlterQ(null);
-			ad = adminDataDao.findByCompany(AlterQConstants.ADMIN_COMPANY);
+			ad = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		}
 		dto.setAdminData(ad);
 		return dto;
@@ -82,14 +82,14 @@ public class LoginController {
 			dto.setUserAlterQ(userAlterQ);
 			dto.setAdmin(userAlterQ.isAdmin());
 			dto.setSuperAdmin(userAlterQ.isSuperAdmin());
-			ad = adminDataDao.findByCompany(AlterQConstants.ADMIN_COMPANY);
+			ad = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		} else {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_NOT_IN_SESSION);
 			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_IN_SESSION));
 			dto.addErrorDto(error);
 			dto.setUserAlterQ(null);
-			ad = adminDataDao.findByCompany(AlterQConstants.ADMIN_COMPANY);
+			ad = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		}
 		dto.setAdminData(ad);
 		return dto;
