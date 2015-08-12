@@ -265,41 +265,33 @@ var ctx = "<%=request.getContextPath()%>"
 <div id="homeDiv" class="page">
 <div class="container">
     <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">alterQ</h2>
-                <h3 class="title-description">Administration.</h3>
-            </div>
-        </div>
+    <div class="row" align="center">
+	    <div class="title-page" align="center">
+	        <h2 class="title">alterQ</h2>
+	    </div>
+        <table class="tablaQuiniGold">
+	   		<tr align="center">
+	   			<td>Administration</td>
+	   		</tr>
+		</table>
+        <br>
     </div>
     <!-- End Title Page -->
 
     	<div class="row" align="center">
-          		<table class="quiniela">
+          		<table class="tablaQuiniGold">
 		   		<tr align="center">
-		   			<td class="partido"><button id="homeBtn" class="button" name="homeBtn" value="homeBtn">Home</button></td>
+		   			<td><button id="homeBtn" class="btn btn-danger" name="homeBtn" value="homeBtn">Home</button><br><br></td>
 		        </tr>
-          		</table>
-          		<br>
-          		<table class="quiniela">
 		   		<tr align="center">
-		   			<td class="partido"><button id="openBtn" class="button" name="openBtn" value="openBtn">Open</button></td>
+		   			<td><button id="openBtn" class="btn btn-danger" name="openBtn" value="openBtn">Open</button><br><br></td>
 		        </tr>
-          		</table>
-          		<br>
-          		<table class="quiniela">
 		   		<tr align="center">
-		   			<td class="partido"><button id="closeBtn" class="button" name="closeMenu" value="close">Close</button></td>
+		   			<td><button id="closeBtn" class="btn btn-danger" name="closeMenu" value="close">Close</button><br><br></td>
 		        </tr>
-          		</table>
-          		<br>
-          		<table class="quiniela">
 		   		<tr align="center">
-		   			<td class="partido"><button id="matchesBtn" class="button" name="matchesMenu" value="matches">Matches</button></td>
+		   			<td><button id="matchesBtn" class="btn btn-danger" name="matchesMenu" value="matches">Matches</button><br><br></td>
 		        </tr>
-          		</table>
-          		<br>
 <!--           		
           		<table class="quiniela">
 		   		<tr align="center">
@@ -320,22 +312,14 @@ var ctx = "<%=request.getContextPath()%>"
 	   			</table>
           		<br>
  -->          		
-          		<table class="quiniela">
 		   		<tr align="center">
-		   			<td class="partido"><button id="prizesBtn" class="button" name="prizesMenu" value="prizes">Results</button></td>
+		   			<td><button id="prizesBtn" class="btn btn-danger" name="prizesMenu" value="prizes">Results</button><br><br></td>
 		        </tr>
-	   			</table>
-	   			</table>
-          		<br>
-          		<table class="quiniela">
 		   		<tr align="center">
-		   			<td class="partido"><button id="updateBalanceBtn" class="button" name="updateBalanceprizesMenu" value="updateBalance">Update Balance</button></td>
+		   			<td><button id="updateBalanceBtn" class="btn btn-danger" name="updateBalanceprizesMenu" value="updateBalance">Update Balance</button><br><br></td>
 		        </tr>
-	   			</table>
-          		<br>
-          		<table class="quiniela">
 		   		<tr align="center">
-		   			<td class="partido"><button id="fileBtn" class="button" name="fileMenu" value="file">File</button></td>
+		   			<td><button id="fileBtn" class="btn btn-danger" name="fileMenu" value="file">File</button><br></td>
 		        </tr>
 	   			</table>
         </div>
