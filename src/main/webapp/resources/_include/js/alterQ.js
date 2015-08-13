@@ -334,8 +334,6 @@ function getMainMenuItems(userLoged, user, admin, superAdmin)
 	if (userLoged){
 		if (superAdmin)
 			$('#menu-nav').append('<li><a href="' + sMyAdminRef + '">' + sAdmin + '</a></li>');
-		else if (admin)
-			$('#menu-nav').append('<li><a href="' + sMyAdminCompanyRef + '">' + sAdminCompany + '</a></li>');
 		else{
 			$('#menu-nav').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
 			if (companySelected){
@@ -343,6 +341,8 @@ function getMainMenuItems(userLoged, user, admin, superAdmin)
 			}else{
 				$('#menu-nav').append('<li><a href="' + sCompanyRef + '">['+sCompanyDefault+']</a></li>');
 			}
+			if (admin)
+				$('#menu-nav').append('<li><a href="' + sMyAdminCompanyRef + '">' + sAdminCompany + '</a></li>');
 
 		}
 		$('#menu-nav').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');

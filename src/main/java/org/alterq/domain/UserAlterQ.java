@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.alterq.dto.AlterQConstants;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -47,7 +48,7 @@ public class UserAlterQ implements Serializable {
 		List<RolCompany> rcL = getRols();
 		for (RolCompany rolCompany : rcL) {
 			if (rolCompany.getRol() == RolNameEnum.ROL_ADMIN.getValue()){
-				if (rolCompany.getCompany() != 1){
+				if (rolCompany.getCompany() != AlterQConstants.DEFECT_COMPANY){
 					rdo = true;
 					break;
 				}
@@ -63,7 +64,7 @@ public class UserAlterQ implements Serializable {
 		List<RolCompany> rcL = getRols();
 		for (RolCompany rolCompany : rcL) {
 			if (rolCompany.getRol() == RolNameEnum.ROL_SUPER_ADMIN.getValue()){
-				if (rolCompany.getCompany() == 1){
+				if (rolCompany.getCompany() == AlterQConstants.DEFECT_COMPANY	){
 					rdo = true;
 					break;
 				}
