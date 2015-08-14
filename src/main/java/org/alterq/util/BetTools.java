@@ -2,7 +2,20 @@ package org.alterq.util;
 
 import java.lang.Math;
 
+import org.alterq.dto.AlterQConstants;
+import org.alterq.repo.AdminDataDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
 public class BetTools{
+	@Autowired
+	private AdminDataDao adminDataDao;
+
+	public float getPriceBet(){
+		return adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA).getPrizeBet();
+	}
+	
 	public double getNumberBets(int typeReduction, int dobles, int triples, int pleno1, int pleno2){
 		double numBets = Math.pow(2, dobles) * Math.pow(3, triples)*pleno1*pleno2;
 		switch (typeReduction){

@@ -12,6 +12,8 @@ public class Company implements Serializable {
 	
 	private int company;
 	
+	//TODO new attribute adminData to relation between AdminData and Company
+	
 	//Type
 	//1=collaborative
 	//2=non-collaborative

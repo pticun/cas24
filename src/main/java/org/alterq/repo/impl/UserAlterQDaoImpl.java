@@ -9,12 +9,10 @@ import java.util.List;
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
+import org.alterq.repo.MongoCollection;
 import org.alterq.repo.UserAlterQDao;
-import org.alterq.util.enumeration.CompanyTypeEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
@@ -22,10 +20,12 @@ import org.springframework.stereotype.Repository;
 import com.mongodb.DBObject;
 
 @Repository
-public class UserAlterQDaoImpl implements UserAlterQDao {
-	@Autowired
-	private MongoTemplate mongoTemplate;
-	public static final String COLLECTION_NAME = "useralterq";
+public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao {
+	public UserAlterQDaoImpl() {
+		super.COLLECTION_NAME = COLLECTION_NAME;
+	}
+
+	public static final String COLLECTION_NAME = "userAlterq";
 
 	public UserAlterQ findById(String id) {
 		return mongoTemplate.findById(id, UserAlterQ.class, COLLECTION_NAME);
@@ -102,16 +102,17 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 
 	@Override
 	public UserAlterQ findAdminByCompany(int company) {
-		//TODO not working
+		// TODO not working
 		Query query = new Query();
 		query.addCriteria(Criteria.where("rols.company").is(company));
 		query.addCriteria(Criteria.where("rols.rol").is(RolNameEnum.ROL_ADMIN));
 		UserAlterQ uaq = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
 		return uaq;
 	}
+
 	@Override
 	public UserAlterQ findSuperAdmin() {
-		//TODO not working
+		// TODO not working
 		Query query = new Query();
 		query.addCriteria(Criteria.where("rols.company").is(AlterQConstants.DEFECT_COMPANY));
 		query.addCriteria(Criteria.where("rols.rol").is(RolNameEnum.ROL_SUPER_ADMIN));
@@ -133,7 +134,7 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 		UserAlterQ uaq = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
 		if (uaq == null) {
 			uaq = mongoTemplate.findById(userAlterQ.getId(), UserAlterQ.class, COLLECTION_NAME);
-			if(uaq!=null){
+			if (uaq != null) {
 				uaq.getRols().add(rc);
 				mongoTemplate.save(uaq, COLLECTION_NAME);
 			}
@@ -159,10 +160,10 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 	public List<RolCompany> getRols(UserAlterQ userAlterQ) {
 		Query query = new Query(Criteria.where("id").is(userAlterQ.getId()));
 		UserAlterQ uaqL = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
-		//user not exists or not rol for this company
-		List<RolCompany> rcL=new ArrayList<RolCompany>();
+		// user not exists or not rol for this company
+		List<RolCompany> rcL = new ArrayList<RolCompany>();
 		if (uaqL != null) {
-			rcL= uaqL.getRols();
+			rcL = uaqL.getRols();
 		}
 		return rcL;
 	}
@@ -172,10 +173,10 @@ public class UserAlterQDaoImpl implements UserAlterQDao {
 		Query query = new Query(Criteria.where("id").is(userAlterQ.getId()));
 		query.addCriteria(Criteria.where("rols.company").is(rc.getCompany()));
 		UserAlterQ uaqL = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
-		//user not exists or not rol for this company
-		List<RolCompany> rcL=new ArrayList<RolCompany>();
+		// user not exists or not rol for this company
+		List<RolCompany> rcL = new ArrayList<RolCompany>();
 		if (uaqL != null) {
-			rcL= userAlterQ.getRols();
+			rcL = userAlterQ.getRols();
 		}
 		return rcL;
 	}

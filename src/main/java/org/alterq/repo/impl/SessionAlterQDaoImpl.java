@@ -3,17 +3,18 @@ package org.alterq.repo.impl;
 import java.security.SecureRandom;
 
 import org.alterq.domain.SessionAlterQ;
+import org.alterq.repo.MongoCollection;
 import org.alterq.repo.SessionAlterQDao;
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class SessionAlterQDaoImpl implements SessionAlterQDao {
-	@Autowired
-	private MongoTemplate mongoTemplate;
-	public static final String COLLECTION_NAME = "sessionalterq";
+public class SessionAlterQDaoImpl extends MongoCollection implements SessionAlterQDao {
+	public static final String COLLECTION_NAME = "sessionAlterq";
+
+	public SessionAlterQDaoImpl() {
+		super.COLLECTION_NAME = COLLECTION_NAME;
+	}
 
 	@Override
 	public String findUserAlterQIdBySessionId(String sessionId) {

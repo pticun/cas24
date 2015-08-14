@@ -10,9 +10,11 @@ public class AdminData implements Serializable {
 	@Id
 	private String id;
 	
+	//TODO change name is not company included in AdminData is Company included in AdminData
 	private int company;
 	private int season;
 	private int round;
+	private float prizeBet;
 	private String idDelegacion = "00";
 	private String idReceptor = "00000";
 	private boolean active;
@@ -57,6 +59,12 @@ public class AdminData implements Serializable {
 	}
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	public float getPrizeBet() {
+		return prizeBet;
+	}
+	public void setPrizeBet(float prizeBet) {
+		this.prizeBet = prizeBet;
 	}
 	
 }

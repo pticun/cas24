@@ -25,17 +25,16 @@ import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
-import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.repo.AdminDataDao;
-import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.RoundRankingDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
+import org.alterq.util.BetTools;
 import org.alterq.util.CalculateRigths;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
@@ -47,7 +46,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,8 +60,6 @@ public class AdminCompanyController {
 	@Autowired
 	private SessionAlterQDao sessionDao;
 	@Autowired
-	private GeneralDataDao dao;
-	@Autowired
 	private RoundBetDao roundBetDao;
 	@Autowired
 	private UserAlterQDao userAlterQDao;
@@ -75,12 +71,12 @@ public class AdminCompanyController {
 	private UserAlterQSecurity userSecurity;
 	@Autowired
 	private AdminDataDao adminDataDao;
+	@Autowired
+	private BetTools betTools;
 	
 	
 	private static int doubles = 0;
 	private static int triples = 0;
-
-	private static final float DEF_QUINIELA_BET_PRICE = (float)0.75;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String initPage() {
@@ -167,7 +163,7 @@ public class AdminCompanyController {
 	}
 	
 	//pendiente de revision para incorportar el TYPE de la quiniela
-	private static void calcBasicDoublesAndTriples(int numBets, int type){
+	private void calcBasicDoublesAndTriples(int numBets, int type){
 		if ((type == 0) || (numBets < 9)){
 			triples = (int) ((numBets<3)?0:(Math.log(numBets)/Math.log(3)));
 			doubles = (int) (((numBets - Math.pow(3, triples))<2)?0:(Math.log((int)(numBets / Math.pow(3, triples)))/Math.log(2)));
@@ -177,11 +173,11 @@ public class AdminCompanyController {
 		}
 	}
 	
-	private static float calcQuinielaPrice(int doubles, int triples, int type){
-		return new Double(getQuinielaNumBets(type) * DEF_QUINIELA_BET_PRICE * Math.pow(2, doubles) * Math.pow(3, triples)).floatValue();
+	private float calcQuinielaPrice(int doubles, int triples, int type){
+		return new Double(getQuinielaNumBets(type) * betTools.getPriceBet() * Math.pow(2, doubles) * Math.pow(3, triples)).floatValue();
 	}
 	
-	private static int getQuinielaNumBets(int type){
+	private int getQuinielaNumBets(int type){
 		switch (type){
 		case 0: return 1;	//Sencilla
 		case 1: return 9;	//Reduccion Primera (4T)
@@ -192,7 +188,7 @@ public class AdminCompanyController {
 		default: return 1;
 		}
 	}
-	private static void calcFinalDoublesAndTriples(int type)
+	private void calcFinalDoublesAndTriples(int type)
 	{
 		switch(type){
 		case 1: //Reduccion Primera (4T)
@@ -696,7 +692,6 @@ public class AdminCompanyController {
 		
 		try {
 			userSecurity.isAdminUserInSession( cookieSession);
-			generalData = dao.findByCompany(company);
 			adminData = adminDataDao.findById(company);
 			
 			//CLOSING PROCESS STEPS
@@ -728,7 +723,7 @@ public class AdminCompanyController {
 				{
 					//STEP 2.2.1 - Check User Balance
 					float balance = new Float(user.getBalance()).floatValue();
-					if (balance < DEF_QUINIELA_BET_PRICE){
+					if (balance < betTools.getPriceBet()){
 						log.debug("closeRound: user("+user.getName()+") No enough money for automatic bet");
 						//STEP 2.2.1.error - Send an email to the user ("NOT ENOUGH MONEY")
 						continue;
@@ -737,7 +732,7 @@ public class AdminCompanyController {
 					String randomBet = randomBet();
 					//STEP 2.2.3 - Make Automatic User Bet
 					Bet bet = new Bet();
-					bet.setPrice(DEF_QUINIELA_BET_PRICE);
+					bet.setPrice(betTools.getPriceBet());
 					bet.setBet(randomBet);
 					bet.setUser(user.getId());
 					bet.setCompany(company);
@@ -749,7 +744,7 @@ public class AdminCompanyController {
 					
 					//STEP 2.2.4 - Update User Balance
 					try{
-						user.setBalance(Float.toString((float)(balance - DEF_QUINIELA_BET_PRICE)));
+						user.setBalance(Float.toString((float)(balance - betTools.getPriceBet())));
 						userAlterQDao.save(user);
 						/*
 						if(userAlterQDao.getLastError() != null){    
@@ -791,7 +786,6 @@ public class AdminCompanyController {
 		
 		try {
 			userSecurity.isAdminUserInSession( cookieSession);
-			generalData = dao.findByCompany(company);
 			adminData = adminDataDao.findById(company);
 			
 			//FINAL BET PROCESS STEPS
@@ -807,7 +801,7 @@ public class AdminCompanyController {
 				
 				//STEP 4.3 - Calc Quiniela Price and Round Jackpot
 				float price = calcQuinielaPrice(doubles, triples, type);
-				float jackpot = ((price==0)?(float)0:(float)(numBets * DEF_QUINIELA_BET_PRICE - price));
+				float jackpot = ((price==0)?(float)0:(float)(numBets * betTools.getPriceBet() - price));
 				
 				//STEP 4.4 - Update RoundData
 				RoundBets rBets = roundBetDao.findAllBets(season, round, company);
@@ -1171,7 +1165,7 @@ public class AdminCompanyController {
 			
 			if (tmpRound != null)
 			{
-				roundDao.deleteRound(company, season, round);
+				roundDao.deleteRound(season, round);
 			}
 			
 			roundDao.addRound(myRound);
@@ -1218,7 +1212,7 @@ public class AdminCompanyController {
 	}
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE, value = "/company/{company}/season/{season}/round/{round}/getFile")
 	public @ResponseBody void getElectricFile(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round,HttpServletResponse resp) {
-		GeneralData generalData = null;
+		AdminData adminData = null;
 		ResponseDto response = new ResponseDto();
 		String responseString=new String();
 		
@@ -1227,8 +1221,8 @@ public class AdminCompanyController {
 		
 		try {
 			userSecurity.isAdminUserInSession( cookieSession);
-			generalData = dao.findByCompany(company);
-		
+			adminData = adminDataDao.findById(company);
+	
 			
 			Round tmpRound = roundDao.findBySeasonRound(season, round);
 			//Get All Round Bets

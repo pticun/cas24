@@ -47,6 +47,8 @@ public class UserAlterQSecurity {
 		return true;
 	}
 
+	//TODO is admin for this company??
+	//TODO create method isSuperAdmin
 	public boolean isAdminUserInSession(String cookieSession) throws SecurityException {
 		if (log.isDebugEnabled()) {
 			log.debug("UserAlterQSecurity:isAdminUserInSession:");

@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
 import org.alterq.domain.Game;
-import org.alterq.domain.GeneralData;
 import org.alterq.domain.Prize;
 import org.alterq.domain.Ranking;
 import org.alterq.domain.RolCompany;
@@ -26,11 +25,9 @@ import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
-import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.repo.AdminDataDao;
-import org.alterq.repo.GeneralDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.RoundRankingDao;
@@ -51,7 +48,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,8 +61,6 @@ public class AdminController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private SessionAlterQDao sessionDao;
-	@Autowired
-	private GeneralDataDao dao;
 	@Autowired
 	private RoundBetDao roundBetDao;
 	@Autowired
@@ -697,14 +691,12 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/close")
 	public @ResponseBody 
 	ResponseDto closeRound(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round) {
-		GeneralData generalData = null;
 		AdminData adminData = null;
 		ResponseDto response = new ResponseDto();
 		log.debug("closeRound: start");
 		
 		try {
 			userSecurity.isAdminUserInSession( cookieSession);
-			generalData = dao.findByCompany(company);
 			adminData = adminDataDao.findById(company);
 			
 			//CLOSING PROCESS STEPS
@@ -1194,7 +1186,7 @@ public class AdminController {
 			
 			if (tmpRound != null)
 			{
-				roundDao.deleteRound(company, season, round);
+				roundDao.deleteRound( season, round);
 			}
 			
 			roundDao.addRound(myRound);
@@ -1241,7 +1233,7 @@ public class AdminController {
 	}
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE, value = "/company/{company}/season/{season}/round/{round}/getFile")
 	public @ResponseBody void getElectricFile(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company, @PathVariable int season, @PathVariable int round,HttpServletResponse resp) {
-		GeneralData generalData = null;
+		AdminData adminData = null;
 		ResponseDto response = new ResponseDto();
 		String responseString=new String();
 		
@@ -1250,7 +1242,7 @@ public class AdminController {
 		
 		try {
 			userSecurity.isAdminUserInSession( cookieSession);
-			generalData = dao.findByCompany(company);
+			adminData = adminDataDao.findById(company);
 		
 			
 			Round tmpRound = roundDao.findBySeasonRound(season, round);

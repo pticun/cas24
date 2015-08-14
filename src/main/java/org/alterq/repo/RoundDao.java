@@ -11,5 +11,5 @@ public interface RoundDao {
 
 	public void addRound(Round jornada);
 	
-	public void deleteRound(int company, int season, int round);
+	public void deleteRound(int season, int round);
 }

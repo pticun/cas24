@@ -6,7 +6,6 @@ package org.alterq.repo.impl;
 import java.util.List;
 
 import org.alterq.domain.AdminData;
-import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.MongoCollection;
 import org.springframework.data.mongodb.core.query.Criteria;

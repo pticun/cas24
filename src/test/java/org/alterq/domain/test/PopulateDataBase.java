@@ -6,9 +6,20 @@ import org.alterq.domain.SequenceId;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.CompanyDao;
+import org.alterq.repo.RoundBetDao;
+import org.alterq.repo.RoundDao;
+import org.alterq.repo.RoundRankingDao;
 import org.alterq.repo.SequenceIdDao;
+import org.alterq.repo.SessionAlterQDao;
+import org.alterq.repo.UserAlterQDao;
 import org.alterq.repo.impl.AdminDataDaoImpl;
 import org.alterq.repo.impl.CompanyDaoImpl;
+import org.alterq.repo.impl.RoundBetDaoImpl;
+import org.alterq.repo.impl.RoundDaoImpl;
+import org.alterq.repo.impl.RoundRankingDaoImpl;
+import org.alterq.repo.impl.SequenceIdDaoImpl;
+import org.alterq.repo.impl.SessionAlterQDaoImpl;
+import org.alterq.repo.impl.UserAlterQDaoImpl;
 import org.alterq.util.enumeration.CompanyTypeEnum;
 import org.alterq.util.enumeration.SequenceNameEnum;
 import org.junit.Assert;
@@ -27,55 +38,100 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PopulateDataBase {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
-	int season = 2014;
-	int round = 12;
-	int company=1;
-	float price=0.5f;
+	int season = 2015;
+	int round = 1;
+	float priceBet=0.75f;
+	String idDelegacion="12345";
+	String idReceptor="12";
 	
-	private String[] games1 = { "GETAFE", "VALENCIA", "AT. MADRID", "ATHLETIC CLUB", "LEVANTE", "GRANADA", "SEVILLA", "CELTA", "RAYO VALLECANO", "R. MADRID",
-			"R. SOCIEDAD", "OSASUNA", "ALMERÍA", "VALLADOLID", "MALLORCA" };
-	private String[] games2 = { "LUGO", "PONFERRADINA", "RECREATIVO", "EIBAR", "ZARAGOZA", "JAEN", "MIRANDÉS", "GIRONA", "HÉRCULES", "LAS PALMAS", "ALCORCÓN",
-			"CÓRDOBA", "SPORTING", "MÁLAGA", "BETIS" };
-
+	@Autowired
+	private UserAlterQDao userAlterQDao;
+	@Autowired
+	private SessionAlterQDao sessionAlterQDao;
+	@Autowired
+	private RoundRankingDao roundRankingDao;
+	@Autowired
+	private RoundBetDao roundBetDao;
+	@Autowired
+	private RoundDao roundDao;
 	@Autowired
 	private CompanyDao companyDao;
 	@Autowired
-	private SequenceIdDao daoSequence;
+	private SequenceIdDao sequenceDao;
 	@Autowired
-	private AdminDataDao dao;
+	private AdminDataDao adminDataDao;
 
 	@Test
 	public void test00CreateCollection() throws Exception {
 		createCollectionAdmin();
 		createCollectionCompany();
+		createCollectionRound();
+		createCollectionRoundBets();
+		createCollectionRoundRanking();
+		createCollectionSequence();
+		createCollectionSessionAlterQ();
+		createCollectionUserAlterQ();
 		return;
 	}
 	@Test
 	public void test01Create() throws Exception {
 		createAdminData();
 		createCompanyData();
+		createSequenceData();
 		return;
 	}
 
 	public void createCollectionCompany() throws Exception {
 		((CompanyDaoImpl) companyDao).createCollection();
-		log.debug("CreateCollection:");
+		log.debug("CreateCollectionCompany:");
 		return;
 	}
 	public void createCollectionAdmin() throws Exception {
-		((AdminDataDaoImpl) dao).createCollection();
-		log.debug("CreateCollection:");
+		((AdminDataDaoImpl) adminDataDao).createCollection();
+		log.debug("CreateCollectionAdmin:");
+		return;
+	}
+	private void createCollectionSequence() {
+		((SequenceIdDaoImpl) sequenceDao).createCollection();
+		log.debug("CreateCollectionSequence:");
+		return;
+	}
+	private void createCollectionRound() {
+		((RoundDaoImpl) roundDao).createCollection();
+		log.debug("CreateCollectionround:");
+		return;
+	}
+	private void createCollectionUserAlterQ() {
+		((UserAlterQDaoImpl) userAlterQDao).createCollection();
+		log.debug("CreateCollectionUserAlterQ:");
+		return;
+	}
+	private void createCollectionSessionAlterQ() {
+		((SessionAlterQDaoImpl) sessionAlterQDao).createCollection();
+		log.debug("CreateCollectionRoundRanking:");
+		return;
+	}
+	private void createCollectionRoundRanking() {
+		((RoundRankingDaoImpl) roundRankingDao).createCollection();
+		log.debug("CreateCollectionRoundRanking:");
+		return;
+	}
+	private void createCollectionRoundBets() {
+		((RoundBetDaoImpl) roundBetDao).createCollection();
+		log.debug("CreateCollectionRoundBets:");
 		return;
 	}
 
 	public void createAdminData() throws Exception {
 		AdminData bean = new AdminData();
 		bean.setCompany(AlterQConstants.DEFECT_ADMINDATA);
-		bean.setRound(1);
-		bean.setSeason(2015);
-		bean.setIdDelegacion("12345");
-		bean.setIdReceptor("12");
-		dao.add(bean);
+		bean.setRound(round);
+		bean.setSeason(season);
+		bean.setIdDelegacion(idDelegacion);
+		bean.setIdReceptor(idReceptor);
+		bean.setActive(Boolean.TRUE);
+		bean.setPrizeBet(priceBet);
+		adminDataDao.add(bean);
 		Assert.assertNotNull(bean.getIdDelegacion());
 		log.debug("Create:" + bean.getCompany() + "-" + bean.getIdDelegacion());
 		return;
@@ -105,6 +161,16 @@ public class PopulateDataBase {
 //		Assert.assertNotNull(bean.getDescription());
 //		log.debug("Create:" + bean.getCompany() + "-" + bean.getDescription());
 		return;
+	}
+	private void createSequenceData() {
+		SequenceId sequence=new SequenceId();
+		sequence.setId(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
+		sequence.setSequence(0);
+		sequenceDao.add(sequence);
+		SequenceId sequenceO=new SequenceId();
+		sequenceO.setId(SequenceNameEnum.SEQUENCE_OTHER.getValue());
+		sequenceO.setSequence(0);
+		sequenceDao.add(sequenceO);
 	}
 
 }

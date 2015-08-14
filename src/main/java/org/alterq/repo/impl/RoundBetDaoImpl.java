@@ -8,9 +8,8 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwi
 import org.alterq.domain.Bet;
 import org.alterq.domain.Prize;
 import org.alterq.domain.RoundBets;
+import org.alterq.repo.MongoCollection;
 import org.alterq.repo.RoundBetDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -19,11 +18,12 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class RoundBetDaoImpl implements RoundBetDao {
-	@Autowired
-	private MongoTemplate mongoTemplate;
+public class RoundBetDaoImpl extends MongoCollection implements RoundBetDao {
 	public static final String COLLECTION_NAME = "roundBets";
 
+	public RoundBetDaoImpl() {
+		super.COLLECTION_NAME = COLLECTION_NAME;
+	}
 	public RoundBets findAllBets(int season, int round) {
 		Query query = new Query(Criteria.where("season").is(season).and("round").is(round));
 		RoundBets aux =mongoTemplate.findOne(query, RoundBets.class, COLLECTION_NAME);

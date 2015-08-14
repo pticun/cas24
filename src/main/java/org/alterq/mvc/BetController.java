@@ -60,8 +60,8 @@ public class BetController {
 	private CompanyValidator companyValidator;
 	@Autowired
 	private RolCompanySecurity rolCompanySecurity;
-
-	BetTools betTools = new BetTools();
+	@Autowired
+	private BetTools betTools;
 
 	@Autowired
 	@Qualifier("messageLocalizedResources")
@@ -182,7 +182,7 @@ public class BetController {
 		case 0:
 			int typeRed = betTools.getReductionType(doblesRed, triplesRed);
 			double numBets = betTools.getNumberBets(typeRed, dobles, triples, pleno1, pleno2);
-			float prize = new Double(0.5 * numBets).floatValue();
+			float prize = new Double(betTools.getPriceBet() * numBets).floatValue();
 
 			Bet bet = new Bet();
 			bet.setPrice(prize);
@@ -331,7 +331,7 @@ public class BetController {
 				// float price = new Double(0.5 * Math.pow(2, dobles) *
 				// Math.pow(3, triples)).floatValue();
 				double numBets = betTools.getNumberBets(betTools.getReductionType(doblesRed, triplesRed), dobles, triples, pleno1, pleno2);
-				float price = new Double(0.5 * numBets).floatValue();
+				float price = new Double(betTools.getPriceBet() * numBets).floatValue();
 
 				float balance = new Float(userAlterQ.getBalance()).floatValue();
 				if (balance - price > 0) {
@@ -437,7 +437,7 @@ public class BetController {
 				}
 			}
 
-			float price = new Double(0.5 * numBets).floatValue();
+			float price = new Double(betTools.getPriceBet() * numBets).floatValue();
 
 			float balance = new Float(userAlterQ.getBalance()).floatValue();
 			balance -= price;
