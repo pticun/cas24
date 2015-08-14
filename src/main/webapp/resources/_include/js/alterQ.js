@@ -1,4 +1,5 @@
 // comentario
+var DEFECT_COMPANY=0;
 var round=0;
 var season=0;
 var company=0;
@@ -81,6 +82,21 @@ var sCompanyRef ="#myCompanyDiv";
 var sMyAdminCompanyRef = "adminCompany";
 
 var buttonpressed;
+
+Array.prototype.uniqueArray = function()
+{
+	this.sort();
+	var re=[this[0]];
+	for(var i = 1; i < this.length; i++)
+	{
+		if( this[i] !== re[re.length-1])
+		{
+			re.push(this[i]);
+		}
+	}
+	return re;
+};
+
 
 function initDiv() {
 	//document.getElementById("homeDiv").style.display = "block";
@@ -1376,20 +1392,21 @@ function getCompanies(){
 			    success: function(response){
 				    if(response.errorDto!=0){
 						consoleAlterQ('Success: no hay companies');
-						$('#companyToChoose').append('<option value="1">QuiniGold</option>');
+						$('#companyToChoose').append('<option value="'+DEFECT_COMPANY+'">QuiniGold</option>');
 						loadCompanies=true;
 				    }
 				    else{
-						$(response.company).each(function(index, element){
-							console.log("index="+index);
-							console.log("id="+element.id + " company="+element.company);
+				    	var responseCompanyOrder = [];
+				    	responseCompanyOrder = jQuery.unique($(response.company));
+						$(responseCompanyOrder).each(function(index, element){
+							console.log("index="+index+"-id="+element.id + "-company="+element.company+"-nick="+element.nick);
 							$('#companyToChoose').append('<option value="'+element.company+'">'+element.nick+'</option>');
 						});
 				    }
 			    },
 			    error : function (xhr, textStatus, errorThrown) {
 					consoleAlterQ('Error: no hay companies');
-					$('#companyToChoose').append('<option value="1">QuiniGold</option>');
+					$('#companyToChoose').append('<option value="'+DEFECT_COMPANY+'">QuiniGold</option>');
 					loadCompanies=true;
 	            }
 		 });
