@@ -53,9 +53,9 @@ public class LoginController {
 			String sessionID = sessionDao.startSession(userValidate.getId());
 			log.debug("Session ID is:" + sessionID);
 			response.addCookie(new Cookie("session", sessionID));
+			//TODO create function to hide privacy data
+			userValidate.setPwd("********");
 			dto.setUserAlterQ(userValidate);
-			dto.setAdmin(userValidate.isAdmin());
-			dto.setSuperAdmin(userValidate.isSuperAdmin());
 			ad = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		} else {
 			ErrorDto error = new ErrorDto();
@@ -79,9 +79,9 @@ public class LoginController {
 		if (StringUtils.isNotBlank(cookieSession)) {
 			String idUserAlterQ = sessionDao.findUserAlterQIdBySessionId(cookieSession);
 			UserAlterQ userAlterQ = userDao.findById(idUserAlterQ);
+			//TODO create function to hide privacy data
+			userAlterQ.setPwd("********");
 			dto.setUserAlterQ(userAlterQ);
-			dto.setAdmin(userAlterQ.isAdmin());
-			dto.setSuperAdmin(userAlterQ.isSuperAdmin());
 			ad = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		} else {
 			ErrorDto error = new ErrorDto();
@@ -92,6 +92,7 @@ public class LoginController {
 			ad = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		}
 		dto.setAdminData(ad);
+		
 		return dto;
 	}
 

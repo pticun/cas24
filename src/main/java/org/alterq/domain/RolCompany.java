@@ -1,10 +1,12 @@
 package org.alterq.domain;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class RolCompany {
+public class RolCompany implements Serializable{
 
 	private int company;
 	private int rol;

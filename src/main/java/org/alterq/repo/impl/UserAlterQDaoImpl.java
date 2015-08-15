@@ -1,5 +1,11 @@
 package org.alterq.repo.impl;
 
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,6 +19,9 @@ import org.alterq.repo.MongoCollection;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
@@ -102,6 +111,33 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 
 	@Override
 	public UserAlterQ findAdminByCompany(int company) {
+		RolCompany rcSuper=new RolCompany();
+		rcSuper.setCompany(company);
+		rcSuper.setRol(RolNameEnum.ROL_ADMIN.getValue());
+		List<UserAlterQ> allUsers=new ArrayList<UserAlterQ>();
+		allUsers=mongoTemplate.findAll(UserAlterQ.class, COLLECTION_NAME);
+		for (UserAlterQ userAlterQ : allUsers) {
+			List<RolCompany> rc= userAlterQ.getRols();
+			if (rc.contains(rcSuper)){
+				return userAlterQ;
+			}
+		}
+		return null;
+	}
+	public UserAlterQ findAdminByCompanyNotWorking(int company) {
+		Aggregation agg = newAggregation(
+				unwind("rols"), 
+				match(Criteria.where("rols.company").is(company).and("rols.rol").is(RolNameEnum.ROL_ADMIN.getValue()))
+		// group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
+		// match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round)),
+		// group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
+		);
+		AggregationResults<UserAlterQ> result = mongoTemplate.aggregate(agg, "userAlterQ", UserAlterQ.class);
+		if (!result.getMappedResults().isEmpty()) {
+			UserAlterQ aux = result.getMappedResults().get(0);
+		} else
+			return null;
+
 		// TODO not working
 		Query query = new Query();
 		query.addCriteria(Criteria.where("rols.company").is(company));
@@ -109,10 +145,47 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 		UserAlterQ uaq = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
 		return uaq;
 	}
-
 	@Override
 	public UserAlterQ findSuperAdmin() {
+		RolCompany rcSuper=new RolCompany();
+		rcSuper.setCompany(AlterQConstants.DEFECT_COMPANY);
+		rcSuper.setRol(RolNameEnum.ROL_SUPER_ADMIN.getValue());
+		List<UserAlterQ> allUsers=new ArrayList<UserAlterQ>();
+		allUsers=mongoTemplate.findAll(UserAlterQ.class, COLLECTION_NAME);
+		for (UserAlterQ userAlterQ : allUsers) {
+			List<RolCompany> rc= userAlterQ.getRols();
+			if (rc.contains(rcSuper)){
+				return userAlterQ;
+			}
+		}
+		return null;
+	}
+
+	public UserAlterQ findSuperAdminNotWorking() {
 		// TODO not working
+		
+		TypedAggregation<UserAlterQ> agg1 = Aggregation.newAggregation(UserAlterQ.class,
+		        unwind("rols"), //
+		        project() //
+		            .and("rols.company").as("companyi") //
+		            .and("rols.rol").as("securit") //
+		            );
+
+		    AggregationResults<DBObject> result1 = mongoTemplate.aggregate(agg1, DBObject.class);		
+		
+		Aggregation agg = newAggregation(
+				unwind("rols") ,
+				match(Criteria.where("rols.company").is(AlterQConstants.DEFECT_COMPANY).and("rols.rol").is(RolNameEnum.ROL_SUPER_ADMIN.getValue()))
+//				group("_id").push("rols").as("rols")
+		// group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
+		// match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round)),
+		// group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
+		);
+		AggregationResults<UserAlterQ> result = mongoTemplate.aggregate(agg,UserAlterQ.class, UserAlterQ.class);
+		if (!result.getMappedResults().isEmpty()) {
+			UserAlterQ aux = result.getMappedResults().get(0);
+		} else
+			return null;
 		Query query = new Query();
 		query.addCriteria(Criteria.where("rols.company").is(AlterQConstants.DEFECT_COMPANY));
 		query.addCriteria(Criteria.where("rols.rol").is(RolNameEnum.ROL_SUPER_ADMIN));

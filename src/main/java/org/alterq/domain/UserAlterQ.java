@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.alterq.dto.AlterQConstants;
-import org.alterq.util.enumeration.RolNameEnum;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -26,13 +24,11 @@ public class UserAlterQ implements Serializable {
 	private int company;
 	private String accept;
 	private boolean active;
-//	private boolean admin;
 	private Date dateCreated;
 	private Date dateUpdated;
 	private int automatics;
 	private double weight;
 	private List<RolCompany> rols;
-	
 
 	public List<RolCompany> getRols() {
 		return rols;
@@ -40,38 +36,6 @@ public class UserAlterQ implements Serializable {
 
 	public void setRols(List<RolCompany> rols) {
 		this.rols = rols;
-	}
-
-	public boolean isAdmin() {
-		boolean rdo = false;
-
-		List<RolCompany> rcL = getRols();
-		for (RolCompany rolCompany : rcL) {
-			if (rolCompany.getRol() == RolNameEnum.ROL_ADMIN.getValue()){
-				if (rolCompany.getCompany() != AlterQConstants.DEFECT_COMPANY){
-					rdo = true;
-					break;
-				}
-			}
-		}
-		
-		return rdo;
-	}
-
-	public boolean isSuperAdmin() {
-		boolean rdo = false;
-
-		List<RolCompany> rcL = getRols();
-		for (RolCompany rolCompany : rcL) {
-			if (rolCompany.getRol() == RolNameEnum.ROL_SUPER_ADMIN.getValue()){
-				if (rolCompany.getCompany() == AlterQConstants.DEFECT_COMPANY	){
-					rdo = true;
-					break;
-				}
-			}
-		}
-		
-		return rdo;
 	}
 
 	public String getId() {
@@ -150,7 +114,7 @@ public class UserAlterQ implements Serializable {
 	public int getAutomatics() {
 		return automatics;
 	}
-	
+
 	public void setAutomatics(int automatics) {
 		this.automatics = automatics;
 	}
@@ -158,20 +122,16 @@ public class UserAlterQ implements Serializable {
 	public double getWeight() {
 		return weight;
 	}
-	
+
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}
 
 	/*
-	public boolean isAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(boolean admin) {
-		this.admin = admin;
-	}
-	*/
+	 * public boolean isAdmin() { return admin; }
+	 * 
+	 * public void setAdmin(boolean admin) { this.admin = admin; }
+	 */
 
 	public String getIdCard() {
 		return idCard;
@@ -188,6 +148,7 @@ public class UserAlterQ implements Serializable {
 	public void setAccept(String accept) {
 		this.accept = accept;
 	}
+
 	public String getNick() {
 		return nick;
 	}
@@ -227,5 +188,5 @@ public class UserAlterQ implements Serializable {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	
+
 }

@@ -20,9 +20,6 @@ public class ResponseDto {
 	private RoundRanking roundRanking;
 	private Bet bet;
 	private List<Company> company;
-	private boolean admin;
-	private boolean superAdmin;
-
 	public Bet getBet() {
 		return bet;
 	}
@@ -107,19 +104,4 @@ public class ResponseDto {
 		this.company.add(company);
 	}
 
-	public boolean isAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(boolean admin) {
-		this.admin = admin;
-	}
-
-	public boolean isSuperAdmin() {
-		return superAdmin;
-	}
-
-	public void setSuperAdmin(boolean superAdmin) {
-		this.superAdmin = superAdmin;
-	}
 }
