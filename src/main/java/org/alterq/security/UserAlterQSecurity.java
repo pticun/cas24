@@ -71,6 +71,28 @@ public class UserAlterQSecurity {
 		return true;
 	}
 
+	public boolean isSuperAdminUserInSession(String cookieSession) throws SecurityException {
+		if (log.isDebugEnabled()) {
+			log.debug("UserAlterQSecurity:isSuperAdminUserInSession:");
+		}
+
+		if (StringUtils.isBlank(cookieSession)) {
+			ErrorDto error = new ErrorDto();
+			error.setIdError(MessageResourcesNameEnum.USER_NOT_IN_SESSION);
+			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_IN_SESSION));
+			throw new SecurityException(error);
+		}
+		UserAlterQ idAdmin = userDao.findSuperAdmin();
+		String idUser = sessionDao.findUserAlterQIdBySessionId(cookieSession);
+		if (!StringUtils.equals(idAdmin.getId(), idUser)) {
+			ErrorDto error = new ErrorDto();
+			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);
+			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_ADMIN));
+			throw new SecurityException(error);
+		}
+		return true;
+	}
+	
 	public void existsUserAlterQ(UserAlterQ user) throws SecurityException {
 		// User exists
 		UserAlterQ bean = userDao.findById(user.getId());

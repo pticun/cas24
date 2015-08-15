@@ -1211,7 +1211,8 @@ public class AdminController {
 
 		try
 		{
-			userSecurity.isAdminUserInSession( cookieSession);
+			//userSecurity.isAdminUserInSession( cookieSession);
+			userSecurity.isSuperAdminUserInSession( cookieSession);
 			userAlterQ.setId(user);
 			userSecurity.notExistsUserAlterQ(userAlterQ);
 			
