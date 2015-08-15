@@ -335,7 +335,7 @@ function menuEvent(name, href)
 	
 }
 
-function getMainMenuItems(userLoged, user, admin, superAdmin)
+function getMainMenuItems(userLoged, user)
 	{
 	consoleAlterQ("getMainMenuItems userLoged="+userLoged+" user="+user+" admin="+admin + " superAdmin="+superAdmin);
 	//MENU WEB 
@@ -536,7 +536,7 @@ $(document).ready(function() {
 	initDiv(bHome);
 	
 	//Paint Main Menu Items
-	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.admin:false, userLoged?response.superAdmin:false);
+	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
     
 	//Menu Click Events
 	$('div').on("click", "nav#menu ul#menu-nav li a", function( event ) {
@@ -581,7 +581,7 @@ $(document).ready(function() {
 
 			//Paint Main Menu Items
 			consoleAlterQ("Menu: pintamos los elementos del menu");
-			getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.admin:false, userLoged?response.superAdmin:false);
+			getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
 	    });
 	
 	
@@ -625,7 +625,7 @@ $(document).ready(function() {
 						$('#loginFormResponse').text(response.userAlterQ.name);
 						userLoged=true;
 						fillUserData(response);
-						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.admin:false, userLoged?response.superAdmin:false);
+						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
 						showDiv(bHome);
 		   		    }
 				    fillRoundSeasonCompany(response);
@@ -680,7 +680,7 @@ $(document).ready(function() {
 		   		    else{
 						userLoged=true;
 						fillUserData(response);
-						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null, userLoged?response.admin:false, userLoged?response.superAdmin:false);
+						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
 						showDiv(bHome);
 						
 		   		    }
@@ -947,7 +947,9 @@ $(document).ready(function() {
 		sCompany = $(this).find(":selected").text();
 		companySelected = true;
 		consoleAlterQ('vamos a repintar el menu');
-		getMainMenuItems(true, $('#nameData').val(), false, false);
+		admin = false;
+		superAdmin = false;
+		getMainMenuItems(true, $('#nameData').val());
 		loadBetUser = true;
 		cleanUserBets();
 	});
@@ -1079,6 +1081,7 @@ function fillRoundSeasonCompany(response){
 }
 function fillUserData(response){
 	idUserAlterQ=response.userAlterQ.id;
+	
 	$('#idData').val(response.userAlterQ.id);
 	$('#nameData').val(response.userAlterQ.name);
 	$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
@@ -1092,7 +1095,51 @@ function fillUserData(response){
 	$('#idSaldo').val(response.userAlterQ.id);
 	$('#balanceSaldo').val(response.userAlterQ.balance);	
 	rols=response.userAlterQ.rols;
+	
+	//if company == 0 (defect company) all user are admin 
+	if (company!= 0){
+		admin = rols.some(function(boy) { return hasRolCompanyValue(boy, 100, company); });
+	}
+	superAdmin = rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, 0); });
+
+	consoleAlterQ("Admin:"+admin);
+	consoleAlterQ("superAdmin:"+superAdmin);
+//	consoleAlterQ("tienes rol:"+rols.some(function(boy) { return hasValue(boy, "rol", 100); }));	
+//	consoleAlterQ("tienes rolcompany:"+rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, 0); }));	
+	
 }
+
+function initializeVars(){
+	round=0;
+	season=0;
+	company=0;
+	rols="";
+	idUserAlterQ="";
+
+	loadBet=true;
+	loadBetUser=true;
+	loadCompanies=true;
+
+	userLoged=false;
+
+	companySelected = false;
+
+	admin = false;
+	superAdmin = false;
+	
+}
+
+function hasValue(obj, key, value) {
+	consoleAlterQ(obj+"-"+key+"-"+value);
+    return obj.hasOwnProperty(key) && obj[key] === value;
+
+}
+function hasRolCompanyValue(obj, rolValue, companyValue) {
+	return (obj.hasOwnProperty("rol") && obj["rol"]) == rolValue && ( obj.hasOwnProperty("company") && obj["company"] === companyValue);
+	
+}
+
+
 
 function doLogout(){
 	 jQuery.ajax ({
@@ -1109,11 +1156,12 @@ function doLogout(){
 	   		    else{
 					userLoged=false;
 					loadCompanies = false;
-					getMainMenuItems(false, null, false);
+					getMainMenuItems(false, null);
 	   		    }
 		    }
 		});
 
+	initializeVars();
 	showDiv(bHome);
 	consoleAlterQ("LogOut: userLoged="+userLoged);     
 	
@@ -1331,6 +1379,9 @@ function getCompanies(){
 	if(loadCompanies)
 	{
 		loadCompanies=false;
+		
+		//delete combo company
+		 $("#companyToChoose option:selected").remove();
 		
 	   		consoleAlterQ('url:'+ctx+'/company/myaccount/'+ idUserAlterQ+'/');  		
 			jQuery.ajax ({
