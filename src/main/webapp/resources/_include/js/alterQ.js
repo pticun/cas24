@@ -949,6 +949,15 @@ $(document).ready(function() {
 		consoleAlterQ('vamos a repintar el menu');
 		admin = false;
 		superAdmin = false;
+		//if company == 0 (defect company) all user are admin 
+		if (company!= 0){
+			admin = rols.some(function(boy) { return hasRolCompanyValue(boy, 100, company); });
+		}
+		superAdmin = rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, 0); });
+
+		consoleAlterQ("Admin:"+admin);
+		consoleAlterQ("superAdmin:"+superAdmin);
+		
 		getMainMenuItems(true, $('#nameData').val());
 		loadBetUser = true;
 		cleanUserBets();
@@ -1098,7 +1107,9 @@ function fillUserData(response){
 	
 	//if company == 0 (defect company) all user are admin 
 	if (company!= 0){
+		consoleAlterQ("antes hasRolCompanyValue(boy, 100, company)");
 		admin = rols.some(function(boy) { return hasRolCompanyValue(boy, 100, company); });
+		consoleAlterQ("despues hasRolCompanyValue(boy, 100, company)");
 	}
 	superAdmin = rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, 0); });
 
@@ -1130,12 +1141,13 @@ function initializeVars(){
 }
 
 function hasValue(obj, key, value) {
-	consoleAlterQ(obj+"-"+key+"-"+value);
+//	consoleAlterQ(obj+"-"+key+"-"+value);
     return obj.hasOwnProperty(key) && obj[key] === value;
 
 }
 function hasRolCompanyValue(obj, rolValue, companyValue) {
-	return (obj.hasOwnProperty("rol") && obj["rol"]) == rolValue && ( obj.hasOwnProperty("company") && obj["company"] === companyValue);
+//	consoleAlterQ("hasRolCompanyValue: obj[rol]=" + obj["rol"] + " rolValue="+rolValue + " obj[company]=" + obj["company"] + " companyValue="+companyValue);
+	return (obj.hasOwnProperty("rol") && obj["rol"]) == rolValue && ( obj.hasOwnProperty("company") && obj["company"] == companyValue);
 	
 }
 
@@ -1207,13 +1219,27 @@ function calculatePrice(){
 	    }
 	});
 	return false;
-}		
+}
+
+function limpiaQuiniela()
+{
+ 	$('#quinielaTableReduced').empty();
+ 	$('#quinielaTable').empty();
+ 	$('#quinielaTablePleno15').empty();
+ 	$('#quinielaTableRec').empty();
+ 	$('#quinielaTablePleno15').empty();
+	$('#quinielaTable_in').empty();
+	$('#quinielaTableRec_in').empty();
+	
+}
 
 function getQuiniela(){
 		consoleAlterQ('getQuiniela');
 		consoleAlterQ(loadBet);
 		if(loadBet){
 		 	loadBet=false;
+		 	limpiaQuiniela();
+		 	
 			jQuery.ajax ({
 			    url: ctx+'/myaccount/mail@mail.es/'+company+'/'+ season+'/'+round+'/round',
 			    type: "GET",
@@ -1448,7 +1474,7 @@ function getUserBets(){
 		
 		cleanUserBets();
 		
-   		consoleAlterQ('antes jQuery.ajax');
+   		consoleAlterQ('antes jQuery.ajax - idUserAlterQ='+idUserAlterQ+' company='+company+' season='+season+' round='+round);
    		
    		
 		
@@ -1467,7 +1493,7 @@ function getUserBets(){
 			    	row+='<tr align="center">';
 			    	row+='<td>MIS APUESTAS</td>';
 			    	row+='</tr>';
-			        row+='<tr>';
+			        row+='<tr align="center">';
 					row+='<td><br><br>SIN APUESTAS<br><br></td>';
 					row+='</tr>';
 					$('#apuestasTable').append(row);
@@ -1482,7 +1508,7 @@ function getUserBets(){
 				    	row+='<tr align="center">';
 				    	row+='<td>'+((sCompany == '')?sCompanyDefault:sCompany)+'</td>';
 				    	row+='</tr>';
-				    	row+='<tr>';
+				    	row+='<tr align="center">';
 						row+='<td><br><br>SIN APUESTAS<br><br></td>';
 						row+='</tr>';
 						$('#apuestasTable').append(row);
@@ -1642,4 +1668,5 @@ function confirmedBet(bet, mygames, apuestas, precio, temporada, jornada)
     row+='</tr>';
 	$('#confirmadaQuinielaTable').append(row);
 	//showDiv(bQuinielaDetail);
+	loadBetUser=true;
 }
