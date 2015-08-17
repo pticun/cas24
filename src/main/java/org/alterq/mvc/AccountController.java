@@ -61,6 +61,8 @@ public class AccountController {
 			userAlterQSecurity.isSameUserInSession(id, cookieSession);
 			//we are modifying user data, so user always exists.
 			//userAlterQSecurity.existsUserAlterQ(user);
+			userAlterQSecurity.notExistsUserAlterQ(user);
+			
 			UserAlterQ userAlterQ = userDao.findById(id);
 			if (user.getNick() != null)
 				userAlterQ.setNick(user.getNick());
