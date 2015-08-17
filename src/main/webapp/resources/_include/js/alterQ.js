@@ -55,7 +55,7 @@ var sConfirmQuiniela = "";
 var sConfirmedQuiniela = "";
 var sModalReduced ="";
 var sCompany ="";
-var sCompanyDefault ="QuiniGold";
+var sCompanyDefault ="QuiniGoldClassic";
 
 //Refs
 var sHomeRef = "#homeDiv";
@@ -1106,7 +1106,7 @@ function fillUserData(response){
 	rols=response.userAlterQ.rols;
 	
 	//if company == 0 (defect company) all user are admin 
-	if (company!= 0){
+	if (company!= DEFECT_COMPANY){
 		consoleAlterQ("antes hasRolCompanyValue(boy, 100, company)");
 		admin = rols.some(function(boy) { return hasRolCompanyValue(boy, 100, company); });
 		consoleAlterQ("despues hasRolCompanyValue(boy, 100, company)");
@@ -1137,7 +1137,10 @@ function initializeVars(){
 
 	admin = false;
 	superAdmin = false;
-	
+
+	//delete combo company
+	 $("#companyToChoose option:selected").remove();
+
 }
 
 function hasValue(obj, key, value) {
@@ -1429,7 +1432,9 @@ function getCompanies(){
 				    	responseCompanyOrder = jQuery.unique($(response.company));
 						$(responseCompanyOrder).each(function(index, element){
 							console.log("index="+index+"-id="+element.id + "-company="+element.company+"-nick="+element.nick);
-							$('#companyToChoose').append('<option value="'+element.company+'">'+element.nick+'</option>');
+							if (element.company!=DEFECT_COMPANY){
+								$('#companyToChoose').append('<option value="'+element.company+'">'+element.nick+'</option>');
+							}
 						});
 				    }
 			    },
