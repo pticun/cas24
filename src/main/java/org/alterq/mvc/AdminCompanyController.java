@@ -666,7 +666,7 @@ public class AdminCompanyController {
 			// STEP 2: Automatics Bets
 			//
 			// STEP 2.1 - Get Users with automatic bets
-			List<UserAlterQ> lUsers = userAlterQDao.findUserWithAutomatics(company);
+			List<UserAlterQ> lUsers = userAlterQDao.findUserWithAutomatics();
 			// STEP 2.2 - For each user do as bets as automatic bets (It has to
 			// check user amount before make automatics bets)
 			for (UserAlterQ user : lUsers) {
@@ -691,6 +691,8 @@ public class AdminCompanyController {
 					bet.setCompany(company);
 					bet.setDateCreated(new Date());
 					bet.setDateUpdated(new Date());
+					bet.setNumBets(1);
+					bet.setReduction("NNNNNNNNNNNNNN");
 					bet.setId(new ObjectId().toStringMongod());
 
 					roundBetDao.addBet(season, round, bet);

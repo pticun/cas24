@@ -344,27 +344,25 @@ var ctx = "<%=request.getContextPath()%>"
     <div class="row table-responsive">
 		<div align="center">
 			<form id="openForm">
-			   		<table class="quiniela">
+			   		<table class="tablaQuiniGold">
 				   		<tr>
-				   			<td class="partido">Season:</td>
-				   			<td class="partido"><input id="seasonOpen" name="season" type="text"/></td>
+				   			<td>Season:</td>
+				   			<td><input id="seasonOpen" name="season" type="text"/></td>
 				        </tr>
 				   		<tr>
-				   			<td class="partido">Round:</td>
-				   			<td class="partido"><input id="roundOpen" name="round" type="text"/></td>
+				   			<td>Round:</td>
+				   			<td><input id="roundOpen" name="round" type="text"/></td>
 				        </tr>
 				   		<tr align="right">
-				   			<td class="partido">&nbsp;</td>
-				   			<td class="partido"><button id="admin_open_btn" class="button" name="openBtn" value="openBtn">Open</button></td>
+				   			<td colspan="2"><button id="admin_open_btn" class="btn btn-danger" name="openBtn" value="openBtn">Open</button></td>
+				        </tr>
+			   			<tr align="center">
+				   			<td colspan="2"><button id="homeBtn1" class="btn btn-danger" name="homeBtn1" value="homeBtn1">Admin Menu</button></td>
 				        </tr>
 			   		</table>
-			   		<div id="openFormResponse">respuesta </div>
+			   		<br>
+			   		<div id="openFormResponse" class="linkQuiniGold">respuesta </div>
 			</form>
-	   		<table class="quiniela">
-	   			<tr align="center">
-		   			<td class="partido"><button id="homeBtn1" class="button" name="homeBtn1" value="homeBtn1">Admin Menu</button></td>
-		        </tr>
-	       </table>
 		</div>
     </div>
     <!-- End OpenRound Form -->
@@ -389,26 +387,25 @@ var ctx = "<%=request.getContextPath()%>"
     <div class="row table-responsive">
 		<div align="center">
 			<form id="closeForm">
-			   		<table class="quiniela">
+			   		<table class="tablaQuiniGold">
 				   		<tr>
-				   			<td class="partido">Season:</td>
-				   			<td class="partido"><input id="seasonClose" name="season" type="text"/></td>
+				   			<td>Season:</td>
+				   			<td><input id="seasonClose" name="season" type="text"/></td>
 				        </tr>
 				   		<tr>
-				   			<td class="partido">Round:</td>
-				   			<td class="partido"><input id="roundClose" name="round" type="text"/></td>
+				   			<td>Round:</td>
+				   			<td><input id="roundClose" name="round" type="text"/></td>
 				        </tr>
 				   		<tr align="right">
-				   			<td class="partido">&nbsp;</td>
-				   			<td class="partido"><button id="admin_close_btn" class="button" name="closeBtn" value="closeBtn">Close</button></td>
+				   			<td colspan="2"><button id="admin_close_btn" class="btn btn-danger" name="closeBtn" value="closeBtn">Close</button></td>
+				        </tr>
+			   			<tr align="center">
+				   			<td colspan="2"><button id="homeBtn2" class="btn btn-danger" name="homeBtn2" value="homeBtn2">Admin Menu</button></td>
 				        </tr>
 			   		</table>
-			   		<div id="closeFormResponse">respuesta </div>
+			   		<div id="closeFormResponse" class="linkQuiniGold">respuesta </div>
 			</form>
 	   		<table class="quiniela">
-	   			<tr align="center">
-		   			<td class="partido"><button id="homeBtn2" class="button" name="homeBtn2" value="homeBtn2">Admin Menu</button></td>
-		        </tr>
 	       </table>
 		</div>
     </div>
