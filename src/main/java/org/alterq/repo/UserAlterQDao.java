@@ -22,7 +22,7 @@ public interface UserAlterQDao {
 	public UserAlterQ validateLogin(String id, String password);
 
 	@Deprecated
-	public List<UserAlterQ> findUserWithAutomatics();
+	public List<UserAlterQ> findUserWithAutomatics(int company);
 
 	public void remove(UserAlterQ userAlterQ) throws Exception;
 

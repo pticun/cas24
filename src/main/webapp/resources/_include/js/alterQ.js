@@ -2,7 +2,7 @@
 var DEFECT_COMPANY=0;
 var round=0;
 var season=0;
-var company=0;
+var company=1; //companyDefault "quiniGoldClassic = 1"
 var rols="";
 var idUserAlterQ="";
 
@@ -1123,7 +1123,7 @@ function fillUserData(response){
 function initializeVars(){
 	round=0;
 	season=0;
-	company=0;
+	company=1; //companyDefault "quiniGoldClassic = 1"
 	rols="";
 	idUserAlterQ="";
 

@@ -666,7 +666,7 @@ public class AdminCompanyController {
 			// STEP 2: Automatics Bets
 			//
 			// STEP 2.1 - Get Users with automatic bets
-			List<UserAlterQ> lUsers = userAlterQDao.findUserWithAutomatics();
+			List<UserAlterQ> lUsers = userAlterQDao.findUserWithAutomatics(company);
 			// STEP 2.2 - For each user do as bets as automatic bets (It has to
 			// check user amount before make automatics bets)
 			for (UserAlterQ user : lUsers) {
