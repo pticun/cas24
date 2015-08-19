@@ -1389,7 +1389,7 @@ function getQuiniela(){
 
 						$('#quinielaTableReduced').append(row);
 						
-						if (company!=0)
+						if (company != DEFECT_COMPANY)
 							$('#quinielaTableReduced').hide();
 						
 				    }
