@@ -91,28 +91,18 @@ var ctx = "<%=request.getContextPath()%>"
 	//Divs Graphics
 	var bActual					= 0;
 	var bHome					= 0;
-	var bOpenRoundSession		= 1;
-	var bCloseRoundSession		= 2;
 	var bFinalQuiniela			= 3;
-	var bGetQuinielaRef			= 4;
 	var bAdminIni				= 5;
 
 	//Refs
 	var sHomeRef 					= "#homeDiv";
-	var sOpenRoundSessionRef		= "#openDiv";
-	var sCloseRoundSessionRef		= "#closeDiv";
-	var sAddMatchesRounnSessionRef	= "#matchesDiv";
 	var sFinalQuinielaRef			= "#quinielaDiv";
-	var sGetQuinielaRef 			= "#getQuinielaDiv";
 	var sAdminIni					= "home";
 	
 	function initDiv() {
 		consoleAlterQ("initDiv");		
 		$(sHomeRef).show();
-		$(sOpenRoundSessionRef).hide();
-		$(sCloseRoundSessionRef).hide();
 		$(sFinalQuinielaRef).hide();
-		$(sGetQuinielaRef).hide();
 		
 		bActual = bHome;
 	}
@@ -128,17 +118,8 @@ var ctx = "<%=request.getContextPath()%>"
 		case bHome:
 			$(sHomeRef).show();
 			break;
-		case bOpenRoundSession:
-			$(sOpenRoundSessionRef).show();
-			break;
-		case bCloseRoundSession:
-			$(sCloseRoundSessionRef).show();
-			break;
 		case bFinalQuiniela:
 			$(sFinalQuinielaRef).show();
-			break;
-		case bGetQuinielaRef:
-			$(sGetQuinielaRef).show();
 			break;
 		}
 
@@ -146,17 +127,8 @@ var ctx = "<%=request.getContextPath()%>"
 		case bHome:
 			$(sHomeRef).hide();
 			break;
-		case bOpenRoundSession:
-			$(sOpenRoundSessionRef).hide();
-			break;
-		case bCloseRoundSession:
-			$(sCloseRoundSessionRef).hide();
-			break;
 		case bFinalQuiniela:
 			$(sFinalQuinielaRef).hide();
-			break;
-		case bGetQuinielaRef:
-			$(sGetQuinielaRef).hide();
 			break;
 		}
 		
@@ -174,18 +146,9 @@ var ctx = "<%=request.getContextPath()%>"
 		}else if (href == sHomeRef){
 			consoleAlterQ("Home");
 			showDiv(bHome);
-		}else if (href == sOpenRoundSessionRef){
-			consoleAlterQ("Open");
-			showDiv(bOpenRoundSession);
-		}else if (href == sCloseRoundSessionRef){
-			consoleAlterQ("Close");
-			showDiv(bCloseRoundSession);
 		}else if (href == sFinalQuinielaRef){
 			consoleAlterQ("FinalQuiniela");
 			showDiv(bFinalQuiniela);
-		}else if (href == sGetQuinielaRef){
-			consoleAlterQ("bGetQuinielaRef");
-			showDiv(bGetQuinielaRef);
 		}
 		return false;
 		
@@ -206,14 +169,17 @@ var ctx = "<%=request.getContextPath()%>"
 <div id="homeDiv" class="page">
 <div class="container">
     <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">alterQ</h2>
-                <h3 class="title-description">Administration.</h3>
-            </div>
-        </div>
-    </div>
+    <div class="row" align="center">
+	    <div class="title-page" align="center">
+	        <h2 class="title">alterQ</h2>
+	    </div>
+        <table class="tablaQuiniGold">
+	   		<tr align="center">
+	   			<td>Company Administration</td>
+	   		</tr>
+		</table>
+        <br>
+    </div>    
     <!-- End Title Page -->
 
     	<div class="row" align="center">
@@ -222,16 +188,7 @@ var ctx = "<%=request.getContextPath()%>"
 		   			<td><button id="homeBtn" class="btn btn-danger" name="homeBtn" value="homeBtn">Home</button><br><br></td>
 		        </tr>
 		   		<tr align="center">
-		   			<td><button id="openBtn" class="btn btn-danger" name="openBtn" value="openBtn">Open</button><br><br></td>
-		        </tr>
-		   		<tr align="center">
-		   			<td><button id="closeBtn" class="btn btn-danger" name="closeMenu" value="close">Close</button><br><br></td>
-		        </tr>
-		   		<tr align="center">
 		   			<td><button id="quinielaFinalBtn" class="btn btn-danger" name="quinielaFinalMenu" value="quinelaFinal">Quiniela</button><br><br></td>
-		        </tr>
-		   		<tr align="center">
-		   			<td><button id="getQuinielaFinalBtn" class="btn btn-danger" name="getQuinielaFinalMenu" value="getQuinelaFinal">Quiniela Final</button></td>
 		        </tr>
 	   			</table>
         </div>
@@ -239,95 +196,6 @@ var ctx = "<%=request.getContextPath()%>"
 </div>
 <!-- End Principal -->
 
-<!-- OpenRound Section -->
-<div id="openDiv" class="page">
-<div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Admin - Open Round</h2>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
-    <!-- OpenRound Form -->
-    <div class="row table-responsive">
-		<div align="center">
-			<form id="openForm">
-			   		<table class="quiniela">
-				   		<tr>
-				   			<td class="partido">Season:</td>
-				   			<td class="partido"><input id="seasonOpen" name="season" type="text"/></td>
-				        </tr>
-				   		<tr>
-				   			<td class="partido">Round:</td>
-				   			<td class="partido"><input id="roundOpen" name="round" type="text"/></td>
-				        </tr>
-				   		<tr align="right">
-				   			<td class="partido">&nbsp;</td>
-				   			<td class="partido"><button id="admin_open_btn" class="button" name="openBtn" value="openBtn">Open</button></td>
-				        </tr>
-			   		</table>
-			   		<div id="openFormResponse">respuesta </div>
-			</form>
-	   		<table class="quiniela">
-	   			<tr align="center">
-		   			<td class="partido"><button id="homeBtn1" class="button" name="homeBtn1" value="homeBtn1">Admin Menu</button></td>
-		        </tr>
-	       </table>
-		</div>
-    </div>
-    <!-- End OpenRound Form -->
-</div>
-</div>
-<!-- End OpenRound Section -->
-
-<!-- CloseRound Section -->
-<div id="closeDiv" class="page">
-<div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Admin - Close Round</h2>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
-    <!-- CloseRound Form -->
-    <div class="row table-responsive">
-		<div align="center">
-			<form id="closeForm">
-			   		<table class="quiniela">
-				   		<tr>
-				   			<td class="partido">Season:</td>
-				   			<td class="partido"><input id="seasonClose" name="season" type="text"/></td>
-				        </tr>
-				   		<tr>
-				   			<td class="partido">Round:</td>
-				   			<td class="partido"><input id="roundClose" name="round" type="text"/></td>
-				        </tr>
-				   		<tr align="right">
-				   			<td class="partido">&nbsp;</td>
-				   			<td class="partido"><button id="admin_close_btn" class="button" name="closeBtn" value="closeBtn">Close</button></td>
-				        </tr>
-			   		</table>
-			   		<div id="closeFormResponse">respuesta </div>
-			</form>
-	   		<table class="quiniela">
-	   			<tr align="center">
-		   			<td class="partido"><button id="homeBtn2" class="button" name="homeBtn2" value="homeBtn2">Admin Menu</button></td>
-		        </tr>
-	       </table>
-		</div>
-    </div>
-    <!-- End CloseRound Form -->
-</div>
-</div>
-<!-- End CloseRound Section -->
 
 <!-- FinalQuinielaRound Section -->
 <div id="quinielaDiv" class="page">
@@ -346,97 +214,35 @@ var ctx = "<%=request.getContextPath()%>"
     <div class="row table-responsive">
 		<div align="center">
 			<form id="quinielaForm">
-			   		<table class="quiniela">
+			   		<table class="tablaQuiniGold">
 				   		<tr>
-				   			<td class="partido">Season:</td>
-				   			<td class="partido"><input id="seasonQuiniela" name="season" type="text"/></td>
+				   			<td>Season:</td>
+				   			<td><input id="seasonQuiniela" name="season" type="text"/></td>
 				        </tr>
 				   		<tr>
-				   			<td class="partido">Round:</td>
-				   			<td class="partido"><input id="roundQuiniela" name="round" type="text"/></td>
+				   			<td>Round:</td>
+				   			<td><input id="roundQuiniela" name="round" type="text"/></td>
 				        </tr>
 				   		<tr>
-				   			<td class="partido">Type Quiniela(0=normal, 1=R 4T, 2= R 3T+3D):</td>
-				   			<td class="partido"><input id="tipoQuiniela" name="quiniela" type="text"/></td>
+				   			<td>Type Quiniela(0=normal, 1=R 4T, 2= R 3T+3D):</td>
+				   			<td><input id="tipoQuiniela" name="quiniela" type="text"/></td>
 				        </tr>
-				   		<tr align="right">
-				   			<td class="partido">&nbsp;</td>
-				   			<td class="partido"><button id="admin_quiniela_btn" class="button" name="quinielaBtn" value="quinielaBtn">Quiniela</button></td>
+				   		<tr align="center">
+				   			<td colspan=2><button id="admin_quiniela_btn" class="btn btn-danger" name="quinielaBtn" value="quinielaBtn">Quiniela</button><br><br></td>
+				        </tr>
+			   			<tr align="center">
+				   			<td colspan=2><button id="homeBtn4" class="btn btn-danger" name="homeBtn4" value="homeBtn4">Admin Menu</button></td>
 				        </tr>
 			   		</table>
-			   		<div id="quinielaFormResponse">respuesta </div>
+			   		<br>
+			   		<div id="quinielaFormResponse" class="linkQuiniGold">respuesta </div>
 			</form>
-	   		<table class="quiniela">
-	   			<tr align="center">
-		   			<td class="partido"><button id="homeBtn4" class="button" name="homeBtn4" value="homeBtn4">Admin Menu</button></td>
-		        </tr>
-	       </table>
 		</div>
     </div>
     <!-- End FinalQuinielaRound Form -->
 </div>
 </div>
 <!-- End FinalQuinielaRound Section -->
-
-<!-- GetQuinielaRound Section -->
-<div id="getQuinielaDiv" class="page">
-<div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Admin - Get Final Quiniela Round</h2>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Quiniela</h2>
-                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
-	<div id="resumResponse" align="center">
-		    <table class="quiniela" id="resumTable"></table>
-	</div>
-    
-    <!-- FinalQuinielaRound Form -->
-    <div class="row table-responsive">
-		<div align="center">
- 			<div id="getQuinielaDiv" >  
-			   		<table class="quiniela">
-				   		<tr>
-				   			<td class="partido">Season:</td>
-				   			<td class="partido"><input id="getSeasonQuiniela" name="season" type="text"/></td>
-				        </tr>
-				   		<tr>
-				   			<td class="partido">Round:</td>
-				   			<td class="partido"><input id="getRoundQuiniela" name="round" type="text"/></td>
-				        </tr>
-				   		<tr align="right">
-				   			<td class="partido">&nbsp;</td>
-				   			<td class="partido"><button id="admin_getQuiniela_btn" class="button" name="getQuinielaBtn" value="quinielaBtn">Quiniela</button></td>
-				        </tr>
-			   		</table>
-			   		<div id="getQuinielaFormResponse">respuesta </div>
- 			</div>
-	   		<table class="quiniela">
-	   			<tr align="center">
-		   			<td class="partido"><button id="homeBtn04" class="button" name="homeBtn04" value="homeBtn4">Admin Menu</button></td>
-		        </tr>
-	       </table>
-		</div>
-    </div>
-    <!-- End GetQuinielaRound Form -->
-</div>
-</div>
-<!-- End GetQuinielaRound Section -->
-
-
 
 
 <!-- Footer -->
