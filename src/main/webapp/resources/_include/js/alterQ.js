@@ -1389,6 +1389,9 @@ function getQuiniela(){
 
 						$('#quinielaTableReduced').append(row);
 						
+						if (company!=0)
+							$('#quinielaTableReduced').hide();
+						
 				    }
 			    },
 			    error: function(){
