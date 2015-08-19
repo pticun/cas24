@@ -2,7 +2,7 @@
 var DEFECT_COMPANY=0;
 var round=0;
 var season=0;
-var company=1; //companyDefault "quiniGoldClassic = 1"
+var company=1; // "quiniGoldClassic = 1" depends environment
 var rols="";
 var idUserAlterQ="";
 
@@ -796,7 +796,7 @@ $(document).ready(function() {
 
 						$('#confirmarQuinielaFormResponse').text("Apuesta realizada correctamente");
 						//doLogin();
-						
+						fillUserData(response);
 						confirmedBet(response.bet.bet, response.round.games, response.bet.numBets, response.bet.price, season, round);
 						
 						showDiv(bConfirmedQuiniela);
@@ -950,10 +950,10 @@ $(document).ready(function() {
 		admin = false;
 		superAdmin = false;
 		//if company == 0 (defect company) all user are admin 
-		if (company!= 0){
+		if (company!= DEFECT_COMPANY){
 			admin = rols.some(function(boy) { return hasRolCompanyValue(boy, 100, company); });
 		}
-		superAdmin = rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, 0); });
+		superAdmin = rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, DEFECT_COMPANY); });
 
 		consoleAlterQ("Admin:"+admin);
 		consoleAlterQ("superAdmin:"+superAdmin);
@@ -1107,11 +1107,9 @@ function fillUserData(response){
 	
 	//if company == 0 (defect company) all user are admin 
 	if (company!= DEFECT_COMPANY){
-		consoleAlterQ("antes hasRolCompanyValue(boy, 100, company)");
 		admin = rols.some(function(boy) { return hasRolCompanyValue(boy, 100, company); });
-		consoleAlterQ("despues hasRolCompanyValue(boy, 100, company)");
 	}
-	superAdmin = rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, 0); });
+	superAdmin = rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, DEFECT_COMPANY); });
 
 	consoleAlterQ("Admin:"+admin);
 	consoleAlterQ("superAdmin:"+superAdmin);
@@ -1444,25 +1442,6 @@ function getCompanies(){
 					loadCompanies=true;
 	            }
 		 });
-		
-		
-/*		if (rols != null)
-		{
-			consoleAlterQ('hay companies');
-			$(rols).each(function(index, element){  
-				consoleAlterQ("index:"+index);
-				consoleAlterQ("company:"+element.company);
-				consoleAlterQ("rol:"+element.rol);
-				$('#companyToChoose').append('<option value="'+element.company+'">'+element.company+'</option>');
-			});
-		}
-		else
-		{
-			consoleAlterQ('no hay companies');
-			$('#companyToChoose').append('<option value="1">QuiniGold</option>');
-		}
-*/		
-		
 	}
 }
 function cleanUserBets(){
@@ -1481,8 +1460,6 @@ function getUserBets(){
 		
    		consoleAlterQ('antes jQuery.ajax - idUserAlterQ='+idUserAlterQ+' company='+company+' season='+season+' round='+round);
    		
-   		
-		
    		consoleAlterQ('url:'+ctx+'/myaccount/'+ idUserAlterQ+'/'+company+'/'+ season+'/'+round+'/bet');  		
 		jQuery.ajax ({
 			url: ctx+'/myaccount/'+ idUserAlterQ+'/'+company+'/'+ season+'/'+round+'/bet',
