@@ -731,11 +731,12 @@ public class AdminCompanyController {
 		return response;
 	}
 
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/finalBet/{type}")
-	public @ResponseBody ResponseDto finalBetRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int type) {
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/finalBet")
+	public @ResponseBody ResponseDto finalBetRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round, @PathVariable(value = "company") int company) {
 		AdminData adminData = null;
 		ResponseDto response = new ResponseDto();
 		log.debug("closeRound: start");
+		int type = 0;
 
 		try {
 			companyValidator.isCompanyOk(company);

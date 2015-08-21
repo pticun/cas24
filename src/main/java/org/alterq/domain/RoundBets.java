@@ -61,6 +61,11 @@ public class RoundBets {
 		}
 		return this.bets.add(bet);
 	}
+	public int numBets()
+	{
+		return bets.size();
+	}
+	
 	public String getId() {
 		return id;
 	}

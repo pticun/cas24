@@ -204,7 +204,7 @@ var ctx = "<%=request.getContextPath()%>"
     <div class="row">
         <div class="span12">
             <div class="title-page">
-                <h2 class="title">Admin - Final Quiniela Round</h2>
+                <h2 class="title">AdminCompany - Final Quiniela</h2>
             </div>
         </div>
     </div>
@@ -213,29 +213,29 @@ var ctx = "<%=request.getContextPath()%>"
     <!-- FinalQuinielaRound Form -->
     <div class="row table-responsive">
 		<div align="center">
-			<form id="quinielaForm">
+			<form id="finalQuinielaForm">
 			   		<table class="tablaQuiniGold">
 				   		<tr>
 				   			<td>Season:</td>
-				   			<td><input id="seasonQuiniela" name="season" type="text"/></td>
+				   			<td><input id="seasonFinalQuiniela" name="season" type="text"/></td>
 				        </tr>
 				   		<tr>
 				   			<td>Round:</td>
-				   			<td><input id="roundQuiniela" name="round" type="text"/></td>
+				   			<td><input id="roundFinalQuiniela" name="round" type="text"/></td>
 				        </tr>
 				   		<tr>
-				   			<td>Type Quiniela(0=normal, 1=R 4T, 2= R 3T+3D):</td>
-				   			<td><input id="tipoQuiniela" name="quiniela" type="text"/></td>
+				   			<td>NumBets:</td>
+				   			<td><input id="numBetsFinalQuiniela" name="round" type="text"/></td>
 				        </tr>
 				   		<tr align="center">
-				   			<td colspan=2><button id="admin_quiniela_btn" class="btn btn-danger" name="quinielaBtn" value="quinielaBtn">Quiniela</button><br><br></td>
+				   			<td colspan=2><button id="adminCompany_finalQuiniela_btn" class="btn btn-danger" name="finalQuinielaBtn" value="finalQuinielaBtn">Quiniela</button><br><br></td>
 				        </tr>
 			   			<tr align="center">
-				   			<td colspan=2><button id="homeBtn4" class="btn btn-danger" name="homeBtn4" value="homeBtn4">Admin Menu</button></td>
+				   			<td colspan=2><button id="homeBtn10" class="btn btn-danger" name="homeBtn10" value="homeBtn10">Admin Menu</button></td>
 				        </tr>
 			   		</table>
 			   		<br>
-			   		<div id="quinielaFormResponse" class="linkQuiniGold">respuesta </div>
+			   		<div id="finalQuinielaFormResponse" class="linkQuiniGold">respuesta </div>
 			</form>
 		</div>
     </div>
@@ -269,7 +269,7 @@ var ctx = "<%=request.getContextPath()%>"
 <script src="<c:url value="/static/resources/_include/js/jquery.tweet.js"/>"></script> <!-- Tweet -->
 <script src="<c:url value="/static/resources/_include/js/plugins.js"/>"></script> <!-- Contains: jPreloader, jQuery Easing, jQuery ScrollTo, jQuery One Page Navi -->
 <script src="<c:url value="/static/resources/_include/js/main.js"/>"></script> <!-- Default JS -->
-<script src="<c:url value="/static/resources/_include/js/adminAlterQ.js"/>"></script>
+<script src="<c:url value="/static/resources/_include/js/adminCompany.js"/>"></script>
 <script src="<c:url value="/static/resources/_include/js/jquery.dropotron.js"/>"></script>
 
 </body>
