@@ -64,6 +64,23 @@ public class RoundBetDaoImpl extends MongoCollection implements RoundBetDao {
         else
         	return null;
 	}
+	public RoundBets findFinalBet(int season, int round, int company) {
+		Aggregation agg = newAggregation( 
+				unwind("bets"),
+				match(Criteria.where("season").is(season).and("round").is(round).and("bets.company").is(company).and("bets.finalBet").is(Boolean.TRUE)),
+//                group("_id").first("company").as("company").first("season").as("season").first("round").as("round").push("bets").as("bets")
+				group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
+//                match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round)),
+//                group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
+				);
+		AggregationResults<RoundBets> result = mongoTemplate.aggregate(agg, "roundBets", RoundBets.class);
+		if ( !result.getMappedResults().isEmpty()){
+			RoundBets aux = result.getMappedResults().get(0);
+			return aux;
+		}
+		else
+			return null;
+	}
 
 	public boolean addBet(int season, int round, Bet bet){
 		Query query = new Query();

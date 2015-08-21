@@ -492,18 +492,19 @@ public class BetController {
 		
 		try {
 			companyValidator.isCompanyOk(company);
+			RoundBets rb;
 			if (StringUtils.equals(id, "mail@mail.es")) {
-				// TODO we must controller company
-				UserAlterQ adminCompany = userDao.findAdminByCompany(company);
-				id = adminCompany.getId();
+				rb = betDao.findFinalBet(season, round, company);
 			}
-			RoundBets rb = betDao.findAllUserBets(season, round, id, company);
+			else{
+				//TODO control user if exists
+				rb = betDao.findAllUserBets(season, round, id, company);
+			}
 			dto.setRoundBet(rb);
 		} catch (ValidatorException e) {
 			log.error(ExceptionUtils.getStackTrace(e));
 			dto.addErrorDto(e.getError());
 		}
-
 		return dto;
 	}
 
