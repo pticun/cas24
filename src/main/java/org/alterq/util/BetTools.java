@@ -296,5 +296,61 @@ public class BetTools{
 		
 		return 0;
 	}
+	
+	public String randomBet() {
+		String solucion = "";
+		for (int i = 1; i <= 15; i++) {
+			int inferior = 1;
+			int superior = 3;
+			int infPleno15 = 1;
+			int supPleno15 = 4;
+			int numPosibilidades = 0;
+			double aleat = 0;
+
+			if (i != 15) {
+				numPosibilidades = (superior + 1) - inferior;
+				aleat = Math.random() * numPosibilidades;
+				aleat = Math.floor(aleat);
+				aleat = (inferior + aleat);
+				if (aleat > 2) {
+					solucion = solucion + "1";
+				} else if (aleat > 1) {
+					solucion = solucion + "2";
+				} else {
+					solucion = solucion + "4";
+				}
+			} else {
+				numPosibilidades = (supPleno15 + 1) - infPleno15;
+				// Calculo primer partido del Pleno al 15
+				aleat = Math.random() * numPosibilidades;
+				aleat = Math.floor(aleat);
+				aleat = (inferior + aleat);
+				if (aleat > 3) {
+					solucion = solucion + "1";
+				} else if (aleat > 2) {
+					solucion = solucion + "2";
+				} else if (aleat > 1) {
+					solucion = solucion + "4";
+				} else {
+					solucion = solucion + "8";
+				}
+				// Calculo segundo partido del Pleno al 15
+				aleat = Math.random() * numPosibilidades;
+				aleat = Math.floor(aleat);
+				aleat = (inferior + aleat);
+				if (aleat > 3) {
+					solucion = solucion + "1";
+				} else if (aleat > 2) {
+					solucion = solucion + "2";
+				} else if (aleat > 1) {
+					solucion = solucion + "4";
+				} else {
+					solucion = solucion + "8";
+				}
+			}
+		}
+		return solucion;
+
+	}
 
 }

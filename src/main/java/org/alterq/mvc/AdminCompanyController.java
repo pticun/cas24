@@ -100,65 +100,6 @@ public class AdminCompanyController {
 		return admin.getId();
 	}
 
-	/**
-	 * @return String randomBet Descripcion: Get a new ramdom bet
-	 * */
-	private static String randomBet() {
-		String solucion = "";
-		for (int i = 1; i <= 15; i++) {
-			int inferior = 1;
-			int superior = 3;
-			int infPleno15 = 1;
-			int supPleno15 = 4;
-			int numPosibilidades = 0;
-			double aleat = 0;
-
-			if (i != 15) {
-				numPosibilidades = (superior + 1) - inferior;
-				aleat = Math.random() * numPosibilidades;
-				aleat = Math.floor(aleat);
-				aleat = (inferior + aleat);
-				if (aleat > 2) {
-					solucion = solucion + "1";
-				} else if (aleat > 1) {
-					solucion = solucion + "2";
-				} else {
-					solucion = solucion + "4";
-				}
-			} else {
-				numPosibilidades = (supPleno15 + 1) - infPleno15;
-				// Calculo primer partido del Pleno al 15
-				aleat = Math.random() * numPosibilidades;
-				aleat = Math.floor(aleat);
-				aleat = (inferior + aleat);
-				if (aleat > 3) {
-					solucion = solucion + "1";
-				} else if (aleat > 2) {
-					solucion = solucion + "2";
-				} else if (aleat > 1) {
-					solucion = solucion + "4";
-				} else {
-					solucion = solucion + "8";
-				}
-				// Calculo segundo partido del Pleno al 15
-				aleat = Math.random() * numPosibilidades;
-				aleat = Math.floor(aleat);
-				aleat = (inferior + aleat);
-				if (aleat > 3) {
-					solucion = solucion + "1";
-				} else if (aleat > 2) {
-					solucion = solucion + "2";
-				} else if (aleat > 1) {
-					solucion = solucion + "4";
-				} else {
-					solucion = solucion + "8";
-				}
-			}
-		}
-		return solucion;
-
-	}
-
 	// pendiente de revision para incorportar el TYPE de la quiniela
 	private void calcBasicDoublesAndTriples(int numBets, int type) {
 		if ((type == 0) || (numBets < 9)) {
@@ -682,7 +623,7 @@ public class AdminCompanyController {
 						continue;
 					}
 					// STEP 2.2.2 - Calc RandomBet
-					String randomBet = randomBet();
+					String randomBet = betTools.randomBet();
 					// STEP 2.2.3 - Make Automatic User Bet
 					Bet bet = new Bet();
 					bet.setPrice(betTools.getPriceBet());
