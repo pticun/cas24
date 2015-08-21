@@ -127,14 +127,14 @@ MongoDB - PRE
 	*********mongoexport -h ds035338.mongolab.com:35338 -d racsor -c roundRanking -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_roundRanking
 	*********mongoexport -h ds035338.mongolab.com:35338 -d racsor -c sessionalterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_sessionalterq
 	*********mongoexport -h ds035338.mongolab.com:35338 -d racsor -c useralterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/20150223_useralterq
-	mongodump -h ds035338.mongolab.com:35338 -d racsor -c generalData -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds035338.mongolab.com:35338 -d racsor -c adminData -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds035338.mongolab.com:35338 -d racsor -c company -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
 	mongodump -h ds035338.mongolab.com:35338 -d racsor -c round -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
 	mongodump -h ds035338.mongolab.com:35338 -d racsor -c roundBets -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
 	mongodump -h ds035338.mongolab.com:35338 -d racsor -c roundRanking -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
-	mongodump -h ds035338.mongolab.com:35338 -d racsor -c useralterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
-	mongodump -h ds035338.mongolab.com:35338 -d racsor -c adminData -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
-	mongodump -h ds035338.mongolab.com:35338 -d racsor -c company -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
 	mongodump -h ds035338.mongolab.com:35338 -d racsor -c sequenceId -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds035338.mongolab.com:35338 -d racsor -c sessionAlterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds035338.mongolab.com:35338 -d racsor -c useralterq -u quinimobile -p quinimobile -o /home/kotto/Downloads/quinigold/
 	
 MongoDB - PRO
 	mongolab
@@ -145,12 +145,47 @@ MongoDB - PRO
 	*********mongo ds039351.mongolab.com:39351/pro_quinigold -u quinigold -p quinigold
 	NOPROBAR NO SE IMPORTA BIEN EN ROCKMONGO
 	*********mongoimport -h ds039351.mongolab.com:39351 -d pro_quinigold -c generalData -u quinigold -p quinigold --file /home/kotto/Downloads/20150223_generalData
-	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c generalData -u quinigold -p quinigold /home/kotto/Downloads/quinigold/racsor/generalData.bson 	
+	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c adminData -u quinigold -p quinigold /home/kotto/Downloads/quinigold/racsor/adminData.bson 	
+	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c company -u quinigold -p quinigold /home/kotto/Downloads/quinigold/racsor/company.bson 	
 	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c round -u quinigold -p quinigold /home/kotto/Downloads/quinigold/racsor/round.bson 	
 	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c roundBets -u quinigold -p quinigold /home/kotto/Downloads/quinigold/racsor/roundBets.bson 	
 	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c roundRanking -u quinigold -p quinigold /home/kotto/Downloads/quinigold/racsor/roundRanking.bson 	
+	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c sequenceId -u quinigold -p quinigold /home/kotto/Downloads/quinigold/racsor/sequenceId.bson 	
+	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c sessionAlterq -u quinigold -p quinigold /home/kotto/Downloads/quinigold/racsor/useralterq.bson 	
 	mongorestore -h ds039351.mongolab.com:39351 -d pro_quinigold -c useralterq -u quinigold -p quinigold /home/kotto/Downloads/quinigold/racsor/useralterq.bson 	
 	
+*************************************************************
+*************************************************************
+*************************************************************
+EXPORTAR DE MONGOLAB DE PRO A PRE
+
+	mongodump -h ds039351.mongolab.com:39351 -d pro_quinigold -c adminData -u quinigold -p quinigold -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds039351.mongolab.com:39351 -d pro_quinigold -c company -u quinigold -p quinigold -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds039351.mongolab.com:39351 -d pro_quinigold -c round -u quinigold -p quinigold -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds039351.mongolab.com:39351 -d pro_quinigold -c roundBets -u quinigold -p quinigold -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds039351.mongolab.com:39351 -d pro_quinigold -c roundRanking -u quinigold -p quinigold -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds039351.mongolab.com:39351 -d pro_quinigold -c sequenceId -u quinigold -p quinigold -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds039351.mongolab.com:39351 -d pro_quinigold -c sessionAlterq -u quinigold -p quinigold -o /home/kotto/Downloads/quinigold/
+	mongodump -h ds039351.mongolab.com:39351 -d pro_quinigold -c userAlterq -u quinigold -p quinigold -o /home/kotto/Downloads/quinigold/
+
+	delete all collection (now made handed)
+
+	mongorestore -h ds035338.mongolab.com:35338 -d racsor -c adminData -u quinimobile -p quinimobile /home/kotto/Downloads/quinigold/pro_quinigold/adminData.bson 	
+	mongorestore -h ds035338.mongolab.com:35338 -d racsor -c company -u quinimobile -p quinimobile /home/kotto/Downloads/quinigold/pro_quinigold/company.bson 	
+	mongorestore -h ds035338.mongolab.com:35338 -d racsor -c round -u quinimobile -p quinimobile /home/kotto/Downloads/quinigold/pro_quinigold/round.bson 	
+	mongorestore -h ds035338.mongolab.com:35338 -d racsor -c roundBets -u quinimobile -p quinimobile /home/kotto/Downloads/quinigold/pro_quinigold/roundBets.bson 	
+	mongorestore -h ds035338.mongolab.com:35338 -d racsor -c roundRanking -u quinimobile -p quinimobile /home/kotto/Downloads/quinigold/pro_quinigold/roundRanking.bson 	
+	mongorestore -h ds035338.mongolab.com:35338 -d racsor -c sequenceId -u quinimobile -p quinimobile /home/kotto/Downloads/quinigold/pro_quinigold/sequenceId.bson 	
+	mongorestore -h ds035338.mongolab.com:35338 -d racsor -c sessionAlterq -u quinimobile -p quinimobile /home/kotto/Downloads/quinigold/pro_quinigold/sessionAlterq.bson 	
+	mongorestore -h ds035338.mongolab.com:35338 -d racsor -c userAlterq -u quinimobile -p quinimobile /home/kotto/Downloads/quinigold/pro_quinigold/userAlterq.bson 	
+
+
+*************************************************************
+*************************************************************
+*************************************************************
+
+
+
 	
 *************************************
 		OPENSHIFT
