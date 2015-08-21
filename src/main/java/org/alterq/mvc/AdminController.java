@@ -34,6 +34,7 @@ import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.RolCompanySecurity;
 import org.alterq.security.UserAlterQSecurity;
+import org.alterq.util.BetTools;
 import org.alterq.util.CalculateRigths;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.CompanyValidator;
@@ -76,6 +77,8 @@ public class AdminController {
 	private RolCompanySecurity rolCompanySecurity;
 	@Autowired
 	private CompanyValidator companyValidator;
+	@Autowired
+	private BetTools betTools;
 
 	private static int doubles = 0;
 	private static int triples = 0;
@@ -94,65 +97,6 @@ public class AdminController {
 	private String getAdmin() {
 		UserAlterQ admin = userAlterQDao.findAdminByCompany(AlterQConstants.DEFECT_COMPANY);
 		return admin.getId();
-	}
-
-	/**
-	 * @return String randomBet Descripcion: Get a new ramdom bet
-	 * */
-	private static String randomBet() {
-		String solucion = "";
-		for (int i = 1; i <= 15; i++) {
-			int inferior = 1;
-			int superior = 3;
-			int infPleno15 = 1;
-			int supPleno15 = 4;
-			int numPosibilidades = 0;
-			double aleat = 0;
-
-			if (i != 15) {
-				numPosibilidades = (superior + 1) - inferior;
-				aleat = Math.random() * numPosibilidades;
-				aleat = Math.floor(aleat);
-				aleat = (inferior + aleat);
-				if (aleat > 2) {
-					solucion = solucion + "1";
-				} else if (aleat > 1) {
-					solucion = solucion + "2";
-				} else {
-					solucion = solucion + "4";
-				}
-			} else {
-				numPosibilidades = (supPleno15 + 1) - infPleno15;
-				// Calculo primer partido del Pleno al 15
-				aleat = Math.random() * numPosibilidades;
-				aleat = Math.floor(aleat);
-				aleat = (inferior + aleat);
-				if (aleat > 3) {
-					solucion = solucion + "1";
-				} else if (aleat > 2) {
-					solucion = solucion + "2";
-				} else if (aleat > 1) {
-					solucion = solucion + "4";
-				} else {
-					solucion = solucion + "8";
-				}
-				// Calculo segundo partido del Pleno al 15
-				aleat = Math.random() * numPosibilidades;
-				aleat = Math.floor(aleat);
-				aleat = (inferior + aleat);
-				if (aleat > 3) {
-					solucion = solucion + "1";
-				} else if (aleat > 2) {
-					solucion = solucion + "2";
-				} else if (aleat > 1) {
-					solucion = solucion + "4";
-				} else {
-					solucion = solucion + "8";
-				}
-			}
-		}
-		return solucion;
-
 	}
 
 	// pendiente de revision para incorportar el TYPE de la quiniela
@@ -674,7 +618,7 @@ public class AdminController {
 						continue;
 					}
 					// STEP 2.2.2 - Calc RandomBet
-					String randomBet = randomBet();
+					String randomBet = betTools.randomBet();
 					// STEP 2.2.3 - Make Automatic User Bet
 					Bet bet = new Bet();
 					bet.setPrice(DEF_QUINIELA_BET_PRICE);
