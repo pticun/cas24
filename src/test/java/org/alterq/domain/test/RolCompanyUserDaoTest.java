@@ -41,7 +41,6 @@ public class RolCompanyUserDaoTest {
 		userAlterQ.setId("idmail@arroba.es");
 		userAlterQ.setBalance("10");
 		userAlterQ.setActive(true);
-		userAlterQ.setCompany(AlterQConstants.DEFECT_COMPANY);
 		userAlterQ.setDateCreated(new Date());
 
 		RolCompany rc = new RolCompany();

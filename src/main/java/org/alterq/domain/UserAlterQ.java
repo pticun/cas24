@@ -21,7 +21,6 @@ public class UserAlterQ implements Serializable {
 	private String birthday;
 	private String city;
 	private String balance;
-	private int company;
 	private String accept;
 	private boolean active;
 	private Date dateCreated;
@@ -77,14 +76,6 @@ public class UserAlterQ implements Serializable {
 
 	public void setBalance(String balance) {
 		this.balance = balance;
-	}
-
-	public int getCompany() {
-		return company;
-	}
-
-	public void setCompany(int company) {
-		this.company = company;
 	}
 
 	public boolean isActive() {
