@@ -714,6 +714,7 @@ $(document).ready(function() {
 				    processData:false, //To avoid making query String instead of JSON
 				    success: function(response){
 						if(response.errorDto!=0){
+							$('#quinielaFormResponse').text("");
 			   		    	$(response.errorDto).each(function(index, objeto){  
 			   		    		$('#quinielaFormResponse').append(objeto.stringError+" - ");
 						    });

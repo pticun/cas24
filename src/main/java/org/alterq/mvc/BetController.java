@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.Round;
@@ -16,6 +17,7 @@ import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.exception.ValidatorException;
+import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
@@ -62,6 +64,9 @@ public class BetController {
 	private RolCompanySecurity rolCompanySecurity;
 	@Autowired
 	private BetTools betTools;
+	@Autowired
+	private AdminDataDao adminDataDao;
+	
 
 	@Autowired
 	@Qualifier("messageLocalizedResources")
@@ -221,6 +226,7 @@ public class BetController {
 		ResponseDto dto = new ResponseDto();
 
 		try {
+			
 			userSecurity.isSameUserInSession(id, cookieSession);
 			companyValidator.isCompanyOk(company);
 			RolCompany rc=new RolCompany();
@@ -229,6 +235,16 @@ public class BetController {
 			UserAlterQ userAlterQ = userDao.findById(id);
 			
 			rolCompanySecurity.isUserAuthorizedRolForCompany(userAlterQ, rc);
+			
+			if (!adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA).isActive())
+			{
+				ErrorDto error = new ErrorDto();
+				error.setIdError(MessageResourcesNameEnum.BET_NOT_ALLOWED);
+				error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.BET_NOT_ALLOWED_FOR_ROUND_NOT_ACTIVE));
+				dto.addErrorDto(error);
+				dto.setUserAlterQ(null);
+				return dto;
+			}
 			
 			String apuesta = "";
 			String reduccion = "";
