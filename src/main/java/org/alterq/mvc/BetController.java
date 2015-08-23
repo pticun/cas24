@@ -25,6 +25,7 @@ import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.RolCompanySecurity;
 import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.BetTools;
+import org.alterq.util.UserTools;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.CompanyValidator;
@@ -66,6 +67,8 @@ public class BetController {
 	private BetTools betTools;
 	@Autowired
 	private AdminDataDao adminDataDao;
+	@Autowired
+	private UserTools userTools;
 	
 
 	@Autowired
@@ -509,12 +512,18 @@ public class BetController {
 		try {
 			companyValidator.isCompanyOk(company);
 			RoundBets rb;
-			if (StringUtils.equals(id, "mail@mail.es")) {
-				rb = betDao.findFinalBet(season, round, company);
-			}
-			else{
+			RoundBets rbAdminCompanyFinalBets;
+			//if (StringUtils.equals(id, "mail@mail.es")) {
 				//TODO control user if exists
-				rb = betDao.findAllUserBets(season, round, id, company);
+			rb = betDao.findAllUserBets(season, round, id, company);
+			
+			//if user is not an adminCompany, we are showing finalBet adminCompany Bets
+			if (!userTools.isUserAdminCompany(id,company)){
+				rbAdminCompanyFinalBets = betDao.findFinalBet(season, round, company);
+				
+				for (Bet bet: rbAdminCompanyFinalBets.getBets()){
+					rb.addBet(bet);
+				}
 			}
 			dto.setRoundBet(rb);
 		} catch (ValidatorException e) {

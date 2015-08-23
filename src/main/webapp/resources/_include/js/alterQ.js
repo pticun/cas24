@@ -1512,7 +1512,11 @@ function getUserBets(){
 							console.log("index="+index);
 							console.log("user="+element.user + " bet="+element.bet);
 							row="";
-					    	row+='<tr>';
+							
+							if (element.finalBet)
+								row+='<tr bgcolor="#FFFFCC">';
+							else
+								row+='<tr>';
 					    	row+='<td>';
 					    	row+='<a href="javascript:betDetail('+index+',\''+element.bet+'\')" >';
 					    	row+='Apuesta'+(((index+1)<10)?'0':'')+(index+1)+' Jornada'+response.roundBet.round+ ' '+parseFloat(element.price).toFixed(2) + ' EUR';
