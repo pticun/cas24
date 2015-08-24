@@ -1514,7 +1514,7 @@ function getUserBets(){
 							row="";
 							
 							if (element.finalBet)
-								row+='<tr bgcolor="#FFFFCC">';
+								row+='<tr bgcolor="#FFFFBB">';
 							else
 								row+='<tr>';
 					    	row+='<td>';

@@ -172,11 +172,52 @@ $(document).ready(function() {
 			});
 		 	event.preventDefault(); // prevent actual form submit and page reload
 	});
+//	$('form#resultForm').submit(function(event) {
+//		 var dataJson=JSON.stringify($('form#resultForm').serializeObject());
+//		 consoleAlterQ(dataJson);
+//		 jQuery.ajax ({
+//			 url: ctx+'/admin/' + $("input[id=seasonResults]").val() + '/' +$("input[id=roundResults]").val() + '/' + $("input[id=betResults]").val() + '/resultBet',
+//			    type: "POST",
+//			    data: dataJson,
+//			    contentType: "application/json; charset=utf-8",
+//			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+//	            cache: false,    //This will force requested pages not to be cached by the browser  
+//	            processData:false, //To avoid making query String instead of JSON
+//			    success: function(response){
+//			    	if(response.errorDto!=0){
+//		   		    	$(response.errorDto).each(function(index, objeto){  
+//		   		    		consoleAlterQ("result: response="+objeto.errorDto);
+//		   		    		$('#matchesFormResponse').append(objeto.stringError+" - ");
+//					    });
+//		   		    	
+//		   		    }
+//		   		    else{
+//		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
+//						//$('#loginFormResponse').text(response.userAlterQ.name);
+//						consoleAlterQ("result: response= OK");
+//						$('#resutFormResponse').text("Admin - Result - OK");
+//						//userLoged=true;
+//						//idUserAlterQ=response.userAlterQ.id;
+//						//$('#idData').val(response.userAlterQ.id);
+//						//$('#nameData').val(response.userAlterQ.name);
+//						//$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
+//						//$('#idSaldo').val(response.userAlterQ.id);
+//						//$('#balanceSaldo').val(response.userAlterQ.balance);
+//						//getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+//						//showDiv(bHome);
+//		   		    }
+//				    //round=response.generalData.round;
+//				    //season=response.generalData.season;
+//			    }.val()
+//			});
+//		 	event.preventDefault(); // prevent actual form submit and page reload
+//	});
+	
 	$('form#resultForm').submit(function(event) {
 		 var dataJson=JSON.stringify($('form#resultForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/admin'+ '/company/' + '1' + '/season/'+ $("input[id=seasonResults]").val() + '/round/' + $("input[id=roundResults]").val() + '/resultBet/' + $("input[id=results]").val(),
+			 url: ctx+'/admin/'+ $("input[id=seasonResults]").val() + '/' + $("input[id=roundResults]").val() + '/' + $("input[id=betResults]").val() + '/resultBet',
 			    type: "POST",
 			    data: dataJson,
 			    //contentType: "application/json; charset=utf-8",
@@ -187,7 +228,7 @@ $(document).ready(function() {
 			    	if(response.errorDto!=0){
 		   		    	$(response.errorDto).each(function(index, objeto){  
 		   		    		consoleAlterQ("result: response="+objeto.errorDto);
-		   		    		$('#matchesFormResponse').append(objeto.stringError+" - ");
+		   		    		$('#resutFormResponse').text(objeto.stringError+" - ");
 					    });
 		   		    	
 		   		    }
@@ -195,7 +236,7 @@ $(document).ready(function() {
 		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
 						//$('#loginFormResponse').text(response.userAlterQ.name);
 						consoleAlterQ("result: response= OK");
-						$('#resutFormResponse').text("Admin - Result - OK");
+						$('#resutFormResponse').text("Admin - Result Bet - OK");
 						//userLoged=true;
 						//idUserAlterQ=response.userAlterQ.id;
 						//$('#idData').val(response.userAlterQ.id);
@@ -208,10 +249,10 @@ $(document).ready(function() {
 		   		    }
 				    //round=response.generalData.round;
 				    //season=response.generalData.season;
-			    }.val()
+			    }
 			});
 		 	event.preventDefault(); // prevent actual form submit and page reload
-	});
+	});	
   	 $('#admin_getQuiniela_btn').click(function( event ) {
 		consoleAlterQ("temporada_jornada="+$("input[id=getSeasonQuiniela]").val()+"-"+$("input[id=getRoundQuiniela]").val());
 		callResum($("input[id=getSeasonQuiniela]").val(),$("input[id=getRoundQuiniela]").val());

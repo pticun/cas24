@@ -313,7 +313,10 @@ var ctx = "<%=request.getContextPath()%>"
           		<br>
  -->          		
 		   		<tr align="center">
-		   			<td><button id="prizesBtn" class="btn btn-danger" name="prizesMenu" value="prizes">Results</button><br><br></td>
+		   			<td><button id="resultsBtn" class="btn btn-danger" name="resultsMenu" value="results">Results</button><br><br></td>
+		        </tr>
+		   		<tr align="center">
+		   			<td><button id="prizesBtn" class="btn btn-danger" name="prizesMenu" value="prizes">Prizes</button><br><br></td>
 		        </tr>
 		   		<tr align="center">
 		   			<td><button id="updateBalanceBtn" class="btn btn-danger" name="updateBalanceprizesMenu" value="updateBalance">Update Balance</button><br><br></td>
@@ -641,52 +644,54 @@ var ctx = "<%=request.getContextPath()%>"
 <!-- End GetQuinielaRound Section -->
 
 <!-- ResultsRound Section -->
-<!-- <div id="resultsDiv" class="page"> -->
-<!-- <div class="container"> -->
-<!--     Title Page -->
-<!--     <div class="row"> -->
-<!--         <div class="span12"> -->
-<!--             <div class="title-page"> -->
-<!--                 <h2 class="title">Admin - Results Round</h2> -->
-<!--             </div> -->
-<!--         </div> -->
-<!--     </div> -->
-<!--     End Title Page -->
+<div id="resultsDiv" class="page">
+<div class="container">
+<!-- Title Page -->
     
-<!--     ResultsRound Form -->
-<!--     <div class="row table-responsive"> -->
-<!-- 		<div align="center"> -->
-<%-- 			<form id="resultForm"> --%>
-<!-- 			   		<table class="quiniela"> -->
-<!-- 				   		<tr> -->
-<!-- 				   			<td class="partido">Season:</td> -->
-<!-- 				   			<td class="partido"><input id="seasonResults" name="season" type="text"/></td> -->
-<!-- 				        </tr> -->
-<!-- 				   		<tr> -->
-<!-- 				   			<td class="partido">Round:</td> -->
-<!-- 				   			<td class="partido"><input id="roundResults" name="round" type="text"/></td> -->
-<!-- 				        </tr> -->
-<!-- 				   		<tr> -->
-<!-- 				   			<td class="partido">Result(1-X-2):</td> -->
-<!-- 				   			<td class="partido"><input id="results" name="results" type="text"/></td> -->
-<!-- 				        </tr> -->
-<!-- 				   		<tr align="right"> -->
-<!-- 				   			<td class="partido">&nbsp;</td> -->
-<!-- 				   			<td class="partido"><button id="admin_results_btn" class="button" name="resultsBtn" value="resultsBtn">Set Results</button></td> -->
-<!-- 				        </tr> -->
-<!-- 			   		</table> -->
-<!-- 			   		<div id="resutFormResponse">respuesta </div> -->
-<%-- 			</form> --%>
-<!-- 	   		<table class="quiniela"> -->
-<!-- 	   			<tr align="center"> -->
-<!-- 		   			<td class="partido"><button id="homeBtn5" class="button" name="homeBtn5" value="homeBtn5">Admin Menu</button></td> -->
-<!-- 		        </tr> -->
-<!-- 	       </table> -->
-<!-- 		</div> -->
-<!--     </div> -->
-<!--     End ResultsRound Form -->
-<!-- </div> -->
-<!-- </div> -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Admin - Results Round</h2>
+            </div>
+        </div>
+    </div>
+    
+<!-- End Title Page -->    
+    
+    
+<!-- ResultsRound Form -->
+    
+    <div class="row table-responsive">
+		<div align="center">
+			<form id="resultForm">
+			   		<table class="tablaQuiniGold">
+				   		<tr>
+				   			<td>Season:</td>
+				   			<td><input id="seasonResults" name="season" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td>Round:</td>
+				   			<td><input id="roundResults" name="round" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td>Result(1-X-2)[012M]:</td>
+				   			<td><input id="betResults" name="results" type="text"/></td>
+				        </tr>
+				   		<tr align="center">
+				   			<td colspan=2><button id="admin_results_btn" class="btn btn-danger" name="resultsBtn" value="resultsBtn">Set Results</button><br><br></td>
+				        </tr>
+			   			<tr align="center">
+				   			<td colspan=2><button id="homeBtn5" class="btn btn-danger" name="homeBtn5" value="homeBtn5">Admin Menu</button></td>
+				        </tr>
+			   		</table>
+			   		<br>
+			   		<div id="resutFormResponse" class="linkQuiniGold">respuesta </div>
+			</form>
+		</div>
+    </div>
+<!-- End ResultsRound Form -->    
+</div>
+</div>
 <!-- End ResultsRound Section -->
 
 
@@ -715,10 +720,6 @@ var ctx = "<%=request.getContextPath()%>"
 				   		<tr>
 				   			<td>Round:</td>
 				   			<td><input id="roundPrizes" name="round" type="text"/></td>
-				        </tr>
-				   		<tr>
-				   			<td>Result(1-X-2)[012M]:</td>
-				   			<td><input id="results" name="results" type="text"/></td>
 				        </tr>
 				   		<tr>
 				   			<td>Prize10:</td>
@@ -799,8 +800,6 @@ var ctx = "<%=request.getContextPath()%>"
 			   		<br>
 			   		<div id="updateBalanceFormResponse" class="linkQuiniGold">respuesta </div>
 			</form>
-	   		<table class="quiniela">
-	       </table>
 		</div>
     </div>
     <!-- End ResultsRound Form -->
