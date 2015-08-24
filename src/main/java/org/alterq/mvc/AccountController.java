@@ -112,9 +112,9 @@ public class AccountController {
 		UserAlterQ userAlterQ = userDao.findById(user.getId());
 		ResponseDto dto = new ResponseDto();
 		if (userAlterQ != null) {
-			String pwd = RandomStringUtils.random(10, true, true);
-			sendMail.sendMailWithTemplate(userAlterQ.getId(), "CAMBIO PWDALTERQ", pwd);
-			userAlterQ.setPwd(pwd);
+//			String pwd = RandomStringUtils.random(10, true, true);
+			sendMail.sendMailWithTemplate(userAlterQ.getId(), "CAMBIO PWDALTERQ", userAlterQ.getPwd());
+//			userAlterQ.setPwd(pwd);
 			userDao.save(userAlterQ);
 
 			ErrorDto error = new ErrorDto();
