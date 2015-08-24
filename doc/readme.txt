@@ -105,8 +105,8 @@ step 3 - pull remote master
 Pull master to remote repository(openshift pre and openshift pro)
 step 1 - pull master to remote repository
 
-PRE quinimobile-goldbittle  user/pwd:goldbittledev@gmail.com/gbd2013
-ssh://51dd73e55973ca1d89000148@quinimobile-goldbittle.rhcloud.com/~/git/quinimobile.git/
+PRE prequinigold-GOLDBITTLE.RHCLOUD.COM  user/pwd:goldbittledev@gmail.com/gbd2013
+ssh://55db8a4789f5cf79070000a6@prequinigold-goldbittle.rhcloud.com/~/git/prequinigold.git/
 
 PRO quinigold  user/pwd:admin@quinigold.com/adminAlterQ2014
 ssh://54a72909e0b8cd121c000053@quinigold-quinigold.rhcloud.com/~/git/quinigold.git/
@@ -193,7 +193,7 @@ EXPORTAR DE MONGOLAB DE PRO A PRE
 
 	PRE
 
-		http://quinimobile-goldbittle.rhcloud.com/
+		http://prequinigold-goldbittle.rhcloud.com/
 		
 		acceso a openshift con usuario goldbittledev@gmail.com/gbd2013
 		
@@ -202,13 +202,8 @@ EXPORTAR DE MONGOLAB DE PRO A PRE
 			pass: gold7bittle4
 		
 		SSH de openshift
-			ssh://51dd73e55973ca1d89000148@quinimobile-goldbittle.rhcloud.com/~/git/quinimobile.git/
+			ssh://55db8a4789f5cf79070000a6@prequinigold-goldbittle.rhcloud.com/~/git/prequinigold.git/
 			
-		Jenkins
-			https://jenkins-goldbittle.rhcloud.com/me/configure
-				User: admin
-   				Password: 163JSUX4W3Uv
-
  
  	PRO
  		

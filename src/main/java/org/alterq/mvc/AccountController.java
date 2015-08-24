@@ -113,7 +113,7 @@ public class AccountController {
 		ResponseDto dto = new ResponseDto();
 		if (userAlterQ != null) {
 			String pwd = RandomStringUtils.random(10, true, true);
-			sendMail.sendMailWithTemplate("racsor@gmail.com", "CAMBIO PWDALTERQ", pwd);
+			sendMail.sendMailWithTemplate(userAlterQ.getId(), "CAMBIO PWDALTERQ", pwd);
 			userAlterQ.setPwd(pwd);
 			userDao.save(userAlterQ);
 
