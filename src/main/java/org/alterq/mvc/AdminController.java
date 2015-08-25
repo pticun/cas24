@@ -22,6 +22,7 @@ import org.alterq.domain.Ranking;
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
+import org.alterq.domain.RoundRanking;
 import org.alterq.domain.RoundResult;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
@@ -515,7 +516,21 @@ public class AdminController {
 		rnk.setPoints(points);
 		rnk.setUser(user);
 
-		roundRankingDao.addRanking(company, season, round, rnk);
+		if (round==0){ //Global Ranking
+			RoundRanking usrRnk = roundRankingDao.findUserRanking(company, season, round, rnk.getUser().getId());
+			if (usrRnk!=null){
+				rnk.setPoints(rnk.getPoints() + usrRnk.getRankings().get(0).getPoints());
+				rnk.setOnes(rnk.getOnes() + usrRnk.getRankings().get(0).getOnes());
+				rnk.setEqus(rnk.getEqus() + usrRnk.getRankings().get(0).getEqus());
+				rnk.setTwos(rnk.getTwos() + usrRnk.getRankings().get(0).getTwos());
+				roundRankingDao.updateRanking(company, season, round, rnk);
+			}
+			else{
+				roundRankingDao.addRanking(company, season, round, rnk);
+			}
+		}
+		else
+			roundRankingDao.addRanking(company, season, round, rnk);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/open")
