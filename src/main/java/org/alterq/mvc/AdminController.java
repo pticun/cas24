@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
+import org.alterq.domain.Company;
 import org.alterq.domain.Game;
 import org.alterq.domain.Prize;
 import org.alterq.domain.Ranking;
@@ -29,6 +30,7 @@ import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.repo.AdminDataDao;
+import org.alterq.repo.CompanyDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.RoundRankingDao;
@@ -84,6 +86,9 @@ public class AdminController {
 	private BetTools betTools;
 	@Autowired
 	private RoundResultsDao roundResultsDao;
+	@Autowired
+	private CompanyDao companyDao;
+	
 
 	private static int doubles = 0;
 	private static int triples = 0;
@@ -571,17 +576,22 @@ public class AdminController {
 				adminDataDao.add(adminData);
 			}
 
-			// STEP 2: Create roundData (RoundBets collection)
-			RoundBets roundBets = roundBetDao.findAllBets(season, round, company);
-			// Check if exist this roundBet
-			if (roundBets == null) {
-				RoundBets bean = new RoundBets();
-				bean.setCompany(company);
-				bean.setRound(round);
-				bean.setSeason(season);
-				roundBetDao.add(bean);
+			//FOR EACH COMPANY
+			List<Company> companyList = companyDao.findAll();
+			for (Company co : companyList) {
+				// STEP 2: Create roundData (RoundBets collection)
+				//RoundBets roundBets = roundBetDao.findAllBets(season, round, company);
+				RoundBets roundBets = roundBetDao.findAllBets(season, round, co.getCompany());
+				// Check if exist this roundBet
+				if (roundBets == null) {
+					RoundBets bean = new RoundBets();
+					//bean.setCompany(company);
+					bean.setCompany(co.getCompany());
+					bean.setRound(round);
+					bean.setSeason(season);
+					roundBetDao.add(bean); 
+				}
 			}
-
 		} catch (SecurityException e) {
 			response.addErrorDto("AdminController:openRound", "SecurityException");
 			// TODO Auto-generated catch block
