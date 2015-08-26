@@ -93,7 +93,6 @@ public class AdminController {
 	private static int doubles = 0;
 	private static int triples = 0;
 
-	//private static final float DEF_QUINIELA_BET_PRICE = (float) 0.75;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String initPage() {
@@ -122,29 +121,6 @@ public class AdminController {
 		}
 	}
 
-//	private static float calcQuinielaPrice(int doubles, int triples, int type) {
-//		return new Double(getQuinielaNumBets(type) * DEF_QUINIELA_BET_PRICE * Math.pow(2, doubles) * Math.pow(3, triples)).floatValue();
-//	}
-
-//	private static int getQuinielaNumBets(int type) {
-//		switch (type) {
-//		case 0:
-//			return 1; // Sencilla
-//		case 1:
-//			return 9; // Reduccion Primera (4T)
-//		case 2:
-//			return 16; // Reduccion Segunda (7D)
-//		case 3:
-//			return 24; // Reduccion Tercera (3D + 3T)
-//		case 4:
-//			return 64; // Reduccion Cuarta (6D + 2T)
-//		case 5:
-//			return 81; // Reduccion Quinta (8T)
-//		default:
-//			return 1;
-//		}
-//	}
-
 	private static void calcFinalDoublesAndTriples(int type) {
 		switch (type) {
 		case 1: // Reduccion Primera (4T)
@@ -169,151 +145,6 @@ public class AdminController {
 		}
 	}
 
-	/**
-	 * Function calcFinalQuiniela that return the final quiniela
-	 * 
-	 * *************************************************************************
-	 * PENDIENTE REVISAR ESTA FUNCION: SE UTILIZARA CUANDO SE ACTIVEN LAS PEÑAS
-	 * Y HABRA QUE GESTIONAR EL NUEVO PLENO AL QUINCE (012M)
-	 * *************************************************************************
-	 * 
-	 * Signs: 1 = 100 = 4 X = 010 = 2 2 = 001 = 1 1X = 110 = 6 1 2 = 101 = 5 X2
-	 * = 011 = 3 1X2 = 111 = 7
-	 * 
-	 * Gets users Bets, and calculate a value for each sign ( sum(user sign *
-	 * user weight)) Selecrt max values until triples and double are completed
-	 * 
-	 * @return String final quiniela
-	 * @param int doubles : number of doubles in the final quiniela
-	 * @param int triples : number of triples in the final quiniela
-	 * 
-	 *        Descripcion: Get a new ramdom bet
-	 * */
-	private String calcFinalQuiniela(int season, int round, int doubles, int triples, List<Bet> lBets) {
-		double[][] count1X2 = new double[15][3];
-		String aux = "";
-
-		for (Bet bet : lBets) {
-			String apu = bet.getBet();
-			double usuWeight = calcUserWeight(bet.getUser());
-
-			for (int j = 0; j < 15; j++) {
-				if (apu.charAt(j) == '4') {
-					count1X2[j][0] = count1X2[j][0] + 1 * usuWeight;
-				} else if (apu.charAt(j) == '2') {
-					count1X2[j][1] = count1X2[j][1] + 1 * usuWeight;
-				} else if (apu.charAt(j) == '1') {
-					count1X2[j][2] = count1X2[j][2] + 1 * usuWeight;
-				} else if (apu.charAt(j) == '6') {
-					count1X2[j][0] = count1X2[j][0] + 1 * usuWeight;
-					count1X2[j][1] = count1X2[j][1] + 1 * usuWeight;
-				} else if (apu.charAt(j) == '5') {
-					count1X2[j][0] = count1X2[j][0] + 1 * usuWeight;
-					count1X2[j][2] = count1X2[j][2] + 1 * usuWeight;
-				} else if (apu.charAt(j) == '3') {
-					count1X2[j][1] = count1X2[j][1] + 1 * usuWeight;
-					count1X2[j][2] = count1X2[j][2] + 1 * usuWeight;
-				} else if (apu.charAt(j) == '7') {
-					count1X2[j][0] = count1X2[j][0] + 1 * usuWeight;
-					count1X2[j][1] = count1X2[j][1] + 1 * usuWeight;
-					count1X2[j][2] = count1X2[j][2] + 1 * usuWeight;
-				}
-			}
-		}
-
-		// Select Max Values & set Quiniela Final
-		// ...
-
-		// Select Simple Final Quiniela
-		for (int j = 0; j < 15; j++) {
-			if ((count1X2[j][0] >= count1X2[j][1]) && (count1X2[j][0] >= count1X2[j][2])) {
-				count1X2[j][0] = -1;
-				continue;
-			} else if ((count1X2[j][1] >= count1X2[j][0]) && (count1X2[j][1] >= count1X2[j][2])) {
-				count1X2[j][1] = -1;
-				continue;
-
-			} else if ((count1X2[j][2] >= count1X2[j][0]) && (count1X2[j][2] >= count1X2[j][1])) {
-				count1X2[j][2] = -1;
-				continue;
-			} else {
-				count1X2[j][0] = -1;
-			}
-
-		}
-		// Select Doubles
-		int aX = 0;
-		int aY = 0;
-		double max = count1X2[0][0];
-		for (int i = 0; i < doubles; i++) {
-			max = 0;
-			for (int j = 0; j < 14; j++) {// Don't put doubles in plenoAlQuince
-				for (int k = 0; k < 3; k++) {
-					if (count1X2[j][k] > max) {
-						max = count1X2[j][k];
-						aX = j;
-						aY = k;
-					}
-				}
-			}
-			count1X2[aX][aY] = -1;
-		}
-
-		// Select Triples
-		aX = 0;
-		max = count1X2[0][0];
-		for (int i = 0; i < triples; i++) {
-			max = 0;
-			for (int j = 0; j < 14; j++) { // Don't put triples in plenoAlQuince
-				for (int k = 0; k < 3; k++) {
-					if (count1X2[j][k] > max) {
-						max = count1X2[j][k];
-						aX = j;
-					}
-				}
-			}
-			// There isn't any candidate. It's choosen the first one.
-			if (aX == 0) {
-				for (int j = 0; j < 14; j++) { // Don't put triples in
-												// plenoAlQuince
-					// check if it's a double
-					if ((count1X2[j][0] != -1 && count1X2[j][1] != -1 && count1X2[j][2] != -1) || (count1X2[j][0] == -1 && count1X2[j][1] != -1 && count1X2[j][2] != -1) || (count1X2[j][0] != -1 && count1X2[j][1] == -1 && count1X2[j][2] != -1)
-							|| (count1X2[j][0] != -1 && count1X2[j][1] != -1 && count1X2[j][2] == -1))
-
-					{
-						count1X2[j][0] = -1;
-						count1X2[j][1] = -1;
-						count1X2[j][2] = -1;
-						break;
-					}
-				}
-			} else {
-				count1X2[aX][0] = -1;
-				count1X2[aX][1] = -1;
-				count1X2[aX][2] = -1;
-			}
-		}
-
-		// Set Final Quiniela
-		for (int j = 0; j < 15; j++) {
-			if ((count1X2[j][0] == -1) && (count1X2[j][1] == -1) && (count1X2[j][2] == -1))
-				aux += "7";
-			else if ((count1X2[j][0] == -1) && (count1X2[j][1] == -1))
-				aux += "6";
-			else if ((count1X2[j][0] == -1) && (count1X2[j][2] == -1))
-				aux += "5";
-			else if ((count1X2[j][1] == -1) && (count1X2[j][2] == -1))
-				aux += "3";
-			else if (count1X2[j][0] == -1)
-				aux += "4";
-			else if (count1X2[j][1] == -1)
-				aux += "2";
-			else if (count1X2[j][2] == -1)
-				aux += "1";
-		}
-
-		return aux;
-	}
 
 	private double calcUserWeight(String user) {
 
@@ -701,82 +532,6 @@ public class AdminController {
 		return response;
 	}
 
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/finalBet/{type}")
-	public @ResponseBody ResponseDto finalBetRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable int type) {
-		ResponseDto response = new ResponseDto();
-		log.debug("closeRound: start");
-
-		try {
-			userSecurity.isSuperAdminUserInSession(cookieSession);
-			String idUser = sessionDao.findUserAlterQIdBySessionId(cookieSession);
-			companyValidator.isCompanyOk(company);
-			RolCompany rc = new RolCompany();
-			rc.setCompany(company);
-			rc.setRol(RolNameEnum.ROL_SUPER_ADMIN.getValue());
-			UserAlterQ userAlterQ = new UserAlterQ();
-			userAlterQ.setId(idUser);
-
-			rolCompanySecurity.isUserAuthorizedRolForCompany(userAlterQ, rc);
-
-			
-			AdminData ad = adminDataDao.findById(AlterQConstants.DEFECT_COMPANY);
-			float priceBet = ad.getPrizeBet();
-
-			
-			// FINAL BET PROCESS STEPS
-			//
-
-			// STEP 4: Quiniela
-			// STEP 4.1 - Calc Number Bets
-			int numBets = roundBetDao.countAllBets(season, round, company);
-
-			// STEP 4.2 - Calc Number of Doubles and Triples
-			calcBasicDoublesAndTriples(numBets, type);
-
-			// STEP 4.3 - Calc Quiniela Price and Round Jackpot
-			float price = betTools.calcQuinielaPrice(doubles, triples, type);
-			float jackpot = ((price == 0) ? (float) 0 : (float) (numBets * priceBet - price));
-
-			// STEP 4.4 - Update RoundData
-			RoundBets rBets = roundBetDao.findAllBets(season, round, company);
-			rBets.setJackpot(jackpot);
-			rBets.setPrice(price);
-			roundBetDao.update(rBets);
-
-			calcFinalDoublesAndTriples(type);
-
-			// STEP 4.5 - Calc Final Quiniela
-			String finalQ = calcFinalQuiniela(season, round, doubles, triples, rBets.getBets());
-
-			// STEP 4.6 - Add Final Bet (admin)
-
-			// **********************************************************************
-			// Check if exist admin bet for this round (Better optimization
-			// analizing rBets.getBets() for Admin)
-			RoundBets rBetsAdmin = roundBetDao.findAllUserBets(season, round, getAdmin(), company);
-			if ((rBetsAdmin != null) && (rBetsAdmin.getBets().size() > 0))
-				roundBetDao.deleteAllUserBets(season, round, getAdmin());
-			// **********************************************************************
-
-			Bet bet = new Bet();
-			bet.setPrice((float) 0.0);
-			bet.setBet(finalQ);
-			bet.setUser(getAdmin());
-			bet.setCompany(company);
-			bet.setDateCreated(new Date());
-			bet.setDateUpdated(new Date());
-			bet.setId(new ObjectId().toHexString());
-			roundBetDao.addBet(season, round, bet);
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			response.addErrorDto("AdminController:finalBetRound", "SecurityException");
-			e.printStackTrace();
-		}
-
-		log.debug("closeRound: end");
-		return response;
-	}
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/{season}/{round}/{resultBet}/resultBet")
 	public @ResponseBody ResponseDto resutlBetRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int season, @PathVariable int round, @PathVariable String resultBet) {

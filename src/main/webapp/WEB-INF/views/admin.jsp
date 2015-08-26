@@ -292,26 +292,6 @@ var ctx = "<%=request.getContextPath()%>"
 		   		<tr align="center">
 		   			<td><button id="matchesBtn" class="btn btn-danger" name="matchesMenu" value="matches">Matches</button><br><br></td>
 		        </tr>
-<!--           		
-          		<table class="quiniela">
-		   		<tr align="center">
-		   			<td class="partido"><button id="quinielaFinalBtn" class="button" name="quinielaFinalMenu" value="quinelaFinal">Quiniela</button></td>
-		        </tr>
-          		</table>
-          		<br>
-          		<table class="quiniela">
-		   		<tr align="center">
-		   			<td class="partido"><button id="getQuinielaFinalBtn" class="button" name="getQuinielaFinalMenu" value="getQuinelaFinal">Quiniela Final</button></td>
-		        </tr>
-          		</table>
-          		<br>
-          		<table class="quiniela">
-		   		<tr align="center">
-		   			<td class="partido"><button id="resultsBtn" class="button" name="resultsMenu" value="results">Results</button></td>
-		        </tr>
-	   			</table>
-          		<br>
- -->          		
 		   		<tr align="center">
 		   			<td><button id="resultsBtn" class="btn btn-danger" name="resultsMenu" value="results">Results</button><br><br></td>
 		        </tr>
@@ -540,114 +520,11 @@ var ctx = "<%=request.getContextPath()%>"
 </div>
 <!-- End MatchesRound Section -->
 
-<!-- FinalQuinielaRound Section -->
-<div id="quinielaDiv" class="page">
-<div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Admin - Final Quiniela Round</h2>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
-    <!-- FinalQuinielaRound Form -->
-    <div class="row table-responsive">
-		<div align="center">
-			<form id="quinielaForm">
-			   		<table class="tablaQuiniGold">
-				   		<tr>
-				   			<td>Season:</td>
-				   			<td><input id="seasonQuiniela" name="season" type="text"/></td>
-				        </tr>
-				   		<tr>
-				   			<td>Round:</td>
-				   			<td><input id="roundQuiniela" name="round" type="text"/></td>
-				        </tr>
-				   		<tr>
-				   			<td>Type Quiniela(0=normal, 1=R 4T, 2= R 3T+3D):</td>
-				   			<td><input id="tipoQuiniela" name="quiniela" type="text"/></td>
-				        </tr>
-				   		<tr align="right">
-				   			<td colspan=2><button id="admin_quiniela_btn" class="btn btn-danger" name="quinielaBtn" value="quinielaBtn">Quiniela</button><br><br></td>
-				        </tr>
-			   			<tr align="center">
-				   			<td colspan=2><button id="homeBtn4" class="btn btn-danger" name="homeBtn4" value="homeBtn4">Admin Menu</button></td>
-				        </tr>
-			   		</table>
-			   		<br>
-			   		<div id="quinielaFormResponse" class="linkQuiniGold">respuesta </div>
-			</form>
-		</div>
-    </div>
-    <!-- End FinalQuinielaRound Form -->
-</div>
-</div>
-<!-- End FinalQuinielaRound Section -->
-
-<!-- GetQuinielaRound Section -->
-<div id="getQuinielaDiv" class="page">
-<div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Admin - Get Final Quiniela Round</h2>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Quiniela</h2>
-                <h3 class="title-description" id="quinielaTitle">Jornada <c:out value="${jornada}" /> Temporada <c:out value="${temporada}" />/<c:out value="${temporada+1-2000}" /></h3>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
-	<div id="resumResponse" align="center">
-		    <table class="tablaQuiniGold" id="resumTable"></table>
-	</div>
-    
-    <!-- FinalQuinielaRound Form -->
-    <div class="row table-responsive">
-		<div align="center">
- 			<div id="getQuinielaDiv" >  
-			   		<table class="tablaQuiniGold">
-				   		<tr>
-				   			<td>Season:</td>
-				   			<td><input id="getSeasonQuiniela" name="season" type="text"/></td>
-				        </tr>
-				   		<tr>
-				   			<td>Round:</td>
-				   			<td><input id="getRoundQuiniela" name="round" type="text"/></td>
-				        </tr>
-				   		<tr align="center">
-				   			<td colspan=2><button id="admin_getQuiniela_btn" class="btn btn-danger" name="getQuinielaBtn" value="quinielaBtn">Quiniela</button><br><br></td>
-				        </tr>
-			   			<tr align="center">
-				   			<td colspan=2><button id="homeBtn04" class="btn btn-danger" name="homeBtn04" value="homeBtn4">Admin Menu</button></td>
-				        </tr>
-			   		</table>
-			   		<br>
-			   		<div id="getQuinielaFormResponse" class="linkQuiniGold">respuesta </div>
- 			</div>
-		</div>
-    </div>
-    <!-- End GetQuinielaRound Form -->
-</div>
-</div>
-<!-- End GetQuinielaRound Section -->
 
 <!-- ResultsRound Section -->
 <div id="resultsDiv" class="page">
 <div class="container">
 <!-- Title Page -->
-    
     <div class="row">
         <div class="span12">
             <div class="title-page">
@@ -655,12 +532,8 @@ var ctx = "<%=request.getContextPath()%>"
             </div>
         </div>
     </div>
-    
 <!-- End Title Page -->    
-    
-    
 <!-- ResultsRound Form -->
-    
     <div class="row table-responsive">
 		<div align="center">
 			<form id="resultForm">
