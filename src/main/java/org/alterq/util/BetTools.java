@@ -2,6 +2,7 @@ package org.alterq.util;
 
 import java.lang.Math;
 
+import org.alterq.domain.AdminData;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.AdminDataDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,33 @@ import org.springframework.stereotype.Service;
 public class BetTools{
 	@Autowired
 	private AdminDataDao adminDataDao;
+
+	public int getQuinielaNumBets(int type) {
+		switch (type) {
+		case 0:
+			return 1; // Sencilla
+		case 1:
+			return 9; // Reduccion Primera (4T)
+		case 2:
+			return 16; // Reduccion Segunda (7D)
+		case 3:
+			return 24; // Reduccion Tercera (3D + 3T)
+		case 4:
+			return 64; // Reduccion Cuarta (6D + 2T)
+		case 5:
+			return 81; // Reduccion Quinta (8T)
+		default:
+			return 1;
+		}
+	}	
+	
+	public float calcQuinielaPrice(int doubles, int triples, int type) {
+		AdminData ad = adminDataDao.findById(AlterQConstants.DEFECT_COMPANY);
+		float priceBet = ad.getPrizeBet();
+
+		return new Double(getQuinielaNumBets(type) * priceBet * Math.pow(2, doubles) * Math.pow(3, triples)).floatValue();
+	}
+
 
 	public float getPriceBet(){
 		return adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA).getPrizeBet();

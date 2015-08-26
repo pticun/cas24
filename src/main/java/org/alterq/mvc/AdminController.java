@@ -93,7 +93,7 @@ public class AdminController {
 	private static int doubles = 0;
 	private static int triples = 0;
 
-	private static final float DEF_QUINIELA_BET_PRICE = (float) 0.75;
+	//private static final float DEF_QUINIELA_BET_PRICE = (float) 0.75;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String initPage() {
@@ -110,38 +110,40 @@ public class AdminController {
 	}
 
 	// pendiente de revision para incorportar el TYPE de la quiniela
-	private static void calcBasicDoublesAndTriples(int numBets, int type) {
+	private void calcBasicDoublesAndTriples(int numBets, int type) {
+		int nBets = betTools.getQuinielaNumBets(type);
+
 		if ((type == 0) || (numBets < 9)) {
 			triples = (int) ((numBets < 3) ? 0 : (Math.log(numBets) / Math.log(3)));
 			doubles = (int) (((numBets - Math.pow(3, triples)) < 2) ? 0 : (Math.log((int) (numBets / Math.pow(3, triples))) / Math.log(2)));
 		} else {// It's a quiniela with reduction
-			triples = (int) ((numBets < (3 * getQuinielaNumBets(type))) ? 0 : (Math.log(numBets) / Math.log(3 * getQuinielaNumBets(type))));
-			doubles = (int) (((numBets - Math.pow((3 * getQuinielaNumBets(type)), triples)) < (2 * getQuinielaNumBets(type))) ? 0 : (Math.log((int) (numBets / Math.pow((3 * getQuinielaNumBets(type)), triples))) / Math.log((2 * getQuinielaNumBets(type)))));
+			triples = (int) ((numBets < (3 * nBets)) ? 0 : (Math.log(numBets) / Math.log(3 * nBets)));
+			doubles = (int) (((numBets - Math.pow((3 * nBets), triples)) < (2 * nBets)) ? 0 : (Math.log((int) (numBets / Math.pow((3 * nBets), triples))) / Math.log((2 * nBets))));
 		}
 	}
 
-	private static float calcQuinielaPrice(int doubles, int triples, int type) {
-		return new Double(getQuinielaNumBets(type) * DEF_QUINIELA_BET_PRICE * Math.pow(2, doubles) * Math.pow(3, triples)).floatValue();
-	}
+//	private static float calcQuinielaPrice(int doubles, int triples, int type) {
+//		return new Double(getQuinielaNumBets(type) * DEF_QUINIELA_BET_PRICE * Math.pow(2, doubles) * Math.pow(3, triples)).floatValue();
+//	}
 
-	private static int getQuinielaNumBets(int type) {
-		switch (type) {
-		case 0:
-			return 1; // Sencilla
-		case 1:
-			return 9; // Reduccion Primera (4T)
-		case 2:
-			return 16; // Reduccion Segunda (7D)
-		case 3:
-			return 24; // Reduccion Tercera (3D + 3T)
-		case 4:
-			return 64; // Reduccion Cuarta (6D + 2T)
-		case 5:
-			return 81; // Reduccion Quinta (8T)
-		default:
-			return 1;
-		}
-	}
+//	private static int getQuinielaNumBets(int type) {
+//		switch (type) {
+//		case 0:
+//			return 1; // Sencilla
+//		case 1:
+//			return 9; // Reduccion Primera (4T)
+//		case 2:
+//			return 16; // Reduccion Segunda (7D)
+//		case 3:
+//			return 24; // Reduccion Tercera (3D + 3T)
+//		case 4:
+//			return 64; // Reduccion Cuarta (6D + 2T)
+//		case 5:
+//			return 81; // Reduccion Quinta (8T)
+//		default:
+//			return 1;
+//		}
+//	}
 
 	private static void calcFinalDoublesAndTriples(int type) {
 		switch (type) {
@@ -628,10 +630,15 @@ public class AdminController {
 				return response;
 			}
 
+			AdminData ad = adminDataDao.findById(AlterQConstants.DEFECT_COMPANY);
+			float priceBet = ad.getPrizeBet();
+			
+			
+			
 			// STEP 2: Automatics Bets
 			//
-			// STEP 2.1 - Get Users with automatic bets
-			List<UserAlterQ> lUsers = userAlterQDao.findUserWithAutomatics(company);
+			// STEP 2.1 - Get Users with automatic bets (Default company)
+			List<UserAlterQ> lUsers = userAlterQDao.findUserWithAutomatics(AlterQConstants.DEFECT_COMPANY);
 			// STEP 2.2 - For each user do as bets as automatic bets (It has to
 			// check user amount before make automatics bets)
 			for (UserAlterQ user : lUsers) {
@@ -640,7 +647,7 @@ public class AdminController {
 				for (int i = 0; i < numAutom; i++) {
 					// STEP 2.2.1 - Check User Balance
 					float balance = new Float(user.getBalance()).floatValue();
-					if (balance < DEF_QUINIELA_BET_PRICE) {
+					if (balance < priceBet) {
 						log.debug("closeRound: user(" + user.getName() + ") No enough money for automatic bet");
 						// STEP 2.2.1.error - Send an email to the user
 						// ("NOT ENOUGH MONEY")
@@ -650,10 +657,10 @@ public class AdminController {
 					String randomBet = betTools.randomBet();
 					// STEP 2.2.3 - Make Automatic User Bet
 					Bet bet = new Bet();
-					bet.setPrice(DEF_QUINIELA_BET_PRICE);
+					bet.setPrice(priceBet);
 					bet.setBet(randomBet);
 					bet.setUser(user.getId());
-					bet.setCompany(company);
+					bet.setCompany(AlterQConstants.DEFECT_COMPANY);
 					bet.setDateCreated(new Date());
 					bet.setDateUpdated(new Date());
 					bet.setNumBets(1);
@@ -664,7 +671,7 @@ public class AdminController {
 
 					// STEP 2.2.4 - Update User Balance
 					try {
-						user.setBalance(Float.toString((float) (balance - DEF_QUINIELA_BET_PRICE)));
+						user.setBalance(Float.toString((float) (balance - priceBet)));
 						userAlterQDao.save(user);
 						/*
 						 * if(userAlterQDao.getLastError() != null){
@@ -711,6 +718,11 @@ public class AdminController {
 
 			rolCompanySecurity.isUserAuthorizedRolForCompany(userAlterQ, rc);
 
+			
+			AdminData ad = adminDataDao.findById(AlterQConstants.DEFECT_COMPANY);
+			float priceBet = ad.getPrizeBet();
+
+			
 			// FINAL BET PROCESS STEPS
 			//
 
@@ -722,8 +734,8 @@ public class AdminController {
 			calcBasicDoublesAndTriples(numBets, type);
 
 			// STEP 4.3 - Calc Quiniela Price and Round Jackpot
-			float price = calcQuinielaPrice(doubles, triples, type);
-			float jackpot = ((price == 0) ? (float) 0 : (float) (numBets * DEF_QUINIELA_BET_PRICE - price));
+			float price = betTools.calcQuinielaPrice(doubles, triples, type);
+			float jackpot = ((price == 0) ? (float) 0 : (float) (numBets * priceBet - price));
 
 			// STEP 4.4 - Update RoundData
 			RoundBets rBets = roundBetDao.findAllBets(season, round, company);
