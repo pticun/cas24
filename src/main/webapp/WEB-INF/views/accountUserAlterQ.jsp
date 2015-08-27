@@ -17,6 +17,8 @@
 		  					<br>
 		  					<button id="myBetsBtn" type="button" class="btn btn-danger btn-block">Mis Apuestas</button>
 		  					<br>
+		  					<button id="myPwdBtn" type="button" class="btn btn-danger btn-block">Mi Password</button>
+		  					<br>
 			   			</td>
 			        </tr>
 			</table>            
@@ -33,6 +35,39 @@
 </div>
 <!-- End My Account -->
 
+<!-- New Password Section -->
+<div id="newPasswordDiv" class="page">
+<div class="container">
+    <!-- Forgot Form -->
+    <div class="row">
+		<div align="center">
+		   <form id="newPwdForm">
+		   		<table class="tablaQuiniGold">
+		   			<tr  align="center">
+						<td colspan="2">CAMBIAR PASSWORD</td>
+					</tr>
+			   		<tr>
+			   			<td>Password Antigua:</td>
+			   			<td><input id="pwdOldNewPwd" type="password" size="20" name="pwdOld"/></td>
+			        </tr>
+			   		<tr>
+			   			<td>Password Nueva:</td>
+			   			<td><input id="pwdNewNewPwd" type="password" size="20" name="pwdNew"/></td>
+			        </tr>
+			   		<tr align="center">
+			   			<td align="center" colspan="2"><button id="new_pwd_btn" class="btn btn-danger" name="newpwd" value="send">Cambiar</button></td>
+			        </tr>
+		   		</table>
+		   		<br>
+		   		<br>
+		   		<div id="newPwdFormResponse" class="linkQuiniGold">respuesta </div>
+	        </form>
+		</div>
+    </div>
+    <!-- End New Password Form -->
+</div>
+</div>
+<!-- End New Password Section -->
 
 <!-- MyData Section -->
 <div id="mydataDiv" class="page">

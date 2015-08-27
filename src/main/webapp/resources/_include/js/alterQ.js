@@ -38,6 +38,7 @@ var bModalReduced = 16;
 var bConfirmedQuiniela = 17;
 var bCompany = 18;
 var bMyAdminCompany = 19;
+var bNewPassword = 20;
 
 //Texts
 var sHome    = "Inicio";
@@ -80,6 +81,7 @@ var sConfirmedQuinielaRef = "#confirmadaQuinielaDiv";
 var sModalReducedRef = "#modalReduced";
 var sCompanyRef ="#myCompanyDiv";
 var sMyAdminCompanyRef = "adminCompany";
+var sNewPasswordRef = "#newPasswordDiv";
 
 var buttonpressed;
 
@@ -122,6 +124,7 @@ function initDiv() {
 	$(sConfirmedQuinielaRef).hide();
 	$(sModalReducedRef).hide();
 	$(sCompanyRef).hide();
+	$(sNewPasswordRef).hide();
 	
 	
 	bActual = bHome;
@@ -207,6 +210,9 @@ function showDiv(elem) {
 		getCompanies()
 		$(sCompanyRef).show();
 		break;
+	case bNewPassword:
+		$(sNewPasswordRef).show();
+		break;
 	}
 
 	switch (bActual){
@@ -267,6 +273,10 @@ function showDiv(elem) {
 	case bCompany:
 		$(sCompanyRef).hide();
 		break;
+	case bNewPassword:
+		$(sNewPasswordRef).hide();
+		break;
+		
 	}
 	
 	bActual = elem;
@@ -330,6 +340,9 @@ function menuEvent(name, href)
 	}else if (href == sCompanyRef){
 		consoleAlterQ("MyCompany");
 		showDiv(bCompany);
+	}else if (href == sNewPasswordRef){
+		consoleAlterQ("NewPassword");
+		showDiv(bNewPassword);
 	}
 	return false;
 	
@@ -634,6 +647,33 @@ $(document).ready(function() {
 		 	event.preventDefault(); // prevent actual form submit and page reload
 	});
 	
+	 $('form#newPwdForm').submit(function( event ) {
+		 var dataJson=JSON.stringify($('form#newPwdForm').serializeObject());
+		 consoleAlterQ(dataJson);
+		 jQuery.ajax ({
+			    url: ctx+'/myaccount/'+ idUserAlterQ + '/' + $("input[id=pwdOldNewPwd]").val() + '/' + $("input[id=pwdNewNewPwd]").val() + '/newPwd',
+			    type: "POST",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=0){
+		   		    	$('#newPwdFormResponse').text("");
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		$('#newPwdFormResponse').append(objeto.stringError+" - ");
+					    });
+		   		    }
+		   		    else{
+		   		    	consoleAlterQ("newPassword: response= OK");
+		   		    	$('#newPwdFormResponse').text("Password Changed - OK");
+		   		    }
+			    }
+			});
+		 	event.preventDefault(); // prevent actual form submit and page reload
+	 });
+	 
 	 $('form#forgotPwdForm').submit(function( event ) {
 		 var dataJson=JSON.stringify($('form#forgotPwdForm').serializeObject());
 		 consoleAlterQ(dataJson);
@@ -897,6 +937,10 @@ $(document).ready(function() {
    });
 	$("#myBetsBtn").click(function( event ){
 		menuEvent($(this).text(), "#mybetsDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
+	$("#myPwdBtn").click(function( event ){
+		menuEvent($(this).text(), "#newPasswordDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
     });
 	$("#myRankBtn").click(function( event ){

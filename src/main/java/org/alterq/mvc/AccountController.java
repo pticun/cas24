@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.alterq.domain.RolCompany;
@@ -178,4 +179,38 @@ public class AccountController {
 
 		return dto;
 	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/{id:.+}/{oldpwd}/{newpwd}/newPwd")
+	public @ResponseBody
+	ResponseDto newPasswordUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id, @PathVariable String oldpwd, @PathVariable String newpwd) {
+		ResponseDto dto = new ResponseDto();
+		try {
+		
+			userAlterQSecurity.isSameUserInSession(id, cookieSession);
+
+			UserAlterQ userAlterQ = userDao.findById(id);
+			
+			if (userAlterQ.getPwd().equals(oldpwd))
+				userAlterQ.setPwd(newpwd);
+			else{
+				ErrorDto error = new ErrorDto();
+				error.setIdError(MessageResourcesNameEnum.USER_PASSWORD_ERROR);
+				error.setStringError("La password antigua no coincide");
+				dto.addErrorDto(error);
+
+				return dto;
+			}
+
+			
+			userAlterQ.setDateUpdated(new Date());
+			userDao.save(userAlterQ);
+			dto.setUserAlterQ(userAlterQ);
+		} catch (AlterQException ex) {
+			dto.addErrorDto(ex.getErrorDto());
+			log.error(ExceptionUtils.getStackTrace(ex));
+		}
+
+		return dto;
+	}
+
 }
