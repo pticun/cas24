@@ -91,17 +91,20 @@ var ctx = "<%=request.getContextPath()%>"
 	//Divs Graphics
 	var bActual					= 0;
 	var bHome					= 0;
+	var bCloseAC				= 2;
 	var bFinalQuiniela			= 3;
 	var bAdminIni				= 5;
 
 	//Refs
 	var sHomeRef 					= "#homeDiv";
+	var sCloseACRef					= "#closeACDiv";
 	var sFinalQuinielaRef			= "#quinielaDiv";
 	var sAdminIni					= "home";
 	
 	function initDiv() {
 		consoleAlterQ("initDiv");		
 		$(sHomeRef).show();
+		$(sCloseACRef).hide();
 		$(sFinalQuinielaRef).hide();
 		
 		bActual = bHome;
@@ -118,6 +121,9 @@ var ctx = "<%=request.getContextPath()%>"
 		case bHome:
 			$(sHomeRef).show();
 			break;
+		case bCloseAC:
+			$(sCloseACRef).show();
+			break;
 		case bFinalQuiniela:
 			$(sFinalQuinielaRef).show();
 			break;
@@ -126,6 +132,9 @@ var ctx = "<%=request.getContextPath()%>"
 		switch (bActual){
 		case bHome:
 			$(sHomeRef).hide();
+			break;
+		case bCloseAC:
+			$(sCloseACRef).hide();
 			break;
 		case bFinalQuiniela:
 			$(sFinalQuinielaRef).hide();
@@ -146,6 +155,9 @@ var ctx = "<%=request.getContextPath()%>"
 		}else if (href == sHomeRef){
 			consoleAlterQ("Home");
 			showDiv(bHome);
+		}else if (href == sCloseACRef){
+			consoleAlterQ("Close");
+			showDiv(bCloseAC);
 		}else if (href == sFinalQuinielaRef){
 			consoleAlterQ("FinalQuiniela");
 			showDiv(bFinalQuiniela);
@@ -188,6 +200,9 @@ var ctx = "<%=request.getContextPath()%>"
 		   			<td><button id="homeBtn" class="btn btn-danger" name="homeBtn" value="homeBtn">Home</button><br><br></td>
 		        </tr>
 		   		<tr align="center">
+		   			<td><button id="closeACBtn" class="btn btn-danger" name="closeACBtn" value="closeACBtn">Close</button><br><br></td>
+		        </tr>
+		   		<tr align="center">
 		   			<td><button id="quinielaFinalBtn" class="btn btn-danger" name="quinielaFinalMenu" value="quinelaFinal">Quiniela</button><br><br></td>
 		        </tr>
 	   			</table>
@@ -196,6 +211,48 @@ var ctx = "<%=request.getContextPath()%>"
 </div>
 <!-- End Principal -->
 
+<!-- CloseAC Section -->
+<div id="closeACDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">AdminCompany - Close</h2>
+            </div>
+        </div>
+    </div>
+    <!-- End Title Page -->
+    
+    <!-- CloseAC Form -->
+    <div class="row table-responsive">
+		<div align="center">
+			<form id="closeACForm">
+			   		<table class="tablaQuiniGold">
+				   		<tr>
+				   			<td>Season:</td>
+				   			<td><input id="seasonCloseAC" name="season" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td>Round:</td>
+				   			<td><input id="roundCloseAC" name="round" type="text"/></td>
+				        </tr>
+				   		<tr align="center">
+				   			<td colspan=2><button id="adminCompany_closeAC_btn" class="btn btn-danger" name="closeACBtn" value="closeACBtn">Cerrar</button><br><br></td>
+				        </tr>
+			   			<tr align="center">
+				   			<td colspan=2><button id="homeBtn9" class="btn btn-danger" name="homeBtn9" value="homeBtn9">Admin Menu</button></td>
+				        </tr>
+			   		</table>
+			   		<br>
+			   		<div id="closeACFormResponse" class="linkQuiniGold">respuesta </div>
+			</form>
+		</div>
+    </div>
+    <!-- End CloseAC Form -->
+</div>
+</div>
+<!-- End CloseAC Section -->
 
 <!-- FinalQuinielaRound Section -->
 <div id="quinielaDiv" class="page">

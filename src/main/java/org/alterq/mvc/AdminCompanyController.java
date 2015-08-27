@@ -515,116 +515,42 @@ public class AdminCompanyController {
 		roundRankingDao.addRanking(company, season, round, rnk);
 	}
 
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/open")
-	public @ResponseBody ResponseDto openRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
-		AdminData adminData = null;
-		ResponseDto response = new ResponseDto();
 
-		log.debug("openRound: start");
-		try {
-			companyValidator.isCompanyOk(company);
-			userSecurity.isAdminUserInSession(cookieSession, company);
-			adminData = adminDataDao.findById(company);
-
-			// OPENING PROCESS STEPS
-			// ---------------------
-
-			// STEP 1: update generalData
-
-			// if exist, update active=true
-			if (adminData != null) {
-				log.debug("openRound: active=true");
-				if ((company == adminData.getCompany()) && (season == adminData.getSeason()) && (round == adminData.getRound()) && (adminData.isActive())) {
-					log.debug("openRound: Round is already actived");
-				} else {
-					adminData.setCompany(company);
-					adminData.setSeason(season);
-					adminData.setRound(round);
-					adminData.setActive(true);
-					adminDataDao.update(adminData);
-				}
-			} else {// if not exist, create a new generalData (active=true)
-				log.debug("openRound: new generalData active=true");
-				adminData = new AdminData();
-				adminData.setActive(true);
-				adminData.setCompany(company);
-				adminData.setRound(round);
-				adminData.setSeason(season);
-
-				adminDataDao.add(adminData);
-			}
-
-			// STEP 2: Create roundData (RoundBets collection)
-			RoundBets roundBets = roundBetDao.findAllBets(season, round, company);
-			// Check if exist this roundBet
-			if (roundBets == null) {
-				RoundBets bean = new RoundBets();
-				bean.setCompany(company);
-				bean.setRound(round);
-				bean.setSeason(season);
-				roundBetDao.add(bean);
-			}
-
-		} catch (Exception e) {
-			ErrorDto error = new ErrorDto();
-			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);
-			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_ADMIN));
-			response.addErrorDto(error);
-			log.error(ExceptionUtils.getStackTrace(e));
-		}
-
-		log.debug("openRound: end");
-		return response;
-	}
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/close")
 	public @ResponseBody ResponseDto closeRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
-		AdminData adminData = null;
 		ResponseDto response = new ResponseDto();
 		log.debug("closeRound: start");
 
 		try {
 			companyValidator.isCompanyOk(company);
 			userSecurity.isAdminUserInSession(cookieSession, company);
-			adminData = adminDataDao.findById(company);
 
-			// CLOSING PROCESS STEPS
+			// CLOSING PROCESS STEPS (Admin Company)
 			//
 
-			// STEP 1: if exist, update active=false
-			//
-			if (adminData != null) {
-				log.debug("closeRound: active=true");
-				adminData.setActive(false);
-				// generalData.setActive(false);
-				// dao.update(generalData);
-				adminDataDao.update(adminData);
-			} else { // there is not round to close
-				response.addErrorDto("AdminController:closeRound", "There is not round to close");
-				return response;
-			}
 
-			// STEP 2: Automatics Bets
+			// STEP 1: Automatics Bets
 			//
-			// STEP 2.1 - Get Users with automatic bets
+			// STEP 1.1 - Get Users with automatic bets
 			List<UserAlterQ> lUsers = userAlterQDao.findUserWithAutomatics(company);
-			// STEP 2.2 - For each user do as bets as automatic bets (It has to
+			// STEP 1.2 - For each user do as bets as automatic bets (It has to
 			// check user amount before make automatics bets)
 			for (UserAlterQ user : lUsers) {
 				// loop for number of automatic bets
 				int numAutom = user.getAutomatics();
 				for (int i = 0; i < numAutom; i++) {
-					// STEP 2.2.1 - Check User Balance
+					// STEP 1.2.1 - Check User Balance
 					float balance = new Float(user.getBalance()).floatValue();
 					if (balance < betTools.getPriceBet()) {
 						log.debug("closeRound: user(" + user.getName() + ") No enough money for automatic bet");
-						// STEP 2.2.1.error - Send an email to the user
+						// STEP 1.2.1.error - Send an email to the user
 						// ("NOT ENOUGH MONEY")
 						continue;
 					}
-					// STEP 2.2.2 - Calc RandomBet
+					// STEP 1.2.2 - Calc RandomBet
 					String randomBet = betTools.randomBet();
-					// STEP 2.2.3 - Make Automatic User Bet
+					// STEP 1.2.3 - Make Automatic User Bet
 					Bet bet = new Bet();
 					bet.setPrice(betTools.getPriceBet());
 					bet.setBet(randomBet);
@@ -638,7 +564,7 @@ public class AdminCompanyController {
 
 					roundBetDao.addBet(season, round, bet);
 
-					// STEP 2.2.4 - Update User Balance
+					// STEP 1.2.4 - Update User Balance
 					try {
 						user.setBalance(Float.toString((float) (balance - betTools.getPriceBet())));
 						userAlterQDao.save(user);
@@ -651,7 +577,7 @@ public class AdminCompanyController {
 						 */
 					} catch (Exception e) {
 						log.debug("closeRound: user(" + user.getName() + ") Error updating balance.");
-						// STEP 2.2.4.error - Send an email to the admin
+						// STEP 1.2.4.error - Send an email to the admin
 						// ("ERROR updating user balance")
 						response.addErrorDto("AdminController:closeRound", " user(" + user.getName() + ") Error updating balance.");
 						continue;
@@ -659,7 +585,7 @@ public class AdminCompanyController {
 				}
 			}
 
-			// STEP 3: Fixed Bets (¿?)
+			// STEP 2: Fixed Bets (¿?)
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);

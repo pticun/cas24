@@ -163,8 +163,15 @@ $("#quinielaFinalBtn").on('click', function(event){
 	menuEvent($(this).text(),  "#quinielaDiv");
 	event.preventDefault(); // prevent actual form submit and page reload
 });
+$("#closeACBtn").on('click', function(event){
+	menuEvent($(this).text(),  "#closeACDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
+});
 
-
+$("#homeBtn9").on('click', function(event){
+	menuEvent($(this).text(),  "#homeDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
+});
 $("#homeBtn10").on('click', function(event){
 	menuEvent($(this).text(),  "#homeDiv");
 	event.preventDefault(); // prevent actual form submit and page reload
