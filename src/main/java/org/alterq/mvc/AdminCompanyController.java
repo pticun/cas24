@@ -100,16 +100,6 @@ public class AdminCompanyController {
 		return admin.getId();
 	}
 
-	// pendiente de revision para incorportar el TYPE de la quiniela
-	private void calcBasicDoublesAndTriples(int numBets, int type) {
-		if ((type == 0) || (numBets < 9)) {
-			triples = (int) ((numBets < 3) ? 0 : (Math.log(numBets) / Math.log(3)));
-			doubles = (int) (((numBets - Math.pow(3, triples)) < 2) ? 0 : (Math.log((int) (numBets / Math.pow(3, triples))) / Math.log(2)));
-		} else {// It's a quiniela with reduction
-			triples = (int) ((numBets < (3 * getQuinielaNumBets(type))) ? 0 : (Math.log(numBets) / Math.log(3 * getQuinielaNumBets(type))));
-			doubles = (int) (((numBets - Math.pow((3 * getQuinielaNumBets(type)), triples)) < (2 * getQuinielaNumBets(type))) ? 0 : (Math.log((int) (numBets / Math.pow((3 * getQuinielaNumBets(type)), triples))) / Math.log((2 * getQuinielaNumBets(type)))));
-		}
-	}
 
 	private float calcQuinielaPrice(int doubles, int triples, int type) {
 		return new Double(getQuinielaNumBets(type) * betTools.getPriceBet() * Math.pow(2, doubles) * Math.pow(3, triples)).floatValue();
@@ -134,175 +124,7 @@ public class AdminCompanyController {
 		}
 	}
 
-	private void calcFinalDoublesAndTriples(int type) {
-		switch (type) {
-		case 1: // Reduccion Primera (4T)
-			triples += 4;
-			break;
-		case 2: // Reduccion Segunda (7D)
-			doubles += 7;
-			break;
-		case 3: // Reduccion Tercera (3D + 3T)
-			triples += 3;
-			doubles += 3;
-			break;
-		case 4: // Reduccion Cuarta (6D + 2T)
-			triples += 2;
-			doubles += 6;
-			break;
-		case 5: // Reduccion Quinta (8T)
-			triples += 8;
-			break;
 
-		default:
-		}
-	}
-
-	/**
-	 * Function calcFinalQuiniela that return the final quiniela
-	 * 
-	 * *************************************************************************
-	 * PENDIENTE REVISAR ESTA FUNCION: SE UTILIZARA CUANDO SE ACTIVEN LAS PEÑAS
-	 * Y HABRA QUE GESTIONAR EL NUEVO PLENO AL QUINCE (012M)
-	 * *************************************************************************
-	 * 
-	 * Signs: 1 = 100 = 4 X = 010 = 2 2 = 001 = 1 1X = 110 = 6 1 2 = 101 = 5 X2
-	 * = 011 = 3 1X2 = 111 = 7
-	 * 
-	 * Gets users Bets, and calculate a value for each sign ( sum(user sign *
-	 * user weight)) Selecrt max values until triples and double are completed
-	 * 
-	 * @return String final quiniela
-	 * @param int doubles : number of doubles in the final quiniela
-	 * @param int triples : number of triples in the final quiniela
-	 * 
-	 *        Descripcion: Get a new ramdom bet
-	 * */
-	private String calcFinalQuiniela(int season, int round, int doubles, int triples, List<Bet> lBets) {
-		double[][] count1X2 = new double[15][3];
-		String aux = "";
-
-		for (Bet bet : lBets) {
-			String apu = bet.getBet();
-			double usuWeight = calcUserWeight(bet.getUser());
-
-			for (int j = 0; j < 15; j++) {
-				if (apu.charAt(j) == '4') {
-					count1X2[j][0] = count1X2[j][0] + 1 * usuWeight;
-				} else if (apu.charAt(j) == '2') {
-					count1X2[j][1] = count1X2[j][1] + 1 * usuWeight;
-				} else if (apu.charAt(j) == '1') {
-					count1X2[j][2] = count1X2[j][2] + 1 * usuWeight;
-				} else if (apu.charAt(j) == '6') {
-					count1X2[j][0] = count1X2[j][0] + 1 * usuWeight;
-					count1X2[j][1] = count1X2[j][1] + 1 * usuWeight;
-				} else if (apu.charAt(j) == '5') {
-					count1X2[j][0] = count1X2[j][0] + 1 * usuWeight;
-					count1X2[j][2] = count1X2[j][2] + 1 * usuWeight;
-				} else if (apu.charAt(j) == '3') {
-					count1X2[j][1] = count1X2[j][1] + 1 * usuWeight;
-					count1X2[j][2] = count1X2[j][2] + 1 * usuWeight;
-				} else if (apu.charAt(j) == '7') {
-					count1X2[j][0] = count1X2[j][0] + 1 * usuWeight;
-					count1X2[j][1] = count1X2[j][1] + 1 * usuWeight;
-					count1X2[j][2] = count1X2[j][2] + 1 * usuWeight;
-				}
-			}
-		}
-
-		// Select Max Values & set Quiniela Final
-		// ...
-
-		// Select Simple Final Quiniela
-		for (int j = 0; j < 15; j++) {
-			if ((count1X2[j][0] >= count1X2[j][1]) && (count1X2[j][0] >= count1X2[j][2])) {
-				count1X2[j][0] = -1;
-				continue;
-			} else if ((count1X2[j][1] >= count1X2[j][0]) && (count1X2[j][1] >= count1X2[j][2])) {
-				count1X2[j][1] = -1;
-				continue;
-
-			} else if ((count1X2[j][2] >= count1X2[j][0]) && (count1X2[j][2] >= count1X2[j][1])) {
-				count1X2[j][2] = -1;
-				continue;
-			} else {
-				count1X2[j][0] = -1;
-			}
-
-		}
-		// Select Doubles
-		int aX = 0;
-		int aY = 0;
-		double max = count1X2[0][0];
-		for (int i = 0; i < doubles; i++) {
-			max = 0;
-			for (int j = 0; j < 14; j++) {// Don't put doubles in plenoAlQuince
-				for (int k = 0; k < 3; k++) {
-					if (count1X2[j][k] > max) {
-						max = count1X2[j][k];
-						aX = j;
-						aY = k;
-					}
-				}
-			}
-			count1X2[aX][aY] = -1;
-		}
-
-		// Select Triples
-		aX = 0;
-		max = count1X2[0][0];
-		for (int i = 0; i < triples; i++) {
-			max = 0;
-			for (int j = 0; j < 14; j++) { // Don't put triples in plenoAlQuince
-				for (int k = 0; k < 3; k++) {
-					if (count1X2[j][k] > max) {
-						max = count1X2[j][k];
-						aX = j;
-					}
-				}
-			}
-			// There isn't any candidate. It's choosen the first one.
-			if (aX == 0) {
-				for (int j = 0; j < 14; j++) { // Don't put triples in
-												// plenoAlQuince
-					// check if it's a double
-					if ((count1X2[j][0] != -1 && count1X2[j][1] != -1 && count1X2[j][2] != -1) || (count1X2[j][0] == -1 && count1X2[j][1] != -1 && count1X2[j][2] != -1) || (count1X2[j][0] != -1 && count1X2[j][1] == -1 && count1X2[j][2] != -1)
-							|| (count1X2[j][0] != -1 && count1X2[j][1] != -1 && count1X2[j][2] == -1))
-
-					{
-						count1X2[j][0] = -1;
-						count1X2[j][1] = -1;
-						count1X2[j][2] = -1;
-						break;
-					}
-				}
-			} else {
-				count1X2[aX][0] = -1;
-				count1X2[aX][1] = -1;
-				count1X2[aX][2] = -1;
-			}
-		}
-
-		// Set Final Quiniela
-		for (int j = 0; j < 15; j++) {
-			if ((count1X2[j][0] == -1) && (count1X2[j][1] == -1) && (count1X2[j][2] == -1))
-				aux += "7";
-			else if ((count1X2[j][0] == -1) && (count1X2[j][1] == -1))
-				aux += "6";
-			else if ((count1X2[j][0] == -1) && (count1X2[j][2] == -1))
-				aux += "5";
-			else if ((count1X2[j][1] == -1) && (count1X2[j][2] == -1))
-				aux += "3";
-			else if (count1X2[j][0] == -1)
-				aux += "4";
-			else if (count1X2[j][1] == -1)
-				aux += "2";
-			else if (count1X2[j][2] == -1)
-				aux += "1";
-		}
-
-		return aux;
-	}
 
 	private double calcUserWeight(String user) {
 
@@ -482,25 +304,7 @@ public class AdminCompanyController {
 		return salida;
 	}
 
-	/**
-	 * Funcion para calcular el peso de cada usuario
-	 * 
-	 * Se utilizará cuando se activen las peñas. De momento no se utilizará
-	 * */
-	private void updateUserWeight(UserAlterQ user, int rightSigns) {
-		double oldWeight = user.getWeight();
 
-		user.setWeight(oldWeight + rightSigns);
-
-		userAlterQDao.save(user);
-
-		return;
-	}
-
-	private static int[] calcularAciertos(String bet, String resultBet) {
-
-		return null;
-	}
 
 	// Funciona
 	private void updateRoundRanking(int company, int season, int round, UserAlterQ user, int points, int ones, int equs, int twos) {
@@ -517,13 +321,14 @@ public class AdminCompanyController {
 
 
 
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/close")
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/closeAC")
+//	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/closeAC")
+//	public @ResponseBody ResponseDto closeRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
 	public @ResponseBody ResponseDto closeRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
 		ResponseDto response = new ResponseDto();
 		log.debug("closeRound: start");
 
 		try {
-			companyValidator.isCompanyOk(company);
 			userSecurity.isAdminUserInSession(cookieSession, company);
 
 			// CLOSING PROCESS STEPS (Admin Company)
@@ -598,199 +403,9 @@ public class AdminCompanyController {
 		return response;
 	}
 
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/finalBet")
-	public @ResponseBody ResponseDto finalBetRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round, @PathVariable(value = "company") int company) {
-		AdminData adminData = null;
-		ResponseDto response = new ResponseDto();
-		log.debug("closeRound: start");
-		int type = 0;
 
-		try {
-			companyValidator.isCompanyOk(company);
-			userSecurity.isAdminUserInSession(cookieSession, company);
-			adminData = adminDataDao.findById(company);
 
-			// FINAL BET PROCESS STEPS
-			//
 
-			// STEP 4: Quiniela
-			// STEP 4.1 - Calc Number Bets
-			int numBets = roundBetDao.countAllBets(season, round, company);
-
-			// STEP 4.2 - Calc Number of Doubles and Triples
-			calcBasicDoublesAndTriples(numBets, type);
-
-			// STEP 4.3 - Calc Quiniela Price and Round Jackpot
-			float price = calcQuinielaPrice(doubles, triples, type);
-			float jackpot = ((price == 0) ? (float) 0 : (float) (numBets * betTools.getPriceBet() - price));
-
-			// STEP 4.4 - Update RoundData
-			RoundBets rBets = roundBetDao.findAllBets(season, round, company);
-			rBets.setJackpot(jackpot);
-			rBets.setPrice(price);
-			roundBetDao.update(rBets);
-
-			calcFinalDoublesAndTriples(type);
-
-			// STEP 4.5 - Calc Final Quiniela
-			String finalQ = calcFinalQuiniela(season, round, doubles, triples, rBets.getBets());
-
-			// STEP 4.6 - Add Final Bet (admin)
-
-			// **********************************************************************
-			// Check if exist admin bet for this round (Better optimization
-			// analizing rBets.getBets() for Admin)
-			RoundBets rBetsAdmin = roundBetDao.findAllUserBets(season, round, getAdmin(), company);
-			if ((rBetsAdmin != null) && (rBetsAdmin.getBets().size() > 0))
-				roundBetDao.deleteAllUserBets(season, round, getAdmin());
-			// **********************************************************************
-
-			Bet bet = new Bet();
-			bet.setPrice((float) 0.0);
-			bet.setBet(finalQ);
-			bet.setUser(getAdmin());
-			bet.setCompany(company);
-			bet.setDateCreated(new Date());
-			bet.setDateUpdated(new Date());
-			bet.setId(new ObjectId().toStringMongod());
-			roundBetDao.addBet(season, round, bet);
-
-		} catch (Exception e) {
-			ErrorDto error = new ErrorDto();
-			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);
-			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_ADMIN));
-			response.addErrorDto(error);
-			log.error(ExceptionUtils.getStackTrace(e));
-		}
-
-		log.debug("closeRound: end");
-		return response;
-	}
-
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/resultBet/{resultBet}")
-	public @ResponseBody ResponseDto resutlBetRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round, @PathVariable String resultBet) {
-		ResponseDto response = new ResponseDto();
-		UserAlterQ userAlterQ;
-
-		try {
-			companyValidator.isCompanyOk(company);
-			userSecurity.isAdminUserInSession(cookieSession, company);
-			// RESULT ROUND STEPS
-			// ---------------------
-
-			// STEP 1: get users with bet
-			String lastUser = null;
-			UserAlterQ lastUserAlterQ = null;
-
-			int[] vMaxAciertos = { 0, 0, 0, 0, 0 };
-			boolean bUpdate = false;
-
-			RoundBets bean = roundBetDao.findAllBets(season, round);
-
-			// OJO!! hay que ordenar las apuestas por usuario para que funcione.
-			List<Bet> lBets = bean.getBets();
-
-			Collections.sort(lBets, new Comparator<Bet>() {
-				@Override
-				public int compare(Bet p1, Bet p2) {
-					// Aqui esta el truco, ahora comparamos p2 con p1 y no al
-					// reves como antes
-					return p2.getUser().compareTo(p1.getUser());
-				}
-			});
-
-			// Translate result from "1X2" to "421"
-			resultBet = translateResult1x2(resultBet);
-
-			for (Bet bet : lBets) {
-				String apu = bet.getBet();
-				String user = bet.getUser();
-				userAlterQ = userAlterQDao.findById(user);
-
-				if (userAlterQ == null) {
-					log.debug("closeRound: user(" + user + ") Error resultBet user not find");
-					// STEP 1.1.error - Send an email to the admin
-					// ("ERROR resultBet user not find")
-					continue;
-				}
-
-				// La apuesta globla no se debe gestionar para el ranking
-				if (user.equals(getAdmin())) {
-					bUpdate = true;
-					continue;
-				}
-
-				// STEP 2: calc user right signs
-				int[] vAciertos = calcUserRightSigns(resultBet, apu, userAlterQ, company);
-				if (vAciertos[0] == -1) {
-					log.debug("closeRound: user(" + user + ") Error updating right sings");
-					// STEP 2.1.error - Send an email to the admin
-					// ("ERROR updating user rigth signs")
-					continue;
-				}
-				if (lastUser != null) {
-					if (user.equals(lastUser)) {
-						if (vMaxAciertos[0] < vAciertos[0]) {
-							vMaxAciertos[0] = vAciertos[0];
-							vMaxAciertos[1] = vAciertos[1];
-							vMaxAciertos[2] = vAciertos[2];
-							vMaxAciertos[3] = vAciertos[3];
-							vMaxAciertos[4] = vAciertos[4];
-						}
-						bUpdate = false;
-					} else {
-						bUpdate = true;
-					}
-				} else {
-					lastUser = user;
-					lastUserAlterQ = userAlterQ;
-					vMaxAciertos[0] = vAciertos[0];
-					vMaxAciertos[1] = vAciertos[1];
-					vMaxAciertos[2] = vAciertos[2];
-					vMaxAciertos[3] = vAciertos[3];
-					vMaxAciertos[4] = vAciertos[4];
-					bUpdate = false;
-				}
-
-				// Update iter user
-				if (bUpdate) {
-					// STEP 3: update users weight
-					updateUserWeight(userAlterQ, vMaxAciertos[0]);
-					// STEP 4: update round ranking
-					updateRoundRanking(company, season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
-					// SETP 5: update global ranking (round=0)
-					updateRoundRanking(company, season, 0, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
-
-					lastUser = user;
-					lastUserAlterQ = userAlterQ;
-
-					vMaxAciertos[0] = vAciertos[0];
-					vMaxAciertos[1] = vAciertos[1];
-					vMaxAciertos[2] = vAciertos[2];
-					vMaxAciertos[3] = vAciertos[3];
-
-					bUpdate = false;
-				}
-			}
-			// Update last user
-			if (bUpdate) {
-				// STEP 3: update users weight
-				updateUserWeight(lastUserAlterQ, vMaxAciertos[0]);
-				// STEP 4: update round ranking
-				updateRoundRanking(company, season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
-				// SETP 5: update global ranking (round=0)
-				updateRoundRanking(company, season, 0, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
-			}
-		} catch (Exception e) {
-			ErrorDto error = new ErrorDto();
-			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);
-			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_ADMIN));
-			response.addErrorDto(error);
-			log.error(ExceptionUtils.getStackTrace(e));
-		}
-
-		return response;
-	}
 
 	/*
 	 * // @RequestMapping(method = RequestMethod.POST, produces =
