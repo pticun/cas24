@@ -11,7 +11,7 @@ public interface RoundBetDao {
 	public int countAllBets(int season, int round,int company);
 	public RoundBets findAllUserBets(int season, int round, String user, int company);
 	public RoundBets findFinalBet(int season, int round, int company);	
-	public boolean addBet(int season, int round, Bet bet);
+	public boolean addBet(int company, int season, int round, Bet bet);
 	public void add(RoundBets bean);
 	
 	public boolean deleteAllBets(int season, int round);

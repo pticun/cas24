@@ -1,7 +1,7 @@
 var round=0;
 var season=0;
 var idUserAlterQ="";
-var company=0;
+var company=1; // "quiniGoldClassic = 1" depends environment
 
 // left padding s with c to a total of n chars
 function padding_left(s, c, n) {
@@ -55,7 +55,7 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#openForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/admin'+ '/company/' + '1' + '/season/'+ $("input[name=season]").val() + '/round/' + $("input[name=round]").val() + '/open',
+			 url: ctx+'/admin'+ '/company/' + company + '/season/'+ $("input[name=season]").val() + '/round/' + $("input[name=round]").val() + '/open',
 			    type: "POST",
 			    data: dataJson,
 			    contentType: "application/json; charset=utf-8",
@@ -96,7 +96,7 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#closeForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/admin'+ '/company/' + '1' + '/season/'+ $("input[id=seasonClose]").val() + '/round/' + $("input[id=roundClose]").val() + '/close',
+			 url: ctx+'/admin'+ '/company/' + company + '/season/'+ $("input[id=seasonClose]").val() + '/round/' + $("input[id=roundClose]").val() + '/close',
 			    type: "POST",
 			    data: dataJson,
 			    contentType: "application/json; charset=utf-8",
@@ -136,7 +136,7 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#matchesForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/admin'+ '/company/' + '1' + '/season/'+ $("input[id=seasonMatches]").val() + '/round/' + $("input[id=roundMatches]").val() + '/matches',
+			 url: ctx+'/admin'+ '/company/' + company + '/season/'+ $("input[id=seasonMatches]").val() + '/round/' + $("input[id=roundMatches]").val() + '/matches',
 			    type: "POST",
 			    data: $(this).serialize(),
 			    //contentType: "application/json; charset=utf-8",
@@ -263,7 +263,7 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#quinielaForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/admin'+ '/company/' + '1' + '/season/'+ $("input[id=seasonQuiniela]").val() + '/round/' + $("input[id=roundQuiniela]").val() + '/finalBet/' + $("input[id=tipoQuiniela]").val(),
+			 url: ctx+'/admin'+ '/company/' + company + '/season/'+ $("input[id=seasonQuiniela]").val() + '/round/' + $("input[id=roundQuiniela]").val() + '/finalBet/' + $("input[id=tipoQuiniela]").val(),
 			    type: "POST",
 			    data: dataJson,
 			    //contentType: "application/json; charset=utf-8",
@@ -343,7 +343,7 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#updateBalanceForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/admin'+ '/company/' + '1' + '/user/'+ $("input[id=updateBalanceUser]").val() + '/balance/' + $("input[id=updateBalanceBalance]").val() + '/updateBalanceUser',
+			 url: ctx+'/admin'+ '/company/' + company + '/user/'+ $("input[id=updateBalanceUser]").val() + '/balance/' + $("input[id=updateBalanceBalance]").val() + '/updateBalanceUser',
 			    type: "POST",
 			    data: dataJson,
 			    //contentType: "application/json; charset=utf-8",
@@ -384,7 +384,7 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#getFileForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 
-		 var url= ctx+'/admin'+ '/company/' + '1' + '/season/'+ $("input[id=seasonGetFile]").val() + '/round/' + $("input[id=roundFGetile]").val() + '/getFile';
+		 var url= ctx+'/admin'+ '/company/' + company + '/season/'+ $("input[id=seasonGetFile]").val() + '/round/' + $("input[id=roundFGetile]").val() + '/getFile';
 //		 alert(url);
 		 var NWin = window.open(url, '', 'height=800,width=800');
  	     if (window.focus)
@@ -412,14 +412,6 @@ $("#closeBtn").on('click', function(event){
 });
 $("#matchesBtn").on('click', function(event){
 	menuEvent($(this).text(),  "#matchesDiv");
-	event.preventDefault(); // prevent actual form submit and page reload
-});
-$("#quinielaFinalBtn").on('click', function(event){
-	menuEvent($(this).text(),  "#quinielaDiv");
-	event.preventDefault(); // prevent actual form submit and page reload
-});
-$("#getQuinielaFinalBtn").on('click', function(event){
-	menuEvent($(this).text(),  "#getQuinielaDiv");
 	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#resultsBtn").on('click', function(event){

@@ -82,9 +82,9 @@ public class RoundBetDaoImpl extends MongoCollection implements RoundBetDao {
 			return null;
 	}
 
-	public boolean addBet(int season, int round, Bet bet){
+	public boolean addBet(int company, int season, int round, Bet bet){
 		Query query = new Query();
-		query.addCriteria(Criteria.where("season").is(season).and("round").is(round));
+		query.addCriteria(Criteria.where("company").is(company).and("season").is(season).and("round").is(round));
  
 		Update update = new Update();
 		update.push("bets", bet);

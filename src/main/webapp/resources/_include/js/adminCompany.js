@@ -1,31 +1,3 @@
-var round=0;
-var season=0;
-var idUserAlterQ="";
-var company=0;
-
-// left padding s with c to a total of n chars
-function padding_left(s, c, n) {
-  if (! s || ! c || s.length >= n) {
-    return s;
-  }
-  var max = (n - s.length)/c.length;
-  for (var i = 0; i < max; i++) {
-    s = c + s;
-  }
-  return s;
-}
- 
-// right padding s with c to a total of n chars
-function padding_right(s, c, n) {
-  if (! s || ! c || s.length >= n) {
-    return s;
-  }
-  var max = (n - s.length)/c.length;
-  for (var i = 0; i < max; i++) {
-    s += c;
-  }
-  return s;
-}
 
 //alert("context:"+ctx);
 $(document).ready(function() {
@@ -55,7 +27,7 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#closeACForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/adminCompany'+ '/company/' + '1' + '/season/'+ $("input[id=seasonCloseAC]").val() + '/round/' + $("input[id=roundCloseAC]").val() + '/closeAC',
+			 url: ctx+'/adminCompany'+ '/company/' + company + '/season/'+ $("input[id=seasonCloseAC]").val() + '/round/' + $("input[id=roundCloseAC]").val() + '/closeAC',
 //			 url: ctx+'/adminCompany/closeAC',
 			 	type: "POST",
 			    data: dataJson,
@@ -97,7 +69,7 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#quinielaForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/adminCompany'+ '/company/' + '1' + '/season/'+ $("input[id=seasonQuiniela]").val() + '/round/' + $("input[id=roundQuiniela]").val() + '/finalBet/' + $("input[id=tipoQuiniela]").val(),
+			 url: ctx+'/adminCompany'+ '/company/' + company + '/season/'+ $("input[id=seasonQuiniela]").val() + '/round/' + $("input[id=roundQuiniela]").val() + '/finalBet/' + $("input[id=tipoQuiniela]").val(),
 			    type: "POST",
 			    data: dataJson,
 			    //contentType: "application/json; charset=utf-8",
@@ -202,11 +174,12 @@ $("#homeBtn").on('click', function(event){
 	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#quinielaFinalBtn").on('click', function(event){
+	getQuiniela();
 	menuEvent($(this).text(),  "#quinielaDiv");
 	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#closeACBtn").on('click', function(event){
-alert("closeACBtn CLICK");	
+//alert("closeACBtn CLICK");	
 	menuEvent($(this).text(),  "#closeACDiv");
 	event.preventDefault(); // prevent actual form submit and page reload
 });
@@ -224,60 +197,6 @@ function consoleAlterQ(text){
 	if( (window['console'] !== undefined) ){
 		console.log(text);
 	}
-}
-function callResum(company,temporada,jornada){
-	//Remove table
-	$('#resumTable').find("tr").remove();
-	var mygames;
-	jQuery.ajax ({
-	    url: ctx+'/myaccount/mail@mail.es/'+company+'/'+ temporada+'/'+jornada+'/round',
-	    type: "GET",
-	    data: null,
-	    contentType: "application/json; charset=utf-8",
-	    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-        cache: false,    //This will force requested pages not to be cached by the browser  
-        processData:false, //To avoid making query String instead of JSON
-	    success: function(response){
-		    if(response.errorDto!=0){
-   		    	$(response.errorDto).each(function(index, objeto){  
-   		    		$('#temporada').append(objeto.stringError+" - ");
-			    });
-		    }
-		    else{
-		    	mygames=response.round.games;
-		    }
-	    }
-	});
-
-	
-	jQuery.ajax ({
-		url: ctx+'/myaccount/mail@mail.es/'+company+'/'+temporada+'/'+jornada+'/bet',
-		type: "GET",
-		data: null,
-		contentType: "application/json; charset=utf-8",
-		async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-		cache: false,    //This will force requested pages not to be cached by the browser  
-		processData:false, //To avoid making query String instead of JSON
-		success: function(response){
-			if(response.errorDto!=0){
-				consoleAlterQ("error:"+response.errorDto);
-				$('#resumTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td colspan="4">ERROR</td></tr></tr>');       
-			}
-			else{
-				consoleAlterQ("response:"+response);
-				consoleAlterQ("response.roundBet:"+response.roundBet);
-				consoleAlterQ("response.roundBet.bets:"+response.roundBet.bets);
-		    	$('#resumTable').append('<tr id="rowBetTitle" class="quinielatitulo"><td colspan="4">Jornada '+ jornada+'</td></tr>');
-				$(response.roundBet.bets).each(function(index, element){
-					console.log("index="+index);
-					console.log("user="+element.user + " bet="+element.bet);
-					var row="";
-					row+='<div align="center" id="apuesta'+index+'"><h3>'+getTableMatches(element.bet, mygames)+'</h3></div>';
-					$('#resumTable').append(row);
-				});
-			}
-		}
-	});
 }
 
 function getTableMatches(bet, loadGames){

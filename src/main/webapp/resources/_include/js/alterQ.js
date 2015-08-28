@@ -207,7 +207,7 @@ function showDiv(elem) {
 		$(sModalReducedRef).show();
 		break;
 	case bCompany:
-		getCompanies()
+		getCompanies();
 		$(sCompanyRef).show();
 		break;
 	case bNewPassword:

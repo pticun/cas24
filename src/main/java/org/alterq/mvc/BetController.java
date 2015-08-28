@@ -487,7 +487,7 @@ public class BetController {
 			dto.setRound(r);
 
 			// Insert new bet into the BBDD
-			betDao.addBet(season, round, bet);
+			betDao.addBet(company, season, round, bet);
 			userDao.save(userAlterQ);
 
 		} catch (SecurityException e) {
@@ -547,7 +547,7 @@ public class BetController {
 		bAux.setCompany(AlterQConstants.DEFECT_COMPANY);
 		bAux.setDateCreated(new Date());
 		bAux.setDateUpdated(new Date());
-		return betDao.addBet(season, round, bAux);
+		return betDao.addBet(AlterQConstants.DEFECT_COMPANY, season, round, bAux);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "delAllBets")

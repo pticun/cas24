@@ -367,7 +367,7 @@ public class AdminCompanyController {
 					bet.setReduction("NNNNNNNNNNNNNN");
 					bet.setId(new ObjectId().toStringMongod());
 
-					roundBetDao.addBet(season, round, bet);
+					roundBetDao.addBet(company, season, round, bet);
 
 					// STEP 1.2.4 - Update User Balance
 					try {

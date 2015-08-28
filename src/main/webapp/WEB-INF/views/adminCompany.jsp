@@ -79,6 +79,7 @@
 <!-- Modernizr -->
 <!-- <script src="_include/js/modernizr.js"></script> -->
 <script src="<c:url value="/static/resources/_include/js/modernizr.js"/>"></script>
+<script src="<c:url value="/static/resources/_include/js/alterQ.js"/>"></script>
 <script type="text/javascript">
 var ctx = "<%=request.getContextPath()%>"
 </script>
@@ -100,12 +101,17 @@ var ctx = "<%=request.getContextPath()%>"
 	var sCloseACRef					= "#closeACDiv";
 	var sFinalQuinielaRef			= "#quinielaDiv";
 	var sAdminIni					= "home";
+	var sConfirmQuinielaRef 		= "#confirmarQuinielaDiv";
+	var sConfirmedQuinielaRef 		= "#confirmadaQuinielaDiv";
+
 	
 	function initDiv() {
 		consoleAlterQ("initDiv");		
 		$(sHomeRef).show();
 		$(sCloseACRef).hide();
 		$(sFinalQuinielaRef).hide();
+		$(sConfirmQuinielaRef).hide();
+		$(sConfirmedQuinielaRef).hide();
 		
 		bActual = bHome;
 	}
@@ -176,6 +182,8 @@ var ctx = "<%=request.getContextPath()%>"
 <header>
 </header>
 <!-- End Header -->
+
+<%@ include file="/WEB-INF/views/quiniela.jsp" %>
 
 <!-- Principal -->
 <div id="homeDiv" class="page">
@@ -255,50 +263,50 @@ var ctx = "<%=request.getContextPath()%>"
 <!-- End CloseAC Section -->
 
 <!-- FinalQuinielaRound Section -->
-<div id="quinielaDiv" class="page">
-<div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">AdminCompany - Final Quiniela</h2>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
+<!-- <div id="quinielaDiv" class="page"> -->
+<!-- <div class="container"> -->
+<!--     Title Page -->
+<!--     <div class="row"> -->
+<!--         <div class="span12"> -->
+<!--             <div class="title-page"> -->
+<!--                 <h2 class="title">AdminCompany - Final Quiniela</h2> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </div> -->
+<!--     End Title Page -->
     
-    <!-- FinalQuinielaRound Form -->
-    <div class="row table-responsive">
-		<div align="center">
-			<form id="finalQuinielaForm">
-			   		<table class="tablaQuiniGold">
-				   		<tr>
-				   			<td>Season:</td>
-				   			<td><input id="seasonFinalQuiniela" name="season" type="text"/></td>
-				        </tr>
-				   		<tr>
-				   			<td>Round:</td>
-				   			<td><input id="roundFinalQuiniela" name="round" type="text"/></td>
-				        </tr>
-				   		<tr>
-				   			<td>NumBets:</td>
-				   			<td><input id="numBetsFinalQuiniela" name="round" type="text"/></td>
-				        </tr>
-				   		<tr align="center">
-				   			<td colspan=2><button id="adminCompany_finalQuiniela_btn" class="btn btn-danger" name="finalQuinielaBtn" value="finalQuinielaBtn">Quiniela</button><br><br></td>
-				        </tr>
-			   			<tr align="center">
-				   			<td colspan=2><button id="homeBtn10" class="btn btn-danger" name="homeBtn10" value="homeBtn10">Admin Menu</button></td>
-				        </tr>
-			   		</table>
-			   		<br>
-			   		<div id="finalQuinielaFormResponse" class="linkQuiniGold">respuesta </div>
-			</form>
-		</div>
-    </div>
-    <!-- End FinalQuinielaRound Form -->
-</div>
-</div>
+<!--     FinalQuinielaRound Form -->
+<!--     <div class="row table-responsive"> -->
+<!-- 		<div align="center"> -->
+<%-- 			<form id="finalQuinielaForm"> --%>
+<!-- 			   		<table class="tablaQuiniGold"> -->
+<!-- 				   		<tr> -->
+<!-- 				   			<td>Season:</td> -->
+<!-- 				   			<td><input id="seasonFinalQuiniela" name="season" type="text"/></td> -->
+<!-- 				        </tr> -->
+<!-- 				   		<tr> -->
+<!-- 				   			<td>Round:</td> -->
+<!-- 				   			<td><input id="roundFinalQuiniela" name="round" type="text"/></td> -->
+<!-- 				        </tr> -->
+<!-- 				   		<tr> -->
+<!-- 				   			<td>NumBets:</td> -->
+<!-- 				   			<td><input id="numBetsFinalQuiniela" name="round" type="text"/></td> -->
+<!-- 				        </tr> -->
+<!-- 				   		<tr align="center"> -->
+<!-- 				   			<td colspan=2><button id="adminCompany_finalQuiniela_btn" class="btn btn-danger" name="finalQuinielaBtn" value="finalQuinielaBtn">Quiniela</button><br><br></td> -->
+<!-- 				        </tr> -->
+<!-- 			   			<tr align="center"> -->
+<!-- 				   			<td colspan=2><button id="homeBtn10" class="btn btn-danger" name="homeBtn10" value="homeBtn10">Admin Menu</button></td> -->
+<!-- 				        </tr> -->
+<!-- 			   		</table> -->
+<!-- 			   		<br> -->
+<!-- 			   		<div id="finalQuinielaFormResponse" class="linkQuiniGold">respuesta </div> -->
+<%-- 			</form> --%>
+<!-- 		</div> -->
+<!--     </div> -->
+<!--     End FinalQuinielaRound Form -->
+<!-- </div> -->
+<!-- </div> -->
 <!-- End FinalQuinielaRound Section -->
 
 
