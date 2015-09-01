@@ -84,8 +84,34 @@
 var ctx = "<%=request.getContextPath()%>"
 </script>
 
+
 </head>
 
+	<script type="text/javascript">
+		// left padding s with c to a total of n chars
+		function padding_left(s, c, n) {
+		  if (! s || ! c || s.length >= n) {
+		    return s;
+		  }
+		  var max = (n - s.length)/c.length;
+		  for (var i = 0; i < max; i++) {
+		    s = c + s;
+		  }
+		  return s;
+		}
+		 
+		// right padding s with c to a total of n chars
+		function padding_right(s, c, n) {
+		  if (! s || ! c || s.length >= n) {
+		    return s;
+		  }
+		  var max = (n - s.length)/c.length;
+		  for (var i = 0; i < max; i++) {
+		    s += c;
+		  }
+		  return s;
+		}
+	</script>
 	
 <script type="text/javascript">
 
@@ -334,6 +360,8 @@ var ctx = "<%=request.getContextPath()%>"
 <script src="<c:url value="/static/resources/_include/js/jquery.tweet.js"/>"></script> <!-- Tweet -->
 <script src="<c:url value="/static/resources/_include/js/plugins.js"/>"></script> <!-- Contains: jPreloader, jQuery Easing, jQuery ScrollTo, jQuery One Page Navi -->
 <script src="<c:url value="/static/resources/_include/js/main.js"/>"></script> <!-- Default JS -->
+<script src="<c:url value="/static/resources/_include/js/variables.js"/>"></script>
+<script src="<c:url value="/static/resources/_include/js/quiniela.js"/>"></script>
 <script src="<c:url value="/static/resources/_include/js/adminCompany.js"/>"></script>
 <script src="<c:url value="/static/resources/_include/js/jquery.dropotron.js"/>"></script>
 

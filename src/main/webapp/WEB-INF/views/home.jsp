@@ -451,6 +451,8 @@ End Analytics -->
 <script src="<c:url value="/static/resources/_include/js/jquery.tweet.js"/>"></script> <!-- Tweet -->
 <script src="<c:url value="/static/resources/_include/js/plugins.js"/>"></script> <!-- Contains: jPreloader, jQuery Easing, jQuery ScrollTo, jQuery One Page Navi -->
 <script src="<c:url value="/static/resources/_include/js/main.js"/>"></script> <!-- Default JS -->
+<script src="<c:url value="/static/resources/_include/js/variables.js"/>"></script>
+<script src="<c:url value="/static/resources/_include/js/quiniela.js"/>"></script>
 <script src="<c:url value="/static/resources/_include/js/alterQ.js"/>"></script>
 <script src="<c:url value="/static/resources/_include/js/jquery.dropotron.js"/>"></script>
 

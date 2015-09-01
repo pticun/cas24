@@ -3,6 +3,9 @@
 $(document).ready(function() {
 //alert("$(document).ready: INICIO");	
 	consoleAlterQ("AdminCompany - ready");
+	consoleAlterQ("document ready: round="+window.round+" season="+window.season);
+
+	
 	$.fn.serializeObject = function()
 	{
 	    var o = {};
@@ -21,13 +24,46 @@ $(document).ready(function() {
 	};
 	
 	initDiv();
-    
+	
+	
+	var jqxhr =
+	    $.ajax({
+	        url: ctx+"/login",
+ 	    })
+	    .success (function(response) { 
+		    if(response.errorDto!=0){
+		    	if (bActual == bLogin)
+		    		showDiv(bLogin);
+		    	else
+					showDiv(bHome);
+		    	
+				window.userLoged=false;
+		    }
+		    else{
+		    	if (response.userAlterQ!=null){
+	    			showDiv(bHome);
+		    			
+					fillUserData(response);
+					
+					window.userLoged=true;
+		    	}
+		    	else{
+		    		showDiv(bHome);
+		    		window.userLoged=false;
+		    	}
+		    }
+		    fillRoundSeasonCompany(response);
+
+			//Paint Main Menu Items
+			consoleAlterQ("Menu: pintamos los elementos del menu");
+			getMainMenuItems(window.userLoged, window.userLoged?response.userAlterQ.name:null);
+	    });
 	
 	$('form#closeACForm').submit(function(event) {
 		 var dataJson=JSON.stringify($('form#closeACForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/adminCompany'+ '/company/' + company + '/season/'+ $("input[id=seasonCloseAC]").val() + '/round/' + $("input[id=roundCloseAC]").val() + '/closeAC',
+			 url: ctx+'/adminCompany'+ '/company/' + window.company + '/season/'+ $("input[id=seasonCloseAC]").val() + '/round/' + $("input[id=roundCloseAC]").val() + '/closeAC',
 //			 url: ctx+'/adminCompany/closeAC',
 			 	type: "POST",
 			    data: dataJson,
@@ -69,7 +105,7 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#quinielaForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/adminCompany'+ '/company/' + company + '/season/'+ $("input[id=seasonQuiniela]").val() + '/round/' + $("input[id=roundQuiniela]").val() + '/finalBet/' + $("input[id=tipoQuiniela]").val(),
+			 url: ctx+'/adminCompany'+ '/company/' + window.company + '/season/'+ $("input[id=seasonQuiniela]").val() + '/round/' + $("input[id=roundQuiniela]").val() + '/finalBet/' + $("input[id=tipoQuiniela]").val(),
 			    type: "POST",
 			    data: dataJson,
 			    //contentType: "application/json; charset=utf-8",
@@ -112,10 +148,10 @@ $(document).ready(function() {
 			consoleAlterQ('confirmBetForm:'+dataJson);
 			if (buttonpressed == 'Confirmar')
 			{
-				consoleAlterQ(ctx+'/myaccount/'+ idUserAlterQ+'/'+company+'/'+ season+'/'+round+'/bet/confirm');
+				consoleAlterQ(ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/'+ window.season+'/'+window.round+'/bet/confirm');
 				// will pass the form date using the jQuery serialize function
 				jQuery.ajax ({
-					url: ctx+'/myaccount/'+ idUserAlterQ+'/'+company+'/'+ season+'/'+round+'/bet/confirm',
+					url: ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/'+ window.season+'/'+window.round+'/bet/confirm',
 				    type: "POST",
 				    data: $(this).serialize(),
 		//		    contentType: "application/json; charset=utf-8",
@@ -153,7 +189,7 @@ $(document).ready(function() {
 							$('#confirmarQuinielaFormResponse').text("Apuesta realizada correctamente");
 							//doLogin();
 							fillUserData(response);
-							confirmedBet(response.bet.bet, response.round.games, response.bet.numBets, response.bet.price, season, round);
+							confirmedBet(response.bet.bet, response.round.games, response.bet.numBets, response.bet.price, window.season, window.round);
 							
 							showDiv(bConfirmedQuiniela);
 						}
@@ -174,6 +210,7 @@ $("#homeBtn").on('click', function(event){
 	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#quinielaFinalBtn").on('click', function(event){
+	window.quinielaFinal = true;
 	getQuiniela();
 	menuEvent($(this).text(),  "#quinielaDiv");
 	event.preventDefault(); // prevent actual form submit and page reload

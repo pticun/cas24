@@ -1,21 +1,3 @@
-// comentario
-var DEFECT_COMPANY=0;
-var round=0;
-var season=0;
-var company=1; // "quiniGoldClassic = 1" depends environment
-var rols="";
-var idUserAlterQ="";
-
-var loadBet=true;
-var loadBetUser=true;
-var loadCompanies=true;
-
-var userLoged=false;
-
-var companySelected = false;
-
-var admin = false;
-var superAdmin = false;
 
 //Divs Graphics
 var bActual  = 0;
@@ -156,11 +138,6 @@ function showDiv(elem) {
 	case bForgot:
 		$(sForgotRef).show();
 		//document.getElementById("forgotDiv").style.display = "block";
-		break;
-	case bQuiniela:
-		getQuiniela();
-		$(sQuinielaRef).show();
-		//document.getElementById("quinielaDiv").style.display = "block";
 		break;
 	case bQuiniela:
 		getQuiniela();
@@ -350,7 +327,7 @@ function menuEvent(name, href)
 
 function getMainMenuItems(userLoged, user)
 	{
-	consoleAlterQ("getMainMenuItems userLoged="+userLoged+" user="+user+" admin="+admin + " superAdmin="+superAdmin);
+	consoleAlterQ("getMainMenuItems userLoged="+userLoged+" user="+user+" admin="+window.admin + " superAdmin="+window.superAdmin);
 	//MENU WEB 
 	$('#menu-nav li').remove();
 	
@@ -415,23 +392,23 @@ function getMainMenuItems(userLoged, user)
 
 function paintRanking(){
 	$('#rankingSelect li').remove();
-	$('#rankingSelect').append($("<li><a class='list-group-item' id="+season+"_0>"+(season-1)+"/"+season+"</a></li>"));
+	$('#rankingSelect').append($("<li><a class='list-group-item' id="+window.season+"_0>"+(window.season-1)+"/"+window.season+"</a></li>"));
 	$('#rankingSelect').append($("<li><a class='divider'></a></li>"));
 	var num=1;
-	for ( num = 1; num < round + 1; num++) {
-		$('#rankingSelect').append($("<li><a id='"+season+"_"+num+"' href='#'>"+num+"</a></li>"));
+	for ( num = 1; num < window.round + 1; num++) {
+		$('#rankingSelect').append($("<li><a id='"+window.season+"_"+num+"' href='#'>"+num+"</a></li>"));
 	}
-	callRanking(idUserAlterQ,company,season,round);
+	callRanking(window.idUserAlterQ,window.company,window.season,window.round);
 }
 
 function paintResum(){
 	$('#resumSelect li').remove();
-	$('#resumSelect').append($("<li><a class='list-group-item' id="+season+"_0>"+(season-1)+"/"+season+"</a></li>"));
+	$('#resumSelect').append($("<li><a class='list-group-item' id="+window.season+"_0>"+(window.season-1)+"/"+window.season+"</a></li>"));
 	$('#resumSelect').append($("<li><a class='divider'></a></li>"));
-	for ( var num = 1; num < round + 1; num++) {
-		$('#resumSelect').append($("<li><a id='"+season+"_"+num+"' href='#'>"+num+"</a></li>"));
+	for ( var num = 1; num < window.round + 1; num++) {
+		$('#resumSelect').append($("<li><a id='"+window.season+"_"+num+"' href='#'>"+num+"</a></li>"));
 	}
-	callResum(season,round);
+	callResum(window.season,window.round);
 }
 
 function getSign(sign){
@@ -526,8 +503,10 @@ function formatMatches(team1, team2){
 	return rdo;
 }
 
-//alert("context:"+ctx);
+
 $(document).ready(function() {
+	
+	consoleAlterQ("alterQ ready: round="+window.round+" season="+window.season);
 		
 	$.fn.serializeObject = function()
 	{
@@ -547,6 +526,7 @@ $(document).ready(function() {
 	};
 	
 	initDiv(bHome);
+	
 	
 	//Paint Main Menu Items
 	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
@@ -575,7 +555,7 @@ $(document).ready(function() {
 		    	else
 					showDiv(bHome);
 		    	
-				userLoged=false;
+				window.userLoged=false;
 		    }
 		    else{
 		    	if (response.userAlterQ!=null){
@@ -583,18 +563,18 @@ $(document).ready(function() {
 		    			
 					fillUserData(response);
 					
-					userLoged=true;
+					window.userLoged=true;
 		    	}
 		    	else{
 		    		showDiv(bHome);
-    				userLoged=false;
+		    		window.userLoged=false;
 		    	}
 		    }
 		    fillRoundSeasonCompany(response);
 
 			//Paint Main Menu Items
 			consoleAlterQ("Menu: pintamos los elementos del menu");
-			getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
+			getMainMenuItems(window.userLoged, window.userLoged?response.userAlterQ.name:null);
 	    });
 	
 	
@@ -745,7 +725,7 @@ $(document).ready(function() {
 			if (idUserAlterQ != ''){
 				// will pass the form date using the jQuery serialize function
 				jQuery.ajax ({
-					url: ctx+'/myaccount/'+ idUserAlterQ+'/'+company+'/'+ season+'/'+round+'/bet',
+					url: ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/'+ window.season+'/'+window.round+'/bet',
 				    type: "POST",
 				    data: $(this).serialize(),
 		//		    contentType: "application/json; charset=utf-8",
@@ -762,7 +742,7 @@ $(document).ready(function() {
 						else{
 							$('#quinielaFormResponse').text("Apuesta realizada correctamente");
 							//doLogin();
-							confirmBet(response.bet.bet, response.round.games, response.bet.numBets, response.bet.price, season, round);
+							confirmBet(response.bet.bet, response.round.games, response.bet.numBets, response.bet.price, window.season, window.round);
 							//pasamos los parámetros
 							$('#param_apuesta').val(response.bet.bet);
 							$('#param_reduccion').val(response.bet.reduction);
@@ -797,10 +777,10 @@ $(document).ready(function() {
 		consoleAlterQ('confirmBetForm:'+dataJson);
 		if (buttonpressed == 'Confirmar')
 		{
-			consoleAlterQ(ctx+'/myaccount/'+ idUserAlterQ+'/'+company+'/'+ season+'/'+round+'/bet/confirm');
+			consoleAlterQ(ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/'+ window.season+'/'+window.round+'/bet/confirm');
 			// will pass the form date using the jQuery serialize function
 			jQuery.ajax ({
-				url: ctx+'/myaccount/'+ idUserAlterQ+'/'+company+'/'+ season+'/'+round+'/bet/confirm',
+				url: ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/'+ window.season+'/'+window.round+'/bet/confirm',
 			    type: "POST",
 			    data: $(this).serialize(),
 	//		    contentType: "application/json; charset=utf-8",
@@ -838,7 +818,7 @@ $(document).ready(function() {
 						$('#confirmarQuinielaFormResponse').text("Apuesta realizada correctamente");
 						//doLogin();
 						fillUserData(response);
-						confirmedBet(response.bet.bet, response.round.games, response.bet.numBets, response.bet.price, season, round);
+						confirmedBet(response.bet.bet, response.round.games, response.bet.numBets, response.bet.price, window.season, window.round);
 						
 						showDiv(bConfirmedQuiniela);
 					}
@@ -963,8 +943,8 @@ $(document).ready(function() {
 		pos = texto.indexOf('_');
 		temporada=texto.substring(0,pos);
 		jornada=texto.substring(pos+1);
-		consoleAlterQ("company_temporada_jornada="+company+"-"+temporada+"-"+jornada);
-		callRanking(idUserAlterQ,company,temporada,jornada);
+		consoleAlterQ("company_temporada_jornada="+window.company+"-"+temporada+"-"+jornada);
+		callRanking(window.idUserAlterQ,window.company,temporada,jornada);
 		event.preventDefault(); // prevent actual form submit and page reload
     });
    	$( "#resumSelect" ).on( "click", "a", function( event ) {
@@ -988,23 +968,23 @@ $(document).ready(function() {
    		
 	});
 	$('#companyToChoose').on('change', function() {
-		company=this.value;
+		window.company=this.value;
 		sCompany = $(this).find(":selected").text();
-		companySelected = true;
+		window.companySelected = true;
 		consoleAlterQ('vamos a repintar el menu');
-		admin = false;
-		superAdmin = false;
+		window.admin = false;
+		window.superAdmin = false;
 		//if company == 0 (defect company) all user are admin 
-		if (company!= DEFECT_COMPANY){
-			admin = rols.some(function(boy) { return hasRolCompanyValue(boy, 100, company); });
+		if (window.company!= window.DEFECT_COMPANY){
+			window.admin = window.rols.some(function(boy) { return hasRolCompanyValue(boy, 100, windo.company); });
 		}
-		superAdmin = rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, DEFECT_COMPANY); });
+		window.superAdmin = window.rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, window.DEFECT_COMPANY); });
 
-		consoleAlterQ("Admin:"+admin);
-		consoleAlterQ("superAdmin:"+superAdmin);
+		consoleAlterQ("Admin:"+window.admin);
+		consoleAlterQ("superAdmin:"+window.superAdmin);
 		
 		getMainMenuItems(true, $('#nameData').val());
-		loadBetUser = true;
+		window.loadBetUser = true;
 		cleanUserBets();
 	});
 	
@@ -1085,7 +1065,7 @@ function callResum(company,temporada,jornada){
 
 	
 	jQuery.ajax ({
-		url: ctx+'/myaccount/mail@mail.es/'+company+'/'+season+'/'+round+'/bet',
+		url: ctx+'/myaccount/mail@mail.es/'+window.company+'/'+window.season+'/'+window.round+'/bet',
 		type: "GET",
 		data: null,
 		contentType: "application/json; charset=utf-8",
@@ -1129,12 +1109,13 @@ function doLogin(){
 	    });
 }
 function fillRoundSeasonCompany(response){
-    round = response.adminData.round;
-    season = response.adminData.season;
+	window.round = response.adminData.round;
+	window.season = response.adminData.season;
 //    company = response.adminData.company;
+	consoleAlterQ("fillRoundSeasonCompany: round="+window.round+" season="+window.season);	
 }
 function fillUserData(response){
-	idUserAlterQ=response.userAlterQ.id;
+	window.idUserAlterQ=response.userAlterQ.id;
 	
 	$('#idData').val(response.userAlterQ.id);
 	$('#nameData').val(response.userAlterQ.name);
@@ -1148,38 +1129,39 @@ function fillUserData(response){
 	
 	$('#idSaldo').val(response.userAlterQ.id);
 	$('#balanceSaldo').val(response.userAlterQ.balance);	
-	rols=response.userAlterQ.rols;
+	window.rols=response.userAlterQ.rols;
 	
 	//if company == 0 (defect company) all user are admin 
-	if (company!= DEFECT_COMPANY){
-		admin = rols.some(function(boy) { return hasRolCompanyValue(boy, 100, company); });
+	if (window.company!= window.DEFECT_COMPANY){
+		window.admin = window.rols.some(function(boy) { return hasRolCompanyValue(boy, 100, window.company); });
 	}
-	superAdmin = rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, DEFECT_COMPANY); });
+	window.superAdmin = window.rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, window.DEFECT_COMPANY); });
 
-	consoleAlterQ("Admin:"+admin);
-	consoleAlterQ("superAdmin:"+superAdmin);
+	consoleAlterQ("Admin:"+window.admin);
+	consoleAlterQ("superAdmin:"+window.superAdmin);
 //	consoleAlterQ("tienes rol:"+rols.some(function(boy) { return hasValue(boy, "rol", 100); }));	
 //	consoleAlterQ("tienes rolcompany:"+rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, 0); }));	
 	
 }
 
 function initializeVars(){
-	round=0;
-	season=0;
-	company=1; //companyDefault "quiniGoldClassic = 1"
-	rols="";
-	idUserAlterQ="";
+alter("round="+window.round+" season="+window.season);	
+	window.round=0;
+	window.season=0;
+	window.company=1; //companyDefault "quiniGoldClassic = 1"
+	window.rols="";
+	window.idUserAlterQ="";
 
-	loadBet=true;
-	loadBetUser=true;
-	loadCompanies=true;
+	window.loadBet=true;
+	window.loadBetUser=true;
+	window.loadCompanies=true;
 
-	userLoged=false;
+	window.userLoged=false;
 
-	companySelected = false;
+	window.companySelected = false;
 
-	admin = false;
-	superAdmin = false;
+	window.admin = false;
+	window.superAdmin = false;
 
 	//delete combo company
 	 $("#companyToChoose option:selected").remove();
@@ -1212,8 +1194,8 @@ function doLogout(){
 	   		    if(response.errorDto!=0){
 	   		    }
 	   		    else{
-					userLoged=false;
-					loadCompanies = false;
+					window.userLoged=false;
+					window.loadCompanies = false;
 					getMainMenuItems(false, null);
 	   		    }
 		    }
@@ -1221,7 +1203,7 @@ function doLogout(){
 
 	initializeVars();
 	showDiv(bHome);
-	consoleAlterQ("LogOut: userLoged="+userLoged);     
+	consoleAlterQ("LogOut: userLoged="+window.userLoged);     
 	
 }
 
@@ -1238,7 +1220,7 @@ function calculatePrice(){
 	consoleAlterQ(ctx+'/bet/price');	
 	var dataJson=$("form#betForm").serialize();
 	jQuery.ajax ({
-		url: ctx+'/myaccount/mail@mail.es/'+company+'/'+ season+'/'+round+'/bet/price',
+		url: ctx+'/myaccount/mail@mail.es/'+window.company+'/'+ window.season+'/'+window.round+'/bet/price',
 	    type: "POST",
 	    data: dataJson,
 //	    contentType: "application/json; charset=utf-8",
@@ -1279,188 +1261,20 @@ function limpiaQuiniela()
 	
 }
 
-function getQuiniela(){
-		consoleAlterQ('getQuiniela');
-		consoleAlterQ(loadBet);
-		if(loadBet){
-		 	loadBet=false;
-		 	limpiaQuiniela();
-		 	
-			jQuery.ajax ({
-			    url: ctx+'/myaccount/mail@mail.es/'+company+'/'+ season+'/'+round+'/round',
-			    type: "GET",
-			    data: null,
-			    contentType: "application/json; charset=utf-8",
-			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-		        cache: false,    //This will force requested pages not to be cached by the browser  
-		        processData:false, //To avoid making query String instead of JSON
-			    success: function(response){
-				    if(response.errorDto!=0){
-		   		    	$(response.errorDto).each(function(index, objeto){  
-		   		    		$('#temporada').append(objeto.stringError+" - ");
-					    });
-				    }
-				    else{
-						$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
-					    $('#quinielaTable').append('<input type="hidden" name="season" id="season" value="'+ response.round.season+'"/>');       
-					    $('#quinielaTable').append('<input type="hidden" name="round" id="round" value="'+ response.round.round+'"/>');       
-						var temp= "Jorn"+ ((response.round.round<9)?'0'+response.round.round:response.round.round) + "  Temp "+ (response.round.season - 2000)+"/"+(response.round.season + 1 - 2000);
-					    $('#quinielaTable').append('<tr align="center id="rowBetTitle"><td>'+ temp +' - APUESTA</tr>');       
-					    $('#quinielaTableRec').append('<tr align="center id="rowBetTitleRec"><td>&nbsp</td></tr>');       
-						$(response.round.games).each(function(index, element){  
-							consoleAlterQ(element);
-							var row="";
-							var rowRec="";
-							var temp=formatMatches(element.player1, element.player2);
-							if(index>8){
-								temp=temp+(index+1);
-							}
-							else{
-								temp=temp+" "+(index+1);
-							}
-							
-							
-//							if(index==0 || index==4 || index==8 || index==11){
-//								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap" class="partidolinea"><label>'+temp+'</label></td>';
-//							}
-//							else if (index==13){
-//								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap" class="partidoLast"><label>'+temp+'</label></td>';
-//							}else if (index!=14){
-//								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap" class="partido"><label>'+temp+'</label></td>';
-//							}
-							
-							
-							
-							//agrupamos el pleno al 15
-							if (index == 14)
-							{
-								row+='<tr><td colspan="5" style="text-align: center; white-space: nowrap"><label>PLENO AL 15</label></td><tr>';
-								row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap"><label>'+element.player1+'</label></td>';
-								
-								row+='<td><input class="class0" type="checkbox" id="'+index+'_0" name="'+index+'_0" />';
-								row+='<label class="quiniela" for="'+index+'_0"></label>';
-								row+='</td>';
-								row+='<td><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
-								row+='<label class="quiniela" for="'+index+'_1"></label>';
-								row+='</td>';
-								row+='<td><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
-								row+='<label class="quiniela" for="'+index+'_2"></label>';
-								row+='</td>';
-								row+='<td><input class="classM" type="checkbox" id="'+index+'_3" name="'+index+'_3" />';
-								row+='<label class="quiniela" for="'+index+'_3"></label>';
-								row+='</td>';
-								row+='</tr>';
-
-								row+='<tr id="rowBet_'+(index+1)+'"><td style="white-space: nowrap"><label>'+element.player2+'</label></td>';
-								row+='<td><input class="class0" type="checkbox" id="'+(index+1)+'_0" name="'+(index+1)+'_0" />';
-								row+='<label class="quiniela" for="'+(index+1)+'_0"></label>';
-								row+='</td>';
-								row+='<td><input class="class1" type="checkbox" id="'+(index+1)+'_1" name="'+(index+1)+'_1" />';
-								row+='<label class="quiniela" for="'+(index+1)+'_1"></label>';
-								row+='</td>';
-								row+='<td><input class="class2" type="checkbox" id="'+(index+1)+'_2" name="'+(index+1)+'_2" />';
-								row+='<label class="quiniela" for="'+(index+1)+'_2"></label>';
-								row+='</td>';
-								row+='<td><input class="classM" type="checkbox" id="'+(index+1)+'_3" name="'+(index+1)+'_3" />';
-								row+='<label class="quiniela" for="'+(index+1)+'_3"></label>';
-								row+='</td>';
-								row+='</tr>';
-
-								$('#quinielaTablePleno15').append(row);
-							}
-							else{
-								if((index==3)||(index==7)||(index==10)){
-									row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap;border-bottom:2pt solid rgb(181, 31, 31);"><label>'+temp+'</label></td>';
-								}
-								else
-									row+='<tr id="rowBet_'+index+'"><td style="white-space: nowrap"><label>'+temp+'</label></td>';
-									
-									
-								row+='<td style="border-bottom:2pt solid rgb(181, 31, 31);"><input class="class1" type="checkbox" id="'+index+'_1" name="'+index+'_1" />';
-								row+='<label class="quiniela" for="'+index+'_1"></label>';
-								row+='</td>';
-								row+='<td style="border-bottom:2pt solid rgb(181, 31, 31);"><input class="classX" type="checkbox" id="'+index+'_X" name="'+index+'_X" />';
-								row+='<label class="quiniela" for="'+index+'_X"></label>';
-								row+='</td>';
-								row+='<td style="border-bottom:2pt solid rgb(181, 31, 31);"><input class="class2" type="checkbox" id="'+index+'_2" name="'+index+'_2" />';
-								row+='<label class="quiniela" for="'+index+'_2"></label>';
-								row+='</td>';
-								row+='</tr>';
-
-								rowRec+='<tr><td style="border-bottom:2pt solid rgb(181, 31, 31);"><input class="classR" type="checkbox" id="'+index+'_R" name="'+index+'_R" />';
-								rowRec+='<label class="quiniela" for="'+index+'_R"></label>';
-								rowRec+='</td>';
-								rowRec+='</tr>';
-								
-								$('#quinielaTable_in').append(row);
-								$('#quinielaTableRec_in').append(rowRec);
-/*
-								if(index==0 || index==1 || index==2 || index==3)//agrupamos los partidos 1-2-3-4
-								{
-									$('#quinielaTable_1_to_4').append(row);
-									$('#quinielaTableRec_1_to_4').append(rowRec);
-								}
-								else if(index==4 || index==5 || index==6 || index==7)//agrupamos los partidos 5-6-7-8
-								{
-									$('#quinielaTable_5_to_8').append(row);
-									$('#quinielaTableRec_5_to_8').append(rowRec);
-								}
-								else if(index==8 || index==9 || index==10)//agrupamos los partidos 9-10-11
-								{
-									$('#quinielaTable_9_to_11').append(row);
-									$('#quinielaTableRec_9_to_11').append(rowRec);
-								}
-								else if(index==11 || index==12 || index==13)//agrupamos los partidos 12-13-14
-								{
-									$('#quinielaTable_12_to_14').append(row);
-									$('#quinielaTableRec_12_to_14').append(rowRec);
-								}	
-*/								
-								//$('#quinielaTable').append(row);
-								//$('#quinielaTableRec').append(rowRec);
-								
-							}
-							
-						});
-						//añadimos el check de la reducción
-						var row="";
-						row+='<tr>';
-						row+='<td><input class="classR" type="checkbox" id="reducedCHK" name="reducedCHK" />';
-						row+='<label id="reducedCHKlabel" class="quiniela" for="reducedCHK"></label>';
-						row+='</td>';
-						row+='<td style="white-space: nowrap"><label>REDUCIR QUINIELA </label></td>';
-						row+='<td style="white-space: nowrap"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalReduced"><strong>Info</strong></button></td>';
-						row+='</tr>';
-
-						$('#quinielaTableReduced').append(row);
-						
-						if (company != DEFECT_COMPANY)
-							$('#quinielaTableReduced').hide();
-						
-				    }
-			    },
-			    error: function(){
-			    	consoleAlterQ('Error en getQuiniela');
-			        loadBet=true;
-			    }
-		 });
-		}
-}
-
 function getCompanies(){
 	consoleAlterQ('getCompanies');
 	consoleAlterQ(loadCompanies);
 	
-	if(loadCompanies)
+	if(window.loadCompanies)
 	{
-		loadCompanies=false;
+		window.loadCompanies=false;
 		
 		//delete combo company
 		 $("#companyToChoose option:selected").remove();
 		
-	   		consoleAlterQ('url:'+ctx+'/company/myaccount/'+ idUserAlterQ+'/');  		
+	   		consoleAlterQ('url:'+ctx+'/company/myaccount/'+ window.idUserAlterQ+'/');  		
 			jQuery.ajax ({
-				url: ctx+'/company/myaccount/'+ idUserAlterQ+'/',
+				url: ctx+'/company/myaccount/'+ window.idUserAlterQ+'/',
 			    type: "GET",
 			    data: null,
 			    contentType: "application/json; charset=utf-8",
@@ -1470,15 +1284,15 @@ function getCompanies(){
 			    success: function(response){
 				    if(response.errorDto!=0){
 						consoleAlterQ('Success: no hay companies');
-						$('#companyToChoose').append('<option value="'+DEFECT_COMPANY+'">QuiniGold</option>');
-						loadCompanies=true;
+						$('#companyToChoose').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
+						window.loadCompanies=true;
 				    }
 				    else{
 				    	var responseCompanyOrder = [];
 				    	responseCompanyOrder = jQuery.unique($(response.company));
 						$(responseCompanyOrder).each(function(index, element){
 							console.log("index="+index+"-id="+element.id + "-company="+element.company+"-nick="+element.nick);
-							if (element.company!=DEFECT_COMPANY){
+							if (element.company!=window.DEFECT_COMPANY){
 								$('#companyToChoose').append('<option value="'+element.company+'">'+element.nick+'</option>');
 							}
 						});
@@ -1486,8 +1300,8 @@ function getCompanies(){
 			    },
 			    error : function (xhr, textStatus, errorThrown) {
 					consoleAlterQ('Error: no hay companies');
-					$('#companyToChoose').append('<option value="'+DEFECT_COMPANY+'">QuiniGold</option>');
-					loadCompanies=true;
+					$('#companyToChoose').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
+					window.loadCompanies=true;
 	            }
 		 });
 	}
@@ -1499,18 +1313,18 @@ function cleanUserBets(){
 function getUserBets(){
 	consoleAlterQ('getUserBets');
 	consoleAlterQ('loadBetUser='+loadBetUser);
-	if(loadBetUser){
-		loadBetUser=false;
+	if(window.loadBetUser){
+		window.loadBetUser=false;
 //		loadBetUser=true;
 		var row="";
 		
 		cleanUserBets();
 		
-   		consoleAlterQ('antes jQuery.ajax - idUserAlterQ='+idUserAlterQ+' company='+company+' season='+season+' round='+round);
+   		consoleAlterQ('antes jQuery.ajax - idUserAlterQ='+idUserAlterQ+' company='+window.company+' season='+window.season+' round='+window.round);
    		
-   		consoleAlterQ('url:'+ctx+'/myaccount/'+ idUserAlterQ+'/'+company+'/'+ season+'/'+round+'/bet');  		
+   		consoleAlterQ('url:'+ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/'+ window.season+'/'+window.round+'/bet');  		
 		jQuery.ajax ({
-			url: ctx+'/myaccount/'+ idUserAlterQ+'/'+company+'/'+ season+'/'+round+'/bet',
+			url: ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/'+ window.season+'/'+window.round+'/bet',
 		    type: "GET",
 		    data: null,
 		    contentType: "application/json; charset=utf-8",
@@ -1600,11 +1414,11 @@ function betDetail(index, bet)
 	var mygames;
 	
 	consoleAlterQ('antes jQuery.ajax mygames');
-	consoleAlterQ('url:'+ctx+'/myaccount/mail@mail.es/'+company+'/'+ season+'/'+round+'/round');
+	consoleAlterQ('url:'+ctx+'/myaccount/mail@mail.es/'+window.company+'/'+ window.season+'/'+window.round+'/round');
 	
 	$('#quinielaDetailTable').empty();
     jQuery.ajax ({
-		    url: ctx+'/myaccount/mail@mail.es/'+company+'/'+ season+'/'+round+'/round',
+		    url: ctx+'/myaccount/mail@mail.es/'+window.company+'/'+ window.season+'/'+window.round+'/round',
 		    type: "GET",
 		    data: null,
 		    contentType: "application/json; charset=utf-8",
@@ -1702,5 +1516,5 @@ function confirmedBet(bet, mygames, apuestas, precio, temporada, jornada)
     row+='</tr>';
 	$('#confirmadaQuinielaTable').append(row);
 	//showDiv(bQuinielaDetail);
-	loadBetUser=true;
+	window.loadBetUser=true;
 }
