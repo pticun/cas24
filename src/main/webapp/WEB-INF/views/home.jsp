@@ -435,7 +435,7 @@ End Analytics -->
 
 <!-- Footer -->
 <footer>
-	<p class="credits">&copy;2015 quiniGold. v:0.5.3</p>
+	<p class="credits">&copy;2015 quiniGold. v:0.5.4</p>
 </footer>
 <!-- End Footer -->
 
