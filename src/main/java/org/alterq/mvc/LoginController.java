@@ -45,7 +45,7 @@ public class LoginController {
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody
 	ResponseDto login(@RequestBody UserAlterQ user, HttpServletResponse response) {
-		log.debug("login name:" + user.getId() + "-:pwd:" + user.getPwd());
+		log.debug("login name:" + user.getId() + "-:pwd:********");
 		UserAlterQ userValidate = userDao.validateLogin(user.getId(), user.getPwd());
 		ResponseDto dto = new ResponseDto();
 		AdminData ad;
