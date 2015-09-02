@@ -660,8 +660,16 @@ var ctx = "<%=request.getContextPath()%>"
 				   			<td><input id="updateBalanceUser" name="user" type="text"/></td>
 				        </tr>
 				   		<tr>
-				   			<td>Balance:</td>
+				   			<td>Reset Balance:</td>
 				   			<td><input id="updateBalanceBalance" name="balance" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td>Increase Balance:</td>
+				   			<td><input id="updateIncreaseBalanceBalance" name="increaseBalance" type="text"/></td>
+				        </tr>
+				   		<tr>
+				   			<td>Decrease Balance:</td>
+				   			<td><input id="updateDecreaseBalanceBalance" name="decreaseBalance" type="text"/></td>
 				        </tr>
 				   		<tr align="center">
 				   			<td colspan=2><button id="admin_updateBalance_btn" class="btn btn-danger" name="updateBalanceBtn" value="updateBalanceBtn">Update Balance</button><br><br></td>

@@ -625,32 +625,32 @@ public class AdminCompanyController {
 		return response;
 	}
 
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/user/{user}/balance/{balance}/updateBalanceUser")
-	public @ResponseBody ResponseDto updateBalanceUser(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable String user, @PathVariable String balance) {
-		ResponseDto response = new ResponseDto();
-		UserAlterQ userAlterQ = new UserAlterQ();
-
-		try {
-			companyValidator.isCompanyOk(company);
-			userSecurity.isAdminUserInSession(cookieSession, company);
-			userAlterQ.setId(user);
-			userSecurity.notExistsUserAlterQ(userAlterQ);
-
-			userAlterQ = userAlterQDao.findById(user);
-
-			userAlterQ.setBalance(Double.toString(Double.parseDouble(balance)));
-			userAlterQDao.save(userAlterQ);
-
-		} catch (Exception e) {
-			ErrorDto error = new ErrorDto();
-			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);
-			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_ADMIN));
-			response.addErrorDto(error);
-			log.error(ExceptionUtils.getStackTrace(e));
-		}
-
-		return response;
-	}
+//	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/user/{user}/balance/{balance}/updateBalanceUser")
+//	public @ResponseBody ResponseDto updateBalanceUser(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable String user, @PathVariable String balance) {
+//		ResponseDto response = new ResponseDto();
+//		UserAlterQ userAlterQ = new UserAlterQ();
+//
+//		try {
+//			companyValidator.isCompanyOk(company);
+//			userSecurity.isAdminUserInSession(cookieSession, company);
+//			userAlterQ.setId(user);
+//			userSecurity.notExistsUserAlterQ(userAlterQ);
+//
+//			userAlterQ = userAlterQDao.findById(user);
+//
+//			userAlterQ.setBalance(Double.toString(Double.parseDouble(balance)));
+//			userAlterQDao.save(userAlterQ);
+//
+//		} catch (Exception e) {
+//			ErrorDto error = new ErrorDto();
+//			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);
+//			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_ADMIN));
+//			response.addErrorDto(error);
+//			log.error(ExceptionUtils.getStackTrace(e));
+//		}
+//
+//		return response;
+//	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE, value = "/company/{company}/season/{season}/round/{round}/getFile")
 	public @ResponseBody void getElectricFile(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round, HttpServletResponse resp) {

@@ -891,8 +891,8 @@ public class AdminController {
 		return response;
 	}
 
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/user/{user}/balance/{balance}/updateBalanceUser")
-	public @ResponseBody ResponseDto updateBalanceUser(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable String user, @PathVariable String balance) {
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/user/{user}/balance/{balance}/{balanceIncrease}/{balanceDecrease}/updateBalanceUser")
+	public @ResponseBody ResponseDto updateBalanceUser(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable String user, @PathVariable String balance, @PathVariable String balanceIncrease, @PathVariable String balanceDecrease) {
 		ResponseDto response = new ResponseDto();
 		UserAlterQ userAlterQ = new UserAlterQ();
 
@@ -903,7 +903,13 @@ public class AdminController {
 
 			userAlterQ = userAlterQDao.findById(user);
 
-			userAlterQ.setBalance(Double.toString(Double.parseDouble(balance)));
+			if (balance!=null && (balance.compareTo("")!=0) && (balance.compareTo("none")!=0))
+				userAlterQ.setBalance(Double.toString(Double.parseDouble(balance)));
+			else if (balanceIncrease!=null && (balanceIncrease.compareTo("")!=0) && (balanceIncrease.compareTo("none")!=0))
+				userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) + Double.parseDouble(balanceIncrease)));
+			else if (balanceDecrease!=null && (balanceDecrease.compareTo("")!=0) && (balanceDecrease.compareTo("none")!=0))
+				userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) - Double.parseDouble(balanceDecrease)));
+			
 			userAlterQDao.save(userAlterQ);
 
 		} catch (SecurityException e) {

@@ -302,8 +302,11 @@ $(document).ready(function() {
 	$('form#updateBalanceForm').submit(function(event) {
 		 var dataJson=JSON.stringify($('form#updateBalanceForm').serializeObject());
 		 consoleAlterQ(dataJson);
+		 var balance = ($("input[id=updateBalanceBalance]").val()=="")?"none":$("input[id=updateBalanceBalance]").val();
+		 var balanceInc = ($("input[id=updateIncreaseBalanceBalance]").val()=="")?"none":$("input[id=updateIncreaseBalanceBalance]").val();
+		 var balanceDec = ($("input[id=updateDecreaseBalanceBalance]").val()=="")?"none":$("input[id=updateDecreaseBalanceBalance]").val();
 		 jQuery.ajax ({
-			 url: ctx+'/admin'+ '/company/' + company + '/user/'+ $("input[id=updateBalanceUser]").val() + '/balance/' + $("input[id=updateBalanceBalance]").val() + '/updateBalanceUser',
+			 url: ctx+'/admin'+ '/company/' + company + '/user/'+ $("input[id=updateBalanceUser]").val() + '/balance/' + balance + '/' + balanceInc + '/' + balanceDec + '/updateBalanceUser',
 			    type: "POST",
 			    data: dataJson,
 			    //contentType: "application/json; charset=utf-8",
