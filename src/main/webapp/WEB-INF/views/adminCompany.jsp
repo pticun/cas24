@@ -215,7 +215,7 @@ var ctx = "<%=request.getContextPath()%>"
 		
 	}
 
-	
+	.modal('hide');
 	
 </script>
 
