@@ -134,6 +134,7 @@ var ctx = "<%=request.getContextPath()%>"
 	var sAdminIni					= "home";
 	var sConfirmQuinielaRef 		= "#confirmarQuinielaDiv";
 	var sConfirmedQuinielaRef 		= "#confirmadaQuinielaDiv";
+	var sModalReduced				= "#modalReduced";
 
 	
 	function initDiv() {
@@ -143,6 +144,7 @@ var ctx = "<%=request.getContextPath()%>"
 		$(sFinalQuinielaRef).hide();
 		$(sConfirmQuinielaRef).hide();
 		$(sConfirmedQuinielaRef).hide();
+		$(modalReduced).hide();
 		
 		bActual = bHome;
 	}
@@ -215,7 +217,7 @@ var ctx = "<%=request.getContextPath()%>"
 		
 	}
 
-	.modal('hide');
+	
 	
 </script>
 
