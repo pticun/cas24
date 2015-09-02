@@ -236,29 +236,6 @@ function consoleAlterQ(text){
 	}
 }
 
-function getTableMatches(bet, loadGames){
-	tableBet='<table style="font-size:14px">';
-	$(loadGames).each(function(index, element){  
-		var temp=padding_right(element.player1+'-'+element.player2,".",27);
-		var num = (index+1)<10?(' '+(index+1)):(index+1);
-		tableBet+='<tr><td nowrap>' + num + ' - </td><td  nowrap>' + temp + '</td><td  nowrap align="left">'+ getSign(bet.charAt(index)) + '</td>';
-		tableBet+='</tr>';
-	});
-	tableBet+='</table>';		
-    return tableBet;
-}
-function getSign(sign){
-	switch(sign)
-	{
-		case "4": return '1&nbsp;&nbsp;';break;
-		case "2": return '&nbsp;X&nbsp;';break;
-		case "1": return '&nbsp;&nbsp;2';break;
-		case "3": return '&nbsp;X2';break;
-		case "5": return '1&nbsp;2';break;
-		case "6": return '1X&nbsp;';break;
-		case "7": return '1X2';break;
-		default: return '&nbsp;&nbsp;&nbsp;';
-	}
-}
+
 
 

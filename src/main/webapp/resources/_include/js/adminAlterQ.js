@@ -259,46 +259,6 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
    	 });
 
-	$('form#quinielaForm').submit(function(event) {
-		 var dataJson=JSON.stringify($('form#quinielaForm').serializeObject());
-		 consoleAlterQ(dataJson);
-		 jQuery.ajax ({
-			 url: ctx+'/admin'+ '/company/' + company + '/season/'+ $("input[id=seasonQuiniela]").val() + '/round/' + $("input[id=roundQuiniela]").val() + '/finalBet/' + $("input[id=tipoQuiniela]").val(),
-			    type: "POST",
-			    data: dataJson,
-			    //contentType: "application/json; charset=utf-8",
-			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-	            cache: false,    //This will force requested pages not to be cached by the browser  
-	            processData:false, //To avoid making query String instead of JSON
-			    success: function(response){
-			    	if(response.errorDto!=0){
-		   		    	$(response.errorDto).each(function(index, objeto){  
-		   		    		consoleAlterQ("result: response="+objeto.errorDto);
-		   		    		$('#quinielaFormResponse').append(objeto.stringError+" - ");
-					    });
-		   		    	
-		   		    }
-		   		    else{
-		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
-						//$('#loginFormResponse').text(response.userAlterQ.name);
-						consoleAlterQ("result: response= OK");
-						$('#quinielaFormResponse').text("Admin - Quiniela - OK");
-						//userLoged=true;
-						//idUserAlterQ=response.userAlterQ.id;
-						//$('#idData').val(response.userAlterQ.id);
-						//$('#nameData').val(response.userAlterQ.name);
-						//$('#phoneNumberData').val(response.userAlterQ.phoneNumber);
-						//$('#idSaldo').val(response.userAlterQ.id);
-						//$('#balanceSaldo').val(response.userAlterQ.balance);
-						//getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
-						//showDiv(bHome);
-		   		    }
-				    //round=response.generalData.round;
-				    //season=response.generalData.season;
-			    }
-			});
-		 	event.preventDefault(); // prevent actual form submit and page reload
-	});
 	$('form#prizesForm').submit(function(event) {
 		 var dataJson=JSON.stringify($('form#prizesForm').serializeObject());
 		 consoleAlterQ(dataJson);
@@ -528,29 +488,5 @@ function callResum(company,temporada,jornada){
 	});
 }
 
-function getTableMatches(bet, loadGames){
-	tableBet='<table style="font-size:14px">';
-	$(loadGames).each(function(index, element){  
-		var temp=padding_right(element.player1+'-'+element.player2,".",27);
-		var num = (index+1)<10?(' '+(index+1)):(index+1);
-		tableBet+='<tr><td nowrap>' + num + ' - </td><td  nowrap>' + temp + '</td><td  nowrap align="left">'+ getSign(bet.charAt(index)) + '</td>';
-		tableBet+='</tr>';
-	});
-	tableBet+='</table>';		
-    return tableBet;
-}
-function getSign(sign){
-	switch(sign)
-	{
-		case "4": return '1&nbsp;&nbsp;';break;
-		case "2": return '&nbsp;X&nbsp;';break;
-		case "1": return '&nbsp;&nbsp;2';break;
-		case "3": return '&nbsp;X2';break;
-		case "5": return '1&nbsp;2';break;
-		case "6": return '1X&nbsp;';break;
-		case "7": return '1X2';break;
-		default: return '&nbsp;&nbsp;&nbsp;';
-	}
-}
 
 

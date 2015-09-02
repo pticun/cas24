@@ -121,6 +121,11 @@ var ctx = "<%=request.getContextPath()%>"
 	var bCloseAC				= 2;
 	var bFinalQuiniela			= 3;
 	var bAdminIni				= 5;
+	var bQuinielaDetail = 13;
+	var bMyModal = 14;
+	var bConfirmQuiniela = 15;
+	var bModalReduced = 16;
+	var bConfirmedQuiniela = 17;
 
 	//Refs
 	var sHomeRef 					= "#homeDiv";
@@ -159,6 +164,12 @@ var ctx = "<%=request.getContextPath()%>"
 		case bFinalQuiniela:
 			$(sFinalQuinielaRef).show();
 			break;
+		case bConfirmQuiniela:
+			$(sConfirmQuinielaRef).show();
+			break;
+		case bConfirmedQuiniela:
+			$(sConfirmedQuinielaRef).show();
+			break;
 		}
 
 		switch (bActual){
@@ -170,6 +181,12 @@ var ctx = "<%=request.getContextPath()%>"
 			break;
 		case bFinalQuiniela:
 			$(sFinalQuinielaRef).hide();
+			break;
+		case bConfirmQuiniela:
+			$(sConfirmQuinielaRef).hide();
+			break;
+		case bConfirmedQuiniela:
+			$(sConfirmedQuinielaRef).hide();
 			break;
 		}
 		
@@ -193,7 +210,7 @@ var ctx = "<%=request.getContextPath()%>"
 		}else if (href == sFinalQuinielaRef){
 			consoleAlterQ("FinalQuiniela");
 			showDiv(bFinalQuiniela);
-		}
+		}	
 		return false;
 		
 	}
@@ -208,8 +225,6 @@ var ctx = "<%=request.getContextPath()%>"
 <header>
 </header>
 <!-- End Header -->
-
-<%@ include file="/WEB-INF/views/quiniela.jsp" %>
 
 <!-- Principal -->
 <div id="homeDiv" class="page">
@@ -244,6 +259,8 @@ var ctx = "<%=request.getContextPath()%>"
 </div>
 </div>
 <!-- End Principal -->
+
+<%@ include file="/WEB-INF/views/quiniela.jsp" %>
 
 <!-- CloseAC Section -->
 <div id="closeACDiv" class="page">
@@ -334,7 +351,6 @@ var ctx = "<%=request.getContextPath()%>"
 <!-- </div> -->
 <!-- </div> -->
 <!-- End FinalQuinielaRound Section -->
-
 
 <!-- Footer -->
 <footer>
