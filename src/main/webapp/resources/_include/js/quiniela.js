@@ -246,10 +246,14 @@ function getQuiniela(){
 
 						$('#quinielaTableReduced').append(row);
 						
+						$('#quinielaTableBackAdminCompany').hide();
+						
 						if (window.company != window.DEFECT_COMPANY)
 							$('#quinielaTableReduced').hide();
-						if (window.quinielaFinal)
+						if (window.quinielaFinal){
 							$('#quinielaTableReduced').show();
+							$('#quinielaTableBackAdminCompany').show();
+						}
 						
 				    }
 				    else{
@@ -513,6 +517,11 @@ function showModalReduced(){
 //	alert("showModal");
 	showDiv(bModalReduced);
 }
+
+$("#homeBtn11").on('click', function(event){
+	menuEvent($(this).text(),  "#homeDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
+});
 
 
 function getSign(sign){

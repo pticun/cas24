@@ -1,3 +1,28 @@
+<!-- Modal Reduced-->
+<div class="modal fade" id="modalReduced" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p class="modal-title" id="myModalLabel">QUINIELA REDUCIDA</p>
+      </div>
+      <div class="modal-body">
+		<p align="center">REDUCCIONES PERMITIDAS</p>  
+		<p><strong>REDUCCION PRIMERA:</strong> 4 Triples (9 apuestas).</p>  
+		<p><strong>REDUCCION SEGUNDA:</strong> 7 Dobles (16 apuestas).</p>  
+		<p><strong>REDUCCION TERCERA:</strong> 3 Triples y 3 Dobles (24 apuestas).</p>  
+		<p><strong>REDUCCION CUARTA :</strong> 2 Triples y 6 Dobles (64 apuestas).</p>  
+		<p><strong>REDUCCION QUINTA :</strong> 8 Triples (81 apuestas).</p>  
+		<p><strong>REDUCCION SEXTA  :</strong> 11 Dobles (132 apuestas).</p>  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+<!-- End Modal Reduced-->
+
 <!-- Quiniela Section -->
 <div id="quinielaDiv" class="page">
 <div class="container">
@@ -34,8 +59,20 @@
 							    <button id="quinielaButton" class="btn btn-danger" name="quiniela" value="Enviar">Enviar</button>
 							    <br>
 							</td>
+							
 						</tr>
 					</table>
+				    <p></p>
+				    <table class="tablaQuiniGold" id="quinielaTableBackAdminCompany">
+						<tr align="center">
+				   			<td colspan=2>
+				   				<br>
+				   				<button id="homeBtn11" class="btn btn-danger" name="homeBtn1 value="homeBtn11">AdminCompany Menu</button>
+				   				<br>
+				   				<br>
+				   			</td>
+				        </tr>
+				    </table>
 				    <p></p>
 				    <table class="tablaQuiniGold" id="quinielaTableReduced">
 				    </table>
