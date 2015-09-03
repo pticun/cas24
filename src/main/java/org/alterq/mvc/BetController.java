@@ -473,6 +473,8 @@ public class BetController {
 			bet.setReduction(reduccion);
 			bet.setTypeReduction(tipoReduccion);
 			bet.setNumBets(numBets);
+			if ( (company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(userAlterQ.getId(), company))
+				bet.setFinalBet(true);
 			StringBuffer sb = new StringBuffer();
 			sb.append("New addBet: company="+company+" season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
 			log.debug(sb.toString());

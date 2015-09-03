@@ -441,6 +441,9 @@ $('form#confirmBetForm').submit(function( event ) {
 					fillUserData(response);
 					confirmedBet(response.bet.bet, response.round.games, response.bet.numBets, response.bet.price, window.season, window.round);
 					
+					window.loadBetUser = true;
+					consoleAlterQ("loadBetUser: TRUE");
+					
 					showDiv(bConfirmedQuiniela);
 				}
 		    }
@@ -501,6 +504,7 @@ function confirmedBet(bet, mygames, apuestas, precio, temporada, jornada)
 	$('#confirmadaQuinielaTable').append(row);
 	//showDiv(bQuinielaDetail);
 	window.loadBetUser=true;
+	consoleAlterQ("loadBetUser: TRUE");
 }
 
 function showReducciones(){

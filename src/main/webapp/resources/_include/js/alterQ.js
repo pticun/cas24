@@ -472,6 +472,8 @@ $(document).ready(function() {
 					fillUserData(response);
 					
 					window.userLoged=true;
+					window.loadBetUser = true;
+					consoleAlterQ("loadBetUser: TRUE");
 		    	}
 		    	else{
 		    		showDiv(bHome);
@@ -697,7 +699,6 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
    });
 	$("#myBetsBtn").click(function( event ){
-alert("myBetsBtn");		
 		menuEvent($(this).text(), "#mybetsDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
     });
@@ -758,6 +759,7 @@ alert("myBetsBtn");
 		
 		getMainMenuItems(true, $('#nameData').val());
 		window.loadBetUser = true;
+		consoleAlterQ("loadBetUser: TRUE");
 		cleanUserBets();
 	});
 	
@@ -914,6 +916,7 @@ alter("round="+window.round+" season="+window.season);
 
 	window.loadBet=true;
 	window.loadBetUser=true;
+	consoleAlterQ("loadBetUser: TRUE");
 	window.loadCompanies=true;
 
 	window.userLoged=false;
@@ -957,6 +960,7 @@ function doLogout(){
 					window.userLoged=false;
 					window.loadCompanies = false;
 					getMainMenuItems(false, null);
+					showDiv(bHome);
 	   		    }
 		    }
 		});
@@ -1029,10 +1033,14 @@ function cleanUserBets(){
 }
 function getUserBets(){
 	consoleAlterQ('getUserBets');
-	consoleAlterQ('loadBetUser='+loadBetUser);
+	consoleAlterQ('loadBetUser='+window.loadBetUser);
+	
+	//De momento va a piñon pq no funcionan las variables globales
+	window.loadBetUser = true;
+	
 	if(window.loadBetUser){
 		window.loadBetUser=false;
-//		loadBetUser=true;
+		consoleAlterQ("loadBetUser: FALSE");
 		var row="";
 		
 		cleanUserBets();
