@@ -521,8 +521,10 @@ public class BetController {
 			if (!userTools.isUserAdminCompany(id,company)){
 				rbAdminCompanyFinalBets = betDao.findFinalBet(season, round, company);
 				
-				for (Bet bet: rbAdminCompanyFinalBets.getBets()){
-					rb.addBet(bet);
+				if (rbAdminCompanyFinalBets != null){
+					for (Bet bet: rbAdminCompanyFinalBets.getBets()){
+						rb.addBet(bet);
+					}
 				}
 			}
 			dto.setRoundBet(rb);

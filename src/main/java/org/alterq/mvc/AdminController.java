@@ -379,7 +379,9 @@ public class AdminController {
 		log.debug("openRound: start");
 		try {
 			userSecurity.isSuperAdminUserInSession(cookieSession);
-			adminData = adminDataDao.findById(company);
+			
+			//SuperAdmin works always in company = 0
+			adminData = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 
 			// OPENING PROCESS STEPS
 			// ---------------------
@@ -389,10 +391,10 @@ public class AdminController {
 			// if exist, update active=true
 			if (adminData != null) {
 				log.debug("openRound: active=true");
-				if ((company == adminData.getCompany()) && (season == adminData.getSeason()) && (round == adminData.getRound()) && (adminData.isActive())) {
+				if ((AlterQConstants.DEFECT_COMPANY == adminData.getCompany()) && (season == adminData.getSeason()) && (round == adminData.getRound()) && (adminData.isActive())) {
 					log.debug("openRound: Round is already actived");
 				} else {
-					adminData.setCompany(company);
+					adminData.setCompany(AlterQConstants.DEFECT_ADMINDATA);
 					adminData.setSeason(season);
 					adminData.setRound(round);
 					adminData.setActive(true);
@@ -402,7 +404,7 @@ public class AdminController {
 				log.debug("openRound: new generalData active=true");
 				adminData = new AdminData();
 				adminData.setActive(true);
-				adminData.setCompany(company);
+				adminData.setCompany(AlterQConstants.DEFECT_COMPANY);
 				adminData.setRound(round);
 				adminData.setSeason(season);
 

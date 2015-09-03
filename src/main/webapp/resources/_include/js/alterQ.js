@@ -697,6 +697,7 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
    });
 	$("#myBetsBtn").click(function( event ){
+alert("myBetsBtn");		
 		menuEvent($(this).text(), "#mybetsDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
     });
