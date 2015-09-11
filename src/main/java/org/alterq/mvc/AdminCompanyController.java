@@ -1,22 +1,19 @@
 package org.alterq.mvc;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+
+
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
-import org.alterq.domain.Game;
 import org.alterq.domain.Prize;
 import org.alterq.domain.Ranking;
 import org.alterq.domain.Round;
@@ -25,7 +22,6 @@ import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
-import org.alterq.exception.SecurityException;
 import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
@@ -37,12 +33,7 @@ import org.alterq.util.BetTools;
 import org.alterq.util.CalculateRigths;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.validator.CompanyValidator;
-import org.apache.commons.collections.map.MultiValueMap;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.arch.core.file.BetElectronicFile;
-import org.arch.core.file.HeaderBetElectronicFile;
-import org.arch.core.file.RegistroBetElectronicFile;
 import org.arch.core.i18n.resources.MessageLocalizedResources;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -322,8 +313,6 @@ public class AdminCompanyController {
 
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/closeAC")
-//	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/closeAC")
-//	public @ResponseBody ResponseDto closeRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
 	public @ResponseBody ResponseDto closeRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
 		ResponseDto response = new ResponseDto();
 		log.debug("closeRound: start");
@@ -559,252 +548,25 @@ public class AdminCompanyController {
 		return response;
 	}
 
-	// @RequestMapping(method = RequestMethod.POST, produces =
-	// "application/json", value =
-	// "/company/{company}/season/{season}/round/{round}/{local01}/{visitor01}/{local02}/{visitor02}/{local03}/{visitor03}/{local04}/{visitor04}/{local05}/{visitor05}/{local06}/{visitor06}/{local07}/{visitor07}/{local08}/{visitor08}/{local09}/{visitor09}/{local10}/{visitor10}/{local11}/{visitor11}/{local12}/{visitor12}/{local13}/{visitor13}/{local14}/{visitor14}/{local15}/{visitor15}")
-	// public @ResponseBody
-	// ResponseDto addRoundGames(@PathVariable int company, @PathVariable int
-	// season, @PathVariable int round, @PathVariable String local01,
-	// @PathVariable String visitor01, @PathVariable String local02,
-	// @PathVariable String visitor02, @PathVariable String local03,
-	// @PathVariable String visitor03, @PathVariable String local04,
-	// @PathVariable String visitor04, @PathVariable String local05,
-	// @PathVariable String visitor05, @PathVariable String local06,
-	// @PathVariable String visitor06, @PathVariable String local07,
-	// @PathVariable String visitor07, @PathVariable String local08,
-	// @PathVariable String visitor08, @PathVariable String local09,
-	// @PathVariable String visitor09, @PathVariable String local10,
-	// @PathVariable String visitor10, @PathVariable String local11,
-	// @PathVariable String visitor11, @PathVariable String local12,
-	// @PathVariable String visitor12, @PathVariable String local13,
-	// @PathVariable String visitor13, @PathVariable String local14,
-	// @PathVariable String visitor14, @PathVariable String local15,
-	// @PathVariable String visitor15) {
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/matches")
-	public @ResponseBody ResponseDto addMatches(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
-		ResponseDto response = new ResponseDto();
-		Round myRound = new Round();
-		Round tmpRound;
+//	@RequestMapping(method = RequestMethod.GET, produces = "application/json")
+//	public @ResponseBody ResponseDto getRound(@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, 
+//			@PathVariable(value = "round") int round, @PathVariable(value = "company") int company) {
 
-		try {
-			companyValidator.isCompanyOk(company);
-			userSecurity.isAdminUserInSession(cookieSession, company);
-			Map<String, String[]> parameters = request.getParameterMap();
-			List<Game> lGames = new ArrayList<Game>();
-			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-			Date dt = df.parse(parameters.get("dateMatches")[0]);
-
-			for (int i = 1; i <= 15; i++) {
-				Game gameTmp = new Game();
-				gameTmp.setId(i);
-				gameTmp.setPlayer1(parameters.get("matchlocal" + ((i < 10) ? "0" + i : i))[0]);
-				gameTmp.setPlayer2(parameters.get("matchvisit" + ((i < 10) ? "0" + i : i))[0]);
-				lGames.add(gameTmp);
-			}
-
-			myRound.setSeason(season);
-			myRound.setRound(round);
-			myRound.setDateRound(dt);
-			myRound.setGames(lGames);
-
-			tmpRound = roundDao.findBySeasonRound(season, round);
-
-			if (tmpRound != null) {
-				roundDao.deleteRound(season, round);
-			}
-
-			roundDao.addRound(myRound);
-		} catch (Exception e) {
-			ErrorDto error = new ErrorDto();
-			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);
-			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_ADMIN));
-			response.addErrorDto(error);
-			log.error(ExceptionUtils.getStackTrace(e));
-		}
-
-		return response;
-	}
-
-//	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/user/{user}/balance/{balance}/updateBalanceUser")
-//	public @ResponseBody ResponseDto updateBalanceUser(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable String user, @PathVariable String balance) {
-//		ResponseDto response = new ResponseDto();
-//		UserAlterQ userAlterQ = new UserAlterQ();
-//
-//		try {
-//			companyValidator.isCompanyOk(company);
-//			userSecurity.isAdminUserInSession(cookieSession, company);
-//			userAlterQ.setId(user);
-//			userSecurity.notExistsUserAlterQ(userAlterQ);
-//
-//			userAlterQ = userAlterQDao.findById(user);
-//
-//			userAlterQ.setBalance(Double.toString(Double.parseDouble(balance)));
-//			userAlterQDao.save(userAlterQ);
-//
-//		} catch (Exception e) {
-//			ErrorDto error = new ErrorDto();
-//			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);
-//			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_ADMIN));
-//			response.addErrorDto(error);
-//			log.error(ExceptionUtils.getStackTrace(e));
-//		}
-//
-//		return response;
-//	}
-
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE, value = "/company/{company}/season/{season}/round/{round}/getFile")
-	public @ResponseBody void getElectricFile(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round, HttpServletResponse resp) {
-		AdminData adminData = null;
+	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "/{id:.+}/{company}/{season}/{round}/summary")
+	public @ResponseBody ResponseDto summary(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable(value = "id") String id, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
 		ResponseDto response = new ResponseDto();
 		String responseString = new String();
-
-		log.debug("getElectricFile: start");
-
+		RoundBets roundBets;
+		
+		log.debug("getSummary: start");
 		try {
-			companyValidator.isCompanyOk(company);
 			userSecurity.isAdminUserInSession(cookieSession, company);
-			adminData = adminDataDao.findById(company);
+			companyValidator.isCompanyOk(company);
 
-			Round tmpRound = roundDao.findBySeasonRound(season, round);
-			// Get All Round Bets
-			RoundBets roundBets = roundBetDao.findAllBets(season, round);
-			if (roundBets == null) {
-				response.addErrorDto("AdminController:getElectricFile", "No Bets");
-			} else {
-				CalculateRigths aux = new CalculateRigths();
-				String rdo[] = new String[0];
-				String despApuesta[];
-				List<Bet> lBets = roundBets.getBets();
-				for (Bet bet : lBets) {
-					// Calculamos el desglose de cada apuesta
-					if ((bet.getBet() == null) || (bet.getBet().length() < 16)) {
-						// Tenemos que enviar un aviso al usuario
-						log.debug("APUESTA ERRONEA (BET=" + bet.getBet() + "USER=" + bet.getUser());
-						continue;
-					}
-					if ((bet.getReduction() == null) || (bet.getReduction().length() < 14)) {
-						// Tenemos que enviar un aviso al usuario
-						log.debug("APUESTA ERRONEA (BET=" + bet.getBet() + " REDUCTION=" + bet.getReduction() + " USER=" + bet.getUser());
-						continue;
-					}
-					if ((bet.getTypeReduction() < 0)) {
-						// Tenemos que enviar un aviso al usuario
-						log.debug("APUESTA ERRONEA (BET=" + bet.getBet() + " REDUCTION=" + bet.getReduction() + " TIPO=" + bet.getTypeReduction() + " USER=" + bet.getUser());
-						continue;
-					}
-					try {
+			roundBets = roundBetDao.findAllBets(season, round, company);
 
-						despApuesta = aux.unfolding(bet.getBet(), bet.getReduction(), bet.getTypeReduction());
-						if (despApuesta == null) {
-							// Tenemos que enviar un aviso al usuario
-							log.debug("ERROR EN DESGLOSE USER=" + bet.getUser());
-							continue;
-						}
-
-					} catch (Exception e) {
-						// Tenemos que enviar un aviso al usuario
-						log.debug("ERROR EN DESGLOSE USER=" + bet.getUser());
-						continue;
-					}
-
-					rdo = aux.acumula(rdo, despApuesta);
-
-				}
-				// En este punto tenemos ya el array con todas las apuestas
-				// desplegadas
-
-				// Hay que ordenar las apuestas por el pleno al 15
-
-				// Hay que calcular cuantas apuestas y cuantos bloques hay para
-				// cada pleno al 15 distinto
-				int bloques = rdo.length;// Pendiente revisar
-
-				// Creamos la cabecera del fichero
-				HeaderBetElectronicFile cb = new HeaderBetElectronicFile();
-				cb.setIdDelegacion("12");
-				cb.setIdReceptor("24380");
-
-				BetElectronicFile befile = new BetElectronicFile();
-				befile.setCabecera(cb);
-
-				RegistroBetElectronicFile[] registro = new RegistroBetElectronicFile[rdo.length];
-
-				log.debug("numApuestas=" + rdo.length);
-
-				MultiValueMap mhm = ordenarApuestas(rdo);
-				Set<String> keys = mhm.keySet();
-				int numBloquesPleno15 = keys.size();
-				log.debug("numBloquesPleno15=" + numBloquesPleno15);
-				int indexBloquesTotal = 1;
-				for (Object k : keys) {
-					log.debug("(" + k + " : " + mhm.get(k) + ")");
-					int numApuestasIgualPleno15 = mhm.getCollection(k).size();
-					int[] modulusBloque = modulusBloque(numApuestasIgualPleno15);
-					int numBloques = modulusBloque[0];
-					int indexIterator = 0;
-					int numApuestaLastBloque = 0;
-					int numBloquesContador = 1;
-					log.debug("numBloque=" + modulusBloque[0]);
-					log.debug("modBloque=" + modulusBloque[1]);
-					log.debug("numApuestasIgualPleno15=" + numApuestasIgualPleno15);
-					boolean lastBloque = false;
-					StringBuffer pronosticoPartido = new StringBuffer();
-					for (Iterator iterator = mhm.getCollection(k).iterator(); iterator.hasNext();) {
-						if (numBloquesContador == numBloques) {
-							lastBloque = true;
-							numApuestaLastBloque++;
-						}
-						String linea = (String) iterator.next();
-						indexIterator++;
-						pronosticoPartido.append(StringUtils.left(linea, 14));
-						// esto es un nuevo bloque
-						if (indexIterator % modulusBloque[1] == 0 && !lastBloque) {
-							RegistroBetElectronicFile registroBe = new RegistroBetElectronicFile();
-							registroBe.setNumApuestaBloque("" + modulusBloque[1]);
-							registroBe.setNumBloque(StringUtils.leftPad("" + indexBloquesTotal, 8, '0'));
-							registroBe.setPronostico15(StringUtils.right("" + k, 2));
-							registroBe.setPronosticoPartido(StringUtils.rightPad(pronosticoPartido.toString(), 112, ' '));
-							registro[indexBloquesTotal] = registroBe;
-
-							pronosticoPartido = new StringBuffer();
-							numBloquesContador++;
-							indexBloquesTotal++;
-						}
-						// log.debug(linea);
-					}
-					RegistroBetElectronicFile registroBe = new RegistroBetElectronicFile();
-					registroBe.setNumApuestaBloque("" + numApuestaLastBloque);
-					registroBe.setNumBloque(StringUtils.leftPad("" + indexBloquesTotal, 8, '0'));
-					registroBe.setPronostico15(StringUtils.right("" + k, 2));
-					registroBe.setPronosticoPartido(StringUtils.rightPad(pronosticoPartido.toString(), 112, ' '));
-					registro[indexBloquesTotal] = registroBe;
-					indexBloquesTotal++;
-				}
-
-				befile.setRegistro(registro);
-
-				// check data round in create Round
-				// cb.setFechaJornada("010115");
-				Date dt = tmpRound.getDateRound();
-				DateFormat df = new SimpleDateFormat("ddMMyy");
-				String dtf = df.format(dt);
-
-				cb.setFechaJornada(dtf);
-				cb.setNumJornada(StringUtils.leftPad("" + tmpRound.getRound(), 2, '0'));
-				cb.setNumTotalApuestas(StringUtils.leftPad("" + rdo.length, 6, '0'));
-				cb.setNumTotalBloques(StringUtils.leftPad("" + (indexBloquesTotal - 1), 6, '0'));
-
-				log.debug(befile.getCabeceraString());
-				log.debug(befile.getRegistroString());
-
-				responseString = befile.getCabeceraString() + "" + befile.getRegistroString();
-
-				resp.setContentType("application/force-download");
-				resp.setHeader("Content-Disposition", "attachment; filename=\"ad243\"");
-				resp.getOutputStream().write((befile.getCabeceraString() + "" + befile.getRegistroString()).getBytes());
-				resp.flushBuffer();
-			}
-
+			response.setRoundBet(roundBets);
+			
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);
@@ -813,67 +575,9 @@ public class AdminCompanyController {
 			log.error(ExceptionUtils.getStackTrace(e));
 		}
 
-		log.debug("getElectricFile: end");
-		// return responseString;
-
-		// return response;
+		log.debug("getSummary: end");
+		return response;		
 	}
-
-	private MultiValueMap ordenarApuestas(String rdo[]) {
-		MultiValueMap mhm = new MultiValueMap();
-
-		for (int i = 0; i < rdo.length; i++) {
-			String linea = rdo[i];
-			mhm.put(StringUtils.right(linea, 2), StringUtils.left(linea, 14));
-		}
-		log.debug("results: " + mhm);
-		return mhm;
-	}
-
-	private int calculoNumBloques(int numApuestas, int modulo) {
-		int numBloques = 0;
-
-		int moduloNumBloques = numApuestas % modulo;
-		numBloques = numApuestas / modulo;
-		if (moduloNumBloques > 0) {
-			numBloques++;
-		}
-
-		return numBloques;
-	}
-
-	/**
-	 * @param numBets
-	 * @return [numBlock,modBlock]
-	 */
-	private int[] modulusBloque(int numBets) {
-		int[] modulusBloque = { 0, 0 };
-		int numBlock = 0;
-		int modBlock = 0;
-		int i = 8;
-
-		if (numBets == 0) {
-			return modulusBloque;
-		}
-
-		for (; i > 0; i--) {
-			int resto = numBets % i;
-			modBlock = i;
-			if (resto != 1) {
-				break;
-			}
-		}
-
-		int resto = numBets % i;
-		numBlock = numBets / i;
-		if (resto != 0) {
-			numBlock++;
-		}
-
-		modulusBloque[0] = numBlock;
-		modulusBloque[1] = modBlock;
-
-		return modulusBloque;
-	}
+		
 
 }

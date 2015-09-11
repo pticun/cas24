@@ -152,6 +152,7 @@ $("#homeBtn").on('click', function(event){
 });
 $("#quinielaFinalBtn").on('click', function(event){
 	window.quinielaFinal = true;
+	getSummary();
 	getQuiniela();
 	menuEvent($(this).text(),  "#quinielaDiv");
 	event.preventDefault(); // prevent actual form submit and page reload

@@ -34,6 +34,79 @@ function getSignPleno15(sign){
 	}
 }
 
+var signCompany = [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
+var plenCompany = [[0,0,0,0],[0,0,0,0]];
+
+function addPorcentajes(bet){
+	consoleAlterQ("caculaPorcentajes() bet="+bet);
+	for (var i = 0; i < 16; i++) {
+		consoleAlterQ("caculaPorcentajes() i="+i);
+	    if (i<14){
+	    	
+	    	consoleAlterQ("caculaPorcentajes() signo="+bet.charAt(i));
+	    	switch(bet.charAt(i))
+	    	{
+	    		case "4": signCompany[i][0]++;break;
+	    		case "2": signCompany[i][1]++;break;
+	    		case "1": signCompany[i][2]++;break;
+	    		case "3": signCompany[i][1]++;
+	    				  signCompany[i][2]++;break;
+	    		case "5": signCompany[i][0]++;
+	    				  signCompany[i][2]++;break;
+	    		case "6": signCompany[i][0]++;
+	    				  signCompany[i][1]++;break;
+	    		case "7": signCompany[i][0]++;
+	    				  signCompany[i][1]++;
+	    				  signCompany[i][2]++;break;
+	    	};
+	    	consoleAlterQ("caculaPorcentajes() 1="+signCompany[i][0]+" X="+signCompany[i][1]+" 2="+signCompany[i][2]);
+	    }
+	    else{
+	    	var ind = 0;
+	    	if (i==14)
+	    		ind = 0;
+	    	else
+	    		ind = 1;
+	    	switch(bet.charAt(i))
+	    	{
+	    		case "1": plenCompany[ind][0]++;
+	    				  break;
+	    		case "2": plenCompany[ind][1]++;
+	    				  break;
+	    		case "3": plenCompany[ind][0]++;
+	    				  plenCompany[ind][1]++;break;
+	    		case "4": plenCompany[ind][2]++;break;
+	    		case "5": plenCompany[ind][0]++;
+	    				  plenCompany[ind][2]++;break;
+	    		case "6": plenCompany[ind][1]++;
+	    				  plenCompany[ind][2]++;break;
+	    		case "7": plenCompany[ind][0]++;
+	    				  plenCompany[ind][1]++;
+	    				  plenCompany[ind][2]++;break;
+	    		case "8": plenCompany[ind][3]++;break;
+	    		case "9": plenCompany[ind][0]++;
+	    				  plenCompany[ind][3]++;break;
+	    		case "a": plenCompany[ind][1]++;
+	    				  plenCompany[ind][3]++;break;
+	    		case "b": plenCompany[ind][0]++;
+	    				  plenCompany[ind][1]++;
+	    				  plenCompany[ind][3]++;break;
+	    		case "c": plenCompany[ind][0]++;
+	    				  plenCompany[ind][2]++;
+	    				  plenCompany[ind][3]++;break;
+	    		case "e": plenCompany[ind][1]++;
+	    				  plenCompany[ind][2]++;
+	    				  plenCompany[ind][3]++;
+	    				  break;
+	    		case "f": plenCompany[ind][0]++;
+	    				  plenCompany[ind][1]++;
+	    				  plenCompany[ind][2]++;
+	    				  plenCompany[ind][3]++;break;
+	    	}	    	
+	    }
+	}
+}
+
 function getTableMatches(bet, loadGames, color){
 	consoleAlterQ("getTableMatches() bet="+bet);	
 	tableBet='<table style="font-size:14px; color:'+color+';">';
@@ -88,6 +161,55 @@ function formatMatches(team1, team2){
 	rdo = padding_right(team1+'-'+team2,".",21);
 	
 	return rdo;
+}
+
+var numBets = 0;
+var amount = 0;
+
+function getSummary(){
+	$('#quinielaTableBackAdminCompany').append('<tr align="center"><td colspan="4">RESUMEN</td></tr>');
+	$('#quinielaTableBackAdminCompany').append('<tr align="center"><td colspan="4">------------------</td></tr>');
+	jQuery.ajax ({
+	    url: ctx+'/adminCompany/mail@mail.es/'+window.company+'/'+ window.season+'/'+window.round+'/summary',
+	    type: "GET",
+	    data: null,
+	    contentType: "application/json; charset=utf-8",
+	    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+        cache: false,    //This will force requested pages not to be cached by the browser  
+        processData:false, //To avoid making query String instead of JSON
+	    success: function(response){
+		    if(response.errorDto!=0){
+   		    	$(response.errorDto).each(function(index, objeto){  
+   		    		$('#quinielaFormResponse').append(objeto.stringError+" - ");
+			    });
+		    }else if (response.roundBet!=null){
+		    	numBets = 0;
+		    	amount = 0;
+		    	consoleAlterQ('getSummary: hay elementos');
+				$(response.roundBet.bets).each(function(index, element){
+					addPorcentajes(element.bet);
+					numBets = numBets + element.numBets;
+					amount = amount + element.price;
+				});  
+				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td colspan="4">APUESTAS  :'+numBets+'<br></td></tr>');
+				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td colspan="4">DISPONIBLE:'+amount+' EUR<br></td></tr>');
+				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td colspan="4">------------------</td></tr>');
+				for (var i = 0; i < 14; i++) {
+					$('#quinielaTableBackAdminCompany').append('<tr align="center"><td>'+(i+1)+'</td><td>'+(signCompany[i][0]*100/numBets).toFixed(0)+'%</td><td>'+(signCompany[i][1]*100/numBets).toFixed(0)+'%</td><td> '+(signCompany[i][2]*100/numBets).toFixed(0)+'%</td></tr>');
+				};
+				
+				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td colspan="4">PLENO AL 15<br></td></tr>');
+				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td>'+(plenCompany[0][0]*100/numBets).toFixed(0)+'%</td><td>'+(plenCompany[0][1]*100/numBets).toFixed(0)+'%</td><td>'+(plenCompany[0][2]*100/numBets).toFixed(0)+'%</td><td>'+(plenCompany[0][3]*100/numBets).toFixed(0)+'%</td></tr>');
+				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td>'+(plenCompany[1][0]*100/numBets).toFixed(0)+'%</td><td>'+(plenCompany[1][1]*100/numBets).toFixed(0)+'%</td><td>'+(plenCompany[1][2]*100/numBets).toFixed(0)+'%</td><td>'+(plenCompany[1][3]*100/numBets).toFixed(0)+'%</td></tr>');
+		    }else{
+		    	consoleAlterQ('Error en getSummary (sin elementos)');
+		    }
+	    },
+	    error: function(){
+	    	consoleAlterQ('Error en getSummary (error)');
+	    }
+	});	
+	
 }
 
 function getQuiniela(){

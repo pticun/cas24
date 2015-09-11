@@ -65,7 +65,7 @@
 				    <p></p>
 				    <table class="tablaQuiniGold" id="quinielaTableBackAdminCompany">
 						<tr align="center">
-				   			<td colspan=2>
+				   			<td colspan=4>
 				   				<br>
 				   				<button id="homeBtn11" class="btn btn-danger" name="homeBtn1 value="homeBtn11">AdminCompany Menu</button>
 				   				<br>
