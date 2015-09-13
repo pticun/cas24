@@ -119,8 +119,8 @@ var ctx = "<%=request.getContextPath()%>"
 	var bActual					= 0;
 	var bHome					= 0;
 	var bCloseAC				= 2;
-	var bFinalQuiniela			= 3;
-	var bAdminIni				= 5;
+	var bAdminIni				= 3;
+	var bFinalQuiniela			= 5;
 	var bQuinielaDetail = 13;
 	var bMyModal = 14;
 	var bConfirmQuiniela = 15;
@@ -149,7 +149,7 @@ var ctx = "<%=request.getContextPath()%>"
 		bActual = bHome;
 	}
 	
-	function showDiv(elem) {
+	function showDiv(elem) {	
 		if (elem == bActual)
 			return;
 		

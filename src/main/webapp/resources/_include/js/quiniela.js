@@ -185,22 +185,36 @@ function getSummary(){
 		    }else if (response.roundBet!=null){
 		    	numBets = 0;
 		    	amount = 0;
+		    	companyAmount=0;
+		    	companyNumBets=0;
 		    	consoleAlterQ('getSummary: hay elementos');
 				$(response.roundBet.bets).each(function(index, element){
-					addPorcentajes(element.bet);
-					numBets = numBets + element.numBets;
-					amount = amount + element.price;
-				});  
-				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td colspan="4">APUESTAS  :'+numBets+'<br></td></tr>');
-				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td colspan="4">DISPONIBLE:'+amount+' EUR<br></td></tr>');
+					if (element.finalBet){
+						companyAmount+= element.price;
+						companyNumBets+=element.numBets;
+					}
+					else{
+						addPorcentajes(element.bet);
+						numBets = numBets + element.numBets;
+						amount = amount + element.price;
+					}
+				});
+				
+				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td>APU</td><td>INI</td><td>VAL</td><td>ACT</td></tr>');
+				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td></td><td>'+numBets+'</td><td>'+companyNumBets+'</td><td>'+(numBets-companyNumBets)+'</td></tr>');
+				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td>EUR</td><td>INI</td><td>VAL</td><td>ACT</td></tr>');
+				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td></td><td>'+amount+'</td><td>'+companyAmount+'</td><td>'+(amount-companyAmount)+'</td></tr>');
 				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td colspan="4">------------------</td></tr>');
+				
+				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td></td><td>%1</td><td>%X</td><td>%2</td></tr>');
 				for (var i = 0; i < 14; i++) {
-					$('#quinielaTableBackAdminCompany').append('<tr align="center"><td>'+(i+1)+'</td><td>'+(signCompany[i][0]*100/numBets).toFixed(0)+'%</td><td>'+(signCompany[i][1]*100/numBets).toFixed(0)+'%</td><td> '+(signCompany[i][2]*100/numBets).toFixed(0)+'%</td></tr>');
+					$('#quinielaTableBackAdminCompany').append('<tr align="center"><td>'+(i+1)+'</td><td>'+(signCompany[i][0]*100/numBets).toFixed(0)+'</td><td>'+(signCompany[i][1]*100/numBets).toFixed(0)+'</td><td> '+(signCompany[i][2]*100/numBets).toFixed(0)+'</td></tr>');
 				};
 				
 				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td colspan="4">PLENO AL 15<br></td></tr>');
-				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td>'+(plenCompany[0][0]*100/numBets).toFixed(0)+'%</td><td>'+(plenCompany[0][1]*100/numBets).toFixed(0)+'%</td><td>'+(plenCompany[0][2]*100/numBets).toFixed(0)+'%</td><td>'+(plenCompany[0][3]*100/numBets).toFixed(0)+'%</td></tr>');
-				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td>'+(plenCompany[1][0]*100/numBets).toFixed(0)+'%</td><td>'+(plenCompany[1][1]*100/numBets).toFixed(0)+'%</td><td>'+(plenCompany[1][2]*100/numBets).toFixed(0)+'%</td><td>'+(plenCompany[1][3]*100/numBets).toFixed(0)+'%</td></tr>');
+				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td>%0</td><td>%1</td><td>%2</td><td>%M</td></tr>');
+				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td>'+(plenCompany[0][0]*100/numBets).toFixed(0)+'</td><td>'+(plenCompany[0][1]*100/numBets).toFixed(0)+'</td><td>'+(plenCompany[0][2]*100/numBets).toFixed(0)+'</td><td>'+(plenCompany[0][3]*100/numBets).toFixed(0)+'</td></tr>');
+				$('#quinielaTableBackAdminCompany').append('<tr align="center"><td>'+(plenCompany[1][0]*100/numBets).toFixed(0)+'</td><td>'+(plenCompany[1][1]*100/numBets).toFixed(0)+'</td><td>'+(plenCompany[1][2]*100/numBets).toFixed(0)+'</td><td>'+(plenCompany[1][3]*100/numBets).toFixed(0)+'</td></tr>');
 		    }else{
 		    	consoleAlterQ('Error en getSummary (sin elementos)');
 		    }
@@ -518,6 +532,7 @@ $('form#confirmBetForm').submit(function( event ) {
 
 	var dataJson=JSON.stringify($('form#confirmBetForm').serializeObject());
 	consoleAlterQ('confirmBetForm:'+dataJson);
+consoleAlterQ('buttonpressed:'+buttonpressed);	
 	if (buttonpressed == 'Confirmar')
 	{
 		consoleAlterQ(ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/'+ window.season+'/'+window.round+'/bet/confirm');

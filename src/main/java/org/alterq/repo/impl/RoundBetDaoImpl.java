@@ -5,6 +5,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.matc
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
 
+import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
 import org.alterq.domain.Prize;
 import org.alterq.domain.RoundBets;
@@ -163,27 +164,35 @@ public class RoundBetDaoImpl extends MongoCollection implements RoundBetDao {
 		return true;
 	}
 
-	public void update(RoundBets rounBets){
-		Query query = new Query();
-		query.addCriteria(Criteria.where("company").is(rounBets.getCompany()).and("season").is(rounBets.getSeason()).and("round").is(rounBets.getRound()));
-
-		Update update = new Update();
-		
-		/*
-		List<Prize> lPrizes = rounBets.getPrizes();
-		if (lPrizes != null){
-			for (Prize prize : lPrizes){
-				addPrize(rounBets.getSeason(), rounBets.getRound(), prize);
-			}
-		}
-		*/
-		
-		update.addToSet("reward", rounBets.getReward());
-		
-		update.addToSet("jackpot", rounBets.getJackpot());
-
-		mongoTemplate.upsert(query,update, RoundBets.class);
+	
+	@Override
+	public void update(RoundBets bean) {
+		mongoTemplate.save(bean, COLLECTION_NAME);
 	}
+	
+//	public void update(RoundBets rounBets){
+//		Query query = new Query();
+//		query.addCriteria(Criteria.where("company").is(rounBets.getCompany()).and("season").is(rounBets.getSeason()).and("round").is(rounBets.getRound()));
+//
+//		Update update = new Update();
+//		
+//		/*
+//		List<Prize> lPrizes = rounBets.getPrizes();
+//		if (lPrizes != null){
+//			for (Prize prize : lPrizes){
+//				addPrize(rounBets.getSeason(), rounBets.getRound(), prize);
+//			}
+//		}
+//		*/
+//		
+//		update.addToSet("reward", rounBets.getReward());
+//		
+//		update.addToSet("jackpot", rounBets.getJackpot());
+//		
+//		update.addToSet("price", rounBets.getPrice() );
+//
+//		mongoTemplate.upsert(query,update, RoundBets.class);
+//	}
 
 }
 

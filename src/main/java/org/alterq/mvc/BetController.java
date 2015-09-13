@@ -1,6 +1,7 @@
 package org.alterq.mvc;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -69,6 +70,8 @@ public class BetController {
 	private AdminDataDao adminDataDao;
 	@Autowired
 	private UserTools userTools;
+	@Autowired
+	private RoundBetDao roundBetDao;
 	
 
 	@Autowired
@@ -419,6 +422,8 @@ public class BetController {
 	@RequestMapping(method = RequestMethod.POST, value = "/bet/confirm")
 	public @ResponseBody ResponseDto confirmBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round,
 			@PathVariable(value = "company") int company) {
+		RoundBets roundBets = null;
+		
 		if (log.isDebugEnabled()) {
 			log.debug("init AccountController.updateUserAlterQ");
 			log.debug("session:" + cookieSession);
@@ -490,6 +495,30 @@ public class BetController {
 
 			// Insert new bet into the BBDD
 			betDao.addBet(company, season, round, bet);
+
+			if ( (company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(userAlterQ.getId(), company)){
+				roundBets = roundBetDao.findAllBets(season, round, company);
+				
+				roundBets.setPrice(price);
+				//Calculate Round Company JackPot
+				float amountCompany = 0;
+				float priceCompany = 0;
+				List<Bet> lBets = roundBets.getBets();
+				for (Bet bAux : lBets) {
+					if (!bAux.isFinalBet())
+					{
+						amountCompany+= bAux.getPrice();
+					}else{
+						priceCompany+=bAux.getPrice();
+					}
+				}
+				
+				roundBets.setJackpot(amountCompany-priceCompany);
+				roundBets.setPrice(priceCompany);
+
+				betDao.update(roundBets);
+			}
+			
 			userDao.save(userAlterQ);
 
 		} catch (SecurityException e) {

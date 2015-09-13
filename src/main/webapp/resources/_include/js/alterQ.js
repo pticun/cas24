@@ -118,7 +118,6 @@ function initDiv() {
 }
 
 function showDiv(elem) {
-//alert("showDiv elem="+elem+" actual="+bActual);		
 	if (elem == bActual)
 		return;
 	
