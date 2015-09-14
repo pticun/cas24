@@ -426,7 +426,7 @@ var ctx = "<%=request.getContextPath()%>"
 				        </tr>
 				   		<tr>
 				   			<td>Date:</td>
-				   			<td align="center" colspan=2><input id="dateMatches" name="dateMatches" type="date"/></td>
+				   			<td align="center" colspan=2><input id="dateMatches" name="dateMatches" placeholder="aaaa-mm-dd" type="date"/></td>
 				        </tr>
 				   		<tr>
 				   			<td>1</td>

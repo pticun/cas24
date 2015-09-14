@@ -858,7 +858,8 @@ public class AdminController {
 			userSecurity.isSuperAdminUserInSession(cookieSession);
 			Map<String, String[]> parameters = request.getParameterMap();
 			List<Game> lGames = new ArrayList<Game>();
-			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			//DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			Date dt = df.parse(parameters.get("dateMatches")[0]);
 
 			for (int i = 1; i <= 15; i++) {
