@@ -565,6 +565,20 @@ public class AdminController {
 				roundResultsDao.updateResult(season, round, resultBet);
 			}
 			
+			//FOR EACH COMPANY
+			List<Company> companyList = companyDao.findAll();
+			for (Company co : companyList) {
+				if (co.getCompany() == AlterQConstants.DEFECT_COMPANY){
+					
+					
+				}else{
+					
+				}
+				
+			}
+			
+
+			
 
 			// STEP 1: get users with bet
 			String lastUser = null;
