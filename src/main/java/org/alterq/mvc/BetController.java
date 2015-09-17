@@ -27,6 +27,7 @@ import org.alterq.security.RolCompanySecurity;
 import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.BetTools;
 import org.alterq.util.UserTools;
+import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.CompanyValidator;
@@ -478,8 +479,10 @@ public class BetController {
 			bet.setReduction(reduccion);
 			bet.setTypeReduction(tipoReduccion);
 			bet.setNumBets(numBets);
-			if ( (company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(userAlterQ.getId(), company))
-				bet.setFinalBet(true);
+			bet.setType(BetTypeEnum.BET_NORMAL.getValue());
+			if ( (company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(userAlterQ.getId(), company)){
+				bet.setType(BetTypeEnum.BET_FINAL.getValue());
+			}
 			StringBuffer sb = new StringBuffer();
 			sb.append("New addBet: company="+company+" season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
 			log.debug(sb.toString());
@@ -505,11 +508,12 @@ public class BetController {
 				float priceCompany = 0;
 				List<Bet> lBets = roundBets.getBets();
 				for (Bet bAux : lBets) {
-					if (!bAux.isFinalBet())
-					{
+					if(bAux.getType()==BetTypeEnum.BET_NORMAL.getValue()){
 						amountCompany+= bAux.getPrice();
-					}else{
+					}
+					else if(bAux.getType()==BetTypeEnum.BET_FINAL.getValue()){
 						priceCompany+=bAux.getPrice();
+						
 					}
 				}
 				

@@ -41,6 +41,7 @@ import org.alterq.security.RolCompanySecurity;
 import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.BetTools;
 import org.alterq.util.CalculateRigths;
+import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.CompanyValidator;
 import org.apache.commons.collections.map.MultiValueMap;
@@ -603,7 +604,7 @@ public class AdminController {
 
 				// La apuesta globla no se debe gestionar para el ranking
 				//if (user.equals(getAdmin())) {
-				if (bet.isFinalBet()) {
+				if (bet.getType()==BetTypeEnum.BET_FINAL.getValue()) {
 					bUpdate = true;
 					continue;
 				}

@@ -28,6 +28,15 @@ public class UserAlterQ implements Serializable {
 	private int automatics;
 	private double weight;
 	private List<RolCompany> rols;
+	private List<Bet> specialBets;
+
+	public List<Bet> getSpecialBets() {
+		return specialBets;
+	}
+
+	public void setSpecialBets(List<Bet> specialBets) {
+		this.specialBets = specialBets;
+	}
 
 	public List<RolCompany> getRols() {
 		return rols;

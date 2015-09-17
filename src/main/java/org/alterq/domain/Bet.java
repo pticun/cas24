@@ -13,6 +13,7 @@ public class Bet {
 	@Id
 	private String id;
 	private int company;
+	private int type;
 
 	private Date dateCreated;
 	private Date dateUpdated;
@@ -21,7 +22,18 @@ public class Bet {
 	private boolean finalBet;
 	private float price;
 	private double numBets;
-	
+	private List<Prize> prizes;
+	private String reduction;
+	private int typeReduction;
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
 	public boolean isFinalBet() {
 		return finalBet;
 	}
@@ -37,11 +49,6 @@ public class Bet {
 	public void setNumBets(double numBets) {
 		this.numBets = numBets;
 	}
-	private List<Prize> prizes;
-	private String reduction;
-	private int typeReduction;
-
-	
 	public String getReduction() {
 		return reduction;
 	}
