@@ -89,6 +89,9 @@ public class AdminController {
 	private RoundResultsDao roundResultsDao;
 	@Autowired
 	private CompanyDao companyDao;
+	@Autowired
+	private RoundBetDao betDao;
+	
 	
 
 	private static int doubles = 0;
@@ -544,7 +547,9 @@ public class AdminController {
 	public @ResponseBody ResponseDto resutlBetRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int season, @PathVariable int round, @PathVariable String resultBet) {
 		ResponseDto response = new ResponseDto();
 		UserAlterQ userAlterQ;
-		int company = 0; //company default
+		int company = AlterQConstants.DEFECT_COMPANY; //company default
+		
+		RoundBets rbAdminResultBet;
 
 		try {
 			userSecurity.isSuperAdminUserInSession(cookieSession);
@@ -553,137 +558,129 @@ public class AdminController {
 			// ---------------------
 			
 			// STEP 0: add ResultBelt
-			RoundResult rrAux =	roundResultsDao.findResult(season, round);
-
-			if (rrAux == null){
-				RoundResult rr = new RoundResult();
-				rr.setResultBet(resultBet);
-				rr.setRound(round);
-				rr.setSeason(season);
-				roundResultsDao.add(rr);
-			}
-			else{
-				roundResultsDao.updateResult(season, round, resultBet);
+			rbAdminResultBet = betDao.findFinalBet(season, round, company);
+			
+			if (rbAdminResultBet != null){
+				Bet bAux = new Bet();
+				bAux.setBet(resultBet);
+				//bAux.setUser(user);
+				bAux.setCompany(AlterQConstants.DEFECT_COMPANY);
+				bAux.setDateCreated(new Date());
+				bAux.setDateUpdated(new Date());
+				bAux.setType(BetTypeEnum.BET_RESULT.getValue());
+				betDao.addBet(company, season, round, bAux);
 			}
 			
 			//FOR EACH COMPANY
 			List<Company> companyList = companyDao.findAll();
 			for (Company co : companyList) {
-				if (co.getCompany() == AlterQConstants.DEFECT_COMPANY){
-					
-					
-				}else{
-					
-				}
-				
-			}
-			
+				if (co.getCompany() != AlterQConstants.DEFECT_COMPANY){
+					// STEP 1: get users with bet
+					String lastUser = null;
+					UserAlterQ lastUserAlterQ = null;
+					int[] vMaxAciertos = { 0, 0, 0, 0, 0 };
+					boolean bUpdate = false;
 
-			
+					RoundBets bean = roundBetDao.findAllBets(season, round, company);
 
-			// STEP 1: get users with bet
-			String lastUser = null;
-			UserAlterQ lastUserAlterQ = null;
-			int[] vMaxAciertos = { 0, 0, 0, 0, 0 };
-			boolean bUpdate = false;
+					// OJO!! hay que ordenar las apuestas por usuario para que funcione.
+					List<Bet> lBets = bean.getBets();
 
-			RoundBets bean = roundBetDao.findAllBets(season, round);
+					Collections.sort(lBets, new Comparator<Bet>() {
+						@Override
+						public int compare(Bet p1, Bet p2) {
+							// Aqui esta el truco, ahora comparamos p2 con p1 y no al
+							// reves como antes
+							return p2.getUser().compareTo(p1.getUser());
+						}
+					});
 
-			// OJO!! hay que ordenar las apuestas por usuario para que funcione.
-			List<Bet> lBets = bean.getBets();
+					// Translate result from "1X2" to "421"
+					resultBet = translateResult1x2(resultBet);
 
-			Collections.sort(lBets, new Comparator<Bet>() {
-				@Override
-				public int compare(Bet p1, Bet p2) {
-					// Aqui esta el truco, ahora comparamos p2 con p1 y no al
-					// reves como antes
-					return p2.getUser().compareTo(p1.getUser());
-				}
-			});
+					for (Bet bet : lBets) {
+						String apu = bet.getBet();
+						String user = bet.getUser();
+						userAlterQ = userAlterQDao.findById(user);
 
-			// Translate result from "1X2" to "421"
-			resultBet = translateResult1x2(resultBet);
+						if (userAlterQ == null) {
+							log.debug("closeRound: user(" + user + ") Error resultBet user not find");
+							// STEP 1.1.error - Send an email to the admin
+							// ("ERROR resultBet user not find")
+							continue;
+						}
 
-			for (Bet bet : lBets) {
-				String apu = bet.getBet();
-				String user = bet.getUser();
-				userAlterQ = userAlterQDao.findById(user);
+						// La apuesta globla no se debe gestionar para el ranking
+						//if (user.equals(getAdmin())) {
+						if (bet.getType()==BetTypeEnum.BET_FINAL.getValue()) {
+							bUpdate = true;
+							continue;
+						}
 
-				if (userAlterQ == null) {
-					log.debug("closeRound: user(" + user + ") Error resultBet user not find");
-					// STEP 1.1.error - Send an email to the admin
-					// ("ERROR resultBet user not find")
-					continue;
-				}
-
-				// La apuesta globla no se debe gestionar para el ranking
-				//if (user.equals(getAdmin())) {
-				if (bet.getType()==BetTypeEnum.BET_FINAL.getValue()) {
-					bUpdate = true;
-					continue;
-				}
-
-				// STEP 2: calc user right signs
-				int[] vAciertos = calcUserRightSigns(resultBet, apu, userAlterQ, company);
-				if (vAciertos[0] == -1) {
-					log.debug("closeRound: user(" + user + ") Error updating right sings");
-					// STEP 2.1.error - Send an email to the admin
-					// ("ERROR updating user rigth signs")
-					continue;
-				}
-				if (lastUser != null) {
-					if (user.equals(lastUser)) {
-						if (vMaxAciertos[0] < vAciertos[0]) {
+						// STEP 2: calc user right signs
+						int[] vAciertos = calcUserRightSigns(resultBet, apu, userAlterQ, company);
+						if (vAciertos[0] == -1) {
+							log.debug("closeRound: user(" + user + ") Error updating right sings");
+							// STEP 2.1.error - Send an email to the admin
+							// ("ERROR updating user rigth signs")
+							continue;
+						}
+						if (lastUser != null) {
+							if (user.equals(lastUser)) {
+								if (vMaxAciertos[0] < vAciertos[0]) {
+									vMaxAciertos[0] = vAciertos[0];
+									vMaxAciertos[1] = vAciertos[1];
+									vMaxAciertos[2] = vAciertos[2];
+									vMaxAciertos[3] = vAciertos[3];
+									vMaxAciertos[4] = vAciertos[4];
+								}
+								bUpdate = false;
+							} else {
+								bUpdate = true;
+							}
+						} else {
+							lastUser = user;
+							lastUserAlterQ = userAlterQ;
 							vMaxAciertos[0] = vAciertos[0];
 							vMaxAciertos[1] = vAciertos[1];
 							vMaxAciertos[2] = vAciertos[2];
 							vMaxAciertos[3] = vAciertos[3];
 							vMaxAciertos[4] = vAciertos[4];
+							bUpdate = false;
 						}
-						bUpdate = false;
-					} else {
-						bUpdate = true;
+
+						// Update iter user
+						if (bUpdate) {
+							// STEP 3: update users weight
+							updateUserWeight(userAlterQ, vMaxAciertos[0]);
+							// STEP 4: update round ranking
+							updateRoundRanking(company, season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
+							// SETP 5: update global ranking (round=0)
+							updateRoundRanking(company, season, 0, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
+
+							lastUser = user;
+							lastUserAlterQ = userAlterQ;
+
+							vMaxAciertos[0] = vAciertos[0];
+							vMaxAciertos[1] = vAciertos[1];
+							vMaxAciertos[2] = vAciertos[2];
+							vMaxAciertos[3] = vAciertos[3];
+
+							bUpdate = false;
+						}
 					}
-				} else {
-					lastUser = user;
-					lastUserAlterQ = userAlterQ;
-					vMaxAciertos[0] = vAciertos[0];
-					vMaxAciertos[1] = vAciertos[1];
-					vMaxAciertos[2] = vAciertos[2];
-					vMaxAciertos[3] = vAciertos[3];
-					vMaxAciertos[4] = vAciertos[4];
-					bUpdate = false;
-				}
-
-				// Update iter user
-				if (bUpdate) {
-					// STEP 3: update users weight
-					updateUserWeight(userAlterQ, vMaxAciertos[0]);
-					// STEP 4: update round ranking
-					updateRoundRanking(company, season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
-					// SETP 5: update global ranking (round=0)
-					updateRoundRanking(company, season, 0, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
-
-					lastUser = user;
-					lastUserAlterQ = userAlterQ;
-
-					vMaxAciertos[0] = vAciertos[0];
-					vMaxAciertos[1] = vAciertos[1];
-					vMaxAciertos[2] = vAciertos[2];
-					vMaxAciertos[3] = vAciertos[3];
-
-					bUpdate = false;
+					// Update last user
+					if (bUpdate) {
+						// STEP 3: update users weight
+						updateUserWeight(lastUserAlterQ, vMaxAciertos[0]);
+						// STEP 4: update round ranking
+						updateRoundRanking(company, season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
+						// SETP 5: update global ranking (round=0)
+						updateRoundRanking(company, season, 0, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
+					}
 				}
 			}
-			// Update last user
-			if (bUpdate) {
-				// STEP 3: update users weight
-				updateUserWeight(lastUserAlterQ, vMaxAciertos[0]);
-				// STEP 4: update round ranking
-				updateRoundRanking(company, season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
-				// SETP 5: update global ranking (round=0)
-				updateRoundRanking(company, season, 0, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
-			}
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			response.addErrorDto("AdminController:addMatches", "SecurityException");

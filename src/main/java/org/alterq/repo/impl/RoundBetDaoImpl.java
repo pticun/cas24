@@ -9,8 +9,10 @@ import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
 import org.alterq.domain.Prize;
 import org.alterq.domain.RoundBets;
+import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.MongoCollection;
 import org.alterq.repo.RoundBetDao;
+import org.alterq.util.enumeration.BetTypeEnum;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -82,7 +84,21 @@ public class RoundBetDaoImpl extends MongoCollection implements RoundBetDao {
 		else
 			return null;
 	}
-
+	
+	public RoundBets findResultBet(int season, int round) {
+		Aggregation agg = newAggregation( 
+				unwind("bets"),
+				match(Criteria.where("season").is(season).and("round").is(round).and("bets.company").is(AlterQConstants.DEFECT_COMPANY).and("bets.type").is(BetTypeEnum.BET_RESULT.getValue())),
+				group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
+		);
+		AggregationResults<RoundBets> result = mongoTemplate.aggregate(agg, "roundBets", RoundBets.class);
+		if ( !result.getMappedResults().isEmpty()){
+			RoundBets aux = result.getMappedResults().get(0);
+			return aux;
+		}
+		else
+			return null;
+	}
 	public boolean addBet(int company, int season, int round, Bet bet){
 		Query query = new Query();
 		query.addCriteria(Criteria.where("company").is(company).and("season").is(season).and("round").is(round));
