@@ -548,7 +548,7 @@ consoleAlterQ('buttonpressed:'+buttonpressed);
 		    success: function(response){
 				if(response.errorDto!=0){
 	   		    	$(response.errorDto).each(function(index, objeto){  
-	   		    		$('#quinielaFormResponse').append(objeto.stringError+" - ");
+	   		    		$('#confirmarQuinielaFormResponse').append(objeto.stringError+" - ");
 				    });
 				}
 				else{

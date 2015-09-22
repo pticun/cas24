@@ -231,8 +231,11 @@ public class BetController {
 			log.debug("session:" + cookieSession);
 		}
 		ResponseDto dto = new ResponseDto();
+		boolean adminCompanyUser = false;
 
 		try {
+			
+			adminCompanyUser = ((company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(id, company));
 			
 			userSecurity.isSameUserInSession(id, cookieSession);
 			companyValidator.isCompanyOk(company);
@@ -357,7 +360,8 @@ public class BetController {
 				float price = new Double(betTools.getPriceBet() * numBets).floatValue();
 
 				float balance = new Float(userAlterQ.getBalance()).floatValue();
-				if (balance - price > 0) {
+
+				if ((balance - price > 0) || adminCompanyUser){
 					Bet bet = new Bet();
 					bet.setPrice(price);
 					bet.setBet(apuesta);
@@ -496,8 +500,6 @@ public class BetController {
 			r = roundDao.findBySeasonRound(season, round);
 			dto.setRound(r);
 
-			// Insert new bet into the BBDD
-			betDao.addBet(company, season, round, bet);
 
 			if ( (company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(userAlterQ.getId(), company)){
 				roundBets = roundBetDao.findAllBets(season, round, company);
@@ -517,11 +519,27 @@ public class BetController {
 					}
 				}
 				
+				priceCompany+=price;
+				
 				roundBets.setJackpot(amountCompany-priceCompany);
 				roundBets.setPrice(priceCompany);
+				
+				if ((amountCompany-priceCompany)<0)
+				{
+					ErrorDto error = new ErrorDto();
+					error.setIdError(MessageResourcesNameEnum.USER_NOT_MONEY_ENOUGH);
+					error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_MONEY_ENOUGH));
+					dto.addErrorDto(error);
+					dto.setUserAlterQ(null);
+					
+					return dto;
+				}
 
 				betDao.update(roundBets);
 			}
+
+			// Insert new bet into the BBDD
+			betDao.addBet(company, season, round, bet);
 			
 			userDao.save(userAlterQ);
 
