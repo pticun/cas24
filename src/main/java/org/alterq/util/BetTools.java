@@ -81,6 +81,50 @@ public class BetTools{
 		return rdo;
 	}	
 	
+	/**
+	 * Function translateResult1x2 that translates 1X2 signs to 421
+	 * 
+	 * Format BET: S01S02S03S04S05S06S07S08S09S10S11S12S13S14P01P02
+	 * 
+	 * ResultBet Signs (Sxx): 1 = 100 = 4 X = 010 = 2 2 = 001 = 1
+	 * 
+	 * pleno 15 (Pxx) 0 = 1 1 = 2 2 = 4 M = 8
+	 **/
+	public String translateResult1x2(String apu) {
+		String rdo = "";
+
+		for (int i = 0; i < apu.length(); i++) {
+			if (i < 14) {
+				if (apu.substring(i, i + 1).startsWith("1")) {
+					rdo += "4";
+				} else if (apu.substring(i, i + 1).startsWith("X")) {
+					rdo += "2";
+				} else if (apu.substring(i, i + 1).startsWith("2")) {
+					rdo += "1";
+				} else {
+					rdo = null;
+					break;
+				}
+			} else {
+				if (apu.substring(i, i + 1).startsWith("0")) {
+					rdo += "1";
+				} else if (apu.substring(i, i + 1).startsWith("1")) {
+					rdo += "2";
+				} else if (apu.substring(i, i + 1).startsWith("2")) {
+					rdo += "4";
+				} else if (apu.substring(i, i + 1).startsWith("M")) {
+					rdo += "8";
+				} else {
+					rdo = null;
+					break;
+				}
+			}
+		}
+
+		return rdo;
+	}
+
+	
 	public int isBetAllowed(int dobles, int doblesRed, int triples, int triplesRed, int pleno1, int pleno2){
 		boolean redOk = false;
 		boolean betOk = false;

@@ -8,15 +8,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
 import org.alterq.domain.Prize;
 import org.alterq.domain.Ranking;
-import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
@@ -40,7 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -127,49 +120,6 @@ public class AdminCompanyController {
 			return userAlterQ.getWeight();
 
 		return 0.0;
-	}
-
-	/**
-	 * Function translateResult1x2 that translates 1X2 signs to 421
-	 * 
-	 * Format BET: S01S02S03S04S05S06S07S08S09S10S11S12S13S14P01P02
-	 * 
-	 * ResultBet Signs (Sxx): 1 = 100 = 4 X = 010 = 2 2 = 001 = 1
-	 * 
-	 * pleno 15 (Pxx) 0 = 1 1 = 2 2 = 4 M = 8
-	 **/
-	private String translateResult1x2(String apu) {
-		String rdo = "";
-
-		for (int i = 0; i < apu.length(); i++) {
-			if (i < 14) {
-				if (apu.substring(i, i + 1).startsWith("1")) {
-					rdo += "4";
-				} else if (apu.substring(i, i + 1).startsWith("X")) {
-					rdo += "2";
-				} else if (apu.substring(i, i + 1).startsWith("2")) {
-					rdo += "1";
-				} else {
-					rdo = null;
-					break;
-				}
-			} else {
-				if (apu.substring(i, i + 1).startsWith("0")) {
-					rdo += "1";
-				} else if (apu.substring(i, i + 1).startsWith("1")) {
-					rdo += "2";
-				} else if (apu.substring(i, i + 1).startsWith("2")) {
-					rdo += "4";
-				} else if (apu.substring(i, i + 1).startsWith("M")) {
-					rdo += "8";
-				} else {
-					rdo = null;
-					break;
-				}
-			}
-		}
-
-		return rdo;
 	}
 
 	/**

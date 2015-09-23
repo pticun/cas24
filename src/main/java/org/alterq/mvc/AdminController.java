@@ -20,11 +20,9 @@ import org.alterq.domain.Company;
 import org.alterq.domain.Game;
 import org.alterq.domain.Prize;
 import org.alterq.domain.Ranking;
-import org.alterq.domain.RolCompany;
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.RoundRanking;
-import org.alterq.domain.RoundResult;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ResponseDto;
@@ -42,14 +40,12 @@ import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.BetTools;
 import org.alterq.util.CalculateRigths;
 import org.alterq.util.enumeration.BetTypeEnum;
-import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.CompanyValidator;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 import org.arch.core.file.BetElectronicFile;
 import org.arch.core.file.HeaderBetElectronicFile;
 import org.arch.core.file.RegistroBetElectronicFile;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,49 +156,6 @@ public class AdminController {
 			return userAlterQ.getWeight();
 
 		return 0.0;
-	}
-
-	/**
-	 * Function translateResult1x2 that translates 1X2 signs to 421
-	 * 
-	 * Format BET: S01S02S03S04S05S06S07S08S09S10S11S12S13S14P01P02
-	 * 
-	 * ResultBet Signs (Sxx): 1 = 100 = 4 X = 010 = 2 2 = 001 = 1
-	 * 
-	 * pleno 15 (Pxx) 0 = 1 1 = 2 2 = 4 M = 8
-	 **/
-	private String translateResult1x2(String apu) {
-		String rdo = "";
-
-		for (int i = 0; i < apu.length(); i++) {
-			if (i < 14) {
-				if (apu.substring(i, i + 1).startsWith("1")) {
-					rdo += "4";
-				} else if (apu.substring(i, i + 1).startsWith("X")) {
-					rdo += "2";
-				} else if (apu.substring(i, i + 1).startsWith("2")) {
-					rdo += "1";
-				} else {
-					rdo = null;
-					break;
-				}
-			} else {
-				if (apu.substring(i, i + 1).startsWith("0")) {
-					rdo += "1";
-				} else if (apu.substring(i, i + 1).startsWith("1")) {
-					rdo += "2";
-				} else if (apu.substring(i, i + 1).startsWith("2")) {
-					rdo += "4";
-				} else if (apu.substring(i, i + 1).startsWith("M")) {
-					rdo += "8";
-				} else {
-					rdo = null;
-					break;
-				}
-			}
-		}
-
-		return rdo;
 	}
 
 	/**
@@ -596,7 +549,7 @@ public class AdminController {
 					});
 
 					// Translate result from "1X2" to "421"
-					resultBet = translateResult1x2(resultBet);
+					resultBet = betTools.translateResult1x2(resultBet);
 
 					for (Bet bet : lBets) {
 						String apu = bet.getBet();
