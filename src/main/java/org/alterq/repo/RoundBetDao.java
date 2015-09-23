@@ -23,7 +23,7 @@ public interface RoundBetDao {
 
 	public RoundBets findResultBet(int season, int round, int company);
 
-	public RoundBets findTypeBet(int season, int round, int company, BetTypeEnum betType);
+	public RoundBets findTypeBet(int season, int round, int company, BetTypeEnum betType, String user);
 
 	public boolean addBet(int company, int season, int round, Bet bet);
 

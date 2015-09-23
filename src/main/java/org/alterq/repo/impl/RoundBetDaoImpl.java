@@ -49,42 +49,52 @@ public class RoundBetDaoImpl extends MongoCollection implements RoundBetDao {
 	}
 
 	public RoundBets findAllUserBets(int season, int round, String user, int company) {
-        Aggregation agg = newAggregation( 
-                unwind("bets"),
-                match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round).and("bets.company").is(company)),
-//                group("_id").first("company").as("company").first("season").as("season").first("round").as("round").push("bets").as("bets")
-                group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
-//                match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round)),
+		return findTypeBet(season, round, company, BetTypeEnum.BET_NORMAL, user);
+
+//		Aggregation agg = newAggregation( 
+//                unwind("bets"),
+//                match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round).and("bets.company").is(company)),
+////                group("_id").first("company").as("company").first("season").as("season").first("round").as("round").push("bets").as("bets")
 //                group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
-        );
-        AggregationResults<RoundBets> result = mongoTemplate.aggregate(agg, "roundBets", RoundBets.class);
-        if ( !result.getMappedResults().isEmpty()){
-        	RoundBets aux = result.getMappedResults().get(0);
-        	return aux;
-        }
-        else
-        	return null;
+////                match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round)),
+////                group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
+//        );
+//        AggregationResults<RoundBets> result = mongoTemplate.aggregate(agg, "roundBets", RoundBets.class);
+//        if ( !result.getMappedResults().isEmpty()){
+//        	RoundBets aux = result.getMappedResults().get(0);
+//        	return aux;
+//        }
+//        else
+//        	return null;
 	}
 	@Override
 	public RoundBets findAutomaticBet(int season, int round, int company) {
-		return findTypeBet(season, round, company, BetTypeEnum.BET_AUTOMATIC);
+		return findTypeBet(season, round, company, BetTypeEnum.BET_AUTOMATIC, null);
 	}
 	public RoundBets findFinalBet(int season, int round, int company) {
-		return findTypeBet(season, round, company, BetTypeEnum.BET_FINAL);
+		return findTypeBet(season, round, company, BetTypeEnum.BET_FINAL, null);
 	}
 	@Override
 	public RoundBets findNormalBet(int season, int round, int company) {
-		return findTypeBet(season, round, company, BetTypeEnum.BET_NORMAL);
+		return findTypeBet(season, round, company, BetTypeEnum.BET_NORMAL, null);
 	}
 	@Override
 	public RoundBets findResultBet(int season, int round, int company) {
-		return findTypeBet(season, round, company, BetTypeEnum.BET_RESULT);
+		return findTypeBet(season, round, company, BetTypeEnum.BET_RESULT, null);
 	}
 	@Override
-	public RoundBets findTypeBet(int season, int round, int company, BetTypeEnum betType) {
+	public RoundBets findTypeBet(int season, int round, int company, BetTypeEnum betType, String user) {
+		Criteria criteria=new Criteria();
+		criteria=Criteria.where("season").is(season).and("round").is(round).and("bets.company").is(company);
+		if (null!= user){
+			criteria.and("bets.user").is(user);
+		}
+		if (null!= betType){
+			criteria.and("bets.type").is(betType.getValue());
+		}
 		Aggregation agg = newAggregation( 
 				unwind("bets"),
-				match(Criteria.where("season").is(season).and("round").is(round).and("bets.company").is(company).and("bets.type").is(betType.getValue())),
+				match(criteria),
 				group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
 		);
 		AggregationResults<RoundBets> result = mongoTemplate.aggregate(agg, "roundBets", RoundBets.class);
