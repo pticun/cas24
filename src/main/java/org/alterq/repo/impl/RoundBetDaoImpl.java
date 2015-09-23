@@ -5,11 +5,9 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.matc
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
 
-import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
 import org.alterq.domain.Prize;
 import org.alterq.domain.RoundBets;
-import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.MongoCollection;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.util.enumeration.BetTypeEnum;
@@ -67,28 +65,26 @@ public class RoundBetDaoImpl extends MongoCollection implements RoundBetDao {
         else
         	return null;
 	}
-	public RoundBets findFinalBet(int season, int round, int company) {
-		Aggregation agg = newAggregation( 
-				unwind("bets"),
-				match(Criteria.where("season").is(season).and("round").is(round).and("bets.company").is(company).and("bets.finalBet").is(Boolean.TRUE)),
-//                group("_id").first("company").as("company").first("season").as("season").first("round").as("round").push("bets").as("bets")
-				group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
-//                match(Criteria.where("bets.user").is(user).and("season").is(season).and("round").is(round)),
-//                group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
-				);
-		AggregationResults<RoundBets> result = mongoTemplate.aggregate(agg, "roundBets", RoundBets.class);
-		if ( !result.getMappedResults().isEmpty()){
-			RoundBets aux = result.getMappedResults().get(0);
-			return aux;
-		}
-		else
-			return null;
+	@Override
+	public RoundBets findAutomaticBet(int season, int round, int company) {
+		return findTypeBet(season, round, company, BetTypeEnum.BET_AUTOMATIC);
 	}
-	
-	public RoundBets findResultBet(int season, int round) {
+	public RoundBets findFinalBet(int season, int round, int company) {
+		return findTypeBet(season, round, company, BetTypeEnum.BET_FINAL);
+	}
+	@Override
+	public RoundBets findNormalBet(int season, int round, int company) {
+		return findTypeBet(season, round, company, BetTypeEnum.BET_NORMAL);
+	}
+	@Override
+	public RoundBets findResultBet(int season, int round, int company) {
+		return findTypeBet(season, round, company, BetTypeEnum.BET_RESULT);
+	}
+	@Override
+	public RoundBets findTypeBet(int season, int round, int company, BetTypeEnum betType) {
 		Aggregation agg = newAggregation( 
 				unwind("bets"),
-				match(Criteria.where("season").is(season).and("round").is(round).and("bets.company").is(AlterQConstants.DEFECT_COMPANY).and("bets.type").is(BetTypeEnum.BET_RESULT.getValue())),
+				match(Criteria.where("season").is(season).and("round").is(round).and("bets.company").is(company).and("bets.type").is(betType.getValue())),
 				group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
 		);
 		AggregationResults<RoundBets> result = mongoTemplate.aggregate(agg, "roundBets", RoundBets.class);
@@ -99,6 +95,7 @@ public class RoundBetDaoImpl extends MongoCollection implements RoundBetDao {
 		else
 			return null;
 	}
+	
 	public boolean addBet(int company, int season, int round, Bet bet){
 		Query query = new Query();
 		query.addCriteria(Criteria.where("company").is(company).and("season").is(season).and("round").is(round));
@@ -185,7 +182,6 @@ public class RoundBetDaoImpl extends MongoCollection implements RoundBetDao {
 	public void update(RoundBets bean) {
 		mongoTemplate.save(bean, COLLECTION_NAME);
 	}
-	
 //	public void update(RoundBets rounBets){
 //		Query query = new Query();
 //		query.addCriteria(Criteria.where("company").is(rounBets.getCompany()).and("season").is(rounBets.getSeason()).and("round").is(rounBets.getRound()));

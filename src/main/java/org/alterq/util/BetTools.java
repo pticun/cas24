@@ -3,6 +3,7 @@ package org.alterq.util;
 import java.lang.Math;
 
 import org.alterq.domain.AdminData;
+import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.AdminDataDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -423,6 +424,129 @@ public class BetTools{
 		}
 		return solucion;
 
+	}
+
+	/**
+	 * Function calcUserRightSigns that calcs bet user's right sings
+	 * 
+	 * ResultBet Signs: 1 = 100 = 4 X = 010 = 2 2 = 001 = 1
+	 * 
+	 * Bet Signs: 1 = 100 = 4 X = 010 = 2 2 = 001 = 1 1X = 110 = 6 1 2 = 101 = 5
+	 * X2 = 011 = 3 1X2 = 111 = 7
+	 * 
+	 * Pleno15 Signs: 0 = 0001 = 1 1 = 0010 = 2 01 = 0011 = 3 2 = 0100 = 4 0 2 =
+	 * 0101 = 5 12 = 0110 = 6 012 = 0111 = 7 M = 1000 = 8 0 M = 1001 = 9 1 M =
+	 * 1010 = a 0 2M = 1011 = b 2M = 1100 = c 01 M = 1101 = d 12M = 1110 = e
+	 * 012M = 1111 = f
+	 * 
+	 * Gets users Bets, and calculate right signs for each bet
+	 * 
+	 * @return int[] Devuelve un vector de int donde: int[0] es el numero de
+	 *         aciertos int[1] es el número de doses acertados int[2] es el
+	 *         número de equis acertadas int[3] es el número de unos acertados
+	 *
+	 * @param String
+	 *            resultBet : result round bet
+	 * @param String
+	 *            apu : user bet
+	 * @param String
+	 *            user : user id
+	 * 
+	 *            Descripcion: Calculate right signs for each user bet
+	 * */
+
+	public int[] calcUserRightSigns(String resultBet, String apu) {
+
+		int rdo, doses, equis, unos, p15;
+		int[] salida = new int[5];
+		salida[0] = salida[1] = salida[2] = salida[3] = salida[4] = -1;
+
+		rdo = 0;
+		doses = 0;
+		equis = 0;
+		unos = 0;
+		p15 = 0;
+
+		int singBet;
+		int singRes;
+
+		try {
+			// Translate 1X2 to 421
+			// Pleno15 012M to 1248
+
+			for (int i = 0; i < apu.length(); i++) {
+				singBet = Integer.parseInt(apu.substring(i, i + 1));
+				singRes = Integer.parseInt(resultBet.substring(i, i + 1));
+				if (i < 14) {
+					switch (singRes) {
+					case 4:// sign 1
+						if ((singBet == 4) || (singBet == 6) || (singBet == 5) || (singBet == 7)) {
+							rdo++;
+							unos++;
+						}
+						break;
+					case 2:// sign X
+						if ((singBet == 2) || (singBet == 3) || (singBet == 6) || (singBet == 7)) {
+							rdo++;
+							unos++;
+						}
+						break;
+					case 1: // sign 2
+						if ((singBet == 1) || (singBet == 3) || (singBet == 5) || (singBet == 7)) {
+							rdo++;
+							unos++;
+						}
+						break;
+					default: // something wrong
+						break;
+					}
+				} else {
+					switch (singRes) {
+					case 1:// sign 0
+						if ((singBet == 1) || (singBet == 3) || (singBet == 5) || (singBet == 7) || (singBet == 9) || (singBet == 11) || (singBet == 13) || (singBet == 15)) {
+							p15++;
+						}
+						break;
+					case 2:// sign 1
+						if ((singBet == 2) || (singBet == 3) || (singBet == 6) || (singBet == 7) || (singBet == 10) || (singBet == 13) || (singBet == 14) || (singBet == 15)) {
+							p15++;
+						}
+						break;
+					case 4: // sign 2
+						if ((singBet == 4) || (singBet == 5) || (singBet == 6) || (singBet == 7) || (singBet == 11) || (singBet == 12) || (singBet == 14) || (singBet == 15)) {
+							p15++;
+						}
+						break;
+					case 8: // sign M
+						if ((singBet == 8) || (singBet == 9) || (singBet == 10) || (singBet == 11) || (singBet == 12) || (singBet == 13) || (singBet == 14) || (singBet == 15)) {
+							p15++;
+						}
+						break;
+					default: // something wrong
+						break;
+					}
+
+				}
+			}
+		} catch (Exception e) {
+			rdo = 0;
+			doses = 0;
+			equis = 0;
+			unos = 0;
+			p15 = 0;
+		}
+		// Asignamos los resultados al vector final
+		// Numero de apuestas acertadas
+		salida[0] = rdo;
+		// Número de doses acertados
+		salida[1] = doses;
+		// Número de equis acertadas
+		salida[2] = equis;
+		// Número de unos acertados
+		salida[3] = unos;
+		salida[4] = p15;
+
+		return salida;
 	}
 
 }
