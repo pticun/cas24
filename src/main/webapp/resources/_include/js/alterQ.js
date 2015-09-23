@@ -1095,7 +1095,7 @@ function getUserBets(){
 							console.log("user="+element.user + " bet="+element.bet);
 							row="";
 							
-							if (element.finalBet)
+							if (element.type == CONST_TYPE_BET_FINAL)
 								row+='<tr bgcolor="#FFFFBB">';
 							else
 								row+='<tr>';
