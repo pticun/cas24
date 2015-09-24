@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
+import org.alterq.util.enumeration.BetTypeEnum;
 
 import com.mongodb.DBObject;
 
@@ -11,6 +12,7 @@ public interface UserAlterQDao {
 	public UserAlterQ findById(String id);
 
 	public UserAlterQ findAdminByCompany(int company);
+
 	public UserAlterQ findSuperAdmin();
 
 	public List<UserAlterQ> findAllOrderedByName();
@@ -23,6 +25,8 @@ public interface UserAlterQDao {
 
 	@Deprecated
 	public List<UserAlterQ> findUserWithAutomatics(int company);
+
+	public List<UserAlterQ> findUserWithTypeSpecialBets(int company, BetTypeEnum betType);
 
 	public void remove(UserAlterQ userAlterQ) throws Exception;
 

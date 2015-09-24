@@ -13,6 +13,9 @@ public class Bet {
 	@Id
 	private String id;
 	private int company;
+	/**
+	 * type return element {org.alterq.util.enumeration.BetTypeEnum}
+	 */
 	private int type;
 
 	private Date dateCreated;

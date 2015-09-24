@@ -16,6 +16,7 @@ import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.MongoCollection;
 import org.alterq.repo.UserAlterQDao;
+import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -197,6 +198,23 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 			rcL = userAlterQ.getRols();
 		}
 		return rcL;
+	}
+
+	@Override
+	public List<UserAlterQ> findUserWithTypeSpecialBets(int company, BetTypeEnum betType) {
+		Aggregation agg = newAggregation(
+				unwind("rols"),
+				unwind("specialBets"),
+				match(Criteria.where("rols.company").is(company).and("rols.rol").is(RolNameEnum.ROL_USER.getValue())), 
+				match(Criteria.where("specialBets.type").is(betType.getValue())), 
+				group("_id").push("rols").as("rols").push("specialBets").as("specialBets")
+				);
+		AggregationResults<UserAlterQ> result = mongoTemplate.aggregate(agg, "userAlterq", UserAlterQ.class);
+		if (!result.getMappedResults().isEmpty()) {
+			List<UserAlterQ> aux = result.getMappedResults();
+			return aux;
+		} else
+			return null;
 	}
 
 }
