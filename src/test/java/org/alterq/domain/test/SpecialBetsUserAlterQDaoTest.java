@@ -42,9 +42,28 @@ public class SpecialBetsUserAlterQDaoTest {
 			createUsersWithSpecialBets(i);
 		}
 	}
+	@Test
+	public void AB_testAddSpecialBet() throws Exception {
+		
+		UserAlterQ user=dao.findById("specialBets0@arroba.es");
+		List<Bet>specialBet= user.getSpecialBets();
+		for (Bet bet : specialBet) {
+			if(BetTypeEnum.BET_AUTOMATIC.getValue()==bet.getType()){
+				bet.setNumBets(bet.getNumBets()+1);
+			}
+		}
+		if(specialBet!=null){
+			Bet betFixed = new Bet();
+			betFixed.setType(BetTypeEnum.BET_FIXED.getValue());
+			betFixed.setBet("222222222222200");
+			betFixed.setCompany(company);
+			specialBet.add(betFixed);
+		}
+		dao.save(user);
+	}
 
 	@Test
-	public void AB_findUserwithAutomaticBets() {
+	public void AM_findUserwithAutomaticBets() {
 		List<UserAlterQ> userAlterQ = dao.findUserWithTypeSpecialBets(company, BetTypeEnum.BET_AUTOMATIC);
 		for (UserAlterQ userAlterQ2 : userAlterQ) {
 			log.debug("useralterQ:" + userAlterQ2.getId()+" Automatic:"+userAlterQ2.getSpecialBets().get(0).getNumBets());
@@ -53,7 +72,7 @@ public class SpecialBetsUserAlterQDaoTest {
 		return;
 	}
 	@Test
-	public void AB_findUserwithFixedBets() {
+	public void AN_findUserwithFixedBets() {
 		List<UserAlterQ> userAlterQ = dao.findUserWithTypeSpecialBets(company, BetTypeEnum.BET_FIXED);
 		for (UserAlterQ userAlterQ2 : userAlterQ) {
 			log.debug("useralterQ:" + userAlterQ2.getId());

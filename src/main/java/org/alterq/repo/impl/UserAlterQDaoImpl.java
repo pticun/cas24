@@ -99,14 +99,6 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 	}
 
 	@Override
-	public List<UserAlterQ> findUserWithAutomatics(int company) {
-//		Query query = new Query(Criteria.where("company").is(company).and("automatics").gt(0));
-		//Pendiente revisar las apuesas automáticas por compañia
-		Query query = new Query(Criteria.where("automatics").gt(0));
-		return mongoTemplate.find(query, UserAlterQ.class, COLLECTION_NAME);
-	}
-
-	@Override
 	public DBObject getLastError() {
 		return mongoTemplate.getDb().getLastError();
 	}

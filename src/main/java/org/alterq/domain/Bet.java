@@ -22,7 +22,6 @@ public class Bet {
 	private Date dateUpdated;
 	private String user;
 	private String bet;
-	private boolean finalBet;
 	private float price;
 	private double numBets;
 	private List<Prize> prizes;
@@ -35,14 +34,6 @@ public class Bet {
 
 	public void setType(int type) {
 		this.type = type;
-	}
-
-	public boolean isFinalBet() {
-		return finalBet;
-	}
-
-	public void setFinalBet(boolean finalBet) {
-		this.finalBet = finalBet;
 	}
 
 	public double getNumBets() {
