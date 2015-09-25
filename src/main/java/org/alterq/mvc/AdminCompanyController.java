@@ -142,6 +142,7 @@ public class AdminCompanyController {
 	public @ResponseBody ResponseDto closeRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
 		ResponseDto response = new ResponseDto();
 		log.debug("closeRound: start");
+		float priceBet=betTools.getPriceBet();
 
 		try {
 			userSecurity.isAdminUserInSession(cookieSession, company);
@@ -156,62 +157,111 @@ public class AdminCompanyController {
 			List<UserAlterQ> lUsers = userAlterQDao.findUserWithTypeSpecialBets(company,BetTypeEnum.BET_AUTOMATIC);
 			// STEP 1.2 - For each user do as bets as automatic bets (It has to
 			// check user amount before make automatics bets)
+			
 			for (UserAlterQ user : lUsers) {
-				// loop for number of automatic bets
-				List<Bet> betSpecial=user.getSpecialBets();
-				for (Bet bets : betSpecial) {
-					if(bets.getType()==BetTypeEnum.BET_AUTOMATIC.getValue()){
-						int numAutom=Integer.parseInt(""+bets.getNumBets());
-						for (int i = 0; i < numAutom; i++) {
-							// STEP 1.2.1 - Check User Balance
-							float balance = new Float(user.getBalance()).floatValue();
-							if (balance < betTools.getPriceBet()) {
-								log.debug("closeRound: user(" + user.getName() + ") No enough money for automatic bet");
-								// STEP 1.2.1.error - Send an email to the user
-								// ("NOT ENOUGH MONEY")
-								continue;
-							}
-							// STEP 1.2.2 - Calc RandomBet
-							String randomBet = betTools.randomBet();
-							// STEP 1.2.3 - Make Automatic User Bet
-							Bet bet = new Bet();
-							bet.setPrice(betTools.getPriceBet());
-							bet.setBet(randomBet);
-							bet.setUser(user.getId());
-							bet.setCompany(company);
-							bet.setDateCreated(new Date());
-							bet.setDateUpdated(new Date());
-							bet.setNumBets(1);
-							bet.setReduction("NNNNNNNNNNNNNN");
-							bet.setType(BetTypeEnum.BET_NORMAL.getValue());
-							bet.setId(new ObjectId().toStringMongod());
-
-							roundBetDao.addBet(company, season, round, bet);
-
-							// STEP 1.2.4 - Update User Balance
-							try {
-								user.setBalance(Float.toString((float) (balance - betTools.getPriceBet())));
-								userAlterQDao.save(user);
-								/*
-								 * if(userAlterQDao.getLastError() != null){
-								 * log.debug("closeRound: user("
-								 * +user.getName()+") Error updating balance."); //STEP
-								 * 2.2.4.error - Send an email to the admin
-								 * ("ERROR updating user balance") continue; }
-								 */
-							} catch (Exception e) {
-								log.debug("closeRound: user(" + user.getName() + ") Error updating balance.");
-								// STEP 1.2.4.error - Send an email to the admin
-								// ("ERROR updating user balance")
-								response.addErrorDto("AdminController:closeRound", " user(" + user.getName() + ") Error updating balance.");
-								continue;
-							}
-						}
+				int numAutom=Integer.parseInt(""+user.getSpecialBets().get(0).getNumBets());
+				// STEP 1.2.1 - Check User Balance
+				float balance = new Float(user.getBalance()).floatValue();
+				for (int i = 0; i < numAutom; i++) {
+					if (balance < priceBet) {
+						log.debug("closeRound: user(" + user.getName() + ") No enough money for automatic bet");
+						// STEP 1.2.1.error - Send an email to the user
+						// ("NOT ENOUGH MONEY")
+						continue;
 					}
+					// STEP 1.2.2 - Calc RandomBet
+					String randomBet = betTools.randomBet();
+					// STEP 1.2.3 - Make Automatic User Bet
+					Bet bet = new Bet();
+					bet.setPrice(betTools.getPriceBet());
+					bet.setBet(randomBet);
+					bet.setUser(user.getId());
+					bet.setCompany(company);
+					bet.setDateCreated(new Date());
+					bet.setDateUpdated(new Date());
+					bet.setNumBets(1);
+					bet.setReduction("NNNNNNNNNNNNNN");
+					bet.setType(BetTypeEnum.BET_NORMAL.getValue());
+					bet.setId(new ObjectId().toHexString());
+					
+					roundBetDao.addBet(company, season, round, bet);
+					//update new balance minus value bet
+					balance-=priceBet;
+				}
+
+				// STEP 1.2.4 - Update User Balance
+				try {
+					user.setBalance(Float.toString((float) (balance)));
+					userAlterQDao.save(user);
+					/*
+					 * if(userAlterQDao.getLastError() != null){
+					 * log.debug("closeRound: user("
+					 * +user.getName()+") Error updating balance."); //STEP
+					 * 2.2.4.error - Send an email to the admin
+					 * ("ERROR updating user balance") continue; }
+					 */
+				} catch (Exception e) {
+					log.debug("closeRound: user(" + user.getName() + ") Error updating balance.");
+					// STEP 1.2.4.error - Send an email to the admin
+					// ("ERROR updating user balance")
+					response.addErrorDto("AdminController:closeRound", " user(" + user.getName() + ") Error updating balance.");
+					continue;
 				}
 			}
 
-			// STEP 2: Fixed Bets (¿?)
+			// STEP 2: Fixed Bets 
+			lUsers = userAlterQDao.findUserWithTypeSpecialBets(company,BetTypeEnum.BET_FIXED);
+			for (UserAlterQ user : lUsers) {
+				// loop for number of fixed bets
+				float balance = new Float(user.getBalance()).floatValue();
+				List<Bet> specialBets=user.getSpecialBets();
+				for (Bet betSpecial : specialBets) {
+					log.debug("bet:"+betSpecial.getBet());
+					if (balance < priceBet) {
+						log.debug("closeRound: user(" + user.getName() + ") No enough money for automatic bet");
+						// STEP 1.2.1.error - Send an email to the user
+						// ("NOT ENOUGH MONEY")
+						continue;
+					}
+					// STEP 1.2.3 - Make Automatic User Bet
+					Bet bet = new Bet();
+					bet.setPrice(betTools.getPriceBet());
+					bet.setBet(betSpecial.getBet());
+					bet.setUser(user.getId());
+					bet.setCompany(company);
+					bet.setDateCreated(new Date());
+					bet.setDateUpdated(new Date());
+					bet.setNumBets(1);
+					bet.setReduction("NNNNNNNNNNNNNN");
+					bet.setType(BetTypeEnum.BET_NORMAL.getValue());
+					bet.setId(new ObjectId().toHexString());
+					
+					roundBetDao.addBet(company, season, round, bet);
+					//update new balance minus value bet
+					balance-=priceBet;
+				}
+				// STEP 1.2.4 - Update User Balance
+				try {
+					user.setBalance(Float.toString((float) (balance)));
+					userAlterQDao.save(user);
+					/*
+					 * if(userAlterQDao.getLastError() != null){
+					 * log.debug("closeRound: user("
+					 * +user.getName()+") Error updating balance."); //STEP
+					 * 2.2.4.error - Send an email to the admin
+					 * ("ERROR updating user balance") continue; }
+					 */
+				} catch (Exception e) {
+					log.debug("closeRound: user(" + user.getName() + ") Error updating balance.");
+					// STEP 1.2.4.error - Send an email to the admin
+					// ("ERROR updating user balance")
+					response.addErrorDto("AdminController:closeRound", " user(" + user.getName() + ") Error updating balance.");
+					continue;
+				}
+
+			}
+
+			
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);
