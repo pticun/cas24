@@ -77,15 +77,6 @@ public class AdminCompanyController {
 		return "adminCompany";
 	}
 
-	/**
-	 * 
-	 * */
-	private String getAdmin() {
-		UserAlterQ admin = userAlterQDao.findAdminByCompany(AlterQConstants.DEFECT_COMPANY);
-		return admin.getId();
-	}
-
-
 	private float calcQuinielaPrice(int doubles, int triples, int type) {
 		return new Double(getQuinielaNumBets(type) * betTools.getPriceBet() * Math.pow(2, doubles) * Math.pow(3, triples)).floatValue();
 	}

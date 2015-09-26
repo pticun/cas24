@@ -100,14 +100,6 @@ public class AdminController {
 		return "admin";
 	}
 
-	/**
-	 * 
-	 * */
-	private String getAdmin() {
-		UserAlterQ admin = userAlterQDao.findAdminByCompany(AlterQConstants.DEFECT_COMPANY);
-		return admin.getId();
-	}
-
 	// pendiente de revision para incorportar el TYPE de la quiniela
 	private void calcBasicDoublesAndTriples(int numBets, int type) {
 		int nBets = betTools.getQuinielaNumBets(type);
