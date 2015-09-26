@@ -1,19 +1,12 @@
 package org.alterq.mvc;
 
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.alterq.domain.Bet;
-import org.alterq.domain.Prize;
-import org.alterq.domain.Ranking;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
-import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.AdminDataDao;
@@ -24,7 +17,6 @@ import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.BetTools;
-import org.alterq.util.CalculateRigths;
 import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.validator.CompanyValidator;
@@ -68,29 +60,11 @@ public class AdminCompanyController {
 	@Qualifier("messageLocalizedResources")
 	private MessageLocalizedResources messageLocalizedResources;
 
-	private static int doubles = 0;
-	private static int triples = 0;
-
 	@RequestMapping(method = RequestMethod.GET)
 	public String initPage() {
 		log.debug("init adminCompany.jsp");
 		return "adminCompany";
 	}
-
-	// Funciona
-	private void updateRoundRanking(int company, int season, int round, UserAlterQ user, int points, int ones, int equs, int twos) {
-		Ranking rnk = new Ranking();
-		rnk.setCompany(company);
-		rnk.setOnes(ones);
-		rnk.setEqus(equs);
-		rnk.setTwos(twos);
-		rnk.setPoints(points);
-		rnk.setUser(user);
-
-		roundRankingDao.addRanking(company, season, round, rnk);
-	}
-
-
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/closeAC")
 	public @ResponseBody ResponseDto closeRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
@@ -227,166 +201,6 @@ public class AdminCompanyController {
 		log.debug("closeRound: end");
 		return response;
 	}
-
-
-
-
-
-	/*
-	 * // @RequestMapping(method = RequestMethod.POST, produces =
-	 * "application/json", value =
-	 * "/company/{company}/season/{season}/round/{round}/prize15/{count15}/{amount15}/prize14/{count14}/{amount14}/prize13/{count13}/{amount13}/prize12/{count12}/{amount12}/prize11/{count11}/{amount11}/prize10/{count10}/{amount10}"
-	 * ) // public @ResponseBody // ResponseDto prizesRound(@PathVariable int
-	 * company, @PathVariable int season, @PathVariable int round, @PathVariable
-	 * int count15, @PathVariable float amount15, @PathVariable int count14,
-	 * @PathVariable float amount14, @PathVariable int count13, @PathVariable
-	 * float amount13, @PathVariable int count12, @PathVariable float amount12,
-	 * @PathVariable int count11, @PathVariable float amount11, @PathVariable
-	 * int count10, @PathVariable float amount10) {
-	 * 
-	 * @RequestMapping(method = RequestMethod.POST, produces =
-	 * "application/json", value =
-	 * "/company/{company}/season/{season}/round/{round}/prizesBetPenya")
-	 * //public @ResponseBody ResponseDto prizesRound(@CookieValue(value =
-	 * "session", defaultValue = "") String cookieSession, HttpServletRequest
-	 * request, @RequestBody PrizesRound prizesRound) { public @ResponseBody
-	 * ResponseDto prizesRoundPenya(@CookieValue(value = "session", defaultValue
-	 * = "") String cookieSession, HttpServletRequest request, @PathVariable int
-	 * company, @PathVariable int season, @PathVariable int round) { ResponseDto
-	 * response = new ResponseDto(); RoundBets roundBets; int numBets; double
-	 * rewardGlobal; double betReward = 0; UserAlterQ userAlterQ;
-	 * 
-	 * try { userSecurity.isAdminUserInSession( cookieSession); roundBets =
-	 * roundBetDao.findAllBets(season, round);
-	 * 
-	 * List<Prize> lPrizes = new ArrayList<Prize>(); Map<String, String[]>
-	 * parameters = request.getParameterMap();
-	 * 
-	 * for (int i=0;i<=5;i++) { Prize priceTmp = new Prize();
-	 * priceTmp.setId(i+10);
-	 * priceTmp.setCount(Integer.parseInt(parameters.get("count"+(i+10))[0]));
-	 * priceTmp.setAmount(Float.parseFloat(parameters.get("prize"+(i+10))[0]));
-	 * lPrizes.add(priceTmp); }
-	 * 
-	 * 
-	 * roundBets.setPrizes(lPrizes);
-	 * 
-	 * 
-	 * numBets = roundBets.getBets().size() - 1; //Admin bet is not a real bet
-	 * //rewardGlobal = roundBets.getJackpot() + count15*amount15 +
-	 * count14*amount14 + count13*amount13 + count12*amount12 + count11*amount11
-	 * + count10*amount10; rewardGlobal = roundBets.getJackpot(); //List<Prize>
-	 * lPrizes = roundBets.getPrizes(); for (Prize prize : lPrizes){
-	 * rewardGlobal+= prize.getAmount() * prize.getCount(); }
-	 * 
-	 * 
-	 * betReward = rewardGlobal / numBets;
-	 * 
-	 * 
-	 * List<Bet> lBets = roundBets.getBets(); for (Bet bet : lBets){ String user
-	 * = bet.getUser();
-	 * 
-	 * userAlterQ = userAlterQDao.findById(user);
-	 * 
-	 * if (userAlterQ== null){
-	 * log.debug("pricesRound: user("+user+") Error resultBet user not find");
-	 * //STEP 1.1.error - Send an email to the admin
-	 * ("ERROR pricesRound user not find") continue; }
-	 * 
-	 * //Admin unser don't win money, because his bet is not a real bet if
-	 * (userAlterQ.isAdmin()) { continue; }
-	 * 
-	 * userAlterQ.setBalance(Double.toString(
-	 * Double.parseDouble(userAlterQ.getBalance()) + betReward));
-	 * userAlterQDao.save(userAlterQ); }
-	 * 
-	 * roundBetDao.update(roundBets); } catch (SecurityException e) { // TODO
-	 * Auto-generated catch block
-	 * response.addErrorDto("AdminController:prizesRound", "SecurityException");
-	 * e.printStackTrace(); }
-	 * 
-	 * 
-	 * return response; }
-	 */
-
-	/*
-	 * PENDIENTE
-	 * 
-	 * Hay que mirar todas las apuestas, comprobar el numero de aciertos que
-	 * tiene y repartir los premios en funcion a la cantidad de premios
-	 * obtenidos
-	 */
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/season/{season}/round/{round}/prizesBet")
-	// public @ResponseBody ResponseDto prizesRound(@CookieValue(value =
-	// "session", defaultValue = "") String cookieSession, HttpServletRequest
-	// request, @RequestBody PrizesRound prizesRound) {
-	public @ResponseBody ResponseDto prizesRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
-		ResponseDto response = new ResponseDto();
-		RoundBets roundBets;
-		int numBets;
-		double rewardGlobal;
-		double betReward = 0;
-		UserAlterQ userAlterQ;
-		int countPrizes[] = { 0, 0, 0, 0, 0 };
-
-		try {
-			companyValidator.isCompanyOk(company);
-			userSecurity.isAdminUserInSession(cookieSession, company);
-			roundBets = roundBetDao.findAllBets(season, round);
-
-			List<Prize> lPrizes = new ArrayList<Prize>();
-			Map<String, String[]> parameters = request.getParameterMap();
-
-			List<Bet> lBets = roundBets.getBets();
-			for (Bet bet : lBets) {
-				String user = bet.getUser();
-
-				userAlterQ = userAlterQDao.findById(user);
-
-				if (userAlterQ == null) {
-					log.debug("pricesRound: user(" + user + ") Error resultBet user not find");
-					// STEP 1.1.error - Send an email to the admin
-					// ("ERROR pricesRound user not find")
-					continue;
-				}
-
-				CalculateRigths util = new CalculateRigths();
-				countPrizes = util.calculate(parameters.get("results").toString(), bet.getBet(), bet.getReduction(), bet.getTypeReduction());
-				for (int i = 0; i <= 5; i++) {
-					Prize priceTmp = new Prize();
-					priceTmp.setId(i + 10);
-					priceTmp.setCount(countPrizes[i]);
-					priceTmp.setAmount(Float.parseFloat(parameters.get("prize" + (i + 10))[0]));
-					lPrizes.add(priceTmp);
-				}
-
-				bet.setPrizes(lPrizes);
-
-				betReward = 0;
-
-				for (Prize prize : lPrizes) {
-					betReward += prize.getAmount() * prize.getCount();
-				}
-
-				userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) + betReward));
-				userAlterQDao.save(userAlterQ);
-			}
-
-			roundBetDao.update(roundBets);
-		} catch (Exception e) {
-			ErrorDto error = new ErrorDto();
-			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);
-			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_ADMIN));
-			response.addErrorDto(error);
-			log.error(ExceptionUtils.getStackTrace(e));
-		}
-
-		return response;
-	}
-
-//	@RequestMapping(method = RequestMethod.GET, produces = "application/json")
-//	public @ResponseBody ResponseDto getRound(@PathVariable(value = "id") String id, @PathVariable(value = "season") int season, 
-//			@PathVariable(value = "round") int round, @PathVariable(value = "company") int company) {
 
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "/{id:.+}/{company}/{season}/{round}/summary")
 	public @ResponseBody ResponseDto summary(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable(value = "id") String id, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
