@@ -25,8 +25,6 @@ public class UserAlterQ implements Serializable {
 	private boolean active;
 	private Date dateCreated;
 	private Date dateUpdated;
-	private int automatics;
-	private double weight;
 	private List<RolCompany> rols;
 	private List<Bet> specialBets;
 
@@ -109,22 +107,6 @@ public class UserAlterQ implements Serializable {
 
 	public void setDateUpdated(Date dateUpdated) {
 		this.dateUpdated = dateUpdated;
-	}
-
-	public int getAutomatics() {
-		return automatics;
-	}
-
-	public void setAutomatics(int automatics) {
-		this.automatics = automatics;
-	}
-
-	public double getWeight() {
-		return weight;
-	}
-
-	public void setWeight(double weight) {
-		this.weight = weight;
 	}
 
 	/*

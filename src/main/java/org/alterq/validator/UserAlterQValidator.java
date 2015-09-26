@@ -104,13 +104,6 @@ public class UserAlterQValidator {
 				ve.addErrorDto(dto);
 			}
 		}
-		// AUTOMATIC
-		if (!StringUtils.isNumeric("" + user.getAutomatics())) {
-			ErrorDto dto = new ErrorDto();
-			dto.setIdError(MessageResourcesNameEnum.USER_AUTOMATIC_ERROR);
-			dto.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_AUTOMATIC_ERROR));
-			ve.addErrorDto(dto);
-		}
 		// NIFCIF
 		NIFCIFValidator nifvalidator = new NIFCIFValidator();
 		boolean nifValid = nifvalidator.isValidNIF(user.getIdCard());

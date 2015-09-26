@@ -137,35 +137,6 @@ public class AdminController {
 		}
 	}
 
-
-	private double calcUserWeight(String user) {
-
-		UserAlterQ userAlterQ;
-
-		userAlterQ = userAlterQDao.findById(user);
-
-		if (userAlterQ != null)
-			return userAlterQ.getWeight();
-
-		return 0.0;
-	}
-
-
-	/**
-	 * Funcion para calcular el peso de cada usuario
-	 * 
-	 * Se utilizará cuando se activen las peñas. De momento no se utilizará
-	 * */
-	private void updateUserWeight(UserAlterQ user, int rightSigns) {
-		double oldWeight = user.getWeight();
-
-		user.setWeight(oldWeight + rightSigns);
-
-		userAlterQDao.save(user);
-
-		return;
-	}
-
 	private static int[] calcularAciertos(String bet, String resultBet) {
 
 		return null;
@@ -474,8 +445,6 @@ public class AdminController {
 
 						// Update iter user
 						if (bUpdate) {
-							// STEP 3: update users weight
-							updateUserWeight(userAlterQ, vMaxAciertos[0]);
 							// STEP 4: update round ranking
 							updateRoundRanking(company, season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
 							// SETP 5: update global ranking (round=0)
@@ -494,8 +463,6 @@ public class AdminController {
 					}
 					// Update last user
 					if (bUpdate) {
-						// STEP 3: update users weight
-						updateUserWeight(lastUserAlterQ, vMaxAciertos[0]);
 						// STEP 4: update round ranking
 						updateRoundRanking(company, season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
 						// SETP 5: update global ranking (round=0)

@@ -77,43 +77,6 @@ public class AdminCompanyController {
 		return "adminCompany";
 	}
 
-	private float calcQuinielaPrice(int doubles, int triples, int type) {
-		return new Double(getQuinielaNumBets(type) * betTools.getPriceBet() * Math.pow(2, doubles) * Math.pow(3, triples)).floatValue();
-	}
-
-	private int getQuinielaNumBets(int type) {
-		switch (type) {
-		case 0:
-			return 1; // Sencilla
-		case 1:
-			return 9; // Reduccion Primera (4T)
-		case 2:
-			return 16; // Reduccion Segunda (7D)
-		case 3:
-			return 24; // Reduccion Tercera (3D + 3T)
-		case 4:
-			return 64; // Reduccion Cuarta (6D + 2T)
-		case 5:
-			return 81; // Reduccion Quinta (8T)
-		default:
-			return 1;
-		}
-	}
-
-
-
-	private double calcUserWeight(String user) {
-
-		UserAlterQ userAlterQ;
-
-		userAlterQ = userAlterQDao.findById(user);
-
-		if (userAlterQ != null)
-			return userAlterQ.getWeight();
-
-		return 0.0;
-	}
-
 	// Funciona
 	private void updateRoundRanking(int company, int season, int round, UserAlterQ user, int points, int ones, int equs, int twos) {
 		Ranking rnk = new Ranking();

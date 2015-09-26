@@ -83,8 +83,8 @@ public class AccountController {
 				userAlterQ.setBirthday(user.getBirthday());
 			if (user.getCity() != null)
 				userAlterQ.setCity(user.getCity());
-			if (StringUtils.isNumeric(new String("" + user.getAutomatics())))
-				userAlterQ.setAutomatics(user.getAutomatics());
+//			if (StringUtils.isNumeric(new String("" + user.getAutomatics())))
+//				userAlterQ.setAutomatics(user.getAutomatics());
 			/*
 			 * if (user.getBalance() != null)
 			 * userAlterQ.setBalance(user.getBalance());
