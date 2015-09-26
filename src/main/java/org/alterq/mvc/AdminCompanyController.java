@@ -87,7 +87,8 @@ public class AdminCompanyController {
 			// check user amount before make automatics bets)
 			
 			for (UserAlterQ user : lUsers) {
-				int numAutom=Integer.parseInt(""+user.getSpecialBets().get(0).getNumBets());
+				Double numAutonDouble= new Double(""+user.getSpecialBets().get(0).getNumBets());
+				int numAutom=numAutonDouble.intValue();
 				// STEP 1.2.1 - Check User Balance
 				float balance = new Float(user.getBalance()).floatValue();
 				for (int i = 0; i < numAutom; i++) {

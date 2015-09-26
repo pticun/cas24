@@ -12,6 +12,7 @@ import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.RolCompanySecurity;
 import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.RolNameEnum;
+import org.bson.types.ObjectId;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -83,6 +84,27 @@ public class SpecialBetsUserAlterQDaoTest {
 			log.debug("======");
 		}
 		
+		return;
+	}
+//	@Test
+	public void AN_racsor() {
+		UserAlterQ userAlterQ = dao.findById("racsor@gmail.com");
+		ArrayList<Bet> specialBets = new ArrayList<Bet>();
+		Bet betFixed = new Bet();
+		betFixed.setType(BetTypeEnum.BET_FIXED.getValue());
+		betFixed.setBet("11111111111111100");
+		betFixed.setId(new ObjectId().toHexString());
+		betFixed.setCompany(1);
+		Bet betAutomatic = new Bet();
+		betAutomatic.setId(new ObjectId().toHexString());
+		betAutomatic.setType(BetTypeEnum.BET_AUTOMATIC.getValue());
+		betAutomatic.setNumBets(5);
+		betAutomatic.setCompany(1);
+		specialBets.add(betAutomatic);
+		specialBets.add(betFixed);
+		userAlterQ.setSpecialBets(specialBets);
+		userAlterQ.setBalance("100");
+		dao.save(userAlterQ);
 		return;
 	}
 
