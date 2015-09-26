@@ -213,7 +213,7 @@ public class AdminCompanyController {
 			userSecurity.isAdminUserInSession(cookieSession, company);
 			companyValidator.isCompanyOk(company);
 
-			roundBets = roundBetDao.findAllBets(season, round, company);
+			roundBets = roundBetDao.findRoundBet(season, round, company);
 
 			response.setRoundBet(roundBets);
 			

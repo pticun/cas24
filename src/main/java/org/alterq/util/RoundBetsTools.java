@@ -32,7 +32,7 @@ public class RoundBetsTools{
 		int round = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA).getRound();
 		int season = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA).getSeason();
 
-		RoundBets rBets = betDao.findAllBets(season, round, company);
+		RoundBets rBets = betDao.findRoundBet(season, round, company);
 		
 		for (Bet bet : rBets.getBets()) {
 			String apu = bet.getBet();

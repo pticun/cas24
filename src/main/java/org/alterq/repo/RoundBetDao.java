@@ -5,9 +5,13 @@ import org.alterq.domain.RoundBets;
 import org.alterq.util.enumeration.BetTypeEnum;
 
 public interface RoundBetDao {
-	public RoundBets findAllBets(int season, int round);
+	public RoundBets findRoundBet(int season, int round);
 
-	public RoundBets findAllBets(int season, int round, int company);
+	public RoundBets findRoundBetWithBets(int season, int round);
+
+	public RoundBets findRoundBet(int season, int round, int company);
+
+	public RoundBets findRoundBetWithBets(int season, int round, int company);
 
 	public int countAllBets(int season, int round);
 

@@ -39,6 +39,7 @@ import org.alterq.security.RolCompanySecurity;
 import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.BetTools;
 import org.alterq.util.CalculateRigths;
+import org.alterq.util.UserTools;
 import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.validator.CompanyValidator;
 import org.apache.commons.collections.map.MultiValueMap;
@@ -82,13 +83,11 @@ public class AdminController {
 	@Autowired
 	private BetTools betTools;
 	@Autowired
+	private CalculateRigths calculateRights;
+	@Autowired
 	private RoundResultsDao roundResultsDao;
 	@Autowired
 	private CompanyDao companyDao;
-	@Autowired
-	private RoundBetDao betDao;
-	
-	
 
 	private static int doubles = 0;
 	private static int triples = 0;
@@ -214,7 +213,7 @@ public class AdminController {
 			for (Company co : companyList) {
 				// STEP 2: Create roundData (RoundBets collection)
 				//RoundBets roundBets = roundBetDao.findAllBets(season, round, company);
-				RoundBets roundBets = roundBetDao.findAllBets(season, round, co.getCompany());
+				RoundBets roundBets = roundBetDao.findRoundBet(season, round, co.getCompany());
 				// Check if exist this roundBet
 				if (roundBets == null) {
 					RoundBets bean = new RoundBets();
@@ -246,8 +245,6 @@ public class AdminController {
 			adminData = adminDataDao.findById(AlterQConstants.DEFECT_COMPANY);
 
 			// CLOSING PROCESS STEPS
-			//
-
 			// STEP 1: if exist, update active=false
 			//
 			if (adminData != null) {
@@ -260,72 +257,6 @@ public class AdminController {
 				response.addErrorDto("AdminController:closeRound", "There is not round to close");
 				return response;
 			}
-//
-//
-//PENDIENTE PARA CUANDO ESTÉ GESTIONADO LAS APUESTAS AUTOMÁTICAS POR COMPANY
-//
-//
-//			AdminData ad = adminDataDao.findById(AlterQConstants.DEFECT_COMPANY);
-//			float priceBet = ad.getPrizeBet();
-//			
-//			
-//			
-//			// STEP 2: Automatics Bets
-//			//
-//			// STEP 2.1 - Get Users with automatic bets (Default company)
-//			List<UserAlterQ> lUsers = userAlterQDao.findUserWithAutomatics(AlterQConstants.DEFECT_COMPANY);
-//			// STEP 2.2 - For each user do as bets as automatic bets (It has to
-//			// check user amount before make automatics bets)
-//			for (UserAlterQ user : lUsers) {
-//				// loop for number of automatic bets
-//				int numAutom = user.getAutomatics();
-//				for (int i = 0; i < numAutom; i++) {
-//					// STEP 2.2.1 - Check User Balance
-//					float balance = new Float(user.getBalance()).floatValue();
-//					if (balance < priceBet) {
-//						log.debug("closeRound: user(" + user.getName() + ") No enough money for automatic bet");
-//						// STEP 2.2.1.error - Send an email to the user
-//						// ("NOT ENOUGH MONEY")
-//						continue;
-//					}
-//					// STEP 2.2.2 - Calc RandomBet
-//					String randomBet = betTools.randomBet();
-//					// STEP 2.2.3 - Make Automatic User Bet
-//					Bet bet = new Bet();
-//					bet.setPrice(priceBet);
-//					bet.setBet(randomBet);
-//					bet.setUser(user.getId());
-//					bet.setCompany(AlterQConstants.DEFECT_COMPANY);
-//					bet.setDateCreated(new Date());
-//					bet.setDateUpdated(new Date());
-//					bet.setNumBets(1);
-//					bet.setReduction("NNNNNNNNNNNNNN");
-//					bet.setId(new ObjectId().toStringMongod());
-//
-//					roundBetDao.addBet(season, round, bet);
-//
-//					// STEP 2.2.4 - Update User Balance
-//					try {
-//						user.setBalance(Float.toString((float) (balance - priceBet)));
-//						userAlterQDao.save(user);
-//						/*
-//						 * if(userAlterQDao.getLastError() != null){
-//						 * log.debug("closeRound: user("
-//						 * +user.getName()+") Error updating balance."); //STEP
-//						 * 2.2.4.error - Send an email to the admin
-//						 * ("ERROR updating user balance") continue; }
-//						 */
-//					} catch (Exception e) {
-//						log.debug("closeRound: user(" + user.getName() + ") Error updating balance.");
-//						// STEP 2.2.4.error - Send an email to the admin
-//						// ("ERROR updating user balance")
-//						response.addErrorDto("AdminController:closeRound", " user(" + user.getName() + ") Error updating balance.");
-//						continue;
-//					}
-//				}
-//			}
-
-			// STEP 3: Fixed Bets (¿?)
 		} catch (SecurityException e1) {
 			// TODO Auto-generated catch block
 			response.addErrorDto("AdminController:closeRound", "SecurityException");
@@ -352,20 +283,21 @@ public class AdminController {
 			// ---------------------
 			
 			// STEP 0: add ResultBelt
-			rbAdminResultBet = betDao.findFinalBet(season, round, company);
+			rbAdminResultBet = roundBetDao.findFinalBet(season, round, company);
 			
 			if (rbAdminResultBet != null){
-				Bet bAux = new Bet();
-				bAux.setBet(resultBet);
+				Bet betResult = new Bet();
+				betResult.setBet(resultBet);
 				//bAux.setUser(user);
-				bAux.setCompany(AlterQConstants.DEFECT_COMPANY);
-				bAux.setDateCreated(new Date());
-				bAux.setDateUpdated(new Date());
-				bAux.setType(BetTypeEnum.BET_RESULT.getValue());
-				betDao.addBet(company, season, round, bAux);
+				betResult.setCompany(AlterQConstants.DEFECT_COMPANY);
+				betResult.setDateCreated(new Date());
+				betResult.setDateUpdated(new Date());
+				betResult.setType(BetTypeEnum.BET_RESULT.getValue());
+				roundBetDao.addBet(company, season, round, betResult);
 			}
 			
 			//FOR EACH COMPANY
+			//Step calculate ranking
 			List<Company> companyList = companyDao.findAll();
 			for (Company co : companyList) {
 				if (co.getCompany() != AlterQConstants.DEFECT_COMPANY){
@@ -375,7 +307,7 @@ public class AdminController {
 					int[] vMaxAciertos = { 0, 0, 0, 0, 0 };
 					boolean bUpdate = false;
 
-					RoundBets bean = roundBetDao.findAllBets(season, round, company);
+					RoundBets bean = roundBetDao.findRoundBetWithBets(season, round, company);
 
 					// OJO!! hay que ordenar las apuestas por usuario para que funcione.
 					List<Bet> lBets = bean.getBets();
@@ -481,83 +413,6 @@ public class AdminController {
 	}
 
 	/*
-	 * // @RequestMapping(method = RequestMethod.POST, produces =
-	 * "application/json", value =
-	 * "/company/{company}/season/{season}/round/{round}/prize15/{count15}/{amount15}/prize14/{count14}/{amount14}/prize13/{count13}/{amount13}/prize12/{count12}/{amount12}/prize11/{count11}/{amount11}/prize10/{count10}/{amount10}"
-	 * ) // public @ResponseBody // ResponseDto prizesRound(@PathVariable int
-	 * company, @PathVariable int season, @PathVariable int round, @PathVariable
-	 * int count15, @PathVariable float amount15, @PathVariable int count14,
-	 * @PathVariable float amount14, @PathVariable int count13, @PathVariable
-	 * float amount13, @PathVariable int count12, @PathVariable float amount12,
-	 * @PathVariable int count11, @PathVariable float amount11, @PathVariable
-	 * int count10, @PathVariable float amount10) {
-	 * 
-	 * @RequestMapping(method = RequestMethod.POST, produces =
-	 * "application/json", value =
-	 * "/company/{company}/season/{season}/round/{round}/prizesBetPenya")
-	 * //public @ResponseBody ResponseDto prizesRound(@CookieValue(value =
-	 * "session", defaultValue = "") String cookieSession, HttpServletRequest
-	 * request, @RequestBody PrizesRound prizesRound) { public @ResponseBody
-	 * ResponseDto prizesRoundPenya(@CookieValue(value = "session", defaultValue
-	 * = "") String cookieSession, HttpServletRequest request, @PathVariable int
-	 * company, @PathVariable int season, @PathVariable int round) { ResponseDto
-	 * response = new ResponseDto(); RoundBets roundBets; int numBets; double
-	 * rewardGlobal; double betReward = 0; UserAlterQ userAlterQ;
-	 * 
-	 * try { userSecurity.isAdminUserInSession( cookieSession); roundBets =
-	 * roundBetDao.findAllBets(season, round);
-	 * 
-	 * List<Prize> lPrizes = new ArrayList<Prize>(); Map<String, String[]>
-	 * parameters = request.getParameterMap();
-	 * 
-	 * for (int i=0;i<=5;i++) { Prize priceTmp = new Prize();
-	 * priceTmp.setId(i+10);
-	 * priceTmp.setCount(Integer.parseInt(parameters.get("count"+(i+10))[0]));
-	 * priceTmp.setAmount(Float.parseFloat(parameters.get("prize"+(i+10))[0]));
-	 * lPrizes.add(priceTmp); }
-	 * 
-	 * 
-	 * roundBets.setPrizes(lPrizes);
-	 * 
-	 * 
-	 * numBets = roundBets.getBets().size() - 1; //Admin bet is not a real bet
-	 * //rewardGlobal = roundBets.getJackpot() + count15*amount15 +
-	 * count14*amount14 + count13*amount13 + count12*amount12 + count11*amount11
-	 * + count10*amount10; rewardGlobal = roundBets.getJackpot(); //List<Prize>
-	 * lPrizes = roundBets.getPrizes(); for (Prize prize : lPrizes){
-	 * rewardGlobal+= prize.getAmount() * prize.getCount(); }
-	 * 
-	 * 
-	 * betReward = rewardGlobal / numBets;
-	 * 
-	 * 
-	 * List<Bet> lBets = roundBets.getBets(); for (Bet bet : lBets){ String user
-	 * = bet.getUser();
-	 * 
-	 * userAlterQ = userAlterQDao.findById(user);
-	 * 
-	 * if (userAlterQ== null){
-	 * log.debug("pricesRound: user("+user+") Error resultBet user not find");
-	 * //STEP 1.1.error - Send an email to the admin
-	 * ("ERROR pricesRound user not find") continue; }
-	 * 
-	 * //Admin unser don't win money, because his bet is not a real bet if
-	 * (userAlterQ.isAdmin()) { continue; }
-	 * 
-	 * userAlterQ.setBalance(Double.toString(
-	 * Double.parseDouble(userAlterQ.getBalance()) + betReward));
-	 * userAlterQDao.save(userAlterQ); }
-	 * 
-	 * roundBetDao.update(roundBets); } catch (SecurityException e) { // TODO
-	 * Auto-generated catch block
-	 * response.addErrorDto("AdminController:prizesRound", "SecurityException");
-	 * e.printStackTrace(); }
-	 * 
-	 * 
-	 * return response; }
-	 */
-
-	/*
 	 * PENDIENTE
 	 * 
 	 * Hay que mirar todas las apuestas, comprobar el numero de aciertos que
@@ -579,7 +434,7 @@ public class AdminController {
 
 		try {
 			userSecurity.isSuperAdminUserInSession(cookieSession);
-			roundBets = roundBetDao.findAllBets(season, round);
+			roundBets = roundBetDao.findRoundBetWithBets(season, round);
 
 			List<Prize> lPrizes = new ArrayList<Prize>();
 			Map<String, String[]> parameters = request.getParameterMap();
@@ -597,8 +452,7 @@ public class AdminController {
 					continue;
 				}
 
-				CalculateRigths util = new CalculateRigths();
-				countPrizes = util.calculate(parameters.get("results").toString(), bet.getBet(), bet.getReduction(), bet.getTypeReduction());
+				countPrizes = calculateRights.calculate(parameters.get("results").toString(), bet.getBet(), bet.getReduction(), bet.getTypeReduction());
 				for (int i = 0; i <= 5; i++) {
 					Prize priceTmp = new Prize();
 					priceTmp.setId(i + 10);
@@ -742,7 +596,7 @@ public class AdminController {
 
 			Round tmpRound = roundDao.findBySeasonRound(season, round);
 			// Get All Round Bets
-			RoundBets roundBets = roundBetDao.findAllBets(season, round);
+			RoundBets roundBets = roundBetDao.findRoundBet(season, round);
 			if (roundBets == null) {
 				response.addErrorDto("AdminController:getElectricFile", "No Bets");
 			} else {

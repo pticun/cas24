@@ -54,8 +54,6 @@ public class BetController {
 	@Autowired
 	private RoundDao roundDao;
 	@Autowired
-	private RoundBetDao betDao;
-	@Autowired
 	private UserAlterQDao userDao;
 	@Autowired
 	private SessionAlterQDao sessionDao;
@@ -73,7 +71,6 @@ public class BetController {
 	private UserTools userTools;
 	@Autowired
 	private RoundBetDao roundBetDao;
-	
 
 	@Autowired
 	@Qualifier("messageLocalizedResources")
@@ -234,20 +231,19 @@ public class BetController {
 		boolean adminCompanyUser = false;
 
 		try {
-			
+
 			adminCompanyUser = ((company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(id, company));
-			
+
 			userSecurity.isSameUserInSession(id, cookieSession);
 			companyValidator.isCompanyOk(company);
-			RolCompany rc=new RolCompany();
+			RolCompany rc = new RolCompany();
 			rc.setCompany(company);
 			rc.setRol(RolNameEnum.ROL_USER.getValue());
 			UserAlterQ userAlterQ = userDao.findById(id);
-			
+
 			rolCompanySecurity.isUserAuthorizedRolForCompany(userAlterQ, rc);
-			
-			if (!adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA).isActive())
-			{
+
+			if (!adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA).isActive()) {
 				ErrorDto error = new ErrorDto();
 				error.setIdError(MessageResourcesNameEnum.BET_NOT_ALLOWED);
 				error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.BET_NOT_ALLOWED_FOR_ROUND_NOT_ACTIVE));
@@ -255,7 +251,7 @@ public class BetController {
 				dto.setUserAlterQ(null);
 				return dto;
 			}
-			
+
 			String apuesta = "";
 			String reduccion = "";
 			int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -361,8 +357,11 @@ public class BetController {
 
 				float balance = new Float(userAlterQ.getBalance()).floatValue();
 
-				if ((balance - price > 0) || adminCompanyUser){
+				//if user enoguht money add bet,
+				//if user is adminCompany we allow make the bet 
+				if ((balance - price > 0) || adminCompanyUser) {
 					Bet bet = new Bet();
+					bet.setId(new ObjectId().toHexString());
 					bet.setPrice(price);
 					bet.setBet(apuesta);
 					bet.setUser(userAlterQ.getId());
@@ -370,12 +369,12 @@ public class BetController {
 					bet.setCompany(company);
 					bet.setDateCreated(new Date());
 					bet.setDateUpdated(new Date());
-					bet.setId(new ObjectId().toStringMongod());
-					bet.setReduction(reduccion);
-					bet.setTypeReduction(betTools.getReductionType(doblesRed, triplesRed));
 					bet.setNumBets(numBets);
+					bet.setType(BetTypeEnum.BET_NORMAL.getValue());
+					bet.setTypeReduction(betTools.getReductionType(doblesRed, triplesRed));
+					bet.setReduction(reduccion);
 					StringBuffer sb = new StringBuffer();
-					sb.append("New addBet: company="+company+" season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
+					sb.append("New addBet: company=" + company + " season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
 					log.debug(sb.toString());
 
 					// Pasamos los parámetros necesarios para la pantalla de
@@ -428,21 +427,25 @@ public class BetController {
 	public @ResponseBody ResponseDto confirmBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round,
 			@PathVariable(value = "company") int company) {
 		RoundBets roundBets = null;
-		
+
 		if (log.isDebugEnabled()) {
 			log.debug("init AccountController.updateUserAlterQ");
 			log.debug("session:" + cookieSession);
 		}
 		ResponseDto dto = new ResponseDto();
 
+		boolean adminCompanyUser = false;
+
 		try {
+
 			userSecurity.isSameUserInSession(id, cookieSession);
 			companyValidator.isCompanyOk(company);
+			adminCompanyUser = ((company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(id, company));
 			UserAlterQ userAlterQ = userDao.findById(id);
-			RolCompany rc=new RolCompany();
+			RolCompany rc = new RolCompany();
 			rc.setCompany(company);
 			rc.setRol(RolNameEnum.ROL_USER.getValue());
-			
+
 			rolCompanySecurity.isUserAuthorizedRolForCompany(userAlterQ, rc);
 			String apuesta = "";
 			String reduccion = "";
@@ -479,16 +482,16 @@ public class BetController {
 			bet.setCompany(company);
 			bet.setDateCreated(new Date());
 			bet.setDateUpdated(new Date());
-			bet.setId(new ObjectId().toStringMongod());
+			bet.setId(new ObjectId().toHexString());
 			bet.setReduction(reduccion);
 			bet.setTypeReduction(tipoReduccion);
 			bet.setNumBets(numBets);
 			bet.setType(BetTypeEnum.BET_NORMAL.getValue());
-			if ( (company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(userAlterQ.getId(), company)){
+			if (adminCompanyUser) {
 				bet.setType(BetTypeEnum.BET_FINAL.getValue());
 			}
 			StringBuffer sb = new StringBuffer();
-			sb.append("New addBet: company="+company+" season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
+			sb.append("New addBet: company=" + company + " season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
 			log.debug(sb.toString());
 
 			// Pasamos los parámetros necesarios para la pantalla de
@@ -500,47 +503,45 @@ public class BetController {
 			r = roundDao.findBySeasonRound(season, round);
 			dto.setRound(r);
 
+			if ((company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(userAlterQ.getId(), company)) {
+				roundBets = roundBetDao.findRoundBet(season, round, company);
 
-			if ( (company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(userAlterQ.getId(), company)){
-				roundBets = roundBetDao.findAllBets(season, round, company);
-				
 				roundBets.setPrice(price);
-				//Calculate Round Company JackPot
+				// Calculate Round Company JackPot
+				//money to play for adminCompany
 				float amountCompany = 0;
+				//price of all bets for AdminCompany
 				float priceCompany = 0;
 				List<Bet> lBets = roundBets.getBets();
 				for (Bet bAux : lBets) {
-					if(bAux.getType()==BetTypeEnum.BET_NORMAL.getValue()){
-						amountCompany+= bAux.getPrice();
-					}
-					else if(bAux.getType()==BetTypeEnum.BET_FINAL.getValue()){
-						priceCompany+=bAux.getPrice();
-						
+					if (bAux.getType() == BetTypeEnum.BET_NORMAL.getValue()) {
+						amountCompany += bAux.getPrice();
+					} else if (bAux.getType() == BetTypeEnum.BET_FINAL.getValue()) {
+						priceCompany += bAux.getPrice();
 					}
 				}
-				
-				priceCompany+=price;
-				
-				roundBets.setJackpot(amountCompany-priceCompany);
+
+				priceCompany += price;
+
+				roundBets.setJackpot(amountCompany - priceCompany);
 				roundBets.setPrice(priceCompany);
-				
-				if ((amountCompany-priceCompany)<0)
-				{
+
+				if ((amountCompany - priceCompany) < 0) {
 					ErrorDto error = new ErrorDto();
 					error.setIdError(MessageResourcesNameEnum.USER_NOT_MONEY_ENOUGH);
 					error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_MONEY_ENOUGH));
 					dto.addErrorDto(error);
 					dto.setUserAlterQ(null);
-					
+
 					return dto;
 				}
 
-				betDao.update(roundBets);
+				roundBetDao.update(roundBets);
 			}
 
 			// Insert new bet into the BBDD
-			betDao.addBet(company, season, round, bet);
-			
+			roundBetDao.addBet(company, season, round, bet);
+
 			userDao.save(userAlterQ);
 
 		} catch (SecurityException e) {
@@ -561,21 +562,22 @@ public class BetController {
 	public @ResponseBody ResponseDto findAllUserBetsParams(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable(value = "id") String id, @PathVariable(value = "season") int season,
 			@PathVariable(value = "round") int round, @PathVariable(value = "company") int company) {
 		ResponseDto dto = new ResponseDto();
-		
+
 		try {
 			companyValidator.isCompanyOk(company);
 			RoundBets rb;
 			RoundBets rbAdminCompanyFinalBets;
-			//if (StringUtils.equals(id, "mail@mail.es")) {
-				//TODO control user if exists
-			rb = betDao.findAllUserBets(season, round, id, company);
-			
-			//if user is not an adminCompany, we are showing finalBet adminCompany Bets
-			if (!userTools.isUserAdminCompany(id,company)){
-				rbAdminCompanyFinalBets = betDao.findFinalBet(season, round, company);
-				
-				if (rbAdminCompanyFinalBets != null){
-					for (Bet bet: rbAdminCompanyFinalBets.getBets()){
+			// if (StringUtils.equals(id, "mail@mail.es")) {
+			// TODO control user if exists
+			rb = roundBetDao.findAllUserBets(season, round, id, company);
+
+			// if user is not an adminCompany, we are showing finalBet
+			// adminCompany Bets
+			if (!userTools.isUserAdminCompany(id, company)) {
+				rbAdminCompanyFinalBets = roundBetDao.findFinalBet(season, round, company);
+
+				if (rbAdminCompanyFinalBets != null) {
+					for (Bet bet : rbAdminCompanyFinalBets.getBets()) {
 						rb.addBet(bet);
 					}
 				}
@@ -591,7 +593,7 @@ public class BetController {
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody RoundBets findAllBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round) {
 		// TODO this call must be request for an AdminUser
-		return betDao.findAllBets(season, round);
+		return roundBetDao.findRoundBet(season, round);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "addBet")
@@ -602,17 +604,17 @@ public class BetController {
 		bAux.setCompany(AlterQConstants.DEFECT_COMPANY);
 		bAux.setDateCreated(new Date());
 		bAux.setDateUpdated(new Date());
-		return betDao.addBet(AlterQConstants.DEFECT_COMPANY, season, round, bAux);
+		return roundBetDao.addBet(AlterQConstants.DEFECT_COMPANY, season, round, bAux);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "delAllBets")
 	public @ResponseBody boolean delAllUserBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round) {
-		return betDao.deleteAllBets(season, round);
+		return roundBetDao.deleteAllBets(season, round);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "delUserBets")
 	public @ResponseBody boolean delAllUserBetsParams(@RequestParam(value = "season") int season, @RequestParam(value = "round") int round, @RequestParam(value = "user") String user) {
-		return betDao.deleteAllUserBets(season, round, user);
+		return roundBetDao.deleteAllUserBets(season, round, user);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "delUserBet")
@@ -620,7 +622,7 @@ public class BetController {
 		Bet bAux = new Bet();
 		bAux.setBet(bet);
 		bAux.setUser(user);
-		return betDao.deleteUserBet(season, round, bAux);
+		return roundBetDao.deleteUserBet(season, round, bAux);
 	}
 
 }

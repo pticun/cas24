@@ -66,7 +66,7 @@ public class RoundBetDaoTest {
 
 		betDao.addBet(AlterQConstants.DEFECT_COMPANY, 2013, 9, bet2);
 
-		RoundBets roundBets = betDao.findAllBets(2013, 9);
+		RoundBets roundBets = betDao.findRoundBet(2013, 9);
 
 		Assert.assertEquals("john.smith@mailinator.com", roundBets.getBets().get(0).getUser());
 		Assert.assertEquals("111111111111111", roundBets.getBets().get(0).getBet());
@@ -79,7 +79,7 @@ public class RoundBetDaoTest {
 	@Test
 	public void test03findAllBets() {
 
-		RoundBets roundBets = betDao.findAllBets(2013, 9);
+		RoundBets roundBets = betDao.findRoundBet(2013, 9);
 
 		System.out.println("ROUND:" + roundBets.getRound());
 		System.out.println("SEASON:" + roundBets.getSeason());
@@ -113,7 +113,7 @@ public class RoundBetDaoTest {
 
 //		betDao.deleteAllUserBets(2013, 9, "john.smith@mailinator.com");
 
-		RoundBets roundBets = betDao.findAllBets(2013, 9);
+		RoundBets roundBets = betDao.findRoundBet(2013, 9);
 
 		Assert.assertEquals("pepe.lopez@mailinator.com", roundBets.getBets().get(0).getUser());
 		Assert.assertEquals("222222222222222", roundBets.getBets().get(0).getBet());
@@ -140,7 +140,7 @@ public class RoundBetDaoTest {
 
 		betDao.deleteUserBet(2013, 9, bet);
 
-		RoundBets roundBets = betDao.findAllBets(2013, 9);
+		RoundBets roundBets = betDao.findRoundBet(2013, 9);
 
 		Assert.assertEquals("pepe.lopez@mailinator.com", roundBets.getBets().get(0).getUser());
 		Assert.assertEquals("222222222222222", roundBets.getBets().get(0).getBet());

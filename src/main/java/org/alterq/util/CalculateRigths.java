@@ -4,7 +4,9 @@ import java.util.Vector;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CalculateRigths{
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	public static final int REDUCCION_1 = 1; //Reduccion al 13 de 4 triples
