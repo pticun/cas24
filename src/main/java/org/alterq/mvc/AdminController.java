@@ -25,6 +25,7 @@ import org.alterq.domain.RoundBets;
 import org.alterq.domain.RoundRanking;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
+import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.repo.AdminDataDao;
@@ -41,9 +42,11 @@ import org.alterq.util.BetTools;
 import org.alterq.util.CalculateRigths;
 import org.alterq.util.UserTools;
 import org.alterq.util.enumeration.BetTypeEnum;
+import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.validator.CompanyValidator;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.arch.core.file.BetElectronicFile;
 import org.arch.core.file.HeaderBetElectronicFile;
 import org.arch.core.file.RegistroBetElectronicFile;
@@ -283,7 +286,7 @@ public class AdminController {
 			// ---------------------
 			
 			// STEP 0: add ResultBelt
-			rbAdminResultBet = roundBetDao.findFinalBet(season, round, company);
+			rbAdminResultBet = roundBetDao.findRoundBet(season, round, company);
 			
 			if (rbAdminResultBet != null){
 				Bet betResult = new Bet();
@@ -423,56 +426,176 @@ public class AdminController {
 	// public @ResponseBody ResponseDto prizesRound(@CookieValue(value =
 	// "session", defaultValue = "") String cookieSession, HttpServletRequest
 	// request, @RequestBody PrizesRound prizesRound) {
-	public @ResponseBody ResponseDto prizesRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
+	public @ResponseBody ResponseDto prizesRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable int season, @PathVariable int round) {
 		ResponseDto response = new ResponseDto();
 		RoundBets roundBets;
-		int numBets;
-		double rewardGlobal;
-		double betReward = 0;
+		float betReward = 0;
 		UserAlterQ userAlterQ;
 		int countPrizes[] = { 0, 0, 0, 0, 0 };
+		int numCompanyBets = 0;
+		String betResult = null;
+		double rewardDivided = 0;
 
 		try {
 			userSecurity.isSuperAdminUserInSession(cookieSession);
-			roundBets = roundBetDao.findRoundBetWithBets(season, round);
 
 			List<Prize> lPrizes = new ArrayList<Prize>();
 			Map<String, String[]> parameters = request.getParameterMap();
 
-			List<Bet> lBets = roundBets.getBets();
-			for (Bet bet : lBets) {
-				String user = bet.getUser();
-
-				userAlterQ = userAlterQDao.findById(user);
-
-				if (userAlterQ == null) {
-					log.debug("pricesRound: user(" + user + ") Error resultBet user not find");
-					// STEP 1.1.error - Send an email to the admin
-					// ("ERROR pricesRound user not find")
-					continue;
-				}
-
-				countPrizes = calculateRights.calculate(parameters.get("results").toString(), bet.getBet(), bet.getReduction(), bet.getTypeReduction());
-				for (int i = 0; i <= 5; i++) {
-					Prize priceTmp = new Prize();
-					priceTmp.setId(i + 10);
-					priceTmp.setCount(countPrizes[i]);
-					priceTmp.setAmount(Float.parseFloat(parameters.get("prize" + (i + 10))[0]));
-					lPrizes.add(priceTmp);
-				}
-
-				bet.setPrizes(lPrizes);
-
-				betReward = 0;
-
-				for (Prize prize : lPrizes) {
-					betReward += prize.getAmount() * prize.getCount();
-				}
-
-				userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) + betReward));
-				userAlterQDao.save(userAlterQ);
+			//Get Result Bet
+			roundBets = roundBetDao.findRoundBetWithBets(season, round, AlterQConstants.DEFECT_COMPANY);
+			List<Bet> lBetsDef = roundBets.getBets();
+			if (lBetsDef == null)
+			{
+				ErrorDto error = new ErrorDto();
+				error.setIdError(MessageResourcesNameEnum.GENERIC_ERROR);
+				error.setStringError("Reparto premios (Error: no se ha podido obtener la apuestas)");
+				response.addErrorDto(error);
+				response.setUserAlterQ(null);
+				return response;
+				
 			}
+			
+			for (Bet bet : lBetsDef) {
+				if (bet.getType() != BetTypeEnum.BET_RESULT.getValue())
+					continue;
+				else
+					betResult = bet.getBet();
+			}
+			//Check if Exist Bet Result
+			if (betResult == null)
+			{
+				ErrorDto error = new ErrorDto();
+				error.setIdError(MessageResourcesNameEnum.GENERIC_ERROR);
+				error.setStringError("Reparto premios (Error: no existe la apuesta Resultado)");
+				response.addErrorDto(error);
+				response.setUserAlterQ(null);
+				return response;
+			}
+			
+			//Get All Companies
+			List<Company> companyList = companyDao.findAll();
+			
+			//Loop for Companies
+			for (Company co : companyList) {
+				if (co.getCompany() != AlterQConstants.DEFECT_COMPANY){
 
+					RoundBets bean = roundBetDao.findRoundBetWithBets(season, round, co.getCompany());
+
+					//Get All Bets
+					List<Bet> lBets = bean.getBets();
+					
+					//Loop for Bets
+					for (Bet bet : lBets){
+						String user = bet.getUser();
+
+						//Get User
+						userAlterQ = userAlterQDao.findById(user);
+
+						if (userAlterQ == null) {
+							log.debug("pricesRound: user(" + user + ") Error resultBet user not find");
+							// STEP 1.1.error - Send an email to the admin
+							// ("ERROR pricesRound user not find")
+							continue;
+						}
+
+						//Calc Bet Prizes
+						countPrizes = calculateRights.calculate(betResult, bet.getBet(), bet.getReduction(), bet.getTypeReduction());
+						for (int i = 0; i <= 5; i++) {
+							Prize priceTmp = new Prize();
+							priceTmp.setId(i + 10);
+							priceTmp.setCount(countPrizes[i]);
+							priceTmp.setAmount(Float.parseFloat(parameters.get("prize" + (i + 10))[0]));
+							lPrizes.add(priceTmp);
+						}
+
+						bet.setPrizes(lPrizes);
+
+						betReward = 0;
+
+						for (Prize prize : lPrizes) {
+							betReward += prize.getAmount() * prize.getCount();
+						}
+
+						//Update Balance User
+						userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) + betReward));
+						userAlterQDao.save(userAlterQ);
+						//******************************************
+						//PENDING(ACCOUNTING ENTRY) - User betReward
+						//******************************************
+					}
+					
+				}else{
+					numCompanyBets=0;
+					RoundBets bean = roundBetDao.findRoundBetWithBets(season, round, co.getCompany());
+					
+
+					List<Bet> lBets = bean.getBets();
+					//Get Number of Company Bets
+					for (Bet bet : lBets) {
+						if ((bet.getType() == BetTypeEnum.BET_NORMAL.getValue()) || (bet.getType() == BetTypeEnum.BET_FIXED.getValue()) || (bet.getType() == BetTypeEnum.BET_AUTOMATIC.getValue()))
+							numCompanyBets++;
+					}
+					
+					//Get Final Bets
+					for (Bet bet : lBets) {
+						if (bet.getType() == BetTypeEnum.BET_FINAL.getValue()){
+							//Calc Bet Prizes
+							countPrizes = calculateRights.calculate(betResult, bet.getBet(), bet.getReduction(), bet.getTypeReduction());
+							for (int i = 0; i <= 5; i++) {
+								Prize priceTmp = new Prize();
+								priceTmp.setId(i + 10);
+								priceTmp.setCount(countPrizes[i]);
+								priceTmp.setAmount(Float.parseFloat(parameters.get("prize" + (i + 10))[0]));
+								lPrizes.add(priceTmp);
+							}
+
+							bet.setPrizes(lPrizes);
+
+							betReward = 0;
+
+							for (Prize prize : lPrizes) {
+								betReward += prize.getAmount() * prize.getCount();
+							}
+							
+							//Add Company Round Bet JackPot
+							float jackPot = bean.getJackpot();
+							
+							//Divide Reward between All Users with Bet
+							rewardDivided = (betReward + jackPot) / numCompanyBets;
+							
+							//Loop for Bets (normal & automatics & fixes)
+							for (Bet bet2 : lBets) {
+								String user = bet2.getUser();
+								if ((bet2.getType() == BetTypeEnum.BET_NORMAL.getValue()) || (bet2.getType() == BetTypeEnum.BET_FIXED.getValue()) || (bet2.getType() == BetTypeEnum.BET_AUTOMATIC.getValue()))
+								{
+									//Get User
+									userAlterQ = userAlterQDao.findById(user);
+
+									if (userAlterQ == null) {
+										log.debug("pricesRound: user(" + user + ") Error resultBet user not find");
+										// STEP 1.1.error - Send an email to the admin
+										// ("ERROR pricesRound user not find")
+										continue;
+									}
+									//Update Balance User
+									userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) + rewardDivided));
+									userAlterQDao.save(userAlterQ);						
+									//******************************************
+									//PENDING(ACCOUNTING ENTRY) - User betReward
+									//******************************************
+								}
+							}
+						}
+					}
+					
+					
+				}
+				
+			}
+			
+			//Update RoundBet reward
+			roundBets.setReward(roundBets.getReward() + betReward);
 			roundBetDao.update(roundBets);
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block

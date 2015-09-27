@@ -262,6 +262,7 @@ $(document).ready(function() {
 	$('form#prizesForm').submit(function(event) {
 		 var dataJson=JSON.stringify($('form#prizesForm').serializeObject());
 		 consoleAlterQ(dataJson);
+		 consoleAlterQ(ctx+'/admin' + '/season/'+ $("input[id=seasonPrizes]").val() + '/round/' + $("input[id=roundPrizes]").val() + '/prizesBet');
 		 jQuery.ajax ({
 			 url: ctx+'/admin' + '/season/'+ $("input[id=seasonPrizes]").val() + '/round/' + $("input[id=roundPrizes]").val() + '/prizesBet',
 			    type: "POST",
