@@ -23,7 +23,7 @@ public class Bet {
 	private String user;
 	private String bet;
 	private float price;
-	private double numBets;
+	private int numBets;
 	private List<Prize> prizes;
 	private String reduction;
 	private int typeReduction;
@@ -36,11 +36,11 @@ public class Bet {
 		this.type = type;
 	}
 
-	public double getNumBets() {
+	public int getNumBets() {
 		return numBets;
 	}
 
-	public void setNumBets(double numBets) {
+	public void setNumBets(int numBets) {
 		this.numBets = numBets;
 	}
 	public String getReduction() {

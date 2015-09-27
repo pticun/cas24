@@ -190,7 +190,7 @@ public class BetController {
 		switch (betTools.isBetAllowed(dobles, doblesRed, triples, triplesRed, pleno1, pleno2)) {
 		case 0:
 			int typeRed = betTools.getReductionType(doblesRed, triplesRed);
-			double numBets = betTools.getNumberBets(typeRed, dobles, triples, pleno1, pleno2);
+			int numBets = betTools.getNumberBets(typeRed, dobles, triples, pleno1, pleno2);
 			float prize = new Double(betTools.getPriceBet() * numBets).floatValue();
 
 			Bet bet = new Bet();
@@ -352,7 +352,7 @@ public class BetController {
 			case 0:
 				// float price = new Double(0.5 * Math.pow(2, dobles) *
 				// Math.pow(3, triples)).floatValue();
-				double numBets = betTools.getNumberBets(betTools.getReductionType(doblesRed, triplesRed), dobles, triples, pleno1, pleno2);
+				int numBets = betTools.getNumberBets(betTools.getReductionType(doblesRed, triplesRed), dobles, triples, pleno1, pleno2);
 				float price = new Double(betTools.getPriceBet() * numBets).floatValue();
 
 				float balance = new Float(userAlterQ.getBalance()).floatValue();

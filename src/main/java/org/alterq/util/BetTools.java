@@ -45,8 +45,8 @@ public class BetTools{
 		return adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA).getPrizeBet();
 	}
 	
-	public double getNumberBets(int typeReduction, int dobles, int triples, int pleno1, int pleno2){
-		double numBets = Math.pow(2, dobles) * Math.pow(3, triples)*pleno1*pleno2;
+	public int getNumberBets(int typeReduction, int dobles, int triples, int pleno1, int pleno2){
+		Double numBets = Math.pow(2, dobles) * Math.pow(3, triples)*pleno1*pleno2;
 		switch (typeReduction){
 			case 0: numBets *= 1;	break;//Quiniela Directa sin Reduccion
 			case 1: numBets *= 9;	break;//Reduccion 1 (4T: 9 apuestas)
@@ -55,10 +55,10 @@ public class BetTools{
 			case 4: numBets *= 64;	break;//Reduccion 4 (2T + 6D: 64 apuestas)
 			case 5: numBets *= 81;	break;//Reduccion 5 (8T: 81 apuestas)
 			case 6: numBets *= 132;	break;//Reduccion 6 (11D: 132 apuestas)
-			default: numBets = 0;	break;
+			default: numBets = new Double(0d);	break;
 		}
 			
-		return numBets;
+		return numBets.intValue();
 	}
 
 	public int getReductionType(int doblesRed, int triplesRed){

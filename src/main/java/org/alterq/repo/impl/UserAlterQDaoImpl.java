@@ -2,6 +2,7 @@ package org.alterq.repo.impl;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
 
@@ -21,6 +22,7 @@ import org.alterq.util.enumeration.RolNameEnum;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.Fields;
 import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -30,6 +32,7 @@ import com.mongodb.DBObject;
 
 @Repository
 public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao {
+
 	public UserAlterQDaoImpl() {
 		super.COLLECTION_NAME = COLLECTION_NAME;
 	}
@@ -95,21 +98,14 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 	@Override
 	public void save(UserAlterQ userAlterQ) {
 		mongoTemplate.save(userAlterQ, COLLECTION_NAME);
-
-	}
-
-	@Override
-	public DBObject getLastError() {
-		return mongoTemplate.getDb().getLastError();
 	}
 
 	@Override
 	public UserAlterQ findAdminByCompany(int company) {
 		Aggregation agg = newAggregation(
-				unwind("rols"),
+				unwind("rols"), 
 				match(Criteria.where("rols.company").is(company).and("rols.rol").is(RolNameEnum.ROL_ADMIN.getValue())), 
-				group("_id").push("rols").as("rols")
-				);
+				group("_id").push("rols").as("rols"));
 		AggregationResults<UserAlterQ> result = mongoTemplate.aggregate(agg, "userAlterq", UserAlterQ.class);
 		if (!result.getMappedResults().isEmpty()) {
 			UserAlterQ aux = result.getMappedResults().get(0);
@@ -117,12 +113,12 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 		} else
 			return null;
 	}
-	
+
 	@Override
 	public UserAlterQ findSuperAdmin() {
 		Aggregation agg = newAggregation(
-				unwind("rols"),
-				match(Criteria.where("rols.company").is(AlterQConstants.DEFECT_COMPANY).and("rols.rol").is(RolNameEnum.ROL_SUPER_ADMIN.getValue())),
+				unwind("rols"), 
+				match(Criteria.where("rols.company").is(AlterQConstants.DEFECT_COMPANY).and("rols.rol").is(RolNameEnum.ROL_SUPER_ADMIN.getValue())), 
 				group("_id").push("rols").as("rols"));
 		AggregationResults<UserAlterQ> result = mongoTemplate.aggregate(agg, "userAlterq", UserAlterQ.class);
 		if (!result.getMappedResults().isEmpty()) {
@@ -135,7 +131,6 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 	@Override
 	public void remove(UserAlterQ userAlterQ) throws Exception {
 		mongoTemplate.remove(userAlterQ, COLLECTION_NAME);
-
 	}
 
 	@Override
@@ -197,9 +192,10 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 	public List<UserAlterQ> findUserWithTypeSpecialBets(int company, BetTypeEnum betType) {
 		List<UserAlterQ> aux=new ArrayList<UserAlterQ>();
 				Aggregation agg = newAggregation(
+				project().andInclude("_id","balance","name","specialBets"),
 				unwind("specialBets"),
 				match(Criteria.where("specialBets.type").is(betType.getValue()).and("specialBets.company").is(company)), 
-				group("_id").push("specialBets").as("specialBets")
+				group("_id","balance","name").push("specialBets").as("specialBets")
 				);
 		AggregationResults<UserAlterQ> result = mongoTemplate.aggregate(agg, "userAlterq", UserAlterQ.class);
 		if (!result.getMappedResults().isEmpty()) {
@@ -208,4 +204,9 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 		return aux;
 	}
 
+	@Override
+	public DBObject getLastError() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

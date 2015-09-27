@@ -34,26 +34,25 @@ public class SpecialBetsUserAlterQDaoTest {
 	private RolCompanySecurity rolCompanySecurity;
 
 	int numberUsers = 2;
-	int company = 10;
+	int company = 1;
 
-	@Test
 	public void AA_testCreate() throws Exception {
 
 		for (int i = 0; i < numberUsers; i++) {
 			createUsersWithSpecialBets(i);
 		}
 	}
-	@Test
+
 	public void AB_testAddSpecialBet() throws Exception {
-		
-		UserAlterQ user=dao.findById("specialBets0@arroba.es");
-		List<Bet>specialBet= user.getSpecialBets();
+
+		UserAlterQ user = dao.findById("specialBets0@arroba.es");
+		List<Bet> specialBet = user.getSpecialBets();
 		for (Bet bet : specialBet) {
-			if(BetTypeEnum.BET_AUTOMATIC.getValue()==bet.getType()){
-				bet.setNumBets(bet.getNumBets()+1);
+			if (BetTypeEnum.BET_AUTOMATIC.getValue() == bet.getType()) {
+				bet.setNumBets(bet.getNumBets() + 1);
 			}
 		}
-		if(specialBet!=null){
+		if (specialBet != null) {
 			Bet betFixed = new Bet();
 			betFixed.setType(BetTypeEnum.BET_FIXED.getValue());
 			betFixed.setBet("222222222222200");
@@ -67,26 +66,30 @@ public class SpecialBetsUserAlterQDaoTest {
 	public void AM_findUserwithAutomaticBets() {
 		List<UserAlterQ> userAlterQ = dao.findUserWithTypeSpecialBets(company, BetTypeEnum.BET_AUTOMATIC);
 		for (UserAlterQ userAlterQ2 : userAlterQ) {
-			log.debug("useralterQ:" + userAlterQ2.getId()+" Automatic:"+userAlterQ2.getSpecialBets().get(0).getNumBets());
+			log.debug("useralterQ:" + userAlterQ2.getId() + " Automatic:" + userAlterQ2.getSpecialBets().get(0).getNumBets());
+			float balance = new Float(userAlterQ2.getBalance()).floatValue();
+			log.debug("useralterQbalance:" + balance);
 		}
 
 		return;
 	}
+
 	@Test
 	public void AN_findUserwithFixedBets() {
 		List<UserAlterQ> userAlterQ = dao.findUserWithTypeSpecialBets(company, BetTypeEnum.BET_FIXED);
 		for (UserAlterQ userAlterQ2 : userAlterQ) {
-			log.debug("useralterQ:" + userAlterQ2.getId());
-			List<Bet> specialBets=userAlterQ2.getSpecialBets();
+			float balance = new Float(userAlterQ2.getBalance()).floatValue();
+			log.debug("useralterQ:" + userAlterQ2.getId()+" useralterQbalance:" + userAlterQ2.getBalance());
+			List<Bet> specialBets = userAlterQ2.getSpecialBets();
 			for (Bet bet : specialBets) {
-				log.debug("bet:"+bet.getBet());
+				log.debug("bet:" + bet.getBet());
 			}
 			log.debug("======");
 		}
-		
+
 		return;
 	}
-//	@Test
+
 	public void AN_racsor() {
 		UserAlterQ userAlterQ = dao.findById("racsor@gmail.com");
 		ArrayList<Bet> specialBets = new ArrayList<Bet>();
@@ -121,7 +124,7 @@ public class SpecialBetsUserAlterQDaoTest {
 		RolCompany rc = new RolCompany();
 		rc.setCompany(AlterQConstants.DEFECT_COMPANY);
 		rc.setRol(RolNameEnum.ROL_ADMIN.getValue());
-		RolCompany rc2=new RolCompany();
+		RolCompany rc2 = new RolCompany();
 		rc2.setCompany(company);
 		rc2.setRol(RolNameEnum.ROL_USER.getValue());
 
@@ -130,7 +133,7 @@ public class SpecialBetsUserAlterQDaoTest {
 
 		userAlterQ.setRols(rcL);
 
-		double numBetAutomatic = 5;
+		int numBetAutomatic = 5;
 		Bet betAutomatic = new Bet();
 		betAutomatic.setType(BetTypeEnum.BET_AUTOMATIC.getValue());
 		betAutomatic.setNumBets(numBetAutomatic);
@@ -156,7 +159,6 @@ public class SpecialBetsUserAlterQDaoTest {
 		dao.remove(userAlterQ);
 	}
 
-	@Test
 	public void AZ_testRemoveUser() throws Exception {
 		for (int i = 0; i < numberUsers; i++) {
 			deleteUserWithSpecialBets(i);
