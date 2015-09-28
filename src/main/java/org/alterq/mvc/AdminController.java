@@ -478,7 +478,7 @@ public class AdminController {
 			
 			//Loop for Companies
 			for (Company co : companyList) {
-				if (co.getCompany() != AlterQConstants.DEFECT_COMPANY){
+				if (co.getCompany() == AlterQConstants.DEFECT_COMPANY){
 
 					RoundBets bean = roundBetDao.findRoundBetWithBets(season, round, co.getCompany());
 
@@ -487,42 +487,45 @@ public class AdminController {
 					
 					//Loop for Bets
 					for (Bet bet : lBets){
-						String user = bet.getUser();
-
-						//Get User
-						userAlterQ = userAlterQDao.findById(user);
-
-						if (userAlterQ == null) {
-							log.debug("pricesRound: user(" + user + ") Error resultBet user not find");
-							// STEP 1.1.error - Send an email to the admin
-							// ("ERROR pricesRound user not find")
-							continue;
+						if ((bet.getType() == BetTypeEnum.BET_NORMAL.getValue()) || (bet.getType() == BetTypeEnum.BET_FIXED.getValue()) || (bet.getType() == BetTypeEnum.BET_AUTOMATIC.getValue()))
+						{
+							String user = bet.getUser();
+	
+							//Get User
+							userAlterQ = userAlterQDao.findById(user);
+	
+							if (userAlterQ == null) {
+								log.debug("pricesRound: user(" + user + ") Error resultBet user not find");
+								// STEP 1.1.error - Send an email to the admin
+								// ("ERROR pricesRound user not find")
+								continue;
+							}
+	
+							//Calc Bet Prizes
+							countPrizes = calculateRights.calculate(betResult, bet.getBet(), bet.getReduction(), bet.getTypeReduction());
+							for (int i = 0; i <= 5; i++) {
+								Prize priceTmp = new Prize();
+								priceTmp.setId(i + 10);
+								priceTmp.setCount(countPrizes[i]);
+								priceTmp.setAmount(Float.parseFloat(parameters.get("prize" + (i + 10))[0]));
+								lPrizes.add(priceTmp);
+							}
+	
+							bet.setPrizes(lPrizes);
+	
+							betReward = 0;
+	
+							for (Prize prize : lPrizes) {
+								betReward += prize.getAmount() * prize.getCount();
+							}
+	
+							//Update Balance User
+							userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) + betReward));
+							userAlterQDao.save(userAlterQ);
+							//******************************************
+							//PENDING(ACCOUNTING ENTRY) - User betReward
+							//******************************************
 						}
-
-						//Calc Bet Prizes
-						countPrizes = calculateRights.calculate(betResult, bet.getBet(), bet.getReduction(), bet.getTypeReduction());
-						for (int i = 0; i <= 5; i++) {
-							Prize priceTmp = new Prize();
-							priceTmp.setId(i + 10);
-							priceTmp.setCount(countPrizes[i]);
-							priceTmp.setAmount(Float.parseFloat(parameters.get("prize" + (i + 10))[0]));
-							lPrizes.add(priceTmp);
-						}
-
-						bet.setPrizes(lPrizes);
-
-						betReward = 0;
-
-						for (Prize prize : lPrizes) {
-							betReward += prize.getAmount() * prize.getCount();
-						}
-
-						//Update Balance User
-						userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) + betReward));
-						userAlterQDao.save(userAlterQ);
-						//******************************************
-						//PENDING(ACCOUNTING ENTRY) - User betReward
-						//******************************************
 					}
 					
 				}else{
@@ -588,15 +591,16 @@ public class AdminController {
 							}
 						}
 					}
-					
-					
+					//Update RoundBet reward
+					bean.setReward(roundBets.getReward() + betReward);
+					roundBetDao.update(bean);
 				}
 				
 			}
 			
 			//Update RoundBet reward
-			roundBets.setReward(roundBets.getReward() + betReward);
-			roundBetDao.update(roundBets);
+			//roundBets.setReward(roundBets.getReward() + betReward);
+			//roundBetDao.update(roundBets);
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			response.addErrorDto("AdminController:prizesRound", "SecurityException");
