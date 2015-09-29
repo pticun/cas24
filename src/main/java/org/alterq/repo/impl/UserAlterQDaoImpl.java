@@ -5,6 +5,9 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.matc
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Update.update;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -26,9 +29,11 @@ import org.springframework.data.mongodb.core.aggregation.Fields;
 import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 @Repository
 public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao {
@@ -190,23 +195,36 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 
 	@Override
 	public List<UserAlterQ> findUserWithTypeSpecialBets(int company, BetTypeEnum betType) {
-		List<UserAlterQ> aux=new ArrayList<UserAlterQ>();
+		List<UserAlterQ> userAlterQList=new ArrayList<UserAlterQ>();
 				Aggregation agg = newAggregation(
-				project().andInclude("_id","balance","name","specialBets"),
+//				project().andInclude("_id","balance","name","specialBets"),
 				unwind("specialBets"),
 				match(Criteria.where("specialBets.type").is(betType.getValue()).and("specialBets.company").is(company)), 
-				group("_id","balance","name").push("specialBets").as("specialBets")
+//				group("_id","balance","name").push("specialBets").as("specialBets")
+				group("_id").push("specialBets").as("specialBets")
 				);
 		AggregationResults<UserAlterQ> result = mongoTemplate.aggregate(agg, "userAlterq", UserAlterQ.class);
 		if (!result.getMappedResults().isEmpty()) {
-			aux = result.getMappedResults();
+			//retrieve all userAlterQ object 
+			for (UserAlterQ userAlterQ : result) {
+				userAlterQ=mongoTemplate.findById(userAlterQ.getId(), UserAlterQ.class, COLLECTION_NAME);
+				userAlterQList.add(userAlterQ);
+			}
 		} 
-		return aux;
+		return userAlterQList;
 	}
 
 	@Override
 	public DBObject getLastError() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void updateBalance(UserAlterQ userAlterQ) {
+		//TODO not working
+		Query query = new Query(Criteria.where("id").is(userAlterQ.getId()));
+		WriteResult wr= mongoTemplate.updateFirst( query, Update.update("balance", userAlterQ.getBalance()), UserAlterQ.class);
+		System.out.println(wr.isUpdateOfExisting());
 	}
 }

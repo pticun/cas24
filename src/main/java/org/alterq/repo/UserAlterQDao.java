@@ -20,6 +20,8 @@ public interface UserAlterQDao {
 	public void create(UserAlterQ userAlterQ) throws Exception;
 
 	public void save(UserAlterQ userAlterQ);
+	
+	public void updateBalance(UserAlterQ userAlterQ);
 
 	public UserAlterQ validateLogin(String id, String password);
 

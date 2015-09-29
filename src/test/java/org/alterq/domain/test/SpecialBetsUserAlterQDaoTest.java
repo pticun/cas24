@@ -69,7 +69,11 @@ public class SpecialBetsUserAlterQDaoTest {
 			log.debug("useralterQ:" + userAlterQ2.getId() + " Automatic:" + userAlterQ2.getSpecialBets().get(0).getNumBets());
 			float balance = new Float(userAlterQ2.getBalance()).floatValue();
 			log.debug("useralterQbalance:" + balance);
+			userAlterQ2.setBalance("123");
+//			dao.updateBalance(userAlterQ2);
+			dao.save(userAlterQ2);
 		}
+		
 
 		return;
 	}
@@ -90,10 +94,12 @@ public class SpecialBetsUserAlterQDaoTest {
 		return;
 	}
 
+//	@Test
 	public void AN_racsor() {
 		UserAlterQ userAlterQ = dao.findById("racsor@gmail.com");
 		ArrayList<Bet> specialBets = new ArrayList<Bet>();
 		Bet betFixed = new Bet();
+		betFixed.setId(new ObjectId().toHexString());
 		betFixed.setType(BetTypeEnum.BET_FIXED.getValue());
 		betFixed.setBet("11111111111111100");
 		betFixed.setId(new ObjectId().toHexString());
