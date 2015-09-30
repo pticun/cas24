@@ -87,11 +87,16 @@ public class AdminCompanyController {
 			// check user amount before make automatics bets)
 			
 			for (UserAlterQ user : lUsers) {
-				Double numAutonDouble= new Double(""+user.getSpecialBets().get(0).getNumBets());
-				int numAutom=numAutonDouble.intValue();
+				int numApu=0;
+				List<Bet> specialBet = user.getSpecialBets();
+				for (Bet bet : specialBet) {
+					if (bet.getType() == BetTypeEnum.BET_AUTOMATIC.getValue() && bet.getCompany()==company) {
+						numApu = bet.getNumBets();
+					}
+				}
 				// STEP 1.2.1 - Check User Balance
 				float balance = new Float(user.getBalance()).floatValue();
-				for (int i = 0; i < numAutom; i++) {
+				for (int i = 0; i < numApu; i++) {
 					if (balance < priceBet) {
 						log.debug("closeRound: user(" + user.getName() + ") No enough money for automatic bet");
 						// STEP 1.2.1.error - Send an email to the user
@@ -145,7 +150,6 @@ public class AdminCompanyController {
 				float balance = new Float(user.getBalance()).floatValue();
 				List<Bet> specialBets=user.getSpecialBets();
 				for (Bet betSpecial : specialBets) {
-					log.debug("bet:"+betSpecial.getBet());
 					if (balance < priceBet) {
 						log.debug("closeRound: user(" + user.getName() + ") No enough money for automatic bet");
 						// STEP 1.2.1.error - Send an email to the user
@@ -153,21 +157,24 @@ public class AdminCompanyController {
 						continue;
 					}
 					// STEP 1.2.3 - Make Automatic User Bet
-					Bet bet = new Bet();
-					bet.setPrice(betTools.getPriceBet());
-					bet.setBet(betSpecial.getBet());
-					bet.setUser(user.getId());
-					bet.setCompany(company);
-					bet.setDateCreated(new Date());
-					bet.setDateUpdated(new Date());
-					bet.setNumBets(1);
-					bet.setReduction("NNNNNNNNNNNNNN");
-					bet.setType(BetTypeEnum.BET_NORMAL.getValue());
-					bet.setId(new ObjectId().toHexString());
-					
-					roundBetDao.addBet(company, season, round, bet);
-					//update new balance minus value bet
-					balance-=priceBet;
+					if (betSpecial.getType() == BetTypeEnum.BET_FIXED.getValue() && betSpecial.getCompany()==company) {
+						log.debug("bet:"+betSpecial.getBet());
+						Bet bet = new Bet();
+						bet.setPrice(betTools.getPriceBet());
+						bet.setBet(betSpecial.getBet());
+						bet.setUser(user.getId());
+						bet.setCompany(company);
+						bet.setDateCreated(new Date());
+						bet.setDateUpdated(new Date());
+						bet.setNumBets(1);
+						bet.setReduction("NNNNNNNNNNNNNN");
+						bet.setType(BetTypeEnum.BET_NORMAL.getValue());
+						bet.setId(new ObjectId().toHexString());
+						
+						roundBetDao.addBet(company, season, round, bet);
+						//update new balance minus value bet
+						balance-=priceBet;
+					}
 				}
 				// STEP 1.2.4 - Update User Balance
 				try {

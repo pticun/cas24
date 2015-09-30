@@ -67,13 +67,19 @@ public class SpecialBetsUserAlterQDaoTest {
 		List<UserAlterQ> userAlterQ = dao.findUserWithTypeSpecialBets(company, BetTypeEnum.BET_AUTOMATIC);
 		for (UserAlterQ userAlterQ2 : userAlterQ) {
 			log.debug("useralterQ:" + userAlterQ2.getId() + " Automatic:" + userAlterQ2.getSpecialBets().get(0).getNumBets());
+			List<Bet> specialBet = userAlterQ2.getSpecialBets();
+			for (Bet bet : specialBet) {
+				if (bet.getType() == BetTypeEnum.BET_AUTOMATIC.getValue()) {
+					int numApu = bet.getNumBets();
+					log.debug("useralterQnumApu:" + numApu);
+				}
+			}
 			float balance = new Float(userAlterQ2.getBalance()).floatValue();
 			log.debug("useralterQbalance:" + balance);
 			userAlterQ2.setBalance("123");
-//			dao.updateBalance(userAlterQ2);
+			// dao.updateBalance(userAlterQ2);
 			dao.save(userAlterQ2);
 		}
-		
 
 		return;
 	}
@@ -83,10 +89,12 @@ public class SpecialBetsUserAlterQDaoTest {
 		List<UserAlterQ> userAlterQ = dao.findUserWithTypeSpecialBets(company, BetTypeEnum.BET_FIXED);
 		for (UserAlterQ userAlterQ2 : userAlterQ) {
 			float balance = new Float(userAlterQ2.getBalance()).floatValue();
-			log.debug("useralterQ:" + userAlterQ2.getId()+" useralterQbalance:" + userAlterQ2.getBalance());
+			log.debug("useralterQ:" + userAlterQ2.getId() + " useralterQbalance:" + userAlterQ2.getBalance());
 			List<Bet> specialBets = userAlterQ2.getSpecialBets();
 			for (Bet bet : specialBets) {
-				log.debug("bet:" + bet.getBet());
+				if (bet.getType() == BetTypeEnum.BET_FIXED.getValue()) {
+					log.debug("bet:" + bet.getBet());
+				}
 			}
 			log.debug("======");
 		}
@@ -94,23 +102,36 @@ public class SpecialBetsUserAlterQDaoTest {
 		return;
 	}
 
-//	@Test
+	 @Test
 	public void AN_racsor() {
 		UserAlterQ userAlterQ = dao.findById("racsor@gmail.com");
 		ArrayList<Bet> specialBets = new ArrayList<Bet>();
 		Bet betFixed = new Bet();
 		betFixed.setId(new ObjectId().toHexString());
 		betFixed.setType(BetTypeEnum.BET_FIXED.getValue());
-		betFixed.setBet("11111111111111100");
+		betFixed.setBet("4444444444444400");
 		betFixed.setId(new ObjectId().toHexString());
 		betFixed.setCompany(1);
+		Bet betFixed2 = new Bet();
+		betFixed2.setId(new ObjectId().toHexString());
+		betFixed2.setType(BetTypeEnum.BET_FIXED.getValue());
+		betFixed2.setBet("4444444444444400");
+		betFixed2.setId(new ObjectId().toHexString());
+		betFixed2.setCompany(4);
 		Bet betAutomatic = new Bet();
 		betAutomatic.setId(new ObjectId().toHexString());
 		betAutomatic.setType(BetTypeEnum.BET_AUTOMATIC.getValue());
 		betAutomatic.setNumBets(5);
-		betAutomatic.setCompany(1);
+		betAutomatic.setCompany(10);
+		Bet betAutomatic2 = new Bet();
+		betAutomatic2.setId(new ObjectId().toHexString());
+		betAutomatic2.setType(BetTypeEnum.BET_AUTOMATIC.getValue());
+		betAutomatic2.setNumBets(5);
+		betAutomatic2.setCompany(1);
 		specialBets.add(betAutomatic);
+		specialBets.add(betAutomatic2);
 		specialBets.add(betFixed);
+		specialBets.add(betFixed2);
 		userAlterQ.setSpecialBets(specialBets);
 		userAlterQ.setBalance("100");
 		dao.save(userAlterQ);
