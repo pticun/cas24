@@ -224,7 +224,7 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 	public void updateBalance(UserAlterQ userAlterQ) {
 		//TODO not working
 		Query query = new Query(Criteria.where("id").is(userAlterQ.getId()));
-		WriteResult wr= mongoTemplate.updateFirst( query, Update.update("balance", userAlterQ.getBalance()), UserAlterQ.class);
+		WriteResult wr= mongoTemplate.updateFirst( query, new Update().set("balance", userAlterQ.getBalance()), UserAlterQ.class);
 		System.out.println(wr.isUpdateOfExisting());
 	}
 }
