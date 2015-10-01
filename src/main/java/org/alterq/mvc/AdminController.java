@@ -289,6 +289,7 @@ public class AdminController {
 			rbAdminResultBet = roundBetDao.findRoundBet(season, round, company);
 			
 			if (rbAdminResultBet != null){
+				UserAlterQ userAdmin = userAlterQDao.findSuperAdmin();
 				Bet betResult = new Bet();
 				betResult.setBet(resultBet);
 				//bAux.setUser(user);
@@ -296,6 +297,7 @@ public class AdminController {
 				betResult.setDateCreated(new Date());
 				betResult.setDateUpdated(new Date());
 				betResult.setType(BetTypeEnum.BET_RESULT.getValue());
+				betResult.setUser(userAdmin.getId());
 				roundBetDao.addBet(company, season, round, betResult);
 			}
 			
@@ -310,7 +312,7 @@ public class AdminController {
 					int[] vMaxAciertos = { 0, 0, 0, 0, 0 };
 					boolean bUpdate = false;
 
-					RoundBets bean = roundBetDao.findRoundBetWithBets(season, round, company);
+					RoundBets bean = roundBetDao.findRoundBetWithBets(season, round, co.getCompany());
 
 					// OJO!! hay que ordenar las apuestas por usuario para que funcione.
 					List<Bet> lBets = bean.getBets();
@@ -339,10 +341,18 @@ public class AdminController {
 							continue;
 						}
 
-						// La apuesta globla no se debe gestionar para el ranking
+						// La apuesta global no se debe gestionar para el ranking
 						//if (user.equals(getAdmin())) {
 						if (bet.getType()==BetTypeEnum.BET_FINAL.getValue()) {
-							bUpdate = true;
+							if (lastUser != null)
+								bUpdate = true;
+							continue;
+						}
+						// La apuesta resultado no se debe gestionar para el ranking
+						//if (user.equals(getAdmin())) {
+						if (bet.getType()==BetTypeEnum.BET_RESULT.getValue()) {
+							if (lastUser != null)
+								bUpdate = true;
 							continue;
 						}
 
