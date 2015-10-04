@@ -504,7 +504,7 @@ public class BetController {
 			dto.setRound(r);
 
 			if ((company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(userAlterQ.getId(), company)) {
-				roundBets = roundBetDao.findRoundBet(season, round, company);
+				roundBets = roundBetDao.findRoundBetWithBets(season, round, company);
 
 				roundBets.setPrice(price);
 				// Calculate Round Company JackPot

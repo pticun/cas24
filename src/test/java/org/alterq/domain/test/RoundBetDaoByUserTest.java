@@ -11,6 +11,7 @@ import org.alterq.domain.UserAlterQ;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.util.BetTools;
+import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +34,13 @@ public class RoundBetDaoByUserTest {
 	@Autowired
 	private UserAlterQDao userAlterQDao;
 
+	@Test
+	public void testFindRoundBet() {
+		RoundBets roundBets = betDao.findRoundBet(2015, 1, 1);
+		List<Bet> lBets= roundBets.getBets();
+		Assert.assertNull(lBets.size());
+	}
+	
 	@Test
 	public void testFindRoundBetWithBets() {
 		RoundBets roundBets = betDao.findRoundBetWithBets(2015, 1, 1);
