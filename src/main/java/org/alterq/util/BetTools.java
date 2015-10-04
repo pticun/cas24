@@ -537,7 +537,7 @@ public class BetTools{
 		}
 		// Asignamos los resultados al vector final
 		// Numero de apuestas acertadas
-		salida[0] = rdo;
+		salida[0] = rdo + p15;
 		// Número de doses acertados
 		salida[1] = doses;
 		// Número de equis acertadas
