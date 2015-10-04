@@ -44,6 +44,14 @@ public class RoundBetDaoImpl extends MongoCollection implements RoundBetDao {
 	}
 	public RoundBets findRoundBet(int season, int round, int company) {
 		Query query = new Query(Criteria.where("season").is(season).and("round").is(round).and("company").is(company));
+		query.fields().include("id");
+		query.fields().include("dateRound");
+		query.fields().include("company");
+		query.fields().include("season");
+		query.fields().include("round");
+		query.fields().include("reward");
+		query.fields().include("jackpot");
+		query.fields().include("price");
 		RoundBets aux =mongoTemplate.findOne(query, RoundBets.class, COLLECTION_NAME);
 		return aux;
 	}
