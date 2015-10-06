@@ -7,8 +7,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 public class LiveContext {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-	@Scheduled(cron = "0 30 * * * ?")
-	public void demoServiceMethod() {
+	@Scheduled(cron = "${app.scheduler.liveContext}")
+	public void liveContext() {
 		log.debug("Method executed at every 30 minuts.");
 	}
 }
