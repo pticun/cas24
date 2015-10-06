@@ -17,7 +17,7 @@ public class SendMailTest {
 	public void testSendMail() throws Exception {
 		sendMail.sendMail("goldbittledev@gmail.com", "racsor@gmail.com", "FELICIDADES", "FELICIDADES DESDE ALTERQ");
 		String pwd = RandomStringUtils.random(10, true, true);
-		sendMail.sendMailWithTemplate("racsor@gmail.com","CAMBIO PWDALTERQ", pwd);
+		sendMail.sendForgotMail("racsor@gmail.com","CAMBIO PWDALTERQ", pwd);
 		return;
 	}
 

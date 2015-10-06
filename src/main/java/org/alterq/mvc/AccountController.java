@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.alterq.domain.RolCompany;
@@ -21,13 +20,12 @@ import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.UserAlterQValidator;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.arch.core.mail.SendMail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.integration.MessageChannel;
+import org.springframework.integration.message.GenericMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,7 +45,7 @@ public class AccountController {
 	@Autowired
 	private RoundDao roundDao;
 	@Autowired
-	SendMail sendMail;
+	MessageChannel sendingChannel;
 	@Autowired
 	private UserAlterQSecurity userAlterQSecurity;
 	@Autowired
@@ -114,9 +112,10 @@ public class AccountController {
 		ResponseDto dto = new ResponseDto();
 		if (userAlterQ != null) {
 //			String pwd = RandomStringUtils.random(10, true, true);
-			sendMail.sendMailWithTemplate(userAlterQ.getId(), "CAMBIO PWDALTERQ", userAlterQ.getPwd());
+			GenericMessage<UserAlterQ> messageUser = new GenericMessage<UserAlterQ>(userAlterQ);
+			sendingChannel.send(messageUser);
 //			userAlterQ.setPwd(pwd);
-			userDao.save(userAlterQ);
+//			userDao.save(userAlterQ);
 
 			ErrorDto error = new ErrorDto();
 			error.setIdError("KO sendmail");

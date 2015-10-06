@@ -30,7 +30,7 @@ public class SendMail {
 		mailSender.send(simpleMailMessage);	
 	}
 	
-	public void sendMailWithTemplate(String to, String subject, String pwd) {			 
+	public void sendForgotMail(String to, String subject, String pwd) {			 
 		   SimpleMailMessage message = new SimpleMailMessage(forgotPwdMailMessage);
 		   message.setTo(to);
 		   message.setSubject(subject);
