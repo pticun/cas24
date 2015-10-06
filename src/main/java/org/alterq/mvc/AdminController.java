@@ -287,6 +287,9 @@ public class AdminController {
 			
 			// STEP 0: add ResultBelt
 			rbAdminResultBet = roundBetDao.findRoundBet(season, round, company);
+			// Translate result from "1X2" to "421"
+			resultBet = betTools.translateResult1x2(resultBet);
+
 			
 			if (rbAdminResultBet != null){
 				UserAlterQ userAdmin = userAlterQDao.findSuperAdmin();
@@ -325,9 +328,6 @@ public class AdminController {
 							return p2.getUser().compareTo(p1.getUser());
 						}
 					});
-
-					// Translate result from "1X2" to "421"
-					resultBet = betTools.translateResult1x2(resultBet);
 
 					for (Bet bet : lBets) {
 						String apu = bet.getBet();
@@ -391,9 +391,9 @@ public class AdminController {
 						// Update iter user
 						if (bUpdate) {
 							// STEP 4: update round ranking
-							updateRoundRanking(company, season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
+							updateRoundRanking(co.getCompany(), season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
 							// SETP 5: update global ranking (round=0)
-							updateRoundRanking(company, season, 0, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
+							updateRoundRanking(co.getCompany(), season, 0, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
 
 							lastUser = user;
 							lastUserAlterQ = userAlterQ;
@@ -409,9 +409,9 @@ public class AdminController {
 					// Update last user
 					if (bUpdate) {
 						// STEP 4: update round ranking
-						updateRoundRanking(company, season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
+						updateRoundRanking(co.getCompany(), season, round, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
 						// SETP 5: update global ranking (round=0)
-						updateRoundRanking(company, season, 0, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
+						updateRoundRanking(co.getCompany(), season, 0, lastUserAlterQ, vMaxAciertos[0], vMaxAciertos[3], vMaxAciertos[2], vMaxAciertos[1]);
 					}
 				}
 			}
@@ -488,6 +488,7 @@ public class AdminController {
 			
 			//Loop for Companies
 			for (Company co : companyList) {
+				//Direct bet
 				if (co.getCompany() == AlterQConstants.DEFECT_COMPANY){
 
 					RoundBets bean = roundBetDao.findRoundBetWithBets(season, round, co.getCompany());
@@ -542,12 +543,12 @@ public class AdminController {
 					numCompanyBets=0;
 					RoundBets bean = roundBetDao.findRoundBetWithBets(season, round, co.getCompany());
 					
-
+					//TODO create new method to get number BET_NORMAL,BET_FIXED??
 					List<Bet> lBets = bean.getBets();
 					//Get Number of Company Bets
 					for (Bet bet : lBets) {
-						if ((bet.getType() == BetTypeEnum.BET_NORMAL.getValue()) || (bet.getType() == BetTypeEnum.BET_FIXED.getValue()) || (bet.getType() == BetTypeEnum.BET_AUTOMATIC.getValue()))
-							numCompanyBets++;
+						if ((bet.getType() == BetTypeEnum.BET_NORMAL.getValue()))
+							numCompanyBets+=bet.getNumBets();
 					}
 					
 					//Get Final Bets
@@ -580,7 +581,7 @@ public class AdminController {
 							//Loop for Bets (normal & automatics & fixes)
 							for (Bet bet2 : lBets) {
 								String user = bet2.getUser();
-								if ((bet2.getType() == BetTypeEnum.BET_NORMAL.getValue()) || (bet2.getType() == BetTypeEnum.BET_FIXED.getValue()) || (bet2.getType() == BetTypeEnum.BET_AUTOMATIC.getValue()))
+								if ((bet2.getType() == BetTypeEnum.BET_NORMAL.getValue()))
 								{
 									//Get User
 									userAlterQ = userAlterQDao.findById(user);

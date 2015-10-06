@@ -408,8 +408,6 @@ End Analytics -->
   </div><!-- /.modal-dialog -->
 </div>
 
-
-
 <!-- Footer -->
 <footer>
 	<p class="credits">&copy;2015 quiniGold. v:0.5.5</p>

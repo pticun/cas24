@@ -501,6 +501,7 @@ public class BetTools{
 						break;
 					}
 				} else {
+					//TODO check the new pleno al 15
 					switch (singRes) {
 					case 1:// sign 0
 						if ((singBet == 1) || (singBet == 3) || (singBet == 5) || (singBet == 7) || (singBet == 9) || (singBet == 11) || (singBet == 13) || (singBet == 15)) {

@@ -354,10 +354,9 @@ var ctx = "<%=request.getContextPath()%>"
 <!-- </div> -->
 <!-- End FinalQuinielaRound Section -->
 
-
 <!-- Footer -->
 <footer>
-	<p class="credits">&copy;2014 goldbittle.</p>
+	<p class="credits">&copy;2015 quiniGold. v:0.5.5</p>
 </footer>
 <!-- End Footer -->
 

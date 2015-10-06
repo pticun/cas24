@@ -26,7 +26,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml" })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class SpecialBetsUserAlterQDaoTest {
+public class MigrateSpecialBetsUserAlterQDaoTest {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private UserAlterQDao dao;
@@ -62,7 +62,7 @@ public class SpecialBetsUserAlterQDaoTest {
 		dao.save(user);
 	}
 
-//	@Test
+	@Test
 	public void AM_findUserwithAutomaticBets() {
 		List<UserAlterQ> userAlterQ = dao.findUserWithTypeSpecialBets(company, BetTypeEnum.BET_AUTOMATIC);
 		for (UserAlterQ userAlterQ2 : userAlterQ) {
@@ -84,7 +84,7 @@ public class SpecialBetsUserAlterQDaoTest {
 		return;
 	}
 
-//	@Test
+	@Test
 	public void AN_findUserwithFixedBets() {
 		List<UserAlterQ> userAlterQ = dao.findUserWithTypeSpecialBets(company, BetTypeEnum.BET_FIXED);
 		for (UserAlterQ userAlterQ2 : userAlterQ) {
@@ -109,13 +109,13 @@ public class SpecialBetsUserAlterQDaoTest {
 		Bet betFixed = new Bet();
 		betFixed.setId(new ObjectId().toHexString());
 		betFixed.setType(BetTypeEnum.BET_FIXED.getValue());
-		betFixed.setBet("4444444444444411");
+		betFixed.setBet("4444444444444400");
 		betFixed.setId(new ObjectId().toHexString());
 		betFixed.setCompany(1);
 		Bet betFixed2 = new Bet();
 		betFixed2.setId(new ObjectId().toHexString());
 		betFixed2.setType(BetTypeEnum.BET_FIXED.getValue());
-		betFixed2.setBet("4444444444444411");
+		betFixed2.setBet("4444444444444400");
 		betFixed2.setId(new ObjectId().toHexString());
 		betFixed2.setCompany(4);
 		Bet betAutomatic = new Bet();
