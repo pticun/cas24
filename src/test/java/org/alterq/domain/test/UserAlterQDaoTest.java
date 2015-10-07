@@ -86,6 +86,15 @@ public class UserAlterQDaoTest {
 	}
 
 	@Test
+	public void AC_testFindByIdIgnoreCase() {
+		UserAlterQ userAlterQ = dao.findByIdIgnoreCase("IdMail@arroba.es");
+		
+		Assert.assertEquals("2125552121", userAlterQ.getPhoneNumber());
+		log.debug("DATECREATED===============" + DateFormatUtils.ISO_DATETIME_TIME_ZONE_FORMAT.format(userAlterQ.getDateCreated()));
+		return;
+	}
+	
+	@Test
 	public void AD_testUserAdmin() {
 		UserAlterQ userAlterQ = dao.findAdminByCompany(AlterQConstants.DEFECT_COMPANY);
 		log.debug("adminbycompany:"+userAlterQ.getId());

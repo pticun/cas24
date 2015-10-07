@@ -16,4 +16,6 @@ public interface CompanyDao {
 	public void delete(Company company);
 
 	public List<Company> findAll();
+
+	public List<Company> findAllVisibleCompany();
 }

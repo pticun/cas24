@@ -3,6 +3,7 @@ package org.alterq.repo.impl;
 import java.util.List;
 
 import org.alterq.domain.Company;
+import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.CompanyDao;
 import org.alterq.repo.MongoCollection;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -48,6 +49,14 @@ public class CompanyDaoImpl extends MongoCollection implements CompanyDao {
 	@Override
 	public List<Company> findAll() {
 		return mongoTemplate.findAll(Company.class, COLLECTION_NAME);
+	}
+
+	@Override
+	public List<Company> findAllVisibleCompany() {
+		Query query = new Query(Criteria.where("company").ne(AlterQConstants.DEFECT_COMPANY));
+		query.addCriteria(Criteria.where("visibility").is(Boolean.TRUE));
+		List<Company> listCompany = mongoTemplate.find(query, Company.class, COLLECTION_NAME);
+		return listCompany;
 	}
 
 }

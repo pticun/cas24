@@ -139,11 +139,6 @@ public class AdminController {
 		}
 	}
 
-	private static int[] calcularAciertos(String bet, String resultBet) {
-
-		return null;
-	}
-
 	// Funciona
 	private void updateRoundRanking(int company, int season, int round, UserAlterQ user, int points, int ones, int equs, int twos) {
 		Ranking rnk = new Ranking();

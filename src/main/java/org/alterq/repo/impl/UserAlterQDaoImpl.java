@@ -2,18 +2,15 @@ package org.alterq.repo.impl;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Update.update;
-import static org.springframework.data.mongodb.core.query.Query.query;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
@@ -25,8 +22,6 @@ import org.alterq.util.enumeration.RolNameEnum;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.aggregation.Fields;
-import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -46,6 +41,13 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 
 	public UserAlterQ findById(String id) {
 		return mongoTemplate.findById(id, UserAlterQ.class, COLLECTION_NAME);
+	}
+
+	@Override
+	public UserAlterQ findByIdIgnoreCase(String id) {
+		Pattern p = Pattern.compile(id, Pattern.CASE_INSENSITIVE);
+		Query query = new Query(Criteria.where("id").regex(p));
+		return mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
 	}
 
 	public List<UserAlterQ> findAllOrderedByName() {
@@ -107,10 +109,8 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 
 	@Override
 	public UserAlterQ findAdminByCompany(int company) {
-		Aggregation agg = newAggregation(
-				unwind("rols"), 
-				match(Criteria.where("rols.company").is(company).and("rols.rol").is(RolNameEnum.ROL_ADMIN.getValue())), 
-				group("_id").push("rols").as("rols"));
+		Aggregation agg = newAggregation(unwind("rols"),
+				match(Criteria.where("rols.company").is(company).and("rols.rol").is(RolNameEnum.ROL_ADMIN.getValue())), group("_id").push("rols").as("rols"));
 		AggregationResults<UserAlterQ> result = mongoTemplate.aggregate(agg, "userAlterq", UserAlterQ.class);
 		if (!result.getMappedResults().isEmpty()) {
 			UserAlterQ aux = result.getMappedResults().get(0);
@@ -121,9 +121,8 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 
 	@Override
 	public UserAlterQ findSuperAdmin() {
-		Aggregation agg = newAggregation(
-				unwind("rols"), 
-				match(Criteria.where("rols.company").is(AlterQConstants.DEFECT_COMPANY).and("rols.rol").is(RolNameEnum.ROL_SUPER_ADMIN.getValue())), 
+		Aggregation agg = newAggregation(unwind("rols"),
+				match(Criteria.where("rols.company").is(AlterQConstants.DEFECT_COMPANY).and("rols.rol").is(RolNameEnum.ROL_SUPER_ADMIN.getValue())),
 				group("_id").push("rols").as("rols"));
 		AggregationResults<UserAlterQ> result = mongoTemplate.aggregate(agg, "userAlterq", UserAlterQ.class);
 		if (!result.getMappedResults().isEmpty()) {
@@ -195,22 +194,20 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 
 	@Override
 	public List<UserAlterQ> findUserWithTypeSpecialBets(int company, BetTypeEnum betType) {
-		List<UserAlterQ> userAlterQList=new ArrayList<UserAlterQ>();
-				Aggregation agg = newAggregation(
-//				project().andInclude("_id","balance","name","specialBets"),
-				unwind("specialBets"),
-				match(Criteria.where("specialBets.type").is(betType.getValue()).and("specialBets.company").is(company)), 
-//				group("_id","balance","name").push("specialBets").as("specialBets")
-				group("_id").push("specialBets").as("specialBets")
-				);
+		List<UserAlterQ> userAlterQList = new ArrayList<UserAlterQ>();
+		Aggregation agg = newAggregation(
+		// project().andInclude("_id","balance","name","specialBets"),
+				unwind("specialBets"), match(Criteria.where("specialBets.type").is(betType.getValue()).and("specialBets.company").is(company)),
+				// group("_id","balance","name").push("specialBets").as("specialBets")
+				group("_id").push("specialBets").as("specialBets"));
 		AggregationResults<UserAlterQ> result = mongoTemplate.aggregate(agg, "userAlterq", UserAlterQ.class);
 		if (!result.getMappedResults().isEmpty()) {
-			//retrieve all userAlterQ object 
+			// retrieve all userAlterQ object
 			for (UserAlterQ userAlterQ : result) {
-				userAlterQ=mongoTemplate.findById(userAlterQ.getId(), UserAlterQ.class, COLLECTION_NAME);
+				userAlterQ = mongoTemplate.findById(userAlterQ.getId(), UserAlterQ.class, COLLECTION_NAME);
 				userAlterQList.add(userAlterQ);
 			}
-		} 
+		}
 		return userAlterQList;
 	}
 
@@ -222,9 +219,10 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 
 	@Override
 	public void updateBalance(UserAlterQ userAlterQ) {
-		//TODO not working
+		// TODO not working
 		Query query = new Query(Criteria.where("id").is(userAlterQ.getId()));
-		WriteResult wr= mongoTemplate.updateFirst( query, new Update().set("balance", userAlterQ.getBalance()), UserAlterQ.class);
+		WriteResult wr = mongoTemplate.updateFirst(query, new Update().set("balance", userAlterQ.getBalance()), UserAlterQ.class);
 		System.out.println(wr.isUpdateOfExisting());
 	}
+
 }
