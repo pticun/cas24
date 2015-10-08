@@ -90,7 +90,7 @@ public class UserAlterQDaoTest {
 		UserAlterQ userAlterQ = dao.findByIdIgnoreCase("IdMail@arroba.es");
 		
 		Assert.assertEquals("2125552121", userAlterQ.getPhoneNumber());
-		log.debug("DATECREATED===============" + DateFormatUtils.ISO_DATETIME_TIME_ZONE_FORMAT.format(userAlterQ.getDateCreated()));
+		log.debug("AC_testFindByIdIgnoreCase");
 		return;
 	}
 	

@@ -83,7 +83,8 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 
 	@Override
 	public UserAlterQ validateLogin(String id, String password) {
-		UserAlterQ dao = mongoTemplate.findById(id, UserAlterQ.class, COLLECTION_NAME);
+//		UserAlterQ dao = mongoTemplate.findById(id, UserAlterQ.class, COLLECTION_NAME);
+		UserAlterQ dao = this.findByIdIgnoreCase(id);
 		if (dao == null)
 			return null;
 		String hashedAndSalted = password;
