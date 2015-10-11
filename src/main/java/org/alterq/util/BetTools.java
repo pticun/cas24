@@ -124,7 +124,39 @@ public class BetTools{
 
 		return rdo;
 	}
+	public String translateResultTo1x2(String apu) {
+		String rdo = "";
 
+		for (int i = 0; i < apu.length(); i++) {
+			if (i < 14) {
+				if (apu.substring(i, i + 1).startsWith("4")) {
+					rdo += "1";
+				} else if (apu.substring(i, i + 1).startsWith("2")) {
+					rdo += "X";
+				} else if (apu.substring(i, i + 1).startsWith("1")) {
+					rdo += "2";
+				} else {
+					rdo = null;
+					break;
+				}
+			} else {
+				if (apu.substring(i, i + 1).startsWith("1")) {
+					rdo += "0";
+				} else if (apu.substring(i, i + 1).startsWith("2")) {
+					rdo += "1";
+				} else if (apu.substring(i, i + 1).startsWith("4")) {
+					rdo += "2";
+				} else if (apu.substring(i, i + 1).startsWith("8")) {
+					rdo += "M";
+				} else {
+					rdo = null;
+					break;
+				}
+			}
+		}
+
+		return rdo;
+	}
 	
 	public int isBetAllowed(int dobles, int doblesRed, int triples, int triplesRed, int pleno1, int pleno2){
 		boolean redOk = false;
@@ -536,6 +568,11 @@ public class BetTools{
 			unos = 0;
 			p15 = 0;
 		}
+		//Verificamos si el pleno al 15 está acertado
+		if (p15 == 2)
+			p15=1;
+		else
+			p15=0;
 		// Asignamos los resultados al vector final
 		// Numero de apuestas acertadas
 		salida[0] = rdo + p15;

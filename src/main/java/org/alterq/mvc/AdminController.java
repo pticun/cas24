@@ -549,6 +549,8 @@ public class AdminController {
 					//Get Final Bets
 					for (Bet bet : lBets) {
 						if (bet.getType() == BetTypeEnum.BET_FINAL.getValue()){
+							//translate Result Bet
+							betResult = betTools.translateResultTo1x2(betResult);
 							//Calc Bet Prizes
 							countPrizes = calculateRights.calculate(betResult, bet.getBet(), bet.getReduction(), bet.getTypeReduction());
 							for (int i = 0; i <= 5; i++) {
