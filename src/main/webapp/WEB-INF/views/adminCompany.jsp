@@ -208,6 +208,7 @@ var ctx = "<%=request.getContextPath()%>"
 			showDiv(bHome);
 		}else if (href == sCloseACRef){
 			consoleAlterQ("Close");
+			setRounSeasoCloseAC(window.round, window.season);
 			showDiv(bCloseAC);
 		}else if (href == sFinalQuinielaRef){
 			consoleAlterQ("FinalQuiniela");
@@ -284,11 +285,11 @@ var ctx = "<%=request.getContextPath()%>"
 			   		<table class="tablaQuiniGold">
 				   		<tr>
 				   			<td>Season:</td>
-				   			<td><input id="seasonCloseAC" name="season" type="text"/></td>
+				   			<td><input id="seasonCloseAC" name="season" type="text" readonly="readonly"/></td>
 				        </tr>
 				   		<tr>
 				   			<td>Round:</td>
-				   			<td><input id="roundCloseAC" name="round" type="text"/></td>
+				   			<td><input id="roundCloseAC" name="round" type="text" readonly="readonly"/></td>
 				        </tr>
 				   		<tr align="center">
 				   			<td colspan=2><button id="adminCompany_closeAC_btn" class="btn btn-danger" name="closeACBtn" value="closeACBtn">Cerrar</button><br><br></td>

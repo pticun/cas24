@@ -172,6 +172,13 @@ $("#homeBtn10").on('click', function(event){
 	event.preventDefault(); // prevent actual form submit and page reload
 });
 
+function setRounSeasoCloseAC (round, season){
+	if (round != 0)
+		$('#seasonCloseAC').val(season);
+	if (season != 0)
+		$('#roundCloseAC').val(round);
+}
+
 function consoleAlterQ(text){
 	if( (window['console'] !== undefined) ){
 		console.log(text);

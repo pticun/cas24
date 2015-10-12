@@ -571,17 +571,24 @@ public class BetController {
 			// TODO control user if exists
 			rb = roundBetDao.findAllUserBets(season, round, id, company);
 
-			// if user is not an adminCompany, we are showing finalBet
-			// adminCompany Bets
-			if (!userTools.isUserAdminCompany(id, company)) {
-				rbAdminCompanyFinalBets = roundBetDao.findFinalBet(season, round, company);
+			rbAdminCompanyFinalBets = roundBetDao.findFinalBet(season, round, company);
 
+			//User has bets
+			if (rb != null)
+			{
 				if (rbAdminCompanyFinalBets != null) {
 					for (Bet bet : rbAdminCompanyFinalBets.getBets()) {
 						rb.addBet(bet);
 					}
 				}
 			}
+			else //User has not bets
+			{
+				//if user is an AdminCompany add final bets although he doesn't have bets
+				if (userTools.isUserAdminCompany(id, company))
+					rb = rbAdminCompanyFinalBets;
+			}
+			
 			dto.setRoundBet(rb);
 		} catch (ValidatorException e) {
 			log.error(ExceptionUtils.getStackTrace(e));

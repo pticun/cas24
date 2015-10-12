@@ -162,7 +162,7 @@ function showDiv(elem) {
 		$(sMyResumRef).show();
 		break;
 	case bMyAdmin:
-		$(sMyAdminRef).open();
+//		$(sMyAdminRef).open();
 		break;
 	case bMyAdminCompany:
 		$(sMyAdminCompanyRef).open();
@@ -906,7 +906,6 @@ function fillUserData(response){
 }
 
 function initializeVars(){
-alter("round="+window.round+" season="+window.season);	
 	window.round=0;
 	window.season=0;
 	window.company=1; //companyDefault "quiniGoldClassic = 1"

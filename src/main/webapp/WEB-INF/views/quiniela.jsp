@@ -63,17 +63,6 @@
 						</tr>
 					</table>
 				    <p></p>
-				    <table class="tablaQuiniGold" id="quinielaTableBackAdminCompany">
-						<tr align="center">
-				   			<td colspan=4>
-				   				<br>
-				   				<button id="homeBtn11" class="btn btn-danger" name="homeBtn1 value="homeBtn11">AdminCompany Menu</button>
-				   				<br>
-				   				<br>
-				   			</td>
-				        </tr>
-				    </table>
-				    <p></p>
 				    <table class="tablaQuiniGold" id="quinielaTableReduced">
 				    </table>
 				    <p></p>
@@ -85,6 +74,17 @@
 				    <td width="70"><label id="labelPrecio">&nbsp;</label></td>
 				    <td><button id="prizeButton" class="btn btn-danger" name="prize" value="Precio">Precio</button></td>
 				    </tr>
+				    </table>
+				    <p></p>
+				    <table class="tablaQuiniGold" id="quinielaTableBackAdminCompany">
+						<tr align="center">
+				   			<td colspan=4>
+				   				<br>
+				   				<button id="homeBtn11" class="btn btn-danger" name="homeBtn1 value="homeBtn11">AdminCompany Menu</button>
+				   				<br>
+				   				<br>
+				   			</td>
+				        </tr>
 				    </table>
 				    <p></p>
 				    <!-- <input type="submit" value="Enviar"> -->
