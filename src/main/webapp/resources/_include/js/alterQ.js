@@ -162,7 +162,7 @@ function showDiv(elem) {
 		$(sMyResumRef).show();
 		break;
 	case bMyAdmin:
-//		$(sMyAdminRef).open();
+		$(sMyAdminRef).open();
 		break;
 	case bMyAdminCompany:
 		$(sMyAdminCompanyRef).open();
