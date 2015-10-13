@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 public class MongoCollection {
 	public String COLLECTION_NAME = "MongoCollection";
 	@Autowired
-	protected MongoTemplate mongoTemplate;
+	public MongoTemplate mongoTemplate;
 	/**
 	 * * Create a collection if the collection does not already
 	 * exists

@@ -9,6 +9,7 @@ import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.UserAlterQDao;
+import org.alterq.repo.impl.UserAlterQDaoImpl;
 import org.alterq.security.RolCompanySecurity;
 import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.RolNameEnum;
@@ -20,6 +21,8 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -34,7 +37,39 @@ public class MigrateSpecialBetsUserAlterQDaoTest {
 	private RolCompanySecurity rolCompanySecurity;
 
 	int numberUsers = 2;
-	int company = 1;
+	int companyDefectOne = 1;
+	
+	@Test
+	public void testFindUserWithAutomaticForMigrate(){
+		UserAlterQDaoImpl daoImplements=(UserAlterQDaoImpl)dao;
+		Query query=new Query();
+		query.addCriteria(Criteria.where("id").is("racsor@gmail.com"));
+		query.addCriteria(Criteria.where("automatics").gte(new Integer("1")));
+		List<UserAlterQPojoMigrateAutomatic> listUser=daoImplements.mongoTemplate.find(query, UserAlterQPojoMigrateAutomatic.class, UserAlterQDaoImpl.COLLECTION_NAME);
+		for (UserAlterQPojoMigrateAutomatic userAlterQ : listUser) {
+			System.out.println("userAlterQ with Automatics:"+ userAlterQ.getId());
+			System.out.println("userAlterQ with Automatics:"+ userAlterQ.getAutomatics());
+			
+			List<Bet> specialBet = userAlterQ.getSpecialBets();
+			Bet bet=new Bet();
+			bet.setCompany(companyDefectOne);
+			bet.setDateCreated(new Date());
+			bet.setDateUpdated(new Date());
+			bet.setNumBets(userAlterQ.getAutomatics());
+			bet.setType(BetTypeEnum.BET_AUTOMATIC.getValue());
+			if (specialBet==null){
+				specialBet=new ArrayList<Bet>();
+			}
+			specialBet.add(bet);
+			userAlterQ.setSpecialBets(specialBet);
+			//TODO convert userAlterQPojoMigrate to UserAlterQ
+			//TODO automatics set Null
+			dao.save((UserAlterQ)userAlterQ);
+			System.out.println("userAlterQ save specialBet Automatics:");
+
+		}
+	}
+	
 
 	public void AA_testCreate() throws Exception {
 
@@ -56,15 +91,14 @@ public class MigrateSpecialBetsUserAlterQDaoTest {
 			Bet betFixed = new Bet();
 			betFixed.setType(BetTypeEnum.BET_FIXED.getValue());
 			betFixed.setBet("222222222222200");
-			betFixed.setCompany(company);
+			betFixed.setCompany(companyDefectOne);
 			specialBet.add(betFixed);
 		}
 		dao.save(user);
 	}
 
-	@Test
 	public void AM_findUserwithAutomaticBets() {
-		List<UserAlterQ> userAlterQ = dao.findUserWithTypeSpecialBets(company, BetTypeEnum.BET_AUTOMATIC);
+		List<UserAlterQ> userAlterQ = dao.findUserWithTypeSpecialBets(companyDefectOne, BetTypeEnum.BET_AUTOMATIC);
 		for (UserAlterQ userAlterQ2 : userAlterQ) {
 			log.debug("useralterQ:" + userAlterQ2.getId() + " Automatic:" + userAlterQ2.getSpecialBets().get(0).getNumBets());
 			List<Bet> specialBet = userAlterQ2.getSpecialBets();
@@ -84,9 +118,8 @@ public class MigrateSpecialBetsUserAlterQDaoTest {
 		return;
 	}
 
-	@Test
 	public void AN_findUserwithFixedBets() {
-		List<UserAlterQ> userAlterQ = dao.findUserWithTypeSpecialBets(company, BetTypeEnum.BET_FIXED);
+		List<UserAlterQ> userAlterQ = dao.findUserWithTypeSpecialBets(companyDefectOne, BetTypeEnum.BET_FIXED);
 		for (UserAlterQ userAlterQ2 : userAlterQ) {
 			float balance = new Float(userAlterQ2.getBalance()).floatValue();
 			log.debug("useralterQ:" + userAlterQ2.getId() + " useralterQbalance:" + userAlterQ2.getBalance());
@@ -102,7 +135,6 @@ public class MigrateSpecialBetsUserAlterQDaoTest {
 		return;
 	}
 
-	 @Test
 	public void AN_racsor() {
 		UserAlterQ userAlterQ = dao.findById("racsor@gmail.com");
 		ArrayList<Bet> specialBets = new ArrayList<Bet>();
@@ -152,7 +184,7 @@ public class MigrateSpecialBetsUserAlterQDaoTest {
 		rc.setCompany(AlterQConstants.DEFECT_COMPANY);
 		rc.setRol(RolNameEnum.ROL_ADMIN.getValue());
 		RolCompany rc2 = new RolCompany();
-		rc2.setCompany(company);
+		rc2.setCompany(companyDefectOne);
 		rc2.setRol(RolNameEnum.ROL_USER.getValue());
 
 		ArrayList<RolCompany> rcL = new ArrayList<RolCompany>();
@@ -164,11 +196,11 @@ public class MigrateSpecialBetsUserAlterQDaoTest {
 		Bet betAutomatic = new Bet();
 		betAutomatic.setType(BetTypeEnum.BET_AUTOMATIC.getValue());
 		betAutomatic.setNumBets(numBetAutomatic);
-		betAutomatic.setCompany(company);
+		betAutomatic.setCompany(companyDefectOne);
 		Bet betFixed = new Bet();
 		betFixed.setType(BetTypeEnum.BET_FIXED.getValue());
 		betFixed.setBet("11111111111111100");
-		betFixed.setCompany(company);
+		betFixed.setCompany(companyDefectOne);
 
 		ArrayList<Bet> specialBets = new ArrayList<Bet>();
 		specialBets.add(betAutomatic);
