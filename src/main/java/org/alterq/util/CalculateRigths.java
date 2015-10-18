@@ -246,7 +246,7 @@ public class CalculateRigths{
 							{
 								if (quinielaRealizada.charAt(j) == '3')
 								{
-									car2 = '1';
+									car2 = 'X';
 								}
 								else if (quinielaRealizada.charAt(j) == '5')
 								{
@@ -254,14 +254,14 @@ public class CalculateRigths{
 								}
 								else if (quinielaRealizada.charAt(j) == '6')
 								{
-									car2 = 'X';
+									car2 = '1';
 								}
 							}
 							else if (car=='X')
 							{
 								if (quinielaRealizada.charAt(j) == '3')
 								{
-									car2 = 'X';
+									car2 = '2';
 								}
 								else if (quinielaRealizada.charAt(j) == '5')
 								{
@@ -269,7 +269,7 @@ public class CalculateRigths{
 								}
 								else if (quinielaRealizada.charAt(j) == '6')
 								{
-									car2 = '2';
+									car2 = 'X';
 								}
 							}
 							StringBuffer sbDespliegue = new StringBuffer(despliegue[i]);

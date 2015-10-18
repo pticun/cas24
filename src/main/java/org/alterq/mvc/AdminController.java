@@ -531,6 +531,7 @@ public class AdminController {
 							//******************************************
 							//PENDING(ACCOUNTING ENTRY) - User betReward
 							//******************************************
+							log.debug("pricesRound: (ACCOUNTING ENTRY) user:" + user + " balance: "+userAlterQ.getBalance()+" betReward="+betReward);
 						}
 					}
 					
@@ -595,6 +596,7 @@ public class AdminController {
 									//******************************************
 									//PENDING(ACCOUNTING ENTRY) - User betReward
 									//******************************************
+									log.debug("pricesRound: (ACCOUNTING ENTRY) user:" + user + " balance: "+userAlterQ.getBalance()+" rewardDivided="+rewardDivided);
 								}
 							}
 						}
