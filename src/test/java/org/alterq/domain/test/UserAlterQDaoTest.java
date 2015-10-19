@@ -1,5 +1,6 @@
 package org.alterq.domain.test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -8,6 +9,8 @@ import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.RolCompanySecurity;
+import org.alterq.util.BetTools;
+import org.alterq.util.NumericUtil;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Assert;
@@ -30,6 +33,10 @@ public class UserAlterQDaoTest {
 	private UserAlterQDao dao;
 	@Autowired
 	private RolCompanySecurity rolCompanySecurity;
+	@Autowired
+	private BetTools betTools;
+	@Autowired
+	private NumericUtil numericUtil;
 
 	@Test
 	public void AA_testCreate() throws Exception {
@@ -38,7 +45,7 @@ public class UserAlterQDaoTest {
 		userAlterQ.setPhoneNumber("2125552121");
 		userAlterQ.setPwd("password");
 		userAlterQ.setId("idmail@arroba.es");
-		userAlterQ.setBalance("10");
+		userAlterQ.setBalance(Double.toString(Double.parseDouble("10.4563356")));
 		userAlterQ.setActive(true);
 		userAlterQ.setDateCreated(new Date());
 
@@ -64,7 +71,22 @@ public class UserAlterQDaoTest {
 		userAlterQ.setName("Primera-");
 		userAlterQ.setPhoneNumber("2125552121");
 		userAlterQ.setId("idmail@arroba.es");
-		userAlterQ.setBalance("11");
+		double price = new Double(betTools.getPriceBet() * 3.4).doubleValue();
+		
+		BigDecimal bgPriceBet=new BigDecimal(betTools.getPriceBet() * 3.4);
+		BigDecimal balance=new BigDecimal(userAlterQ.getBalance());
+		balance=balance.subtract(bgPriceBet);
+		
+
+//		double balance = new Double(userAlterQ.getBalance()).doubleValue();
+//		balance -= price;
+		userAlterQ.setBalance(numericUtil.getTwoDecimalFormat(balance));
+		
+		String balanceIncrease="3.2532141";
+		balance=balance.add(new BigDecimal(balanceIncrease));
+		
+		userAlterQ.setBalance(numericUtil.getTwoDecimalFormat(balance));
+
 		userAlterQ.setDateCreated(new Date());
 
 		dao.save(userAlterQ);
