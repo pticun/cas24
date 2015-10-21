@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class NumericUtil {
 	
-	public static String TWO_DECIMAL_FORMATTER="#0.00"; 
+	public static String TWO_DECIMAL_FORMATTER="###,###.##"; 
+//	public static String TWO_DECIMAL_FORMATTER="#000.00"; 
 	public static Locale LOCALE_SP=new Locale("es","ES"); 
 	
 	NumberFormat formatter = NumberFormat.getInstance(LOCALE_SP);
@@ -28,8 +29,10 @@ public class NumericUtil {
 	}
 
 	public String getTwoDecimalFormat(String value){
-		DecimalFormat df = new DecimalFormat(value, otherSymbols);		
-		String valueConvert=df.format(value);
+//		DecimalFormat df = new DecimalFormat(value, otherSymbols);		
+//		DecimalFormat df = new DecimalFormat(value);		
+//		String valueConvert=df.format(value);
+		String valueConvert=formatter.format(new BigDecimal(value));
 		return valueConvert;
 	}
 	

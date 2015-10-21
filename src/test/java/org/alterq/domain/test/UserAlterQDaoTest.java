@@ -45,7 +45,7 @@ public class UserAlterQDaoTest {
 		userAlterQ.setPhoneNumber("2125552121");
 		userAlterQ.setPwd("password");
 		userAlterQ.setId("idmail@arroba.es");
-		userAlterQ.setBalance(Double.toString(Double.parseDouble("10.4563356")));
+		userAlterQ.setBalance(Double.toString(Double.parseDouble("1.4563356")));
 		userAlterQ.setActive(true);
 		userAlterQ.setDateCreated(new Date());
 
@@ -80,12 +80,15 @@ public class UserAlterQDaoTest {
 
 //		double balance = new Double(userAlterQ.getBalance()).doubleValue();
 //		balance -= price;
-		userAlterQ.setBalance(numericUtil.getTwoDecimalFormat(balance));
+		userAlterQ.setBalance(balance.toPlainString());
 		
 		String balanceIncrease="3.2532141";
 		balance=balance.add(new BigDecimal(balanceIncrease));
 		
-		userAlterQ.setBalance(numericUtil.getTwoDecimalFormat(balance));
+		userAlterQ.setBalance(balance.toPlainString());
+		
+		System.out.println("userAlterqBalanceGetBalance:"+userAlterQ.getBalance());
+		System.out.println("userAlterqBalanceFormat:"+numericUtil.getTwoDecimalFormat(userAlterQ.getBalance()));
 
 		userAlterQ.setDateCreated(new Date());
 
