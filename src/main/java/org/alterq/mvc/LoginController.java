@@ -3,6 +3,7 @@ package org.alterq.mvc;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.alterq.converter.UserAlterQConverter;
 import org.alterq.domain.AdminData;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
@@ -39,6 +40,8 @@ public class LoginController {
 	private SessionAlterQDao sessionDao;
 	@Autowired
 	private AdminDataDao adminDataDao;
+	@Autowired
+	private UserAlterQConverter userAlterQConverter;
 
 	// TODO get company from user, session .....
 
@@ -54,8 +57,8 @@ public class LoginController {
 			log.debug("Session ID is:" + sessionID);
 			response.addCookie(new Cookie("session", sessionID));
 			//TODO create function to hide privacy data
-			userValidate.setPwd("********");
-			dto.setUserAlterQ(userValidate);
+			UserAlterQ userConverter=userAlterQConverter.converterUserAlterQ(userValidate);
+			dto.setUserAlterQ(userConverter);
 			ad = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		} else {
 			ErrorDto error = new ErrorDto();

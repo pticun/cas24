@@ -77,6 +77,9 @@ public class UserAlterQDaoTest {
 		BigDecimal balance=new BigDecimal(userAlterQ.getBalance());
 		balance=balance.subtract(bgPriceBet);
 		
+		
+		
+		
 
 //		double balance = new Double(userAlterQ.getBalance()).doubleValue();
 //		balance -= price;
