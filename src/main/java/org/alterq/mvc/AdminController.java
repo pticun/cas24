@@ -142,15 +142,14 @@ public class AdminController {
 	// Funciona
 	private void updateRoundRanking(int company, int season, int round, UserAlterQ user, int points, int ones, int equs, int twos) {
 		Ranking rnk = new Ranking();
-		rnk.setCompany(company);
 		rnk.setOnes(ones);
 		rnk.setEqus(equs);
 		rnk.setTwos(twos);
 		rnk.setPoints(points);
-		rnk.setUser(user);
+		rnk.setUser(user.getId());
 
 		if (round==0){ //Global Ranking
-			RoundRanking usrRnk = roundRankingDao.findUserRanking(company, season, round, rnk.getUser().getId());
+			RoundRanking usrRnk = roundRankingDao.findUserRanking(company, season, round, rnk.getUser());
 			if (usrRnk!=null){
 				rnk.setPoints(rnk.getPoints() + usrRnk.getRankings().get(0).getPoints());
 				rnk.setOnes(rnk.getOnes() + usrRnk.getRankings().get(0).getOnes());

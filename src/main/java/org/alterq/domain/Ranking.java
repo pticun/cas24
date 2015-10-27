@@ -10,8 +10,7 @@ public class Ranking {
 	@Id
 	private String id;
 	
-	private int company;
-	private UserAlterQ user;
+	private String user;
 	private int points;
 	private int ones;
 	private int equs;
@@ -23,16 +22,10 @@ public class Ranking {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public int getCompany() {
-		return company;
-	}
-	public void setCompany(int company) {
-		this.company = company;
-	}
-	public UserAlterQ getUser() {
+	public String getUser() {
 		return user;
 	}
-	public void setUser(UserAlterQ user) {
+	public void setUser(String user) {
 		this.user = user;
 	}
 	public int getPoints() {

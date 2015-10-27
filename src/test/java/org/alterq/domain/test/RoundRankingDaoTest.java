@@ -65,12 +65,11 @@ public class RoundRankingDaoTest {
 		bean1.setRound(12);
 
 		Ranking bean = new Ranking();
-		bean.setCompany(1);
 		bean.setPoints(10);
 		bean.setOnes(5);
 		bean.setEqus(2);
 		bean.setTwos(3);
-		bean.setUser(userDao.findById("santi"));
+		bean.setUser(userDao.findById("santi").getId());
 
 		ArrayList<Ranking> rankings = new ArrayList<Ranking>();
 		rankings.add(bean);
@@ -101,22 +100,20 @@ public class RoundRankingDaoTest {
 		rankingDao.add(bean1);
 		
 		Ranking bean2 = new Ranking();
-		bean2.setCompany(1);
 		bean2.setPoints(10);
 		bean2.setOnes(5);
 		bean2.setEqus(2);
 		bean2.setTwos(3);
-		bean2.setUser(userDao.findById("santi"));
+		bean2.setUser(userDao.findById("santi").getId());
 		
 		rankingDao.addRanking(1, 2014, 12, bean2);
 		
 		Ranking bean3 = new Ranking();
-		bean3.setCompany(1);
 		bean3.setPoints(12);
 		bean3.setOnes(6);
 		bean3.setEqus(1);
 		bean3.setTwos(5);
-		bean3.setUser(userDao.findById("nuevo@nuevo.es"));
+		bean3.setUser(userDao.findById("nuevo@nuevo.es").getId());
 		
 		rankingDao.addRanking(1, 2014, 12, bean3);
 

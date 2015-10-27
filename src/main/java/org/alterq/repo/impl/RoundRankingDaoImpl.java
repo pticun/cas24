@@ -39,7 +39,7 @@ public class RoundRankingDaoImpl extends MongoCollection implements RoundRanking
 		
 		Aggregation agg = newAggregation( 
 				unwind("rankings"),
-				match(Criteria.where("company").is(company).and("season").is(season).and("round").is(round).and("rankings.user._id").is(userID)),
+				match(Criteria.where("company").is(company).and("season").is(season).and("round").is(round).and("rankings.user").is(userID)),
 				group("_id").first("season").as("season").first("round").as("round").push("rankings").as("rankings")
 				);
 		AggregationResults<RoundRanking> result = mongoTemplate.aggregate(agg, "roundRanking", RoundRanking.class);
@@ -69,12 +69,19 @@ public class RoundRankingDaoImpl extends MongoCollection implements RoundRanking
 	
 	public boolean updateRanking(int company, int season, int round, Ranking ranking) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("company").is(company).and("season").is(season).and("round").is(round));
+		//query.addCriteria(Criteria.where("company").is(company).and("season").is(season).and("round").is(round));
+		query.addCriteria(Criteria.where("company").is(company).and("season").is(season).and("round").is(round).and("rankings.user").is(ranking.getUser()));
 
 		Update update = new Update();
-		update.push("rankings", ranking);
+		//update.push("rankings", ranking);
+		update.set("rankings.$.points", ranking.getPoints());
+		update.set("rankings.$.ones", ranking.getOnes());
+		update.set("rankings.$.equs", ranking.getEqus());
+		update.set("rankings.$.twos", ranking.getTwos());
 
-		mongoTemplate.upsert(query, update, RoundRanking.class);
+		
+		mongoTemplate.updateFirst(query, update, RoundRanking.class);
+				        
 		return true;
 	}
 
