@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.alterq.converter.UserAlterQConverter;
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
@@ -50,7 +51,9 @@ public class RolCompanyController {
 	private UserAlterQValidator userValidator;
 	@Autowired
 	private RolCompanyValidator rolCompanyValidator;
-
+	@Autowired
+	private UserAlterQConverter userAlterQConverter;
+	
 	@RequestMapping(method = RequestMethod.PUT)
 	public @ResponseBody ResponseDto updateCompanyRol(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id, @RequestBody UserAlterQ user) {
 		ResponseDto dto = new ResponseDto();
@@ -88,7 +91,7 @@ public class RolCompanyController {
 			userRetrieve.setRols(rolCompany);
 			//update user
 			userDao.save(userRetrieve);
-			dto.setUserAlterQ(userRetrieve);
+			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQ(userRetrieve));
 		}catch (AlterQException ex){
 			dto.addErrorDto(ex.getErrorDto());
 			log.error(ExceptionUtils.getStackTrace(ex));
@@ -142,7 +145,7 @@ public class RolCompanyController {
 			userRetrieve.setRols(rolCompany);
 			//update user
 			userDao.save(userRetrieve);
-			dto.setUserAlterQ(userRetrieve);
+			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQ(userRetrieve));
 		}catch (AlterQException ex){
 			dto.addErrorDto(ex.getErrorDto());
 			log.error(ExceptionUtils.getStackTrace(ex));

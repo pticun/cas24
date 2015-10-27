@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.alterq.converter.UserAlterQConverter;
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
@@ -50,6 +51,8 @@ public class AccountController {
 	private UserAlterQSecurity userAlterQSecurity;
 	@Autowired
 	private UserAlterQValidator userAlterQValidator;
+	@Autowired
+	private UserAlterQConverter userAlterQConverter;
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id:.+}/update")
 	public @ResponseBody
@@ -161,7 +164,7 @@ public class AccountController {
 			rcL.add(rc);
 			user.setRols(rcL);
 			userDao.create(user);
-			dto.setUserAlterQ(user);
+			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQ(user));
 			String sessionID = sessionDao.startSession(user.getId());
 			log.debug("Session ID is:" + sessionID);
 			response.addCookie(new Cookie("session", sessionID));

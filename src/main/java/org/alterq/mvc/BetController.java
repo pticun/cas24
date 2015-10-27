@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.alterq.converter.UserAlterQConverter;
 import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
 import org.alterq.domain.RolCompany;
@@ -71,6 +72,8 @@ public class BetController {
 	private UserTools userTools;
 	@Autowired
 	private RoundBetDao roundBetDao;
+	@Autowired
+	private UserAlterQConverter userAlterQConverter;
 
 	@Autowired
 	@Qualifier("messageLocalizedResources")
@@ -497,7 +500,7 @@ public class BetController {
 			// Pasamos los parámetros necesarios para la pantalla de
 			// FINALIZACION
 			dto.setBet(bet);
-			dto.setUserAlterQ(userAlterQ);
+			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQ(userAlterQ));
 
 			Round r = new Round();
 			r = roundDao.findBySeasonRound(season, round);
