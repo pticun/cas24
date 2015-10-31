@@ -18,6 +18,7 @@ import org.alterq.repo.RoundDao;
 import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
+import org.alterq.util.DateFormatUtil;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.UserAlterQValidator;
@@ -53,6 +54,8 @@ public class AccountController {
 	private UserAlterQValidator userAlterQValidator;
 	@Autowired
 	private UserAlterQConverter userAlterQConverter;
+	@Autowired
+	private DateFormatUtil dateFormatUtil;
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id:.+}/update")
 	public @ResponseBody
@@ -81,7 +84,7 @@ public class AccountController {
 			if (user.getPhoneNumber() != null)
 				userAlterQ.setPhoneNumber(user.getPhoneNumber());
 			if (user.getBirthday() != null)
-				userAlterQ.setBirthday(user.getBirthday());
+				userAlterQ.setBirthday(dateFormatUtil.convertFormatDayToIsoTime(user.getBirthday()));
 			if (user.getCity() != null)
 				userAlterQ.setCity(user.getCity());
 //			if (StringUtils.isNumeric(new String("" + user.getAutomatics())))
