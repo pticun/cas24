@@ -147,6 +147,7 @@ public class AdminController {
 		rnk.setTwos(twos);
 		rnk.setPoints(points);
 		rnk.setUser(user.getId());
+		rnk.setNick(user.getNick());
 
 		if (round==0){ //Global Ranking
 			RoundRanking usrRnk = roundRankingDao.findUserRanking(company, season, round, rnk.getUser());

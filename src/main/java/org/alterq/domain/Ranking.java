@@ -11,6 +11,7 @@ public class Ranking {
 	private String id;
 	
 	private String user;
+	private String nick;
 	private int points;
 	private int ones;
 	private int equs;
@@ -21,6 +22,12 @@ public class Ranking {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getNick() {
+		return nick;
+	}
+	public void setNick(String nick) {
+		this.nick = nick;
 	}
 	public String getUser() {
 		return user;
