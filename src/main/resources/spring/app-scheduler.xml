@@ -11,5 +11,5 @@
  
     <task:annotation-driven />
     <bean id="liveContextBean" class="org.alterq.scheduler.LiveContext"></bean>
-    <bean id="weeklyWarningUserBalanceBean" class="org.alterq.scheduler.WeeklyWarningUserBalance"></bean>
+    <bean id="dailyWarningUserBalanceBean" class="org.alterq.scheduler.DailyWarningUserBalance"></bean>
 </beans>
