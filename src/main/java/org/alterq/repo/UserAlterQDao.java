@@ -19,6 +19,8 @@ public interface UserAlterQDao {
 
 	public List<UserAlterQ> findAllOrderedByName();
 
+	public List<UserAlterQ> findAllUserActive();
+
 	public void create(UserAlterQ userAlterQ) throws Exception;
 
 	public void save(UserAlterQ userAlterQ);

@@ -1,12 +1,15 @@
 package org.alterq.scheduler;
 
 import java.util.Date;
+import java.util.List;
 
 import org.alterq.domain.AdminData;
 import org.alterq.domain.Round;
+import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.RoundDao;
+import org.alterq.repo.UserAlterQDao;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +24,8 @@ public class DailyWarningUserBalance {
 	private AdminDataDao adminDataDao;
 	@Autowired
 	private RoundDao roundDao;
+	@Autowired
+	private UserAlterQDao dao;
 
 	@Scheduled(cron = "${app.scheduler.dailyWarningUserBalance}")
 	public void dailyWarningUserBalance() {
@@ -38,6 +43,15 @@ public class DailyWarningUserBalance {
 		
 		if (DateUtils.isSameDay(DateUtils.addDays(roundDate, -2), now) || DateUtils.isSameDay(DateUtils.addDays(roundDate, -1), now)){
 			log.debug("execute sending mail");
+			List<UserAlterQ> allUser = dao.findAllUserActive();
+			for (UserAlterQ userAlterQ : allUser) {
+				log.debug(userAlterQ.getId()+":bets:"+((userAlterQ.getSpecialBets()==null)?"0":userAlterQ.getSpecialBets().size()));
+			}
+			
+			
+		}
+		else{
+			log.debug("not sending mail");
 		}
 		
 
