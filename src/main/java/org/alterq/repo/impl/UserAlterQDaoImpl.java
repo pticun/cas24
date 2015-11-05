@@ -226,4 +226,20 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 		System.out.println(wr.isUpdateOfExisting());
 	}
 
+	public List<UserAlterQ> findUsersCompany(int company){
+		List<UserAlterQ> userAlterQList = new ArrayList<UserAlterQ>();
+		Aggregation agg = newAggregation(
+		// project().andInclude("_id","balance","name","specialBets"),
+				unwind("rols"), match(Criteria.where("rols.company").is(company)),
+				// group("_id","balance","name").push("specialBets").as("specialBets")
+				group("_id").push("rols").as("rols"));
+		AggregationResults<UserAlterQ> result = mongoTemplate.aggregate(agg, "userAlterq", UserAlterQ.class);
+		if (!result.getMappedResults().isEmpty()) {
+			for (UserAlterQ userAlterQ : result) {
+				userAlterQ = mongoTemplate.findById(userAlterQ.getId(), UserAlterQ.class, COLLECTION_NAME);
+				userAlterQList.add(userAlterQ);
+			}
+		}
+		return userAlterQList;
+	}
 }

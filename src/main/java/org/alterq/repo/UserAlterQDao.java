@@ -38,6 +38,8 @@ public interface UserAlterQDao {
 	public List<RolCompany> getRols(UserAlterQ userAlterQ);
 
 	public List<RolCompany> getRolsForCompany(UserAlterQ userAlterQ, RolCompany rc);
+	
+	public List<UserAlterQ> findUsersCompany(int company);
 
 	public DBObject getLastError();
 }
