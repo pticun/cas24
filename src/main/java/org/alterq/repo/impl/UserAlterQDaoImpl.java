@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.springframework.data.domain.Sort;
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
@@ -20,6 +21,7 @@ import org.alterq.repo.UserAlterQDao;
 import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -50,8 +52,17 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 		return mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
 	}
 
+	@Override
+	public List<UserAlterQ> findAllUserActive() {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("active").is(Boolean.TRUE));
+		query.with(new Sort(Sort.Direction.ASC, "_id"));
+		return mongoTemplate.find(query,UserAlterQ.class, COLLECTION_NAME);
+	}
+
 	public List<UserAlterQ> findAllOrderedByName() {
-		return mongoTemplate.findAll(UserAlterQ.class, COLLECTION_NAME);
+		Query query = new Query().with(new Sort(Sort.Direction.ASC, "_id"));
+		return mongoTemplate.find(query,UserAlterQ.class, COLLECTION_NAME);
 	}
 
 	public void create(UserAlterQ userAlterQ) throws Exception {
