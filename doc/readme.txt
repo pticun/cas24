@@ -1,7 +1,7 @@
 AterQ Administrator
 -------------------
 USER: goldbittledev@gmail.com
-PASS: SysAlterQAdmin
+PASS: gold7bittle4  (SysAlterQAdmin)
 
 
 MongoDB 2.2 database added.  

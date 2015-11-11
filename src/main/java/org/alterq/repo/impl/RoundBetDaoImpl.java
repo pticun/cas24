@@ -5,6 +5,8 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.matc
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
 
+import java.util.List;
+
 import org.alterq.domain.Bet;
 import org.alterq.domain.Prize;
 import org.alterq.domain.RoundBets;
@@ -105,7 +107,11 @@ public class RoundBetDaoImpl extends MongoCollection implements RoundBetDao {
 	@Override
 	public RoundBets findTypeBet(int season, int round, int company, BetTypeEnum betType, String user) {
 		Criteria criteria=new Criteria();
-		criteria=Criteria.where("season").is(season).and("round").is(round).and("bets.company").is(company);
+		criteria=Criteria.where("season").is(season).and("round").is(round);
+		//You have to return all bets for user 
+		if (company>0){
+			criteria.and("bets.company").is(company);
+		}
 		if (null!= user){
 			criteria.and("bets.user").is(user);
 		}
@@ -115,17 +121,18 @@ public class RoundBetDaoImpl extends MongoCollection implements RoundBetDao {
 		Aggregation agg = newAggregation( 
 				unwind("bets"),
 				match(criteria),
-				group("_id").first("season").as("season").first("round").as("round").push("bets").as("bets")
+				group("_id").first("season").as("season").first("round").as("round").first("type").as("type").push("bets").as("bets")
 		);
 		AggregationResults<RoundBets> result = mongoTemplate.aggregate(agg, "roundBets", RoundBets.class);
 		if ( !result.getMappedResults().isEmpty()){
+			List<RoundBets> rb=result.getMappedResults();
 			RoundBets aux = result.getMappedResults().get(0);
 			return aux;
 		}
 		else
 			return null;
 	}
-	
+
 	public boolean addBet(int company, int season, int round, Bet bet){
 		Query query = new Query();
 		query.addCriteria(Criteria.where("company").is(company).and("season").is(season).and("round").is(round));

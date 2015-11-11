@@ -24,7 +24,7 @@
 	            ref="channelMailService"/>
 	 
 	<int:channel id="receivingChannel">
-	       <int:queue capacity="10"/>
+	       <int:queue capacity="1"/>
 	</int:channel>
 	 
 	<bean id="channelMailService"

@@ -26,12 +26,10 @@ public class ChannelMailServiceTest {
 		GenericMessage<String> message = new GenericMessage<String>("esta impresión");
 		sendingChannel.send(message);
 		UserAlterQ user=new UserAlterQ();
-		user.setId("prueba@mail.es");
+		user.setId("racsor@gmail.es");
 		user.setPwd("changePwd");
 		GenericMessage<UserAlterQ> messageUser = new GenericMessage<UserAlterQ>(user);
 		sendingChannel.send(messageUser);
-		
-		
 	}
 
 }
