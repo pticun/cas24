@@ -26,7 +26,7 @@ public class ChannelMailServiceTest {
 		GenericMessage<String> message = new GenericMessage<String>("esta impresión");
 		sendingChannel.send(message);
 		UserAlterQ user=new UserAlterQ();
-		user.setId("racsor@gmail.es");
+		user.setId("racsor@gmail.com");
 		user.setPwd("changePwd");
 		GenericMessage<UserAlterQ> messageUser = new GenericMessage<UserAlterQ>(user);
 		sendingChannel.send(messageUser);

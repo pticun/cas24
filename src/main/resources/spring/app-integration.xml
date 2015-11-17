@@ -4,19 +4,49 @@
         xmlns:int="http://www.springframework.org/schema/integration"
         xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
         xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:stream="http://www.springframework.org/schema/integration/stream"
         xsi:schemaLocation="
         	http://www.springframework.org/schema/beans 
         	http://www.springframework.org/schema/beans/spring-beans.xsd
-            http://www.springframework.org/schema/integration 
-            http://www.springframework.org/schema/integration/spring-integration.xsd
+            http://www.springframework.org/schema/integration
+            http://www.springframework.org/schema/integration/spring-integration-3.0.xsd
+            http://www.springframework.org/schema/integration/stream
+            http://www.springframework.org/schema/integration/stream/spring-integration-stream-3.0.xsd
             http://www.springframework.org/schema/integration/mail 
             http://www.springframework.org/schema/integration/mail/spring-integration-mail.xsd
             http://www.springframework.org/schema/util 
             http://www.springframework.org/schema/util/spring-util.xsd">
           
+    <!-- 
+           processMail
+                |
+            OrderRouter
+             /     \
+        pickup     delivery
+          |           |
+        store    DeliveryTranformer
+                      |
+                     post
+    -->
          
-          
+    <int:gateway id="order" service-interface="org.arch.core.channel.ProcessMailQueue"/>
+    
+    <int:channel id="processMailQueue"/>
 
+<!--     
+    <int:channel id="dailyMail"/>
+    <int:channel id="resultsMail"/>
+    <int:channel id="forgotMail"/>
+    
+    <int:bridge input-channel="pickup" output-channel="store" />
+    
+    <int:channel id="store"/>
+    <int:channel id="post"/>
+    
+    <int:outbound-channel-adapter channel="store" ref="storeEndpoint" method="processMessage" />
+    <int:outbound-channel-adapter channel="post" ref="postEndpoint" method="processMessage" />
+          
+-->
 	<int:channel id="sendingChannel"/>
 	 
 	<int:service-activator input-channel="sendingChannel"
@@ -24,7 +54,7 @@
 	            ref="channelMailService"/>
 	 
 	<int:channel id="receivingChannel">
-	       <int:queue capacity="1"/>
+	       <int:queue capacity="10"/>
 	</int:channel>
 	 
 	<bean id="channelMailService"

@@ -8,14 +8,19 @@ import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
+import org.alterq.dto.MailQueueDto;
 import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.UserAlterQDao;
 import org.apache.commons.lang3.time.DateUtils;
+import org.arch.core.channel.ProcessMailQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.integration.MessageChannel;
+import org.springframework.integration.annotation.Gateway;
+import org.springframework.integration.message.GenericMessage;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +36,9 @@ public class DailyWarningUserBalance {
 	@Autowired
 	private UserAlterQDao dao;
 
+	@Autowired
+	MessageChannel sendingChannel;
+
 	@Scheduled(cron = "${app.scheduler.dailyWarningUserBalance}")
 	public void dailyWarningUserBalance() {
 		executeDailyWarning();
@@ -45,7 +53,7 @@ public class DailyWarningUserBalance {
 
 		Date now = new Date();
 
-		if (DateUtils.isSameDay(DateUtils.addDays(roundDate, -2), now) || DateUtils.isSameDay(DateUtils.addDays(roundDate, -1), now)) {
+//		if (DateUtils.isSameDay(DateUtils.addDays(roundDate, -2), now) || DateUtils.isSameDay(DateUtils.addDays(roundDate, -1), now)) {
 			log.debug("execute sending mail");
 			List<UserAlterQ> allUser = dao.findAllUserActive();
 			for (UserAlterQ userAlterQ : allUser) {
@@ -55,14 +63,20 @@ public class DailyWarningUserBalance {
 				double calculatePrize=(userAlterQ.getSpecialBets() == null) ? 0 : userAlterQ.getSpecialBets().size()*adminData.getPrizeBet();
 				if (roundBets == null || calculatePrize>new Float(userAlterQ.getBalance()).floatValue()) {
 					//send mail 
+					GenericMessage<UserAlterQ> messageUser = new GenericMessage<UserAlterQ>(userAlterQ);
+					//TODO
+					//for purpouse test rewrite mail
+					userAlterQ.setId("racsor@gmail.com");
+					sendingChannel.send(messageUser);
 				}
 
 				log.debug(userAlterQ.getId() + ":bets:" + ((userAlterQ.getSpecialBets() == null) ? 0 : userAlterQ.getSpecialBets().size()));
 			}
 
-		} else {
-			log.debug("not sending mail");
-		}
+//		} else {
+//			log.debug("not sending mail");
+//		}
 
 	}
+
 }
