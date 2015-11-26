@@ -12,7 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/spring/applicationContext.xml" })
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)public class DailyWarningUserBalanceTest {
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class DailyWarningUserBalanceTest {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired

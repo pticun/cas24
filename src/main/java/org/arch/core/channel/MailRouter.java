@@ -17,8 +17,8 @@ public class MailRouter {
      * Process order.  Routes based on whether or 
      * not the order is a delivery or pickup.
      */
-    @Router(inputChannel="processMail")
-    public String processOrder(MailQueueDto mailDto) {
+    @Router(inputChannel="processMailQueue")
+    public String process(MailQueueDto mailDto) {
         String result = null;
         
 //        log.debug("In OrderRouter.  title='{}'  quantity={}  orderType={}", 

@@ -18,26 +18,47 @@
             http://www.springframework.org/schema/util/spring-util.xsd">
           
     <!-- 
-           processMail
+           processMailQueue
                 |
-            OrderRouter
-             /     \
-        pickup     delivery
+            MailRouter
+             /     		\					\
+        dailyMail     resultsMail		forgotMail
           |           |
         store    DeliveryTranformer
                       |
                      post
     -->
-         
-    <int:gateway id="order" service-interface="org.arch.core.channel.ProcessMailQueue"/>
-    
-    <int:channel id="processMailQueue"/>
 
-<!--     
+    <int:gateway id="processMail" service-interface="org.arch.core.channel.ProcessMailQueue"/>
+  
+    <int:channel id="processMailQueue" />
+
+	<int:service-activator input-channel="processMailQueue" output-channel="dailyMail"
+	            ref="processMail"/>
+
+
     <int:channel id="dailyMail"/>
     <int:channel id="resultsMail"/>
     <int:channel id="forgotMail"/>
     
+    <int:router input-channel="processMailQueue" method="process" ref="mailRouter"/>
+
+	<bean id="mailRouter"
+	        class="org.arch.core.channel.MailRouter"/>
+
+    <int:bridge input-channel="dailyMail" output-channel="dailyMailSend" auto-startup="true"/>
+    <int:bridge input-channel="resultsMail" output-channel="resultsMailSend" auto-startup="true"/>
+    <int:bridge input-channel="forgotMail" output-channel="forgotMailSend" auto-startup="true"/>
+
+    <int:channel id="dailyMailSend"/>
+    <int:channel id="resultsMailSend"/>
+    <int:channel id="forgotMailSend"/>
+
+    <int:outbound-channel-adapter channel="dailyMailSend" ref="sendEndpoint" method="sendingDailyMail" auto-startup="true"/>
+    <int:outbound-channel-adapter channel="resultsMailSend" ref="sendEndpoint" method="sendingForgotMail" auto-startup="true"/>
+    <int:outbound-channel-adapter channel="forgotMailSend" ref="sendEndpoint" method="sendingResultsMail" auto-startup="true"/>
+
+<!--     
     <int:bridge input-channel="pickup" output-channel="store" />
     
     <int:channel id="store"/>

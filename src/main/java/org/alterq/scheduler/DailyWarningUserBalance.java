@@ -13,6 +13,7 @@ import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.UserAlterQDao;
+import org.alterq.util.enumeration.QueueMailEnum;
 import org.apache.commons.lang3.time.DateUtils;
 import org.arch.core.channel.ProcessMailQueue;
 import org.slf4j.Logger;
@@ -37,7 +38,7 @@ public class DailyWarningUserBalance {
 	private UserAlterQDao dao;
 
 	@Autowired
-	MessageChannel sendingChannel;
+	ProcessMailQueue processMailQueue;
 
 	@Scheduled(cron = "${app.scheduler.dailyWarningUserBalance}")
 	public void dailyWarningUserBalance() {
@@ -63,11 +64,18 @@ public class DailyWarningUserBalance {
 				double calculatePrize=(userAlterQ.getSpecialBets() == null) ? 0 : userAlterQ.getSpecialBets().size()*adminData.getPrizeBet();
 				if (roundBets == null || calculatePrize>new Float(userAlterQ.getBalance()).floatValue()) {
 					//send mail 
-					GenericMessage<UserAlterQ> messageUser = new GenericMessage<UserAlterQ>(userAlterQ);
-					//TODO
-					//for purpouse test rewrite mail
+//					GenericMessage<UserAlterQ> messageUser = new GenericMessage<UserAlterQ>(userAlterQ);
+//					//TODO
+//					//for purpouse test rewrite mail
+//					sendingChannel.send(messageUser);
+					MailQueueDto mailDto=new MailQueueDto();
 					userAlterQ.setId("racsor@gmail.com");
-					sendingChannel.send(messageUser);
+					mailDto.setUser(userAlterQ);
+					mailDto.setType(QueueMailEnum.Q_DAILYMAIL);
+//					GenericMessage<MailQueueDto> messageUser = new GenericMessage<MailQueueDto>(mailDto);
+
+					processMailQueue.process(mailDto);
+					
 				}
 
 				log.debug(userAlterQ.getId() + ":bets:" + ((userAlterQ.getSpecialBets() == null) ? 0 : userAlterQ.getSpecialBets().size()));

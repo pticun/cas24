@@ -6,7 +6,7 @@ import org.springframework.integration.annotation.Gateway;
 public interface ProcessMailQueue {
 
 	/**
-	 * Process a book order.
+	 * Process a mailDto.
 	 */
 	@Gateway(requestChannel = "processMailQueue")
 	public void process(MailQueueDto mailDto);
