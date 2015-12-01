@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:stream="http://www.springframework.org/schema/integration/stream"
+	xsi:schemaLocation="
+        	http://www.springframework.org/schema/beans 
+        	http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/integration
+            http://www.springframework.org/schema/integration/spring-integration-3.0.xsd
+            http://www.springframework.org/schema/integration/stream
+            http://www.springframework.org/schema/integration/stream/spring-integration-stream-3.0.xsd
+            http://www.springframework.org/schema/integration/mail 
+            http://www.springframework.org/schema/integration/mail/spring-integration-mail.xsd
+            http://www.springframework.org/schema/util 
+            http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="velocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			<props>
+				<prop key="resource.loader">class</prop>
+				<prop key="class.resource.loader.class">
+					org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+				</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

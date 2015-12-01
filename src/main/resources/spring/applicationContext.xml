@@ -56,8 +56,14 @@
 	<!-- Imports datasource configuration -->
 	<import resource="app-data.xml" />
 	
-	<!-- Imports mail configuration -->
+	<!-- Imports integration configuration -->
 	<import resource="app-integration.xml" />
+
+	<!-- Imports mail configuration -->
+	<import resource="app-mail.xml" />
+
+	<!-- Imports velocity configuration -->
+	<import resource="app-velocity.xml" />
 
 	<!-- Imports schedule configuration -->
 	<import resource="app-scheduler.xml" />

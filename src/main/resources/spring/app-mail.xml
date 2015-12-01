@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:int="http://www.springframework.org/schema/integration"
+        xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:stream="http://www.springframework.org/schema/integration/stream"
+        xsi:schemaLocation="
+        	http://www.springframework.org/schema/beans 
+        	http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/integration
+            http://www.springframework.org/schema/integration/spring-integration-3.0.xsd
+            http://www.springframework.org/schema/integration/stream
+            http://www.springframework.org/schema/integration/stream/spring-integration-stream-3.0.xsd
+            http://www.springframework.org/schema/integration/mail 
+            http://www.springframework.org/schema/integration/mail/spring-integration-mail.xsd
+            http://www.springframework.org/schema/util 
+            http://www.springframework.org/schema/util/spring-util.xsd">
+          
+	<!-- mail -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="465" />
+		<property name="username" value="goldbittledev@gmail.com" />
+		<property name="password" value="gold7bittle4" />
+		<property name="javaMailProperties">
+			<!-- Use SMTP transport protocol -->
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.debug">true</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="sendMail" class="org.arch.core.mail.SendMail">
+		<property name="mailSender" ref="mailSender" />
+		<property name="simpleMailMessage" ref="forgotPwdMailMessage" />
+	</bean>
+
+	<bean id="forgotPwdMailMessage" class="org.springframework.mail.SimpleMailMessage">
+
+		<property name="from" value="goldbittledev@gmail.com" />
+		<property name="to" value="racsor@gmail.com" />
+		<property name="subject" value="Testing Subject" />
+		<property name="text">
+			<value>
+		<![CDATA[
+			Buenas tu nueva contraseña es: %s,
+			Recuerda cambiarla. 
+		]]>
+			</value>
+		</property>
+	</bean>
+	<bean id="htmlMailMessage" class="org.arch.core.mail.SendMailer">
+		<property name="mailSender" ref="mailSender" />
+		<property name="from" value="goldbittledev@gmail.com" />
+	</bean>
+
+</beans>
