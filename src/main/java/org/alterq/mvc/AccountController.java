@@ -12,6 +12,7 @@ import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ErrorDto;
+import org.alterq.dto.MailQueueDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.AlterQException;
 import org.alterq.repo.RoundDao;
@@ -20,9 +21,11 @@ import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.DateFormatUtil;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
+import org.alterq.util.enumeration.QueueMailEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.UserAlterQValidator;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.arch.core.channel.ProcessMailQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +49,8 @@ public class AccountController {
 	private SessionAlterQDao sessionDao;
 	@Autowired
 	private RoundDao roundDao;
-	@Autowired
-	MessageChannel sendingChannel;
+//	@Autowired
+//	MessageChannel sendingChannel;
 	@Autowired
 	private UserAlterQSecurity userAlterQSecurity;
 	@Autowired
@@ -56,7 +59,10 @@ public class AccountController {
 	private UserAlterQConverter userAlterQConverter;
 	@Autowired
 	private DateFormatUtil dateFormatUtil;
+	@Autowired
+	ProcessMailQueue processMailQueue;
 
+	
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id:.+}/update")
 	public @ResponseBody
 	ResponseDto updateUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id, @RequestBody UserAlterQ user) {
@@ -118,8 +124,12 @@ public class AccountController {
 		ResponseDto dto = new ResponseDto();
 		if (userAlterQ != null) {
 //			String pwd = RandomStringUtils.random(10, true, true);
-			GenericMessage<UserAlterQ> messageUser = new GenericMessage<UserAlterQ>(userAlterQ);
-			sendingChannel.send(messageUser);
+			MailQueueDto mailDto=new MailQueueDto();
+			mailDto.setUser(userAlterQ);
+			mailDto.setType(QueueMailEnum.Q_FORGOTMAIL);
+
+			processMailQueue.process(mailDto);
+			
 //			userAlterQ.setPwd(pwd);
 //			userDao.save(userAlterQ);
 

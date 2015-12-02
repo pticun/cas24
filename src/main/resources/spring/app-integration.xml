@@ -46,11 +46,20 @@
 	<bean id="mailRouter"
 	        class="org.arch.core.channel.MailRouter"/>
 
-    <int:bridge input-channel="dailyMail" output-channel="dailyMailSend" auto-startup="true"/>
-    <int:bridge input-channel="resultsMail" output-channel="resultsMailSend" auto-startup="true"/>
-    <int:bridge input-channel="forgotMail" output-channel="forgotMailSend" auto-startup="true"/>
+	<int:bridge input-channel="dailyMail" output-channel="dailyMailSend"
+		auto-startup="true">
+		<int:poller />
+	</int:bridge>
+	<int:bridge input-channel="resultsMail"
+    	output-channel="resultsMailSend" auto-startup="true">
+    	<int:poller />
+    </int:bridge>
+	<int:bridge input-channel="forgotMail"
+		output-channel="forgotMailSend" auto-startup="true">
+		<int:poller />
+	</int:bridge>
 
-    <int:channel id="dailyMailSend"/>
+	<int:channel id="dailyMailSend"/>
     <int:channel id="resultsMailSend"/>
     <int:channel id="forgotMailSend"/>
 
@@ -80,60 +89,5 @@
 	 
 	<bean id="channelMailService"
 	        class="org.arch.core.channel.ChannelMailService"/>
-
-
-	<!-- mail -->
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gmail.com" />
-		<property name="port" value="465" />
-		<property name="username" value="goldbittledev@gmail.com" />
-		<property name="password" value="gold7bittle4" />
-		<property name="javaMailProperties">
-			<!-- Use SMTP transport protocol -->
-			<props>
-				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtp.starttls.enable">true</prop>
-				<prop key="mail.transport.protocol">smtp</prop>
-				<prop key="mail.debug">true</prop>
-				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
-			</props>
-		</property>
-	</bean>
-
-	<bean id="sendMail" class="org.arch.core.mail.SendMail">
-		<property name="mailSender" ref="mailSender" />
-		<property name="simpleMailMessage" ref="forgotPwdMailMessage" />
-	</bean>
-
-	<bean id="forgotPwdMailMessage" class="org.springframework.mail.SimpleMailMessage">
-
-		<property name="from" value="goldbittledev@gmail.com" />
-		<property name="to" value="racsor@gmail.com" />
-		<property name="subject" value="Testing Subject" />
-		<property name="text">
-			<value>
-		<![CDATA[
-			Buenas tu nueva contraseña es: %s,
-			Recuerda cambiarla. 
-		]]>
-			</value>
-		</property>
-	</bean>
-	<bean id="htmlMailMessage" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gmail.com" />
-		<property name="port" value="465" />
-		<property name="username" value="goldbittledev@gmail.com" />
-		<property name="password" value="gold7bittle4" />
-		<property name="javaMailProperties">
-			<!-- Use SMTP transport protocol -->
-			<props>
-				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtp.starttls.enable">true</prop>
-				<prop key="mail.transport.protocol">smtp</prop>
-				<prop key="mail.debug">true</prop>
-				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
-			</props>
-		</property>
-	</bean>
 
 </beans>

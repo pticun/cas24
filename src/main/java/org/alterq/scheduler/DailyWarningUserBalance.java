@@ -19,9 +19,6 @@ import org.arch.core.channel.ProcessMailQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.integration.MessageChannel;
-import org.springframework.integration.annotation.Gateway;
-import org.springframework.integration.message.GenericMessage;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +51,7 @@ public class DailyWarningUserBalance {
 
 		Date now = new Date();
 
-//		if (DateUtils.isSameDay(DateUtils.addDays(roundDate, -2), now) || DateUtils.isSameDay(DateUtils.addDays(roundDate, -1), now)) {
+		if (DateUtils.isSameDay(DateUtils.addDays(roundDate, -2), now) || DateUtils.isSameDay(DateUtils.addDays(roundDate, -1), now)) {
 			log.debug("execute sending mail");
 			List<UserAlterQ> allUser = dao.findAllUserActive();
 			for (UserAlterQ userAlterQ : allUser) {
@@ -81,9 +78,9 @@ public class DailyWarningUserBalance {
 				log.debug(userAlterQ.getId() + ":bets:" + ((userAlterQ.getSpecialBets() == null) ? 0 : userAlterQ.getSpecialBets().size()));
 			}
 
-//		} else {
-//			log.debug("not sending mail");
-//		}
+		} else {
+			log.debug("not sending mail");
+		}
 
 	}
 

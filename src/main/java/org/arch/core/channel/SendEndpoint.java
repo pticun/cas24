@@ -19,6 +19,7 @@ package org.arch.core.channel;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.MailQueueDto;
 import org.arch.core.mail.SendMail;
+import org.arch.core.mail.SendMailer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,14 @@ import org.springframework.integration.message.GenericMessage;
 /**
  * The endpoint for a delivery order.
  *
- * @author David Winterfeldt
+ * @author ALTERQ
  */
 @MessageEndpoint
 public class SendEndpoint {
 
     final Logger logger = LoggerFactory.getLogger(SendEndpoint.class);
 	@Autowired
-	SendMail sendMail;
+	SendMailer sendMailer;
 
     /**
      * Process a delivery order for sending by mail.
@@ -44,7 +45,7 @@ public class SendEndpoint {
 		MailQueueDto mailQueue=  message.getPayload();
 		UserAlterQ userAlterQ=mailQueue.getUser();
 		
-		sendMail.sendMail("goldbittledev@gmail.com", "racsor@gmail.com", "DailyMail FELICIDADES: "+ userAlterQ.getId(), "FELICIDADES DESDE ALTERQ");
+		sendMailer.sendDailyMail(userAlterQ);
 	}
 	/**
 	 * Process a delivery order for sending by mail.
@@ -53,7 +54,7 @@ public class SendEndpoint {
 		MailQueueDto mailQueue=  message.getPayload();
 		UserAlterQ userAlterQ=mailQueue.getUser();
 		
-		sendMail.sendMail("goldbittledev@gmail.com", "racsor@gmail.com", "ForgotMail FELICIDADES: "+ userAlterQ.getId(), "FELICIDADES DESDE ALTERQ");
+		sendMailer.sendForgotMail(userAlterQ);
 	}
 	/**
 	 * Process a delivery order for sending by mail.
@@ -62,7 +63,7 @@ public class SendEndpoint {
 		MailQueueDto mailQueue=  message.getPayload();
 		UserAlterQ userAlterQ=mailQueue.getUser();
 		
-		sendMail.sendMail("goldbittledev@gmail.com", "racsor@gmail.com", "ResultsMail FELICIDADES: "+ userAlterQ.getId(), "FELICIDADES DESDE ALTERQ");
+		sendMailer.sendResultsMail(userAlterQ);
 	}
 
 }
