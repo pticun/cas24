@@ -48,15 +48,12 @@
 
 	<int:bridge input-channel="dailyMail" output-channel="dailyMailSend"
 		auto-startup="true">
-		<int:poller />
 	</int:bridge>
 	<int:bridge input-channel="resultsMail"
     	output-channel="resultsMailSend" auto-startup="true">
-    	<int:poller />
     </int:bridge>
 	<int:bridge input-channel="forgotMail"
 		output-channel="forgotMailSend" auto-startup="true">
-		<int:poller />
 	</int:bridge>
 
 	<int:channel id="dailyMailSend"/>
