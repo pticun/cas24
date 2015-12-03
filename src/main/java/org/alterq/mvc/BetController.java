@@ -27,6 +27,7 @@ import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.RolCompanySecurity;
 import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.BetTools;
+import org.alterq.util.MailTools;
 import org.alterq.util.UserTools;
 import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
@@ -74,6 +75,8 @@ public class BetController {
 	private RoundBetDao roundBetDao;
 	@Autowired
 	private UserAlterQConverter userAlterQConverter;
+	@Autowired
+	private MailTools mailTools;
 
 	@Autowired
 	@Qualifier("messageLocalizedResources")
@@ -430,13 +433,15 @@ public class BetController {
 	public @ResponseBody ResponseDto confirmBet(@CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request, @PathVariable(value = "id") String id, @PathVariable(value = "season") int season, @PathVariable(value = "round") int round,
 			@PathVariable(value = "company") int company) {
 		RoundBets roundBets = null;
+		
 
 		if (log.isDebugEnabled()) {
 			log.debug("init AccountController.updateUserAlterQ");
 			log.debug("session:" + cookieSession);
 		}
 		ResponseDto dto = new ResponseDto();
-
+		String ccoMail = null;
+		
 		boolean adminCompanyUser = false;
 
 		try {
@@ -540,12 +545,25 @@ public class BetController {
 				}
 
 				roundBetDao.update(roundBets);
+				
+				ccoMail = mailTools.getCCOFinalBet(company, season, round);
 			}
+			else
+				ccoMail = userAlterQ.getId();
 
 			// Insert new bet into the BBDD
 			roundBetDao.addBet(company, season, round, bet);
 
 			userDao.save(userAlterQ);
+			
+			//Send mail with Bet
+			//******************************************************************
+			
+			// PENDING TO DO
+			log.debug("Mail: Bet= "+bet.getBet()+" CCO="+ccoMail);
+			
+			//******************************************************************
+			
 
 		} catch (SecurityException e) {
 			log.error(ExceptionUtils.getStackTrace(e));

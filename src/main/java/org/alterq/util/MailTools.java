@@ -61,23 +61,38 @@ public class MailTools{
 	        }
 		}
 
-		log.debug("getCCOFinalBet: CCO:" + CCO);
+		log.debug("getCCOUsersWithoutBet: CCO:" + CCO);
 		
 		return CCO;
 	}
 
 	public String getCCOUsersWithoutMoney(){
 		String CCO = "";
-
+		int numApuestas;
+		
 		List<UserAlterQ> lusers = userAlterQDao.findAllOrderedByName();
+		
 		for (UserAlterQ user : lusers){
+			numApuestas = 0;
+			
+			List<Bet> lSpecialBets = user.getSpecialBets();
+			
+			if (lSpecialBets != null){
+				for (Bet bet : lSpecialBets){
+					numApuestas+= bet.getNumBets();
+				}
+			}
+			if (numApuestas==0) numApuestas++;
+			
 			float balance = new Float(user.getBalance()).floatValue();
-	        if(balance < betTools.getPriceBet()) {
+	        
+	        
+			if(balance < (numApuestas * betTools.getPriceBet())) {
 				CCO+= user.getId() + ";";
 	        }
 		}		
-		log.debug("getCCOFinalBet: CCO:" + CCO);
+		log.debug("getCCOUsersWithoutMoney: CCO:" + CCO);
 		
 		return CCO;
-	}
+	} 
 }

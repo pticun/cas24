@@ -16,7 +16,8 @@ public class UserAlterQConverter {
 	public UserAlterQ converterUserAlterQ(UserAlterQ userAlterQ){
 		userAlterQ.setPwd("*******");
 		userAlterQ.setBalance(numericUtil.getTwoDecimalFormat(userAlterQ.getBalance()));
-		userAlterQ.setBirthday(dateFormatUtil.convertIsoTimeToFormatDay(userAlterQ.getBirthday()));
+		if (userAlterQ.getBirthday()!=null)
+			userAlterQ.setBirthday(dateFormatUtil.convertIsoTimeToFormatDay(userAlterQ.getBirthday()));
 		return userAlterQ;
 	}
 	

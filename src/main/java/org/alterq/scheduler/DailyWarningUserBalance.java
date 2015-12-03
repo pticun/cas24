@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.alterq.domain.AdminData;
+import org.alterq.domain.Bet;
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
@@ -43,6 +44,7 @@ public class DailyWarningUserBalance {
 	}
 
 	public void executeDailyWarning() {
+		int numApuestas;
 		log.debug("Method executed at every day.");
 		AdminData adminData = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		Round roundBean = roundDao.findBySeasonRound(adminData.getSeason(), adminData.getRound());
@@ -58,7 +60,18 @@ public class DailyWarningUserBalance {
 				// check if user don't have bets
 				// or don't have enough money for special bets
 				RoundBets roundBets = betDao.findAllUserBets(adminData.getSeason(), adminData.getRound(), userAlterQ.getId(), 1);
-				double calculatePrize=(userAlterQ.getSpecialBets() == null) ? 0 : userAlterQ.getSpecialBets().size()*adminData.getPrizeBet();
+
+				numApuestas = 0;
+				List<Bet> lSpecialBets = userAlterQ.getSpecialBets();
+				
+				if (lSpecialBets != null){
+					for (Bet bet : lSpecialBets){
+						numApuestas+= bet.getNumBets();
+					}
+				}
+				if (numApuestas==0) numApuestas++;
+				
+				double calculatePrize=(lSpecialBets == null) ? 0 : numApuestas*adminData.getPrizeBet();
 				if (roundBets == null || calculatePrize>new Float(userAlterQ.getBalance()).floatValue()) {
 					//send mail 
 //					GenericMessage<UserAlterQ> messageUser = new GenericMessage<UserAlterQ>(userAlterQ);
