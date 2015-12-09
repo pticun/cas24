@@ -337,7 +337,7 @@ var ctx = "<%=request.getContextPath()%>"
 				   			<td><input id="roundOpen" name="round" type="text"/></td>
 				        </tr>
 				   		<tr align="center">
-				   			<td colspan="2"><button id="admin_open_btn" class="btn btn-danger" name="openBtn" value="openBtn">Open</button><br><br></td>
+				   			<td colspan="2"><button id="admin_open_btn" class="btn btn-danger" name="openSeasonBtn" value="openSeasonBtn">Open</button><br><br></td>
 				        </tr>
 			   			<tr align="center">
 				   			<td colspan="2"><button id="homeBtn1" class="btn btn-danger" name="homeBtn1" value="homeBtn1">Admin Menu</button></td>

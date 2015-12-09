@@ -3,6 +3,14 @@ var season=0;
 var idUserAlterQ="";
 var company=1; // "quiniGoldClassic = 1" depends environment
 
+function toggleButton(idUniqueButton){
+	if ($('#'+idUniqueButton).attr("disabled")) {
+		$('#'+idUniqueButton).removeAttr("disabled");
+	} else {
+		$('#'+idUniqueButton).attr("disabled", "disabled");
+	}
+}
+
 // left padding s with c to a total of n chars
 function padding_left(s, c, n) {
   if (! s || ! c || s.length >= n) {
@@ -53,6 +61,8 @@ $(document).ready(function() {
 	
 	$('form#openForm').submit(function(event) {
 		 var dataJson=JSON.stringify($('form#openForm').serializeObject());
+		 consoleAlterQ("prevent double submit-");
+		 toggleButton("admin_open_btn");
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
 			 url: ctx+'/admin'+ '/company/' + company + '/season/'+ $("input[name=season]").val() + '/round/' + $("input[name=round]").val() + '/open',
@@ -68,14 +78,14 @@ $(document).ready(function() {
 		   		    		consoleAlterQ("open: response="+objeto.stringError);
 		   		    		$('#openFormResponse').append(objeto.stringError+" - ");
 					    });
-		   		    	
+						toggleButton("admin_open_btn");
 		   		    }
 		   		    else{
 		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
 						//$('#loginFormResponse').text(response.userAlterQ.name);
 						consoleAlterQ("open: response= OK");
 						$('#openFormResponse').text("Admin - Open - OK");
-						//userLoged=true;
+					//userLoged=true;
 						//idUserAlterQ=response.userAlterQ.id;
 						//$('#idData').val(response.userAlterQ.id);
 						//$('#nameData').val(response.userAlterQ.name);
@@ -303,6 +313,7 @@ $(document).ready(function() {
 	$('form#updateBalanceForm').submit(function(event) {
 		 var dataJson=JSON.stringify($('form#updateBalanceForm').serializeObject());
 		 consoleAlterQ(dataJson);
+		 toggleButton("admin_updateBalance_btn");
 		 var balance = ($("input[id=updateBalanceBalance]").val()=="")?"none":$("input[id=updateBalanceBalance]").val();
 		 var balanceInc = ($("input[id=updateIncreaseBalanceBalance]").val()=="")?"none":$("input[id=updateIncreaseBalanceBalance]").val();
 		 var balanceDec = ($("input[id=updateDecreaseBalanceBalance]").val()=="")?"none":$("input[id=updateDecreaseBalanceBalance]").val();
@@ -320,7 +331,7 @@ $(document).ready(function() {
 		   		    		consoleAlterQ("result: response="+objeto.errorDto);
 		   		    		$('#updateBalanceFormResponse').text(objeto.stringError+" - ");
 					    });
-		   		    	
+		   			 toggleButton("admin_updateBalance_btn");
 		   		    }
 		   		    else{
 		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
