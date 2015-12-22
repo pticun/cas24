@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Documento Info Quinigold</title>
+<style type="text/css"> 
+
+body {
+	background-color: hsla(0,0%,93%,1);
+	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+}
+
+#logo {
+	position: relative;
+	margin-left: 400px;	
+	
+}
+.contenedor {
+	border-left: thick none hsla(0,0%,32%,0.93);
+	border-right: thick none hsla(0,0%,32%,0.93);
+	border-bottom: thick dotted hsla(0,0%,32%,0.93);
+	border-top: thick dotted hsla(0,0%,32%,0.93);
+	border-radius: 30px;
+	width: 1029px;
+	margin-left: 400px;
+	margin-top: 9px;
+}
+
+
+#texto1 {
+	margin-left: 29px;
+	width: 969px;
+	max-height: none;
+	max-width: 969px;
+	text-align: justify;
+	font-size: large;
+}
+#texto2 {
+	margin-left: 29px;
+	width: 969px;
+	max-height: none;
+	max-width: 969px;
+	text-align: justify;
+	font-size: large;
+}
+#enlace {
+	margin-left: 400px;
+	color: hsla(359,100%,50%,1.00);
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+</style>
+</head>
+
+<body>
+
+<img src="images/LOGO.png" alt="" width="1035" height="255" id="logo"/>
+
+
+<div class="contenedor">
+  <p id="texto1"> Tu saldo es inferior a la apuesta minima ${currentBalance}€
+<br><br>
+</div>
+
+</body>
+</html>

@@ -36,7 +36,7 @@ public class SendMailTest {
 				"</div></body></html>";
 				
 		UserAlterQ user=new UserAlterQ();
-		user.setId("racsor@gmail.com");
+		user.setId("quinielagold@gmail.com");
 		user.setPwd("newPwd");
 		sendMailer.sendForgotMail(user);
 		return;

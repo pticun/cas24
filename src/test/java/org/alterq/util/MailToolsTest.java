@@ -39,4 +39,11 @@ public class MailToolsTest {
 
 		Assert.assertNotNull(result);
 	}
+	
+	@Test
+	public void test04sendWithoutMoneyMail() {
+		mailTools.sendMailUsersWithoutMoney();
+		Assert.assertNotNull(true);
+	}
+	
 }

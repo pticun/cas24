@@ -29,6 +29,9 @@ public class MailRouter {
 		case Q_FORGOTMAIL:
 			result = "forgotMail";
 			break;
+		case Q_WITHOUTMONEYMAIL:
+			result = "withoutMoneyMail";
+			break;
 		}
 		log.debug("processMailQueue:" + result);
 

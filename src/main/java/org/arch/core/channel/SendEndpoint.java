@@ -66,4 +66,13 @@ public class SendEndpoint {
 		sendMailer.sendResultsMail(userAlterQ);
 	}
 
+	/**
+	 * Process a delivery order for sending by mail.
+	 */
+	public void sendingWithoutMoneyMail(GenericMessage<MailQueueDto> message) {
+		MailQueueDto mailQueue=  message.getPayload();
+		UserAlterQ userAlterQ=mailQueue.getUser();
+		
+		sendMailer.sendWithoutMoneyMail(userAlterQ);
+	}
 }

@@ -140,6 +140,40 @@ public class SendMailer {
 			e.printStackTrace();
 		}
 	}
+	
+	public void sendWithoutMoneyMail(UserAlterQ userAlterQ) {
+		MimeMessage message = mailSender.createMimeMessage();
+		
+		// use the true flag to indicate you need a multipart message
+		MimeMessageHelper helper;
+		try {
+			Template template = velocityEngine.getTemplate("./templates/withoutMoneyMail.vm");
+			
+			VelocityContext velocityContext = new VelocityContext();
+			velocityContext.put("currentBalance", userAlterQ.getBalance());
+			StringWriter stringWriter = new StringWriter();
+			
+			template.merge(velocityContext, stringWriter);
+			
+			helper = new MimeMessageHelper(message, true);
+			helper.setFrom(from);
+			helper.setTo(userAlterQ.getId());
+			helper.setSubject("withoutMoney");
+			
+			
+			helper.setText(stringWriter.toString(), true);
+			
+			log.debug("body:"+stringWriter.toString());
+			
+//			FileSystemResource file = new FileSystemResource(new File("D:\\temp\\logo_1035_255.png"));
+//			helper.addInline("logo_1035_205", file);
+			
+			mailSender.send(message);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public String getFrom() {
 		return from;
