@@ -53,7 +53,7 @@ body {
 
 <body>
 
-<img src="images/LOGO.png" alt="" width="1035" height="255" id="logo"/>
+<img src="http://www.quinigold.com/static/resources/_include/img/quinigold.png" alt="" width="1035" height="255" id="logo"/>
 
 
 <div class="contenedor">
