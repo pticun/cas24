@@ -40,6 +40,7 @@
     <int:channel id="dailyMail"/>
     <int:channel id="resultsMail"/>
     <int:channel id="forgotMail"/>
+    <int:channel id="withoutMoneyMail"/>
     
     <int:router input-channel="processMailQueue" method="process" ref="mailRouter"/>
 
@@ -55,14 +56,19 @@
 	<int:bridge input-channel="forgotMail"
 		output-channel="forgotMailSend" auto-startup="true">
 	</int:bridge>
+	<int:bridge input-channel="withoutMoneyMail"
+		output-channel="withoutMoneyMailSend" auto-startup="true">
+	</int:bridge>
 
 	<int:channel id="dailyMailSend"/>
     <int:channel id="resultsMailSend"/>
     <int:channel id="forgotMailSend"/>
+    <int:channel id="withoutMoneyMailSend"/>
 
     <int:outbound-channel-adapter channel="dailyMailSend" ref="sendEndpoint" method="sendingDailyMail" auto-startup="true"/>
     <int:outbound-channel-adapter channel="resultsMailSend" ref="sendEndpoint" method="sendingForgotMail" auto-startup="true"/>
     <int:outbound-channel-adapter channel="forgotMailSend" ref="sendEndpoint" method="sendingResultsMail" auto-startup="true"/>
+    <int:outbound-channel-adapter channel="withoutMoneyMailSend" ref="sendEndpoint" method="sendingWithoutMoneyMail" auto-startup="true"/>
 
 <!--     
     <int:bridge input-channel="pickup" output-channel="store" />
