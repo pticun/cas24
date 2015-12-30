@@ -217,6 +217,8 @@ EXPORTAR DE MONGOLAB DE PRO A PRE
 	
  		SSH de openshift
  			ssh://54a72909e0b8cd121c000053@quinigold-quinigold.rhcloud.com/~/git/quinigold.git/
+ 			
+ 		Se ha añadido una variable de entorno (environment=pro)
           
 ====
 1 = 100		=4
