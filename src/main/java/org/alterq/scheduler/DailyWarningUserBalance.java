@@ -15,8 +15,10 @@ import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.util.enumeration.QueueMailEnum;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.arch.core.channel.ProcessMailQueue;
+import org.arch.core.util.CoreUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,16 +75,14 @@ public class DailyWarningUserBalance {
 				
 				double calculatePrize=(lSpecialBets == null) ? 0 : numApuestas*adminData.getPrizeBet();
 				if (roundBets == null || calculatePrize>new Float(userAlterQ.getBalance()).floatValue()) {
-					//send mail 
-//					GenericMessage<UserAlterQ> messageUser = new GenericMessage<UserAlterQ>(userAlterQ);
 //					//TODO
-//					//for purpouse test rewrite mail
-//					sendingChannel.send(messageUser);
 					MailQueueDto mailDto=new MailQueueDto();
-					userAlterQ.setId("racsor@gmail.com");
+//					//for purpouse test rewrite mail in environment not PRO
+					if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
+						userAlterQ.setId("quinielagold@gmail.com");
+					}
 					mailDto.setUser(userAlterQ);
-					mailDto.setType(QueueMailEnum.Q_DAILYMAIL);
-//					GenericMessage<MailQueueDto> messageUser = new GenericMessage<MailQueueDto>(mailDto);
+					mailDto.setType(QueueMailEnum.Q_WITHOUTMONEYMAIL);
 
 					processMailQueue.process(mailDto);
 					

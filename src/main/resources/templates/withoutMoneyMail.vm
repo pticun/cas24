@@ -57,7 +57,7 @@ body {
 
 
 <div class="contenedor">
-  <p id="texto1"> Tu saldo es inferior a la apuesta minima ${currentBalance}€
+  <p class="texto1"> Tu saldo es inferior a la apuesta minima ${currentBalance}€</p>
 <br><br>
 </div>
 
