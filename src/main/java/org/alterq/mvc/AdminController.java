@@ -50,6 +50,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.arch.core.file.BetElectronicFile;
 import org.arch.core.file.HeaderBetElectronicFile;
 import org.arch.core.file.RegistroBetElectronicFile;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,6 +143,7 @@ public class AdminController {
 	// Funciona
 	private void updateRoundRanking(int company, int season, int round, UserAlterQ user, int points, int ones, int equs, int twos) {
 		Ranking rnk = new Ranking();
+		rnk.setId(new ObjectId().toHexString());
 		rnk.setOnes(ones);
 		rnk.setEqus(equs);
 		rnk.setTwos(twos);
@@ -215,7 +217,7 @@ public class AdminController {
 				// Check if exist this roundBet
 				if (roundBets == null) {
 					RoundBets bean = new RoundBets();
-					//bean.setCompany(company);
+					bean.setId(new ObjectId().toHexString());
 					bean.setCompany(co.getCompany());
 					bean.setRound(round);
 					bean.setSeason(season);
@@ -289,6 +291,7 @@ public class AdminController {
 			if (rbAdminResultBet != null){
 				UserAlterQ userAdmin = userAlterQDao.findSuperAdmin();
 				Bet betResult = new Bet();
+				betResult.setId(new ObjectId().toHexString());
 				betResult.setBet(resultBet);
 				//bAux.setUser(user);
 				betResult.setCompany(AlterQConstants.DEFECT_COMPANY);

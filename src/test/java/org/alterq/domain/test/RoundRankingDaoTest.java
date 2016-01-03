@@ -1,13 +1,13 @@
 package org.alterq.domain.test;
 
 
-import java.awt.List;
 import java.util.ArrayList;
 
 import org.alterq.domain.Ranking;
 import org.alterq.domain.RoundRanking;
 import org.alterq.repo.RoundRankingDao;
 import org.alterq.repo.UserAlterQDao;
+import org.bson.types.ObjectId;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -65,11 +65,12 @@ public class RoundRankingDaoTest {
 		bean1.setRound(12);
 
 		Ranking bean = new Ranking();
+		bean.setId(new ObjectId().toHexString());
 		bean.setPoints(10);
 		bean.setOnes(5);
 		bean.setEqus(2);
 		bean.setTwos(3);
-		bean.setUser(userDao.findById("santi").getId());
+		bean.setUser(userDao.findById("racsor@gmail.com").getId());
 
 		ArrayList<Ranking> rankings = new ArrayList<Ranking>();
 		rankings.add(bean);
@@ -100,20 +101,22 @@ public class RoundRankingDaoTest {
 		rankingDao.add(bean1);
 		
 		Ranking bean2 = new Ranking();
+		bean2.setId(new ObjectId().toHexString());
 		bean2.setPoints(10);
 		bean2.setOnes(5);
 		bean2.setEqus(2);
 		bean2.setTwos(3);
-		bean2.setUser(userDao.findById("santi").getId());
+		bean2.setUser(userDao.findById("racsor@gmail.com").getId());
 		
 		rankingDao.addRanking(1, 2014, 12, bean2);
 		
 		Ranking bean3 = new Ranking();
+		bean3.setId(new ObjectId().toHexString());
 		bean3.setPoints(12);
 		bean3.setOnes(6);
 		bean3.setEqus(1);
 		bean3.setTwos(5);
-		bean3.setUser(userDao.findById("nuevo@nuevo.es").getId());
+		bean3.setUser(userDao.findById("racsor@gmail.com").getId());
 		
 		rankingDao.addRanking(1, 2014, 12, bean3);
 
