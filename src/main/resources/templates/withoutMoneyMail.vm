@@ -56,10 +56,19 @@ body {
 <img src="http://www.quinigold.com/static/resources/_include/img/quinigold.png" alt="" width="1035" height="255" id="logo"/>
 
 
-<div class="contenedor">
-  <p class="texto1"> Tu saldo es inferior a la apuesta minima ${currentBalance}€</p>
-<br><br>
+<div style="border-left: thick none hsla(0,0%,32%,0.93); border-right: thick none hsla(0,0%,32%,0.93); border-bottom: thick dotted hsla(0,0%,32%,0.93);	border-top: thick dotted hsla(0,0%,32%,0.93); border-radius: 30px; width: 1029px; margin-left: 10px; margin-top: 9px;">
+  <p style="margin-left: 29px; width: 969px; max-height: none; max-width: 969px; text-align: justify; font-size: large;">
+  Hola Quinigolder,<br><br>
+  Tu saldo actual ${currentBalance}€ es inferior a la apuesta minima.<br>
+  Si quieres seguir jugando en QuiniGold tendrás que actualizarlo.<br><br>
+  Gracias por tu confianza
+  </p>
 </div>
-
+<div>
+  <p style="margin-left: 29px; width: 969px; max-height: none; max-width: 969px; text-align: justify; font-size: large;">
+    QuiniGold<br>
+    http://www.quinigold.com
+  </p>
+</div>
 </body>
 </html>
