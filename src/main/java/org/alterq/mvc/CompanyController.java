@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.alterq.domain.Company;
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
+import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
+import org.alterq.exception.AlterQException;
 import org.alterq.exception.ValidatorException;
 import org.alterq.repo.CompanyDao;
 import org.alterq.repo.UserAlterQDao;
+import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.validator.CompanyValidator;
 import org.alterq.validator.UserAlterQValidator;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -18,7 +23,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -76,6 +83,30 @@ public class CompanyController {
 		return dto;
 
 	}
+	
+	@RequestMapping(method = RequestMethod.POST, value="/{idUser:.+}")
+	public @ResponseBody
+	ResponseDto createCompany(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable String idUser, @RequestBody Company company, HttpServletResponse response) {
+		if (log.isDebugEnabled()) {
+			log.debug("init CompanyController.createCompany");
+		}
+		ResponseDto dto = new ResponseDto();
+		try {
+			//TODO check company validator
+//		}catch (AlterQException ex){
+//			dto.addErrorDto(ex.getErrorDto());
+//			log.error(ExceptionUtils.getStackTrace(ex));
+		} catch (Exception e) {
+			ErrorDto error = new ErrorDto();
+			error.setIdError(MessageResourcesNameEnum.USER_ALREADY_EXIST);
+			error.setStringError("User already exist");
+			dto.addErrorDto(error);
+			log.error(ExceptionUtils.getStackTrace(e));
+		}
+
+		return dto;
+	}
+	
 
 	
 }

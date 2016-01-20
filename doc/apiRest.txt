@@ -34,6 +34,7 @@ DELETE	/myaccount/{id:.+}/{company}/{season}/{round}/bet/{bet}			BetController		
 DELETE	/myaccount/{id:.+}/{company}/{season}/{round}/bet				BetController			deleteAllUserBets
 
 GET		/company/{company}												CompanyController		getCompany
+POST	/company/{idUser:.+}											CompanyController		createCompany
 GET		/company/myaccount/{idUser:.+}									CompanyController		getCompanyUser
 
 GET		/generalData													GeneralDataController	getGeneralDataCompany
