@@ -28,6 +28,34 @@
 		</div>
     </div>
     <!-- End MyCompany Form -->
+    <!-- AdminCompany Form -->
+    <div class="row">
+		<div align="center">
+		   <form id="adminCompanyForm">
+		   		<table class="tablaQuiniGold">
+		   			<tr align="center">
+						<td colspan="2">Crear Compañia</td>
+					</tr>
+			   		<tr>
+			   			<td>Descripción:</td>
+			   			<td><input class="textbox" id="idCompanyDesc" name="id" type="text" readonly="readonly"/></td>
+			        </tr>
+			   		<tr>
+			   			<td>Nick:</td>
+			   			<td><input class="textbox" name="nick" id="companyNick" type="text" readonly="true"/></td>
+			        </tr>
+			   		<tr align="right" style="display:none" >
+			   			<td></td>
+			   			<td><button id="balanceAlterQFormSubmit_btn" class="btn btn-danger" name="submitBtn" value="submitBtn">Añadir</button></td>
+			        </tr>
+		        </table>
+		        <br>
+		        <br>
+		        <div id="adminCompanyFormResponse" class="linkQuiniGold">Añade la compañia y pulsa Añadir.</div>
+	        </form>
+		</div>
+    </div>
+    <!-- End AdminCompany Form -->
 </div>
 </div>
 <!-- End MyCompany Section -->

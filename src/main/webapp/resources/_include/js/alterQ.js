@@ -671,14 +671,41 @@ $(document).ready(function() {
 	
 	 $('form#myCompanyForm').submit(function( event ) {
    		 var dataJson=JSON.stringify($('form#myCompanyForm').serializeObject());
+   		 showDiv(bHome);
    		 consoleAlterQ('updateDataJsonAlterQ:'+dataJson);
 		event.preventDefault(); // prevent actual form submit and page reload
    	 });
+
+	 $('form#adminCompanyForm').submit(function( event ) {
+		 var dataJson=JSON.stringify($('form#adminCompanyForm').serializeObject());
+		 showDiv(bHome);
+		 consoleAlterQ('updateDataJsonAlterQ:'+dataJson);
+		 jQuery.ajax ({
+			    url: ctx+'/company/'+window.idUserAlterQ,
+			    type: "POST",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=0){
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		$('#adminCompanyFormResponse').append(objeto.stringError+" - ");
+					    });
+		   		    }
+		   		    else{
+		   		    }
+			    }
+			});
+		 
+		 event.preventDefault(); // prevent actual form submit and page reload
+	 });
 	
-	 $('form#myCompanyForm').submit(function( event ) {
-			showDiv(bHome);
-			event.preventDefault(); // prevent actual form submit and page reload
-	 });	 
+//	 $('form#myCompanyForm').submit(function( event ) {
+//			showDiv(bHome);
+//			event.preventDefault(); // prevent actual form submit and page reload
+//	 });	 
 
 	 $("#goUp").click(function( event ){
 		menuEvent($(this).text(), $(this).attr("href"));
