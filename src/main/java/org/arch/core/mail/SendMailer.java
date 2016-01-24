@@ -3,6 +3,7 @@ package org.arch.core.mail;
 import java.io.StringWriter;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.alterq.domain.UserAlterQ;
@@ -23,7 +24,7 @@ public class SendMailer {
 	@Autowired
 	private VelocityEngine velocityEngine;
 
-	private String from;
+	private String from="QuiniGold";
 
 	public JavaMailSender getMailSender() {
 		return mailSender;
@@ -156,9 +157,9 @@ public class SendMailer {
 			template.merge(velocityContext, stringWriter);
 			
 			helper = new MimeMessageHelper(message, true);
-			helper.setFrom(from);
+			helper.setFrom(new InternetAddress(from, "QuiniGold"));
 			helper.setTo(userAlterQ.getId());
-			helper.setSubject("withoutMoney");
+			helper.setSubject("QuiniGold - Saldo Agotado");
 			
 			
 			helper.setText(stringWriter.toString(), true);
@@ -172,7 +173,10 @@ public class SendMailer {
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
 		}
+		
 	}
 
 	public String getFrom() {

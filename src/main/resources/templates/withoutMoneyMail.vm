@@ -8,8 +8,8 @@
 <body style="background-color: hsla(0,0%,93%,1); font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; width:100%;">
     <div style="border-radius: 30px; background-color:rgb(120, 120, 120); width:100%;">
 		<div style="margin-left: 5%; margin-right: 5%;">
-        <img src="http://www.quinigold.com/static/resources/_include/img/quinigold.png" alt="" width="100%" height="100%" id="logo"/>
-        ##<img style="width:100%;" src="http://www.goldbittle.es/LOGO.png" alt="QuiniGold" id="logo"/>
+        ##<img src="http://www.quinigold.com/static/resources/_include/img/quinigold.png" alt="" width="100%" height="100%" id="logo"/>
+        <img style="width:100%;" src="http://www.goldbittle.es/LOGO.png" alt="QuiniGold" id="logo"/>
         <div style="border-left: thick none hsla(0,0%,32%,0.93); border-right: thick none hsla(0,0%,32%,0.93); border-bottom: thick dotted hsla(0,0%,32%,0.93);	border-top: thick dotted hsla(0,0%,32%,0.93); border-radius: 30px; margin-top: 5px; width:100%;">
 		  <div style="margin-left: 5%; margin-right: 5%;">
 		  <p style="width:100%; max-height: none; max-width: 100%; text-align: :justify; font-size: large;">

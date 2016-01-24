@@ -3,63 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <title>Documento Info Quinigold</title>
-<style type="text/css"> 
-
-body {
-	background-color: hsla(0,0%,93%,1);
-	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
-}
-
-#logo {
-	position: relative;
-	margin-left: 400px;	
-	
-}
-.contenedor {
-	border-left: thick none hsla(0,0%,32%,0.93);
-	border-right: thick none hsla(0,0%,32%,0.93);
-	border-bottom: thick dotted hsla(0,0%,32%,0.93);
-	border-top: thick dotted hsla(0,0%,32%,0.93);
-	border-radius: 30px;
-	width: 1029px;
-	margin-left: 400px;
-	margin-top: 9px;
-}
-
-
-#texto1 {
-	margin-left: 29px;
-	width: 969px;
-	max-height: none;
-	max-width: 969px;
-	text-align: justify;
-	font-size: large;
-}
-#texto2 {
-	margin-left: 29px;
-	width: 969px;
-	max-height: none;
-	max-width: 969px;
-	text-align: justify;
-	font-size: large;
-}
-#enlace {
-	margin-left: 400px;
-	color: hsla(359,100%,50%,1.00);
-	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-</style>
 </head>
 
-<body>
-
-<img src="images/LOGO.png" alt="" width="1035" height="255" id="logo"/>
-
-
-<div class="contenedor">
-  <p id="texto1"> Hola tu nueva contrase&ntilde;a es: ${newPassword}
-<br><br>
-</div>
-
+<body style="background-color: hsla(0,0%,93%,1); font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; width:100%;">
+    <div style="border-radius: 30px; background-color:rgb(120, 120, 120); width:100%;">
+		<div style="margin-left: 5%; margin-right: 5%;">
+        ##<img src="http://www.quinigold.com/static/resources/_include/img/quinigold.png" alt="" width="100%" height="100%" id="logo"/>
+        <img style="width:100%;" src="http://www.goldbittle.es/LOGO.png" alt="QuiniGold" id="logo"/>
+        <div style="border-left: thick none hsla(0,0%,32%,0.93); border-right: thick none hsla(0,0%,32%,0.93); border-bottom: thick dotted hsla(0,0%,32%,0.93);	border-top: thick dotted hsla(0,0%,32%,0.93); border-radius: 30px; margin-top: 5px; width:100%;">
+		  <div style="margin-left: 5%; margin-right: 5%;">
+		  <p style="width:100%; max-height: none; max-width: 100%; text-align: :justify; font-size: large;">
+          Hola Quinigolder,<br><br>
+          El resumen de premios del Boleto ${resultBoleto} es el siguiente:<br>
+		  <table>
+			<tr>
+                <td>Aciertos de 10:</td><td>${resultAciertos10} x&nbsp</td><td>${resultPremio10}€</td><td>= ${resultTotal10}€</td>
+			</tr>
+            <tr>
+				<td>Aciertos de 11:</td><td>${resultAciertos11} x&nbsp</td><td>${resultPremio11}€</td><td>= ${resultTotal11}€</td>
+			</tr>
+            <tr>
+				<td>Aciertos de 12:</td><td>${resultAciertos12} x&nbsp</td><td>${resultPremio12}€</td><td>= ${resultTotal12}€</td>
+			</tr>
+            <tr>
+				<td>Aciertos de 13:</td><td>${resultAciertos13} x&nbsp</td><td>${resultPremio13}€</td><td>= ${resultTotal13}€</td>
+			</tr>
+            <tr>
+				<td>Aciertos de 14:</td><td>${resultAciertos14} x&nbsp</td><td>${resultPremio14}€</td><td>= ${resultTotal14}€</td>
+			</tr>
+            <tr>
+				<td>Aciertos de 15:</td><td>${resultAciertos15} x&nbsp</td><td>${resultPremio15}€</td><td>= ${resultTotal15}€</td>
+			</tr>
+            <tr>
+				<td colspan=3>Bote:</td><td>= ${resultBote}€</td>
+			</tr>
+            <tr>
+				<td colspan=3 align=right>TOTAL</td><td>= ${resultTotal}€</td>
+            </tr>
+          </table>	
+		  <br><br>
+          Gracias por tu confianza.
+          </p>
+		  </div>
+        </div>
+        <div style="width:100%;">
+          <p style="width:100%; margin-left: 5%; margin-right: 5%;  max-height: none; max-width: 100%; text-align: justify; font-size: large;">
+            QuiniGold<br>
+            http://www.quinigold.com
+        	<br><br>
+          </p>
+        </div>
+		</div>
+    </div>
 </body>
 </html>
