@@ -38,13 +38,13 @@
 					</tr>
 			   		<tr>
 			   			<td>Descripción:</td>
-			   			<td><input class="textbox" id="idCompanyDesc" name="id" type="text" readonly="readonly"/></td>
+			   			<td><input class="textbox" id="idCompanyDesc" name="description" type="text"/></td>
 			        </tr>
 			   		<tr>
 			   			<td>Nick:</td>
-			   			<td><input class="textbox" name="nick" id="companyNick" type="text" readonly="true"/></td>
+			   			<td><input class="textbox" name="nick" id="companyNick" type="text"/></td>
 			        </tr>
-			   		<tr align="right" style="display:none" >
+			   		<tr align="right">
 			   			<td></td>
 			   			<td><button id="balanceAlterQFormSubmit_btn" class="btn btn-danger" name="submitBtn" value="submitBtn">Añadir</button></td>
 			        </tr>

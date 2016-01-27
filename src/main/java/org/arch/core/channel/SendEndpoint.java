@@ -63,7 +63,7 @@ public class SendEndpoint {
 		MailQueueDto mailQueue=  message.getPayload();
 		UserAlterQ userAlterQ=mailQueue.getUser();
 		
-		sendMailer.sendResultsMail(userAlterQ);
+//		sendMailer.sendResultsMail(userAlterQ);
 	}
 
 	/**

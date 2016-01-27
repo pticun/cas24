@@ -1,24 +1,32 @@
 package org.alterq.mvc;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.alterq.converter.UserAlterQConverter;
 import org.alterq.domain.Company;
 import org.alterq.domain.RolCompany;
+import org.alterq.domain.SequenceId;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
-import org.alterq.exception.AlterQException;
 import org.alterq.exception.ValidatorException;
 import org.alterq.repo.CompanyDao;
+import org.alterq.repo.SequenceIdDao;
 import org.alterq.repo.UserAlterQDao;
+import org.alterq.security.UserAlterQSecurity;
+import org.alterq.util.RolCompanyComparator;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
+import org.alterq.util.enumeration.RolNameEnum;
+import org.alterq.util.enumeration.SequenceNameEnum;
 import org.alterq.validator.CompanyValidator;
 import org.alterq.validator.UserAlterQValidator;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +50,12 @@ public class CompanyController {
 	private UserAlterQValidator userAlterQValidator;
 	@Autowired
 	private UserAlterQDao userDao;
+	@Autowired
+	private UserAlterQSecurity userSecurity;
+	@Autowired
+	private SequenceIdDao sequenceDao;
+	@Autowired
+	private UserAlterQConverter userAlterQConverter;
 
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "{company}")
 	public @ResponseBody ResponseDto getCompany(@PathVariable int company) {
@@ -92,10 +106,35 @@ public class CompanyController {
 		}
 		ResponseDto dto = new ResponseDto();
 		try {
-			//TODO check company validator
-//		}catch (AlterQException ex){
-//			dto.addErrorDto(ex.getErrorDto());
-//			log.error(ExceptionUtils.getStackTrace(ex));
+			UserAlterQ user=new UserAlterQ();
+			user.setId(idUser);
+			userAlterQValidator.isUserIdOk(user);
+
+			UserAlterQ userRetrieve=userDao.findById(user.getId());
+
+			company.setId(new ObjectId().toHexString());
+			SequenceId bean = sequenceDao.findById(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
+			int seq = sequenceDao.getNextSequenceId(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
+			company.setCompany(seq);
+			companyDao.add(company);
+
+			List<RolCompany> rolCompany=new ArrayList<RolCompany>();
+			//get from json web part
+			List<RolCompany> rolCompanyForUpdate=new ArrayList<RolCompany>();
+			rolCompany=userRetrieve.getRols();
+			
+			RolCompany rolAdmin=new RolCompany();
+			rolAdmin.setCompany(company.getCompany());
+			rolAdmin.setRol(RolNameEnum.ROL_ADMIN.getValue());
+			rolCompany.add(rolAdmin);
+			
+			userRetrieve.setRols(rolCompany);
+			//update user
+			userDao.save(userRetrieve);
+
+			dto.setCompany(company);
+			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQ(userRetrieve));
+			
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_ALREADY_EXIST);

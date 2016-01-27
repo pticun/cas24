@@ -66,8 +66,8 @@
     <int:channel id="withoutMoneyMailSend"/>
 
     <int:outbound-channel-adapter channel="dailyMailSend" ref="sendEndpoint" method="sendingDailyMail" auto-startup="true"/>
-    <int:outbound-channel-adapter channel="resultsMailSend" ref="sendEndpoint" method="sendingForgotMail" auto-startup="true"/>
-    <int:outbound-channel-adapter channel="forgotMailSend" ref="sendEndpoint" method="sendingResultsMail" auto-startup="true"/>
+    <int:outbound-channel-adapter channel="resultsMailSend" ref="sendEndpoint" method="sendingResultsMail" auto-startup="true"/>
+    <int:outbound-channel-adapter channel="forgotMailSend" ref="sendEndpoint" method="sendingForgotMail" auto-startup="true"/>
     <int:outbound-channel-adapter channel="withoutMoneyMailSend" ref="sendEndpoint" method="sendingWithoutMoneyMail" auto-startup="true"/>
 
 <!--     
