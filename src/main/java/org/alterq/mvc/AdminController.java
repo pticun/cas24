@@ -40,6 +40,7 @@ import org.alterq.security.RolCompanySecurity;
 import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.BetTools;
 import org.alterq.util.CalculateRigths;
+import org.alterq.util.MailTools;
 import org.alterq.util.UserTools;
 import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
@@ -50,6 +51,8 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.arch.core.file.BetElectronicFile;
 import org.arch.core.file.HeaderBetElectronicFile;
 import org.arch.core.file.RegistroBetElectronicFile;
+import org.arch.core.mail.SendMail;
+import org.arch.core.mail.SendMailer;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,6 +95,10 @@ public class AdminController {
 	private RoundResultsDao roundResultsDao;
 	@Autowired
 	private CompanyDao companyDao;
+	@Autowired
+	MailTools mailTools;
+	@Autowired
+	SendMailer sendMailer;	
 
 	private static int doubles = 0;
 	private static int triples = 0;
@@ -603,7 +610,9 @@ public class AdminController {
 								}
 							}
 							//Send Results Mail
-							//sendResultsMail(String CCOusers, int round, float jackPot, float betReward, float rewardDivided, List<Prize> prizes)
+							String cco = mailTools.getCCOFinalBet(co.getCompany(),season,round);
+							cco = "quinielagold@gmail.com";
+							sendMailer.sendResultsMail(cco, round, jackPot, betReward, rewardDivided, lPrizes);
 						}
 					}
 					//Update RoundBet reward

@@ -112,7 +112,7 @@ public class SendMailer {
 			e.printStackTrace();
 		}
 	}
-	public void sendResultsMail(String CCOusers, int round, float jackPot, float betReward, float rewardDivided, List<Prize> prizes) {
+	public void sendResultsMail(String CCOusers, int round, float jackPot, float betReward, double rewardDivided, List<Prize> prizes) {
 		MimeMessage message = mailSender.createMimeMessage();
 		
 		// use the true flag to indicate you need a multipart message 
@@ -129,7 +129,7 @@ public class SendMailer {
 				velocityContext.put("resultTotal"+prize.getId(), prize.getCount() * prize.getAmount());
 			}
 			velocityContext.put("resultBote", jackPot);
-			velocityContext.put("resultTotal", jackPot);
+			velocityContext.put("resultTotal", betReward);
 			
 			
 			StringWriter stringWriter = new StringWriter();

@@ -17,22 +17,22 @@
           El resumen de premios del Boleto ${resultBoleto} es el siguiente:<br>
 		  <table>
 			<tr>
-                <td>Aciertos de 10:</td><td>${resultAciertos10} x&nbsp</td><td>${resultPremio10}€</td><td>= ${resultTotal10}€</td>
+                <td>Aciertos de 10:</td><td>${resultAciertos10} x</td><td>${resultPremio10}€</td><td>= ${resultTotal10}€</td>
 			</tr>
             <tr>
-				<td>Aciertos de 11:</td><td>${resultAciertos11} x&nbsp</td><td>${resultPremio11}€</td><td>= ${resultTotal11}€</td>
+				<td>Aciertos de 11:</td><td>${resultAciertos11} x</td><td>${resultPremio11}€</td><td>= ${resultTotal11}€</td>
 			</tr>
             <tr>
-				<td>Aciertos de 12:</td><td>${resultAciertos12} x&nbsp</td><td>${resultPremio12}€</td><td>= ${resultTotal12}€</td>
+				<td>Aciertos de 12:</td><td>${resultAciertos12} x</td><td>${resultPremio12}€</td><td>= ${resultTotal12}€</td>
 			</tr>
             <tr>
-				<td>Aciertos de 13:</td><td>${resultAciertos13} x&nbsp</td><td>${resultPremio13}€</td><td>= ${resultTotal13}€</td>
+				<td>Aciertos de 13:</td><td>${resultAciertos13} x</td><td>${resultPremio13}€</td><td>= ${resultTotal13}€</td>
 			</tr>
             <tr>
-				<td>Aciertos de 14:</td><td>${resultAciertos14} x&nbsp</td><td>${resultPremio14}€</td><td>= ${resultTotal14}€</td>
+				<td>Aciertos de 14:</td><td>${resultAciertos14} x</td><td>${resultPremio14}€</td><td>= ${resultTotal14}€</td>
 			</tr>
             <tr>
-				<td>Aciertos de 15:</td><td>${resultAciertos15} x&nbsp</td><td>${resultPremio15}€</td><td>= ${resultTotal15}€</td>
+				<td>Aciertos de 15:</td><td>${resultAciertos15} x</td><td>${resultPremio15}€</td><td>= ${resultTotal15}€</td>
 			</tr>
             <tr>
 				<td colspan=3>Bote:</td><td>= ${resultBote}€</td>
