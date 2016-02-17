@@ -200,6 +200,43 @@ public class SendMailer {
 		
 	}
 
+	public void sendBirthdayMail(UserAlterQ userAlterQ) {
+		MimeMessage message = mailSender.createMimeMessage();
+		
+		// use the true flag to indicate you need a multipart message
+		MimeMessageHelper helper;
+		try {
+			Template template = velocityEngine.getTemplate("./templates/birthdayMail.vm");
+			
+			VelocityContext velocityContext = new VelocityContext();
+			velocityContext.put("userName", userAlterQ.getName());
+			StringWriter stringWriter = new StringWriter();
+			
+			template.merge(velocityContext, stringWriter);
+			
+			helper = new MimeMessageHelper(message, true);
+			helper.setFrom(new InternetAddress(from, "QuiniGold"));
+			helper.setTo(userAlterQ.getId());
+			helper.setSubject("QuiniGold - Felicidades");
+			
+			
+			helper.setText(stringWriter.toString(), true);
+			
+			log.debug("body:"+stringWriter.toString());
+			
+//			FileSystemResource file = new FileSystemResource(new File("D:\\temp\\logo_1035_255.png"));
+//			helper.addInline("logo_1035_205", file);
+			
+			mailSender.send(message);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+
 	public String getFrom() {
 		return from;
 	}

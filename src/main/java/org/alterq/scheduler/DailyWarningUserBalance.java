@@ -1,5 +1,9 @@
 package org.alterq.scheduler;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +18,7 @@ import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.UserAlterQDao;
+import org.alterq.util.DateFormatUtil;
 import org.alterq.util.enumeration.QueueMailEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -39,7 +44,7 @@ public class DailyWarningUserBalance {
 
 	@Autowired
 	ProcessMailQueue processMailQueue;
-
+	
 	@Scheduled(cron = "${app.scheduler.dailyWarningUserBalance}")
 	public void dailyWarningUserBalance() {
 		executeDailyWarning();
@@ -47,6 +52,7 @@ public class DailyWarningUserBalance {
 
 	public void executeDailyWarning() {
 		int numApuestas;
+		
 		log.debug("Method executed at every day.");
 		AdminData adminData = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		Round roundBean = roundDao.findBySeasonRound(adminData.getSeason(), adminData.getRound());
@@ -54,45 +60,82 @@ public class DailyWarningUserBalance {
 		Date roundDate = roundBean.getDateRound();
 
 		Date now = new Date();
+		DateFormat dfDay = new SimpleDateFormat("dd/MM/yyyy");
 
-		if (DateUtils.isSameDay(DateUtils.addDays(roundDate, -2), now) || DateUtils.isSameDay(DateUtils.addDays(roundDate, -1), now)) {
-			log.debug("execute sending mail");
-			List<UserAlterQ> allUser = dao.findAllUserActive();
-			for (UserAlterQ userAlterQ : allUser) {
-				// check if user don't have bets
-				// or don't have enough money for special bets
-				RoundBets roundBets = betDao.findAllUserBets(adminData.getSeason(), adminData.getRound(), userAlterQ.getId(), 1);
-
-				numApuestas = 0;
-				List<Bet> lSpecialBets = userAlterQ.getSpecialBets();
-				
-				if (lSpecialBets != null){
-					for (Bet bet : lSpecialBets){
-						numApuestas+= bet.getNumBets();
-					}
+		List<UserAlterQ> allUser = dao.findAllUserActive();
+		for (UserAlterQ userAlterQ : allUser) {
+			
+			Date dateBD = null;
+			boolean isUserBirthDay = false;
+			
+			try {
+				String dateUserB = userAlterQ.getBirthday();
+				if (dateUserB != null){
+					dateBD = dfDay.parse(dateUserB);
+					
+					Calendar cal = Calendar.getInstance(); // current date
+					int currMonth = cal.get(Calendar.MONTH);
+					int currDay = cal.get(Calendar.DAY_OF_MONTH);
+					cal.setTime(dateBD); // now born date
+					int bornMonth = cal.get(Calendar.MONTH);
+					int bornDay = cal.get(Calendar.DAY_OF_MONTH);
+					isUserBirthDay = (bornMonth==currMonth) && (currDay == bornDay);					
 				}
-				if (numApuestas==0) numApuestas++;
-				
-				double calculatePrize=(lSpecialBets == null) ? 0 : numApuestas*adminData.getPrizeBet();
-				if (roundBets == null || calculatePrize>new Float(userAlterQ.getBalance()).floatValue()) {
-//					//TODO
+					
+				if (DateUtils.isSameDay(DateUtils.addDays(roundDate, -2), now) || DateUtils.isSameDay(DateUtils.addDays(roundDate, -1), now)) {
+					log.debug("execute sending mail");
+					// check if user don't have bets
+					// or don't have enough money for special bets
+					RoundBets roundBets = betDao.findAllUserBets(adminData.getSeason(), adminData.getRound(), userAlterQ.getId(), 1);
+	
+					numApuestas = 0;
+					List<Bet> lSpecialBets = userAlterQ.getSpecialBets();
+					
+					if (lSpecialBets != null){
+						for (Bet bet : lSpecialBets){
+							numApuestas+= bet.getNumBets();
+						}
+					}
+					if (numApuestas==0) numApuestas++;
+					
+					double calculatePrize=(lSpecialBets == null) ? 0 : numApuestas*adminData.getPrizeBet();
+					if (roundBets == null || calculatePrize>new Float(userAlterQ.getBalance()).floatValue()) {
+	//					//TODO
+						MailQueueDto mailDto=new MailQueueDto();
+	//					//for purpouse test rewrite mail in environment not PRO
+						if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
+							userAlterQ.setId("quinielagold@gmail.com");
+						}
+						mailDto.setUser(userAlterQ);
+						mailDto.setType(QueueMailEnum.Q_WITHOUTMONEYMAIL);
+	
+						processMailQueue.process(mailDto);
+						
+					}
+	
+					log.debug(userAlterQ.getId() + ":bets:" + ((userAlterQ.getSpecialBets() == null) ? 0 : userAlterQ.getSpecialBets().size()));
+		
+				} if(isUserBirthDay){
+					//User birthday
 					MailQueueDto mailDto=new MailQueueDto();
 //					//for purpouse test rewrite mail in environment not PRO
 					if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
 						userAlterQ.setId("quinielagold@gmail.com");
 					}
 					mailDto.setUser(userAlterQ);
-					mailDto.setType(QueueMailEnum.Q_WITHOUTMONEYMAIL);
+					mailDto.setType(QueueMailEnum.Q_BIRTHDAYMAIL);
 
 					processMailQueue.process(mailDto);
 					
 				}
-
-				log.debug(userAlterQ.getId() + ":bets:" + ((userAlterQ.getSpecialBets() == null) ? 0 : userAlterQ.getSpecialBets().size()));
+				else {
+					log.debug("not sending mail");
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
-		} else {
-			log.debug("not sending mail");
 		}
 
 	}

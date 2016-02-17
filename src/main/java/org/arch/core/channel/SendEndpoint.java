@@ -75,4 +75,14 @@ public class SendEndpoint {
 		
 		sendMailer.sendWithoutMoneyMail(userAlterQ);
 	}
+
+	/**
+	 * Process a delivery order for sending by mail.
+	 */
+	public void sendingBirthdayMail(GenericMessage<MailQueueDto> message) {
+		MailQueueDto mailQueue=  message.getPayload();
+		UserAlterQ userAlterQ=mailQueue.getUser();
+		
+		sendMailer.sendBirthdayMail(userAlterQ);
+	}
 }
