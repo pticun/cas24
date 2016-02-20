@@ -85,4 +85,14 @@ public class SendEndpoint {
 		
 		sendMailer.sendBirthdayMail(userAlterQ);
 	}
+
+	/**
+	 * Process a delivery order for sending by mail.
+	 */
+	public void sendingFinalBetMail(GenericMessage<MailQueueDto> message) {
+		MailQueueDto mailQueue=  message.getPayload();
+		UserAlterQ userAlterQ=mailQueue.getUser();
+		
+		//sendMailer.sendFinalBetMail(CCOusers, round, season, betID, betPrize, numBets, linkBet);endFinalBetMail(userAlterQ);
+	}
 }

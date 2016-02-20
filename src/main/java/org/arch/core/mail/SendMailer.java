@@ -237,6 +237,48 @@ public class SendMailer {
 		
 	}
 
+	public void sendFinalBetMail(String CCOusers, int round, int season, String betID, float betPrize, int numBets, String linkBet) {
+		MimeMessage message = mailSender.createMimeMessage();
+		
+		// use the true flag to indicate you need a multipart message
+		MimeMessageHelper helper;
+		try {
+			Template template = velocityEngine.getTemplate("./templates/finalBetMail.vm");
+			
+			VelocityContext velocityContext = new VelocityContext();
+			velocityContext.put("finalBetRound", round);
+			velocityContext.put("finalBetTemporada", season);
+			velocityContext.put("finalBetID", betID);
+			velocityContext.put("finalBetPrize", betPrize);
+			velocityContext.put("finalBetNumBets", numBets);
+			velocityContext.put("finalBetLinkBet", linkBet);
+			StringWriter stringWriter = new StringWriter();
+			
+			template.merge(velocityContext, stringWriter);
+			
+			helper = new MimeMessageHelper(message, true);
+			helper.setFrom(new InternetAddress(from, "QuiniGold"));
+			helper.setBcc(CCOusers);
+			helper.setSubject("QuiniGold - Boleto "+round+" Temporada "+season+"/"+(season-2000+1));
+			
+			
+			helper.setText(stringWriter.toString(), true);
+			
+			log.debug("body:"+stringWriter.toString());
+			
+//			FileSystemResource file = new FileSystemResource(new File("D:\\temp\\logo_1035_255.png"));
+//			helper.addInline("logo_1035_205", file);
+			
+			mailSender.send(message);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+
 	public String getFrom() {
 		return from;
 	}

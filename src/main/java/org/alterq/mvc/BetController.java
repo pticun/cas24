@@ -16,6 +16,7 @@ import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ErrorDto;
+import org.alterq.dto.MailQueueDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.exception.ValidatorException;
@@ -31,11 +32,15 @@ import org.alterq.util.MailTools;
 import org.alterq.util.UserTools;
 import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
+import org.alterq.util.enumeration.QueueMailEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.CompanyValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.arch.core.channel.ProcessMailQueue;
 import org.arch.core.i18n.resources.MessageLocalizedResources;
+import org.arch.core.mail.SendMailer;
+import org.arch.core.util.CoreUtils;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,7 +81,10 @@ public class BetController {
 	@Autowired
 	private UserAlterQConverter userAlterQConverter;
 	@Autowired
-	private MailTools mailTools;
+	MailTools mailTools;
+	@Autowired
+	SendMailer sendMailer;	
+	
 
 	@Autowired
 	@Qualifier("messageLocalizedResources")
@@ -441,6 +449,7 @@ public class BetController {
 		}
 		ResponseDto dto = new ResponseDto();
 		String ccoMail = null;
+		String linkBet = null;
 		
 		boolean adminCompanyUser = false;
 
@@ -547,6 +556,7 @@ public class BetController {
 				roundBetDao.update(roundBets);
 				
 				ccoMail = mailTools.getCCOFinalBet(company, season, round);
+				
 			}
 			else
 				ccoMail = userAlterQ.getId();
@@ -561,6 +571,15 @@ public class BetController {
 			
 			// PENDING TO DO
 			log.debug("Mail: Bet= "+bet.getBet()+" CCO="+ccoMail);
+
+			//para pruebas
+			ccoMail = "quinielagold@gmail.com";
+
+			//linkBet = "http://www.quinigold.com/getBetDetail/id_bet="+bet.getId();
+			linkBet = "http://localhost:8080/quinimobile/getBetDetail/id_bet="+bet.getId();
+			
+			sendMailer.sendFinalBetMail(ccoMail, round, season, bet.getId(), price, numBets, linkBet);
+			
 			
 			//******************************************************************
 			

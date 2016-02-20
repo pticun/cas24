@@ -35,6 +35,9 @@ public class MailRouter {
 		case Q_BIRTHDAYMAIL:
 			result = "birthdayMail";
 			break;
+		case Q_FINALBETMAIL:
+			result = "finalBetMail";
+			break;
 		}
 		log.debug("processMailQueue:" + result);
 
