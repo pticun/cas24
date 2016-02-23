@@ -1,5 +1,6 @@
 package org.alterq.mvc;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,6 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 
 import org.alterq.converter.UserAlterQConverter;
-import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.Round;
@@ -35,12 +35,10 @@ import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.util.enumeration.QueueMailEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.CompanyValidator;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.arch.core.channel.ProcessMailQueue;
 import org.arch.core.i18n.resources.MessageLocalizedResources;
 import org.arch.core.mail.SendMailer;
-import org.arch.core.util.CoreUtils;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,6 +83,8 @@ public class BetController {
 	@Autowired
 	SendMailer sendMailer;	
 	
+	@Autowired
+	ProcessMailQueue processMailQueue;
 
 	@Autowired
 	@Qualifier("messageLocalizedResources")
@@ -556,10 +556,33 @@ public class BetController {
 				roundBetDao.update(roundBets);
 				
 				ccoMail = mailTools.getCCOFinalBet(company, season, round);
+
+				MailQueueDto mailDto=new MailQueueDto();
+				mailDto.setType(QueueMailEnum.Q_FINALBETMAIL);
+				
+				RoundBets processRoundBetMail=new RoundBets();
+				processRoundBetMail.setCompany(company);
+				processRoundBetMail.setRound(round);
+				processRoundBetMail.setSeason(season);
+				processRoundBetMail.setPrice(priceCompany);
+				processRoundBetMail.setJackpot(amountCompany - priceCompany);
+				List<Bet> finalBet=new ArrayList<Bet>();
+				finalBet.add(bet);
+				processRoundBetMail.setBets(finalBet);
+				
+				mailDto.setRoundBet(processRoundBetMail);
+				mailDto.setCco(ccoMail);
+				
+				processMailQueue.process(mailDto);
+				
+//				sendMailer.sendFinalBetMail(ccoMail, round, season, bet.getId(), price, numBets, linkBet);
+
+				
 				
 			}
-			else
+			else{
 				ccoMail = userAlterQ.getId();
+			}
 
 			// Insert new bet into the BBDD
 			roundBetDao.addBet(company, season, round, bet);
@@ -573,12 +596,12 @@ public class BetController {
 			log.debug("Mail: Bet= "+bet.getBet()+" CCO="+ccoMail);
 
 			//para pruebas
-			ccoMail = "quinielagold@gmail.com";
-
-			//linkBet = "http://www.quinigold.com/getBetDetail/id_bet="+bet.getId();
-			linkBet = "http://localhost:8080/quinimobile/getBetDetail/id_bet="+bet.getId();
-			
-			sendMailer.sendFinalBetMail(ccoMail, round, season, bet.getId(), price, numBets, linkBet);
+//			ccoMail = "quinielagold@gmail.com";
+//
+//			//linkBet = "http://www.quinigold.com/getBetDetail/id_bet="+bet.getId();
+//			linkBet = "http://localhost:8080/quinimobile/getBetDetail/id_bet="+bet.getId();
+//			
+//			sendMailer.sendFinalBetMail(ccoMail, round, season, bet.getId(), price, numBets, linkBet);
 			
 			
 			//******************************************************************

@@ -16,6 +16,7 @@
 
 package org.arch.core.channel;
 
+import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.MailQueueDto;
 import org.arch.core.mail.SendMail;
@@ -92,6 +93,14 @@ public class SendEndpoint {
 	public void sendingFinalBetMail(GenericMessage<MailQueueDto> message) {
 		MailQueueDto mailQueue=  message.getPayload();
 		UserAlterQ userAlterQ=mailQueue.getUser();
+		
+		String cco=mailQueue.getCco();
+		RoundBets roundBet=mailQueue.getRoundBet();
+		String betID="a cambiar";
+		int numBets=0;
+		String linkBet="a cambbiar";
+		
+		sendMailer.sendFinalBetMail(cco, roundBet.getRound(), roundBet.getSeason(), betID, roundBet.getPrice(), numBets, linkBet);
 		
 		//sendMailer.sendFinalBetMail(CCOusers, round, season, betID, betPrize, numBets, linkBet);endFinalBetMail(userAlterQ);
 	}
