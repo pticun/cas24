@@ -16,6 +16,10 @@
 
 package org.arch.core.channel;
 
+import java.util.List;
+
+import org.alterq.domain.Bet;
+import org.alterq.domain.Prize;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.MailQueueDto;
@@ -62,9 +66,16 @@ public class SendEndpoint {
 	 */
 	public void sendingResultsMail(GenericMessage<MailQueueDto> message) {
 		MailQueueDto mailQueue=  message.getPayload();
-		UserAlterQ userAlterQ=mailQueue.getUser();
+		//UserAlterQ userAlterQ=mailQueue.getUser();
 		
-//		sendMailer.sendResultsMail(userAlterQ);
+		//sendMailer.sendResultsMail(cco, round, jackPot, betReward, rewardDivided, lPrizes);
+		String cco=mailQueue.getCco();
+		RoundBets roundBet=mailQueue.getRoundBet();
+		Bet bet = roundBet.getBets().get(0);
+		double rewardDivided = (roundBet.getReward() + roundBet.getJackpot()) / bet.getNumBets();
+		List<Prize> lPrizes = bet.getPrizes();
+		
+		sendMailer.sendResultsMail(cco, roundBet.getRound(), roundBet.getJackpot(), roundBet.getReward(), rewardDivided, lPrizes);
 	}
 
 	/**
@@ -92,7 +103,7 @@ public class SendEndpoint {
 	 */
 	public void sendingFinalBetMail(GenericMessage<MailQueueDto> message) {
 		MailQueueDto mailQueue=  message.getPayload();
-		UserAlterQ userAlterQ=mailQueue.getUser();
+		//UserAlterQ userAlterQ=mailQueue.getUser();
 		
 		String cco=mailQueue.getCco();
 		RoundBets roundBet=mailQueue.getRoundBet();

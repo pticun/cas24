@@ -132,7 +132,9 @@ public class SendMailer {
 				velocityContext.put("resultTotal"+prize.getId(), prize.getCount() * prize.getAmount());
 			}
 			velocityContext.put("resultBote", jackPot);
-			velocityContext.put("resultTotal", betReward);
+			velocityContext.put("resultTotal", betReward + jackPot);
+			velocityContext.put("resultReparto", String.format( "%.2f", rewardDivided ));
+			
 			
 			
 			StringWriter stringWriter = new StringWriter();

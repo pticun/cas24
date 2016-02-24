@@ -80,8 +80,6 @@ public class BetController {
 	private UserAlterQConverter userAlterQConverter;
 	@Autowired
 	MailTools mailTools;
-	@Autowired
-	SendMailer sendMailer;	
 	
 	@Autowired
 	ProcessMailQueue processMailQueue;
