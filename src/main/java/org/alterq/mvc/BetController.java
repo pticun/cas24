@@ -554,29 +554,6 @@ public class BetController {
 				roundBetDao.update(roundBets);
 				
 				ccoMail = mailTools.getCCOFinalBet(company, season, round);
-
-				MailQueueDto mailDto=new MailQueueDto();
-				mailDto.setType(QueueMailEnum.Q_FINALBETMAIL);
-				
-				RoundBets processRoundBetMail=new RoundBets();
-				processRoundBetMail.setCompany(company);
-				processRoundBetMail.setRound(round);
-				processRoundBetMail.setSeason(season);
-				processRoundBetMail.setPrice(priceCompany);
-				processRoundBetMail.setJackpot(amountCompany - priceCompany);
-				List<Bet> finalBet=new ArrayList<Bet>();
-				finalBet.add(bet);
-				processRoundBetMail.setBets(finalBet);
-				
-				mailDto.setRoundBet(processRoundBetMail);
-				mailDto.setCco(ccoMail);
-				
-				processMailQueue.process(mailDto);
-				
-//				sendMailer.sendFinalBetMail(ccoMail, round, season, bet.getId(), price, numBets, linkBet);
-
-				
-				
 			}
 			else{
 				ccoMail = userAlterQ.getId();
@@ -589,12 +566,29 @@ public class BetController {
 			
 			//Send mail with Bet
 			//******************************************************************
-			
-			// PENDING TO DO
 			log.debug("Mail: Bet= "+bet.getBet()+" CCO="+ccoMail);
 
+			MailQueueDto mailDto=new MailQueueDto();
+			mailDto.setType(QueueMailEnum.Q_FINALBETMAIL);
+			
+			RoundBets processRoundBetMail=new RoundBets();
+			processRoundBetMail.setCompany(company);
+			processRoundBetMail.setRound(round);
+			processRoundBetMail.setSeason(season);
+			processRoundBetMail.setPrice(bet.getPrice());
+			processRoundBetMail.setJackpot(roundBets.getJackpot());
+			List<Bet> finalBet=new ArrayList<Bet>();
+			finalBet.add(bet);
+			processRoundBetMail.setBets(finalBet);
+			
+			mailDto.setRoundBet(processRoundBetMail);
 			//para pruebas
-//			ccoMail = "quinielagold@gmail.com";
+			ccoMail = "quinielagold@gmail.com";
+			mailDto.setCco(ccoMail);
+			
+			processMailQueue.process(mailDto);
+			
+
 //
 //			//linkBet = "http://www.quinigold.com/getBetDetail/id_bet="+bet.getId();
 //			linkBet = "http://localhost:8080/quinimobile/getBetDetail/id_bet="+bet.getId();

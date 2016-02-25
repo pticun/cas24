@@ -14,7 +14,7 @@
 		  <div style="margin-left: 5%; margin-right: 5%;">
 		  <p style="width:100%; max-height: none; max-width: 100%; text-align: :justify; font-size: large;">
           Hola Quinigolder,<br><br>
-          Este es tu Boleto es el siguiente:<br>
+          Este es tu Boleto:<br>
 		  <table>
 			<tr>
                 <td>JORNADA ${finalBetRound}</td><td>TEMPORADA ${finalBetTemporada}</td><td>REGISTRO:${finalBetID}</td>
