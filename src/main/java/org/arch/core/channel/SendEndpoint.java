@@ -113,8 +113,8 @@ public class SendEndpoint {
 		
 		Bet bet = roundBet.getBets().get(0);
 		//para pruebas
-//		linkBet = "http://www.quinigold.com/getBetDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
-		linkBet = "http://localhost:8080/quinimobile/getBetDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
+//		linkBet = "http://www.quinigold.com/BetDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
+		linkBet = "http://localhost:8080/quinimobile/betDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
 		
 		sendMailer.sendFinalBetMail(cco, roundBet.getRound(), roundBet.getSeason(), betID, roundBet.getPrice(), numBets, linkBet);
 		
