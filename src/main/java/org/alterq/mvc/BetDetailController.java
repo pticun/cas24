@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -18,8 +19,11 @@ public class BetDetailController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{bet}/{typeReduction}/{reduction}")
 	public 
-	String getBetDetail(HttpServletResponse response) {
+	String getBetDetail(HttpServletResponse response, @PathVariable String bet, @PathVariable String typeReduction, @PathVariable String reduction) {
 		log.debug("getBetDetail init");
+		log.debug("getBetDetail bet="+bet);
+		log.debug("getBetDetail typeReduction="+typeReduction);
+		log.debug("getBetDetail reduction="+reduction);
 		return "betDetail";
 	}
 
