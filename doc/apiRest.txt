@@ -52,7 +52,7 @@ POST	/admin/company/{company}/season/{season}/round/{round}/prize15/{count15}/{a
 POST	/admin/company/{company}/season/{season}/round/{round}/{local01}/{visitor01}/{local02}/{visitor02}/{local03}/{visitor03}/{local04}/{visitor04}/{local05}/{visitor05}/{local06}/{visitor06}/{local07}/{visitor07}/{local08}/{visitor08}/{local09}/{visitor09}/{local10}/{visitor10}/{local11}/{visitor11}/{local12}/{visitor12}/{local13}/{visitor13}/{local14}/{visitor14}/{local15}/{visitor15}		AdminController			addRoundGames				(response ResponseDto)
 
 
-GET		/betDetail/{bet}/{reductionType}/{reduction}					FinalBetController		getBetDetail
+GET		/betDetail/{bet}/{reductionType}/{reduction}					BetDetailController		getBetDetail
 
 
 

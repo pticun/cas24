@@ -1,5 +1,12 @@
-
+//--------------------------------------------------------
+//Variables a recoger desde BetDetailController
+//--------------------------------------------------------
 var myBet ="1234567444444412";
+var myCompany = 1;
+var mySeason = 2015;
+var myRound = 8;
+//--------------------------------------------------------
+
 
 Array.prototype.uniqueArray = function()
 {
@@ -46,9 +53,9 @@ $(document).ready(function() {
 
 function getAdminData(){
 	consoleAlterQ("getAdminData.");
-	window.company = 1;
-	window.season = 2015;
-	window.round = 8;
+	window.company = myCompany;
+	window.season = mySeason;
+	window.round = myRound;
 }
 
 
