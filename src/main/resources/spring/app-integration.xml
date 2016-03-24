@@ -41,6 +41,8 @@
     <int:channel id="resultsMail"/>
     <int:channel id="forgotMail"/>
     <int:channel id="withoutMoneyMail"/>
+    <int:channel id="birthdayMail"/>
+    <int:channel id="finalBetMail"/>
     
     <int:router input-channel="processMailQueue" method="process" ref="mailRouter"/>
 
@@ -60,15 +62,27 @@
 		output-channel="withoutMoneyMailSend" auto-startup="true">
 	</int:bridge>
 
+	<int:bridge input-channel="birthdayMail"
+		output-channel="birthdayMailSend" auto-startup="true">
+	</int:bridge>
+
+	<int:bridge input-channel="finalBetMail"
+		output-channel="finalBetMailSend" auto-startup="true">
+	</int:bridge>
+
 	<int:channel id="dailyMailSend"/>
     <int:channel id="resultsMailSend"/>
     <int:channel id="forgotMailSend"/>
     <int:channel id="withoutMoneyMailSend"/>
+    <int:channel id="birthdayMailSend"/>
+    <int:channel id="finalBetMailSend"/>
 
     <int:outbound-channel-adapter channel="dailyMailSend" ref="sendEndpoint" method="sendingDailyMail" auto-startup="true"/>
     <int:outbound-channel-adapter channel="resultsMailSend" ref="sendEndpoint" method="sendingResultsMail" auto-startup="true"/>
     <int:outbound-channel-adapter channel="forgotMailSend" ref="sendEndpoint" method="sendingForgotMail" auto-startup="true"/>
     <int:outbound-channel-adapter channel="withoutMoneyMailSend" ref="sendEndpoint" method="sendingWithoutMoneyMail" auto-startup="true"/>
+    <int:outbound-channel-adapter channel="birthdayMailSend" ref="sendEndpoint" method="sendingBirthdayMail" auto-startup="true"/>
+    <int:outbound-channel-adapter channel="finalBetMailSend" ref="sendEndpoint" method="sendingFinalBetMail" auto-startup="true"/>
 
 <!--     
     <int:bridge input-channel="pickup" output-channel="store" />

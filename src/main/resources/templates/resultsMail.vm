@@ -40,7 +40,9 @@
             <tr>
 				<td colspan=3 align=right>TOTAL</td><td>= ${resultTotal}€</td>
             </tr>
-          </table>	
+          </table>
+		  <br>
+		  Saliendo a ${resultReparto}€ por apuesta.
 		  <br><br>
           Gracias por tu confianza.
           </p>

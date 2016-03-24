@@ -16,6 +16,11 @@
 
 package org.arch.core.channel;
 
+import java.util.List;
+
+import org.alterq.domain.Bet;
+import org.alterq.domain.Prize;
+import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.MailQueueDto;
 import org.arch.core.mail.SendMail;
@@ -61,9 +66,16 @@ public class SendEndpoint {
 	 */
 	public void sendingResultsMail(GenericMessage<MailQueueDto> message) {
 		MailQueueDto mailQueue=  message.getPayload();
-		UserAlterQ userAlterQ=mailQueue.getUser();
+		//UserAlterQ userAlterQ=mailQueue.getUser();
 		
-//		sendMailer.sendResultsMail(userAlterQ);
+		//sendMailer.sendResultsMail(cco, round, jackPot, betReward, rewardDivided, lPrizes);
+		String cco=mailQueue.getCco();
+		RoundBets roundBet=mailQueue.getRoundBet();
+		Bet bet = roundBet.getBets().get(0);
+		double rewardDivided = (roundBet.getReward() + roundBet.getJackpot()) / bet.getNumBets();
+		List<Prize> lPrizes = bet.getPrizes();
+		
+		sendMailer.sendResultsMail(cco, roundBet.getRound(), roundBet.getJackpot(), roundBet.getReward(), rewardDivided, lPrizes);
 	}
 
 	/**
@@ -74,5 +86,38 @@ public class SendEndpoint {
 		UserAlterQ userAlterQ=mailQueue.getUser();
 		
 		sendMailer.sendWithoutMoneyMail(userAlterQ);
+	}
+
+	/**
+	 * Process a delivery order for sending by mail.
+	 */
+	public void sendingBirthdayMail(GenericMessage<MailQueueDto> message) {
+		MailQueueDto mailQueue=  message.getPayload();
+		UserAlterQ userAlterQ=mailQueue.getUser();
+		
+		sendMailer.sendBirthdayMail(userAlterQ);
+	}
+
+	/**
+	 * Process a delivery order for sending by mail.
+	 */
+	public void sendingFinalBetMail(GenericMessage<MailQueueDto> message) {
+		MailQueueDto mailQueue=  message.getPayload();
+		//UserAlterQ userAlterQ=mailQueue.getUser();
+		
+		String cco=mailQueue.getCco();
+		RoundBets roundBet=mailQueue.getRoundBet();
+		String betID="a cambiar";
+		int numBets=0;
+		String linkBet="a cambbiar";
+		
+		Bet bet = roundBet.getBets().get(0);
+		//para pruebas
+//		linkBet = "http://www.quinigold.com/BetDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
+		linkBet = "http://localhost:8080/quinimobile/betDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
+		
+		sendMailer.sendFinalBetMail(cco, roundBet.getRound(), roundBet.getSeason(), betID, roundBet.getPrice(), numBets, linkBet);
+		
+		//sendMailer.sendFinalBetMail(CCOusers, round, season, betID, betPrize, numBets, linkBet);endFinalBetMail(userAlterQ);
 	}
 }

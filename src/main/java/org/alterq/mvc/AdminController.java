@@ -26,6 +26,7 @@ import org.alterq.domain.RoundRanking;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.ErrorDto;
+import org.alterq.dto.MailQueueDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.repo.AdminDataDao;
@@ -44,10 +45,12 @@ import org.alterq.util.MailTools;
 import org.alterq.util.UserTools;
 import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
+import org.alterq.util.enumeration.QueueMailEnum;
 import org.alterq.validator.CompanyValidator;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.arch.core.channel.ProcessMailQueue;
 import org.arch.core.file.BetElectronicFile;
 import org.arch.core.file.HeaderBetElectronicFile;
 import org.arch.core.file.RegistroBetElectronicFile;
@@ -98,7 +101,7 @@ public class AdminController {
 	@Autowired
 	MailTools mailTools;
 	@Autowired
-	SendMailer sendMailer;	
+	ProcessMailQueue processMailQueue;
 
 	private static int doubles = 0;
 	private static int triples = 0;
@@ -610,9 +613,32 @@ public class AdminController {
 								}
 							}
 							//Send Results Mail
-							String cco = mailTools.getCCOFinalBet(co.getCompany(),season,round);
-							cco = "quinielagold@gmail.com";
-							sendMailer.sendResultsMail(cco, round, jackPot, betReward, rewardDivided, lPrizes);
+							String ccoMail = mailTools.getCCOFinalBet(co.getCompany(),season,round);
+							ccoMail = "quinielagold@gmail.com";
+							//sendMailer.sendResultsMail(cco, round, jackPot, betReward, rewardDivided, lPrizes);
+							MailQueueDto mailDto=new MailQueueDto();
+							mailDto.setType(QueueMailEnum.Q_RESULTSMAIL);
+							
+							RoundBets processRoundBetMail=new RoundBets();
+							processRoundBetMail.setCompany(co.getCompany());
+							processRoundBetMail.setRound(round);
+							processRoundBetMail.setSeason(season);
+							processRoundBetMail.setJackpot(jackPot);
+							processRoundBetMail.setReward(betReward);
+							bet.setNumBets(numCompanyBets);
+
+							List<Bet> finalBet=new ArrayList<Bet>();
+							finalBet.add(bet);
+							processRoundBetMail.setBets(finalBet);
+							
+							mailDto.setRoundBet(processRoundBetMail);
+							mailDto.setCco(ccoMail);
+							
+							processMailQueue.process(mailDto);
+							
+							
+							
+							
 						}
 					}
 					//Update RoundBet reward
