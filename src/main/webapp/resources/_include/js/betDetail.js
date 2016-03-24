@@ -1,10 +1,11 @@
 //--------------------------------------------------------
 //Variables a recoger desde BetDetailController
 //--------------------------------------------------------
-var myBet ="1234567444444412";
-var myCompany = 1;
-var mySeason = 2015;
-var myRound = 8;
+//var myBet ="1234567444444412";
+//var myCompany = 1;
+//var mySeason = 2015;
+//var myRound = 8;
+
 //--------------------------------------------------------
 
 

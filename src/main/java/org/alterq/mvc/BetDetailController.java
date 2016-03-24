@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
@@ -25,7 +26,7 @@ public class BetDetailController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{bet}/{typeReduction}/{reduction}")
 	public 
-	String getBetDetail(HttpServletResponse response, @PathVariable String bet, @PathVariable String typeReduction, @PathVariable String reduction) {
+	ModelAndView getBetDetail(HttpServletResponse response, @PathVariable String bet, @PathVariable String typeReduction, @PathVariable String reduction) {
 		AdminData adminData = null;
 		
 		log.debug("getBetDetail init");
@@ -35,11 +36,22 @@ public class BetDetailController {
 		
 		adminData = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		
-		log.debug("getBetDetail season=" + adminData.getSeason());
-		log.debug("getBetDetail round=" + adminData.getRound());
-		log.debug("getBetDetail company=" + adminData.getCompany());
+		int company=adminData.getCompany();
+		int season=adminData.getSeason();
+		int round=adminData.getRound();
+		
+		log.debug("getBetDetail season=" + season);
+		log.debug("getBetDetail round=" + round);
+		log.debug("getBetDetail company=" + company);
 
-		//-----------------------------------------------------
+		ModelAndView model = new ModelAndView("betDetail");
+		model.addObject("msg", "hello world");		//-----------------------------------------------------
+		model.addObject("bet", bet);		
+		model.addObject("typeReduction", typeReduction);		
+		model.addObject("reduction", reduction);		
+		model.addObject("company", company);		
+		model.addObject("season", season);		
+		model.addObject("round", round);		
 		//hay que pasar estos datos al JSP --> betDetail.jsp
 		//-----------------------------------------------------
 		//bet
@@ -50,7 +62,7 @@ public class BetDetailController {
 		//round
 		//-----------------------------------------------------
 		
-		return "betDetail";
+		return model;
 	}
 
 }

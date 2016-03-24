@@ -133,7 +133,11 @@ End Analytics -->
 	</script>
 	
 <script type="text/javascript">
-
+var mensaje="${msg}";
+var myBet = "${bet}";
+var myCompany = "${company}";
+var mySeason = "${season}";
+var myRound = "${round}";
 
 </script>
 
@@ -145,6 +149,7 @@ End Analytics -->
 <div class="container">
     <!-- Quiniela Form -->
 		<div align="center">
+		el mensaje es: ${msg}
 			<form id="betForm">
 					<table class="tablaQuiniGold">
 						<tr>

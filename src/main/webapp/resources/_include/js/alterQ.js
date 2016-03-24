@@ -681,6 +681,7 @@ $(document).ready(function() {
 		 showDiv(bHome);
 		 consoleAlterQ('updateDataJsonAlterQ:'+dataJson);
 		 jQuery.ajax ({
+			 //CompanyController.createCompany()
 			    url: ctx+'/company/'+window.idUserAlterQ,
 			    type: "POST",
 			    data: dataJson,
