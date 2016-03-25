@@ -676,10 +676,11 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
    	 });
 
+	 //create company
 	 $('form#adminCompanyForm').submit(function( event ) {
 		 var dataJson=JSON.stringify($('form#adminCompanyForm').serializeObject());
 		 showDiv(bHome);
-		 consoleAlterQ('updateDataJsonAlterQ:'+dataJson);
+		 consoleAlterQ('create company adminCompanyForm:'+dataJson);
 		 jQuery.ajax ({
 			 //CompanyController.createCompany()
 			    url: ctx+'/company/'+window.idUserAlterQ,
@@ -696,6 +697,10 @@ $(document).ready(function() {
 					    });
 		   		    }
 		   		    else{
+		   		    	consoleAlterQ('call to getCompanies to reload company combo');
+//		   		    	$("#companyToChoose option:selected").remove();
+//		   		    	window.loadCompanies=true;
+//		   		    	getCompanies();
 		   		    }
 			    }
 			});
