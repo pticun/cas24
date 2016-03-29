@@ -211,6 +211,21 @@
 </div>
 <!-- End MyBets Section -->
 
+<!-- MyRanking Section -->
+<div id="myrankingDiv" class="page">
+<div class="container">
+    <!-- Quiniela Form -->
+		<div align="center">
+			<form id="rankikngForm">
+				    <table class="tablaQuiniGold" id="rankingTable">
+				    </table>
+			</form>
+		</div>
+    
+    <!-- End Sign Up Form -->
+</div>
+</div>
+<!-- End MyBets Section -->
 
 <!-- Sing Up Section -->
 <div id="signDiv" class="page">
