@@ -107,6 +107,7 @@
 				<input type="hidden" id="param_reduccion" name="param_reduccion" value="">
 				<input type="hidden" id="param_tiporeduccion" name="param_tiporeduccion" value="">
 				<input type="hidden" id="param_numbets" name="param_numbets" value="">
+				<input type="hidden" id="param_betType" name="param_betType" value="">
 				<table class="tablaQuiniGold">
 					<tr>
 						<td>

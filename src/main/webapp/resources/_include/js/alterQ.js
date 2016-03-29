@@ -52,6 +52,7 @@ var sLogoutRef = "#logoutDiv";
 var sMyDataRef = "#mydataDiv";
 var sMyBalanceRef = "#mybalanceDiv";
 var sMyBetsRef = "#mybetsDiv";
+var sMyRankingRef = "#myrankingDiv";
 var sMyRankRef = "#myRankDiv";
 var sMyResumRef = "#myResumDiv";
 var sMyAdminRef = "admin";
@@ -297,6 +298,10 @@ function menuEvent(name, href)
 	}else if (href == sMyBetsRef){
 		consoleAlterQ("Mybets");
 		getUserBets();
+		showDiv(bMyBets);
+	}else if (href == sMyRankingRef){
+		consoleAlterQ("Myranking");
+		getCompanyRanking();
 		showDiv(bMyBets);
 	}else if (href == sMyResumRef){
 		consoleAlterQ("MyResum");
@@ -733,6 +738,10 @@ $(document).ready(function() {
 		menuEvent($(this).text(), "#mybetsDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
     });
+	$("#myRankingBtn").click(function( event ){
+		menuEvent($(this).text(), "#myrankingDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
 	$("#myPwdBtn").click(function( event ){
 		menuEvent($(this).text(), "#newPasswordDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
@@ -1127,7 +1136,7 @@ function getUserBets(){
 							console.log("user="+element.user + " bet="+element.bet);
 							row="";
 							
-							if (element.type == CONST_TYPE_BET_FINAL)
+							if (element.type == BetTypeEnum.BET_FINAL)
 								row+='<tr bgcolor="#FFFFBB">';
 							else
 								row+='<tr>';
@@ -1163,7 +1172,112 @@ function getUserBets(){
 	showDiv(bMyBets);
 	}	
 }
-
+function getCompanyRanking(){
+	consoleAlterQ('getCompanyRanking');
+	consoleAlterQ('loadBetUser='+window.loadBetUser);
+	
+	//De momento va a piñon pq no funcionan las variables globales
+	window.loadBetUser = true;
+	
+	if(window.loadBetUser){
+		window.loadBetUser=false;
+		consoleAlterQ("loadBetUser: FALSE");
+		var row="";
+		
+		cleanCompanyRanking();
+		///myaccount/{id:.+}/{company}/{season}/{round}/ranking
+   		consoleAlterQ('antes jQuery.ajax - idUserAlterQ='+idUserAlterQ+' company='+window.company+' season='+window.season+' round='+window.round);
+   		
+   		consoleAlterQ('url:'+ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/'+ window.season+'/'+window.round+'/ranking');  		
+		jQuery.ajax ({
+			url: ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/'+ window.season+'/'+window.round+'/ranking',
+		    type: "GET",
+		    data: null,
+		    contentType: "application/json; charset=utf-8",
+		    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	        cache: false,    //This will force requested pages not to be cached by the browser  
+	        processData:false, //To avoid making query String instead of JSON
+		    success: function(response){
+			    if(response.errorDto!=0){
+					row="";
+			    	row+='<tr align="center">';
+			    	row+='<td>RANKING</td>';
+			    	row+='</tr>';
+			        row+='<tr align="center">';
+					row+='<td><br><br>SIN DATOS<br><br></td>';
+					row+='</tr>';
+					$('#rankingTable').append(row);
+			    }
+			    else{
+			    	if (response.roundRanking == null)
+			    	{
+						row="";
+				    	row+='<tr align="center">';
+				    	row+='<td>RANKING</td>';
+				    	row+='</tr>';
+				    	row+='<tr align="center">';
+				    	row+='<td>'+((sCompany == '')?sCompanyDefault:sCompany)+'</td>';
+				    	row+='</tr>';
+				    	row+='<tr align="center">';
+						row+='<td><br><br>SIN DATOS<br><br></td>';
+						row+='</tr>';
+						$('#rankingTable').append(row);
+			    	}
+			    	else
+			    	{
+				    	row+='<tr align="center">';
+				    	row+='<td colspan="2">RANKING</td>';
+				    	row+='</tr>';
+				    	row+='<tr align="center">';
+				    	row+='<td>'+((sCompany == '')?sCompanyDefault:sCompany)+'</td>';
+				    	row+='</tr>';
+				    	row+='<tr align="center">';
+				    	row+='<td>'+' Jornada '+response.roundRanking.round+'- Temporada '+response.roundRanking.season+'</td>';
+				    	row+='</tr>';
+						$('#rankingTable').append(row);
+						$(response.roundRanking.rankings).each(function(index, element){
+							console.log("index="+index);
+							console.log("user="+element.user + " bet="+element.nick + " points="+element.points);
+							row="";
+							
+							if (element.type == CONST_TYPE_BET_FINAL)
+								row+='<tr bgcolor="#FFFFBB">';
+							else
+								row+='<tr>';
+					    	row+='<td>';
+					    	row+=''+(((index+1)<10)?'0':'')+(index+1)+' '+element.nick+ ' '+ element.points;
+					    	row+='</td>';
+					    	row+='</tr>';
+							$('#rankingTable').append(row);
+						});
+			    	}
+			    }
+		    },
+		    error : function (xhr, textStatus, errorThrown) {
+				var row="";
+		    	row+='<tr align="center>';
+		    	row+='<td>RANKING</td>';
+		    	row+='</tr>';
+		    	row+='<tr align="center">';
+		    	row+='<td>('+sCompany+')<br><br></td>';
+		    	row+='</tr>';
+		        row+='<tr>';
+				row+='<td><br><br>ERROR AL OBTENER</td>';
+				row+='</tr>';
+		        row+='<tr>';
+				row+='<td>EL RANKING<br><br></td>';
+				row+='</tr>';
+				$('#rankingTable').append(row);
+            }
+	 });
+	consoleAlterQ('despues jQuery.ajax');
+	showDiv(bMyRank);
+	}	
+}
+function cleanCompanyRanking(){
+	consoleAlterQ('cleanCompanyRanking');
+	$('#rankingTable').empty();
+}
 function betDetail(index, bet)
 {
 	var row="";
