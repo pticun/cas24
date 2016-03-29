@@ -698,9 +698,8 @@ $(document).ready(function() {
 		   		    }
 		   		    else{
 		   		    	consoleAlterQ('call to getCompanies to reload company combo');
-//		   		    	$("#companyToChoose option:selected").remove();
-//		   		    	window.loadCompanies=true;
-//		   		    	getCompanies();
+		   		    	window.loadCompanies=true;
+		   		    	getCompanies();
 		   		    }
 			    }
 			});
@@ -1022,7 +1021,8 @@ function getCompanies(){
 		window.loadCompanies=false;
 		
 		//delete combo company
-		 $("#companyToChoose option:selected").remove();
+//		 $("#companyToChoose option:selected").remove();
+		 $("#companyToChoose").empty();
 		
 	   		consoleAlterQ('url:'+ctx+'/company/myaccount/'+ window.idUserAlterQ+'/');  		
 			jQuery.ajax ({
