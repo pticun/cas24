@@ -781,7 +781,7 @@ $(document).ready(function() {
 		window.superAdmin = false;
 		//if company == 0 (defect company) all user are admin 
 		if (window.company!= window.DEFECT_COMPANY){
-			window.admin = window.rols.some(function(boy) { return hasRolCompanyValue(boy, 100, windo.company); });
+			window.admin = window.rols.some(function(boy) { return hasRolCompanyValue(boy, 100, window.company); });
 		}
 		window.superAdmin = window.rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, window.DEFECT_COMPANY); });
 
