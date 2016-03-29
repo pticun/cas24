@@ -520,6 +520,18 @@ public class BetController {
 
 			if ((company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(userAlterQ.getId(), company)) {
 				roundBets = roundBetDao.findRoundBetWithBets(season, round, company);
+				
+				//if not existe roundBets create new roundBet
+				if (roundBets == null) {
+					roundBets = new RoundBets();
+					roundBets.setId(new ObjectId().toHexString());
+					roundBets.setCompany(company);
+					roundBets.setRound(round);
+					roundBets.setSeason(season);
+					roundBets.setPrice(price);
+					roundBetDao.add(roundBets); 
+				}
+
 
 				roundBets.setPrice(price);
 				// Calculate Round Company JackPot
@@ -528,11 +540,13 @@ public class BetController {
 				//price of all bets for AdminCompany
 				float priceCompany = 0;
 				List<Bet> lBets = roundBets.getBets();
-				for (Bet bAux : lBets) {
-					if (bAux.getType() == BetTypeEnum.BET_NORMAL.getValue()) {
-						amountCompany += bAux.getPrice();
-					} else if (bAux.getType() == BetTypeEnum.BET_FINAL.getValue()) {
-						priceCompany += bAux.getPrice();
+				if (lBets!=null){
+					for (Bet bAux : lBets) {
+						if (bAux.getType() == BetTypeEnum.BET_NORMAL.getValue()) {
+							amountCompany += bAux.getPrice();
+						} else if (bAux.getType() == BetTypeEnum.BET_FINAL.getValue()) {
+							priceCompany += bAux.getPrice();
+						}
 					}
 				}
 

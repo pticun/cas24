@@ -17,6 +17,8 @@
 		  					<br>
 		  					<button id="myBetsBtn" type="button" class="btn btn-danger btn-block">Mis Apuestas</button>
 		  					<br>
+		  					<button id="myRankingBtn" type="button" class="btn btn-danger btn-block">Mi Ranking</button>
+		  					<br>
 		  					<button id="myPwdBtn" type="button" class="btn btn-danger btn-block">Mi Password</button>
 		  					<br>
 			   			</td>
