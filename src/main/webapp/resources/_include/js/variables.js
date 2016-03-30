@@ -14,7 +14,6 @@ var RolNameEnum={
 		ROL_PUBLIC:0,
 };
 
-
 	window.DEFECT_COMPANY = 0;
 	window.round=0;
 	window.season=0;

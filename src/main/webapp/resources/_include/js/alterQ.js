@@ -796,6 +796,7 @@ $(document).ready(function() {
 
 		consoleAlterQ("Admin:"+window.admin);
 		consoleAlterQ("superAdmin:"+window.superAdmin);
+		consoleAlterQ("company="+window.company);
 		
 		getMainMenuItems(true, $('#nameData').val());
 		window.loadBetUser = true;

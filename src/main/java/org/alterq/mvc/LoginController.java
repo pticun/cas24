@@ -57,7 +57,7 @@ public class LoginController {
 			log.debug("Session ID is:" + sessionID);
 			response.addCookie(new Cookie("session", sessionID));
 			//TODO create function to hide privacy data
-			UserAlterQ userConverter=userAlterQConverter.converterUserAlterQ(userValidate);
+			UserAlterQ userConverter=userAlterQConverter.converterUserAlterQInResponseDto(userValidate);
 			dto.setUserAlterQ(userConverter);
 			ad = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		} else {
