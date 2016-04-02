@@ -14,6 +14,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.alterq.converter.UserAlterQConverter;
 import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
 import org.alterq.domain.Company;
@@ -64,8 +65,10 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -102,6 +105,8 @@ public class AdminController {
 	MailTools mailTools;
 	@Autowired
 	ProcessMailQueue processMailQueue;
+	@Autowired
+	private UserAlterQConverter userAlterQConverter;
 
 	private static int doubles = 0;
 	private static int triples = 0;
@@ -727,8 +732,48 @@ public class AdminController {
 		return response;
 	}
 
+	@RequestMapping(method = RequestMethod.PUT, produces = "application/json", value = "/company/{company}/user/{user}/balance")
+	public @ResponseBody ResponseDto updateBalanceUser(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable String user,
+			 @RequestBody Object   obj
+			) {
+		ResponseDto response = new ResponseDto();
+		UserAlterQ userAlterQ = new UserAlterQ();
+
+		try {
+			String balance=(String)((Map)obj).get("balance");
+			String balanceIncrease=(String)((Map)obj).get("increaseBalance");
+			String balanceDecrease=(String)((Map)obj).get("decreaseBalance");;
+			
+			userSecurity.isSuperAdminUserInSession(cookieSession);
+			userAlterQ.setId(user);
+			userSecurity.notExistsUserAlterQ(userAlterQ);
+
+			userAlterQ = userAlterQDao.findById(user);
+
+			if (balance!=null && (balance.compareTo("")!=0) && (balance.compareTo("none")!=0))
+				userAlterQ.setBalance(Double.toString(Double.parseDouble(balance)));
+			else if (balanceIncrease!=null && (balanceIncrease.compareTo("")!=0) && (balanceIncrease.compareTo("none")!=0))
+				userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) + Double.parseDouble(balanceIncrease)));
+			else if (balanceDecrease!=null && (balanceDecrease.compareTo("")!=0) && (balanceDecrease.compareTo("none")!=0))
+				userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) - Double.parseDouble(balanceDecrease)));
+			
+			userAlterQDao.updateBalance(userAlterQ);
+			
+			response.setUserAlterQ(userAlterQConverter.converterUserAlterQInResponseDto(userAlterQ));
+
+		} catch (SecurityException e) {
+			response.addErrorDto("AdminController:updateBalance", "SecurityException");
+			e.printStackTrace();
+		} catch (Exception e) {
+			response.addErrorDto("AdminController:updateBalance", "Generic Update Error");
+			e.printStackTrace();
+		}
+
+		
+		return response;
+	}
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/user/{user}/balance/{balance}/{balanceIncrease}/{balanceDecrease}/updateBalanceUser")
-	public @ResponseBody ResponseDto updateBalanceUser(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable String user, @PathVariable String balance, @PathVariable String balanceIncrease, @PathVariable String balanceDecrease) {
+	public @ResponseBody ResponseDto updateBalanceUser_(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable String user, @PathVariable String balance, @PathVariable String balanceIncrease, @PathVariable String balanceDecrease) {
 		ResponseDto response = new ResponseDto();
 		UserAlterQ userAlterQ = new UserAlterQ();
 

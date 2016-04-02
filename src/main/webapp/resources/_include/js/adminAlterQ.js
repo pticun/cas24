@@ -277,7 +277,7 @@ $(document).ready(function() {
 			 url: ctx+'/admin' + '/season/'+ $("input[id=seasonPrizes]").val() + '/round/' + $("input[id=roundPrizes]").val() + '/prizesBet',
 			    type: "POST",
 			    data: $(this).serialize(),
-			    //contentType: "application/json; charset=utf-8",
+			    contentType: "application/json; charset=utf-8",
 			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
 	            cache: false,    //This will force requested pages not to be cached by the browser  
 	            processData:false, //To avoid making query String instead of JSON
@@ -318,26 +318,27 @@ $(document).ready(function() {
 		 var balanceInc = ($("input[id=updateIncreaseBalanceBalance]").val()=="")?"none":$("input[id=updateIncreaseBalanceBalance]").val();
 		 var balanceDec = ($("input[id=updateDecreaseBalanceBalance]").val()=="")?"none":$("input[id=updateDecreaseBalanceBalance]").val();
 		 jQuery.ajax ({
-			 url: ctx+'/admin'+ '/company/' + company + '/user/'+ $("input[id=updateBalanceUser]").val() + '/balance/' + balance + '/' + balanceInc + '/' + balanceDec + '/updateBalanceUser',
-			    type: "POST",
+//			 url: ctx+'/admin'+ '/company/' + company + '/user/'+ $("input[id=updateBalanceUser]").val() + '/balance/' + balance + '/' + balanceInc + '/' + balanceDec + '/updateBalanceUser',
+			 url: ctx+'/admin'+ '/company/' + company + '/user/'+ $("input[id=updateBalanceUser]").val() + '/balance' ,
+			    type: "PUT",
 			    data: dataJson,
-			    //contentType: "application/json; charset=utf-8",
+			    contentType: "application/json; charset=utf-8",
 			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
 	            cache: false,    //This will force requested pages not to be cached by the browser  
 	            processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
+			    	toggleButton("admin_updateBalance_btn");
 			    	if(response.errorDto!=0){
 		   		    	$(response.errorDto).each(function(index, objeto){  
 		   		    		consoleAlterQ("result: response="+objeto.errorDto);
 		   		    		$('#updateBalanceFormResponse').text(objeto.stringError+" - ");
 					    });
-		   			 toggleButton("admin_updateBalance_btn");
 		   		    }
 		   		    else{
 		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
 						//$('#loginFormResponse').text(response.userAlterQ.name);
-						consoleAlterQ("result: response= OK");
-						$('#updateBalanceFormResponse').text("Admin - UpdateBalanceUser - OK");
+						consoleAlterQ("result: response= OK balance:"+response.userAlterQ.balance);
+						$('#updateBalanceFormResponse').text("Admin - UpdateBalanceUser - OK balance:"+response.userAlterQ.balance);
 						//userLoged=true;
 						//idUserAlterQ=response.userAlterQ.id;
 						//$('#idData').val(response.userAlterQ.id);
