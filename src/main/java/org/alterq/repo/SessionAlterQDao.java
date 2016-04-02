@@ -1,5 +1,7 @@
 package org.alterq.repo;
 
+import java.util.Date;
+
 import org.alterq.domain.SessionAlterQ;
 
 public interface SessionAlterQDao {
@@ -10,4 +12,6 @@ public interface SessionAlterQDao {
 	public void endSession(String sessionID);
 
 	public SessionAlterQ getSession(String sessionID);
+	
+	public void deleteInactiveSession(Date timeCaducate);
 }

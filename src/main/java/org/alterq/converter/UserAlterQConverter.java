@@ -19,11 +19,13 @@ public class UserAlterQConverter {
 	public UserAlterQ converterUserAlterQInResponseDto(UserAlterQ userAlterQ){
 		UserAlterQ userCopy=new UserAlterQ();
 		try {
-			BeanUtils.copyProperties(userCopy, userAlterQ);
-			userCopy.setPwd("*******");
-			userCopy.setBalance(numericUtil.getTwoDecimalFormat(userAlterQ.getBalance()));
-			if (userCopy.getBirthday()!=null)
-				userCopy.setBirthday(dateFormatUtil.convertIsoTimeToFormatDay(userAlterQ.getBirthday()));
+			if (userAlterQ!=null){
+				BeanUtils.copyProperties(userCopy, userAlterQ);
+				userCopy.setPwd("*******");
+				userCopy.setBalance(numericUtil.getTwoDecimalFormat(userAlterQ.getBalance()));
+				if (userCopy.getBirthday()!=null)
+					userCopy.setBirthday(dateFormatUtil.convertIsoTimeToFormatDay(userAlterQ.getBirthday()));
+			}
 		} catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

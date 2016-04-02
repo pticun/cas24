@@ -79,14 +79,13 @@ public class LoginController {
 		log.debug("session:" + cookieSession);
 		ResponseDto dto = new ResponseDto();
 		AdminData ad;
-		if (StringUtils.isNotBlank(cookieSession)) {
-			String idUserAlterQ = sessionDao.findUserAlterQIdBySessionId(cookieSession);
+		String idUserAlterQ = sessionDao.findUserAlterQIdBySessionId(cookieSession);
+		if (StringUtils.isNotBlank(idUserAlterQ)) {
 			UserAlterQ userAlterQ = userDao.findById(idUserAlterQ);
-			//TODO create function to hide privacy data
-			userAlterQ.setPwd("********");
-			dto.setUserAlterQ(userAlterQ);
+			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQInResponseDto(userAlterQ));
 			ad = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		} else {
+			log.debug("userNotInsession:" + MessageResourcesNameEnum.USER_NOT_IN_SESSION);
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_NOT_IN_SESSION);
 			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_IN_SESSION));
