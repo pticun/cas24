@@ -66,7 +66,8 @@
 <link href="<c:url value="/static/resources/_include/css/supersized.shutter.css"/>" rel="stylesheet">
 
 <!-- Google Font -->
-<link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900' rel='stylesheet' type='text/css'>
+<!-- <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900' rel='stylesheet' type='text/css'>-->
+<link href='/static/resources/_include/css/fonts/googlefont.css' rel='stylesheet' type='text/css'>
 
 <!-- Fav Icon -->
 <link rel="shortcut icon" href="#">

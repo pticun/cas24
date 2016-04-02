@@ -133,7 +133,7 @@ public class CompanyController {
 			userDao.save(userRetrieve);
 
 			dto.setCompany(company);
-			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQ(userRetrieve));
+			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQInResponseDto(userRetrieve));
 			
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();

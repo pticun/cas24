@@ -177,7 +177,7 @@ public class AccountController {
 			rcL.add(rc);
 			user.setRols(rcL);
 			userDao.create(user);
-			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQ(user));
+			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQInResponseDto(user));
 			String sessionID = sessionDao.startSession(user.getId());
 			log.debug("Session ID is:" + sessionID);
 			response.addCookie(new Cookie("session", sessionID));

@@ -91,7 +91,7 @@ public class RolCompanyController {
 			userRetrieve.setRols(rolCompany);
 			//update user
 			userDao.save(userRetrieve);
-			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQ(userRetrieve));
+			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQInResponseDto(userRetrieve));
 		}catch (AlterQException ex){
 			dto.addErrorDto(ex.getErrorDto());
 			log.error(ExceptionUtils.getStackTrace(ex));
@@ -145,7 +145,7 @@ public class RolCompanyController {
 			userRetrieve.setRols(rolCompany);
 			//update user
 			userDao.save(userRetrieve);
-			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQ(userRetrieve));
+			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQInResponseDto(userRetrieve));
 		}catch (AlterQException ex){
 			dto.addErrorDto(ex.getErrorDto());
 			log.error(ExceptionUtils.getStackTrace(ex));

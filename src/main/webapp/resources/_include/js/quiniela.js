@@ -1,7 +1,3 @@
-var CONST_TYPE_BET_NORMAL = 0;
-var CONST_TYPE_BET_FINAL = 10;
-var CONST_TYPE_BET_AUTOMATIC = 20;
-var CONST_TYPE_BET_RESULT = 30;
 
 function getSign(sign){
 	switch(sign)
@@ -194,7 +190,7 @@ function getSummary(){
 		    	companyNumBets=0;
 		    	consoleAlterQ('getSummary: hay elementos');
 				$(response.roundBet.bets).each(function(index, element){
-					if (element.type == CONST_TYPE_BET_FINAL){
+					if (element.type == BetTypeEnum.BET_FINAL){
 						companyAmount+= element.price;
 						companyNumBets+=element.numBets;
 					}
@@ -537,7 +533,7 @@ $('form#confirmBetForm').submit(function( event ) {
 
 	var dataJson=JSON.stringify($('form#confirmBetForm').serializeObject());
 	consoleAlterQ('confirmBetForm:'+dataJson);
-consoleAlterQ('buttonpressed:'+buttonpressed);	
+	consoleAlterQ('buttonpressed:'+buttonpressed);	
 	if (buttonpressed == 'Confirmar')
 	{
 		consoleAlterQ(ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/'+ window.season+'/'+window.round+'/bet/confirm');

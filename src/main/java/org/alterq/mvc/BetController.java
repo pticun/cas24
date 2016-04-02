@@ -466,6 +466,7 @@ public class BetController {
 			String reduccion = "";
 			int tipoReduccion = 0;
 			int numBets = 0;
+			BetTypeEnum typeBet=BetTypeEnum.BET_NORMAL;
 
 			Map<String, String[]> parameters = request.getParameterMap();
 			for (String parameter : parameters.keySet()) {
@@ -478,6 +479,8 @@ public class BetController {
 						tipoReduccion = Integer.parseInt(request.getParameter(parameter));
 					} else if (parameter.equals("param_numbets")) {
 						numBets = Integer.parseInt(request.getParameter(parameter));
+					} else if (parameter.equals("param_betType")) {
+						typeBet = BetTypeEnum.valueOf(request.getParameter(parameter));
 					}
 				} catch (Exception e) {
 					// TODO: handle exceptionBets
@@ -501,10 +504,11 @@ public class BetController {
 			bet.setReduction(reduccion);
 			bet.setTypeReduction(tipoReduccion);
 			bet.setNumBets(numBets);
-			bet.setType(BetTypeEnum.BET_NORMAL.getValue());
-			if (adminCompanyUser) {
-				bet.setType(BetTypeEnum.BET_FINAL.getValue());
-			}
+//			bet.setType(BetTypeEnum.BET_NORMAL.getValue());
+//			if (adminCompanyUser) {
+//				bet.setType(BetTypeEnum.BET_FINAL.getValue());
+//			}
+			bet.setType(typeBet.getValue());
 			StringBuffer sb = new StringBuffer();
 			sb.append("New addBet: company=" + company + " season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
 			log.debug(sb.toString());
@@ -512,13 +516,14 @@ public class BetController {
 			// Pasamos los parámetros necesarios para la pantalla de
 			// FINALIZACION
 			dto.setBet(bet);
-			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQ(userAlterQ));
+			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQInResponseDto(userAlterQ));
 
 			Round r = new Round();
 			r = roundDao.findBySeasonRound(season, round);
 			dto.setRound(r);
 
-			if ((company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(userAlterQ.getId(), company)) {
+//			if ((company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(userAlterQ.getId(), company)) {
+			if (BetTypeEnum.BET_FINAL.getValue()==typeBet.getValue()) {
 				roundBets = roundBetDao.findRoundBetWithBets(season, round, company);
 				
 				//if not existe roundBets create new roundBet
@@ -590,7 +595,8 @@ public class BetController {
 			processRoundBetMail.setRound(round);
 			processRoundBetMail.setSeason(season);
 			processRoundBetMail.setPrice(bet.getPrice());
-			processRoundBetMail.setJackpot(roundBets.getJackpot());
+			//TODO jackpot 
+//			processRoundBetMail.setJackpot(roundBets.getJackpot());
 			List<Bet> finalBet=new ArrayList<Bet>();
 			finalBet.add(bet);
 			processRoundBetMail.setBets(finalBet);

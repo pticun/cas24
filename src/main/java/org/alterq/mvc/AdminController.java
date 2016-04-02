@@ -746,7 +746,7 @@ public class AdminController {
 			else if (balanceDecrease!=null && (balanceDecrease.compareTo("")!=0) && (balanceDecrease.compareTo("none")!=0))
 				userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) - Double.parseDouble(balanceDecrease)));
 			
-			userAlterQDao.save(userAlterQ);
+			userAlterQDao.updateBalance(userAlterQ);
 
 		} catch (SecurityException e) {
 			response.addErrorDto("AdminController:updateBalance", "SecurityException");

@@ -796,6 +796,7 @@ $(document).ready(function() {
 
 		consoleAlterQ("Admin:"+window.admin);
 		consoleAlterQ("superAdmin:"+window.superAdmin);
+		consoleAlterQ("company="+window.company);
 		
 		getMainMenuItems(true, $('#nameData').val());
 		window.loadBetUser = true;
@@ -1136,7 +1137,7 @@ function getUserBets(){
 							console.log("user="+element.user + " bet="+element.bet);
 							row="";
 							
-							if (element.type == CONST_TYPE_BET_FINAL)
+							if (element.type == BetTypeEnum.BET_FINAL)
 								row+='<tr bgcolor="#FFFFBB">';
 							else
 								row+='<tr>';
