@@ -23,8 +23,8 @@ public class RoundRankingDaoImpl extends MongoCollection implements RoundRanking
 
 	public RoundRanking findRanking(int company, int season, int round) {
 		Query query = new Query(Criteria.where("company").is(company).and("season").is(season).and("round").is(round));
-		query.fields().include("rankings.user._id");
-		query.fields().include("rankings.user.name");
+//		query.fields().include("rankings.user._id");
+//		query.fields().include("rankings.user.name");
 		RoundRanking aux = mongoTemplate.findOne(query, RoundRanking.class, COLLECTION_NAME);
 		return aux;
 	}

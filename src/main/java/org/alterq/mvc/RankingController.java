@@ -43,6 +43,8 @@ public class RankingController {
 			// TODO control security by id-company
 			companyValidator.isCompanyOk(company);
 			roundRanking = rankingDao.findRanking(company, season, round);
+			roundRanking.setRound(round);
+			roundRanking.setSeason(season);
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.GET_LAST_ROUND);

@@ -31,7 +31,7 @@ public class RankingControllerTest {
 	@Test
 	public void getLastRound() throws Exception {
 		// System.out.println(this.mockMvc.perform(get("/bet")).andReturn().getResponse().getContentAsString());
-		this.mockMvc.perform(get("/myaccount/mail@mail.es/season/2014/round/12/ranking")).andDo(MockMvcResultHandlers.print());
+		this.mockMvc.perform(get("/myaccount/mail@mail.es/season/2015/round/2/ranking")).andDo(MockMvcResultHandlers.print());
 	}
 
 }

@@ -1183,14 +1183,16 @@ function getCompanyRanking(){
 		window.loadBetUser=false;
 		consoleAlterQ("loadBetUser: FALSE");
 		var row="";
+		var round = window.round;
+		round = 0; //para mostrar el ranking global
 		
 		cleanCompanyRanking();
 		///myaccount/{id:.+}/{company}/{season}/{round}/ranking
-   		consoleAlterQ('antes jQuery.ajax - idUserAlterQ='+idUserAlterQ+' company='+window.company+' season='+window.season+' round='+window.round);
+   		consoleAlterQ('antes jQuery.ajax - idUserAlterQ='+idUserAlterQ+' company='+window.company+' season='+window.season+' round='+round);
    		
-   		consoleAlterQ('url:'+ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/'+ window.season+'/'+window.round+'/ranking');  		
+   		consoleAlterQ('url:'+ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/'+ window.season+'/'+round+'/ranking');  		
 		jQuery.ajax ({
-			url: ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/'+ window.season+'/'+window.round+'/ranking',
+			url: ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/'+ window.season+'/'+round+'/ranking',
 		    type: "GET",
 		    data: null,
 		    contentType: "application/json; charset=utf-8",
@@ -1226,14 +1228,29 @@ function getCompanyRanking(){
 			    	else
 			    	{
 				    	row+='<tr align="center">';
-				    	row+='<td colspan="2">RANKING</td>';
+				    	row+='<td colspan="3">RANKING</td>';
 				    	row+='</tr>';
 				    	row+='<tr align="center">';
-				    	row+='<td>'+((sCompany == '')?sCompanyDefault:sCompany)+'</td>';
+				    	row+='<td colspan="3">'+' '+((response.roundRanking.round==0)?'Global ':'Jornada '+response.roundRanking.round)+'</td>';
 				    	row+='</tr>';
 				    	row+='<tr align="center">';
-				    	row+='<td>'+' Jornada '+response.roundRanking.round+'- Temporada '+response.roundRanking.season+'</td>';
+				    	row+='<td colspan="3">'+'Temp. '+response.roundRanking.season+'/'+(response.roundRanking.season -2000 +1)+'</td>';
 				    	row+='</tr>';
+				    	row+='<tr align="center">';
+				    	row+='<td colspan="3">'+((sCompany == '')?sCompanyDefault:sCompany)+'</td>';
+				    	row+='</tr>';
+						row+='<tr>';
+				    	row+='<td width="50">';
+				    	row+='POS';
+				    	row+='</td>';
+				    	row+='<td width="50">';
+				    	row+=' NOMBRE ';
+				    	row+='</td>';
+				    	row+='<td width="50">';
+				    	row+=' PUNTOS ';
+				    	row+='</td>';
+				    	row+='</tr>';
+
 						$('#rankingTable').append(row);
 						$(response.roundRanking.rankings).each(function(index, element){
 							console.log("index="+index);
@@ -1245,7 +1262,13 @@ function getCompanyRanking(){
 							else
 								row+='<tr>';
 					    	row+='<td>';
-					    	row+=''+(((index+1)<10)?'0':'')+(index+1)+' '+element.nick+ ' '+ element.points;
+					    	row+=''+(((index+1)<10)?'0':'')+(index+1);
+					    	row+='</td>';
+					    	row+='<td>';
+					    	row+=''+element.nick;
+					    	row+='</td>';
+					    	row+='<td align="center">';
+					    	row+=''+ element.points;
 					    	row+='</td>';
 					    	row+='</tr>';
 							$('#rankingTable').append(row);

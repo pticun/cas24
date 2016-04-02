@@ -79,20 +79,24 @@ public class AdminControllerTest {
 		
 	}
 */	
-/*	
+	
 	@Test
 	public void AA_resultBetRound() throws Exception {
 		//GeneralData bean = new GeneralData();
 		//ObjectMapper mapper = new ObjectMapper();
-		
-		ResultActions ra = this.mockMvc.perform(post("/admin/company/1/season/2014/round/12/resultBet/124124222142111"));
+		//Round02
+//		ResultActions ra = this.mockMvc.perform(post("/admin/2015/2/1112XX2X111X22M0/resultBet"));
+		//Round03
+//		ResultActions ra = this.mockMvc.perform(post("/admin/2015/3/22121XX212X1X112/resultBet"));
+		//Round04
+		ResultActions ra = this.mockMvc.perform(post("/admin/2015/4/1X2222122222X1M1/resultBet"));
 		ra.andDo(MockMvcResultHandlers.print());
 		ra.andExpect(status().isOk());
 		//bean = mapper.readValue(ra.andReturn().getResponse().getContentAsString(), GeneralData.class);
 		//System.out.println("new GeneralData.active:" + bean.isActive());
 		//Assert.assertTrue(bean.isActive());
 	}
-*/
+
 /*	
 	@Test
 	public void AA_prizeRound() throws Exception {
@@ -281,7 +285,7 @@ public class AdminControllerTest {
 	}
 */
 
-	@Test
+/*	@Test
 	public void AA_fileGenation() throws Exception {
 		//GeneralData bean = new GeneralData();
 		//ObjectMapper mapper = new ObjectMapper();
@@ -294,6 +298,6 @@ public class AdminControllerTest {
 		//System.out.println("new GeneralData.active:" + bean.isActive());
 		//Assert.assertTrue(bean.isActive());
 	}
-	
+*/	
 	
 }
