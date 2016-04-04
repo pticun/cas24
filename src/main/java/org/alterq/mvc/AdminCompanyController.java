@@ -3,6 +3,10 @@ package org.alterq.mvc;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.alterq.domain.Bet;
 import org.alterq.domain.RoundBets;
@@ -33,6 +37,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value = { "/adminCompany" })
@@ -59,6 +64,40 @@ public class AdminCompanyController {
 	@Autowired
 	@Qualifier("messageLocalizedResources")
 	private MessageLocalizedResources messageLocalizedResources;
+
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView initPagePost(HttpServletRequest request) {
+		log.debug("init adminCompany POST");
+		
+		String company="0";
+		String round="0";
+		String season="0";
+		String idUserAlterQ="";
+		
+		Map<String, String[]> parameters = request.getParameterMap();
+		for (String parameter : parameters.keySet()) {
+			try {
+				if (parameter.equals("company")) {
+					company = request.getParameter(parameter);
+				} else if (parameter.equals("round")) {
+					round = request.getParameter(parameter);
+				} else if (parameter.equals("season")) {
+					season = request.getParameter(parameter);
+				} else if (parameter.equals("idUserAlterQ")) {
+					idUserAlterQ = request.getParameter(parameter);
+				}
+			} catch (Exception e) {
+				// TODO: handle exceptionBets
+			}
+		}
+		ModelAndView model = new ModelAndView("adminCompany");
+		model.addObject("company", company);
+		model.addObject("round", round);
+		model.addObject("season", season);
+		model.addObject("idUserAlterQ", idUserAlterQ);
+		
+		return model;
+	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String initPage() {
