@@ -166,7 +166,9 @@ function showDiv(elem) {
 		$(sMyAdminRef).open();
 		break;
 	case bMyAdminCompany:
-		$(sMyAdminCompanyRef).open();
+//		$(sMyAdminCompanyRef).open();
+		consoleAlterQ("callToMyAdminCompany");
+		callToMyAdminCompany();
 		break;
 	case bQuinielaDetail:
 		$(sQuinielaDetailRef).show();
@@ -351,7 +353,7 @@ function getMainMenuItems(userLoged, user)
 				$('#menu-nav').append('<li><a href="' + sCompanyRef + '">['+sCompanyDefault+']</a></li>');
 			}
 			if (admin)
-				$('#menu-nav').append('<li><a href="' + sMyAdminCompanyRef + '">' + sAdminCompany + '</a></li>');
+				$('#menu-nav').append('<li><a id="anchorToAdmin" href="' + sMyAdminCompanyRef + '">' + sAdminCompany + '</a></li>');
 
 		}
 		$('#menu-nav').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');
@@ -1365,6 +1367,31 @@ function betDetail(index, bet)
 	$('#quinielaDetailTable').append(row);
 
 	showDiv(bQuinielaDetail);
+}
+
+function callToMyAdminCompany(){
+	 var dataJson = {
+		"company" : window.company,
+		"round" :window.round,
+		"season":window.season,
+		"idUserAlterQ": window.idUserAlterQ,
+	 };
+
+	 consoleAlterQ('callToMyAdminCompany:'+dataJson);
+	 jQuery.ajax ({
+		 //CompanyController.createCompany()
+		    url: ctx+'/adminCompany',
+		    type: "POST",
+		    data: dataJson,
+		    contentType: "application/json; charset=utf-8",
+		    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+            cache: false,    //This will force requested pages not to be cached by the browser  
+            processData:false, //To avoid making query String instead of JSON
+		    success: function(response){
+		    	consoleAlterQ('responseCallToMyAdminCompany');
+		    }
+		});
+	
 }
 
 
