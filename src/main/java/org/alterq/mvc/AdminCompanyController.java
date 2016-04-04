@@ -3,15 +3,12 @@ package org.alterq.mvc;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.alterq.domain.Bet;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
+import org.alterq.dto.RequestUserDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.RoundBetDao;
@@ -34,6 +31,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -65,6 +63,16 @@ public class AdminCompanyController {
 	@Qualifier("messageLocalizedResources")
 	private MessageLocalizedResources messageLocalizedResources;
 
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView initPagePost(@RequestBody RequestUserDto requestUserDto) {
+		log.debug("init adminCompany POST");
+		
+		ModelAndView model = new ModelAndView("adminCompany");
+		model.addObject("requestUserDto", requestUserDto);
+		
+		return model;
+	}
+	/*
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView initPagePost(HttpServletRequest request) {
 		log.debug("init adminCompany POST");
@@ -98,6 +106,7 @@ public class AdminCompanyController {
 		
 		return model;
 	}
+	*/
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String initPage() {

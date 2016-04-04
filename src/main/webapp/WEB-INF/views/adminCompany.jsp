@@ -8,9 +8,6 @@
 <!--[if (IE 9)]><html class="no-js ie9" lang="en"><![endif]-->
 <!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
 <head>
-<!-- JQuery -->
-<script src="<c:url value="/static/resources/js/jquery.min.js"/>"></script>
-<script src="<c:url value="/static/resources/js/jquery.dropotron.js"/>"></script>
 
 <!-- Meta Tags -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -82,7 +79,14 @@
 <script src="<c:url value="/static/resources/_include/js/modernizr.js"/>"></script>
 <script src="<c:url value="/static/resources/_include/js/alterQ.js"/>"></script>
 <script type="text/javascript">
-var ctx = "<%=request.getContextPath()%>"
+var ctx = "<%=request.getContextPath()%>";
+
+var requestUserDto=${requestUserDto};
+
+alert(requestUserDto.company);
+alert(requestUserDto.round);
+alert(requestUserDto.season);
+alert(requestUserDto.idUserAlterQ);
 </script>
 
 

@@ -163,6 +163,7 @@ function showDiv(elem) {
 		$(sMyResumRef).show();
 		break;
 	case bMyAdmin:
+		consoleAlterQ("callToSuperAdminCompany");
 		$(sMyAdminRef).open();
 		break;
 	case bMyAdminCompany:
@@ -785,6 +786,7 @@ $(document).ready(function() {
    	
 	$('#companyToChoose').on('change', function() {
 		window.company=this.value;
+		requestUserSession.company =window.company;
 		sCompany = $(this).find(":selected").text();
 		window.companySelected = true;
 		consoleAlterQ('vamos a repintar el menu');
@@ -914,13 +916,20 @@ function doLogin(){
 	    });
 }
 function fillRoundSeasonCompany(response){
+
 	window.round = response.adminData.round;
 	window.season = response.adminData.season;
+	
+	requestUserSession.round =window.round;
+	requestUserSession.season =window.season;
 //    company = response.adminData.company;
 	consoleAlterQ("fillRoundSeasonCompany: round="+window.round+" season="+window.season);	
 }
 function fillUserData(response){
+	
+	
 	window.idUserAlterQ=response.userAlterQ.id;
+	requestUserSession.idUserAlterQ =window.idUserAlterQ;
 	
 	$('#idData').val(response.userAlterQ.id);
 	$('#nameData').val(response.userAlterQ.name);
@@ -971,6 +980,11 @@ function initializeVars(){
 	//delete combo company
 	 $("#companyToChoose option:selected").remove();
 
+	requestUserSession.idUserAlterQ =window.idUserAlterQ;
+	requestUserSession.round =window.round;
+	requestUserSession.season =window.season;
+	requestUserSession.company =window.company;
+
 }
 
 function hasValue(obj, key, value) {
@@ -1019,10 +1033,6 @@ function consoleAlterQ(text){
 	}
 
 }
-
-
-
-
 
 function getCompanies(){
 	consoleAlterQ('getCompanies');
@@ -1370,13 +1380,8 @@ function betDetail(index, bet)
 }
 
 function callToMyAdminCompany(){
-	 var dataJson = {
-		"company" : window.company,
-		"round" :window.round,
-		"season":window.season,
-		"idUserAlterQ": window.idUserAlterQ,
-	 };
-
+	var dataJson=JSON.stringify(requestUserSession);
+	
 	 consoleAlterQ('callToMyAdminCompany:'+dataJson);
 	 jQuery.ajax ({
 		 //CompanyController.createCompany()

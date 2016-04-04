@@ -14,6 +14,7 @@ var RolNameEnum={
 		ROL_PUBLIC:0,
 };
 
+
 	window.DEFECT_COMPANY = 0;
 	window.round=0;
 	window.season=0;
@@ -33,3 +34,13 @@ var RolNameEnum={
 	window.superAdmin = false;
 	
 	window.quinielaFinal = false;
+
+	function RequestUser(){
+		this.company=window.DEFECT_COMPANY;
+		this.round=window.roun;
+		this.season=window.season;
+		this.idUserAlterQ= window.idUserAlterQ;
+	}
+	
+	var requestUserSession=new RequestUser ();
+	
