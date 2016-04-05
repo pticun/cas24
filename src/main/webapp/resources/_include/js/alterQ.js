@@ -99,6 +99,7 @@ function initDiv() {
 	$(sMyDataRef).hide();
 	$(sMyBalanceRef).hide();
 	$(sMyBetsRef).hide();
+	$(sMyRankingRef).hide();
 	$(sMyRankRef).hide();
 	$(sMyResumRef).hide();
 	$(sQuinielaDetailRef).hide();
@@ -157,7 +158,7 @@ function showDiv(elem) {
 		$(sMyBetsRef).show();
 		break;
 	case bMyRank:
-		$(sMyRankRef).show();
+		$(sMyRankingRef).show();
 		break;
 	case bMyResum:
 		$(sMyResumRef).show();
@@ -229,6 +230,7 @@ function showDiv(elem) {
 		$(sMyBetsRef).hide();
 		break;
 	case bMyRank:
+		$(sMyRankingRef).hide();
 		$(sMyRankRef).hide();
 		break;
 	case bMyResum:
@@ -305,12 +307,12 @@ function menuEvent(name, href)
 	}else if (href == sMyRankingRef){
 		consoleAlterQ("Myranking");
 		getCompanyRanking();
-		showDiv(bMyBets);
+		showDiv(bMyRank);
 	}else if (href == sMyResumRef){
 		consoleAlterQ("MyResum");
 		paintResum();
 		showDiv(bMyResum);
-	}else if (href == sMyRankRef){
+	}else if (href == sMyRankingRef){
 		consoleAlterQ("MyRank");
 		paintRanking();
 		showDiv(bMyRank);
@@ -750,7 +752,8 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
     });
 	$("#myRankBtn").click(function( event ){
-		menuEvent($(this).text(), "#myRankDiv");
+//		menuEvent($(this).text(), "#myRankDiv");
+		menuEvent($(this).text(), "#myrankingDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
 	});
 	$("#myResumBtn").click(function( event ){
@@ -1244,13 +1247,13 @@ function getCompanyRanking(){
 				    	row+='<td colspan="3">RANKING</td>';
 				    	row+='</tr>';
 				    	row+='<tr align="center">';
-				    	row+='<td colspan="3">'+' '+((response.roundRanking.round==0)?'Global ':'Jornada '+response.roundRanking.round)+'</td>';
+				    	row+='<td colspan="3">'+' '+((response.roundRanking.round==0)?'(Global) ':'Jornada '+response.roundRanking.round)+'</td>';
 				    	row+='</tr>';
 				    	row+='<tr align="center">';
 				    	row+='<td colspan="3">'+'Temp. '+response.roundRanking.season+'/'+(response.roundRanking.season -2000 +1)+'</td>';
 				    	row+='</tr>';
 				    	row+='<tr align="center">';
-				    	row+='<td colspan="3">'+((sCompany == '')?sCompanyDefault:sCompany)+'</td>';
+				    	row+='<td colspan="3">['+((sCompany == '')?sCompanyDefault:sCompany)+']</td>';
 				    	row+='</tr>';
 						row+='<tr>';
 				    	row+='<td width="50">';
@@ -1263,6 +1266,17 @@ function getCompanyRanking(){
 				    	row+=' PUNTOS ';
 				    	row+='</td>';
 				    	row+='</tr>';
+						row+='<tr>';
+				    	row+='<td width="50">';
+				    	row+='---';
+				    	row+='</td>';
+				    	row+='<td width="50">';
+				    	row+=' ------ ';
+				    	row+='</td>';
+				    	row+='<td width="50">';
+				    	row+=' ------ ';
+				    	row+='</td>';
+				    	row+='</tr>';
 
 						$('#rankingTable').append(row);
 						$(response.roundRanking.rankings).each(function(index, element){
@@ -1270,10 +1284,11 @@ function getCompanyRanking(){
 							console.log("user="+element.user + " bet="+element.nick + " points="+element.points);
 							row="";
 							
-							if (element.type == CONST_TYPE_BET_FINAL)
-								row+='<tr bgcolor="#FFFFBB">';
-							else
-								row+='<tr>';
+//							if (element.type == CONST_TYPE_BET_FINAL)
+//								row+='<tr bgcolor="#FFFFBB">';
+//							else
+//								row+='<tr>';
+							row+='<tr>';
 					    	row+='<td>';
 					    	row+=''+(((index+1)<10)?'0':'')+(index+1);
 					    	row+='</td>';
