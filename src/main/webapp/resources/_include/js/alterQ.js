@@ -821,9 +821,10 @@ $(document).ready(function() {
 });
 
 
-function callRanking(idUserAlterQ,company,temporada,jornada){
+/*function callRanking(idUserAlterQ,company,temporada,jornada){
 	//Remove table
 	$('#rankingTable').find("tr").remove();
+	
 	jQuery.ajax ({
 	    url: ctx+'/myaccount/'+ idUserAlterQ +'/'+company+'/'+temporada+'/'+jornada+'/ranking',
 	    type: "GET",
@@ -847,7 +848,7 @@ function callRanking(idUserAlterQ,company,temporada,jornada){
 		    }
 	    }
 	});
-}
+}*/
 
 function callResum(company,temporada,jornada){
 	//Remove table
@@ -1200,9 +1201,38 @@ function getCompanyRanking(){
 		consoleAlterQ("loadBetUser: FALSE");
 		var row="";
 		var round = window.round;
-		round = 0; //para mostrar el ranking global
 		
 		cleanCompanyRanking();
+		
+		row="";
+    	row+='<tr align="center">';
+    	row+='<td>RANKING</td>';
+    	row+='</tr>';
+        row+='<tr align="center">';
+		row+='<td>';
+//		row+='<div class="btn-group dropdown">';
+//		row+='<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Ranking<span class="caret"></span></button>';
+//		row+='<ul class="dropdown-menu" style="z-index: 100;position: relative;" id="rankingSelect" role="menu" aria-labelledby="dropdownMenu">';
+//		row+='<li value="0">Global</li>';
+//		row+='<li class="divider"></li>';
+//		row+='<li value="1">Jornada 01</li>';
+//		row+='</ul>';
+//		row+='</div>';
+		row+='<div class="dropdown">';
+		row+='<button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">Selecciona Jornada';
+		row+='<span class="caret"></span></button>';
+		row+='<ul class="dropdown-menu">';
+		row+='<li><a href="#">Global</a></li>';
+		row+='<li class="divider"></li>';
+		row+='<li><a href="#">Jornada 01</a></li>';
+		row+='</ul>';
+		row+='</div>';		
+		row+='</td>';
+		row+='</tr>';
+		$('#rankingSelectTable').append(row);
+		row="";
+		
+		round = 0; //para mostrar el ranking global
 		///myaccount/{id:.+}/{company}/{season}/{round}/ranking
    		consoleAlterQ('antes jQuery.ajax - idUserAlterQ='+idUserAlterQ+' company='+window.company+' season='+window.season+' round='+round);
    		
@@ -1218,9 +1248,6 @@ function getCompanyRanking(){
 		    success: function(response){
 			    if(response.errorDto!=0){
 					row="";
-			    	row+='<tr align="center">';
-			    	row+='<td>RANKING</td>';
-			    	row+='</tr>';
 			        row+='<tr align="center">';
 					row+='<td><br><br>SIN DATOS<br><br></td>';
 					row+='</tr>';
@@ -1231,9 +1258,6 @@ function getCompanyRanking(){
 			    	{
 						row="";
 				    	row+='<tr align="center">';
-				    	row+='<td>RANKING</td>';
-				    	row+='</tr>';
-				    	row+='<tr align="center">';
 				    	row+='<td>'+((sCompany == '')?sCompanyDefault:sCompany)+'</td>';
 				    	row+='</tr>';
 				    	row+='<tr align="center">';
@@ -1243,9 +1267,6 @@ function getCompanyRanking(){
 			    	}
 			    	else
 			    	{
-				    	row+='<tr align="center">';
-				    	row+='<td colspan="3">RANKING</td>';
-				    	row+='</tr>';
 				    	row+='<tr align="center">';
 				    	row+='<td colspan="3">'+' '+((response.roundRanking.round==0)?'(Global) ':'Jornada '+response.roundRanking.round)+'</td>';
 				    	row+='</tr>';
@@ -1306,9 +1327,6 @@ function getCompanyRanking(){
 		    },
 		    error : function (xhr, textStatus, errorThrown) {
 				var row="";
-		    	row+='<tr align="center>';
-		    	row+='<td>RANKING</td>';
-		    	row+='</tr>';
 		    	row+='<tr align="center">';
 		    	row+='<td>('+sCompany+')<br><br></td>';
 		    	row+='</tr>';
@@ -1328,6 +1346,8 @@ function getCompanyRanking(){
 function cleanCompanyRanking(){
 	consoleAlterQ('cleanCompanyRanking');
 	$('#rankingTable').empty();
+	$('#rankingSelectTable').empty();
+
 }
 function betDetail(index, bet)
 {

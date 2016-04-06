@@ -217,6 +217,8 @@
     <!-- Quiniela Form -->
 		<div align="center">
 			<form id="rankikngForm">
+				    <table class="tablaQuiniGold" id="rankingSelectTable">
+				    </table>
 				    <table class="tablaQuiniGold" id="rankingTable">
 				    </table>
 			</form>
