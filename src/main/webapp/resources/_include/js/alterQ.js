@@ -1402,7 +1402,7 @@ function callToMyAdminCompany(){
 	 var form = $(document.createElement('form'));
 	 $(form).attr("action", ctx+'/adminCompany');
 	 $(form).attr("method", "POST");
-	 $(form).attr("enctype", "application/json");
+//	 $(form).attr("enctype", "application/json");
 
 	 var input = $("<input>")
 	     .attr("type", "hidden")

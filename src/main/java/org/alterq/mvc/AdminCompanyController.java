@@ -63,7 +63,7 @@ public class AdminCompanyController {
 	@Qualifier("messageLocalizedResources")
 	private MessageLocalizedResources messageLocalizedResources;
 
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST,consumes="application/json",headers = "content-type=application/x-www-form-urlencoded")
 	public ModelAndView initPagePost(@RequestBody RequestUserDto requestUserDto) {
 		log.debug("init adminCompany POST");
 		
