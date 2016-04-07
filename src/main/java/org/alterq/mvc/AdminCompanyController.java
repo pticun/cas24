@@ -4,6 +4,9 @@ package org.alterq.mvc;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.alterq.domain.Bet;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
@@ -63,8 +66,9 @@ public class AdminCompanyController {
 	@Qualifier("messageLocalizedResources")
 	private MessageLocalizedResources messageLocalizedResources;
 
-	@RequestMapping(method = RequestMethod.POST,consumes="application/json",headers = "content-type=application/x-www-form-urlencoded")
-	public ModelAndView initPagePost(@RequestBody RequestUserDto requestUserDto) {
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView initPagePost( RequestUserDto requestUserDto) {
+//	public ModelAndView initPagePost(HttpServletRequest request) {
 		log.debug("init adminCompany POST");
 		
 		ModelAndView model = new ModelAndView("adminCompany");

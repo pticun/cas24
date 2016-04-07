@@ -1,9 +1,9 @@
 
-//alert("context:"+ctx);
+alert("context:"+ctx);
 $(document).ready(function() {
-//alert("$(document).ready: INICIO");	
+alert("$(document).ready: INICIO");	
 	consoleAlterQ("AdminCompany - ready");
-	consoleAlterQ("document ready: round="+window.round+" season="+window.season);
+	consoleAlterQ("000document ready: round="+requestUserDto.round+" season="+requestUserDto.season);
 
 	
 	$.fn.serializeObject = function()

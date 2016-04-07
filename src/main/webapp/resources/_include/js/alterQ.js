@@ -2900,15 +2900,29 @@ function callToMyAdminCompany(){
 	 var form = $(document.createElement('form'));
 	 $(form).attr("action", ctx+'/adminCompany');
 	 $(form).attr("method", "POST");
-	 $(form).attr("enctype", "application/json");
 
-	 var input = $("<input>")
+	 var inputCompany = $("<input>")
 	     .attr("type", "hidden")
 	     .attr("name", "company")
 	     .val(requestUserSession.company );
+	 var inputIdUserAlterQ = $("<input>")
+		 .attr("type", "hidden")
+		 .attr("name", "idUserAlterQ")
+		 .val(requestUserSession.idUserAlterQ );
+	 var inputRound = $("<input>")
+		 .attr("type", "hidden")
+		 .attr("name", "idUserAlterQ")
+		 .val(requestUserSession.round );
+	 var inputSeason = $("<input>")
+		 .attr("type", "hidden")
+		 .attr("name", "idUserAlterQ")
+		 .val(requestUserSession.season);
 
 
-	 $(form).append($(input));
+	 $(form).append($(inputCompany));
+	 $(form).append($(inputIdUserAlterQ));
+	 $(form).append($(inputRound));
+	 $(form).append($(inputSeason));
 
 	 form.appendTo( document.body )
 
@@ -2935,10 +2949,10 @@ function callToMyAdminCompany(){
 	        	},
 	    })	
 	  */  
-	 /*
+/*
 	 jQuery.ajax ({
 		 //CompanyController.createCompany()
-		    url: ctx+'/adminCompany',
+		    url: '/quinimobile/adminCompany',
 		    type: "POST",
 		    data: dataJson,
 		    contentType: "application/json; charset=utf-8",
@@ -2949,8 +2963,7 @@ function callToMyAdminCompany(){
 		    	consoleAlterQ('responseCallToMyAdminCompany');
 		    }
 		});
-	*/
-	
+*/	
 }
 
 
