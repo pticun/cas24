@@ -306,16 +306,16 @@ function menuEvent(name, href)
 		showDiv(bMyBets);
 	}else if (href == sMyRankingRef){
 		consoleAlterQ("Myranking");
-		getCompanyRanking();
+		getCompanyRanking(0); //round = 0 para mostrar el ranking global
 		showDiv(bMyRank);
 	}else if (href == sMyResumRef){
 		consoleAlterQ("MyResum");
 		paintResum();
 		showDiv(bMyResum);
-	}else if (href == sMyRankingRef){
-		consoleAlterQ("MyRank");
-		paintRanking();
-		showDiv(bMyRank);
+//	}else if (href == sMyRankingRef){
+//		consoleAlterQ("MyRank");
+//		paintRanking();
+//		showDiv(bMyRank);
 	}else if (href == sMyAdminRef){
 		consoleAlterQ("MyAdmin");
 		showDiv(bMyAdmin);
@@ -398,16 +398,16 @@ function getMainMenuItems(userLoged, user)
 	consoleAlterQ("getMainMenuItems fin");
 	}
 
-function paintRanking(){
-	$('#rankingSelect li').remove();
-	$('#rankingSelect').append($("<li><a class='list-group-item' id="+window.season+"_0>"+(window.season-1)+"/"+window.season+"</a></li>"));
-	$('#rankingSelect').append($("<li><a class='divider'></a></li>"));
-	var num=1;
-	for ( num = 1; num < window.round + 1; num++) {
-		$('#rankingSelect').append($("<li><a id='"+window.season+"_"+num+"' href='#'>"+num+"</a></li>"));
-	}
-	callRanking(window.idUserAlterQ,window.company,window.season,window.round);
-}
+//function paintRanking(){
+//	$('#rankingSelect li').remove();
+//	$('#rankingSelect').append($("<li><a class='list-group-item' id="+window.season+"_0>"+(window.season-1)+"/"+window.season+"</a></li>"));
+//	$('#rankingSelect').append($("<li><a class='divider'></a></li>"));
+//	var num=1;
+//	for ( num = 1; num < window.round + 1; num++) {
+//		$('#rankingSelect').append($("<li><a id='"+window.season+"_"+num+"' href='#'>"+num+"</a></li>"));
+//	}
+//	callRanking(window.idUserAlterQ,window.company,window.season,window.round);
+//}
 
 function paintResum(){
 	$('#resumSelect li').remove();
@@ -763,17 +763,20 @@ $(document).ready(function() {
    	$('mydataDiv').click(function( event ){
 		$(sMyDataRef).show();
 		event.preventDefault(); // prevent actual form submit and page reload
-  	}); 
-//    $("ul[id*=myid] li")
-//	$("ul[id*=rankingSelect]").click(function(event){
-   	$( "#rankingSelect" ).on( "click", "a", function( event ) {
+  	});
+   	
+  	
+//   	$( "#rankingSelect" ).on( "click", "a", function( event ) {
+//   	$( "#rankingSelectTable" ).on( "click", "tbody tr td div ul li a", function( event ) {
+   	$( "#rankingSelectTable" ).on( "click", "li a", function( event ) {
    		consoleAlterQ('rankingSelect');
 		texto=this.id;
 		pos = texto.indexOf('_');
 		temporada=texto.substring(0,pos);
 		jornada=texto.substring(pos+1);
 		consoleAlterQ("company_temporada_jornada="+window.company+"-"+temporada+"-"+jornada);
-		callRanking(window.idUserAlterQ,window.company,temporada,jornada);
+		//callRanking(window.idUserAlterQ,window.company,temporada,jornada);
+		getCompanyRanking(jornada);
 		event.preventDefault(); // prevent actual form submit and page reload
     });
    	$( "#resumSelect" ).on( "click", "a", function( event ) {
@@ -1189,7 +1192,7 @@ function getUserBets(){
 	showDiv(bMyBets);
 	}	
 }
-function getCompanyRanking(){
+function getCompanyRanking(round){
 	consoleAlterQ('getCompanyRanking');
 	consoleAlterQ('loadBetUser='+window.loadBetUser);
 	
@@ -1200,8 +1203,7 @@ function getCompanyRanking(){
 		window.loadBetUser=false;
 		consoleAlterQ("loadBetUser: FALSE");
 		var row="";
-		var round = window.round;
-		
+	
 		cleanCompanyRanking();
 		
 		row="";
@@ -1210,21 +1212,16 @@ function getCompanyRanking(){
     	row+='</tr>';
         row+='<tr align="center">';
 		row+='<td>';
-//		row+='<div class="btn-group dropdown">';
-//		row+='<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Ranking<span class="caret"></span></button>';
-//		row+='<ul class="dropdown-menu" style="z-index: 100;position: relative;" id="rankingSelect" role="menu" aria-labelledby="dropdownMenu">';
-//		row+='<li value="0">Global</li>';
-//		row+='<li class="divider"></li>';
-//		row+='<li value="1">Jornada 01</li>';
-//		row+='</ul>';
-//		row+='</div>';
 		row+='<div class="dropdown">';
 		row+='<button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">Selecciona Jornada';
 		row+='<span class="caret"></span></button>';
-		row+='<ul class="dropdown-menu">';
-		row+='<li><a href="#">Global</a></li>';
+		row+='<ul id="rankingSelect" class="dropdown-menu">';
+		row+='<li><a id='+window.season+'_0'+' href=\'#\'>Global</a></li>';
 		row+='<li class="divider"></li>';
-		row+='<li><a href="#">Jornada 01</a></li>';
+		var num=1;
+		for ( num = 1; num < window.round + 1; num++) {
+			row+='<li><a id='+window.season+"_"+num+' href=\'#\'>Jornada '+num+'</a></li>';
+		}
 		row+='</ul>';
 		row+='</div>';		
 		row+='</td>';
@@ -1232,7 +1229,6 @@ function getCompanyRanking(){
 		$('#rankingSelectTable').append(row);
 		row="";
 		
-		round = 0; //para mostrar el ranking global
 		///myaccount/{id:.+}/{company}/{season}/{round}/ranking
    		consoleAlterQ('antes jQuery.ajax - idUserAlterQ='+idUserAlterQ+' company='+window.company+' season='+window.season+' round='+round);
    		
