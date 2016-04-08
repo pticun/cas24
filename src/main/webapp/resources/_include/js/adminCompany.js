@@ -1,9 +1,8 @@
 
-alert("context:"+ctx);
+//alert("context:"+ctx);
 $(document).ready(function() {
-alert("$(document).ready: INICIO");	
+//alert("$(document).ready: INICIO");	
 	consoleAlterQ("AdminCompany - ready");
-	consoleAlterQ("000document ready: round="+requestUserDto.round+" season="+requestUserDto.season);
 
 	
 	$.fn.serializeObject = function()
@@ -65,7 +64,7 @@ alert("$(document).ready: INICIO");
 		 var dataJson=JSON.stringify($('form#closeACForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/adminCompany'+ '/company/' + window.company + '/season/'+ $("input[id=seasonCloseAC]").val() + '/round/' + $("input[id=roundCloseAC]").val() + '/closeAC',
+			 url: ctx+'/adminCompany'+ '/company/' + requestUserSession.company + '/season/'+ $("input[id=seasonCloseAC]").val() + '/round/' + $("input[id=roundCloseAC]").val() + '/closeAC',
 //			 url: ctx+'/adminCompany/closeAC',
 			 	type: "POST",
 			    data: dataJson,
@@ -107,7 +106,7 @@ alert("$(document).ready: INICIO");
 		 var dataJson=JSON.stringify($('form#quinielaForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 jQuery.ajax ({
-			 url: ctx+'/adminCompany'+ '/company/' + window.company + '/season/'+ $("input[id=seasonQuiniela]").val() + '/round/' + $("input[id=roundQuiniela]").val() + '/finalBet/' + $("input[id=tipoQuiniela]").val(),
+			 url: ctx+'/adminCompany'+ '/company/' + requestUserSession.company + '/season/'+ $("input[id=seasonQuiniela]").val() + '/round/' + $("input[id=roundQuiniela]").val() + '/finalBet/' + $("input[id=tipoQuiniela]").val(),
 			    type: "POST",
 			    data: dataJson,
 			    //contentType: "application/json; charset=utf-8",

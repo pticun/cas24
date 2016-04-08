@@ -1429,11 +1429,11 @@ function callToMyAdminCompany(){
 		 .val(requestUserSession.idUserAlterQ );
 	 var inputRound = $("<input>")
 		 .attr("type", "hidden")
-		 .attr("name", "idUserAlterQ")
+		 .attr("name", "round")
 		 .val(requestUserSession.round );
 	 var inputSeason = $("<input>")
 		 .attr("type", "hidden")
-		 .attr("name", "idUserAlterQ")
+		 .attr("name", "season")
 		 .val(requestUserSession.season);
 
 
