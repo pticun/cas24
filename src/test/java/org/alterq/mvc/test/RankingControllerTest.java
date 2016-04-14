@@ -33,5 +33,13 @@ public class RankingControllerTest {
 		// System.out.println(this.mockMvc.perform(get("/bet")).andReturn().getResponse().getContentAsString());
 		this.mockMvc.perform(get("/myaccount/mail@mail.es/season/2015/round/2/ranking")).andDo(MockMvcResultHandlers.print());
 	}
+	
+	@Test
+	public void updateRound1() throws Exception {
+		// System.out.println(this.mockMvc.perform(get("/bet")).andReturn().getResponse().getContentAsString());
+		//this.mockMvc.perform(get("/myaccount/mail@mail.es/1/2015/1/ranking/updateRanking")).andDo(MockMvcResultHandlers.print());
+		//this.mockMvc.perform(get("/myaccount/mail@mail.es/1/2015/2/ranking/updateRanking")).andDo(MockMvcResultHandlers.print());
+		this.mockMvc.perform(get("/myaccount/mail@mail.es/1/2015/3/ranking/updateRanking")).andDo(MockMvcResultHandlers.print());
+	}
 
 }
