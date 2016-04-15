@@ -1226,6 +1226,9 @@ function getCompanyRanking(round){
 		row+='</div>';		
 		row+='</td>';
 		row+='</tr>';
+    	row+='<tr align="center">';
+    	row+='<td>&nbsp</td>';
+    	row+='</tr>';
 		$('#rankingSelectTable').append(row);
 		row="";
 		

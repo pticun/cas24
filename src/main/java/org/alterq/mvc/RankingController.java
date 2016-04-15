@@ -102,6 +102,36 @@ public class RankingController {
 			roundRanking = rankingDao.findRanking(company, season, round);
 			roundRanking.setRound(round);
 			roundRanking.setSeason(season);
+			
+			List<Ranking> lRankings = roundRanking.getRankings();
+
+			Collections.sort(lRankings, new Comparator<Ranking>() {
+				@Override
+				public int compare(Ranking p1, Ranking p2) {
+					if (p2.getPoints()>p1.getPoints())
+						return 1;
+					else if (p2.getPoints()<p1.getPoints())
+						return -1;
+					else if (p2.getTwos()>p1.getTwos())
+						return 1;
+					else if (p2.getTwos()<p1.getTwos())
+						return -1;
+					else if (p2.getEqus()>p1.getEqus())
+						return 1;
+					else if (p2.getEqus()<p1.getEqus())
+						return -1;
+					else if (p2.getOnes()>p1.getOnes())
+						return 1;
+					else if (p2.getOnes()<p1.getOnes())
+						return -1;
+					
+					return p2.getUser().compareTo(p1.getUser());
+				}
+			});
+			
+			roundRanking.setRankings(lRankings);
+			
+			
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.GET_LAST_ROUND);
