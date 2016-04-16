@@ -1445,7 +1445,7 @@ function callToMyAdminCompany(){
 	 $(form).append($(inputRound));
 	 $(form).append($(inputSeason));
 
-	 form.appendTo( document.body )
+	 form.appendTo( document.body );
 
 	 $(form).submit();
 	

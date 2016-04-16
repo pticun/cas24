@@ -14,10 +14,19 @@ public class BetReductionTypeEnumTest {
 	@Test
 	public void testBetReductionType() throws Exception {
 		int reductionType = BetReductionTypeEnum.BET_REDUCTION_NONE.getValue();
-		reductionType=-45;
+//		reductionType=-45;
 		BetReductionTypeEnum type = BetReductionTypeEnum.BET_REDUCTION_ERROR;
 		type.setValue(reductionType);
 		Assert.assertTrue(BetReductionTypeEnum.BET_REDUCTION_NONE.getValue() == type.getValue());
+	}
+	@Test
+	public void testBetType() throws Exception {
+		int finalType = BetTypeEnum.BET_FINAL.getValue();
+		String finalTypeString="10";
+		
+		BetTypeEnum valor=BetTypeEnum.getBetType(finalTypeString);
+		System.out.println(valor);
+		
 	}
 
 }

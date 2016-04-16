@@ -392,7 +392,7 @@ public class BetController {
 					// Pasamos los parámetros necesarios para la pantalla de
 					// CONFIRMACION
 					dto.setBet(bet);
-					dto.setUserAlterQ(userAlterQ);
+					dto.setUserAlterQ(userAlterQConverter.converterUserAlterQInResponseDto(userAlterQ));
 
 					Round r = new Round();
 					r = roundDao.findBySeasonRound(season, round);
@@ -480,10 +480,11 @@ public class BetController {
 					} else if (parameter.equals("param_numbets")) {
 						numBets = Integer.parseInt(request.getParameter(parameter));
 					} else if (parameter.equals("param_betType")) {
-						typeBet = BetTypeEnum.valueOf(request.getParameter(parameter));
+						typeBet = BetTypeEnum.getBetType(request.getParameter(parameter));
 					}
 				} catch (Exception e) {
 					// TODO: handle exceptionBets
+					log.error(ExceptionUtils.getStackTrace(e));
 				}
 			}
 
@@ -581,7 +582,7 @@ public class BetController {
 			// Insert new bet into the BBDD
 			roundBetDao.addBet(company, season, round, bet);
 
-			userDao.save(userAlterQ);
+			userDao.updateBalance(userAlterQ);
 			
 			//Send mail with Bet
 			//******************************************************************

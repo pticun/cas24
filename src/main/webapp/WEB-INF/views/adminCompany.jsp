@@ -76,17 +76,6 @@
 
 <!-- Modernizr -->
 <script src="<c:url value="/static/resources/_include/js/modernizr.js"/>"></script>
-<script type="text/javascript">
-var ctx = "<%=request.getContextPath()%>";
-
-	requestUserSession=new RequestUser ();
-	requestUserSession.company="${requestUserDto.company}";
-	requestUserSession.round="${requestUserDto.round}";
-	requestUserSession.season="${requestUserDto.season}";
-	requestUserSession.idUserAlterQ="${requestUserDto.idUserAlterQ}";
-	
-</script>
-
 
 </head>
 
@@ -386,6 +375,26 @@ var ctx = "<%=request.getContextPath()%>";
 <script src="<c:url value="/static/resources/_include/js/quiniela.js"/>"></script>
 <script src="<c:url value="/static/resources/_include/js/adminCompany.js"/>"></script>
 <script src="<c:url value="/static/resources/_include/js/jquery.dropotron.js"/>"></script>
+
+
+<script type="text/javascript">
+var ctx = "<%=request.getContextPath()%>";
+
+	requestUserSession=new RequestUser ();
+	requestUserSession.company="${requestUserDto.company}";
+	requestUserSession.round="${requestUserDto.round}";
+	requestUserSession.season="${requestUserDto.season}";
+	requestUserSession.idUserAlterQ="${requestUserDto.idUserAlterQ}";
+
+	window.round="${requestUserDto.round}";
+	window.season="${requestUserDto.season}";
+	window.company="${requestUserDto.company}";
+	window.idUserAlterQ="${requestUserDto.idUserAlterQ}";
+	
+	$('#param_betType').val(BetTypeEnum.BET_FINAL);
+
+	
+</script>
 
 </body>
 </html>
