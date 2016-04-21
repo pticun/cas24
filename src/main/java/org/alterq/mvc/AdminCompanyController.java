@@ -112,11 +112,11 @@ public class AdminCompanyController {
 	}
 	*/
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String initPage() {
-		log.debug("init adminCompany.jsp");
-		return "adminCompany";
-	}
+//	@RequestMapping(method = RequestMethod.GET)
+//	public String initPage() {
+//		log.debug("init adminCompany.jsp");
+//		return "adminCompany";
+//	}
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/closeAC")
 	public @ResponseBody ResponseDto closeRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
