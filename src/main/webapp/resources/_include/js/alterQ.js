@@ -21,6 +21,7 @@ var bConfirmedQuiniela = 17;
 var bCompany = 18;
 var bMyAdminCompany = 19;
 var bNewPassword = 20;
+var bCompanyMgr = 21;
 
 //Texts
 var sHome    = "Inicio";
@@ -63,6 +64,7 @@ var sConfirmQuinielaRef = "#confirmarQuinielaDiv";
 var sConfirmedQuinielaRef = "#confirmadaQuinielaDiv";
 var sModalReducedRef = "#modalReduced";
 var sCompanyRef ="#myCompanyDiv";
+var sCompanyMgrRef ="#myCompanyMgrDiv";
 var sMyAdminCompanyRef = "adminCompany";
 var sNewPasswordRef = "#newPasswordDiv";
 
@@ -109,6 +111,8 @@ function initDiv() {
 	$(sModalReducedRef).hide();
 	$(sCompanyRef).hide();
 	$(sNewPasswordRef).hide();
+	$(sCompanyMgrRef).hide();
+	
 	
 	
 	bActual = bHome;
@@ -191,6 +195,10 @@ function showDiv(elem) {
 		getCompanies();
 		$(sCompanyRef).show();
 		break;
+	case bCompanyMgr:
+		getCompanies();
+		$(sCompanyMgrRef).show();
+		break;
 	case bNewPassword:
 		$(sNewPasswordRef).show();
 		break;
@@ -253,6 +261,9 @@ function showDiv(elem) {
 		break;
 	case bCompany:
 		$(sCompanyRef).hide();
+		break;
+	case bCompanyMgr:
+		$(sCompanyMgrRef).hide();
 		break;
 	case bNewPassword:
 		$(sNewPasswordRef).hide();
@@ -325,6 +336,9 @@ function menuEvent(name, href)
 	}else if (href == sCompanyRef){
 		consoleAlterQ("MyCompany");
 		showDiv(bCompany);
+	}else if (href == sCompanyMgrRef){
+		consoleAlterQ("MyCompanyMgr");
+		showDiv(bCompanyMgr);
 	}else if (href == sNewPasswordRef){
 		consoleAlterQ("NewPassword");
 		showDiv(bNewPassword);
@@ -764,7 +778,10 @@ $(document).ready(function() {
 		$(sMyDataRef).show();
 		event.preventDefault(); // prevent actual form submit and page reload
   	});
-   	
+	$("#myCompanyMgrBtn").on('click', function( event ){
+		menuEvent($(this).text(),  "#mydataDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
+    });   	
   	
 //   	$( "#rankingSelect" ).on( "click", "a", function( event ) {
 //   	$( "#rankingSelectTable" ).on( "click", "tbody tr td div ul li a", function( event ) {

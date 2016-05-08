@@ -24,10 +24,24 @@
 		        <br>
 		        <br>
 		        <div id="userAlterQFormResponse" class="linkQuiniGold">Elige el grupo y pulsa Seleccionar.</div>
+		        <br>
+		        <table class="tablaQuiniGold">
+		        	<tr><td>GESTIONAR</td></tr>
+			   		<tr align="center">
+			   			<td><button id="myCompanyMgrBtn" class="btn btn-danger" name="submitBtn" value="submitBtn">+</button></td>
+			        </tr>
+		        </table>	        
 	        </form>
 		</div>
     </div>
     <!-- End MyCompany Form -->
+</div>
+</div>
+<!-- End MyCompany Section -->
+
+<!-- MyCompanyMgr Section -->
+<div id="myCompanyMgrDiv" class="page">
+<div class="container">
     <!-- AdminCompany Form -->
     <div class="row">
 		<div align="center">
@@ -58,5 +72,6 @@
     <!-- End AdminCompany Form -->
 </div>
 </div>
+<!-- End MyCompany Section -->
 <!-- End MyCompany Section -->
 

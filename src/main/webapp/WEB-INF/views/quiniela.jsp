@@ -29,7 +29,7 @@
     <!-- Quiniela Form -->
 		<div align="center">
 			<form id="betForm">
-					<table class="tablaQuiniGold">
+					<table id="tablaGlobalQuiniela" class="tablaQuiniGold">
 						<tr>
 							<td>
  							    <table id="quinielaTable">

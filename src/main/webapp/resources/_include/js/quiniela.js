@@ -188,6 +188,7 @@ function getSummary(){
 		    	amount = 0;
 		    	companyAmount=0;
 		    	companyNumBets=0;
+		    	$('#quinielaTableBackAdminCompany').empty();
 		    	consoleAlterQ('getSummary: hay elementos');
 				$(response.roundBet.bets).each(function(index, element){
 					if (element.type == BetTypeEnum.BET_FINAL){
@@ -245,11 +246,23 @@ function getQuiniela(){
 		        processData:false, //To avoid making query String instead of JSON
 			    success: function(response){
 				    if(response.errorDto!=0){
+				    	
+				    	$('#tablaGlobalQuiniela').hide();
+				    	$('#quinielaTable_in').hide();
+				    	$('#quinielaTablePrize').hide();
+				    	$('#quinielaTableBackAdminCompany').hide();
+				    	
+				    	
+				    	$('#quinielaFormResponse').empty();
+				    	$('#quinielaFormResponse').append("ERROR AL CARGAR LA QUINIELA.\n");
+				    	$('#quinielaFormResponse').append("INTENTALO MAS TARDE");
+				    	
 		   		    	$(response.errorDto).each(function(index, objeto){  
 		   		    		$('#temporada').append(objeto.stringError+" - ");
 					    });
 				    }
 				    else if (response.round!=null){
+				    	consoleAlterQ('response.errorDto==0 && response.round!=null');
 						$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
 					    $('#quinielaTable').append('<input type="hidden" name="season" id="season" value="'+ response.round.season+'"/>');       
 					    $('#quinielaTable').append('<input type="hidden" name="round" id="round" value="'+ response.round.round+'"/>');       
@@ -394,12 +407,23 @@ function getQuiniela(){
 						
 				    }
 				    else{
+				    	$('#tablaGlobalQuiniela').hide();
+				    	$('#quinielaTable_in').hide();
+				    	$('#quinielaTablePrize').hide();
+				    	$('#quinielaTableBackAdminCompany').hide();
+				    	
+				    	
+				    	$('#quinielaFormResponse').empty();
+				    	$('#quinielaFormResponse').append("ERROR AL CARGAR LA QUINIELA.\n");
+				    	$('#quinielaFormResponse').append("INTENTALO MAS TARDE");
+				    	
 				    	consoleAlterQ('Error en getQuiniela');
 				    	window.loadBet=true;
 				    }
 			    },
 			    error: function(){
 			    	consoleAlterQ('Error en getQuiniela');
+			    	$('#quinielaTitle').text("ERROR AL CARGAR LA QUINIELA");
 			    	window.loadBet=true;
 			    }
 		 });
