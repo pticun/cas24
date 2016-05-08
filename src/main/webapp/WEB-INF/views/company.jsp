@@ -58,9 +58,8 @@
 			   			<td>Nick:</td>
 			   			<td><input class="textbox" name="nick" id="companyNick" type="text"/></td>
 			        </tr>
-			   		<tr align="right">
-			   			<td></td>
-			   			<td><button id="balanceAlterQFormSubmit_btn" class="btn btn-danger" name="submitBtn" value="submitBtn">Añadir</button></td>
+			   		<tr align="center">
+			   			<td colspan="2"><button id="balanceAlterQFormSubmit_btn" class="btn btn-danger" name="submitBtn" value="submitBtn">Añadir</button></td>
 			        </tr>
 		        </table>
 		        <br>

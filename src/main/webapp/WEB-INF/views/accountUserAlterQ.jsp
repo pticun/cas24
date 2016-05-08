@@ -204,6 +204,17 @@
 				    <table class="tablaQuiniGold" id="apuestasTable">
 				    </table>
 			</form>
+	        <table class="tablaQuiniGold">
+	        	<tr align="center"><td colspan="2">GESTION</td></tr>
+	        	<tr>
+			   		<td>Automáticas:</td>
+			   		<td><input class="textbox" name="auto" id="companyAutoBets" type="text"/></td>
+			    </tr>
+	        	
+		   		<tr align="center">
+		   			<td colspan="2"><button id="myBetsAutomBtn" class="btn btn-danger" name="submitBtn" value="submitBtn">Modificar</button></td>
+		        </tr>
+	        </table>	        
 		</div>
     
     <!-- End Sign Up Form -->

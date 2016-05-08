@@ -779,7 +779,7 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
   	});
 	$("#myCompanyMgrBtn").on('click', function( event ){
-		menuEvent($(this).text(),  "#mydataDiv");
+		menuEvent($(this).text(),  "#myCompanyMgrDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
     });   	
   	
@@ -1122,7 +1122,14 @@ function getUserBets(){
 				row+='</tr>';
 				$('#apuestasTable').append(row);
             }
-	 });
+		});
+		
+		consoleAlterQ('despues jQuery.ajax');
+		
+
+	//call to get automatic bets
+	$('#companyAutoBets').val("0");
+	
 	consoleAlterQ('despues jQuery.ajax');
 	showDiv(bMyBets);
 	}	
