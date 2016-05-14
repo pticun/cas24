@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.alterq.domain.Bet;
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
@@ -11,8 +12,10 @@ import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.RolCompanySecurity;
 import org.alterq.util.BetTools;
 import org.alterq.util.NumericUtil;
+import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.bson.types.ObjectId;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -57,9 +60,28 @@ public class UserAlterQDaoTest {
 		rcL.add(rc);
 
 		userAlterQ.setRols(rcL);
+		
+		Bet bet = new Bet();
+		bet.setId(new ObjectId().toHexString());
+		bet.setCompany(1);
+		bet.setType(BetTypeEnum.BET_AUTOMATIC.getValue());
+		bet.setPrice(0);
+		bet.setNumBets(0);
+		bet.setDateCreated(new Date());
+		bet.setDateUpdated(new Date());
+		bet.setTypeReduction(0);
+		
+		ArrayList<Bet> betL = new ArrayList<Bet>();
+		betL.add(bet);
+		
+		userAlterQ.setSpecialBets(betL);
+		
+		
 		dao.create(userAlterQ);
 		String id = userAlterQ.getId();
 		Assert.assertNotNull(id);
+		
+		
 
 		log.debug(userAlterQ.getPwd());
 		return;
@@ -134,6 +156,13 @@ public class UserAlterQDaoTest {
 	public void AD_testValidateLogin() {
 		UserAlterQ userAlterQ = dao.validateLogin("idmail@arroba.es", "password");
 		Assert.assertEquals("idmail@arroba.es", userAlterQ.getId());
+	}
+	
+	@Test
+	public void AU_testUpdateUserCompanyAutomaticBets() throws Exception {
+		dao.updateCompanyAutomaticBet("idmail@arroba.es", 1, 3);
+		UserAlterQ userAlterQ = dao.findById("idmail@arroba.es");
+		Assert.assertEquals(((Bet)userAlterQ.getSpecialBets().get(0)).getNumBets(), 3);
 	}
 
 	@Test

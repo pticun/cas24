@@ -26,6 +26,8 @@ public interface UserAlterQDao {
 	public void save(UserAlterQ userAlterQ);
 
 	public void updateBalance(UserAlterQ userAlterQ);
+	
+	public void updateCompanyAutomaticBet(String userID, int company, int numAutomatics);
 
 	public UserAlterQ validateLogin(String id, String password);
 

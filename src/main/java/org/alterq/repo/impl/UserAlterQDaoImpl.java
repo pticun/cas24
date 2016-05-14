@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 
 import org.springframework.data.domain.Sort;
 import org.alterq.domain.RolCompany;
+import org.alterq.domain.RoundRanking;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.repo.MongoCollection;
@@ -236,6 +237,18 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 
 		Update update = new Update().set("balance", userAlterQ.getBalance());
 		mongoTemplate.findAndModify(query, Update.update("balance", userAlterQ.getBalance()),UserAlterQ.class, COLLECTION_NAME);
+	}
+
+	@Override
+	public void updateCompanyAutomaticBet(String userID, int company, int numAutomatics) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").is(userID).and("specialBets.company").is(company).and("specialBets.type").is(BetTypeEnum.BET_AUTOMATIC.getValue()));
+		Update update = new Update();
+		update.set("specialBets.$.numBets", numAutomatics);
+		
+		mongoTemplate.updateFirst(query, update, UserAlterQ.class,COLLECTION_NAME);
+				        
+		return;
 	}
 
 	public List<UserAlterQ> findUsersCompany(int company){
