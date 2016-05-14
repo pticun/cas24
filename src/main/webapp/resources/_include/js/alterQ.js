@@ -1128,10 +1128,49 @@ function getUserBets(){
 		
 
 	//call to get automatic bets
-	$('#companyAutoBets').val("0");
+		consoleAlterQ('antes jQuery.ajax 2 - idUserAlterQ='+idUserAlterQ+' company='+window.company);
+		$('#companyAutoBets').val("0");
+		consoleAlterQ('url:'+ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/automaticBets');  		
+		jQuery.ajax ({
+			url: ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/automaticBets',
+		    type: "GET",
+		    data: null,
+		    contentType: "application/json; charset=utf-8",
+		    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	        cache: false,    //This will force requested pages not to be cached by the browser  
+	        processData:false, //To avoid making query String instead of JSON
+		    success: function(response){
+			    if(response.errorDto!=0){
+			    	$('#companyAutoBets').val("0");
+			    	consoleAlterQ('response.errorDto!=0');
+			    }
+			    else{
+			    	if (response.userAlterQ == null)
+			    	{
+			    		$('#companyAutoBets').val("0");
+			    		consoleAlterQ('response.userAlterQ == null');
+			    	}
+			    	else
+			    	{
 	
-	consoleAlterQ('despues jQuery.ajax');
-	showDiv(bMyBets);
+						$(response.userAlterQ.specialBets).each(function(index, element){
+							console.log("index="+index);
+							console.log("numBets="+element.numBets);
+							$('#companyAutoBets').val(element.numBets);
+						});
+			    	}
+			    }
+		    },
+		    error : function (xhr, textStatus, errorThrown) {
+		    	$('#companyAutoBets').val("0");
+		    	consoleAlterQ('error');
+	        }
+		});
+	
+		consoleAlterQ('despues jQuery.ajax 2');
+	
+	
+		showDiv(bMyBets);
 	}	
 }
 function getCompanyRanking(round){

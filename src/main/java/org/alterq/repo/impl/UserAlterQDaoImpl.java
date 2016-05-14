@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.springframework.data.domain.Sort;
+import org.alterq.domain.Bet;
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.RoundRanking;
 import org.alterq.domain.UserAlterQ;
@@ -250,6 +251,32 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 				        
 		return;
 	}
+	
+	@Override
+	public List<Bet> getSpecialBets(UserAlterQ userAlterQ) {
+		Query query = new Query(Criteria.where("id").is(userAlterQ.getId()));
+		UserAlterQ uaqL = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
+		// user not exists or not rol for this company
+		List<Bet> rcL = new ArrayList<Bet>();
+		if (uaqL != null) {
+			rcL = uaqL.getSpecialBets();
+		}
+		return rcL;
+	}
+	
+	@Override
+	public List<Bet> getSpecialBetsForCompany(String userID, int company) {
+		Query query = new Query(Criteria.where("id").is(userID));
+		query.addCriteria(Criteria.where("specialBets.company").is(company));
+		UserAlterQ uaqL = mongoTemplate.findOne(query, UserAlterQ.class, COLLECTION_NAME);
+		// user not exists or not rol for this company
+		List<Bet> rcL = new ArrayList<Bet>();
+		if (uaqL != null) {
+			rcL = uaqL.getSpecialBets();
+		}
+		return rcL;
+	}
+	
 
 	public List<UserAlterQ> findUsersCompany(int company){
 		List<UserAlterQ> userAlterQList = new ArrayList<UserAlterQ>();

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
+import org.alterq.domain.Bet;
 import org.alterq.util.enumeration.BetTypeEnum;
 
 import com.mongodb.DBObject;
@@ -28,6 +29,10 @@ public interface UserAlterQDao {
 	public void updateBalance(UserAlterQ userAlterQ);
 	
 	public void updateCompanyAutomaticBet(String userID, int company, int numAutomatics);
+	
+	public List<Bet> getSpecialBets(UserAlterQ userAlterQ);
+	
+	public List<Bet> getSpecialBetsForCompany(String userID, int company);
 
 	public UserAlterQ validateLogin(String id, String password);
 

@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.alterq.converter.UserAlterQConverter;
+import org.alterq.domain.Bet;
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
@@ -20,12 +21,14 @@ import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.DateFormatUtil;
+import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.util.enumeration.QueueMailEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.UserAlterQValidator;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.arch.core.channel.ProcessMailQueue;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -227,5 +230,44 @@ public class AccountController {
 
 		return dto;
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/{id:.+}/{company}/automaticBets")
+	public @ResponseBody
+	ResponseDto findAutomaticBets(@PathVariable String id, @PathVariable int company) {
+		ResponseDto dto = new ResponseDto();
+		UserAlterQ userAlterQ = null; 
+		try {
+			userAlterQ = userDao.findById(id);
+			List<Bet> specialBets = userDao.getSpecialBetsForCompany(id, company);
+			
+			if ((specialBets!=null) && (!specialBets.isEmpty())){
+				userAlterQ.setSpecialBets(specialBets);
+			}
+			else{
+				Bet bet = new Bet();
+				bet.setId(new ObjectId().toHexString());
+				bet.setCompany(company);
+				bet.setType(BetTypeEnum.BET_AUTOMATIC.getValue());
+				bet.setPrice(0);
+				bet.setNumBets(0);
+				bet.setDateCreated(new Date());
+				bet.setDateUpdated(new Date());
+				bet.setTypeReduction(0);
+				
+				ArrayList<Bet> betL = new ArrayList<Bet>();
+				betL.add(bet);
+				
+				userAlterQ.setSpecialBets(betL);
+				userDao.save(userAlterQ);
+			}
+			
+		} catch (Exception ex) {
+			//dto.addErrorDto(ex.getErrorDto());
+			log.error(ExceptionUtils.getStackTrace(ex));
+		}
+		
+		dto.setUserAlterQ(userAlterQ);
 
+		return dto;
+	}
 }

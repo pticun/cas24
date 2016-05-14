@@ -55,4 +55,5 @@ POST	/admin/company/{company}/season/{season}/round/{round}/{local01}/{visitor01
 GET		/betDetail/{bet}/{reductionType}/{reduction}					BetDetailController		getBetDetail
 
 
-
+GET		/myaccount/{id:.+}/{company}/automaticBets						AccountController		findAutomaticBets
+PUT		/myaccount/{id:.+}/{company}/automaticBets/{numBets}			AccountController		updateAutomaticBets
