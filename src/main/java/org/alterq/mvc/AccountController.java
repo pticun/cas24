@@ -270,4 +270,44 @@ public class AccountController {
 
 		return dto;
 	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/{id:.+}/{company}/automaticBets/{numBets}")
+	public @ResponseBody
+	ResponseDto updateAutomaticBets(@PathVariable String id, @PathVariable int company, @PathVariable int numBets) {
+		ResponseDto dto = new ResponseDto();
+		UserAlterQ userAlterQ = null; 
+		try {
+			userAlterQ = userDao.findById(id);
+			List<Bet> specialBets = userAlterQ.getSpecialBets();
+			
+			if ((specialBets!=null) && (!specialBets.isEmpty())){
+				userDao.updateCompanyAutomaticBet(id, company, numBets);
+			}
+			else{
+				Bet bet = new Bet();
+				bet.setId(new ObjectId().toHexString());
+				bet.setCompany(company);
+				bet.setType(BetTypeEnum.BET_AUTOMATIC.getValue());
+				bet.setPrice(0);
+				bet.setNumBets(numBets);
+				bet.setDateCreated(new Date());
+				bet.setDateUpdated(new Date());
+				bet.setTypeReduction(0);
+				
+				ArrayList<Bet> betL = new ArrayList<Bet>();
+				betL.add(bet);
+				
+				userAlterQ.setSpecialBets(betL);
+				userDao.save(userAlterQ);
+			}
+			
+		} catch (Exception ex) {
+			//dto.addErrorDto(ex.getErrorDto());
+			log.error(ExceptionUtils.getStackTrace(ex));
+		}
+		
+		dto.setUserAlterQ(userAlterQ);
+
+		return dto;
+	}
 }

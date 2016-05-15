@@ -781,7 +781,13 @@ $(document).ready(function() {
 	$("#myCompanyMgrBtn").on('click', function( event ){
 		menuEvent($(this).text(),  "#myCompanyMgrDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
-    });   	
+    });
+	$("#myBetsAutomBtn").on('click', function( event ){
+		consoleAlterQ('myBetsAutomBtn - click');
+		updateAutomaticBets();
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
+	//myBetsAutomBtn
   	
 //   	$( "#rankingSelect" ).on( "click", "a", function( event ) {
 //   	$( "#rankingSelectTable" ).on( "click", "tbody tr td div ul li a", function( event ) {
@@ -1173,6 +1179,49 @@ function getUserBets(){
 		showDiv(bMyBets);
 	}	
 }
+
+function updateAutomaticBets(){
+	consoleAlterQ('updateAutomaticBets');
+	consoleAlterQ('loadBetUser='+window.loadBetUser);
+	
+	//De momento va a piñon pq no funcionan las variables globales
+	window.loadBetUser = true;
+	
+	if(window.loadBetUser){
+		window.loadBetUser=false;
+		consoleAlterQ("loadBetUser: FALSE");
+		var row="";
+		
+   		//call to update automatic bets
+		consoleAlterQ('antes jQuery.ajax - idUserAlterQ='+idUserAlterQ+' company='+window.company +' numBets='+$('#companyAutoBets').val());
+
+		consoleAlterQ('url:'+ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/automaticBets/'+$('#companyAutoBets').val());  		
+		jQuery.ajax ({
+			url: ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/automaticBets/'+$('#companyAutoBets').val(),
+		    type: "POST",
+		    data: null,
+		    contentType: "application/json; charset=utf-8",
+		    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	        cache: false,    //This will force requested pages not to be cached by the browser  
+	        processData:false, //To avoid making query String instead of JSON
+		    success: function(response){
+			    if(response.errorDto!=0){
+			    	consoleAlterQ('response.errorDto!=0');
+			    }
+			    else{
+			    	consoleAlterQ('response.errorDto==0');
+			    }
+		    },
+		    error : function (xhr, textStatus, errorThrown) {
+		    	consoleAlterQ('error');
+	        }
+		});
+	
+		consoleAlterQ('despues jQuery.ajax');
+	
+	}	
+}
+
 function getCompanyRanking(round){
 	consoleAlterQ('getCompanyRanking');
 	consoleAlterQ('loadBetUser='+window.loadBetUser);
