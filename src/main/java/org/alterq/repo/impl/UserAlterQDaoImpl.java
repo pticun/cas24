@@ -243,7 +243,8 @@ public class UserAlterQDaoImpl extends MongoCollection implements UserAlterQDao 
 	@Override
 	public void updateCompanyAutomaticBet(String userID, int company, int numAutomatics) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("_id").is(userID).and("specialBets.company").is(company).and("specialBets.type").is(BetTypeEnum.BET_AUTOMATIC.getValue()));
+//		query.addCriteria(Criteria.where("_id").is(userID).and("specialBets.type").is(BetTypeEnum.BET_AUTOMATIC.getValue()).and("specialBets.company").is(company));
+		query.addCriteria(Criteria.where("_id").is(userID).and("specialBets.company").is(company));
 		Update update = new Update();
 		update.set("specialBets.$.numBets", numAutomatics);
 		

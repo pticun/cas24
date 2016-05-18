@@ -1162,7 +1162,8 @@ function getUserBets(){
 						$(response.userAlterQ.specialBets).each(function(index, element){
 							console.log("index="+index);
 							console.log("numBets="+element.numBets);
-							$('#companyAutoBets').val(element.numBets);
+							if (element.company == window.company)
+								$('#companyAutoBets').val(element.numBets);
 						});
 			    	}
 			    }

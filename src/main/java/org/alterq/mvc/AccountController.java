@@ -241,6 +241,7 @@ public class AccountController {
 			List<Bet> specialBets = userDao.getSpecialBetsForCompany(id, company);
 			
 			if ((specialBets!=null) && (!specialBets.isEmpty())){
+				
 				userAlterQ.setSpecialBets(specialBets);
 			}
 			else{
@@ -254,7 +255,11 @@ public class AccountController {
 				bet.setDateUpdated(new Date());
 				bet.setTypeReduction(0);
 				
-				ArrayList<Bet> betL = new ArrayList<Bet>();
+				
+				List<Bet> betL = userAlterQ.getSpecialBets();
+				if (betL == null)
+					betL = new ArrayList<Bet>();
+				
 				betL.add(bet);
 				
 				userAlterQ.setSpecialBets(betL);
