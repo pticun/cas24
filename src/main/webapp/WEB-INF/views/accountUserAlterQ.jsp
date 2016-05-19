@@ -214,7 +214,10 @@
 		   		<tr align="center">
 		   			<td colspan="2"><button id="myBetsAutomBtn" class="btn btn-danger" name="submitBtn" value="submitBtn">Modificar</button></td>
 		        </tr>
-	        </table>	        
+		        
+	        </table>
+	        <br>	        
+	        <div id="betsAutomResponse" class="linkQuiniGold">Introduce las apuestas automáticas y pulsa Modificar.</div>
 		</div>
     
     <!-- End Sign Up Form -->

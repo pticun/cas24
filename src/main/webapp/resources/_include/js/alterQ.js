@@ -1134,6 +1134,7 @@ function getUserBets(){
 		
 
 	//call to get automatic bets
+		$('#betsAutomResponse').text("Introduce las apuestas automaticas y pulsa Modificar.");
 		consoleAlterQ('antes jQuery.ajax 2 - idUserAlterQ='+idUserAlterQ+' company='+window.company);
 		$('#companyAutoBets').val("0");
 		consoleAlterQ('url:'+ctx+'/myaccount/'+ window.idUserAlterQ+'/'+window.company+'/automaticBets');  		
@@ -1208,13 +1209,17 @@ function updateAutomaticBets(){
 		    success: function(response){
 			    if(response.errorDto!=0){
 			    	consoleAlterQ('response.errorDto!=0');
+			    	$('#betsAutomResponse').text("ERROR AL ACTUALIZAR LAS APUESTAS AUTOMATICAS. INTENTALO MAS TARDE");
 			    }
 			    else{
 			    	consoleAlterQ('response.errorDto==0');
+			    	$('#betsAutomResponse').text("LAS APUESTAS AUTOMATICAS SE HAN ACTUALIZADO CON EXITO.");
+
 			    }
 		    },
 		    error : function (xhr, textStatus, errorThrown) {
 		    	consoleAlterQ('error');
+		    	$('#betsAutomResponse').text("ERROR AL ACTUALIZAR LAS APUESTAS AUTOMATICAS. INTENTALO MAS TARDE.");
 	        }
 		});
 	
