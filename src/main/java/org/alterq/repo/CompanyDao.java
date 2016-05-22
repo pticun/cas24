@@ -18,4 +18,6 @@ public interface CompanyDao {
 	public List<Company> findAll();
 
 	public List<Company> findAllVisibleCompany();
+
+	List<Company> findAllPublicCompany();
 }

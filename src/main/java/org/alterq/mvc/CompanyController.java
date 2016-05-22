@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value = {  "/company" })
+@RequestMapping(value = { "/company" })
 public class CompanyController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
@@ -63,7 +63,7 @@ public class CompanyController {
 		log.debug("init CompanyController.getCompany");
 		try {
 			companyValidator.isCompanyOk(company);
-			Company companyResult=companyDao.findByCompany(company);
+			Company companyResult = companyDao.findByCompany(company);
 			dto.setCompany(companyResult);
 		} catch (ValidatorException e) {
 			log.error(ExceptionUtils.getStackTrace(e));
@@ -71,22 +71,31 @@ public class CompanyController {
 		}
 		return dto;
 	}
-	
+
+	@RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "/public")
+	public @ResponseBody ResponseDto getPublicCompany() {
+		ResponseDto dto = new ResponseDto();
+		log.debug("init CompanyController.getCompany");
+		List<Company> listCompany = companyDao.findAllPublicCompany();
+		dto.setCompany(listCompany);
+		return dto;
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/myaccount/{idUser:.+}")
 	public @ResponseBody ResponseDto getCompanyUser(@PathVariable String idUser) {
 		ResponseDto dto = new ResponseDto();
 		log.debug("init CompanyController.getCompany");
 		try {
-			UserAlterQ user=new UserAlterQ();
+			UserAlterQ user = new UserAlterQ();
 			user.setId(idUser);
 			userAlterQValidator.isUserIdOk(user);
 			UserAlterQ userAlterQ = userDao.findById(idUser);
-			List<RolCompany> rc=userAlterQ.getRols();
+			List<RolCompany> rc = userAlterQ.getRols();
 			HashSet<Company> uniqueValues = new HashSet<Company>();
 			for (RolCompany rolCompany : rc) {
-				int companyId=rolCompany.getCompany();
+				int companyId = rolCompany.getCompany();
 				uniqueValues.add(companyDao.findByCompany(companyId));
-//				dto.setCompany(companyDao.findByCompany(comçpanyId));
+				// dto.setCompany(companyDao.findByCompany(comçpanyId));
 			}
 			List<Company> listCompany = new ArrayList<Company>(uniqueValues);
 			dto.setCompany(listCompany);
@@ -97,20 +106,19 @@ public class CompanyController {
 		return dto;
 
 	}
-	
-	@RequestMapping(method = RequestMethod.POST, value="/{idUser:.+}")
-	public @ResponseBody
-	ResponseDto createCompany(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable String idUser, @RequestBody Company company, HttpServletResponse response) {
+
+	@RequestMapping(method = RequestMethod.POST, value = "/{idUser:.+}")
+	public @ResponseBody ResponseDto createCompany(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String idUser, @RequestBody Company company, HttpServletResponse response) {
 		if (log.isDebugEnabled()) {
 			log.debug("init CompanyController.createCompany");
 		}
 		ResponseDto dto = new ResponseDto();
 		try {
-			UserAlterQ user=new UserAlterQ();
+			UserAlterQ user = new UserAlterQ();
 			user.setId(idUser);
 			userAlterQValidator.isUserIdOk(user);
 
-			UserAlterQ userRetrieve=userDao.findById(user.getId());
+			UserAlterQ userRetrieve = userDao.findById(user.getId());
 
 			company.setId(new ObjectId().toHexString());
 			SequenceId bean = sequenceDao.findById(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
@@ -118,23 +126,23 @@ public class CompanyController {
 			company.setCompany(seq);
 			companyDao.add(company);
 
-			List<RolCompany> rolCompany=new ArrayList<RolCompany>();
-			//get from json web part
-			List<RolCompany> rolCompanyForUpdate=new ArrayList<RolCompany>();
-			rolCompany=userRetrieve.getRols();
-			
-			RolCompany rolAdmin=new RolCompany();
+			List<RolCompany> rolCompany = new ArrayList<RolCompany>();
+			// get from json web part
+			List<RolCompany> rolCompanyForUpdate = new ArrayList<RolCompany>();
+			rolCompany = userRetrieve.getRols();
+
+			RolCompany rolAdmin = new RolCompany();
 			rolAdmin.setCompany(company.getCompany());
 			rolAdmin.setRol(RolNameEnum.ROL_ADMIN.getValue());
 			rolCompany.add(rolAdmin);
-			
+
 			userRetrieve.setRols(rolCompany);
-			//update user
+			// update user
 			userDao.save(userRetrieve);
 
 			dto.setCompany(company);
 			dto.setUserAlterQ(userAlterQConverter.converterUserAlterQInResponseDto(userRetrieve));
-			
+
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_ALREADY_EXIST);
@@ -145,7 +153,5 @@ public class CompanyController {
 
 		return dto;
 	}
-	
 
-	
 }

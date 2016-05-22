@@ -22,6 +22,21 @@
 			        </tr>
 		        </table>
 		        <br>
+		   		<table class="tablaQuiniGold">
+		   			<tr align="center">
+						<td colspan="2">Unirse a --></td>
+					</tr>
+			   		<tr>
+			   			<td>Grupo:</td>
+			   			<td>
+			   			<select name="companyID" id="companyToChoosePublic">
+						</select> 
+			   			</td>
+			        </tr>
+			   		<tr align="center">
+			   			<td align="center" colspan="2"><button id="myCompanyFormSubmit_btn" class="btn btn-danger" name="submitBtn" value="submitBtn">Seleccionar</button></td>
+			        </tr>
+		        </table>
 		        <br>
 		        <div id="userAlterQFormResponse" class="linkQuiniGold">Elige el grupo y pulsa Seleccionar.</div>
 		        <br>
@@ -46,6 +61,7 @@
     <div class="row">
 		<div align="center">
 		   <form id="adminCompanyForm">
+		   		<input type="hidden" name="visibility" value="true"/>
 		   		<table class="tablaQuiniGold">
 		   			<tr align="center">
 						<td colspan="2">Crear Compañia</td>
@@ -57,6 +73,15 @@
 			   		<tr>
 			   			<td>Nick:</td>
 			   			<td><input class="textbox" name="nick" id="companyNick" type="text"/></td>
+			        </tr>
+			   		<tr>
+			   			<td>Tipo:</td>
+			   			<td>
+							<select name="type" id="typeCompanyCreate">
+								<option value="1">Pública</option>
+								<option value="3">Privada</option>
+							</select> 			   			
+						</td>
 			        </tr>
 			   		<tr align="center">
 			   			<td colspan="2"><button id="balanceAlterQFormSubmit_btn" class="btn btn-danger" name="submitBtn" value="submitBtn">Añadir</button></td>
@@ -71,6 +96,5 @@
     <!-- End AdminCompany Form -->
 </div>
 </div>
-<!-- End MyCompany Section -->
 <!-- End MyCompany Section -->
 

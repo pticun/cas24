@@ -39,7 +39,7 @@ public class CompanyDaoTest {
 		bean.setCompany(Integer.MAX_VALUE);
 		bean.setDescription("description");
 		bean.setNick("Nich");
-		bean.setType(CompanyTypeEnum.COMPANY_COLLABORATIVE.getValue());
+		bean.setType(CompanyTypeEnum.COMPANY_COLLABORATIVE_PUBLIC.getValue());
 		bean.setVisibility(Boolean.TRUE);
 		dao.add(bean);
 		Assert.assertNotNull(bean.getDescription());

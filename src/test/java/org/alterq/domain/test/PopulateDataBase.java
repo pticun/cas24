@@ -142,7 +142,7 @@ public class PopulateDataBase {
 		bean.setCompany(AlterQConstants.DEFECT_COMPANY);
 		bean.setDescription("QuiniGold");
 		bean.setNick("QuiniGold");
-		bean.setType(CompanyTypeEnum.COMPANY_NON_COLLABORATIVE.getValue());
+		bean.setType(CompanyTypeEnum.COMPANY_NON_COLLABORATIVE_PUBLIC.getValue());
 		bean.setVisibility(Boolean.TRUE);
 		companyDao.add(bean);
 		Assert.assertNotNull(bean.getDescription());

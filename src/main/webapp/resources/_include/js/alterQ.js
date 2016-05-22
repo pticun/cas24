@@ -993,6 +993,7 @@ function getCompanies(){
 		//delete combo company
 //		 $("#companyToChoose option:selected").remove();
 		 $("#companyToChoose").empty();
+		 $("#companyToChoosePublic").empty();
 		
 	   		consoleAlterQ('url:'+ctx+'/company/myaccount/'+ window.idUserAlterQ+'/');  		
 			jQuery.ajax ({
@@ -1026,6 +1027,40 @@ function getCompanies(){
 					window.loadCompanies=true;
 	            }
 		 });
+			
+	   		consoleAlterQ('url:'+ctx+'/company/myaccount/'+ window.idUserAlterQ+'/');  		
+			jQuery.ajax ({
+				url: ctx+'/company/public',
+			    type: "GET",
+			    data: null,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+		        cache: false,    //This will force requested pages not to be cached by the browser  
+		        processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+				    if(response.errorDto!=0){
+						consoleAlterQ('Success: no hay companies');
+						$('#companyToChoosePublic').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
+						window.loadCompanies=true;
+				    }
+				    else{
+				    	var responseCompanyOrder = [];
+				    	responseCompanyOrder = jQuery.unique($(response.company));
+						$(responseCompanyOrder).each(function(index, element){
+							console.log("index="+index+"-id="+element.id + "-company="+element.company+"-nick="+element.nick);
+							if (element.company!=window.DEFECT_COMPANY){
+								$('#companyToChoosePublic').append('<option value="'+element.company+'">'+element.nick+'</option>');
+							}
+						});
+				    }
+			    },
+			    error : function (xhr, textStatus, errorThrown) {
+					consoleAlterQ('Error: no hay companies');
+					$('#companyToChoosePublic').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
+					window.loadCompanies=true;
+	            }
+		 });
+			
 	}
 }
 function cleanUserBets(){
