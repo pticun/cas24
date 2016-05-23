@@ -14,6 +14,7 @@ import org.alterq.domain.SequenceId;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
 import org.alterq.dto.ResponseDto;
+import org.alterq.exception.SecurityException;
 import org.alterq.exception.ValidatorException;
 import org.alterq.repo.CompanyDao;
 import org.alterq.repo.SequenceIdDao;
@@ -104,7 +105,40 @@ public class CompanyController {
 			dto.addErrorDto(e.getError());
 		}
 		return dto;
+	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "/{company}/join/myaccount/{idUser:.+}")
+	public @ResponseBody ResponseDto joinCompanyUser(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable String idUser,@PathVariable int company) {
+		ResponseDto dto = new ResponseDto();
+		log.debug("init CompanyController.joinCompanyUser");
+		try {
+			if (log.isDebugEnabled()) {
+				log.debug("init CompanyController.joinCompanyUser");
+				log.debug("session:" + cookieSession);
+			}
+			userSecurity.isSameUserInSession(idUser, cookieSession);
+
+			UserAlterQ user = new UserAlterQ();
+			user.setId(idUser);
+			userAlterQValidator.isUserIdOk(user);
+			UserAlterQ userAlterQ = userDao.findById(idUser);
+			List<RolCompany> rc = userAlterQ.getRols();
+			HashSet<Company> uniqueValues = new HashSet<Company>();
+			for (RolCompany rolCompany : rc) {
+				int companyId = rolCompany.getCompany();
+				uniqueValues.add(companyDao.findByCompany(companyId));
+				// dto.setCompany(companyDao.findByCompany(comçpanyId));
+			}
+			List<Company> listCompany = new ArrayList<Company>(uniqueValues);
+			dto.setCompany(listCompany);
+		} catch (ValidatorException e) {
+			log.error(ExceptionUtils.getStackTrace(e));
+			dto.addErrorDto(e.getError());
+		} catch (SecurityException e) {
+			log.error(ExceptionUtils.getStackTrace(e));
+			dto.addErrorDto(e.getError());
+		}
+		return dto;
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/{idUser:.+}")

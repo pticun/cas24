@@ -21,7 +21,9 @@
 			   			<td align="center" colspan="2"><button id="myCompanyFormSubmit_btn" class="btn btn-danger" name="submitBtn" value="submitBtn">Seleccionar</button></td>
 			        </tr>
 		        </table>
+	        </form>
 		        <br>
+		   <form id="joinCompanyForm">
 		   		<table class="tablaQuiniGold">
 		   			<tr align="center">
 						<td colspan="2">Unirse a --></td>
@@ -37,6 +39,7 @@
 			   			<td align="center" colspan="2"><button id="myCompanyFormSubmit_btn" class="btn btn-danger" name="submitBtn" value="submitBtn">Seleccionar</button></td>
 			        </tr>
 		        </table>
+	        </form>
 		        <br>
 		        <div id="userAlterQFormResponse" class="linkQuiniGold">Elige el grupo y pulsa Seleccionar.</div>
 		        <br>
@@ -46,7 +49,6 @@
 			   			<td><button id="myCompanyMgrBtn" class="btn btn-danger" name="submitBtn" value="submitBtn">+</button></td>
 			        </tr>
 		        </table>	        
-	        </form>
 		</div>
     </div>
     <!-- End MyCompany Form -->

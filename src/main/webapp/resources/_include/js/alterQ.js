@@ -700,6 +700,39 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
    	 });
 
+	 //join to company
+	 $('form#joinCompanyForm').submit(function( event ) {
+		 var dataJson=JSON.stringify($('form#joinCompanyForm').serializeObject());
+		 var companyTojoin=$('#companyToChoosePublic option:selected').val();
+		 var postData = { "id":+window.idUserAlterQ};
+		 showDiv(bHome);
+		 consoleAlterQ('join companyForm:'+dataJson);
+		 jQuery.ajax ({
+			 //CompanyController.createCompany()
+			    url: ctx+'/myaccount/'+window.idUserAlterQ+'/rolcompany',
+			    type: "POST",
+			    data: postData,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=0){
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		$('#adminCompanyFormResponse').append(objeto.stringError+" - ");
+					    });
+		   		    }
+		   		    else{
+		   		    	$('#adminCompanyFormResponse').append("Te has unido a la company.");
+		   		    	consoleAlterQ('call to getCompanies to reload company combo');
+		   		    	window.loadCompanies=true;
+		   		    	getCompanies();
+		   		    }
+			    }
+			});
+		 
+		 event.preventDefault(); // prevent actual form submit and page reload
+	 });
 	 //create company
 	 $('form#adminCompanyForm').submit(function( event ) {
 		 var dataJson=JSON.stringify($('form#adminCompanyForm').serializeObject());
@@ -731,11 +764,6 @@ $(document).ready(function() {
 		 event.preventDefault(); // prevent actual form submit and page reload
 	 });
 	
-//	 $('form#myCompanyForm').submit(function( event ) {
-//			showDiv(bHome);
-//			event.preventDefault(); // prevent actual form submit and page reload
-//	 });	 
-
 	 $("#goUp").click(function( event ){
 		menuEvent($(this).text(), $(this).attr("href"));
 		event.preventDefault(); // prevent actual form submit and page reload
