@@ -57,6 +57,7 @@ import org.arch.core.file.HeaderBetElectronicFile;
 import org.arch.core.file.RegistroBetElectronicFile;
 import org.arch.core.mail.SendMail;
 import org.arch.core.mail.SendMailer;
+import org.arch.core.util.CoreUtils;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -619,7 +620,10 @@ public class AdminController {
 							}
 							//Send Results Mail
 							String ccoMail = mailTools.getCCOFinalBet(co.getCompany(),season,round);
-							ccoMail = "quinielagold@gmail.com";
+							
+							if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
+								ccoMail = "quinielagold@gmail.com";
+							}
 							//sendMailer.sendResultsMail(cco, round, jackPot, betReward, rewardDivided, lPrizes);
 							MailQueueDto mailDto=new MailQueueDto();
 							mailDto.setType(QueueMailEnum.Q_RESULTSMAIL);

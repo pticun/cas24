@@ -23,8 +23,10 @@ import org.alterq.domain.Prize;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.MailQueueDto;
+import org.apache.commons.lang3.StringUtils;
 import org.arch.core.mail.SendMail;
 import org.arch.core.mail.SendMailer;
+import org.arch.core.util.CoreUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,9 +114,14 @@ public class SendEndpoint {
 		String linkBet="a cambbiar";
 		
 		Bet bet = roundBet.getBets().get(0);
-		//para pruebas
-//		linkBet = "http://www.quinigold.com/BetDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
-		linkBet = "http://localhost:8080/quinimobile/betDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
+		
+		if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
+			//para pruebas
+			linkBet = "http://localhost:8080/quinimobile/betDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
+		}
+		else{
+			linkBet = "http://www.quinigold.com/betDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
+		}
 		
 		sendMailer.sendFinalBetMail(cco, roundBet.getRound(), roundBet.getSeason(), betID, roundBet.getPrice(), numBets, linkBet);
 		

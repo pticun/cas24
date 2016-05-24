@@ -15,7 +15,9 @@ import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.QueueMailEnum;
+import org.apache.commons.lang3.StringUtils;
 import org.arch.core.channel.ProcessMailQueue;
+import org.arch.core.util.CoreUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,7 +127,10 @@ public class MailTools{
 	        
 			if(balance < (numApuestas * betTools.getPriceBet())) {
 				MailQueueDto mailDto=new MailQueueDto();
-				user.setId("quinielagold@gmail.com");
+				
+				if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
+					user.setId("quinielagold@gmail.com");
+				}
 				mailDto.setUser(user);
 				mailDto.setType(QueueMailEnum.Q_WITHOUTMONEYMAIL);
 //				GenericMessage<MailQueueDto> messageUser = new GenericMessage<MailQueueDto>(mailDto);

@@ -35,10 +35,12 @@ import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.util.enumeration.QueueMailEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.alterq.validator.CompanyValidator;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.arch.core.channel.ProcessMailQueue;
 import org.arch.core.i18n.resources.MessageLocalizedResources;
 import org.arch.core.mail.SendMailer;
+import org.arch.core.util.CoreUtils;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -603,8 +605,12 @@ public class BetController {
 			processRoundBetMail.setBets(finalBet);
 			
 			mailDto.setRoundBet(processRoundBetMail);
-			//para pruebas
-			ccoMail = "quinielagold@gmail.com";
+			
+			if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
+				//para pruebas
+				ccoMail = "quinielagold@gmail.com";
+			}
+			
 			mailDto.setCco(ccoMail);
 			
 			processMailQueue.process(mailDto);
