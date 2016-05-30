@@ -59,6 +59,7 @@ public class RolCompanyControllerTest {
 		bean.setIdCard("11111111H");
 		bean.setSurnames("surnames");
 		ObjectMapper mapper = new ObjectMapper();
+		System.out.println("==="+mapper.writeValueAsString(bean));
 		ResultActions auth = this.mockMvc.perform(MockMvcRequestBuilders.post("/myaccount").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(bean)));
 		auth.andDo(MockMvcResultHandlers.print());
 		auth.andExpect(jsonPath("$.userAlterQ.id", is("prueba@prueba.es")));
@@ -88,6 +89,7 @@ public class RolCompanyControllerTest {
 		rcList.add(rc3);
 		bean.setRols(rcList);
 		ObjectMapper mapper = new ObjectMapper();
+		System.out.println("==="+mapper.writeValueAsString(bean));
 		ResultActions auth = this.mockMvc.perform(MockMvcRequestBuilders.post("/myaccount/" + bean.getId() + "/rolcompany").characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(bean)).cookie(cookies));
 		auth.andDo(MockMvcResultHandlers.print());
 		auth.andExpect(jsonPath("$.userAlterQ.id", is("prueba@prueba.es")));
