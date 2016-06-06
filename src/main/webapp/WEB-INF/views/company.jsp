@@ -39,9 +39,11 @@
 			   			<td align="center" colspan="2"><button id="myCompanyFormSubmit_btn" class="btn btn-danger" name="submitBtn" value="submitBtn">Seleccionar</button></td>
 			        </tr>
 		        </table>
+		        <br>
+		        <div id="joinCompanyResponse" class="linkQuiniGold"></div>
 	        </form>
 		        <br>
-		        <div id="userAlterQFormResponse" class="linkQuiniGold">Elige el grupo y pulsa Seleccionar.</div>
+		        <div class="linkQuiniGold">Elige el grupo y pulsa Seleccionar.</div>
 		        <br>
 		        <table class="tablaQuiniGold">
 		        	<tr><td>GESTIONAR</td></tr>

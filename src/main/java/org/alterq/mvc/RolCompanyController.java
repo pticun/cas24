@@ -83,6 +83,7 @@ public class RolCompanyController {
 				if(RolNameEnum.ROL_USER.getValue()== rolCompanyTemp.getRol()){
 					if (!rolCompany.contains(rolCompanyTemp)){
 						rolCompany.add(rolCompanyTemp);
+						log.debug("el usuario:"+userRetrieve.getId()+" se ha unido(ROL_USER) a la company:"+rolCompanyTemp.getCompany());
 //						userDao.addRolForCompany(user, rolCompany);
 					}
 				}

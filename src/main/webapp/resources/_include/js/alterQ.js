@@ -112,6 +112,7 @@ function initDiv() {
 	$(sCompanyRef).hide();
 	$(sNewPasswordRef).hide();
 	$(sCompanyMgrRef).hide();
+	$(joinCompanyResponse).hide();
 	
 	
 	
@@ -704,12 +705,11 @@ $(document).ready(function() {
 	 $('form#joinCompanyForm').submit(function( event ) {
 		 var dataJson=JSON.stringify($('form#joinCompanyForm').serializeObject());
 		 var companyTojoin=$('#companyToChoosePublic option:selected').val();
-		 var dataToSend = { "id":requestUserSession.idUserAlterQ,"rols":[{"company":companyTojoin,"rol":10}]};
-//		 var dataToSend = { "id":"racsor@gmail.com","rols":[{"company":"10","rol":"10"}]};
-		 showDiv(bHome);
+		 var dataToSend = { "id":requestUserSession.idUserAlterQ,"rols":[{"company":companyTojoin,"rol":RolNameEnum.ROL_USER}]};
 		 consoleAlterQ('joinCompanyForm:'+JSON.stringify(dataToSend));
+		 $(joinCompanyResponse).show();
+
 		 jQuery.ajax ({
-			 //CompanyController.createCompany()
 			    url: ctx+'/myaccount/'+window.idUserAlterQ+'/rolcompany',
 			    type: "POST",
 			    data: JSON.stringify(dataToSend),
@@ -720,17 +720,18 @@ $(document).ready(function() {
 			    success: function(response){
 		   		    if(response.errorDto!=0){
 		   		    	$(response.errorDto).each(function(index, objeto){  
-		   		    		$('#adminCompanyFormResponse').append(objeto.stringError+" - ");
+		   		    		$('#joinCompanyResponse').append(objeto.stringError+" - ");
 					    });
 		   		    }
 		   		    else{
-		   		    	$('#adminCompanyFormResponse').append("Te has unido a la company.");
+		   		    	$('#joinCompanyResponse').append("Te has unido a la company.");
 		   		    	consoleAlterQ('call to getCompanies to reload company combo');
 		   		    	window.loadCompanies=true;
 		   		    	getCompanies();
 		   		    }
 			    }
 			});
+//		 showDiv(bHome);
 		 
 		 event.preventDefault(); // prevent actual form submit and page reload
 	 });
