@@ -249,6 +249,24 @@
 		   		<tr align="center">
 		   			<td><button id="quinielaFinalBtn" class="btn btn-danger" name="quinielaFinalMenu" value="quinelaFinal">Quiniela</button><br><br></td>
 		        </tr>
+		   		<tr align="center">
+		   			<td>
+						<div align="center">
+							<form id="inviteToForm">
+							   		<table class="tablaQuiniGold">
+								   		<tr>
+								   			<td>Invitar a:</td>
+								   			<td><input id="inviteTo" name="season" type="text"/></td>
+								        </tr>
+								   		<tr>
+								   			<td colspan="2" align="center"><button id="enviarBtn" class="btn btn-danger" name="enviarBtn" value="Enviar">Enviar</button></td>
+								        </tr>
+							   		</table>
+							   		<br>
+							</form>
+						</div>
+					</td>
+		        </tr>
 	   			</table>
         </div>
 </div>
