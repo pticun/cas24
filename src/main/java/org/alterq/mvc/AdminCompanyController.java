@@ -1,11 +1,7 @@
 package org.alterq.mvc;
 
-
 import java.util.Date;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.alterq.domain.Bet;
 import org.alterq.domain.RoundBets;
@@ -34,7 +30,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -67,62 +62,70 @@ public class AdminCompanyController {
 	private MessageLocalizedResources messageLocalizedResources;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView initPagePost( RequestUserDto requestUserDto) {
-//	public ModelAndView initPagePost(HttpServletRequest request) {
+	public ModelAndView initPagePost(RequestUserDto requestUserDto) {
+		// public ModelAndView initPagePost(HttpServletRequest request) {
 		log.debug("init adminCompany POST");
-		
+
 		ModelAndView model = new ModelAndView("adminCompany");
 		model.addObject("requestUserDto", requestUserDto);
-		
-		return model;
-	}
-	/*
-	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView initPagePost(HttpServletRequest request) {
-		log.debug("init adminCompany POST");
-		
-		String company="0";
-		String round="0";
-		String season="0";
-		String idUserAlterQ="";
-		
-		Map<String, String[]> parameters = request.getParameterMap();
-		for (String parameter : parameters.keySet()) {
-			try {
-				if (parameter.equals("company")) {
-					company = request.getParameter(parameter);
-				} else if (parameter.equals("round")) {
-					round = request.getParameter(parameter);
-				} else if (parameter.equals("season")) {
-					season = request.getParameter(parameter);
-				} else if (parameter.equals("idUserAlterQ")) {
-					idUserAlterQ = request.getParameter(parameter);
-				}
-			} catch (Exception e) {
-				// TODO: handle exceptionBets
-			}
-		}
-		ModelAndView model = new ModelAndView("adminCompany");
-		model.addObject("company", company);
-		model.addObject("round", round);
-		model.addObject("season", season);
-		model.addObject("idUserAlterQ", idUserAlterQ);
-		
-		return model;
-	}
-	*/
 
-//	@RequestMapping(method = RequestMethod.GET)
-//	public String initPage() {
-//		log.debug("init adminCompany.jsp");
-//		return "adminCompany";
-//	}
+		return model;
+	}
+
+	/*
+	 * @RequestMapping(method = RequestMethod.POST) public ModelAndView
+	 * initPagePost(HttpServletRequest request) {
+	 * log.debug("init adminCompany POST");
+	 * 
+	 * String company="0"; String round="0"; String season="0"; String
+	 * idUserAlterQ="";
+	 * 
+	 * Map<String, String[]> parameters = request.getParameterMap(); for (String
+	 * parameter : parameters.keySet()) { try { if (parameter.equals("company"))
+	 * { company = request.getParameter(parameter); } else if
+	 * (parameter.equals("round")) { round = request.getParameter(parameter); }
+	 * else if (parameter.equals("season")) { season =
+	 * request.getParameter(parameter); } else if
+	 * (parameter.equals("idUserAlterQ")) { idUserAlterQ =
+	 * request.getParameter(parameter); } } catch (Exception e) { // TODO:
+	 * handle exceptionBets } } ModelAndView model = new
+	 * ModelAndView("adminCompany"); model.addObject("company", company);
+	 * model.addObject("round", round); model.addObject("season", season);
+	 * model.addObject("idUserAlterQ", idUserAlterQ);
+	 * 
+	 * return model; }
+	 */
+
+	// @RequestMapping(method = RequestMethod.GET)
+	// public String initPage() {
+	// log.debug("init adminCompany.jsp");
+	// return "adminCompany";
+	// }
+
+	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/inviteTo/{idMail:.+}")
+	public @ResponseBody ResponseDto inviteTo(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable String idMail) {
+		ResponseDto response = new ResponseDto();
+		log.debug("inviteTo: start");
+		try {
+			userSecurity.isAdminUserInSession(cookieSession, company);
+			// TODO create process to send Mail
+			log.debug("inviteTo: " + idMail + " to join at: " + company);
+		} catch (Exception e) {
+			ErrorDto error = new ErrorDto();
+			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);
+			error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.USER_NOT_ADMIN));
+			response.addErrorDto(error);
+			log.error(ExceptionUtils.getStackTrace(e));
+		}
+		log.debug("inviteTo: end");
+		return response;
+	}
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/company/{company}/season/{season}/round/{round}/closeAC")
 	public @ResponseBody ResponseDto closeRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
 		ResponseDto response = new ResponseDto();
 		log.debug("closeRound: start");
-		float priceBet=betTools.getPriceBet();
+		float priceBet = betTools.getPriceBet();
 
 		try {
 			userSecurity.isAdminUserInSession(cookieSession, company);
@@ -130,19 +133,18 @@ public class AdminCompanyController {
 			// CLOSING PROCESS STEPS (Admin Company)
 			//
 
-
 			// STEP 1: Automatics Bets
 			//
 			// STEP 1.1 - Get Users with automatic bets
-			List<UserAlterQ> lUsers = userAlterQDao.findUserWithTypeSpecialBets(company,BetTypeEnum.BET_AUTOMATIC);
+			List<UserAlterQ> lUsers = userAlterQDao.findUserWithTypeSpecialBets(company, BetTypeEnum.BET_AUTOMATIC);
 			// STEP 1.2 - For each user do as bets as automatic bets (It has to
 			// check user amount before make automatics bets)
-			
+
 			for (UserAlterQ user : lUsers) {
-				int numApu=0;
+				int numApu = 0;
 				List<Bet> specialBet = user.getSpecialBets();
 				for (Bet bet : specialBet) {
-					if (bet.getType() == BetTypeEnum.BET_AUTOMATIC.getValue() && bet.getCompany()==company) {
+					if (bet.getType() == BetTypeEnum.BET_AUTOMATIC.getValue() && bet.getCompany() == company) {
 						numApu = bet.getNumBets();
 					}
 				}
@@ -169,10 +171,10 @@ public class AdminCompanyController {
 					bet.setReduction("NNNNNNNNNNNNNN");
 					bet.setType(BetTypeEnum.BET_NORMAL.getValue());
 					bet.setId(new ObjectId().toHexString());
-					
+
 					roundBetDao.addBet(company, season, round, bet);
-					//update new balance minus value bet
-					balance-=priceBet;
+					// update new balance minus value bet
+					balance -= priceBet;
 				}
 
 				// STEP 1.2.4 - Update User Balance
@@ -195,12 +197,12 @@ public class AdminCompanyController {
 				}
 			}
 
-			// STEP 2: Fixed Bets 
-			lUsers = userAlterQDao.findUserWithTypeSpecialBets(company,BetTypeEnum.BET_FIXED);
+			// STEP 2: Fixed Bets
+			lUsers = userAlterQDao.findUserWithTypeSpecialBets(company, BetTypeEnum.BET_FIXED);
 			for (UserAlterQ user : lUsers) {
 				// loop for number of fixed bets
 				float balance = new Float(user.getBalance()).floatValue();
-				List<Bet> specialBets=user.getSpecialBets();
+				List<Bet> specialBets = user.getSpecialBets();
 				for (Bet betSpecial : specialBets) {
 					if (balance < priceBet) {
 						log.debug("closeRound: user(" + user.getName() + ") No enough money for automatic bet");
@@ -209,8 +211,8 @@ public class AdminCompanyController {
 						continue;
 					}
 					// STEP 1.2.3 - Make Automatic User Bet
-					if (betSpecial.getType() == BetTypeEnum.BET_FIXED.getValue() && betSpecial.getCompany()==company) {
-						log.debug("bet:"+betSpecial.getBet());
+					if (betSpecial.getType() == BetTypeEnum.BET_FIXED.getValue() && betSpecial.getCompany() == company) {
+						log.debug("bet:" + betSpecial.getBet());
 						Bet bet = new Bet();
 						bet.setPrice(betTools.getPriceBet());
 						bet.setBet(betSpecial.getBet());
@@ -222,10 +224,10 @@ public class AdminCompanyController {
 						bet.setReduction("NNNNNNNNNNNNNN");
 						bet.setType(BetTypeEnum.BET_NORMAL.getValue());
 						bet.setId(new ObjectId().toHexString());
-						
+
 						roundBetDao.addBet(company, season, round, bet);
-						//update new balance minus value bet
-						balance-=priceBet;
+						// update new balance minus value bet
+						balance -= priceBet;
 					}
 				}
 				// STEP 1.2.4 - Update User Balance
@@ -249,7 +251,6 @@ public class AdminCompanyController {
 
 			}
 
-			
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);
@@ -267,7 +268,7 @@ public class AdminCompanyController {
 		ResponseDto response = new ResponseDto();
 		String responseString = new String();
 		RoundBets roundBets;
-		
+
 		log.debug("getSummary: start");
 		try {
 			userSecurity.isAdminUserInSession(cookieSession, company);
@@ -276,7 +277,7 @@ public class AdminCompanyController {
 			roundBets = roundBetDao.findRoundBetWithBets(season, round, company);
 
 			response.setRoundBet(roundBets);
-			
+
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);
@@ -286,8 +287,7 @@ public class AdminCompanyController {
 		}
 
 		log.debug("getSummary: end");
-		return response;		
+		return response;
 	}
-		
 
 }

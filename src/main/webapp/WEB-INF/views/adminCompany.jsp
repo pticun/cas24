@@ -256,7 +256,7 @@
 							   		<table class="tablaQuiniGold">
 								   		<tr>
 								   			<td>Invitar a:</td>
-								   			<td><input id="inviteTo" name="season" type="text"/></td>
+								   			<td><input id="inviteTo" name="inviteTo" type="text"/></td>
 								        </tr>
 								   		<tr>
 								   			<td colspan="2" align="center"><button id="enviarBtn" class="btn btn-danger" name="enviarBtn" value="Enviar">Enviar</button></td>

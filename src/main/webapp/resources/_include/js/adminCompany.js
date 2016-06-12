@@ -142,6 +142,37 @@ $(document).ready(function() {
 			});
 		 	event.preventDefault(); // prevent actual form submit and page reload
 	});
+	$('form#inviteToForm').submit(function(event) {
+		 var dataJson=JSON.stringify($('form#inviteToForm').serializeObject());
+		 consoleAlterQ("inviteTo="+dataJson);
+		 consoleAlterQ("requestUserSession.company="+requestUserSession.company);
+		 consoleAlterQ("inviteTo="+inviteTo);
+		 jQuery.ajax ({
+			 url: ctx+'/adminCompany/company/' + requestUserSession.company + '/inviteTo/'+ $("input[id=inviteTo]").val(),
+			    type: "POST",
+			    data: dataJson,
+			    //contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+			    	if(response.errorDto!=0){
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		consoleAlterQ("result: response="+objeto.errorDto);
+		   		    		$('#quinielaFormResponse').append(objeto.stringError+" - ");
+					    });
+		   		    	
+		   		    }
+		   		    else{
+		   		    	//consoleAlterQ("open: response= OK"+response.userAlterQ.name);
+						//$('#loginFormResponse').text(response.userAlterQ.name);
+						consoleAlterQ("result: response= OK");
+						$('#quinielaFormResponse').text("Admin - Quiniela - OK");
+		   		    }
+			    }
+			});
+		 	event.preventDefault(); // prevent actual form submit and page reload
+	});
 
 });
 
