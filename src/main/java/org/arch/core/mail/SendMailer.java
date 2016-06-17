@@ -7,9 +7,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.alterq.domain.Bet;
 import org.alterq.domain.Prize;
-import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -28,7 +26,7 @@ public class SendMailer {
 	@Autowired
 	private VelocityEngine velocityEngine;
 
-	private String from="QuiniGold";
+	private String from = "QuiniGold";
 
 	public JavaMailSender getMailSender() {
 		return mailSender;
@@ -46,6 +44,10 @@ public class SendMailer {
 		this.velocityEngine = velocityEngine;
 	}
 
+	public void sendJoinToCompany(UserAlterQ userAlterQ) {
+		// TODO create a mail to send a user to Join a company
+	}
+
 	public void sendForgotMail(UserAlterQ userAlterQ) {
 		MimeMessage message = mailSender.createMimeMessage();
 
@@ -53,7 +55,7 @@ public class SendMailer {
 		MimeMessageHelper helper;
 		try {
 			Template template = velocityEngine.getTemplate("./templates/forgetPasswordMail.vm");
-			
+
 			VelocityContext velocityContext = new VelocityContext();
 			velocityContext.put("newPassword", userAlterQ.getPwd());
 			StringWriter stringWriter = new StringWriter();
@@ -64,14 +66,14 @@ public class SendMailer {
 			helper.setFrom(from);
 			helper.setTo(userAlterQ.getId());
 			helper.setSubject("forgotPwd");
-			
-			
+
 			helper.setText(stringWriter.toString(), true);
 
-			log.debug("body:"+stringWriter.toString());
+			log.debug("body:" + stringWriter.toString());
 
-//			FileSystemResource file = new FileSystemResource(new File("D:\\temp\\logo_1035_255.png"));
-//			helper.addInline("logo_1035_205", file);
+			// FileSystemResource file = new FileSystemResource(new
+			// File("D:\\temp\\logo_1035_255.png"));
+			// helper.addInline("logo_1035_205", file);
 
 			mailSender.send(message);
 		} catch (MessagingException e) {
@@ -79,174 +81,174 @@ public class SendMailer {
 			e.printStackTrace();
 		}
 	}
+
 	public void sendDailyMail(UserAlterQ userAlterQ) {
 		MimeMessage message = mailSender.createMimeMessage();
-		
+
 		// use the true flag to indicate you need a multipart message
 		MimeMessageHelper helper;
 		try {
 			Template template = velocityEngine.getTemplate("./templates/dailyMail.vm");
-			
+
 			VelocityContext velocityContext = new VelocityContext();
 			velocityContext.put("newPassword", userAlterQ.getPwd());
 			StringWriter stringWriter = new StringWriter();
-			
+
 			template.merge(velocityContext, stringWriter);
-			
+
 			helper = new MimeMessageHelper(message, true);
 			helper.setFrom(new InternetAddress(from, "QuiniGold"));
 			helper.setTo(userAlterQ.getId());
 			helper.setSubject("forgotPwd");
-			
-			
+
 			helper.setText(stringWriter.toString(), true);
-			
-			log.debug("body:"+stringWriter.toString());
-			
-//			FileSystemResource file = new FileSystemResource(new File("D:\\temp\\logo_1035_255.png"));
-//			helper.addInline("logo_1035_205", file);
-			
+
+			log.debug("body:" + stringWriter.toString());
+
+			// FileSystemResource file = new FileSystemResource(new
+			// File("D:\\temp\\logo_1035_255.png"));
+			// helper.addInline("logo_1035_205", file);
+
 			mailSender.send(message);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
+
 	public void sendResultsMail(String CCOusers, int round, float jackPot, float betReward, double rewardDivided, List<Prize> prizes) {
 		MimeMessage message = mailSender.createMimeMessage();
-		
-		// use the true flag to indicate you need a multipart message 
+
+		// use the true flag to indicate you need a multipart message
 		MimeMessageHelper helper;
 		try {
 			Template template = velocityEngine.getTemplate("./templates/resultsMail.vm");
-			
+
 			VelocityContext velocityContext = new VelocityContext();
 			velocityContext.put("resultBoleto", round);
 			for (Prize prize : prizes) {
-				
-				velocityContext.put("resultAciertos"+prize.getId(), prize.getCount());
-				velocityContext.put("resultPremio"+prize.getId(), prize.getAmount());
-				velocityContext.put("resultTotal"+prize.getId(), prize.getCount() * prize.getAmount());
+
+				velocityContext.put("resultAciertos" + prize.getId(), prize.getCount());
+				velocityContext.put("resultPremio" + prize.getId(), prize.getAmount());
+				velocityContext.put("resultTotal" + prize.getId(), prize.getCount() * prize.getAmount());
 			}
 			velocityContext.put("resultBote", jackPot);
 			velocityContext.put("resultTotal", betReward + jackPot);
-			velocityContext.put("resultReparto", String.format( "%.2f", rewardDivided ));
-			
-			
-			
+			velocityContext.put("resultReparto", String.format("%.2f", rewardDivided));
+
 			StringWriter stringWriter = new StringWriter();
-			
+
 			template.merge(velocityContext, stringWriter);
-			
+
 			helper = new MimeMessageHelper(message, true);
 			helper.setFrom(new InternetAddress(from, "QuiniGold"));
-			//helper.setTo(userAlterQ.getId());
+			// helper.setTo(userAlterQ.getId());
 			helper.setBcc(CCOusers);
 			helper.setSubject("QuiniGold - Resumen Premios");
-			
-			
+
 			helper.setText(stringWriter.toString(), true);
-			
-			log.debug("body:"+stringWriter.toString());
-			
-//			FileSystemResource file = new FileSystemResource(new File("D:\\temp\\logo_1035_255.png"));
-//			helper.addInline("logo_1035_205", file);
-			
+
+			log.debug("body:" + stringWriter.toString());
+
+			// FileSystemResource file = new FileSystemResource(new
+			// File("D:\\temp\\logo_1035_255.png"));
+			// helper.addInline("logo_1035_205", file);
+
 			mailSender.send(message);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	public void sendWithoutMoneyMail(UserAlterQ userAlterQ) {
 		MimeMessage message = mailSender.createMimeMessage();
-		
+
 		// use the true flag to indicate you need a multipart message
 		MimeMessageHelper helper;
 		try {
 			Template template = velocityEngine.getTemplate("./templates/withoutMoneyMail.vm");
-			
+
 			VelocityContext velocityContext = new VelocityContext();
 			velocityContext.put("currentBalance", userAlterQ.getBalance());
 			StringWriter stringWriter = new StringWriter();
-			
+
 			template.merge(velocityContext, stringWriter);
-			
+
 			helper = new MimeMessageHelper(message, true);
 			helper.setFrom(new InternetAddress(from, "QuiniGold"));
 			helper.setTo(userAlterQ.getId());
 			helper.setSubject("QuiniGold - Saldo Agotado");
-			
-			
+
 			helper.setText(stringWriter.toString(), true);
-			
-			log.debug("body:"+stringWriter.toString());
-			
-//			FileSystemResource file = new FileSystemResource(new File("D:\\temp\\logo_1035_255.png"));
-//			helper.addInline("logo_1035_205", file);
-			
+
+			log.debug("body:" + stringWriter.toString());
+
+			// FileSystemResource file = new FileSystemResource(new
+			// File("D:\\temp\\logo_1035_255.png"));
+			// helper.addInline("logo_1035_205", file);
+
 			mailSender.send(message);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void sendBirthdayMail(UserAlterQ userAlterQ) {
 		MimeMessage message = mailSender.createMimeMessage();
-		
+
 		// use the true flag to indicate you need a multipart message
 		MimeMessageHelper helper;
 		try {
 			Template template = velocityEngine.getTemplate("./templates/birthdayMail.vm");
-			
+
 			VelocityContext velocityContext = new VelocityContext();
 			velocityContext.put("userName", userAlterQ.getName());
 			StringWriter stringWriter = new StringWriter();
-			
+
 			template.merge(velocityContext, stringWriter);
-			
+
 			helper = new MimeMessageHelper(message, true);
 			helper.setFrom(new InternetAddress(from, "QuiniGold"));
 			helper.setTo(userAlterQ.getId());
 			helper.setSubject("QuiniGold - Felicidades");
-			
-			
+
 			helper.setText(stringWriter.toString(), true);
-			
-			log.debug("body:"+stringWriter.toString());
-			
-//			FileSystemResource file = new FileSystemResource(new File("D:\\temp\\logo_1035_255.png"));
-//			helper.addInline("logo_1035_205", file);
-			
+
+			log.debug("body:" + stringWriter.toString());
+
+			// FileSystemResource file = new FileSystemResource(new
+			// File("D:\\temp\\logo_1035_255.png"));
+			// helper.addInline("logo_1035_205", file);
+
 			mailSender.send(message);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void sendFinalBetMail(String CCOusers, int round, int season, String betID, float betPrize, int numBets, String linkBet) {
 		MimeMessage message = mailSender.createMimeMessage();
-		
+
 		// use the true flag to indicate you need a multipart message
 		MimeMessageHelper helper;
 		try {
 			Template template = velocityEngine.getTemplate("./templates/finalBetMail.vm");
-			
+
 			VelocityContext velocityContext = new VelocityContext();
 			velocityContext.put("finalBetRound", round);
 			velocityContext.put("finalBetTemporada", season);
@@ -255,30 +257,30 @@ public class SendMailer {
 			velocityContext.put("finalBetNumBets", numBets);
 			velocityContext.put("finalBetLinkBet", linkBet);
 			StringWriter stringWriter = new StringWriter();
-			
+
 			template.merge(velocityContext, stringWriter);
-			
+
 			helper = new MimeMessageHelper(message, true);
 			helper.setFrom(new InternetAddress(from, "QuiniGold"));
 			helper.setBcc(CCOusers);
-			helper.setSubject("QuiniGold - Boleto "+round+" Temporada "+season+"/"+(season-2000+1));
-			
-			
+			helper.setSubject("QuiniGold - Boleto " + round + " Temporada " + season + "/" + (season - 2000 + 1));
+
 			helper.setText(stringWriter.toString(), true);
-			
-			log.debug("body:"+stringWriter.toString());
-			
-//			FileSystemResource file = new FileSystemResource(new File("D:\\temp\\logo_1035_255.png"));
-//			helper.addInline("logo_1035_205", file);
-			
+
+			log.debug("body:" + stringWriter.toString());
+
+			// FileSystemResource file = new FileSystemResource(new
+			// File("D:\\temp\\logo_1035_255.png"));
+			// helper.addInline("logo_1035_205", file);
+
 			mailSender.send(message);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public String getFrom() {

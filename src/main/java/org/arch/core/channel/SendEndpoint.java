@@ -24,7 +24,6 @@ import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.MailQueueDto;
 import org.apache.commons.lang3.StringUtils;
-import org.arch.core.mail.SendMail;
 import org.arch.core.mail.SendMailer;
 import org.arch.core.util.CoreUtils;
 import org.slf4j.Logger;
@@ -48,6 +47,15 @@ public class SendEndpoint {
     /**
      * Process a delivery order for sending by mail.
      */
+	public void sendingJoinToCompany(GenericMessage<MailQueueDto> message) {
+		MailQueueDto mailQueue=  message.getPayload();
+		UserAlterQ userAlterQ=mailQueue.getUser();
+		
+		sendMailer.sendJoinToCompany(userAlterQ);
+	}
+	/**
+	 * Process a delivery order for sending by mail.
+	 */
 	public void sendingDailyMail(GenericMessage<MailQueueDto> message) {
 		MailQueueDto mailQueue=  message.getPayload();
 		UserAlterQ userAlterQ=mailQueue.getUser();

@@ -38,6 +38,9 @@ public class MailRouter {
 		case Q_FINALBETMAIL:
 			result = "finalBetMail";
 			break;
+		case Q_JOINTOCOMPANYMAIL:
+			result = "joinToCompany";
+			break;
 		}
 		log.debug("processMailQueue:" + result);
 

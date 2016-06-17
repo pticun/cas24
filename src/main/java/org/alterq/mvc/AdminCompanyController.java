@@ -1,12 +1,15 @@
 package org.alterq.mvc;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.alterq.domain.Bet;
+import org.alterq.domain.RolCompany;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.ErrorDto;
+import org.alterq.dto.MailQueueDto;
 import org.alterq.dto.RequestUserDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.AdminDataDao;
@@ -19,8 +22,10 @@ import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.BetTools;
 import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
+import org.alterq.util.enumeration.QueueMailEnum;
 import org.alterq.validator.CompanyValidator;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.arch.core.channel.ProcessMailQueue;
 import org.arch.core.i18n.resources.MessageLocalizedResources;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -60,6 +65,8 @@ public class AdminCompanyController {
 	@Autowired
 	@Qualifier("messageLocalizedResources")
 	private MessageLocalizedResources messageLocalizedResources;
+	@Autowired
+	ProcessMailQueue processMailQueue;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView initPagePost(RequestUserDto requestUserDto) {
@@ -110,6 +117,19 @@ public class AdminCompanyController {
 			userSecurity.isAdminUserInSession(cookieSession, company);
 			// TODO create process to send Mail
 			log.debug("inviteTo: " + idMail + " to join at: " + company);
+			//send user with mail and company to join
+			UserAlterQ userAlterQ=new UserAlterQ();
+			userAlterQ.setId(idMail);
+			ArrayList<RolCompany> rolCompanyList=new ArrayList<RolCompany>();
+			RolCompany rolCompany=new RolCompany();
+			rolCompany.setCompany(company);
+			rolCompanyList.add(rolCompany);
+			userAlterQ.setRols(rolCompanyList);
+			MailQueueDto mailDto=new MailQueueDto();
+			mailDto.setUser(userAlterQ);
+			mailDto.setType(QueueMailEnum.Q_JOINTOCOMPANYMAIL);
+			processMailQueue.process(mailDto);
+
 		} catch (Exception e) {
 			ErrorDto error = new ErrorDto();
 			error.setIdError(MessageResourcesNameEnum.USER_NOT_ADMIN);
