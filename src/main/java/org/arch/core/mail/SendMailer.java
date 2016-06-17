@@ -9,6 +9,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.alterq.domain.Prize;
 import org.alterq.domain.UserAlterQ;
+import org.alterq.dto.MailQueueDto;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -44,8 +45,38 @@ public class SendMailer {
 		this.velocityEngine = velocityEngine;
 	}
 
-	public void sendJoinToCompany(UserAlterQ userAlterQ) {
+	public void sendJoinToCompany(MailQueueDto mailQueue, String joinToLink) {
+		MimeMessage message = mailSender.createMimeMessage();
+
 		// TODO create a mail to send a user to Join a company
+		MimeMessageHelper helper;
+		try {
+			Template template = velocityEngine.getTemplate("./templates/joinToCompanyMail.vm");
+			
+			VelocityContext velocityContext = new VelocityContext();
+			velocityContext.put("nombreCompany", mailQueue.getCompany().getNick());
+			velocityContext.put("joinToLink", "");
+			StringWriter stringWriter = new StringWriter();
+
+			template.merge(velocityContext, stringWriter);
+
+			helper = new MimeMessageHelper(message, true);
+			helper.setFrom(new InternetAddress(from, "QuiniGold"));
+			helper.setTo(mailQueue.getUser().getId());
+			helper.setSubject("Unete a nuestra peña");
+
+			helper.setText(stringWriter.toString(), true);
+
+			log.debug("body:" + stringWriter.toString());
+
+			mailSender.send(message);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public void sendForgotMail(UserAlterQ userAlterQ) {
@@ -268,10 +299,6 @@ public class SendMailer {
 			helper.setText(stringWriter.toString(), true);
 
 			log.debug("body:" + stringWriter.toString());
-
-			// FileSystemResource file = new FileSystemResource(new
-			// File("D:\\temp\\logo_1035_255.png"));
-			// helper.addInline("logo_1035_205", file);
 
 			mailSender.send(message);
 		} catch (MessagingException e) {

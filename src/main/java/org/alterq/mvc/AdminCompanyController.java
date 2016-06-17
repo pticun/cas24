@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.alterq.domain.Bet;
+import org.alterq.domain.Company;
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
@@ -13,6 +14,7 @@ import org.alterq.dto.MailQueueDto;
 import org.alterq.dto.RequestUserDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.repo.AdminDataDao;
+import org.alterq.repo.CompanyDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.RoundRankingDao;
@@ -52,6 +54,8 @@ public class AdminCompanyController {
 	private UserAlterQDao userAlterQDao;
 	@Autowired
 	private RoundRankingDao roundRankingDao;
+	@Autowired
+	private CompanyDao companyDao;
 	@Autowired
 	private RoundDao roundDao;
 	@Autowired
@@ -120,13 +124,10 @@ public class AdminCompanyController {
 			//send user with mail and company to join
 			UserAlterQ userAlterQ=new UserAlterQ();
 			userAlterQ.setId(idMail);
-			ArrayList<RolCompany> rolCompanyList=new ArrayList<RolCompany>();
-			RolCompany rolCompany=new RolCompany();
-			rolCompany.setCompany(company);
-			rolCompanyList.add(rolCompany);
-			userAlterQ.setRols(rolCompanyList);
+			Company companyObject=companyDao.findByCompany(company);
 			MailQueueDto mailDto=new MailQueueDto();
 			mailDto.setUser(userAlterQ);
+			mailDto.setCompany(companyObject);
 			mailDto.setType(QueueMailEnum.Q_JOINTOCOMPANYMAIL);
 			processMailQueue.process(mailDto);
 

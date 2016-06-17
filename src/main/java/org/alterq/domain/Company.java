@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Company implements Serializable {
+	private static final long serialVersionUID = 5394820520862192048L;
+
 	@Id
 	private String id;
 	

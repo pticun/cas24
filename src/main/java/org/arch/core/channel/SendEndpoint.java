@@ -49,9 +49,15 @@ public class SendEndpoint {
      */
 	public void sendingJoinToCompany(GenericMessage<MailQueueDto> message) {
 		MailQueueDto mailQueue=  message.getPayload();
-		UserAlterQ userAlterQ=mailQueue.getUser();
-		
-		sendMailer.sendJoinToCompany(userAlterQ);
+		String joinToLink="";
+		if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
+			//para pruebas
+//			joinToLink = "http://localhost:8080/quinimobile/betDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
+		}
+		else{
+//			joinToLink = "http://www.quinigold.com/betDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
+		}
+		sendMailer.sendJoinToCompany(mailQueue,joinToLink);
 	}
 	/**
 	 * Process a delivery order for sending by mail.
