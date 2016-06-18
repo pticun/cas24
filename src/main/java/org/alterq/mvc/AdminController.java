@@ -808,84 +808,128 @@ public class AdminController {
 		return response;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE, value = "/company/{company}/season/{season}/round/{round}/getFile")
-	public @ResponseBody void getElectricFile(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round, HttpServletResponse resp) {
+	@RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE, value = "/season/{season}/round/{round}/getFile")
+	public @ResponseBody void getElectricFile(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int season, @PathVariable int round, HttpServletResponse resp) {
 		AdminData adminData = null;
 		ResponseDto response = new ResponseDto();
 		String responseString = new String();
+		RoundBets roundBets = null;
+		String rdo[] = new String[0];
+		boolean bBets = false;
 
 		log.debug("getElectricFile: start");
 
 		try {
 			userSecurity.isSuperAdminUserInSession(cookieSession);
-			adminData = adminDataDao.findById(company);
+			adminData = adminDataDao.findById(AlterQConstants.DEFECT_COMPANY);
 
 			Round tmpRound = roundDao.findBySeasonRound(season, round);
-			// Get All Round Bets
-			RoundBets roundBets = roundBetDao.findRoundBet(season, round);
-			if (roundBets == null) {
-				response.addErrorDto("AdminController:getElectricFile", "No Bets");
-			} else {
-				CalculateRigths aux = new CalculateRigths();
-				String rdo[] = new String[0];
-				String despApuesta[];
-				List<Bet> lBets = roundBets.getBets();
-				for (Bet bet : lBets) {
-					// Calculamos el desglose de cada apuesta
-					if ((bet.getBet() == null) || (bet.getBet().length() < 16)) {
-						// Tenemos que enviar un aviso al usuario
-						log.debug("APUESTA ERRONEA (BET=" + bet.getBet() + "USER=" + bet.getUser());
+			
+			if (tmpRound == null){
+				response.addErrorDto("AdminController:getElectricFile", "No Round");
+				return;
+			}
+			
+			//Get All Companies
+			List<Company> companyList = companyDao.findAll();
+			for (Company co : companyList) {
+				if (!co.isVisibility())
+					continue;
+				
+				if (co.getCompany() != AlterQConstants.DEFECT_COMPANY){
+					//Solo hay que mirar las quinielas finales
+					roundBets = roundBetDao.findFinalBet(season, round, co.getCompany());
+				}else{
+					//Todas las apuestas excepto la del SuperAdministrador
+					roundBets = roundBetDao.findRoundBet(season, round, co.getCompany());
+				}
+				
+				if (roundBets != null) {
+					
+					CalculateRigths aux = new CalculateRigths();
+					
+					String despApuesta[];
+					List<Bet> lBets = roundBets.getBets();
+					if (lBets == null)
 						continue;
-					}
-					if ((bet.getReduction() == null) || (bet.getReduction().length() < 14)) {
-						// Tenemos que enviar un aviso al usuario
-						log.debug("APUESTA ERRONEA (BET=" + bet.getBet() + " REDUCTION=" + bet.getReduction() + " USER=" + bet.getUser());
-						continue;
-					}
-					if ((bet.getTypeReduction() < 0)) {
-						// Tenemos que enviar un aviso al usuario
-						log.debug("APUESTA ERRONEA (BET=" + bet.getBet() + " REDUCTION=" + bet.getReduction() + " TIPO=" + bet.getTypeReduction() + " USER=" + bet.getUser());
-						continue;
-					}
-					try {
+					
+					for (Bet bet : lBets) {
+						//Saltamos la apuesta resultado
+						if (bet.getType() == BetTypeEnum.BET_RESULT.getValue())
+							continue;
+						
+						bBets = true;
+						
+						// Calculamos el desglose de cada apuesta
+						if ((bet.getBet() == null) || (bet.getBet().length() < 16)) {
+							// Tenemos que enviar un aviso al usuario
+							log.debug("APUESTA ERRONEA (BET=" + bet.getBet() + "USER=" + bet.getUser());
+							continue;
+						}
+						if ((bet.getReduction() == null) || (bet.getReduction().length() < 14)) {
+							// Tenemos que enviar un aviso al usuario
+							log.debug("APUESTA ERRONEA (BET=" + bet.getBet() + " REDUCTION=" + bet.getReduction() + " USER=" + bet.getUser());
+							continue;
+						}
+						if ((bet.getTypeReduction() < 0)) {
+							// Tenemos que enviar un aviso al usuario
+							log.debug("APUESTA ERRONEA (BET=" + bet.getBet() + " REDUCTION=" + bet.getReduction() + " TIPO=" + bet.getTypeReduction() + " USER=" + bet.getUser());
+							continue;
+						}
+						try {
 
-						despApuesta = aux.unfolding(bet.getBet(), bet.getReduction(), bet.getTypeReduction());
-						if (despApuesta == null) {
+							despApuesta = aux.unfolding(bet.getBet(), bet.getReduction(), bet.getTypeReduction());
+							if (despApuesta == null) {
+								// Tenemos que enviar un aviso al usuario
+								log.debug("ERROR EN DESGLOSE USER=" + bet.getUser());
+								continue;
+							}
+
+						} catch (Exception e) {
 							// Tenemos que enviar un aviso al usuario
 							log.debug("ERROR EN DESGLOSE USER=" + bet.getUser());
 							continue;
 						}
 
-					} catch (Exception e) {
-						// Tenemos que enviar un aviso al usuario
-						log.debug("ERROR EN DESGLOSE USER=" + bet.getUser());
-						continue;
+						rdo = aux.acumula(rdo, despApuesta);
+
 					}
-
-					rdo = aux.acumula(rdo, despApuesta);
-
 				}
+			}
+			
+			if (!bBets)
+			{
+				response.addErrorDto("AdminController:getElectricFile", "No Bets");
+			}else{
+				
 				// En este punto tenemos ya el array con todas las apuestas
 				// desplegadas
-
+	
 				// Hay que ordenar las apuestas por el pleno al 15
-
+	
 				// Hay que calcular cuantas apuestas y cuantos bloques hay para
 				// cada pleno al 15 distinto
 				int bloques = rdo.length;// Pendiente revisar
-
+	
 				// Creamos la cabecera del fichero
 				HeaderBetElectronicFile cb = new HeaderBetElectronicFile();
-				cb.setIdDelegacion("12");
-				cb.setIdReceptor("24380");
-
+				
+				//Cogemos los datos de la delegacion en 
+				//idDelegacion
+				//idReceptor
+					//cb.setIdDelegacion("12");
+					//cb.setIdReceptor("24380");
+				cb.setIdDelegacion(adminData.getIdDelegacion());
+				cb.setIdReceptor(adminData.getIdReceptor());
+				
+	
 				BetElectronicFile befile = new BetElectronicFile();
 				befile.setCabecera(cb);
-
+	
 				RegistroBetElectronicFile[] registro = new RegistroBetElectronicFile[rdo.length];
-
+	
 				log.debug("numApuestas=" + rdo.length);
-
+	
 				MultiValueMap mhm = ordenarApuestas(rdo);
 				Set<String> keys = mhm.keySet();
 				int numBloquesPleno15 = keys.size();
@@ -920,7 +964,7 @@ public class AdminController {
 							registroBe.setPronostico15(StringUtils.right("" + k, 2));
 							registroBe.setPronosticoPartido(StringUtils.rightPad(pronosticoPartido.toString(), 112, ' '));
 							registro[indexBloquesTotal] = registroBe;
-
+	
 							pronosticoPartido = new StringBuffer();
 							numBloquesContador++;
 							indexBloquesTotal++;
@@ -935,30 +979,30 @@ public class AdminController {
 					registro[indexBloquesTotal] = registroBe;
 					indexBloquesTotal++;
 				}
-
+	
 				befile.setRegistro(registro);
-
+	
 				// check data round in create Round
 				// cb.setFechaJornada("010115");
 				Date dt = tmpRound.getDateRound();
 				DateFormat df = new SimpleDateFormat("ddMMyy");
 				String dtf = df.format(dt);
-
+	
 				cb.setFechaJornada(dtf);
 				cb.setNumJornada(StringUtils.leftPad("" + tmpRound.getRound(), 2, '0'));
 				cb.setNumTotalApuestas(StringUtils.leftPad("" + rdo.length, 6, '0'));
 				cb.setNumTotalBloques(StringUtils.leftPad("" + (indexBloquesTotal - 1), 6, '0'));
-
+	
 				log.debug(befile.getCabeceraString());
 				log.debug(befile.getRegistroString());
-
+	
 				responseString = befile.getCabeceraString() + "" + befile.getRegistroString();
-
+	
 				resp.setContentType("application/force-download");
 				resp.setHeader("Content-Disposition", "attachment; filename=\"ad243\"");
 				resp.getOutputStream().write((befile.getCabeceraString() + "" + befile.getRegistroString()).getBytes());
 				resp.flushBuffer();
-			}
+			}			
 
 		} catch (Exception e) {
 			response.addErrorDto("AdminController:getElectricFile", "SecurityException");

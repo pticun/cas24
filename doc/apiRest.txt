@@ -57,3 +57,5 @@ GET		/betDetail/{bet}/{reductionType}/{reduction}					BetDetailController		getBe
 
 GET		/myaccount/{id:.+}/{company}/automaticBets						AccountController		findAutomaticBets
 PUT		/myaccount/{id:.+}/{company}/automaticBets/{numBets}			AccountController		updateAutomaticBets
+
+GET		/season/{season}/round/{round}/getFile                         AdminController 		getElectricFile
