@@ -107,6 +107,7 @@ public class RolCompanyController {
 		return dto;
 	}
 
+
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody ResponseDto getAllCompanyRolForUser(@RequestBody UserAlterQ user, HttpServletResponse response) {
 		ResponseDto dto = new ResponseDto();

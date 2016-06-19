@@ -55,7 +55,7 @@ public class SendMailer {
 			
 			VelocityContext velocityContext = new VelocityContext();
 			velocityContext.put("nombreCompany", mailQueue.getCompany().getNick());
-			velocityContext.put("joinToLink", "");
+			velocityContext.put("joinToLink", joinToLink);
 			StringWriter stringWriter = new StringWriter();
 
 			template.merge(velocityContext, stringWriter);
