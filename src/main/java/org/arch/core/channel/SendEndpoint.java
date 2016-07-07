@@ -49,13 +49,14 @@ public class SendEndpoint {
      */
 	public void sendingJoinToCompany(GenericMessage<MailQueueDto> message) {
 		MailQueueDto mailQueue=  message.getPayload();
+		UserAlterQ user=mailQueue.getUser();
 		String joinToLink="";
 		if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
 			//para pruebas
-//			joinToLink = "http://localhost:8080/quinimobile/betDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
+			joinToLink = "http://localhost:8080/quinimobile/myaccount/"+user.getId()+"/rolcompany";
 		}
 		else{
-//			joinToLink = "http://www.quinigold.com/betDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
+			joinToLink = "http://www.quinigold.com/myaccount/"+user.getId()+"/rolcompany";
 		}
 		sendMailer.sendJoinToCompany(mailQueue,joinToLink);
 	}
