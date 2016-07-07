@@ -357,7 +357,9 @@ function getMainMenuItems(userLoged, user)
 	if (!superAdmin)
 	{
 		$('#menu-nav').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
-		$('#menu-nav').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
+//		$('#menu-nav').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
+		$('#menu-nav').append('<li><a href="' + sQuinielaRef + '"><img alt="Quiniela" style="background-color:white;vertical-align:middle;" src="/quinimobile/static/resources/_include/img/logo/logo_quiniela.png"/> </a></li>');
+//		$('#menu-nav').append('<li><a href="' + sQuinielaRef + '"><img alt="Quiniela" style="background-color:white;" src="<c:url value=\'/static/resources/_include/img/logo/logo_quiniela.png\'/>" /> </a></li>');
 	}
 	
 	if (userLoged){

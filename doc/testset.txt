@@ -1,0 +1,28 @@
+SET TEST
+1 - LOGIN
+	T1: Login usuario existente con password correcta
+	T2: Login usuario existente con password erronea
+	T3: Login usuario no existente
+	
+2 - LOGIN --> NUEVO USUARIO
+	T1: crear nuevo usuario
+	T2: crear usuario ya existente
+	T3: crear usuario menor de edad
+	T4: crear usuario sin aceptar conficiones legales
+	T5: crear usuario sin datos o datos incorrectos
+
+	
+3 - LOGIN --> RECORDAR PASSWORD OLVIDADA
+	T1: Recordar password usuario existente
+	T2: Recordar password usuario no existente
+	
+4 - MAIN MENU
+	T1: Confirmar Opciones sin usuario loginado
+	T2: Confirmar Opciones con usuario loginado
+
+5 - MAIN MENU - COMPANY
+	T1: Ver compañias asignadas
+	T2: Unirse a una nueva compañia
+	T3: Dejar una compañia
+	T4: Crear una compañia.
+	
