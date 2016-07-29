@@ -1,5 +1,7 @@
 package org.alterq.domain.test;
 
+import java.util.UUID;
+
 import org.alterq.domain.AdminData;
 import org.alterq.domain.Company;
 import org.alterq.domain.SequenceId;
@@ -22,6 +24,7 @@ import org.alterq.repo.impl.SessionAlterQDaoImpl;
 import org.alterq.repo.impl.UserAlterQDaoImpl;
 import org.alterq.util.enumeration.CompanyTypeEnum;
 import org.alterq.util.enumeration.SequenceNameEnum;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -61,7 +64,7 @@ public class PopulateDataBase {
 	@Autowired
 	private AdminDataDao adminDataDao;
 
-	@Test
+//	@Test
 	public void test00CreateCollection() throws Exception {
 		createCollectionAdmin();
 		createCollectionCompany();
@@ -75,8 +78,8 @@ public class PopulateDataBase {
 	}
 	@Test
 	public void test01Create() throws Exception {
-		createAdminData();
-		createCompanyData();
+//		createAdminData();
+//		createCompanyData();
 		createSequenceData();
 		return;
 	}
@@ -165,12 +168,16 @@ public class PopulateDataBase {
 	private void createSequenceData() {
 		SequenceId sequence=new SequenceId();
 		sequence.setId(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
-		sequence.setSequence(0);
+		sequence.setSequence("21");
 		sequenceDao.add(sequence);
 		SequenceId sequenceO=new SequenceId();
 		sequenceO.setId(SequenceNameEnum.SEQUENCE_OTHER.getValue());
-		sequenceO.setSequence(0);
+		sequenceO.setSequence("0");
 		sequenceDao.add(sequenceO);
+		SequenceId sequence1=new SequenceId();
+		sequence1.setId(SequenceNameEnum.SECRET_KEY.getValue());
+		sequence1.setSequence(StringUtils.remove(UUID.randomUUID().toString(), "-") );
+		sequenceDao.add(sequence1);
 	}
 
 }

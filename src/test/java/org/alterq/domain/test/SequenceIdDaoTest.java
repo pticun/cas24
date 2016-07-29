@@ -36,7 +36,7 @@ public class SequenceIdDaoTest {
 		if (null == bean) {
 			bean = new SequenceId();
 			bean.setId(SequenceNameEnum.SEQUENCE_COMPANY.getValue());
-			bean.setSequence(0);
+			bean.setSequence("0");
 			dao.add(bean);
 			log.debug("Create:" + bean.getId());
 		}

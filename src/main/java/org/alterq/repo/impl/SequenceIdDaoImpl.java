@@ -44,11 +44,19 @@ public class SequenceIdDaoImpl extends MongoCollection implements SequenceIdDao 
 	@Override
 	public int getNextSequenceId(String key) {
 		SequenceId bean = mongoTemplate.findById(key, SequenceId.class, COLLECTION_NAME);
-		int seq = bean.getSequence();
-		seq++;
-		bean.setSequence(seq);
+		String seq = bean.getSequence();
+		int seqInt=Integer.parseInt(seq);
+		seqInt++;
+		bean.setSequence(""+seqInt);
 		mongoTemplate.save(bean, COLLECTION_NAME);
-		return bean.getSequence();
+		return seqInt;
+	}
+
+	@Override
+	public String getSequenceId(String key) {
+		SequenceId bean = mongoTemplate.findById(key, SequenceId.class, COLLECTION_NAME);
+		String seq = bean.getSequence();
+		return seq;
 	}
 
 }
