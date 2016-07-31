@@ -7,10 +7,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class SequenceId implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8713100268923907075L;
+
 	@Id
 	private String id;
 
-	private int sequence;
+	private String sequence;
 
 	public String getId() {
 		return id;
@@ -20,11 +25,11 @@ public class SequenceId implements Serializable {
 		this.id = id;
 	}
 
-	public int getSequence() {
+	public String getSequence() {
 		return sequence;
 	}
 
-	public void setSequence(int sequence) {
+	public void setSequence(String sequence) {
 		this.sequence = sequence;
 	}
 

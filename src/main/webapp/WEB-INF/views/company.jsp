@@ -26,7 +26,12 @@
 		   <form id="joinCompanyForm">
 		   		<table class="tablaQuiniGold">
 		   			<tr align="center">
-						<td colspan="2">Unirse a --></td>
+						<td colspan="2">
+							<select id="selectActionRolCompany">
+								<option value="1">Unirse a --></option>
+								<option value="2">Borrarse de --></option>
+							</select>
+						</td>
 					</tr>
 			   		<tr>
 			   			<td>Grupo:</td>

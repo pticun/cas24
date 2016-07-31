@@ -140,6 +140,7 @@ public class RolCompanyController {
 				if(RolNameEnum.ROL_USER.getValue()== rolCompanyTemp.getRol()){
 					if (rolCompany.contains(rolCompanyTemp)){
 						rolCompany.remove(rolCompanyTemp);
+						log.debug("el usuario:"+userRetrieve.getId()+" se ha borrado(ROL_USER) de la company:"+rolCompanyTemp.getCompany());
 					}
 				}
 			}

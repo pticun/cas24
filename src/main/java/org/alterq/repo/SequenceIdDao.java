@@ -16,4 +16,6 @@ public interface SequenceIdDao {
 	public List<SequenceId> findAll();
 
 	public int getNextSequenceId(String key);
+
+	public String getSequenceId(String key);
 }

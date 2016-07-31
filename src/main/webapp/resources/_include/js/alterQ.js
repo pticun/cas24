@@ -710,29 +710,60 @@ $(document).ready(function() {
 		 var dataToSend = { "id":requestUserSession.idUserAlterQ,"rols":[{"company":companyTojoin,"rol":RolNameEnum.ROL_USER}]};
 		 consoleAlterQ('joinCompanyForm:'+JSON.stringify(dataToSend));
 		 $(joinCompanyResponse).show();
-
-		 jQuery.ajax ({
-			    url: ctx+'/myaccount/'+window.idUserAlterQ+'/rolcompany',
-			    type: "POST",
-			    data: JSON.stringify(dataToSend),
-			    contentType: "application/json; charset=utf-8",
-			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
-	            cache: false,    //This will force requested pages not to be cached by the browser  
-	            processData:false, //To avoid making query String instead of JSON
-			    success: function(response){
-		   		    if(response.errorDto!=0){
-		   		    	$(response.errorDto).each(function(index, objeto){  
-		   		    		$('#joinCompanyResponse').append(objeto.stringError+" - ");
-					    });
-		   		    }
-		   		    else{
-		   		    	$('#joinCompanyResponse').append("Te has unido a la company.");
-		   		    	consoleAlterQ('call to getCompanies to reload company combo');
-		   		    	window.loadCompanies=true;
-		   		    	getCompanies();
-		   		    }
-			    }
-			});
+		 
+		 var actionToCompany=$('#selectActionRolCompany option:selected').val();
+		 
+		 if (actionToCompany==1){
+			 //Unirse a -->
+			 jQuery.ajax ({
+				    url: ctx+'/myaccount/'+window.idUserAlterQ+'/rolcompany',
+				    type: "POST",
+				    data: JSON.stringify(dataToSend),
+				    contentType: "application/json; charset=utf-8",
+				    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+		            cache: false,    //This will force requested pages not to be cached by the browser  
+		            processData:false, //To avoid making query String instead of JSON
+				    success: function(response){
+			   		    if(response.errorDto!=0){
+			   		    	$(response.errorDto).each(function(index, objeto){  
+			   		    		$('#joinCompanyResponse').append(objeto.stringError+" - ");
+						    });
+			   		    }
+			   		    else{
+			   		    	$('#joinCompanyResponse').text("Te has unido a la company.");
+			   		    	consoleAlterQ('call to getCompanies to reload company combo');
+			   		    	window.loadCompanies=true;
+			   		    	getCompanies();
+			   		    }
+				    }
+				});
+		 }
+		 else{
+			 //borrarse de
+			 jQuery.ajax ({
+				    url: ctx+'/myaccount/'+window.idUserAlterQ+'/rolcompany',
+				    type: "DELETE",
+				    data: JSON.stringify(dataToSend),
+				    contentType: "application/json; charset=utf-8",
+				    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+		            cache: false,    //This will force requested pages not to be cached by the browser  
+		            processData:false, //To avoid making query String instead of JSON
+				    success: function(response){
+			   		    if(response.errorDto!=0){
+			   		    	$(response.errorDto).each(function(index, objeto){  
+			   		    		$('#joinCompanyResponse').append(objeto.stringError+" - ");
+						    });
+			   		    }
+			   		    else{
+			   		    	$('#joinCompanyResponse').text("Te has borrado de la company.");
+			   		    	consoleAlterQ('call to getCompanies to reload company combo');
+			   		    	window.loadCompanies=true;
+			   		    	getCompanies();
+			   		    }
+				    }
+				});
+			 
+		 }
 //		 showDiv(bHome);
 		 
 		 event.preventDefault(); // prevent actual form submit and page reload

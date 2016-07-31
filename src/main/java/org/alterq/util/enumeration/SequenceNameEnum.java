@@ -1,7 +1,10 @@
 package org.alterq.util.enumeration;
 
 public enum SequenceNameEnum {
-	SEQUENCE_COMPANY("sequenceCompany"),SEQUENCE_OTHER("otherSequence");
+	SEQUENCE_COMPANY("sequenceCompany"),
+	SEQUENCE_OTHER("otherSequence"),
+	SECRET_KEY("secretKey"),
+	;
  
 	private String value;
 

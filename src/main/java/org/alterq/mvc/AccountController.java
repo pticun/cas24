@@ -32,8 +32,6 @@ import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.integration.MessageChannel;
-import org.springframework.integration.message.GenericMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,8 +50,8 @@ public class AccountController {
 	private SessionAlterQDao sessionDao;
 	@Autowired
 	private RoundDao roundDao;
-//	@Autowired
-//	MessageChannel sendingChannel;
+	// @Autowired
+	// MessageChannel sendingChannel;
 	@Autowired
 	private UserAlterQSecurity userAlterQSecurity;
 	@Autowired
@@ -65,18 +63,16 @@ public class AccountController {
 	@Autowired
 	ProcessMailQueue processMailQueue;
 
-	
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id:.+}/update")
-	public @ResponseBody
-	ResponseDto updateUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id, @RequestBody UserAlterQ user) {
+	public @ResponseBody ResponseDto updateUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id, @RequestBody UserAlterQ user) {
 		ResponseDto dto = new ResponseDto();
 		try {
 			userAlterQValidator.isUserIdOk(user);
 			userAlterQSecurity.isSameUserInSession(id, cookieSession);
-			//we are modifying user data, so user always exists.
-			//userAlterQSecurity.existsUserAlterQ(user);
+			// we are modifying user data, so user always exists.
+			// userAlterQSecurity.existsUserAlterQ(user);
 			userAlterQSecurity.notExistsUserAlterQ(user);
-			
+
 			UserAlterQ userAlterQ = userDao.findById(id);
 			if (user.getNick() != null)
 				userAlterQ.setNick(user.getNick());
@@ -96,8 +92,8 @@ public class AccountController {
 				userAlterQ.setBirthday(dateFormatUtil.convertFormatDayToIsoTime(user.getBirthday()));
 			if (user.getCity() != null)
 				userAlterQ.setCity(user.getCity());
-//			if (StringUtils.isNumeric(new String("" + user.getAutomatics())))
-//				userAlterQ.setAutomatics(user.getAutomatics());
+			// if (StringUtils.isNumeric(new String("" + user.getAutomatics())))
+			// userAlterQ.setAutomatics(user.getAutomatics());
 			/*
 			 * if (user.getBalance() != null)
 			 * userAlterQ.setBalance(user.getBalance());
@@ -114,8 +110,7 @@ public class AccountController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/forgotPwd")
-	public @ResponseBody
-	ResponseDto forgotPwd(@RequestBody UserAlterQ user) {
+	public @ResponseBody ResponseDto forgotPwd(@RequestBody UserAlterQ user) {
 		if (log.isDebugEnabled()) {
 			log.debug("init AccountController.forgotPwd");
 			log.debug("user.getId:" + user.getId());
@@ -126,15 +121,15 @@ public class AccountController {
 		UserAlterQ userAlterQ = userDao.findById(user.getId());
 		ResponseDto dto = new ResponseDto();
 		if (userAlterQ != null) {
-//			String pwd = RandomStringUtils.random(10, true, true);
-			MailQueueDto mailDto=new MailQueueDto();
+			// String pwd = RandomStringUtils.random(10, true, true);
+			MailQueueDto mailDto = new MailQueueDto();
 			mailDto.setUser(userAlterQ);
 			mailDto.setType(QueueMailEnum.Q_FORGOTMAIL);
 
 			processMailQueue.process(mailDto);
-			
-//			userAlterQ.setPwd(pwd);
-//			userDao.save(userAlterQ);
+
+			// userAlterQ.setPwd(pwd);
+			// userDao.save(userAlterQ);
 
 			ErrorDto error = new ErrorDto();
 			error.setIdError("KO sendmail");
@@ -151,31 +146,30 @@ public class AccountController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody
-	ResponseDto createUserAlterQ(@RequestBody UserAlterQ user, HttpServletResponse response) {
+	public @ResponseBody ResponseDto createUserAlterQ(@RequestBody UserAlterQ user, HttpServletResponse response) {
 		if (log.isDebugEnabled()) {
 			log.debug("init AccountController.createUserAlterQ");
 			log.debug("user.getId:" + user.getId());
 		}
 		ResponseDto dto = new ResponseDto();
 		try {
-			//TODO check company validator
+			// TODO check company validator
 			userAlterQValidator.createUserAlterQ(user);
 			userAlterQSecurity.existsUserAlterQ(user);
 			user.setActive(true);
 			user.setBalance("0");
 			user.setDateCreated(new Date());
 			user.setDateUpdated(new Date());
-			//At this moment user belongs defect conpany
-			List<RolCompany> rcL=new ArrayList<RolCompany>();
-			RolCompany rc=new RolCompany();
+			// At this moment user belongs defect conpany
+			List<RolCompany> rcL = new ArrayList<RolCompany>();
+			RolCompany rc = new RolCompany();
 			rc.setCompany(AlterQConstants.DEFECT_COMPANY);
-//			if(StringUtils.isBlank(""+user.getCompany())){
-//				rc.setCompany(AlterQConstants.DEFECT_COMPANY);
-//			}
-//			else{
-//				rc.setCompany(user.getCompany());
-//			}
+			// if(StringUtils.isBlank(""+user.getCompany())){
+			// rc.setCompany(AlterQConstants.DEFECT_COMPANY);
+			// }
+			// else{
+			// rc.setCompany(user.getCompany());
+			// }
 			rc.setRol(RolNameEnum.ROL_ADMIN.getValue());
 			rcL.add(rc);
 			user.setRols(rcL);
@@ -184,7 +178,7 @@ public class AccountController {
 			String sessionID = sessionDao.startSession(user.getId());
 			log.debug("Session ID is:" + sessionID);
 			response.addCookie(new Cookie("session", sessionID));
-		}catch (AlterQException ex){
+		} catch (AlterQException ex) {
 			dto.addErrorDto(ex.getErrorDto());
 			log.error(ExceptionUtils.getStackTrace(ex));
 		} catch (Exception e) {
@@ -197,20 +191,19 @@ public class AccountController {
 
 		return dto;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST, value = "/{id:.+}/{oldpwd}/{newpwd}/newPwd")
-	public @ResponseBody
-	ResponseDto newPasswordUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id, @PathVariable String oldpwd, @PathVariable String newpwd) {
+	public @ResponseBody ResponseDto newPasswordUserAlterQ(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable String id, @PathVariable String oldpwd, @PathVariable String newpwd) {
 		ResponseDto dto = new ResponseDto();
 		try {
-		
+
 			userAlterQSecurity.isSameUserInSession(id, cookieSession);
 
 			UserAlterQ userAlterQ = userDao.findById(id);
-			
+
 			if (userAlterQ.getPwd().equals(oldpwd))
 				userAlterQ.setPwd(newpwd);
-			else{
+			else {
 				ErrorDto error = new ErrorDto();
 				error.setIdError(MessageResourcesNameEnum.USER_PASSWORD_ERROR);
 				error.setStringError("La password antigua no coincide");
@@ -219,7 +212,6 @@ public class AccountController {
 				return dto;
 			}
 
-			
 			userAlterQ.setDateUpdated(new Date());
 			userDao.save(userAlterQ);
 			dto.setUserAlterQ(userAlterQ);
@@ -230,21 +222,19 @@ public class AccountController {
 
 		return dto;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/{id:.+}/{company}/automaticBets")
-	public @ResponseBody
-	ResponseDto findAutomaticBets(@PathVariable String id, @PathVariable int company) {
+	public @ResponseBody ResponseDto findAutomaticBets(@PathVariable String id, @PathVariable int company) {
 		ResponseDto dto = new ResponseDto();
-		UserAlterQ userAlterQ = null; 
+		UserAlterQ userAlterQ = null;
 		try {
 			userAlterQ = userDao.findById(id);
 			List<Bet> specialBets = userDao.getSpecialBetsForCompany(id, company);
-			
-			if ((specialBets!=null) && (!specialBets.isEmpty())){
-				
+
+			if ((specialBets != null) && (!specialBets.isEmpty())) {
+
 				userAlterQ.setSpecialBets(specialBets);
-			}
-			else{
+			} else {
 				Bet bet = new Bet();
 				bet.setId(new ObjectId().toHexString());
 				bet.setCompany(company);
@@ -254,41 +244,38 @@ public class AccountController {
 				bet.setDateCreated(new Date());
 				bet.setDateUpdated(new Date());
 				bet.setTypeReduction(0);
-				
-				
+
 				List<Bet> betL = userAlterQ.getSpecialBets();
 				if (betL == null)
 					betL = new ArrayList<Bet>();
-				
+
 				betL.add(bet);
-				
+
 				userAlterQ.setSpecialBets(betL);
 				userDao.save(userAlterQ);
 			}
-			
+
 		} catch (Exception ex) {
-			//dto.addErrorDto(ex.getErrorDto());
+			// dto.addErrorDto(ex.getErrorDto());
 			log.error(ExceptionUtils.getStackTrace(ex));
 		}
-		
+
 		dto.setUserAlterQ(userAlterQ);
 
 		return dto;
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/{id:.+}/{company}/automaticBets/{numBets}")
-	public @ResponseBody
-	ResponseDto updateAutomaticBets(@PathVariable String id, @PathVariable int company, @PathVariable int numBets) {
+	public @ResponseBody ResponseDto updateAutomaticBets(@PathVariable String id, @PathVariable int company, @PathVariable int numBets) {
 		ResponseDto dto = new ResponseDto();
-		UserAlterQ userAlterQ = null; 
+		UserAlterQ userAlterQ = null;
 		try {
 			userAlterQ = userDao.findById(id);
 			List<Bet> specialBets = userAlterQ.getSpecialBets();
-			
-			if ((specialBets!=null) && (!specialBets.isEmpty())){
+
+			if ((specialBets != null) && (!specialBets.isEmpty())) {
 				userDao.updateCompanyAutomaticBet(id, company, numBets);
-			}
-			else{
+			} else {
 				Bet bet = new Bet();
 				bet.setId(new ObjectId().toHexString());
 				bet.setCompany(company);
@@ -298,19 +285,19 @@ public class AccountController {
 				bet.setDateCreated(new Date());
 				bet.setDateUpdated(new Date());
 				bet.setTypeReduction(0);
-				
+
 				ArrayList<Bet> betL = new ArrayList<Bet>();
 				betL.add(bet);
-				
+
 				userAlterQ.setSpecialBets(betL);
 				userDao.save(userAlterQ);
 			}
-			
+
 		} catch (Exception ex) {
-			//dto.addErrorDto(ex.getErrorDto());
+			// dto.addErrorDto(ex.getErrorDto());
 			log.error(ExceptionUtils.getStackTrace(ex));
 		}
-		
+
 		dto.setUserAlterQ(userAlterQ);
 
 		return dto;

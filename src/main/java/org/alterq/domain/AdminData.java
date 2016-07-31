@@ -7,6 +7,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class AdminData implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7204921656895559304L;
+
 	@Id
 	private String id;
 	
