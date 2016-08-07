@@ -22,6 +22,8 @@ var bCompany = 18;
 var bMyAdminCompany = 19;
 var bNewPassword = 20;
 var bCompanyMgr = 21;
+var bMyCompanyOptions = 22;
+var bPublicCompaniesOptions = 23;
 
 //Texts
 var sHome    = "Inicio";
@@ -40,6 +42,8 @@ var sConfirmedQuiniela = "";
 var sModalReduced ="";
 var sCompany ="";
 var sCompanyDefault ="QuiniGoldClassic";
+var sMyCompanyOptions = "";
+var sPublicCompaniesOptions = "";
 
 //Refs
 var sHomeRef = "#homeDiv";
@@ -67,6 +71,8 @@ var sCompanyRef ="#myCompanyDiv";
 var sCompanyMgrRef ="#myCompanyMgrDiv";
 var sMyAdminCompanyRef = "adminCompany";
 var sNewPasswordRef = "#newPasswordDiv";
+var sMyCompanyOptionsRef = "#myCompanyOptions";
+var sPublicCompaniesOptionsRef ="#publicCompanyOptions";
 
 var buttonpressed;
 
@@ -112,7 +118,9 @@ function initDiv() {
 	$(sCompanyRef).hide();
 	$(sNewPasswordRef).hide();
 	$(sCompanyMgrRef).hide();
-	$(joinCompanyResponse).hide();
+//	$(joinCompanyResponse).hide();
+	$(sMyCompanyOptionsRef).hide();
+	$(sPublicCompaniesOptionsRef).hide();
 	
 	
 	
@@ -160,9 +168,11 @@ function showDiv(elem) {
 		$(sMyBalanceRef).show();
 		break;
 	case bMyBets:
+		$(sMyCompanyOptionsRef).modal('hide');
 		$(sMyBetsRef).show();
 		break;
 	case bMyRank:
+		$(sMyCompanyOptionsRef).modal('hide');
 		$(sMyRankingRef).show();
 		break;
 	case bMyResum:
@@ -202,6 +212,9 @@ function showDiv(elem) {
 		break;
 	case bNewPassword:
 		$(sNewPasswordRef).show();
+		break;
+	case bMyCompanyOptions:
+		$(sMyCompanyOptionsRef).show();
 		break;
 	}
 
@@ -268,6 +281,9 @@ function showDiv(elem) {
 		break;
 	case bNewPassword:
 		$(sNewPasswordRef).hide();
+		break;
+	case bMyCompanyOptions:
+		$(sMyCompanyOptionsRef).hide();
 		break;
 		
 	}
@@ -367,11 +383,13 @@ function getMainMenuItems(userLoged, user)
 			$('#menu-nav').append('<li><a href="' + sMyAdminRef + '">' + sAdmin + '</a></li>');
 		else{
 			$('#menu-nav').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
-			if (companySelected){
+/*			if (companySelected){
 				$('#menu-nav').append('<li><a href="' + sCompanyRef + '">['+sCompany+']</a></li>');
 			}else{
 				$('#menu-nav').append('<li><a href="' + sCompanyRef + '">['+sCompanyDefault+']</a></li>');
 			}
+*/			
+			$('#menu-nav').append('<li><a href="' + sCompanyRef + '">GRUPOS</a></li>');
 			if (admin)
 				$('#menu-nav').append('<li><a id="anchorToAdmin" href="' + sMyAdminCompanyRef + '">' + sAdminCompany + '</a></li>');
 
@@ -398,11 +416,13 @@ function getMainMenuItems(userLoged, user)
 			$('#menu-nav-mobile').append('<li><a href="' + sMyAdminRef + '">' + sAdmin + '</a></li>');
 		else{
 			$('#menu-nav-mobile').append('<li><a href="' + sMyaccountRef + '">' + user + '</a></li>');
-			if (companySelected){
+/*			if (companySelected){
 				$('#menu-nav-mobile').append('<li><a href="' + sCompanyRef + '">['+sCompany+']</a></li>');
 			}else{
 				$('#menu-nav-mobile').append('<li><a href="' + sCompanyRef + '">['+sCompanyDefault+']</a></li>');
 			}
+*/			
+			$('#menu-nav-mobile').append('<li><a href="' + sCompanyRef + '">GRUPOS</a></li>');
 		}
 		$('#menu-nav-mobile').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');
 	}
@@ -463,6 +483,7 @@ $(document).ready(function() {
 	
 	
 	//Paint Main Menu Items
+	consoleAlterQ("Menu: pintamos los elementos del menu");
 	getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
     
 	//Menu Click Events
@@ -698,7 +719,11 @@ $(document).ready(function() {
 	
 	 $('form#myCompanyForm').submit(function( event ) {
    		 var dataJson=JSON.stringify($('form#myCompanyForm').serializeObject());
-   		 showDiv(bHome);
+   		 //showDiv(bHome);
+//   		 var submit = $(this.id).context.activeElement;
+//		 consoleAlterQ("Company: "+submit.value);
+//		 window.company=submit.value;
+//		 requestUserSession.company =window.company;
    		 consoleAlterQ('updateDataJsonAlterQ:'+dataJson);
 		event.preventDefault(); // prevent actual form submit and page reload
    	 });
@@ -768,6 +793,8 @@ $(document).ready(function() {
 		 
 		 event.preventDefault(); // prevent actual form submit and page reload
 	 });
+	 
+	 
 	 //create company
 	 $('form#adminCompanyForm').submit(function( event ) {
 		 var dataJson=JSON.stringify($('form#adminCompanyForm').serializeObject());
@@ -850,6 +877,84 @@ $(document).ready(function() {
 		updateAutomaticBets();
 		event.preventDefault(); // prevent actual form submit and page reload
     });
+	$("#myQuiniela").on('click', function( event ){
+		$(sMyCompanyOptionsRef).modal('hide');
+		menuEvent("QUINIELA",  "#quinielaDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
+	$("#myDejarGr").on('click', function( event ){
+		consoleAlterQ("myDejarGr: click");
+		$(sMyCompanyOptionsRef).modal('hide');
+		 
+		 var dataJson=JSON.stringify($('form#leaveCompanyForm').serializeObject());
+		 var dataToSend = { "id":requestUserSession.idUserAlterQ,"rols":[{"company":window.company,"rol":RolNameEnum.ROL_USER}]};
+		 consoleAlterQ('leaveCompanyForm:'+JSON.stringify(dataToSend));
+		 $(joinCompanyResponse).show();
+		 
+		 //borrarse de
+		 jQuery.ajax ({
+			    url: ctx+'/myaccount/'+window.idUserAlterQ+'/rolcompany',
+			    type: "DELETE",
+			    data: JSON.stringify(dataToSend),
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=0){
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		$('#joinCompanyResponse').append(objeto.stringError+" - ");
+					    });
+		   		    }
+		   		    else{
+		   		    	$('#joinCompanyResponse').text("Te has borrado de la company.");
+		   		    	consoleAlterQ('call to getCompanies to reload company combo');
+		   		    	window.loadCompanies=true;
+		   		    	getCompanies();
+		   		    }
+			    }
+			});
+		 
+		 event.preventDefault(); // prevent actual form submit and page reload
+    });
+	
+	$("#myUnirGr").on('click', function( event ){
+		consoleAlterQ("myUnirGr: click");
+		$(sPublicCompaniesOptionsRef).modal('hide');
+		 
+		 var dataJson=JSON.stringify($('form#leaveCompanyForm').serializeObject());
+		 var dataToSend = { "id":requestUserSession.idUserAlterQ,"rols":[{"company":window.company,"rol":RolNameEnum.ROL_USER}]};
+		 consoleAlterQ('leaveCompanyForm:'+JSON.stringify(dataToSend));
+		 $(joinCompanyResponse).show();
+
+		 jQuery.ajax ({
+			    url: ctx+'/myaccount/'+window.idUserAlterQ+'/rolcompany',
+			    type: "POST",
+			    data: JSON.stringify(dataToSend),
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=0){
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		$('#joinCompanyResponse').append(objeto.stringError+" - ");
+					    });
+		   		    }
+		   		    else{
+		   		    	$('#joinCompanyResponse').text("Te has unido a la company.");
+		   		    	consoleAlterQ('call to getCompanies to reload company combo');
+		   		    	window.loadCompanies=true;
+		   		    	getCompanies();
+		   		    }
+			    }
+			});
+		 
+		 event.preventDefault(); // prevent actual form submit and page reload
+    });
+	
+	
+	
 	//myBetsAutomBtn
   	
 //   	$( "#rankingSelect" ).on( "click", "a", function( event ) {
@@ -906,6 +1011,11 @@ $(document).ready(function() {
 		showDiv(bMyBets);
 		event.preventDefault(); // prevent actual form submit and page reload
 	});
+
+	$('form#MyCompanyForm button#MyCompany_btn').click(function() {
+		 buttonpressed = $('form#MyCompanyForm button#MyCompany_btn').val();
+		 consoleAlterQ("buttonpressed: "+buttonpressed);
+		});
 	
 });
 
@@ -1044,7 +1154,21 @@ function consoleAlterQ(text){
 	}
 
 }
+function openPubicCompaniesModal(company, name) {
+	consoleAlterQ('openPubicCompaniesModal: company'+company);
+	window.company=company;
+	requestUserSession.company =window.company;
+	sCompany = name;
+	$(sPublicCompaniesOptionsRef).modal('show');
+}
 
+function openCompanyModal(company, name) {
+	consoleAlterQ('openCompanyModal: company'+company);
+	window.company=company;
+	requestUserSession.company =window.company;
+	sCompany = name;
+	$(sMyCompanyOptionsRef).modal('show');
+}
 function getCompanies(){
 	consoleAlterQ('getCompanies');
 	consoleAlterQ(loadCompanies);
@@ -1055,8 +1179,10 @@ function getCompanies(){
 		
 		//delete combo company
 //		 $("#companyToChoose option:selected").remove();
-		 $("#companyToChoose").empty();
-		 $("#companyToChoosePublic").empty();
+		 //$("#companyToChoose").empty();
+		 //$("#companyToChoosePublic").empty();
+		 $("#MisGrBtns").empty();
+		 $("#PublicGrBtns").empty();
 		
 	   		consoleAlterQ('url:'+ctx+'/company/myaccount/'+ window.idUserAlterQ+'/');  		
 			jQuery.ajax ({
@@ -1070,23 +1196,30 @@ function getCompanies(){
 			    success: function(response){
 				    if(response.errorDto!=0){
 						consoleAlterQ('Success: no hay companies');
-						$('#companyToChoose').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
+//						$('#companyToChoose').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
+						$('#MisGrBtns').append('<button onClick="openCompanyModal('+ window.DEFECT_COMPANY +',\'QuiniGold\')" id="MyCompany_btn" class="btn btn-danger" name="submitBtn" value="'+window.DEFECT_COMPANY+'">QuiniGold</button><br><br>')
+						
 						window.loadCompanies=true;
 				    }
 				    else{
 				    	var responseCompanyOrder = [];
 				    	responseCompanyOrder = jQuery.unique($(response.company));
+				    	$('#MisGrBtns').append('<br>');
 						$(responseCompanyOrder).each(function(index, element){
 							console.log("index="+index+"-id="+element.id + "-company="+element.company+"-nick="+element.nick);
 							if (element.company!=window.DEFECT_COMPANY){
-								$('#companyToChoose').append('<option value="'+element.company+'">'+element.nick+'</option>');
+//								$('#companyToChoose').append('<option value="'+element.company+'">'+element.nick+'</option>');
+//								$('#MisGrBtns').append('<button data-toggle="modal" data-target="#myCompanyOptions" id="MyCompany_btn" class="btn btn-danger" name="submitBtn" value="'+element.company+'">'+element.nick+'</button><br><br>')
+								$('#MisGrBtns').append('<button onClick="openCompanyModal('+ element.company +',\'' + element.nick + '\')" id="MyCompany_btn" class="btn btn-danger" name="submitBtn" value="'+element.company+'">'+element.nick+'</button><br><br>')
 							}
+							
 						});
 				    }
 			    },
 			    error : function (xhr, textStatus, errorThrown) {
 					consoleAlterQ('Error: no hay companies');
-					$('#companyToChoose').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
+//					$('#companyToChoose').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
+					$('#MisGrBtns').append('<button onClick="openCompanyModal('+ window.DEFECT_COMPANY +',\'QuiniGold\')" id="MyCompany_btn" class="btn btn-danger" name="submitBtn" value="'+window.DEFECT_COMPANY+'">QuiniGold</button><br><br>')
 					window.loadCompanies=true;
 	            }
 		 });
@@ -1103,23 +1236,28 @@ function getCompanies(){
 			    success: function(response){
 				    if(response.errorDto!=0){
 						consoleAlterQ('Success: no hay companies');
-						$('#companyToChoosePublic').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
+//						$('#companyToChoosePublic').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
+						$('#PublicGrBtns').append('<button onClick="openCompanyModal('+ window.DEFECT_COMPANY +',\'QuiniGold\')" id="MyCompany_btn" class="btn btn-danger" name="submitBtn" value="'+window.DEFECT_COMPANY+'">QuiniGold</button><br><br>')
 						window.loadCompanies=true;
 				    }
 				    else{
 				    	var responseCompanyOrder = [];
 				    	responseCompanyOrder = jQuery.unique($(response.company));
+				    	$('#PublicGrBtns').append('<br>');
 						$(responseCompanyOrder).each(function(index, element){
 							console.log("index="+index+"-id="+element.id + "-company="+element.company+"-nick="+element.nick);
 							if (element.company!=window.DEFECT_COMPANY){
-								$('#companyToChoosePublic').append('<option value="'+element.company+'">'+element.nick+'</option>');
+//								$('#companyToChoosePublic').append('<option value="'+element.company+'">'+element.nick+'</option>');
+								$('#PublicGrBtns').append('<button onClick="openPubicCompaniesModal('+ element.company +',\'' + element.nick + '\')" id="MyCompany_btn" class="btn btn-danger" name="submitBtn" value="'+element.company+'">'+element.nick+'</button><br><br>')
 							}
 						});
 				    }
 			    },
 			    error : function (xhr, textStatus, errorThrown) {
 					consoleAlterQ('Error: no hay companies');
-					$('#companyToChoosePublic').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
+					//$('#companyToChoosePublic').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
+					$('#PublicGrBtns').append('<button onClick="openCompanyModal('+ window.DEFECT_COMPANY +',\'QuiniGold\')" id="MyCompany_btn" class="btn btn-danger" name="submitBtn" value="'+window.DEFECT_COMPANY+'">QuiniGold</button><br><br>')
+					
 					window.loadCompanies=true;
 	            }
 		 });
