@@ -136,6 +136,8 @@
 					<br>
 		  			<button id="myQuiniela" type="button" class="btn btn-danger btn-block">Mi Quiniela</button>
 					<br>
+		  			<button id="myAdminGr" type="button" class="btn btn-danger btn-block">Admin Grupo</button>
+					<br>
 					<form id="leaveCompanyForm">
 		  			<button id="myDejarGr" type="button" class="btn btn-danger btn-block">Dejar Grupo</button>
 		  			</form>

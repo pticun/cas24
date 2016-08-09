@@ -729,7 +729,7 @@ $(document).ready(function() {
    	 });
 
 	 //join to company
-	 $('form#joinCompanyForm').submit(function( event ) {
+/*	 $('form#joinCompanyForm').submit(function( event ) {
 		 var dataJson=JSON.stringify($('form#joinCompanyForm').serializeObject());
 		 var companyTojoin=$('#companyToChoosePublic option:selected').val();
 		 var dataToSend = { "id":requestUserSession.idUserAlterQ,"rols":[{"company":companyTojoin,"rol":RolNameEnum.ROL_USER}]};
@@ -792,7 +792,7 @@ $(document).ready(function() {
 //		 showDiv(bHome);
 		 
 		 event.preventDefault(); // prevent actual form submit and page reload
-	 });
+	 });*/
 	 
 	 
 	 //create company
@@ -952,6 +952,12 @@ $(document).ready(function() {
 		 
 		 event.preventDefault(); // prevent actual form submit and page reload
     });
+
+	$("#myAdminGr").on('click', function( event ){
+		$(sMyCompanyOptionsRef).modal('hide');
+		menuEvent("ADMIN GRUPO",  sMyAdminCompanyRef);
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
 	
 	
 	
@@ -981,7 +987,7 @@ $(document).ready(function() {
    		event.preventDefault(); // prevent actual form submit and page reload
    	});
    	
-	$('#companyToChoose').on('change', function() {
+/*	$('#companyToChoose').on('change', function() {
 		window.company=this.value;
 		requestUserSession.company =window.company;
 		sCompany = $(this).find(":selected").text();
@@ -1003,7 +1009,7 @@ $(document).ready(function() {
 		window.loadBetUser = true;
 		consoleAlterQ("loadBetUser: TRUE");
 		cleanUserBets();
-	});
+	});*/
 	
 	$('form#detalleUserBetForm').submit(function( event ) {
 		consoleAlterQ("Mybets Btn");
@@ -1167,6 +1173,37 @@ function openCompanyModal(company, name) {
 	window.company=company;
 	requestUserSession.company =window.company;
 	sCompany = name;
+	
+	window.companySelected = true;
+	consoleAlterQ('vamos a repintar el menu');
+	window.admin = false;
+	window.superAdmin = false;
+	//if company == 0 (defect company) all user are admin 
+	if (window.company!= window.DEFECT_COMPANY){
+		window.admin = window.rols.some(function(boy) { return hasRolCompanyValue(boy, 100, window.company); });
+	}
+	window.superAdmin = window.rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, window.DEFECT_COMPANY); });
+
+	consoleAlterQ("Admin:"+window.admin);
+	consoleAlterQ("superAdmin:"+window.superAdmin);
+	consoleAlterQ("company="+window.company);
+	
+	if (window.admin){
+		$('#myAdminGr').show();
+		$('#myDejarGr').hide();
+	}
+	else{
+		$('#myAdminGr').hide();
+		$('#myDejarGr').show();
+	}
+		
+	//De momento no repintamos el menu
+	//getMainMenuItems(true, $('#nameData').val());
+	window.loadBetUser = true;
+	consoleAlterQ("loadBetUser: TRUE");
+	cleanUserBets();
+
+	
 	$(sMyCompanyOptionsRef).modal('show');
 }
 function getCompanies(){
