@@ -177,7 +177,8 @@ $(document).ready(function() {
 });
 
 $("#homeBtn").on('click', function(event){
-	menuEvent($(this).text(),  "home");
+	//menuEvent($(this).text(),  "home");
+	window.location = ("home");
 	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#quinielaFinalBtn").on('click', function(event){
