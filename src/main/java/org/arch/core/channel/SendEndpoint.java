@@ -18,11 +18,14 @@ package org.arch.core.channel;
 
 import java.util.List;
 
+import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
 import org.alterq.domain.Prize;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
+import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.MailQueueDto;
+import org.alterq.repo.AdminDataDao;
 import org.apache.commons.lang3.StringUtils;
 import org.arch.core.mail.SendMailer;
 import org.arch.core.util.CoreUtils;
@@ -43,6 +46,9 @@ public class SendEndpoint {
     final Logger logger = LoggerFactory.getLogger(SendEndpoint.class);
 	@Autowired
 	SendMailer sendMailer;
+	
+	@Autowired
+	private AdminDataDao adminDataDao;	
 
     /**
      * Process a delivery order for sending by mail.
@@ -128,7 +134,14 @@ public class SendEndpoint {
 		int numBets=0;
 		String linkBet="a cambbiar";
 		
+		AdminData ad = adminDataDao.findById(AlterQConstants.DEFECT_COMPANY);
+		float priceBet = ad.getPrizeBet();
+		
 		Bet bet = roundBet.getBets().get(0);
+		
+		betID = "ID" + bet.getId().toUpperCase();
+		
+		numBets = (int) ((int) roundBet.getPrice() / priceBet);
 		
 		if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
 			//para pruebas

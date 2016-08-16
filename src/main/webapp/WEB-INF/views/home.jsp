@@ -347,9 +347,13 @@ End Analytics -->
         <p class="modal-title" id="myModalLabel">Condiciones Legales</p>
       </div>
       <div class="modal-body">
-			Condiciones de uso de los servicios  
-<p>1.1. Aceptaci&oacute;n y disponibilidad de las CGU</p>  
-<p>El usuario declara que acepta la vinculaci&oacute;n de este acuerdo y que entiende y acepta totalmente las presentes CGU establecidas en el presente documento para la utilizaci&oacute;n de los servicios prestados en <strong>LA WEB</strong>. La no aceptaci&oacute;n de las presentes CGU impedir&aacute; la utilizaci&oacute;n de los servicios ofrecidos en <strong>LA WEB</strong>.</p>  
+			Condiciones Legales
+<p>
+Al acceder o utilizar los servicios o informacion de www.quinigold.com acepto las siguientes Condiciones Generales de Uso.
+Para poder acceder a los servicios ofertados se requiere ser mayor de edad.
+</p>  
+<p>1.1. Aceptaci&oacute;n y disponibilidad de las Condiciones Generales de Uso</p>  
+<p>El usuario declara que acepta la vinculaci&oacute;n de este acuerdo y que entiende y acepta totalmente las presentes Condiciones Generales de Uso establecidas en el presente documento para la utilizaci&oacute;n de los servicios prestados en <strong>LA WEB</strong>. La no aceptaci&oacute;n de las presentes CGU impedir&aacute; la utilizaci&oacute;n de los servicios ofrecidos en <strong>LA WEB</strong>.</p>  
 
       </div>
       <div class="modal-footer">
