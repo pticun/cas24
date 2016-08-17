@@ -57,6 +57,7 @@ var sLogoutRef = "#logoutDiv";
 var sMyDataRef = "#mydataDiv";
 var sMyBalanceRef = "#mybalanceDiv";
 var sMyBetsRef = "#mybetsDiv";
+var sMyOwnBetsRef = "#myOwnBetsDiv";
 var sMyRankingRef = "#myrankingDiv";
 var sMyRankRef = "#myRankDiv";
 var sMyResumRef = "#myResumDiv";
@@ -330,6 +331,11 @@ function menuEvent(name, href)
 		showDiv(bMyBalance);
 	}else if (href == sMyBetsRef){
 		consoleAlterQ("Mybets");
+		getUserBets();
+		showDiv(bMyBets);
+	}else if (href == sMyOwnBetsRef){
+		consoleAlterQ("MyOwnbets");
+		window.company = 0;
 		getUserBets();
 		showDiv(bMyBets);
 	}else if (href == sMyRankingRef){
@@ -844,7 +850,11 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
    });
 	$("#myBetsBtn").click(function( event ){
-		menuEvent($(this).text(), "#mybetsDiv");
+//		menuEvent($(this).text(), "#mybetsDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
+	$("#myOwnBetsBtn").click(function( event ){
+		menuEvent($(this).text(), "#myOwnBetsDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
     });
 	$("#myRankingBtn").click(function( event ){
