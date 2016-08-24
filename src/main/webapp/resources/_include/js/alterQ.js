@@ -752,7 +752,9 @@ $(document).ready(function() {
    	 });
 
 	 //join to company
-/*	 $('form#joinCompanyForm').submit(function( event ) {
+
+	 $('form#joinCompanyForm').submit(function( event ) {
+		 /*
 		 var dataJson=JSON.stringify($('form#joinCompanyForm').serializeObject());
 		 var companyTojoin=$('#companyToChoosePublic option:selected').val();
 		 var dataToSend = { "id":requestUserSession.idUserAlterQ,"rols":[{"company":companyTojoin,"rol":RolNameEnum.ROL_USER}]};
@@ -813,9 +815,9 @@ $(document).ready(function() {
 			 
 		 }
 //		 showDiv(bHome);
-		 
+		 */
 		 event.preventDefault(); // prevent actual form submit and page reload
-	 });*/
+	 });
 	 
 	 
 	 //create company
@@ -1200,6 +1202,7 @@ function openPubicCompaniesModal(company, name) {
 	
 	consoleAlterQ('antes Show Modal');
 	$(sPublicCompaniesOptionsRef).modal('show');
+	
 }
 
 function openCompanyModal(company, name) {

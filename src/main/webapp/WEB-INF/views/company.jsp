@@ -140,7 +140,7 @@
 		  			<button id="myAdminGr" type="button" class="btn btn-danger btn-block">Admin Grupo</button>
 					<br>
 					<form id="leaveCompanyForm">
-		  			<button id="myDejarGr" type="button" class="btn btn-danger btn-block">Dejar Grupo</button>
+		  				<button id="myDejarGr" type="button" class="btn btn-danger btn-block">Dejar Grupo</button>
 		  			</form>
 					<br>
       			</td>
@@ -168,7 +168,7 @@
       			<td align="center">
 					<br>
 					<form id="joinCompanyForm">
-		  			<button id="myUnirGr" type="button" class="btn btn-danger btn-block">Unirse al Grupo</button>
+		  				<button id="myUnirGr" type="button" class="btn btn-danger btn-block">Unirse al Grupo</button>
 		  			</form>
 					<br>
       			</td>
