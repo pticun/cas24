@@ -263,11 +263,14 @@ function getQuiniela(){
 				    }
 				    else if (response.round!=null){
 				    	consoleAlterQ('response.errorDto==0 && response.round!=null');
+				    	consoleAlterQ('sCompany='+sCompany);
 						$('#quinielaTitle').text("Jornada "+ response.round.round+ " Temporada "+response.round.season+"/"+(response.round.season+1-2000));
 					    $('#quinielaTable').append('<input type="hidden" name="season" id="season" value="'+ response.round.season+'"/>');       
 					    $('#quinielaTable').append('<input type="hidden" name="round" id="round" value="'+ response.round.round+'"/>');       
 						var temp= "Jorn"+ ((response.round.round<9)?'0'+response.round.round:response.round.round) + "  Temp "+ (response.round.season - 2000)+"/"+(response.round.season + 1 - 2000);
-					    $('#quinielaTable').append('<tr align="center id="rowBetTitle"><td>'+ temp +' - APUESTA</tr>');       
+					    $('#quinielaTable').append('<tr align="center" id="rowBetTitle"><td>'+ temp +' - APUESTA</tr>');
+					    temp ='['+((sCompany == '')?sCompanyDefault:sCompany)+']';
+					    $('#quinielaTable').append('<tr align="center" id="rowBetTitle"><td>'+ temp +'</tr>');
 					    $('#quinielaTableRec').append('<tr align="center id="rowBetTitleRec"><td>&nbsp</td></tr>');       
 						$(response.round.games).each(function(index, element){  
 							consoleAlterQ(element);
@@ -402,7 +405,8 @@ function getQuiniela(){
 							$('#quinielaTableReduced').hide();
 						if (window.quinielaFinal){
 							$('#quinielaTableReduced').show();
-							$('#quinielaTableBackAdminCompany').show();
+							if (window.company != window.DEFECT_COMPANY)
+								$('#quinielaTableBackAdminCompany').show();
 						}
 						
 				    }
@@ -427,6 +431,16 @@ function getQuiniela(){
 			    	window.loadBet=true;
 			    }
 		 });
+		}else
+		{
+			if (window.company != window.DEFECT_COMPANY)
+				$('#quinielaTableReduced').hide();
+			if (window.quinielaFinal){
+				$('#quinielaTableReduced').show();
+				if (window.company != window.DEFECT_COMPANY)
+					$('#quinielaTableBackAdminCompany').show();
+			}
+			
 		}
 }
 

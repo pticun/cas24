@@ -24,6 +24,7 @@ var bNewPassword = 20;
 var bCompanyMgr = 21;
 var bMyCompanyOptions = 22;
 var bPublicCompaniesOptions = 23;
+var bQuinielaLAE = 24;
 
 //Texts
 var sHome    = "Inicio";
@@ -31,6 +32,7 @@ var sLogin   = "Login";
 var sSign    ="";
 var sForgot = "";
 var sQuininiela = "Quiniela";
+var sQuinielaLAE = "LAE-1X2";
 var sGuest = "Invitado";
 var sLogout = "Logout";
 var sAdmin = "Administration";
@@ -41,7 +43,8 @@ var sConfirmQuiniela = "";
 var sConfirmedQuiniela = "";
 var sModalReduced ="";
 var sCompany ="";
-var sCompanyDefault ="QuiniGoldClassic";
+//var sCompanyDefault ="QuiniGoldClassic";
+var sCompanyDefault ="LAE";
 var sMyCompanyOptions = "";
 var sPublicCompaniesOptions = "";
 
@@ -51,6 +54,7 @@ var sLoginRef = "#loginDiv";
 var sSignRef = "#signDiv";
 var sForgotRef ="#forgotDiv";
 var sQuinielaRef = "#quinielaDiv";
+var sQuinielaLAERef = "#quinielaLAEDiv";
 var sGuestRef = "#";
 var sMyaccountRef = "#myaccountDiv";
 var sLogoutRef = "#logoutDiv";
@@ -134,6 +138,7 @@ function initDiv() {
 }
 
 function showDiv(elem) {
+//alert("showDiv elem="+elem);	
 	if (elem == bActual)
 		return;
 	
@@ -153,6 +158,12 @@ function showDiv(elem) {
 	case bForgot:
 		$(sForgotRef).show();
 		//document.getElementById("forgotDiv").style.display = "block";
+		break;
+	case bQuinielaLAE:
+		window.company = window.DEFECT_COMPANY;
+		sCompany = '';
+		getQuiniela();
+		$(sQuinielaRef).show();
 		break;
 	case bQuiniela:
 		getQuiniela();
@@ -214,9 +225,6 @@ function showDiv(elem) {
 	case bNewPassword:
 		$(sNewPasswordRef).show();
 		break;
-	case bMyCompanyOptions:
-		$(sMyCompanyOptionsRef).show();
-		break;
 	}
 
 	switch (bActual){
@@ -236,8 +244,13 @@ function showDiv(elem) {
 		$(sForgotRef).hide();
 		//document.getElementById("forgotDiv").style.display = "none";
 		break;
+	case bQuinielaLAE:
+		if (elem != bQuiniela)
+			$(sQuinielaRef).hide();
+		break;
 	case bQuiniela:
-		$(sQuinielaRef).hide();
+		if (elem != bQuinielaLAE)
+			$(sQuinielaRef).hide();
 		//document.getElementById("quinielaDiv").style.display = "none";
 		break;
 	case bMyAccount:
@@ -283,9 +296,6 @@ function showDiv(elem) {
 	case bNewPassword:
 		$(sNewPasswordRef).hide();
 		break;
-	case bMyCompanyOptions:
-		$(sMyCompanyOptionsRef).hide();
-		break;
 		
 	}
 	
@@ -298,6 +308,7 @@ function showDiv(elem) {
 function menuEvent(name, href)
 {
 		consoleAlterQ("menuEvent elem="+ name +" href="+href);
+//alert("menuEvent elem="+ name +" href="+href);
 
 	if (href == sHomeRef){
 		consoleAlterQ("Home");
@@ -311,6 +322,12 @@ function menuEvent(name, href)
 	}else if (href == sForgotRef){
 		consoleAlterQ("Forget");
 		showDiv(bForget);
+	}else if (href == sQuinielaLAERef){
+		consoleAlterQ("QuinielaLAE");
+		window.loadBet=true;
+		window.company = window.DEFECT_COMPANY;
+		window.quinielaFinal = true;
+		showDiv(bQuinielaLAE);
 	}else if (href == sQuinielaRef){
 		consoleAlterQ("Quiniela");
 		showDiv(bQuiniela);
@@ -335,7 +352,7 @@ function menuEvent(name, href)
 		showDiv(bMyBets);
 	}else if (href == sMyOwnBetsRef){
 		consoleAlterQ("MyOwnbets");
-		window.company = 0;
+		window.company = window.DEFECT_COMPANY;
 		getUserBets();
 		showDiv(bMyBets);
 	}else if (href == sMyRankingRef){
@@ -379,7 +396,7 @@ function getMainMenuItems(userLoged, user)
 	if (!superAdmin)
 	{
 		$('#menu-nav').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
-		$('#menu-nav').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
+		$('#menu-nav').append('<li><a href="' + sQuinielaLAERef + '">' + sQuinielaLAE + '</a></li>');
 //		$('#menu-nav').append('<li><a href="' + sQuinielaRef + '"><img alt="Quiniela" style="background-color:white;vertical-align:middle;" src="/quinimobile/static/resources/_include/img/logo/logo_quiniela.png"/> </a></li>');
 //		$('#menu-nav').append('<li><a href="' + sQuinielaRef + '"><img alt="Quiniela" style="background-color:white;" src="<c:url value=\'/static/resources/_include/img/logo/logo_quiniela.png\'/>" /> </a></li>');
 	}
@@ -415,7 +432,7 @@ function getMainMenuItems(userLoged, user)
 	if (!admin)
 	{
     	$('#menu-nav-mobile').append('<li><a href="'+sHomeRef+'">' + sHome + '</a></li>');
-    	$('#menu-nav-mobile').append('<li><a href="' + sQuinielaRef + '">' + sQuininiela + '</a></li>');
+    	$('#menu-nav-mobile').append('<li><a href="' + sQuinielaLAERef + '">' + sQuinielaLAE + '</a></li>');
 	}
 	if (userLoged){
 		if (admin)
@@ -850,7 +867,7 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
    });
 	$("#myBetsBtn").click(function( event ){
-//		menuEvent($(this).text(), "#mybetsDiv");
+		menuEvent($(this).text(), "#mybetsDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
     });
 	$("#myOwnBetsBtn").click(function( event ){
@@ -888,6 +905,9 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
     });
 	$("#myQuiniela").on('click', function( event ){
+		consoleAlterQ("myQuiniela.click()");
+		window.quinielaFinal = false;
+		window.loadBet=true;
 		$(sMyCompanyOptionsRef).modal('hide');
 		menuEvent("QUINIELA",  "#quinielaDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
@@ -932,9 +952,9 @@ $(document).ready(function() {
 		consoleAlterQ("myUnirGr: click");
 		$(sPublicCompaniesOptionsRef).modal('hide');
 		 
-		 var dataJson=JSON.stringify($('form#leaveCompanyForm').serializeObject());
+		 var dataJson=JSON.stringify($('form#joinCompanyForm').serializeObject());
 		 var dataToSend = { "id":requestUserSession.idUserAlterQ,"rols":[{"company":window.company,"rol":RolNameEnum.ROL_USER}]};
-		 consoleAlterQ('leaveCompanyForm:'+JSON.stringify(dataToSend));
+		 consoleAlterQ('joinCompanyForm:'+JSON.stringify(dataToSend));
 		 $(joinCompanyResponse).show();
 
 		 jQuery.ajax ({
@@ -1028,11 +1048,11 @@ $(document).ready(function() {
 		event.preventDefault(); // prevent actual form submit and page reload
 	});
 
-	$('form#MyCompanyForm button#MyCompany_btn').click(function() {
+/*	$('form#MyCompanyForm button#MyCompany_btn').click(function() {
 		 buttonpressed = $('form#MyCompanyForm button#MyCompany_btn').val();
 		 consoleAlterQ("buttonpressed: "+buttonpressed);
 		});
-	
+*/	
 });
 
 
@@ -1171,25 +1191,29 @@ function consoleAlterQ(text){
 
 }
 function openPubicCompaniesModal(company, name) {
-	consoleAlterQ('openPubicCompaniesModal: company'+company);
+	consoleAlterQ('openPubicCompaniesModal: company='+company+' name='+name);
 	window.company=company;
-	requestUserSession.company =window.company;
+	requestUserSession.company = window.company;
 	sCompany = name;
+	
+	window.companySelected = true;
+	
+	consoleAlterQ('antes Show Modal');
 	$(sPublicCompaniesOptionsRef).modal('show');
 }
 
 function openCompanyModal(company, name) {
-	consoleAlterQ('openCompanyModal: company'+company);
+	consoleAlterQ('openCompanyModal:  company='+company+' name='+name);
 	window.company=company;
 	requestUserSession.company =window.company;
 	sCompany = name;
-	
+//alert("window.company="+window.company);	
 	window.companySelected = true;
 	consoleAlterQ('vamos a repintar el menu');
 	window.admin = false;
 	window.superAdmin = false;
 	//if company == 0 (defect company) all user are admin 
-	if (window.company!= window.DEFECT_COMPANY){
+	if (window.company != window.DEFECT_COMPANY){
 		window.admin = window.rols.some(function(boy) { return hasRolCompanyValue(boy, 100, window.company); });
 	}
 	window.superAdmin = window.rols.some(function(boy) { return hasRolCompanyValue(boy, 1000, window.DEFECT_COMPANY); });
@@ -1215,6 +1239,7 @@ function openCompanyModal(company, name) {
 
 	
 	$(sMyCompanyOptionsRef).modal('show');
+	
 }
 function getCompanies(){
 	consoleAlterQ('getCompanies');
@@ -1244,7 +1269,7 @@ function getCompanies(){
 				    if(response.errorDto!=0){
 						consoleAlterQ('Success: no hay companies');
 //						$('#companyToChoose').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
-						$('#MisGrBtns').append('<button onClick="openCompanyModal('+ window.DEFECT_COMPANY +',\'QuiniGold\')" id="MyCompany_btn" class="btn btn-danger" name="submitBtn" value="'+window.DEFECT_COMPANY+'">QuiniGold</button><br><br>')
+						$('#MisGrBtns').append('<button onClick="openCompanyModal('+ window.DEFECT_COMPANY +',\'QuiniGold\')" class="btn btn-danger">QuiniGold</button><br><br>')
 						
 						window.loadCompanies=true;
 				    }
@@ -1257,7 +1282,7 @@ function getCompanies(){
 							if (element.company!=window.DEFECT_COMPANY){
 //								$('#companyToChoose').append('<option value="'+element.company+'">'+element.nick+'</option>');
 //								$('#MisGrBtns').append('<button data-toggle="modal" data-target="#myCompanyOptions" id="MyCompany_btn" class="btn btn-danger" name="submitBtn" value="'+element.company+'">'+element.nick+'</button><br><br>')
-								$('#MisGrBtns').append('<button onClick="openCompanyModal('+ element.company +',\'' + element.nick + '\')" id="MyCompany_btn" class="btn btn-danger" name="submitBtn" value="'+element.company+'">'+element.nick+'</button><br><br>')
+								$('#MisGrBtns').append('<button onClick="openCompanyModal('+ element.company +',\'' + element.nick + '\')" class="btn btn-danger">'+element.nick+'</button><br><br>')
 							}
 							
 						});
@@ -1266,7 +1291,7 @@ function getCompanies(){
 			    error : function (xhr, textStatus, errorThrown) {
 					consoleAlterQ('Error: no hay companies');
 //					$('#companyToChoose').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
-					$('#MisGrBtns').append('<button onClick="openCompanyModal('+ window.DEFECT_COMPANY +',\'QuiniGold\')" id="MyCompany_btn" class="btn btn-danger" name="submitBtn" value="'+window.DEFECT_COMPANY+'">QuiniGold</button><br><br>')
+					$('#MisGrBtns').append('<button onClick="openCompanyModal('+ window.DEFECT_COMPANY +',\'QuiniGold\')" class="btn btn-danger">QuiniGold</button><br><br>')
 					window.loadCompanies=true;
 	            }
 		 });
@@ -1284,7 +1309,7 @@ function getCompanies(){
 				    if(response.errorDto!=0){
 						consoleAlterQ('Success: no hay companies');
 //						$('#companyToChoosePublic').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
-						$('#PublicGrBtns').append('<button onClick="openCompanyModal('+ window.DEFECT_COMPANY +',\'QuiniGold\')" id="MyCompany_btn" class="btn btn-danger" name="submitBtn" value="'+window.DEFECT_COMPANY+'">QuiniGold</button><br><br>')
+						$('#PublicGrBtns').append('<button onClick="openPubicCompaniesModal('+ window.DEFECT_COMPANY +',\'QuiniGold\')" class="btn btn-danger">QuiniGold</button><br><br>')
 						window.loadCompanies=true;
 				    }
 				    else{
@@ -1295,7 +1320,7 @@ function getCompanies(){
 							console.log("index="+index+"-id="+element.id + "-company="+element.company+"-nick="+element.nick);
 							if (element.company!=window.DEFECT_COMPANY){
 //								$('#companyToChoosePublic').append('<option value="'+element.company+'">'+element.nick+'</option>');
-								$('#PublicGrBtns').append('<button onClick="openPubicCompaniesModal('+ element.company +',\'' + element.nick + '\')" id="MyCompany_btn" class="btn btn-danger" name="submitBtn" value="'+element.company+'">'+element.nick+'</button><br><br>')
+								$('#PublicGrBtns').append('<button onClick="openPubicCompaniesModal('+ element.company +',\'' + element.nick + '\')" class="btn btn-danger">'+element.nick+'</button><br><br>');
 							}
 						});
 				    }
@@ -1303,7 +1328,7 @@ function getCompanies(){
 			    error : function (xhr, textStatus, errorThrown) {
 					consoleAlterQ('Error: no hay companies');
 					//$('#companyToChoosePublic').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
-					$('#PublicGrBtns').append('<button onClick="openCompanyModal('+ window.DEFECT_COMPANY +',\'QuiniGold\')" id="MyCompany_btn" class="btn btn-danger" name="submitBtn" value="'+window.DEFECT_COMPANY+'">QuiniGold</button><br><br>')
+					$('#PublicGrBtns').append('<button onClick="openPubicCompaniesModal('+ window.DEFECT_COMPANY +',\'QuiniGold\')" class="btn btn-danger">QuiniGold</button><br><br>')
 					
 					window.loadCompanies=true;
 	            }
@@ -1359,7 +1384,7 @@ function getUserBets(){
 				    	row+='<td>MIS APUESTAS</td>';
 				    	row+='</tr>';
 				    	row+='<tr align="center">';
-				    	row+='<td>'+((sCompany == '')?sCompanyDefault:sCompany)+'</td>';
+				    	row+='<td>['+((sCompany == '')?sCompanyDefault:sCompany)+']</td>';
 				    	row+='</tr>';
 				    	row+='<tr align="center">';
 						row+='<td><br><br>SIN APUESTAS<br><br></td>';
@@ -1372,7 +1397,7 @@ function getUserBets(){
 				    	row+='<td colspan="2">MIS APUESTAS</td>';
 				    	row+='</tr>';
 				    	row+='<tr align="center">';
-				    	row+='<td>'+((sCompany == '')?sCompanyDefault:sCompany)+'</td>';
+				    	row+='<td>['+((sCompany == '')?sCompanyDefault:sCompany)+']</td>';
 				    	row+='</tr>';
 						$('#apuestasTable').append(row);
 						$(response.roundBet.bets).each(function(index, element){

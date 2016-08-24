@@ -117,13 +117,14 @@
 </div>
 </div>
 <!-- End MyCompany Section -->
+
 <!-- Modal -->
-<div class="modal fade" id="myCompanyOptions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myCompanyOptions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
  <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <p class="modal-title" id="myModalLabel">SELECCIONA UNA OPCION</p>
+        <p class="modal-title" id="myModalLabel1">SELECCIONA UNA OPCION</p>
       </div>
       <div class="modal-body" align="center">
       	<table class="tablaQuiniGold">
@@ -154,12 +155,12 @@
 </div>
 
 <!-- Modal Public Companies-->
-<div class="modal fade" id="publicCompanyOptions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="publicCompanyOptions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
  <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <p class="modal-title" id="myModalLabel">SELECCIONA UNA OPCION</p>
+        <p class="modal-title" id="myModalLabel2">SELECCIONA UNA OPCION</p>
       </div>
       <div class="modal-body" align="center">
       	<table class="tablaQuiniGold">
