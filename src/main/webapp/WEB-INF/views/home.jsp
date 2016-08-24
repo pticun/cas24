@@ -365,9 +365,7 @@ Para poder acceder a los servicios ofertados se requiere ser mayor de edad.
 
 <!-- Footer -->
 
-<footer>
-	<p class="credits">&copy;2015 quiniGold. v:0.6.0</p>
-</footer>
+<%@ include file="/WEB-INF/views/footer.jsp" %>
 
 <!-- End Footer -->
 
