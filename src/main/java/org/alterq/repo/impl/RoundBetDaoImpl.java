@@ -109,7 +109,7 @@ public class RoundBetDaoImpl extends MongoCollection implements RoundBetDao {
 		Criteria criteria=new Criteria();
 		criteria=Criteria.where("season").is(season).and("round").is(round);
 		//You have to return all bets for user 
-		if (company>0){
+		if (company >= 0){
 			criteria.and("bets.company").is(company);
 		}
 		if (null!= user){

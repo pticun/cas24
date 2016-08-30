@@ -107,6 +107,54 @@ public class CompanyController {
 		return dto;
 	}
 
+	public static boolean BuscaCompany(List<Company> lista , int company) {
+		boolean encontrado = false;
+        for(int i = 0 ; i < lista.size();i++) {
+            if(lista.get(i).getCompany() == company) {
+            	encontrado = true;
+            	break;
+            }
+        }
+        return encontrado;
+    }
+	@RequestMapping(method = RequestMethod.GET, value = "/myaccount/{idUser:.+}/public")
+	public @ResponseBody ResponseDto getCompanyPublicUser(@PathVariable String idUser) {
+		ResponseDto dto = new ResponseDto();
+		List<Company> listCompany = new ArrayList<Company>();
+		log.debug("init CompanyController.getCompanyPublicUser");
+		try {
+			UserAlterQ user = new UserAlterQ();
+			user.setId(idUser);
+			userAlterQValidator.isUserIdOk(user);
+			UserAlterQ userAlterQ = userDao.findById(idUser);
+			List<RolCompany> rc = userAlterQ.getRols();
+			HashSet<Company> uniqueValues = new HashSet<Company>();
+			for (RolCompany rolCompany : rc) {
+				int companyId = rolCompany.getCompany();
+				uniqueValues.add(companyDao.findByCompany(companyId));
+			}
+			List<Company> listCompanyUsr = new ArrayList<Company>(uniqueValues);
+
+			
+			log.debug("init CompanyController.getCompany");
+			List<Company> listCompanyPub = companyDao.findAllPublicCompany();
+			
+			for (Company co: listCompanyPub){
+				int myCompany = co.getCompany();
+				if (!BuscaCompany(listCompanyUsr, myCompany )){
+					listCompany.add(co);
+				}
+			}
+			
+			dto.setCompany(listCompany);
+			
+		} catch (ValidatorException e) {
+			log.error(ExceptionUtils.getStackTrace(e));
+			dto.addErrorDto(e.getError());
+		}
+		return dto;
+	}
+
 	@RequestMapping(method = RequestMethod.POST, value = "/{company}/join/myaccount/{idUser:.+}")
 	public @ResponseBody ResponseDto joinCompanyUser(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable String idUser,@PathVariable int company) {
 		ResponseDto dto = new ResponseDto();

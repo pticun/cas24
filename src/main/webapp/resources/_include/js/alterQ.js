@@ -353,6 +353,7 @@ function menuEvent(name, href)
 	}else if (href == sMyOwnBetsRef){
 		consoleAlterQ("MyOwnbets");
 		window.company = window.DEFECT_COMPANY;
+		sCompany == '';
 		getUserBets();
 		showDiv(bMyBets);
 	}else if (href == sMyRankingRef){
@@ -1299,9 +1300,10 @@ function getCompanies(){
 	            }
 		 });
 			
-	   		consoleAlterQ('url:'+ctx+'/company/myaccount/'+ window.idUserAlterQ+'/');  		
+	   		consoleAlterQ('url:'+ctx+'/company/myaccount/'+ window.idUserAlterQ+'/public');  		
 			jQuery.ajax ({
-				url: ctx+'/company/public',
+//				url: ctx+'/company/public',
+				url: ctx+'/company/myaccount/'+ window.idUserAlterQ+'/public',
 			    type: "GET",
 			    data: null,
 			    contentType: "application/json; charset=utf-8",
@@ -1342,6 +1344,7 @@ function getCompanies(){
 function cleanUserBets(){
 	consoleAlterQ('cleanUserBets');
 	$('#apuestasTable').empty();
+	scompany='';
 }
 function getUserBets(){
 	consoleAlterQ('getUserBets');
