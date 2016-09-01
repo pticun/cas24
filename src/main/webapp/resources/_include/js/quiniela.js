@@ -536,6 +536,7 @@ $('form#betForm').submit(function( event ) {
 					    });
 					}
 					else{
+						$('#confirmarQuinielaButton').show();
 						$('#quinielaFormResponse').text("Apuesta realizada correctamente");
 						//doLogin();
 						confirmBet(response.bet.bet, response.round.games, response.bet.numBets, response.bet.price, window.season, window.round);
@@ -565,6 +566,7 @@ $('form#confirmBetForm button#modificarQuinielaButton').click(function() {
 	});
 $('form#confirmBetForm button#confirmarQuinielaButton').click(function() {
 	 buttonpressed = $('form#confirmBetForm button#confirmarQuinielaButton').val();
+	 $('#confirmarQuinielaButton').hide();
 	});
 	
 $('form#confirmBetForm').submit(function( event ) {

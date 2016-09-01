@@ -1281,6 +1281,9 @@ function getCompanies(){
 				    	var responseCompanyOrder = [];
 				    	responseCompanyOrder = jQuery.unique($(response.company));
 				    	$('#MisGrBtns').append('<br>');
+				    	console.log("responseCompanyOrder.length=" + responseCompanyOrder.length);
+				    	if (responseCompanyOrder.length == 0)
+				    		$('#MisGrBtns').append('No hay Grupos');
 						$(responseCompanyOrder).each(function(index, element){
 							console.log("index="+index+"-id="+element.id + "-company="+element.company+"-nick="+element.nick);
 							if (element.company!=window.DEFECT_COMPANY){
@@ -1321,6 +1324,8 @@ function getCompanies(){
 				    	var responseCompanyOrder = [];
 				    	responseCompanyOrder = jQuery.unique($(response.company));
 				    	$('#PublicGrBtns').append('<br>');
+				    	if (responseCompanyOrder.length == 0)
+				    		$('#PublicGrBtns').append('No hay Grupos<br><br>');
 						$(responseCompanyOrder).each(function(index, element){
 							console.log("index="+index+"-id="+element.id + "-company="+element.company+"-nick="+element.nick);
 							if (element.company!=window.DEFECT_COMPANY){

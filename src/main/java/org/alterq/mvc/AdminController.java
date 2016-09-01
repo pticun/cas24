@@ -620,10 +620,13 @@ public class AdminController {
 							}
 							//Send Results Mail
 							String ccoMail = mailTools.getCCOFinalBet(co.getCompany(),season,round);
+							log.debug("ccoMail="+ccoMail);
 							
 							if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
 								ccoMail = "quinielagold@gmail.com";
 							}
+							
+
 							//sendMailer.sendResultsMail(cco, round, jackPot, betReward, rewardDivided, lPrizes);
 							MailQueueDto mailDto=new MailQueueDto();
 							mailDto.setType(QueueMailEnum.Q_RESULTSMAIL);

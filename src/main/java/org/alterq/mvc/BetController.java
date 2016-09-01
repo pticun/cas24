@@ -268,7 +268,7 @@ public class BetController {
 
 			String apuesta = "";
 			String reduccion = "";
-			int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1 };
 			int red[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 			int pleno1 = 1;
 			int pleno2 = 1;
@@ -313,6 +313,27 @@ public class BetController {
 				}
 				// log.debug(sb.toString());
 			}
+			//Verify if bet is full filled
+			boolean errorFilled = false;
+			for (int i = 0; i < pro.length; i++) {
+				if ((i == 14) || (i == 15))
+				{
+					if (pro[i] == -1)
+						errorFilled = true;
+				}
+				else if (pro[i] == 0)
+					errorFilled = true;
+			}
+			if (errorFilled)
+			{
+				ErrorDto error = new ErrorDto();
+				error.setIdError(MessageResourcesNameEnum.BET_NOT_ALLOWED);
+				error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.BET_NOT_ALLOWED_BAD_FILLED));
+				dto.addErrorDto(error);
+				dto.setUserAlterQ(null);
+				return dto;
+			}
+			
 			int dobles = 0;
 			int triples = 0;
 			for (int i = 0; i < pro.length; i++) {
@@ -511,7 +532,11 @@ public class BetController {
 //			if (adminCompanyUser) {
 //				bet.setType(BetTypeEnum.BET_FINAL.getValue());
 //			}
+			if (company == AlterQConstants.DEFECT_COMPANY)
+				typeBet=BetTypeEnum.BET_FINAL;
+
 			bet.setType(typeBet.getValue());
+			
 			StringBuffer sb = new StringBuffer();
 			sb.append("New addBet: company=" + company + " season=" + season + " round=" + round + " user=" + bet.getUser() + " bet=" + bet.getBet());
 			log.debug(sb.toString());
@@ -526,7 +551,7 @@ public class BetController {
 			dto.setRound(r);
 
 //			if ((company != AlterQConstants.DEFECT_COMPANY) && userTools.isUserAdminCompany(userAlterQ.getId(), company)) {
-			if (BetTypeEnum.BET_FINAL.getValue()==typeBet.getValue()) {
+			if ((BetTypeEnum.BET_FINAL.getValue()==typeBet.getValue())&&(company != AlterQConstants.DEFECT_COMPANY)) {
 				roundBets = roundBetDao.findRoundBetWithBets(season, round, company);
 				
 				//if not existe roundBets create new roundBet
@@ -586,35 +611,38 @@ public class BetController {
 
 			userDao.updateBalance(userAlterQ);
 			
-			//Send mail with Bet
-			//******************************************************************
-			log.debug("Mail: Bet= "+bet.getBet()+" CCO="+ccoMail);
+			//Mail is only sent if bet is a FINAL BET
+			if (BetTypeEnum.BET_FINAL.getValue()==typeBet.getValue()) {
+				//Send mail with Bet
+				//******************************************************************
+				log.debug("Mail: Bet= "+bet.getBet()+" CCO="+ccoMail);
+	
+				MailQueueDto mailDto=new MailQueueDto();
+				mailDto.setType(QueueMailEnum.Q_FINALBETMAIL);
+				
+				RoundBets processRoundBetMail=new RoundBets();
+				processRoundBetMail.setCompany(company);
+				processRoundBetMail.setRound(round);
+				processRoundBetMail.setSeason(season);
+				processRoundBetMail.setPrice(bet.getPrice());
+				//TODO jackpot 
+	//			processRoundBetMail.setJackpot(roundBets.getJackpot());
+				List<Bet> finalBet=new ArrayList<Bet>();
+				finalBet.add(bet);
+				processRoundBetMail.setBets(finalBet);
+				
+				mailDto.setRoundBet(processRoundBetMail);
+				
+				if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
+					//para pruebas
+					ccoMail = "quinielagold@gmail.com";
+				}
 
-			MailQueueDto mailDto=new MailQueueDto();
-			mailDto.setType(QueueMailEnum.Q_FINALBETMAIL);
-			
-			RoundBets processRoundBetMail=new RoundBets();
-			processRoundBetMail.setCompany(company);
-			processRoundBetMail.setRound(round);
-			processRoundBetMail.setSeason(season);
-			processRoundBetMail.setPrice(bet.getPrice());
-			//TODO jackpot 
-//			processRoundBetMail.setJackpot(roundBets.getJackpot());
-			List<Bet> finalBet=new ArrayList<Bet>();
-			finalBet.add(bet);
-			processRoundBetMail.setBets(finalBet);
-			
-			mailDto.setRoundBet(processRoundBetMail);
-			
-			if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
-				//para pruebas
-				ccoMail = "quinielagold@gmail.com";
+				log.debug("ccoMail="+ccoMail);
+				mailDto.setCco(ccoMail);
+				
+				processMailQueue.process(mailDto);
 			}
-			
-			mailDto.setCco(ccoMail);
-			
-			processMailQueue.process(mailDto);
-			
 
 //
 //			//linkBet = "http://www.quinigold.com/getBetDetail/id_bet="+bet.getId();
