@@ -268,7 +268,7 @@ public class BetController {
 
 			String apuesta = "";
 			String reduccion = "";
-			int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1 };
+			int pro[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 			int red[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 			int pleno1 = 1;
 			int pleno2 = 1;
@@ -316,14 +316,13 @@ public class BetController {
 			//Verify if bet is full filled
 			boolean errorFilled = false;
 			for (int i = 0; i < pro.length; i++) {
-				if ((i == 14) || (i == 15))
+				if (pro[i] == 0)
 				{
-					if (pro[i] == -1)
-						errorFilled = true;
-				}
-				else if (pro[i] == 0)
 					errorFilled = true;
+					break;
+				}
 			}
+			
 			if (errorFilled)
 			{
 				ErrorDto error = new ErrorDto();
