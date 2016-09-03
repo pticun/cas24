@@ -200,6 +200,7 @@ function showDiv(elem) {
 		callToMyAdminCompany();
 		break;
 	case bQuinielaDetail:
+		sCompany = '';
 		$(sQuinielaDetailRef).show();
 		break;
 	case bMyModal:

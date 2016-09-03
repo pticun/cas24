@@ -1,3 +1,5 @@
+var sCompany ="";
+var sCompanyDefault ="LAE";
 
 function getSign(sign){
 	switch(sign)
@@ -232,6 +234,9 @@ function getQuiniela(){
 		consoleAlterQ('getQuiniela');
 		consoleAlterQ("loadBet="+window.loadBet);
 		consoleAlterQ('company='+window.company+' season='+window.season+' round='+window.round);
+		if (window.company == 0)
+			scompany = '';
+		
 		if(window.loadBet){
 			window.loadBet=false;
 		 	limpiaQuiniela();
