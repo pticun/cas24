@@ -20,12 +20,14 @@ import java.util.List;
 
 import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
+import org.alterq.domain.Company;
 import org.alterq.domain.Prize;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
 import org.alterq.dto.AlterQConstants;
 import org.alterq.dto.MailQueueDto;
 import org.alterq.repo.AdminDataDao;
+import org.alterq.repo.CompanyDao;
 import org.apache.commons.lang3.StringUtils;
 import org.arch.core.mail.SendMailer;
 import org.arch.core.util.CoreUtils;
@@ -49,6 +51,10 @@ public class SendEndpoint {
 	
 	@Autowired
 	private AdminDataDao adminDataDao;	
+	
+	@Autowired
+	private CompanyDao companyDao;	
+	
 
     /**
      * Process a delivery order for sending by mail.
@@ -143,12 +149,13 @@ public class SendEndpoint {
 		
 		numBets = (int) ((int) roundBet.getPrice() / priceBet);
 		
+		Company myCompany = companyDao.findByCompany(bet.getCompany());
 		if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
 			//para pruebas
-			linkBet = "http://localhost:8080/quinimobile/betDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
+			linkBet = "http://localhost:8080/quinimobile/betDetail/"+bet.getCompany()+"/"+myCompany.getNick()+"/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
 		}
 		else{
-			linkBet = "http://www.quinigold.com/betDetail/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
+			linkBet = "http://www.quinigold.com/betDetail/"+bet.getCompany()+"/"+myCompany.getNick()+"/"+bet.getBet()+"/"+bet.getTypeReduction()+"/"+bet.getReduction();
 		}
 		
 		sendMailer.sendFinalBetMail(cco, roundBet.getRound(), roundBet.getSeason(), betID, roundBet.getPrice(), numBets, linkBet);

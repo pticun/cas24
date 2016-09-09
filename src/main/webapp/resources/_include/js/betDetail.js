@@ -1,3 +1,6 @@
+var sCompany ="";
+var sCompanyDefault ="LAE";
+
 //--------------------------------------------------------
 //Variables a recoger desde BetDetailController
 //--------------------------------------------------------
@@ -57,6 +60,7 @@ function getAdminData(){
 	window.company = myCompany;
 	window.season = mySeason;
 	window.round = myRound;
+	sCompany=myScompany;
 }
 
 

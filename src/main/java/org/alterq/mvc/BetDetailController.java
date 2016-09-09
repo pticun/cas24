@@ -24,32 +24,35 @@ public class BetDetailController {
 	private AdminDataDao adminDataDao;
 
 
-	@RequestMapping(method = RequestMethod.GET, value = "/{bet}/{typeReduction}/{reduction}")
+	@RequestMapping(method = RequestMethod.GET, value = "/{company}/{sCompany}/{bet}/{typeReduction}/{reduction}")
 	public 
-	ModelAndView getBetDetail(HttpServletResponse response, @PathVariable String bet, @PathVariable String typeReduction, @PathVariable String reduction) {
+	ModelAndView getBetDetail(HttpServletResponse response, @PathVariable String company,@PathVariable String sCompany,@PathVariable String bet, @PathVariable String typeReduction, @PathVariable String reduction) {
 		AdminData adminData = null;
 		
 		log.debug("getBetDetail init");
+		log.debug("getBetDetail company=" + company);
+		log.debug("getBetDetail sCompany=" + sCompany);
 		log.debug("getBetDetail bet=" + bet);
 		log.debug("getBetDetail typeReduction=" + typeReduction);
 		log.debug("getBetDetail reduction=" + reduction);
 		
 		adminData = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
 		
-		int company=adminData.getCompany();
+		//int company=adminData.getCompany();
 		int season=adminData.getSeason();
 		int round=adminData.getRound();
 		
 		log.debug("getBetDetail season=" + season);
 		log.debug("getBetDetail round=" + round);
-		log.debug("getBetDetail company=" + company);
+		//log.debug("getBetDetail company=" + company);
 
 		ModelAndView model = new ModelAndView("betDetail");
-		model.addObject("msg", "hello world");		//-----------------------------------------------------
+		model.addObject("msg", " ");		//-----------------------------------------------------
 		model.addObject("bet", bet);		
 		model.addObject("typeReduction", typeReduction);		
 		model.addObject("reduction", reduction);		
-		model.addObject("company", company);		
+		model.addObject("company", company);
+		model.addObject("scompany", sCompany);
 		model.addObject("season", season);		
 		model.addObject("round", round);		
 		//hay que pasar estos datos al JSP --> betDetail.jsp
