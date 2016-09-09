@@ -276,6 +276,7 @@ function getQuiniela(){
 					    $('#quinielaTable').append('<tr align="center" id="rowBetTitle"><td>'+ temp +' - APUESTA</tr>');
 					    temp ='['+((sCompany == '')?sCompanyDefault:sCompany)+']';
 					    $('#quinielaTable').append('<tr align="center" id="rowBetTitle"><td>'+ temp +'</tr>');
+					    $('#quinielaTableRec').append('<tr align="center id="rowBetTitleRec"><td>&nbsp</td></tr>');
 					    $('#quinielaTableRec').append('<tr align="center id="rowBetTitleRec"><td>&nbsp</td></tr>');       
 						$(response.round.games).each(function(index, element){  
 							consoleAlterQ(element);
