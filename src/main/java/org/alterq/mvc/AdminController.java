@@ -331,6 +331,11 @@ public class AdminController {
 
 					RoundBets bean = roundBetDao.findRoundBetWithBets(season, round, co.getCompany());
 
+					//Hay que controlar si la company tiene apuestas
+					if (bean==null){
+						log.debug("resultBetRound: company(" + co.getCompany() + ", "+co.getNick()+") sin apuestas.");
+						continue;
+					}
 					// OJO!! hay que ordenar las apuestas por usuario para que funcione.
 					List<Bet> lBets = bean.getBets();
 
