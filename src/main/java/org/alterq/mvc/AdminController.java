@@ -525,7 +525,7 @@ public class AdminController {
 							userAlterQ = userAlterQDao.findById(user);
 	
 							if (userAlterQ == null) {
-								log.debug("pricesRound: user(" + user + ") Error resultBet user not find");
+								log.debug("prizesRound: user(" + user + ") Error resultBet user not find");
 								// STEP 1.1.error - Send an email to the admin
 								// ("ERROR pricesRound user not find")
 								continue;
@@ -555,7 +555,7 @@ public class AdminController {
 							//******************************************
 							//PENDING(ACCOUNTING ENTRY) - User betReward
 							//******************************************
-							log.debug("pricesRound: (ACCOUNTING ENTRY) user:" + user + " balance: "+userAlterQ.getBalance()+" betReward="+betReward);
+							log.debug("prizesRound: (ACCOUNTING ENTRY) user:" + user + " balance: "+userAlterQ.getBalance()+" betReward="+betReward);
 						}
 					}
 					
@@ -563,6 +563,11 @@ public class AdminController {
 					numCompanyBets=0;
 					RoundBets bean = roundBetDao.findRoundBetWithBets(season, round, co.getCompany());
 					
+					if(bean ==null)
+					{
+						log.debug("prizesRound: company(" + co.getCompany() + ", "+co.getNick()+") sin apuestas.");	
+						continue;
+					}
 					//TODO create new method to get number BET_NORMAL,BET_FIXED??
 					List<Bet> lBets = bean.getBets();
 					//Get Number of Company Bets
