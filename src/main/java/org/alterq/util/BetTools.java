@@ -520,13 +520,13 @@ public class BetTools{
 					case 2:// sign X
 						if ((singBet == 2) || (singBet == 3) || (singBet == 6) || (singBet == 7)) {
 							rdo++;
-							unos++;
+							equis++;
 						}
 						break;
 					case 1: // sign 2
 						if ((singBet == 1) || (singBet == 3) || (singBet == 5) || (singBet == 7)) {
 							rdo++;
-							unos++;
+							doses++;
 						}
 						break;
 					default: // something wrong
