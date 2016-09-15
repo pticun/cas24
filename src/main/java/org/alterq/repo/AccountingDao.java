@@ -18,6 +18,12 @@ public interface AccountingDao {
 
 	public List<Account> findUserAccounts(String user, int season, int round);
 	
+	public List<Account> findCompanyAccounts(int company);
+	
+	public List<Account> findCompanyAccounts(int company, int season);
+	
+	public List<Account> findCompanyAccounts(int company, int season, int round);
+	
 	public void add(Account bean);
 
 	public boolean deleteAccounts(int season);
@@ -29,6 +35,12 @@ public interface AccountingDao {
 	public boolean deleteUserAccounts(String user, int season);
 
 	public boolean deleteUserAccounts(String user, int season, int round);
+
+	public boolean deleteCompanyAccounts(int company);
+
+	public boolean deleteCompanyAccounts(int company, int season);
+
+	public boolean deleteCompanyAccounts(int company, int season, int round);
 
 	public void update(Account account);
 }

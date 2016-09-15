@@ -11,14 +11,33 @@ public class Account {
 	@Id
 	private String id;
 	
-	private String userID;
-	private int type;
+	private int company;
+	private String user;
 	private int season;
 	private int round;
+	private int type;
 	private Date date;
 	private String description;
 	private float amount;
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public int getCompany() {
+		return company;
+	}
+	public void setCompany(int company) {
+		this.company = company;
+	}
+	public String getUser() {
+		return user;
+	}
+	public void setUser(String user) {
+		this.user = user;
+	}
 	public int getSeason() {
 		return season;
 	}
@@ -30,18 +49,6 @@ public class Account {
 	}
 	public void setRound(int round) {
 		this.round = round;
-	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getUserID() {
-		return userID;
-	}
-	public void setUserID(String userID) {
-		this.userID = userID;
 	}
 	public int getType() {
 		return type;

@@ -3,6 +3,7 @@ package org.alterq.repo.impl;
 import java.util.List;
 
 import org.alterq.domain.Account;
+import org.alterq.domain.Company;
 import org.alterq.domain.RoundBets;
 import org.alterq.repo.AccountingDao;
 import org.alterq.repo.MongoCollection;
@@ -39,21 +40,42 @@ public class AccountingDaoImpl extends MongoCollection implements AccountingDao 
 
 	@Override
 	public List<Account> findUserAccounts(String user){
-		Query query = new Query(Criteria.where("userID").is(user));
+		Query query = new Query(Criteria.where("user").is(user));
 		List<Account> listAccount = mongoTemplate.find(query, Account.class, COLLECTION_NAME);
 		return listAccount;
 	}
 
 	@Override
 	public List<Account> findUserAccounts(String user, int season){
-		Query query = new Query(Criteria.where("userID").is(user).and("season").is(season));
+		Query query = new Query(Criteria.where("user").is(user).and("season").is(season));
 		List<Account> listAccount = mongoTemplate.find(query, Account.class, COLLECTION_NAME);
 		return listAccount;
 	}
 
 	@Override
 	public List<Account> findUserAccounts(String user, int season, int round){
-		Query query = new Query(Criteria.where("userID").is(user).and("season").is(season).and("round").is(round));
+		Query query = new Query(Criteria.where("user").is(user).and("season").is(season).and("round").is(round));
+		List<Account> listAccount = mongoTemplate.find(query, Account.class, COLLECTION_NAME);
+		return listAccount;
+	}
+	
+	@Override
+	public List<Account> findCompanyAccounts(int company){
+		Query query = new Query(Criteria.where("company").is(company));
+		List<Account> listAccount = mongoTemplate.find(query, Account.class, COLLECTION_NAME);
+		return listAccount;
+	}
+
+	@Override
+	public List<Account> findCompanyAccounts(int company, int season){
+		Query query = new Query(Criteria.where("company").is(company).and("season").is(season));
+		List<Account> listAccount = mongoTemplate.find(query, Account.class, COLLECTION_NAME);
+		return listAccount;
+	}
+
+	@Override
+	public List<Account> findCompanyAccounts(int company, int season, int round){
+		Query query = new Query(Criteria.where("company").is(company).and("season").is(season).and("round").is(round));
 		List<Account> listAccount = mongoTemplate.find(query, Account.class, COLLECTION_NAME);
 		return listAccount;
 	}
@@ -64,50 +86,66 @@ public class AccountingDaoImpl extends MongoCollection implements AccountingDao 
 	}
 
 	@Override
-	public void update(Account account) {
-		mongoTemplate.save(account, COLLECTION_NAME);
-	}
-	public boolean deleteAllBets(int season, int round){
-		Query query = new Query();
-		query.addCriteria(Criteria.where("season").is(season).and("round").is(round));
-		mongoTemplate.remove(query, RoundBets.class);
-		return true;
-	}
-	@Override
 	public boolean deleteAccounts(int season){
 		Query query = new Query(Criteria.where("season").is(season));
-		mongoTemplate.remove(query, RoundBets.class);
+		mongoTemplate.findAndRemove(query, Account.class, COLLECTION_NAME);
 		return true;
 	}
 
 	@Override
 	public boolean deleteAccounts(int season, int round){
 		Query query = new Query(Criteria.where("season").is(season).and("round").is(round));
-		mongoTemplate.remove(query, RoundBets.class);
+		mongoTemplate.findAndRemove(query, Account.class, COLLECTION_NAME);
 		return true;
 		
 	}
 	
 	@Override
 	public boolean deleteUserAccounts(String user){
-		Query query = new Query(Criteria.where("userID").is(user));
-		mongoTemplate.remove(query, RoundBets.class);
+		Query query = new Query(Criteria.where("user").is(user));
+		mongoTemplate.findAndRemove(query, Account.class, COLLECTION_NAME);
 		return true;
 	}
 
 	@Override
 	public boolean deleteUserAccounts(String user, int season){
-		Query query = new Query(Criteria.where("userID").is(user).and("season").is(season));
-		mongoTemplate.remove(query, RoundBets.class);
+		Query query = new Query(Criteria.where("user").is(user).and("season").is(season));
+		mongoTemplate.findAndRemove(query, Account.class, COLLECTION_NAME);
 		return true;
 	}
 
 	@Override
 	public boolean deleteUserAccounts(String user, int season, int round){
-		Query query = new Query(Criteria.where("userID").is(user).and("season").is(season).and("round").is(round));
-		mongoTemplate.remove(query, RoundBets.class);
+		Query query = new Query(Criteria.where("user").is(user).and("season").is(season).and("round").is(round));
+		mongoTemplate.findAndRemove(query, Account.class, COLLECTION_NAME);
 		return true;
 		
 	}
 	
+	@Override
+	public boolean deleteCompanyAccounts(int company){
+		Query query = new Query(Criteria.where("company").is(company));
+		mongoTemplate.findAndRemove(query, Account.class, COLLECTION_NAME);
+		return true;
+	}
+
+	@Override
+	public boolean deleteCompanyAccounts(int company, int season){
+		Query query = new Query(Criteria.where("company").is(company).and("season").is(season));
+		mongoTemplate.findAndRemove(query, Account.class, COLLECTION_NAME);
+		return true;
+	}
+
+	@Override
+	public boolean deleteCompanyAccounts(int company, int season, int round){
+		Query query = new Query(Criteria.where("company").is(company).and("season").is(season).and("round").is(round));
+		mongoTemplate.findAndRemove(query, Account.class, COLLECTION_NAME);
+		return true;
+		
+	}
+	
+	@Override
+	public void update(Account account) {
+		mongoTemplate.save(account, COLLECTION_NAME);
+	}	
 }
