@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 
 import org.alterq.converter.UserAlterQConverter;
+import org.alterq.domain.Account;
 import org.alterq.domain.Bet;
 import org.alterq.domain.RolCompany;
 import org.alterq.domain.Round;
@@ -20,6 +21,7 @@ import org.alterq.dto.MailQueueDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
 import org.alterq.exception.ValidatorException;
+import org.alterq.repo.AccountingDao;
 import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
@@ -30,6 +32,7 @@ import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.BetTools;
 import org.alterq.util.MailTools;
 import org.alterq.util.UserTools;
+import org.alterq.util.enumeration.AccountTypeEnum;
 import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.util.enumeration.QueueMailEnum;
@@ -78,6 +81,8 @@ public class BetController {
 	private UserTools userTools;
 	@Autowired
 	private RoundBetDao roundBetDao;
+	@Autowired
+	private AccountingDao accountingDao;	
 	@Autowired
 	private UserAlterQConverter userAlterQConverter;
 	@Autowired
@@ -470,6 +475,7 @@ public class BetController {
 		ResponseDto dto = new ResponseDto();
 		String ccoMail = null;
 		String linkBet = null;
+		Account account = new Account();
 		
 		boolean adminCompanyUser = false;
 
@@ -609,6 +615,18 @@ public class BetController {
 			roundBetDao.addBet(company, season, round, bet);
 
 			userDao.updateBalance(userAlterQ);
+			
+			account.setAmount(Double.toString(price));
+			account.setCompany(company);
+			account.setDate(new Date());
+			account.setDescription("Apuesta T "+season+"/"+(season+1-2000)+" J "+round);
+			account.setRound(round);
+			account.setSeason(season);
+			account.setType(new Integer(AccountTypeEnum.ACCOUNT_BET.getValue()));
+			account.setUser(userAlterQ.getId());
+			
+			accountingDao.add(account);
+			
 			
 			//Mail is only sent if bet is a FINAL BET
 			if (BetTypeEnum.BET_FINAL.getValue()==typeBet.getValue()) {

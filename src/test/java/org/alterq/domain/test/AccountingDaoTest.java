@@ -44,7 +44,7 @@ public class AccountingDaoTest {
 		bean.setRound(1);
 		bean.setSeason(2016);
 		bean.setUser("quinigold@gmail.com");
-		bean.setAmount(Float.parseFloat("0.75"));
+		bean.setAmount("0.75");
 		bean.setDescription("Apuesta");
 		bean.setType(AccountTypeEnum.ACCOUNT_BET.getValue());
 		bean.setDate(new Date());

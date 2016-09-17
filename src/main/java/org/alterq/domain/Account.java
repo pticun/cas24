@@ -18,7 +18,7 @@ public class Account {
 	private int type;
 	private Date date;
 	private String description;
-	private float amount;
+	private String amount;
 	
 	public String getId() {
 		return id;
@@ -68,10 +68,10 @@ public class Account {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public float getAmount() {
+	public String getAmount() {
 		return amount;
 	}
-	public void setAmount(float amount) {
+	public void setAmount(String amount) {
 		this.amount = amount;
 	}
 

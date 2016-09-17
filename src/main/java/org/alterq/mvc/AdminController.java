@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.alterq.converter.UserAlterQConverter;
+import org.alterq.domain.Account;
 import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
 import org.alterq.domain.Company;
@@ -30,6 +31,7 @@ import org.alterq.dto.ErrorDto;
 import org.alterq.dto.MailQueueDto;
 import org.alterq.dto.ResponseDto;
 import org.alterq.exception.SecurityException;
+import org.alterq.repo.AccountingDao;
 import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.CompanyDao;
 import org.alterq.repo.RoundBetDao;
@@ -44,7 +46,9 @@ import org.alterq.util.BetTools;
 import org.alterq.util.CalculateRigths;
 import org.alterq.util.MailTools;
 import org.alterq.util.UserTools;
+import org.alterq.util.enumeration.AccountTypeEnum;
 import org.alterq.util.enumeration.BetTypeEnum;
+import org.alterq.util.enumeration.CompanyTypeEnum;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.util.enumeration.QueueMailEnum;
 import org.alterq.validator.CompanyValidator;
@@ -102,6 +106,8 @@ public class AdminController {
 	private RoundResultsDao roundResultsDao;
 	@Autowired
 	private CompanyDao companyDao;
+	@Autowired
+	private AccountingDao accountingDao;
 	@Autowired
 	MailTools mailTools;
 	@Autowired
@@ -464,6 +470,7 @@ public class AdminController {
 		int numCompanyBets = 0;
 		String betResult = null;
 		double rewardDivided = 0;
+		Account account = new Account();
 
 		try {
 			userSecurity.isSuperAdminUserInSession(cookieSession);
@@ -555,6 +562,17 @@ public class AdminController {
 							//******************************************
 							//PENDING(ACCOUNTING ENTRY) - User betReward
 							//******************************************
+							account.setAmount(Double.toString(betReward));
+							account.setCompany(co.getCompany());
+							account.setDate(new Date());
+							account.setDescription("Premio T "+season+"/"+(season+1-2000)+" J "+round);
+							account.setRound(round);
+							account.setSeason(season);
+							account.setType(new Integer(AccountTypeEnum.ACCOUNT_PRIZE.getValue()));
+							account.setUser(user);
+							
+							accountingDao.add(account);
+							
 							log.debug("prizesRound: (ACCOUNTING ENTRY) user:" + user + " balance: "+userAlterQ.getBalance()+" betReward="+betReward);
 						}
 					}
@@ -625,6 +643,17 @@ public class AdminController {
 									//******************************************
 									//PENDING(ACCOUNTING ENTRY) - User betReward
 									//******************************************
+									account.setAmount(Double.toString(betReward));
+									account.setCompany(co.getCompany());
+									account.setDate(new Date());
+									account.setDescription("Premio T "+season+"/"+(season+1-2000)+" J "+round);
+									account.setRound(round);
+									account.setSeason(season);
+									account.setType(new Integer(AccountTypeEnum.ACCOUNT_PRIZE.getValue()));
+									account.setUser(user);
+									
+									accountingDao.add(account);
+									
 									log.debug("pricesRound: (ACCOUNTING ENTRY) user:" + user + " balance: "+userAlterQ.getBalance()+" rewardDivided="+rewardDivided);
 								}
 							}
@@ -755,6 +784,8 @@ public class AdminController {
 			) {
 		ResponseDto response = new ResponseDto();
 		UserAlterQ userAlterQ = new UserAlterQ();
+		Account account = new Account();
+		AdminData ad;
 
 		try {
 			String balance=(String)((Map)obj).get("balance");
@@ -765,16 +796,39 @@ public class AdminController {
 			userAlterQ.setId(user);
 			userSecurity.notExistsUserAlterQ(userAlterQ);
 
+			ad = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
+			
+			account.setDate(new Date());
+			account.setUser(user);
+			account.setCompany(company);
+			account.setRound(ad.getRound());
+			account.setSeason(ad.getSeason());
+			
+
 			userAlterQ = userAlterQDao.findById(user);
 
-			if (balance!=null && (balance.compareTo("")!=0) && (balance.compareTo("none")!=0))
+			if (balance!=null && (balance.compareTo("")!=0) && (balance.compareTo("none")!=0)){
 				userAlterQ.setBalance(Double.toString(Double.parseDouble(balance)));
-			else if (balanceIncrease!=null && (balanceIncrease.compareTo("")!=0) && (balanceIncrease.compareTo("none")!=0))
+				account.setType(new Integer(AccountTypeEnum.ACCOUNT_INITIAL.getValue()));
+				account.setAmount(balance);
+				account.setDescription("Saldo inicial.");
+			}
+			else if (balanceIncrease!=null && (balanceIncrease.compareTo("")!=0) && (balanceIncrease.compareTo("none")!=0)){
 				userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) + Double.parseDouble(balanceIncrease)));
-			else if (balanceDecrease!=null && (balanceDecrease.compareTo("")!=0) && (balanceDecrease.compareTo("none")!=0))
+				account.setType(new Integer(AccountTypeEnum.ACCOUNT_DEPOSIT.getValue()));
+				account.setAmount(balanceIncrease);
+				account.setDescription("Saldo incrementado.");
+			}
+			else if (balanceDecrease!=null && (balanceDecrease.compareTo("")!=0) && (balanceDecrease.compareTo("none")!=0)){
 				userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) - Double.parseDouble(balanceDecrease)));
+				account.setType(new Integer(AccountTypeEnum.ACCOUNT_WITHDRAWAL.getValue()));
+				account.setAmount(balanceDecrease);
+				account.setDescription("Saldo decrementado.");
+			}
 			
 			userAlterQDao.updateBalance(userAlterQ);
+			
+			accountingDao.add(account);
 			
 			response.setUserAlterQ(userAlterQConverter.converterUserAlterQInResponseDto(userAlterQ));
 
@@ -793,22 +847,49 @@ public class AdminController {
 	public @ResponseBody ResponseDto updateBalanceUser_(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable String user, @PathVariable String balance, @PathVariable String balanceIncrease, @PathVariable String balanceDecrease) {
 		ResponseDto response = new ResponseDto();
 		UserAlterQ userAlterQ = new UserAlterQ();
+		Account account = new Account();
+		AdminData ad;
 
 		try {
 			userSecurity.isSuperAdminUserInSession(cookieSession);
 			userAlterQ.setId(user);
 			userSecurity.notExistsUserAlterQ(userAlterQ);
 
+			ad = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
+			
+			account.setDate(new Date());
+			account.setUser(user);
+			account.setCompany(company);
+			account.setRound(ad.getRound());
+			account.setSeason(ad.getSeason());
+
 			userAlterQ = userAlterQDao.findById(user);
 
-			if (balance!=null && (balance.compareTo("")!=0) && (balance.compareTo("none")!=0))
+			if (balance!=null && (balance.compareTo("")!=0) && (balance.compareTo("none")!=0)){
 				userAlterQ.setBalance(Double.toString(Double.parseDouble(balance)));
-			else if (balanceIncrease!=null && (balanceIncrease.compareTo("")!=0) && (balanceIncrease.compareTo("none")!=0))
+				account.setType(new Integer(AccountTypeEnum.ACCOUNT_INITIAL.getValue()));
+				account.setAmount(balance);
+				account.setDescription("Saldo inicial.");
+			}
+			else if (balanceIncrease!=null && (balanceIncrease.compareTo("")!=0) && (balanceIncrease.compareTo("none")!=0)){
 				userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) + Double.parseDouble(balanceIncrease)));
-			else if (balanceDecrease!=null && (balanceDecrease.compareTo("")!=0) && (balanceDecrease.compareTo("none")!=0))
+				account.setType(new Integer(AccountTypeEnum.ACCOUNT_DEPOSIT.getValue()));
+				account.setAmount(balanceIncrease);
+				account.setDescription("Saldo incrementado.");
+			}
+			else if (balanceDecrease!=null && (balanceDecrease.compareTo("")!=0) && (balanceDecrease.compareTo("none")!=0)){
 				userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) - Double.parseDouble(balanceDecrease)));
+				account.setType(new Integer(AccountTypeEnum.ACCOUNT_WITHDRAWAL.getValue()));
+				account.setAmount(balanceDecrease);
+				account.setDescription("Saldo decrementado.");
+			}
 			
 			userAlterQDao.updateBalance(userAlterQ);
+			
+			accountingDao.add(account);
+			
+			response.setUserAlterQ(userAlterQConverter.converterUserAlterQInResponseDto(userAlterQ));
+			
 
 		} catch (SecurityException e) {
 			response.addErrorDto("AdminController:updateBalance", "SecurityException");
