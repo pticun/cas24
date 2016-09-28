@@ -203,7 +203,7 @@ EXPORTAR DE MONGOLAB DE PRO A PRE
 			pass: gold7bittle4
 		
 		SSH de openshift
-			ssh://55db8a4789f5cf79070000a6@prequinigold-goldbittle.rhcloud.com/~/git/prequinigold.git/
+			ssh://57ec2d960c1e66a78d0000eb@prequinigold-goldbittle.rhcloud.com/~/git/prequinigold.git/
 			
  
  	PRO
