@@ -415,8 +415,8 @@ function getMainMenuItems(userLoged, user)
 			}
 */			
 			$('#menu-nav').append('<li><a href="' + sCompanyRef + '">GRUPOS</a></li>');
-			if (admin)
-				$('#menu-nav').append('<li><a id="anchorToAdmin" href="' + sMyAdminCompanyRef + '">' + sAdminCompany + '</a></li>');
+//			if (admin)
+//				$('#menu-nav').append('<li><a id="anchorToAdmin" href="' + sMyAdminCompanyRef + '">' + sAdminCompany + '</a></li>');
 
 		}
 		$('#menu-nav').append('<li><a href="' + sLogoutRef + '">' + sLogout + '</a></li>');
