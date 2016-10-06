@@ -17,12 +17,28 @@
             http://www.springframework.org/schema/util 
             http://www.springframework.org/schema/util/spring-util.xsd">
           
-	<!-- mail -->
+	<!-- mail 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="465" />
 		<property name="username" value="goldbittledev@gmail.com" />
 		<property name="password" value="gold7bittle4" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.debug">true</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+			</props>
+		</property>
+	</bean>
+-->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.zoho.com" />
+		<property name="port" value="465" />
+		<property name="username" value="quinigold@quinigold.com" />
+		<property name="password" value="alterQ2014" />
 		<property name="javaMailProperties">
 			<!-- Use SMTP transport protocol -->
 			<props>
@@ -30,6 +46,7 @@
 				<prop key="mail.smtp.starttls.enable">true</prop>
 				<prop key="mail.transport.protocol">smtp</prop>
 				<prop key="mail.debug">true</prop>
+				<prop key="mail.store.protocol">pop3</prop>
 				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
 			</props>
 		</property>
@@ -56,7 +73,7 @@
 	</bean>
 	<bean id="htmlMailMessage" class="org.arch.core.mail.SendMailer">
 		<property name="mailSender" ref="mailSender" />
-		<property name="from" value="goldbittledev@gmail.com" />
+		<property name="from" value="quinigold@quinigold.com" />
 	</bean>
 
 </beans>
