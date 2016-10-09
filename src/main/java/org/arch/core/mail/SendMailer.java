@@ -94,9 +94,11 @@ public class SendMailer {
 			template.merge(velocityContext, stringWriter);
 
 			helper = new MimeMessageHelper(message, true);
-			helper.setFrom(from);
+			//helper.setFrom(from);
+			helper.setFrom(new InternetAddress(from, "QuiniGold"));
 			helper.setTo(userAlterQ.getId());
-			helper.setSubject("forgotPwd");
+			helper.setSubject("QuiniGold - Recordatorio Password");
+			
 
 			helper.setText(stringWriter.toString(), true);
 
@@ -109,6 +111,8 @@ public class SendMailer {
 			mailSender.send(message);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
