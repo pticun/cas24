@@ -262,6 +262,10 @@ public class AdminController {
 		ResponseDto response = new ResponseDto();
 		log.debug("closeRound: start");
 		float priceBet = betTools.getPriceBet();
+		boolean bFinalCompanyBet = false;
+		UserAlterQ userAlterQ;
+		float betRefunded = 0;
+		Account account = new Account();
 
 		try {
 			userSecurity.isSuperAdminUserInSession(cookieSession);
@@ -278,9 +282,9 @@ public class AdminController {
 				adminDataDao.update(adminData);
 				
 				//STEP 2: Make automatics bets of DEFECT_COMPANY
-				// STEP 1.1 - Get Users with automatic bets
+				// STEP 2.1 - Get Users with automatic bets
 				List<UserAlterQ> lUsers = userAlterQDao.findUserWithTypeSpecialBets(AlterQConstants.DEFECT_COMPANY, BetTypeEnum.BET_AUTOMATIC);
-				// STEP 1.2 - For each user do as bets as automatic bets (It has to
+				// STEP 2.2 - For each user do as bets as automatic bets (It has to
 				// check user amount before make automatics bets)
 
 				for (UserAlterQ user : lUsers) {
@@ -296,7 +300,7 @@ public class AdminController {
 					if (numApu==0)
 						continue;
 					
-					// STEP 1.2.1 - Check User Balance
+					// STEP 2.2.1 - Check User Balance
 					float balance = new Float(user.getBalance()).floatValue();
 					for (int i = 0; i < numApu; i++) {
 						if (balance < priceBet) {
@@ -305,9 +309,9 @@ public class AdminController {
 							// ("NOT ENOUGH MONEY")
 							continue;
 						}
-						// STEP 1.2.2 - Calc RandomBet
+						// STEP 2.2.2 - Calc RandomBet
 						String randomBet = betTools.randomBet();
-						// STEP 1.2.3 - Make Automatic User Bet
+						// STEP 2.2.3 - Make Automatic User Bet
 						Bet bet = new Bet();
 						bet.setPrice(betTools.getPriceBet());
 						bet.setBet(randomBet);
@@ -325,7 +329,7 @@ public class AdminController {
 						balance -= priceBet;
 					}
 
-					// STEP 1.2.4 - Update User Balance
+					// STEP 2.2.4 - Update User Balance
 					try {
 						user.setBalance(Float.toString((float) (balance)));
 						userAlterQDao.save(user);
@@ -344,7 +348,71 @@ public class AdminController {
 						continue;
 					}
 				}
+				//STEP 3 - Check that all Groups have Final Bet
+				//Get All Companies
+				List<Company> companyList = companyDao.findAll();
 				
+				//Loop for Companies
+				for (Company co : companyList) {
+					//Direct bet
+					if (co.getCompany() == AlterQConstants.DEFECT_COMPANY){
+
+						RoundBets bean = roundBetDao.findRoundBetWithBets(season, round, co.getCompany());
+
+						//Get All Bets
+						List<Bet> lBets = bean.getBets();
+						
+						//Loop for Bets
+						for (Bet bet : lBets){
+							if (bet.getType() == BetTypeEnum.BET_FINAL.getValue())
+							{
+								bFinalCompanyBet = true;
+								
+							}
+						}
+						
+						//We have to delete user bets and refund their money
+						if ((lBets.size()>0) && (!bFinalCompanyBet))
+						{
+							for (Bet bet : lBets){
+								if (bet.getType() == BetTypeEnum.BET_NORMAL.getValue())
+								{
+									String user = bet.getUser();
+									userAlterQ = userAlterQDao.findById(user);
+
+									if (userAlterQ == null) {
+										log.debug("closeRound: user(" + user + ") Error resultBet user not find");
+										// STEP 1.1.error - Send an email to the admin
+										// ("ERROR resultBet user not find")
+										continue;
+									}
+									betRefunded = bet.getNumBets() * betTools.getPriceBet();
+									//Update Balance User
+									userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) + betRefunded));
+									userAlterQDao.save(userAlterQ);
+									
+									//******************************************
+									//PENDING(ACCOUNTING ENTRY) - User betReward
+									//******************************************
+									account.setAmount(Double.toString(betRefunded));
+									account.setCompany(co.getCompany());
+									account.setDate(new Date());
+									account.setDescription("Devolución "+ co.getNick() +"Num Apu: "+bet.getNumBets()+" T "+season+"/"+(season+1-2000)+" J "+round);
+									account.setRound(round);
+									account.setSeason(season);
+									account.setType(new Integer(AccountTypeEnum.ACCOUNT_REFUND.getValue()));
+									account.setUser(user);
+									
+									accountingDao.add(account);
+									
+									log.debug("prizesRound: (ACCOUNTING ENTRY) user:" + user + " balance: "+userAlterQ.getBalance()+" betRefunded="+betRefunded);
+									
+								}
+							}
+						}
+
+					}
+				}
 				
 			} else { // there is not round to close
 				response.addErrorDto("AdminController:closeRound", "There is not round to close");
