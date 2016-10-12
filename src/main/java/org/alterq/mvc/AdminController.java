@@ -195,7 +195,7 @@ public class AdminController {
 		AdminData adminData = null;
 		ResponseDto response = new ResponseDto();
 
-		log.debug("openRound: start");
+		log.debug("AdminController:openRound: start");
 		try {
 			userSecurity.isSuperAdminUserInSession(cookieSession);
 			
@@ -209,9 +209,9 @@ public class AdminController {
 
 			// if exist, update active=true
 			if (adminData != null) {
-				log.debug("openRound: active=true");
+				log.debug("AdminController:openRound: active=true");
 				if ((AlterQConstants.DEFECT_COMPANY == adminData.getCompany()) && (season == adminData.getSeason()) && (round == adminData.getRound()) && (adminData.isActive())) {
-					log.debug("openRound: Round is already actived");
+					log.debug("AdminController:openRound: Round is already actived");
 				} else {
 					adminData.setCompany(AlterQConstants.DEFECT_ADMINDATA);
 					adminData.setSeason(season);
@@ -220,7 +220,7 @@ public class AdminController {
 					adminDataDao.update(adminData);
 				}
 			} else {// if not exist, create a new generalData (active=true)
-				log.debug("openRound: new generalData active=true");
+				log.debug("AdminController:openRound: new generalData active=true");
 				adminData = new AdminData();
 				adminData.setActive(true);
 				adminData.setCompany(AlterQConstants.DEFECT_COMPANY);
@@ -252,7 +252,7 @@ public class AdminController {
 			e.printStackTrace();
 		}
 
-		log.debug("openRound: end");
+		log.debug("AdminController:openRound: end");
 		return response;
 	}
 
@@ -260,7 +260,7 @@ public class AdminController {
 	public @ResponseBody ResponseDto closeRound(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int company, @PathVariable int season, @PathVariable int round) {
 		AdminData adminData = null;
 		ResponseDto response = new ResponseDto();
-		log.debug("closeRound: start");
+		log.debug("AdminController:closeRound: start");
 		float priceBet = betTools.getPriceBet();
 		boolean bFinalCompanyBet = false;
 		UserAlterQ userAlterQ;
@@ -275,7 +275,7 @@ public class AdminController {
 			// STEP 1: if exist, update active=false
 			//
 			if (adminData != null) {
-				log.debug("closeRound: active=true");
+				log.debug("AdminController:closeRound: active=true");
 				adminData.setActive(false);
 				// generalData.setActive(false);
 				// dao.update(generalData);
@@ -304,7 +304,7 @@ public class AdminController {
 					float balance = new Float(user.getBalance()).floatValue();
 					for (int i = 0; i < numApu; i++) {
 						if (balance < priceBet) {
-							log.debug("closeRound: user(" + user.getName() + ") No enough money for automatic bet");
+							log.debug("AdminController:closeRound: user(" + user.getName() + ") No enough money for automatic bet");
 							// STEP 1.2.1.error - Send an email to the user
 							// ("NOT ENOUGH MONEY")
 							continue;
@@ -341,10 +341,10 @@ public class AdminController {
 						 * ("ERROR updating user balance") continue; }
 						 */
 					} catch (Exception e) {
-						log.debug("closeRound: user(" + user.getName() + ") Error updating balance.");
+						log.debug("AdminController:closeRound: user(" + user.getName() + ") Error updating balance.");
 						// STEP 1.2.4.error - Send an email to the admin
 						// ("ERROR updating user balance")
-						response.addErrorDto("AdminController:closeRound", " user(" + user.getName() + ") Error updating balance.");
+						response.addErrorDto("AdminController:AdminController:closeRound", " user(" + user.getName() + ") Error updating balance.");
 						continue;
 					}
 				}
@@ -354,8 +354,9 @@ public class AdminController {
 				
 				//Loop for Companies
 				for (Company co : companyList) {
+					bFinalCompanyBet = false;
 					//Direct bet
-					if (co.getCompany() == AlterQConstants.DEFECT_COMPANY){
+					if (co.getCompany() != AlterQConstants.DEFECT_COMPANY){
 
 						RoundBets bean = roundBetDao.findRoundBetWithBets(season, round, co.getCompany());
 
@@ -381,7 +382,7 @@ public class AdminController {
 									userAlterQ = userAlterQDao.findById(user);
 
 									if (userAlterQ == null) {
-										log.debug("closeRound: user(" + user + ") Error resultBet user not find");
+										log.debug("AdminController:closeRound: user(" + user + ") Error resultBet user not find");
 										// STEP 1.1.error - Send an email to the admin
 										// ("ERROR resultBet user not find")
 										continue;
@@ -405,7 +406,7 @@ public class AdminController {
 									
 									accountingDao.add(account);
 									
-									log.debug("prizesRound: (ACCOUNTING ENTRY) user:" + user + " balance: "+userAlterQ.getBalance()+" betRefunded="+betRefunded);
+									log.debug("AdminController:closeRound: (ACCOUNTING ENTRY) user:" + user + " balance: "+userAlterQ.getBalance()+" betRefunded="+betRefunded);
 									
 								}
 							}
@@ -424,7 +425,7 @@ public class AdminController {
 			e1.printStackTrace();
 		}
 
-		log.debug("closeRound: end");
+		log.debug("AdminController:closeRound: end");
 		return response;
 	}
 
