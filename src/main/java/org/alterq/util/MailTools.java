@@ -49,7 +49,9 @@ public class MailTools{
 		for (Bet bet : lBets) {
 			if ((bet.getType() == BetTypeEnum.BET_NORMAL.getValue()))
 			{
-				CCO += bet.getUser() + ";";
+				//Avoid repeat users
+				if (CCO.indexOf(bet.getUser()) < 0)
+					CCO += bet.getUser() + ";";
 			}
 		}
 		log.debug("getCCOFinalBet: CCO:" + CCO);
