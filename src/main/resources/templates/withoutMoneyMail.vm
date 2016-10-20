@@ -14,7 +14,7 @@
 		  <div style="margin-left: 5%; margin-right: 5%;">
 		  <p style="width:100%; max-height: none; max-width: 100%; text-align: :justify; font-size: large;">
           Hola Quinigolder,<br><br>
-          Tu saldo actual ${currentBalance}€ es inferior a la apuesta minima.<br>
+          Tu saldo actual es de ${currentBalance}€ y es inferior a tus apuestas habituales.<br><br>
           Si quieres seguir jugando en QuiniGold tendrás que actualizarlo.<br><br>
           Gracias por tu confianza.
           </p>

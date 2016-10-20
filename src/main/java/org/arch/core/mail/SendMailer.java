@@ -204,6 +204,7 @@ public class SendMailer {
 
 	public void sendWithoutMoneyMail(UserAlterQ userAlterQ) {
 		MimeMessage message = mailSender.createMimeMessage();
+		float balance;
 
 		// use the true flag to indicate you need a multipart message
 		MimeMessageHelper helper;
@@ -211,7 +212,8 @@ public class SendMailer {
 			Template template = velocityEngine.getTemplate("./templates/withoutMoneyMail.vm");
 
 			VelocityContext velocityContext = new VelocityContext();
-			velocityContext.put("currentBalance", userAlterQ.getBalance());
+			balance = new Float(userAlterQ.getBalance()).floatValue();
+			velocityContext.put("currentBalance", String.format("%.2f", balance));
 			StringWriter stringWriter = new StringWriter();
 
 			template.merge(velocityContext, stringWriter);
@@ -229,7 +231,7 @@ public class SendMailer {
 			// File("D:\\temp\\logo_1035_255.png"));
 			// helper.addInline("logo_1035_205", file);
 
-//			mailSender.send(message);
+			mailSender.send(message);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
