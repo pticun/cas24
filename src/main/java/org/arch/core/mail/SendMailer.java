@@ -268,7 +268,7 @@ public class SendMailer {
 			// File("D:\\temp\\logo_1035_255.png"));
 			// helper.addInline("logo_1035_205", file);
 
-//			mailSender.send(message);
+			mailSender.send(message);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -68,6 +68,9 @@ public class DailyWarningUserBalance {
 			Date dateBD = null;
 			boolean isUserBirthDay = false;
 			
+			if (!userAlterQ.isActive())
+				continue;
+			
 			try {
 				String dateUserB = userAlterQ.getBirthday();
 				if (dateUserB != null){
@@ -84,7 +87,10 @@ public class DailyWarningUserBalance {
 					
 				if (DateUtils.isSameDay(DateUtils.addDays(roundDate, -2), now) || DateUtils.isSameDay(DateUtils.addDays(roundDate, -1), now)) {
 					log.debug("execute sending mail");
-					// check if user don't have bets
+					//TODO: CHECK FOR ALL COMPANIES
+					
+					//TODO: check if user don't have bets
+					
 					// or don't have enough money for special bets
 					RoundBets roundBets = betDao.findAllUserBets(adminData.getSeason(), adminData.getRound(), userAlterQ.getId(), 1);
 	
