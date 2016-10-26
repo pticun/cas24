@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
+import org.alterq.domain.Company;
+import org.alterq.domain.RolCompany;
 import org.alterq.domain.Round;
 import org.alterq.domain.RoundBets;
 import org.alterq.domain.UserAlterQ;
@@ -20,6 +22,7 @@ import org.alterq.repo.RoundDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.util.DateFormatUtil;
 import org.alterq.util.enumeration.QueueMailEnum;
+import org.alterq.util.enumeration.RolNameEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.arch.core.channel.ProcessMailQueue;
@@ -52,6 +55,9 @@ public class DailyWarningUserBalance {
 
 	public void executeDailyWarning() {
 		int numApuestas;
+		boolean isUserBirthDay = false;
+		boolean isUserWithoutBets = false;
+		boolean isUserWithoutMoney = false;
 		
 		log.debug("Method executed at every day.");
 		AdminData adminData = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
@@ -66,7 +72,7 @@ public class DailyWarningUserBalance {
 		for (UserAlterQ userAlterQ : allUser) {
 			
 			Date dateBD = null;
-			boolean isUserBirthDay = false;
+			
 			
 			if (!userAlterQ.isActive())
 				continue;
@@ -87,41 +93,68 @@ public class DailyWarningUserBalance {
 					
 				if (DateUtils.isSameDay(DateUtils.addDays(roundDate, -2), now) || DateUtils.isSameDay(DateUtils.addDays(roundDate, -1), now)) {
 					log.debug("execute sending mail");
-					//TODO: CHECK FOR ALL COMPANIES
-					
-					//TODO: check if user don't have bets
-					
-					// or don't have enough money for special bets
-					RoundBets roundBets = betDao.findAllUserBets(adminData.getSeason(), adminData.getRound(), userAlterQ.getId(), 1);
-	
-					numApuestas = 0;
-					List<Bet> lSpecialBets = userAlterQ.getSpecialBets();
-					
-					if (lSpecialBets != null){
-						for (Bet bet : lSpecialBets){
-							numApuestas+= bet.getNumBets();
-						}
-					}
-					if (numApuestas==0) numApuestas++;
-					
-					double calculatePrize=(lSpecialBets == null) ? 0 : numApuestas*adminData.getPrizeBet();
-					if (roundBets == null || calculatePrize>new Float(userAlterQ.getBalance()).floatValue()) {
-	//					//TODO
-						MailQueueDto mailDto=new MailQueueDto();
-	//					//for purpouse test rewrite mail in environment not PRO
-						if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
-							userAlterQ.setId("quinielagold@gmail.com");
-						}
-						mailDto.setUser(userAlterQ);
-						mailDto.setType(QueueMailEnum.Q_WITHOUTMONEYMAIL);
-	
-						processMailQueue.process(mailDto);
+					//CHECK FOR ALL USER COMPANIES
+					List<RolCompany> listRols = dao.getRols(userAlterQ);
+					for (RolCompany rolCompany : listRols)
+					{
+						isUserWithoutBets = false;
 						
+						if(rolCompany.getRol() == RolNameEnum.ROL_USER.getValue()){
+						
+							// or don't have enough money for special bets
+							RoundBets roundBets = betDao.findAllUserBets(adminData.getSeason(), adminData.getRound(), userAlterQ.getId(), rolCompany.getCompany());
+
+							if (roundBets == null)
+								isUserWithoutBets = true;
+							
+							numApuestas = 0;
+							List<Bet> lSpecialBets = userAlterQ.getSpecialBets();
+							
+							if (lSpecialBets != null){
+								for (Bet bet : lSpecialBets){
+									numApuestas+= bet.getNumBets();
+								}
+							}
+							if (numApuestas==0) numApuestas++;
+							
+							double calculatePrize=(lSpecialBets == null) ? 0 : numApuestas*adminData.getPrizeBet();
+							isUserWithoutMoney = (calculatePrize > new Float(userAlterQ.getBalance()).floatValue());
+							
+							if (isUserWithoutMoney) {
+								MailQueueDto mailDto=new MailQueueDto();
+								//for purpouse test rewrite mail in environment not PRO
+								if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
+									userAlterQ.setId("quinielagold@gmail.com");
+								}
+								mailDto.setUser(userAlterQ);
+								mailDto.setType(QueueMailEnum.Q_WITHOUTMONEYMAIL);
+			
+								processMailQueue.process(mailDto);
+							}
+			
+							if (isUserWithoutBets){
+								//user without bets in this company
+								Company co = new Company();
+								co.setCompany(rolCompany.getCompany());
+								
+								MailQueueDto mailDto=new MailQueueDto();
+								//for purpouse test rewrite mail in environment not PRO
+								if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
+									userAlterQ.setId("quinielagold@gmail.com");
+								}
+								mailDto.setUser(userAlterQ);
+								mailDto.setType(QueueMailEnum.Q_WITHOUTBETMAIL);
+								mailDto.setCompany(co);
+			
+								processMailQueue.process(mailDto);
+							}
+							
+							log.debug(userAlterQ.getId() + ":bets:" + ((userAlterQ.getSpecialBets() == null) ? 0 : userAlterQ.getSpecialBets().size()));
+						}
 					}
-	
-					log.debug(userAlterQ.getId() + ":bets:" + ((userAlterQ.getSpecialBets() == null) ? 0 : userAlterQ.getSpecialBets().size()));
 		
-				} if(isUserBirthDay){
+				} 
+				if(isUserBirthDay){
 					//User birthday
 					MailQueueDto mailDto=new MailQueueDto();
 //					//for purpouse test rewrite mail in environment not PRO
