@@ -120,6 +120,16 @@ public class SendEndpoint {
 	/**
 	 * Process a delivery order for sending by mail.
 	 */
+	public void sendingWithoutBetMail(GenericMessage<MailQueueDto> message) {
+		MailQueueDto mailQueue=  message.getPayload();
+		UserAlterQ userAlterQ=mailQueue.getUser();
+		
+		sendMailer.sendWithoutBetMail(userAlterQ);
+	}
+
+	/**
+	 * Process a delivery order for sending by mail.
+	 */
 	public void sendingBirthdayMail(GenericMessage<MailQueueDto> message) {
 		MailQueueDto mailQueue=  message.getPayload();
 		UserAlterQ userAlterQ=mailQueue.getUser();

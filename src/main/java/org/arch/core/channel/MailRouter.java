@@ -32,6 +32,9 @@ public class MailRouter {
 		case Q_WITHOUTMONEYMAIL:
 			result = "withoutMoneyMail";
 			break;
+		case Q_WITHOUTBETMAIL:
+			result = "withoutBetMail";
+			break;
 		case Q_BIRTHDAYMAIL:
 			result = "birthdayMail";
 			break;

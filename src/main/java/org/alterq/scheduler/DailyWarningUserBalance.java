@@ -58,6 +58,7 @@ public class DailyWarningUserBalance {
 		boolean isUserBirthDay = false;
 		boolean isUserWithoutBets = false;
 		boolean isUserWithoutMoney = false;
+		float fUserBalance = 0;
 		
 		log.debug("Method executed at every day.");
 		AdminData adminData = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
@@ -91,7 +92,9 @@ public class DailyWarningUserBalance {
 					isUserBirthDay = (bornMonth==currMonth) && (currDay == bornDay);					
 				}
 					
-				if (DateUtils.isSameDay(DateUtils.addDays(roundDate, -2), now) || DateUtils.isSameDay(DateUtils.addDays(roundDate, -1), now)) {
+				//if (DateUtils.isSameDay(DateUtils.addDays(roundDate, -2), now) || DateUtils.isSameDay(DateUtils.addDays(roundDate, -1), now)) {
+				//Check it On Thursdays (3 days before round)
+				if (DateUtils.isSameDay(DateUtils.addDays(roundDate, -3), now)) {
 					log.debug("execute sending mail");
 					//CHECK FOR ALL USER COMPANIES
 					List<RolCompany> listRols = dao.getRols(userAlterQ);
@@ -103,6 +106,8 @@ public class DailyWarningUserBalance {
 						
 							// or don't have enough money for special bets
 							RoundBets roundBets = betDao.findAllUserBets(adminData.getSeason(), adminData.getRound(), userAlterQ.getId(), rolCompany.getCompany());
+							
+							
 
 							if (roundBets == null)
 								isUserWithoutBets = true;
@@ -115,10 +120,16 @@ public class DailyWarningUserBalance {
 									numApuestas+= bet.getNumBets();
 								}
 							}
-							if (numApuestas==0) numApuestas++;
+							
+							if (numApuestas==0)
+								numApuestas++;
+							else
+								isUserWithoutBets = false;
+							
 							
 							double calculatePrize=(lSpecialBets == null) ? 0 : numApuestas*adminData.getPrizeBet();
-							isUserWithoutMoney = (calculatePrize > new Float(userAlterQ.getBalance()).floatValue());
+							fUserBalance = new Float(userAlterQ.getBalance()).floatValue();
+							isUserWithoutMoney = (calculatePrize > fUserBalance);
 							
 							if (isUserWithoutMoney) {
 								MailQueueDto mailDto=new MailQueueDto();
@@ -132,7 +143,7 @@ public class DailyWarningUserBalance {
 								processMailQueue.process(mailDto);
 							}
 			
-							if (isUserWithoutBets){
+							if ((isUserWithoutBets) && (fUserBalance > 0)){
 								//user without bets in this company
 								Company co = new Company();
 								co.setCompany(rolCompany.getCompany());
