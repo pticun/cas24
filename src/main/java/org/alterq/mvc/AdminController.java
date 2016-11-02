@@ -696,24 +696,30 @@ public class AdminController {
 								betReward += prize.getAmount() * prize.getCount();
 							}
 	
-							//Update Balance User
-							userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) + betReward));
-							userAlterQDao.save(userAlterQ);
-							//******************************************
-							//PENDING(ACCOUNTING ENTRY) - User betReward
-							//******************************************
-							account.setAmount(Double.toString(betReward));
-							account.setCompany(co.getCompany());
-							account.setDate(new Date());
-							account.setDescription("Premio T "+season+"/"+(season+1-2000)+" J "+round);
-							account.setRound(round);
-							account.setSeason(season);
-							account.setType(new Integer(AccountTypeEnum.ACCOUNT_PRIZE.getValue()));
-							account.setUser(user);
-							
-							accountingDao.add(account);
-							
-							log.debug("prizesRound: (ACCOUNTING ENTRY) user:" + user + " balance: "+userAlterQ.getBalance()+" betReward="+betReward);
+							if (betReward > 0)
+							{
+								//Update Balance User
+								userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) + betReward));
+								userAlterQDao.save(userAlterQ);
+								//******************************************
+								//PENDING(ACCOUNTING ENTRY) - User betReward
+								//******************************************
+								account.setAmount(Double.toString(betReward));
+								account.setCompany(co.getCompany());
+								account.setDate(new Date());
+								account.setDescription("Premio T "+season+"/"+(season+1-2000)+" J "+round);
+								account.setRound(round);
+								account.setSeason(season);
+								account.setType(new Integer(AccountTypeEnum.ACCOUNT_PRIZE.getValue()));
+								account.setUser(user);
+								
+								accountingDao.add(account);
+								
+								log.debug("prizesRound: (ACCOUNTING ENTRY) user:" + user + " balance: "+userAlterQ.getBalance()+" betReward="+betReward);
+
+								//Send Mail to the user
+								
+							}
 						}
 					}
 					

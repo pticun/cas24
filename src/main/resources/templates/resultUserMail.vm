@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Documento Info Quinigold</title>
+</head>
+
+<body style="background-color: hsla(0,0%,93%,1); font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif; width:100%;">
+    <div style="border-radius: 30px; background-color:rgb(120, 120, 120); width:100%;">
+		<div style="margin-left: 5%; margin-right: 5%;">
+        <img src="http://www.quinigold.com/static/resources/_include/img/quinigold.png" alt="" width="100%" height="100%" id="logo"/>
+        ##<img style="width:100%;" src="http://www.goldbittle.es/LOGO.png" alt="QuiniGold" id="logo"/>
+        <div style="border-left: thick none hsla(0,0%,32%,0.93); border-right: thick none hsla(0,0%,32%,0.93); border-bottom: thick dotted hsla(0,0%,32%,0.93);	border-top: thick dotted hsla(0,0%,32%,0.93); border-radius: 30px; margin-top: 5px; width:100%;">
+		  <div style="margin-left: 5%; margin-right: 5%;">
+		  <p style="width:100%; max-height: none; max-width: 100%; text-align: :justify; font-size: large;">
+          Enhorabuena Quinigolder,<br><br>
+		  Tu boleto ha sido premiado!<br><br>
+          Este es el resumen los aciertos que has tenido:<br>
+		  <table>
+			#if (${resultAciertos10}>0)
+			<tr>
+                <td>Aciertos de 10:</td><td align=right>${resultAciertos10} x</td><td align=right>${resultPremio10}€ =</td><td align=right>${resultTotal10}€</td>
+			</tr>
+			#end
+			#if (${resultAciertos11}>0)
+            <tr>
+				<td>Aciertos de 11:</td><td align=right>${resultAciertos11} x</td><td align=right>${resultPremio11}€ =</td><td align=right>${resultTotal11}€</td>
+			</tr>
+			#end
+			#if (${resultAciertos12}>0)
+            <tr>
+				<td>Aciertos de 12:</td><td align=right>${resultAciertos12} x</td><td align=right>${resultPremio12}€ =</td><td align=right>${resultTotal12}€</td>
+			</tr>
+			#end
+			#if (${resultAciertos13}>0)
+            <tr>
+				<td>Aciertos de 13:</td><td align=right>${resultAciertos13} x</td><td align=right>${resultPremio13}€ =</td><td align=right>${resultTotal13}€</td>
+			</tr>
+			#end
+			#if (${resultAciertos14}>0)
+            <tr>
+				<td>Aciertos de 14:</td><td align=right>${resultAciertos14} x</td><td align=right>${resultPremio14}€ =</td><td align=right>${resultTotal14}€</td>
+			</tr>
+			#end
+			#if (${resultAciertos15}>0)
+            <tr>
+				<td>Aciertos de 15:</td><td align=right>${resultAciertos15} x</td><td align=right>${resultPremio15}€ =</td><td align=right>${resultTotal15}€</td>
+			</tr>
+			#end
+            <tr>
+				<td colspan=3 align=right>TOTAL</td><td>= ${resultTotal}€</td>
+            </tr>
+          </table>
+		  <br><br>
+          Gracias por tu confianza.
+          </p>
+		  </div>
+        </div>
+        <div style="width:100%;">
+          <p style="width:100%; margin-left: 5%; margin-right: 5%;  max-height: none; max-width: 100%; text-align: justify; font-size: large;">
+            QuiniGold<br>
+            http://www.quinigold.com
+        	<br><br>
+          </p>
+        </div>
+		</div>
+    </div>
+</body>
+</html>

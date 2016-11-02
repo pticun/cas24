@@ -26,6 +26,9 @@ public class MailRouter {
 		case Q_RESULTSMAIL:
 			result = "resultsMail";
 			break;
+		case Q_RESULTUSERMAIL:
+			result = "resultUserMail";
+			break;
 		case Q_FORGOTMAIL:
 			result = "forgotMail";
 			break;

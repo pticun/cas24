@@ -15,35 +15,56 @@
 		  <p style="width:100%; max-height: none; max-width: 100%; text-align: :justify; font-size: large;">
           Hola Quinigolder,<br><br>
 		  Ya está a vuestra disposicion el Boleto para esta semana.<br><br>
-          En el Boleto ${resultBoleto} hemos tenido los siguientes aciertos:
-		  <table>
-			<tr>
-                <td>Aciertos de 10:</td><td align=right>${resultAciertos10} x</td><td align=right>${resultPremio10}€ =</td><td align=right>${resultTotal10}€</td>
-			</tr>
-            <tr>
-				<td>Aciertos de 11:</td><td align=right>${resultAciertos11} x</td><td align=right>${resultPremio11}€ =</td><td align=right>${resultTotal11}€</td>
-			</tr>
-            <tr>
-				<td>Aciertos de 12:</td><td align=right>${resultAciertos12} x</td><td align=right>${resultPremio12}€ =</td><td align=right>${resultTotal12}€</td>
-			</tr>
-            <tr>
-				<td>Aciertos de 13:</td><td align=right>${resultAciertos13} x</td><td align=right>${resultPremio13}€ =</td><td align=right>${resultTotal13}€</td>
-			</tr>
-            <tr>
-				<td>Aciertos de 14:</td><td align=right>${resultAciertos14} x</td><td align=right>${resultPremio14}€ =</td><td align=right>${resultTotal14}€</td>
-			</tr>
-            <tr>
-				<td>Aciertos de 15:</td><td align=right>${resultAciertos15} x</td><td align=right>${resultPremio15}€ =</td><td align=right>${resultTotal15}€</td>
-			</tr>
-            <tr>
-				<td colspan=3>Bote:</td><td align=right>${resultBote}€</td>
-			</tr>
-            <tr>
-				<td colspan=3 align=right>TOTAL</td><td>= ${resultTotal}€</td>
-            </tr>
-          </table>
-		  <br>
-		  Saliendo a ${resultReparto}€ por apuesta.
+          #if((${resultAciertos10}>0) || (${resultAciertos11}>0) || (${resultAciertos12}>0) || (${resultAciertos13}>0) || (${resultAciertos14}>0) || (${resultAciertos15}>0))
+    		  En el Boleto ${resultBoleto} hemos tenido los siguientes aciertos:
+    		  <table>
+    			#if (${resultAciertos10}>0)
+    			<tr>
+                    <td>Aciertos de 10:</td><td align=right>${resultAciertos10} x</td><td align=right>${resultPremio10}€ =</td><td align=right>${resultTotal10}€</td>
+    			</tr>
+    			#end
+    			#if(${resultAciertos11}>0)
+                <tr>
+    				<td>Aciertos de 11:</td><td align=right>${resultAciertos11} x</td><td align=right>${resultPremio11}€ =</td><td align=right>${resultTotal11}€</td>
+    			</tr>
+    			#end
+    			#if(${resultAciertos12}>0)
+                <tr>
+    				<td>Aciertos de 12:</td><td align=right>${resultAciertos12} x</td><td align=right>${resultPremio12}€ =</td><td align=right>${resultTotal12}€</td>
+    			</tr>
+    			#end
+    			#if(${resultAciertos13}>0)
+                <tr>
+    				<td>Aciertos de 13:</td><td align=right>${resultAciertos13} x</td><td align=right>${resultPremio13}€ =</td><td align=right>${resultTotal13}€</td>
+    			</tr>
+    			#end
+    			#if(${resultAciertos14}>0)
+                <tr>
+    				<td>Aciertos de 14:</td><td align=right>${resultAciertos14} x</td><td align=right>${resultPremio14}€ =</td><td align=right>${resultTotal14}€</td>
+    			</tr>
+    			#end
+    			#if(${resultAciertos15}>0)
+                <tr>
+    				<td>Aciertos de 15:</td><td align=right>${resultAciertos15} x</td><td align=right>${resultPremio15}€ =</td><td align=right>${resultTotal15}€</td>
+    			</tr>
+    			#end
+                <tr>
+    				<td colspan=3>Bote:</td><td align=right>${resultBote}€</td>
+    			</tr>
+                <tr>
+    				<td colspan=3 align=right>TOTAL</td><td>= ${resultTotal}€</td>
+                </tr>
+              </table>
+	  		  <br>
+			  Saliendo a ${resultReparto}€ por apuesta.
+		  #else
+			En el Boleto ${resultBoleto} no hemos tenido premios.<br>
+			#if (${resultBote}>0)
+				Se ha repartido el Bote de ${resultBote}€<br>
+				<br>
+				Saliendo a ${resultReparto}€ por apuesta.
+			#end
+		  #end
 		  <br><br>
           Gracias por tu confianza.
           </p>
