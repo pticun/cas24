@@ -611,6 +611,7 @@ public class AdminController {
 		String betResult = null;
 		double rewardDivided = 0;
 		Account account = new Account();
+		String eMail;
 
 		try {
 			userSecurity.isSuperAdminUserInSession(cookieSession);
@@ -649,6 +650,9 @@ public class AdminController {
 				return response;
 			}
 			
+			//translate Result Bet
+			betResult = betTools.translateResultTo1x2(betResult);
+			
 			//Get All Companies
 			List<Company> companyList = companyDao.findAll();
 			
@@ -677,7 +681,7 @@ public class AdminController {
 								// ("ERROR pricesRound user not find")
 								continue;
 							}
-	
+							
 							//Calc Bet Prizes
 							countPrizes = calculateRights.calculate(betResult, bet.getBet(), bet.getReduction(), bet.getTypeReduction());
 							for (int i = 0; i <= 5; i++) {
@@ -719,6 +723,35 @@ public class AdminController {
 
 								//Send Mail to the user
 								
+								eMail = userAlterQ.getId();
+								
+								if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
+									eMail = "quinielagold@gmail.com";
+								}
+								
+
+								MailQueueDto mailDto=new MailQueueDto();
+								mailDto.setType(QueueMailEnum.Q_RESULTUSERMAIL);
+								
+								RoundBets processRoundBetMail=new RoundBets();
+								processRoundBetMail.setCompany(co.getCompany());
+								processRoundBetMail.setRound(round);
+								processRoundBetMail.setSeason(season);
+								processRoundBetMail.setReward(betReward);
+								//bet.setNumBets(numCompanyBets);
+
+								List<Bet> finalBet=new ArrayList<Bet>();
+								finalBet.add(bet);
+								processRoundBetMail.setBets(finalBet);
+								
+								mailDto.setRoundBet(processRoundBetMail);
+								mailDto.setCco(eMail);
+								
+								processMailQueue.process(mailDto);
+								
+								
+								
+								//End Send Mail to the user
 							}
 						}
 					}
@@ -744,7 +777,7 @@ public class AdminController {
 					for (Bet bet : lBets) {
 						if (bet.getType() == BetTypeEnum.BET_FINAL.getValue()){
 							//translate Result Bet
-							betResult = betTools.translateResultTo1x2(betResult);
+							//betResult = betTools.translateResultTo1x2(betResult);
 							//Calc Bet Prizes
 							countPrizes = calculateRights.calculate(betResult, bet.getBet(), bet.getReduction(), bet.getTypeReduction());
 							for (int i = 0; i <= 5; i++) {

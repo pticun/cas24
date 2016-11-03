@@ -202,6 +202,48 @@ public class SendMailer {
 
 	}
 
+	public void sendResultUserMail(String CCOusers, int round, float betReward, List<Prize> prizes) {
+		MimeMessage message = mailSender.createMimeMessage();
+
+		// use the true flag to indicate you need a multipart message
+		MimeMessageHelper helper;
+		try {
+			Template template = velocityEngine.getTemplate("./templates/resultUserMail.vm");
+
+			VelocityContext velocityContext = new VelocityContext();
+			velocityContext.put("resultBoleto", round);
+			for (Prize prize : prizes) {
+
+				velocityContext.put("resultAciertos" + prize.getId(), prize.getCount());
+				velocityContext.put("resultPremio" + prize.getId(), prize.getAmount());
+				velocityContext.put("resultTotal" + prize.getId(), prize.getCount() * prize.getAmount());
+			}
+			velocityContext.put("resultTotal", betReward);
+
+			StringWriter stringWriter = new StringWriter();
+
+			template.merge(velocityContext, stringWriter);
+
+			helper = new MimeMessageHelper(message, true);
+			helper.setFrom(new InternetAddress(from, "QuiniGold"));
+			// helper.setTo(userAlterQ.getId());
+			helper.setBcc(CCOusers);
+			helper.setSubject("QuiniGold - Boleto Premiado");
+
+			helper.setText(stringWriter.toString(), true);
+
+			log.debug("body:" + stringWriter.toString());
+
+			mailSender.send(message);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	public void sendWithoutMoneyMail(UserAlterQ userAlterQ) {
 		MimeMessage message = mailSender.createMimeMessage();
 		float balance;

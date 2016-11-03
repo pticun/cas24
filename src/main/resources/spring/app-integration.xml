@@ -39,6 +39,7 @@
 
     <int:channel id="dailyMail"/>
     <int:channel id="resultsMail"/>
+    <int:channel id="resultUserMail"/>
     <int:channel id="forgotMail"/>
     <int:channel id="withoutMoneyMail"/>
     <int:channel id="withoutBetMail"/>
@@ -56,6 +57,9 @@
 	</int:bridge>
 	<int:bridge input-channel="resultsMail"
     	output-channel="resultsMailSend" auto-startup="true">
+    </int:bridge>
+	<int:bridge input-channel="resultUserMail"
+    	output-channel="resultUserMailSend" auto-startup="true">
     </int:bridge>
 	<int:bridge input-channel="forgotMail"
 		output-channel="forgotMailSend" auto-startup="true">
@@ -81,6 +85,7 @@
 
 	<int:channel id="dailyMailSend"/>
     <int:channel id="resultsMailSend"/>
+    <int:channel id="resultUserMailSend"/>
     <int:channel id="forgotMailSend"/>
     <int:channel id="withoutMoneyMailSend"/>
     <int:channel id="withoutBetMailSend"/>
@@ -90,6 +95,7 @@
 
     <int:outbound-channel-adapter channel="dailyMailSend" ref="sendEndpoint" method="sendingDailyMail" auto-startup="true"/>
     <int:outbound-channel-adapter channel="resultsMailSend" ref="sendEndpoint" method="sendingResultsMail" auto-startup="true"/>
+    <int:outbound-channel-adapter channel="resultUserMailSend" ref="sendEndpoint" method="sendingResultUserMail" auto-startup="true"/>
     <int:outbound-channel-adapter channel="forgotMailSend" ref="sendEndpoint" method="sendingForgotMail" auto-startup="true"/>
     <int:outbound-channel-adapter channel="withoutMoneyMailSend" ref="sendEndpoint" method="sendingWithoutMoneyMail" auto-startup="true"/>
     <int:outbound-channel-adapter channel="withoutBetMailSend" ref="sendEndpoint" method="sendingWithoutBetMail" auto-startup="true"/>

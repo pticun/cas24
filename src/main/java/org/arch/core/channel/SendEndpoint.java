@@ -110,6 +110,20 @@ public class SendEndpoint {
 	/**
 	 * Process a delivery order for sending by mail.
 	 */
+	public void sendingResultUserMail(GenericMessage<MailQueueDto> message) {
+		MailQueueDto mailQueue=  message.getPayload();
+		
+		String cco=mailQueue.getCco();
+		RoundBets roundBet=mailQueue.getRoundBet();
+		Bet bet = roundBet.getBets().get(0);
+		List<Prize> lPrizes = bet.getPrizes();
+		
+		sendMailer.sendResultUserMail(cco, roundBet.getRound(), roundBet.getReward(), lPrizes);
+	}
+
+	/**
+	 * Process a delivery order for sending by mail.
+	 */
 	public void sendingWithoutMoneyMail(GenericMessage<MailQueueDto> message) {
 		MailQueueDto mailQueue=  message.getPayload();
 		UserAlterQ userAlterQ=mailQueue.getUser();
