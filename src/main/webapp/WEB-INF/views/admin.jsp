@@ -721,6 +721,23 @@ var ctx = "<%=request.getContextPath()%>"
 				   			<td>Round:</td>
 				   			<td><input id="roundFGetile" name="round" type="text"/></td>
 				        </tr>
+				   		<tr>
+							<td>Tipo:</td>
+							<td>
+							<div class="radio">
+							  <label>
+							    <input type="radio" name="opciones" id="opciones_0" value="0" checked>
+							    AD243
+							  </label>
+							</div>
+							<div class="radio">
+							  <label>
+							    <input type="radio" name="opciones" id="opciones_1" value="1">
+							    TXT
+							  </label>
+							</div>
+							</td>
+				   		</tr>
 				   		<tr align="center">
 				   			<td colspan=2><button id="admin_getFile_btn" class="btn btn-danger" name="getFileBtn" value="fileBtn">Get File</button><br><br></td>
 				        </tr>

@@ -1081,16 +1081,19 @@ public class AdminController {
 		return response;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE, value = "/season/{season}/round/{round}/getFile")
-	public @ResponseBody void getElectricFile(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int season, @PathVariable int round, HttpServletResponse resp) {
+	@RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE, value = "/season/{season}/round/{round}/type/{type}/getFile")
+	public @ResponseBody void getElectricFile(@CookieValue(value = "session", defaultValue = "") String cookieSession, @PathVariable int season, @PathVariable int round, @PathVariable int type, HttpServletResponse resp) {
 		AdminData adminData = null;
 		ResponseDto response = new ResponseDto();
-		String responseString = new String();
+//		String responseString = new String();
 		RoundBets roundBets = null;
 		String rdo[] = new String[0];
 		boolean bBets = false;
+		boolean esAD243 = true;
 
 		log.debug("getElectricFile: start");
+		
+		esAD243 = (type == 0);
 
 		try {
 			userSecurity.isSuperAdminUserInSession(cookieSession);
@@ -1202,79 +1205,98 @@ public class AdminController {
 				RegistroBetElectronicFile[] registro = new RegistroBetElectronicFile[rdo.length];
 	
 				log.debug("numApuestas=" + rdo.length);
-	
-				MultiValueMap mhm = ordenarApuestas(rdo);
-				Set<String> keys = mhm.keySet();
-				int numBloquesPleno15 = keys.size();
-				log.debug("numBloquesPleno15=" + numBloquesPleno15);
-				int indexBloquesTotal = 1;
-				for (Object k : keys) {
-					log.debug("(" + k + " : " + mhm.get(k) + ")");
-					int numApuestasIgualPleno15 = mhm.getCollection(k).size();
-					int[] modulusBloque = modulusBloque(numApuestasIgualPleno15);
-					int numBloques = modulusBloque[0];
-					int indexIterator = 0;
-					int numApuestaLastBloque = 0;
-					int numBloquesContador = 1;
-					log.debug("numBloque=" + modulusBloque[0]);
-					log.debug("modBloque=" + modulusBloque[1]);
-					log.debug("numApuestasIgualPleno15=" + numApuestasIgualPleno15);
-					boolean lastBloque = false;
-					StringBuffer pronosticoPartido = new StringBuffer();
-					for (Iterator iterator = mhm.getCollection(k).iterator(); iterator.hasNext();) {
-						if (numBloquesContador == numBloques) {
-							lastBloque = true;
-							numApuestaLastBloque++;
+				
+				if (esAD243)
+				{
+				
+					MultiValueMap mhm = ordenarApuestas(rdo);
+					Set<String> keys = mhm.keySet();
+					int numBloquesPleno15 = keys.size();
+					log.debug("numBloquesPleno15=" + numBloquesPleno15);
+					int indexBloquesTotal = 1;
+					for (Object k : keys) {
+						log.debug("(" + k + " : " + mhm.get(k) + ")");
+						int numApuestasIgualPleno15 = mhm.getCollection(k).size();
+						int[] modulusBloque = modulusBloque(numApuestasIgualPleno15);
+						int numBloques = modulusBloque[0];
+						int indexIterator = 0;
+						int numApuestaLastBloque = 0;
+						int numBloquesContador = 1;
+						log.debug("numBloque=" + modulusBloque[0]);
+						log.debug("modBloque=" + modulusBloque[1]);
+						log.debug("numApuestasIgualPleno15=" + numApuestasIgualPleno15);
+						boolean lastBloque = false;
+						StringBuffer pronosticoPartido = new StringBuffer();
+						for (Iterator iterator = mhm.getCollection(k).iterator(); iterator.hasNext();) {
+							if (numBloquesContador == numBloques) {
+								lastBloque = true;
+								numApuestaLastBloque++;
+							}
+							String linea = (String) iterator.next();
+							indexIterator++;
+							pronosticoPartido.append(StringUtils.left(linea, 14));
+							// esto es un nuevo bloque
+							if (indexIterator % modulusBloque[1] == 0 && !lastBloque) {
+								RegistroBetElectronicFile registroBe = new RegistroBetElectronicFile();
+								registroBe.setNumApuestaBloque("" + modulusBloque[1]);
+								registroBe.setNumBloque(StringUtils.leftPad("" + indexBloquesTotal, 8, '0'));
+								registroBe.setPronostico15(StringUtils.right("" + k, 2));
+								registroBe.setPronosticoPartido(StringUtils.rightPad(pronosticoPartido.toString(), 112, ' '));
+								registro[indexBloquesTotal] = registroBe;
+		
+								pronosticoPartido = new StringBuffer();
+								numBloquesContador++;
+								indexBloquesTotal++;
+							}
+							// log.debug(linea);
 						}
-						String linea = (String) iterator.next();
-						indexIterator++;
-						pronosticoPartido.append(StringUtils.left(linea, 14));
-						// esto es un nuevo bloque
-						if (indexIterator % modulusBloque[1] == 0 && !lastBloque) {
-							RegistroBetElectronicFile registroBe = new RegistroBetElectronicFile();
-							registroBe.setNumApuestaBloque("" + modulusBloque[1]);
-							registroBe.setNumBloque(StringUtils.leftPad("" + indexBloquesTotal, 8, '0'));
-							registroBe.setPronostico15(StringUtils.right("" + k, 2));
-							registroBe.setPronosticoPartido(StringUtils.rightPad(pronosticoPartido.toString(), 112, ' '));
-							registro[indexBloquesTotal] = registroBe;
-	
-							pronosticoPartido = new StringBuffer();
-							numBloquesContador++;
-							indexBloquesTotal++;
-						}
-						// log.debug(linea);
+						RegistroBetElectronicFile registroBe = new RegistroBetElectronicFile();
+						registroBe.setNumApuestaBloque("" + numApuestaLastBloque);
+						registroBe.setNumBloque(StringUtils.leftPad("" + indexBloquesTotal, 8, '0'));
+						registroBe.setPronostico15(StringUtils.right("" + k, 2));
+						registroBe.setPronosticoPartido(StringUtils.rightPad(pronosticoPartido.toString(), 112, ' '));
+						registro[indexBloquesTotal] = registroBe;
+						indexBloquesTotal++;
 					}
-					RegistroBetElectronicFile registroBe = new RegistroBetElectronicFile();
-					registroBe.setNumApuestaBloque("" + numApuestaLastBloque);
-					registroBe.setNumBloque(StringUtils.leftPad("" + indexBloquesTotal, 8, '0'));
-					registroBe.setPronostico15(StringUtils.right("" + k, 2));
-					registroBe.setPronosticoPartido(StringUtils.rightPad(pronosticoPartido.toString(), 112, ' '));
-					registro[indexBloquesTotal] = registroBe;
-					indexBloquesTotal++;
+		
+					befile.setRegistro(registro);
+		
+					// check data round in create Round
+					// cb.setFechaJornada("010115");
+					Date dt = tmpRound.getDateRound();
+					DateFormat df = new SimpleDateFormat("ddMMyy");
+					String dtf = df.format(dt);
+		
+					cb.setFechaJornada(dtf);
+					cb.setNumJornada(StringUtils.leftPad("" + tmpRound.getRound(), 2, '0'));
+					cb.setNumTotalApuestas(StringUtils.leftPad("" + rdo.length, 6, '0'));
+					cb.setNumTotalBloques(StringUtils.leftPad("" + (indexBloquesTotal - 1), 6, '0'));
+		
+					log.debug(befile.getCabeceraString());
+					log.debug(befile.getRegistroString());
+		
+					//responseString = befile.getCabeceraString() + "" + befile.getRegistroString();
+		
+					resp.setContentType("application/force-download");
+					resp.setHeader("Content-Disposition", "attachment; filename=\"ad243\"");
+					resp.getOutputStream().write((befile.getCabeceraString() + "" + befile.getRegistroString()).getBytes());
+					resp.flushBuffer();
+				
 				}
-	
-				befile.setRegistro(registro);
-	
-				// check data round in create Round
-				// cb.setFechaJornada("010115");
-				Date dt = tmpRound.getDateRound();
-				DateFormat df = new SimpleDateFormat("ddMMyy");
-				String dtf = df.format(dt);
-	
-				cb.setFechaJornada(dtf);
-				cb.setNumJornada(StringUtils.leftPad("" + tmpRound.getRound(), 2, '0'));
-				cb.setNumTotalApuestas(StringUtils.leftPad("" + rdo.length, 6, '0'));
-				cb.setNumTotalBloques(StringUtils.leftPad("" + (indexBloquesTotal - 1), 6, '0'));
-	
-				log.debug(befile.getCabeceraString());
-				log.debug(befile.getRegistroString());
-	
-				responseString = befile.getCabeceraString() + "" + befile.getRegistroString();
-	
-				resp.setContentType("application/force-download");
-				resp.setHeader("Content-Disposition", "attachment; filename=\"ad243\"");
-				resp.getOutputStream().write((befile.getCabeceraString() + "" + befile.getRegistroString()).getBytes());
-				resp.flushBuffer();
+				else{
+					StringBuffer apuestas = new StringBuffer();
+					//Generate TXT file with bets
+					resp.setContentType("application/force-download");
+					resp.setHeader("Content-Disposition", "attachment; filename=\"GoldBittle_Ap_"+rdo.length+".TXT\"");
+			        for (int i=0; i<rdo.length; i++)
+			        {
+			        	apuestas.append(rdo[i]);
+			        	apuestas.append("\n");
+			        }
+					resp.getOutputStream().write(apuestas.toString().getBytes());
+					resp.flushBuffer();
+					
+				}
 			}			
 
 		} catch (Exception e) {

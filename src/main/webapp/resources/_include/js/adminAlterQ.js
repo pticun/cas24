@@ -360,7 +360,7 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#getFileForm').serializeObject());
 		 consoleAlterQ(dataJson);
 		 
-		 var url= ctx+'/admin'+ '/season/'+ $("input[id=seasonGetFile]").val() + '/round/' + $("input[id=roundFGetile]").val() + '/getFile';
+		 var url= ctx+'/admin'+ '/season/'+ $("input[id=seasonGetFile]").val() + '/round/' + $("input[id=roundFGetile]").val() + '/type/' + $('input:radio[name=opciones]:checked').val() + '/getFile';
 //		 alert(url);
 		 var NWin = window.open(url, '', 'height=800,width=800');
  	     if (window.focus)
