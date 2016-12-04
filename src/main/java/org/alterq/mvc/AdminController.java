@@ -1109,8 +1109,10 @@ public class AdminController {
 			//Get All Companies
 			List<Company> companyList = companyDao.findAll();
 			for (Company co : companyList) {
+				/*
 				if (!co.isVisibility())
 					continue;
+				*/
 				
 				if (co.getCompany() != AlterQConstants.DEFECT_COMPANY){
 					//Solo hay que mirar las quinielas finales
@@ -1206,7 +1208,7 @@ public class AdminController {
 	
 				log.debug("numApuestas=" + rdo.length);
 				
-				if (esAD243)
+				if (esAD243) //FICHERO EN FORMATO AD243
 				{
 				
 					MultiValueMap mhm = ordenarApuestas(rdo);
@@ -1283,11 +1285,11 @@ public class AdminController {
 					resp.flushBuffer();
 				
 				}
-				else{
+				else{ //FICHERO EN FORMATO TXT
 					StringBuffer apuestas = new StringBuffer();
 					//Generate TXT file with bets
 					resp.setContentType("application/force-download");
-					resp.setHeader("Content-Disposition", "attachment; filename=\"GoldBittle_Ap_"+rdo.length+".TXT\"");
+					resp.setHeader("Content-Disposition", "attachment; filename=\"GoldBittle_"+season+"_"+round+"_Ap_"+rdo.length+".TXT\"");
 			        for (int i=0; i<rdo.length; i++)
 			        {
 			        	apuestas.append(rdo[i]);
