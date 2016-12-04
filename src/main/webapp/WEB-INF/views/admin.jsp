@@ -656,6 +656,16 @@ var ctx = "<%=request.getContextPath()%>"
 		<div align="center">
 			<form id="updateBalanceForm">
 			   		<table class="tablaQuiniGold">
+			   			<tr>
+			   				<td>Usuarios:<br></td>
+			   				<td>
+				   				<select id="listaUsuarios">
+								    <option value="1">value 1</option>
+								    <option value="2">value 2</option>
+								</select>
+								<br>
+							</td>
+						</tr> 
 				   		<tr>
 				   			<td>User:</td>
 				   			<td><input id="updateBalanceUser" name="user" type="text"/></td>

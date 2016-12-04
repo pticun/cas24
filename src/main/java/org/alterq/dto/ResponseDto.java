@@ -20,6 +20,7 @@ public class ResponseDto {
 	private RoundRanking roundRanking;
 	private Bet bet;
 	private List<Company> company;
+	private List<UserAlterQ> users;
 	public Bet getBet() {
 		return bet;
 	}
@@ -104,4 +105,18 @@ public class ResponseDto {
 		this.company.add(company);
 	}
 
+	public List<UserAlterQ> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<UserAlterQ> users) {
+		this.users = users;
+	}
+
+	public void setUser(UserAlterQ users) {
+		if (this.users == null) {
+			this.users = new ArrayList<UserAlterQ>();
+		}
+		this.users.add(users);
+	}
 }

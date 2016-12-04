@@ -399,6 +399,8 @@ $("#prizesBtn").on('click', function(event){
 	event.preventDefault(); // prevent actual form submit and page reload
 });
 $("#updateBalanceBtn").on('click', function(event){
+	//obtenemos los usuarios
+	getUsers();
 	menuEvent($(this).text(),  "#updateBalanceDiv");
 	event.preventDefault(); // prevent actual form submit and page reload
 });
@@ -442,6 +444,10 @@ $("#homeBtn7").on('click', function(event){
 $("#homeBtn8").on('click', function(event){
 	menuEvent($(this).text(),  "#homeDiv");
 	event.preventDefault(); // prevent actual form submit and page reload
+});
+
+$("#listaUsuarios").change(function() {
+	 $("#updateBalanceUser").val($("#listaUsuarios").val());
 });
 
 function consoleAlterQ(text){
@@ -504,5 +510,37 @@ function callResum(company,temporada,jornada){
 	});
 }
 
+function getUsers(){
+	//Remove table
+	$('option').remove();
+	jQuery.ajax ({
+	    url: ctx+'/admin/users',
+	    type: "GET",
+	    data: null,
+	    contentType: "application/json; charset=utf-8",
+	    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+        cache: false,    //This will force requested pages not to be cached by the browser  
+        processData:false, //To avoid making query String instead of JSON
+	    success: function(response){
+	    	if(response.errorDto!=0){
+   		    	$(response.errorDto).each(function(index, objeto){  
+   		    		consoleAlterQ("result: response="+objeto.errorDto);
+   		    		$('#updateBalanceFormResponse').text(objeto.stringError+" - ");
+			    });
+   		    }
+		    else{
+				$(response.users).each(function(index, element){
+					console.log("index="+index);
+					console.log("user="+element.id + " name="+element.name);
+					var row="";
+					row+='<option value="'+element.id+'">'+element.name+' '+element.surnames+'</option>';
+					$('#listaUsuarios').append(row);
+				});		    	
+		    }
+	    }
+	});
+
+	
+}
 
 

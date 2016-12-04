@@ -1370,5 +1370,39 @@ public class AdminController {
 
 		return modulusBloque;
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/users")
+	public @ResponseBody ResponseDto getUsers(@CookieValue(value = "session", defaultValue = "") String cookieSession) {
+		ResponseDto dto = new ResponseDto();
+		UserAlterQ userAlterQ = null;
+		try {
+			userSecurity.isSuperAdminUserInSession(cookieSession);
+
+			List<UserAlterQ> lUsers = userAlterQDao.findAllUserActive();
+			if (lUsers == null)
+			{
+				ErrorDto error = new ErrorDto();
+				error.setIdError(MessageResourcesNameEnum.GENERIC_ERROR);
+				error.setStringError("Obtener Usuarios (Error: no hay usuarios)");
+				dto.addErrorDto(error);
+				dto.setUserAlterQ(null);
+				return dto;
+			}
+			
+			dto.setUsers(lUsers);
+
+		} catch (SecurityException e) {
+			dto.addErrorDto("AdminController:getUsers", "SecurityException");
+			e.printStackTrace();
+		} catch (Exception e) {
+			dto.addErrorDto("AdminController:getUsers", "Generic Update Error");
+			e.printStackTrace();
+		}
+
+		dto.setUserAlterQ(userAlterQ);
+
+		return dto;
+	}	
 
 }
+
