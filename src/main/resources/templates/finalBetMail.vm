@@ -17,18 +17,25 @@
           Este es tu Boleto:<br>
 		  <table>
 			<tr>
-                <td>JORNADA ${finalBetRound}</td><td>TEMPORADA ${finalBetTemporada}</td><td>REGISTRO:${finalBetID}</td>
+                <td><b>JORNADA</b> </td><td>${finalBetRound}</td>
 			</tr>
 			<tr>
-                <td colspan="3">PRECIO: ${finalBetPrize}€</td>
+                <td><b>TEMPORADA</b></td><td>${finalBetTemporada}</td>
 			</tr>
 			<tr>
-                <td colspan="3">APUESTAS: ${finalBetNumBets}</td>
+                <td><b>REGISTRO:</b></td><td>${finalBetID}</td>
+			</tr>
+			<tr>
+                <td><b>PRECIO:</b></td><td>${finalBetPrize}€</td>
+			</tr>
+			<tr>
+                <td><b>APUESTAS:</b></td><td>${finalBetNumBets}</td>
 			</tr>
           </table>	
 		  <table>
 			<tr>
-                <td colspan="3"><a href=${finalBetLinkBet}>VER BOLETO</a></td>
+                <td><br><a href=${finalBetLinkBet}><img src="http://www.quinigold.com/static/resources/_include/img/verboleto.png" alt="" width="100%" height="100%" id="verboleto"/></a></td>
+				##<td><br><a href=${finalBetLinkBet}><img src="http://www.goldbittle.es/verboleto.png" alt="" width="100%" height="100%" id="verboleto"/></a></td>
 			</tr>
           </table>	
 		  <br><br>

@@ -384,7 +384,7 @@ public class SendMailer {
 
 			log.debug("body:" + stringWriter.toString());
 
-//			mailSender.send(message);
+			mailSender.send(message);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

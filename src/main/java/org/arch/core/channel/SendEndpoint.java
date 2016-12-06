@@ -169,9 +169,10 @@ public class SendEndpoint {
 		
 		Bet bet = roundBet.getBets().get(0);
 		
-		betID = "ID" + bet.getId().toUpperCase();
+
+		betID = "ID" + bet.getId().toUpperCase().substring((bet.getId().length() - 6),bet.getId().length());
 		
-		numBets = (int) ((int) roundBet.getPrice() / priceBet);
+		numBets = (int) (roundBet.getPrice() / priceBet);
 		
 		Company myCompany = companyDao.findByCompany(bet.getCompany());
 		if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
