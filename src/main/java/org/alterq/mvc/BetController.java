@@ -270,6 +270,21 @@ public class BetController {
 				dto.setUserAlterQ(null);
 				return dto;
 			}
+			
+			//Check if Company has already made the final bet (is as it has closed the round)
+			if (!adminCompanyUser){
+				RoundBets rbAdminCompanyFinalBets;
+				rbAdminCompanyFinalBets = roundBetDao.findFinalBet(season, round, company);
+				if (rbAdminCompanyFinalBets!=null)
+				{
+					ErrorDto error = new ErrorDto();
+					error.setIdError(MessageResourcesNameEnum.BET_NOT_ALLOWED);
+					error.setStringError(messageLocalizedResources.resolveLocalizedErrorMessage(MessageResourcesNameEnum.BET_NOT_ALLOWED_FOR_COMPANY_WITH_FINALBET));
+					dto.addErrorDto(error);
+					dto.setUserAlterQ(null);
+					return dto;
+				}
+			}
 
 			String apuesta = "";
 			String reduccion = "";
