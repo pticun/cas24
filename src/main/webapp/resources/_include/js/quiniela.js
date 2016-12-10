@@ -1,5 +1,6 @@
 var sCompany ="";
 var sCompanyDefault ="LAE";
+var bQuiniela = 5;
 
 function getSign(sign){
 	switch(sign)
