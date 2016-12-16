@@ -113,7 +113,7 @@ function addPorcentajes(bet){
 
 function getTableMatches(bet, loadGames, color){
 	consoleAlterQ("getTableMatches() bet="+bet);	
-	tableBet='<table style="font-size:14px; color:'+color+';">';
+	tableBet='<table style="font-size:12px; color:'+color+';">';
 	$(loadGames).each(function(index, element){ 
 		var temp=padding_right(element.player1+'-'+element.player2,".",27);
 		var num = (index+1)<10?(' '+(index+1)):(index+1);
@@ -654,13 +654,9 @@ function confirmBet(bet, mygames, apuestas, precio, temporada, jornada)
 	$('#confirmarQuinielaTable').empty();
     row+='<tr>';
     row+='<td>';
-    row+='<article>';
-    row+='<header>';
-	row+='<div align="center"><h3>'+getHeadInfo(temporada, jornada, "#0000ff")+'</h3></div>';
-	row+='<div align="center"><h3>'+getTableMatches(bet.toString(), mygames, "#0000ff")+'</h3></div>';
-	row+='</header>';
-	row+='<div align="center"><h3>'+getPrizeInfo(apuestas, precio, "#0000ff")+'</h3></div>';
-	row+='</article>';
+	row+='<div align="center"><h6>'+getHeadInfo(temporada, jornada, "#0000ff")+'</h6></div>';
+	row+='<div align="center"><h6>'+getTableMatches(bet.toString(), mygames, "#0000ff")+'</h6></div>';
+	row+='<div align="center"><h6>'+getPrizeInfo(apuestas, precio, "#0000ff")+'</h6></div>';
     row+='</td>';
     row+='</tr>';
 	$('#confirmarQuinielaTable').append(row);
@@ -677,13 +673,9 @@ function confirmedBet(bet, mygames, apuestas, precio, temporada, jornada)
 	$('#confirmadaQuinielaTable').empty();
     row+='<tr>';
     row+='<td>';
-    row+='<article>';
-    row+='<header>';
-	row+='<div align="center"><h3>'+getHeadInfo(temporada, jornada, "#ff0000")+'</h3></div>';
-	row+='<div align="center"><h3>'+getTableMatches(bet.toString(), mygames, "#ff0000")+'</h3></div>';
-	row+='</header>';
-	row+='<div align="center"><h3>'+getPrizeInfo(apuestas, precio, "#ff0000")+'</h3></div>';
-	row+='</article>';
+	row+='<div align="center"><h6>'+getHeadInfo(temporada, jornada, "#ff0000")+'</h6></div>';
+	row+='<div align="center"><h6>'+getTableMatches(bet.toString(), mygames, "#ff0000")+'</h6></div>';
+	row+='<div align="center"><h6>'+getPrizeInfo(apuestas, precio, "#ff0000")+'</h6></div>';
     row+='</td>';
     row+='</tr>';
 	$('#confirmadaQuinielaTable').append(row);
