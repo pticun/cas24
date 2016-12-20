@@ -690,14 +690,21 @@ public class AdminController {
 								priceTmp.setCount(countPrizes[i]);
 								priceTmp.setAmount(Float.parseFloat(parameters.get("prize" + (i + 10))[0]));
 								lPrizes.add(priceTmp);
+								log.debug("prizesRound: ID:"+(i + 10)+" COUNT:"+countPrizes[i]+" AMOUNT:"+Float.parseFloat(parameters.get("prize" + (i + 10))[0]));
 							}
 	
 							bet.setPrizes(lPrizes);
 	
 							betReward = 0;
 	
+							//Prizes larger than 2.500€, we have to discount 20% taxes 
 							for (Prize prize : lPrizes) {
-								betReward += prize.getAmount() * prize.getCount();
+								if (prize.getAmount() <= 2500)
+									betReward += prize.getAmount() * prize.getCount();
+								else{
+									betReward += (prize.getAmount() - ((prize.getAmount() - 2500)*20/100)) * prize.getCount();
+									log.debug("prizesRound: AFTER TAXES - ID:"+(prize.getId())+" COUNT:"+prize.getCount()+" AMOUNT:"+ prize.getAmount());
+								}
 							}
 	
 							if (betReward > 0)
@@ -786,15 +793,23 @@ public class AdminController {
 								priceTmp.setCount(countPrizes[i]);
 								priceTmp.setAmount(Float.parseFloat(parameters.get("prize" + (i + 10))[0]));
 								lPrizes.add(priceTmp);
+								log.debug("prizesRound: ID:"+(i + 10)+" COUNT:"+countPrizes[i]+" AMOUNT:"+Float.parseFloat(parameters.get("prize" + (i + 10))[0]));								
 							}
 
 							bet.setPrizes(lPrizes);
 
 							betReward = 0;
 
+							//Prizes larger than 2.500€ have to discount 20% taxes 
 							for (Prize prize : lPrizes) {
-								betReward += prize.getAmount() * prize.getCount();
+								if (prize.getAmount() <= 2500)
+									betReward += prize.getAmount() * prize.getCount();
+								else{
+									betReward += (prize.getAmount() - ((prize.getAmount() - 2500)*20/100)) * prize.getCount();
+									log.debug("prizesRound: AFTER TAXES - ID:"+(prize.getId())+" COUNT:"+prize.getCount()+" AMOUNT:"+ prize.getAmount());
+								}
 							}
+							
 							
 							//Add Company Round Bet JackPot
 							float jackPot = bean.getJackpot();
