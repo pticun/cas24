@@ -612,11 +612,12 @@ public class AdminController {
 		double rewardDivided = 0;
 		Account account = new Account();
 		String eMail;
+		boolean firstFinalBet = true;
 
 		try {
 			userSecurity.isSuperAdminUserInSession(cookieSession);
 
-			List<Prize> lPrizes = new ArrayList<Prize>();
+			List<Prize> lPrizes = null;
 			Map<String, String[]> parameters = request.getParameterMap();
 
 			//Get Result Bet
@@ -658,6 +659,7 @@ public class AdminController {
 			
 			//Loop for Companies
 			for (Company co : companyList) {
+				firstFinalBet = true;
 				//Direct bet
 				if (co.getCompany() == AlterQConstants.DEFECT_COMPANY){
 
@@ -681,6 +683,8 @@ public class AdminController {
 								// ("ERROR pricesRound user not find")
 								continue;
 							}
+							
+							lPrizes = new ArrayList<Prize>();
 							
 							//Calc Bet Prizes
 							countPrizes = calculateRights.calculate(betResult, bet.getBet(), bet.getReduction(), bet.getTypeReduction());
@@ -785,6 +789,9 @@ public class AdminController {
 						if (bet.getType() == BetTypeEnum.BET_FINAL.getValue()){
 							//translate Result Bet
 							//betResult = betTools.translateResultTo1x2(betResult);
+							
+							lPrizes = new ArrayList<Prize>();
+							
 							//Calc Bet Prizes
 							countPrizes = calculateRights.calculate(betResult, bet.getBet(), bet.getReduction(), bet.getTypeReduction());
 							for (int i = 0; i <= 5; i++) {
@@ -815,74 +822,79 @@ public class AdminController {
 							float jackPot = bean.getJackpot();
 							
 							//Divide Reward between All Users with Bet
+							if (!firstFinalBet)
+								jackPot = 0;
+								
 							rewardDivided = (betReward + jackPot) / numCompanyBets;
 							
-							//Loop for Bets (normal & automatics & fixes)
-							for (Bet bet2 : lBets) {
-								String user = bet2.getUser();
-								if ((bet2.getType() == BetTypeEnum.BET_NORMAL.getValue()))
-								{
-									//Get User
-									userAlterQ = userAlterQDao.findById(user);
-
-									if (userAlterQ == null) {
-										log.debug("pricesRound: user(" + user + ") Error resultBet user not find");
-										// STEP 1.1.error - Send an email to the admin
-										// ("ERROR pricesRound user not find")
-										continue;
+							if (rewardDivided > 0)
+							{
+								//Loop for Bets (normal & automatics & fixes)
+								for (Bet bet2 : lBets) {
+									String user = bet2.getUser();
+									if ((bet2.getType() == BetTypeEnum.BET_NORMAL.getValue()))
+									{
+										//Get User
+										userAlterQ = userAlterQDao.findById(user);
+	
+										if (userAlterQ == null) {
+											log.debug("pricesRound: user(" + user + ") Error resultBet user not find");
+											// STEP 1.1.error - Send an email to the admin
+											// ("ERROR pricesRound user not find")
+											continue;
+										}
+										//Update Balance User
+										userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) + rewardDivided));
+										userAlterQDao.save(userAlterQ);						
+										//******************************************
+										//PENDING(ACCOUNTING ENTRY) - User betReward
+										//******************************************
+										account.setAmount(Double.toString(betReward));
+										account.setCompany(co.getCompany());
+										account.setDate(new Date());
+										account.setDescription("Premio T "+season+"/"+(season+1-2000)+" J "+round);
+										account.setRound(round);
+										account.setSeason(season);
+										account.setType(new Integer(AccountTypeEnum.ACCOUNT_PRIZE.getValue()));
+										account.setUser(user);
+										
+										accountingDao.add(account);
+										
+										log.debug("pricesRound: (ACCOUNTING ENTRY) user:" + user + " balance: "+userAlterQ.getBalance()+" rewardDivided="+rewardDivided);
 									}
-									//Update Balance User
-									userAlterQ.setBalance(Double.toString(Double.parseDouble(userAlterQ.getBalance()) + rewardDivided));
-									userAlterQDao.save(userAlterQ);						
-									//******************************************
-									//PENDING(ACCOUNTING ENTRY) - User betReward
-									//******************************************
-									account.setAmount(Double.toString(betReward));
-									account.setCompany(co.getCompany());
-									account.setDate(new Date());
-									account.setDescription("Premio T "+season+"/"+(season+1-2000)+" J "+round);
-									account.setRound(round);
-									account.setSeason(season);
-									account.setType(new Integer(AccountTypeEnum.ACCOUNT_PRIZE.getValue()));
-									account.setUser(user);
-									
-									accountingDao.add(account);
-									
-									log.debug("pricesRound: (ACCOUNTING ENTRY) user:" + user + " balance: "+userAlterQ.getBalance()+" rewardDivided="+rewardDivided);
 								}
+								//Send Results Mail
+								String ccoMail = mailTools.getCCOFinalBet(co.getCompany(),season,round);
+								log.debug("ccoMail="+ccoMail);
+								
+								if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
+									ccoMail = "quinielagold@gmail.com";
+								}
+								
+	
+								//sendMailer.sendResultsMail(cco, round, jackPot, betReward, rewardDivided, lPrizes);
+								MailQueueDto mailDto=new MailQueueDto();
+								mailDto.setType(QueueMailEnum.Q_RESULTSMAIL);
+								
+								RoundBets processRoundBetMail=new RoundBets();
+								processRoundBetMail.setCompany(co.getCompany());
+								processRoundBetMail.setRound(round);
+								processRoundBetMail.setSeason(season);
+								processRoundBetMail.setJackpot(jackPot);
+								processRoundBetMail.setReward(betReward);
+								bet.setNumBets(numCompanyBets);
+	
+								List<Bet> finalBet=new ArrayList<Bet>();
+								finalBet.add(bet);
+								processRoundBetMail.setBets(finalBet);
+								
+								mailDto.setRoundBet(processRoundBetMail);
+								mailDto.setCco(ccoMail);
+								
+								processMailQueue.process(mailDto);
 							}
-							//Send Results Mail
-							String ccoMail = mailTools.getCCOFinalBet(co.getCompany(),season,round);
-							log.debug("ccoMail="+ccoMail);
 							
-							if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
-								ccoMail = "quinielagold@gmail.com";
-							}
-							
-
-							//sendMailer.sendResultsMail(cco, round, jackPot, betReward, rewardDivided, lPrizes);
-							MailQueueDto mailDto=new MailQueueDto();
-							mailDto.setType(QueueMailEnum.Q_RESULTSMAIL);
-							
-							RoundBets processRoundBetMail=new RoundBets();
-							processRoundBetMail.setCompany(co.getCompany());
-							processRoundBetMail.setRound(round);
-							processRoundBetMail.setSeason(season);
-							processRoundBetMail.setJackpot(jackPot);
-							processRoundBetMail.setReward(betReward);
-							bet.setNumBets(numCompanyBets);
-
-							List<Bet> finalBet=new ArrayList<Bet>();
-							finalBet.add(bet);
-							processRoundBetMail.setBets(finalBet);
-							
-							mailDto.setRoundBet(processRoundBetMail);
-							mailDto.setCco(ccoMail);
-							
-							processMailQueue.process(mailDto);
-							
-							
-							
+							firstFinalBet = false;
 							
 						}
 					}

@@ -48,9 +48,11 @@
     				<td>Aciertos de 15:</td><td align=right>${resultAciertos15} x</td><td align=right>${resultPremio15}€ =</td><td align=right>${resultTotal15}€</td>
     			</tr>
     			#end
+    			#if(${resultBote}>0)
                 <tr>
     				<td colspan=3>Bote:</td><td align=right>${resultBote}€</td>
     			</tr>
+    			#end
                 <tr>
     				<td colspan=3 align=right>TOTAL</td><td>= ${resultTotal}€</td>
                 </tr>

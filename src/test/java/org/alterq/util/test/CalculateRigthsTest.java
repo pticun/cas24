@@ -54,4 +54,12 @@ public class CalculateRigthsTest {
 		
 		Assert.assertNotNull(rdo);
 	}
+	@Test
+	public void test05Calculate() {
+		int rdo[] = {0,0,0,0,0,0};
+		CalculateRigths aux = new CalculateRigths();
+		rdo = aux.calculate("4211214142442444", "4471714744764422", "NNTNTNNTNNTNNN", 1);
+		
+		Assert.assertNotNull(rdo);
+	}
 }
