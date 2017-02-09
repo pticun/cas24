@@ -63,13 +63,13 @@ public class SendMailer {
 			helper = new MimeMessageHelper(message, true);
 			helper.setFrom(new InternetAddress(from, "QuiniGold"));
 			helper.setTo(mailQueue.getUser().getId());
-			helper.setSubject("Unete a nuestra peña");
+			helper.setSubject("QuiniGold - Invitación a Grupo");
 
 			helper.setText(stringWriter.toString(), true);
 
 			log.debug("body:" + stringWriter.toString());
 
-//			mailSender.send(message);
+			mailSender.send(message);
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

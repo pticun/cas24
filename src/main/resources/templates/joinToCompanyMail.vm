@@ -15,12 +15,15 @@
 		  <p style="width:100%; max-height: none; max-width: 100%; text-align: :justify; font-size: large;">
           Hola Quinigolder,<br><br>
           <form action="${joinToLink}">
-          Te han invitado a unirte a la compañia ${nombreCompany}<br>
 		  <table>
 			<tr>
-                <td colspan="3"><input type="submit" value="unirse a"/></td>
+				<td>Te han invitado a unirte al grupo ${nombreCompany}.<br></td>
 			</tr>
-          </table>	
+			<tr>
+                <td>Si quieres unirte pulsa en <input type="submit" value="Unirme Ahora"/></td>
+			</tr>
+          </table>
+		  <br>
           Gracias por tu confianza.
           </p>
 		  </div>
