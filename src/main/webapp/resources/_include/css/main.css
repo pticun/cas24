@@ -1605,4 +1605,10 @@ input{
 	-webkit-border-radius : 24px;
 	width:60%;
 }
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
 		

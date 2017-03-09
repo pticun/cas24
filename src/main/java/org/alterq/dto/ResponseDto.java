@@ -3,6 +3,8 @@ package org.alterq.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alterq.domain.Account;
+import org.alterq.domain.AccountingEntry;
 import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
 import org.alterq.domain.Company;
@@ -21,6 +23,17 @@ public class ResponseDto {
 	private Bet bet;
 	private List<Company> company;
 	private List<UserAlterQ> users;
+	private AccountingEntry accountEntry;
+
+
+	public AccountingEntry getAccountEntry() {
+		return accountEntry;
+	}
+
+	public void setAccountEntry(AccountingEntry accountEntry) {
+		this.accountEntry = accountEntry;
+	}
+
 	public Bet getBet() {
 		return bet;
 	}

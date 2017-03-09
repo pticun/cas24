@@ -85,7 +85,6 @@ var ctx = "<%=request.getContextPath()%>"
 </script>
 
 </head>
-
 	
 <script type="text/javascript">
 
@@ -102,6 +101,7 @@ var ctx = "<%=request.getContextPath()%>"
 	var bGetQuinielaRef			= 8;
 	var bGetFileRef				= 9;
 	var bAdminIni				= 10;
+	var bAccountingRef			= 11;
 
 	//Refs
 	var sHomeRef 					= "#homeDiv";
@@ -115,6 +115,7 @@ var ctx = "<%=request.getContextPath()%>"
 	var sGetQuinielaRef 			= "#getQuinielaDiv";
 	var sGetFileRef 				= "#getFileDiv";
 	var sAdminIni					= "home";
+	var sAccountingRef				= "#accountingDiv";
 	
 	function initDiv() {
 		consoleAlterQ("initDiv");		
@@ -128,6 +129,7 @@ var ctx = "<%=request.getContextPath()%>"
 		$(sUpdateBalanceUserRef).hide();
 		$(sGetQuinielaRef).hide();
 		$(sGetFileRef).hide();
+		$(sAccountingRef).hide();
 		
 		bActual = bHome;
 	}
@@ -170,6 +172,9 @@ var ctx = "<%=request.getContextPath()%>"
 		case bGetFileRef:
 			$(sGetFileRef).show();
 			break;
+		case bAccountingRef:
+			$(sAccountingRef).show();
+			break;
 		}
 
 		switch (bActual){
@@ -202,6 +207,9 @@ var ctx = "<%=request.getContextPath()%>"
 			break;
 		case bGetFileRef:
 			$(sGetFileRef).hide();
+			break;
+		case bAccountingRef:
+			$(sAccountingRef).hide();
 			break;
 		}
 		
@@ -246,6 +254,9 @@ var ctx = "<%=request.getContextPath()%>"
 		}else if (href == sGetFileRef){
 			consoleAlterQ("bGetFileRef");
 			showDiv(bGetFileRef);
+		}else if (href == sAccountingRef){
+			consoleAlterQ("bAccountingRef");
+			showDiv(bAccountingRef);
 		}
 		return false;
 		
@@ -303,7 +314,10 @@ var ctx = "<%=request.getContextPath()%>"
 		   			<td><button id="updateBalanceBtn" class="btn btn-danger" name="updateBalanceprizesMenu" value="updateBalance">Update Balance</button><br><br></td>
 		        </tr>
 		   		<tr align="center">
-		   			<td><button id="fileBtn" class="btn btn-danger" name="fileMenu" value="file">File</button><br></td>
+		   			<td><button id="fileBtn" class="btn btn-danger" name="fileMenu" value="file">File</button><br><br></td>
+		        </tr>
+		   		<tr align="center">
+		   			<td><button id="accountingBtn" class="btn btn-danger" name="fileMenu" value="file">Accounting</button><br></td>
 		        </tr>
 	   			</table>
         </div>
@@ -764,6 +778,59 @@ var ctx = "<%=request.getContextPath()%>"
 </div>
 </div>
 
+<div id="accountingDiv" class="page">
+<div class="container">
+    <!-- Title Page -->
+    <div class="row">
+        <div class="span12">
+            <div class="title-page">
+                <h2 class="title">Admin - Accounting</h2>
+            </div>
+        </div>
+    </div>
+   
+	<div id="resumResponse" align="center">
+		    <table class="quiniela" id="resumTable"></table>
+	</div>
+    
+    <!-- Accounting Form -->
+    <div class="row table-responsive">
+		<div align="center">
+			<form id="accountingForm">
+				    <table class="tablaQuiniGold" id="accountingSelectTable">
+				    </table>
+				    <br>
+				    <table class="tablaQuiniGold">
+				    	<tr>
+				    		<td>
+				    			<table class="table-bordered table-striped" id="summaryAccountingTable">
+				    			</table>
+				    		</td>
+				    	</tr>
+				    </table>
+				    <table class="tablaQuiniGold">
+				    	<tr>
+				    		<td>
+				    			<table class="table-bordered table-striped" id="accountingTable">
+				    			</table>
+				    		</td>
+				    	</tr>
+				    </table>
+			   		<br>
+				    <table class="tablaQuiniGold">
+			   			<tr align="center">
+				   			<td colspan=2><button id="homeBtn9" class="btn btn-danger" name="homeBtn09" value="homeBtn9">Admin Menu</button></td>
+				        </tr>
+				    </table>
+				    <br>
+			   		<div id="accountingFormResponse" class="linkQuiniGold">respuesta </div>
+			</form>
+		</div>
+    </div>
+    <!-- End GetQuinielaRound Form -->
+</div>
+</div>
+
 <!-- Footer -->
 <footer>
 	<p class="credits">&copy;2015 quiniGold. v:0.5.5</p>
@@ -790,6 +857,7 @@ var ctx = "<%=request.getContextPath()%>"
 <script src="<c:url value="/static/resources/_include/js/main.js"/>"></script> <!-- Default JS -->
 <script src="<c:url value="/static/resources/_include/js/adminAlterQ.js"/>"></script>
 <script src="<c:url value="/static/resources/_include/js/jquery.dropotron.js"/>"></script>
+<script src="<c:url value="/static/resources/_include/js/variables.js"/>"></script>
 
 
 

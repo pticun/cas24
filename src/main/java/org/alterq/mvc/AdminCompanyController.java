@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.alterq.domain.Account;
 import org.alterq.domain.Bet;
 import org.alterq.domain.Company;
 import org.alterq.domain.RolCompany;
@@ -13,6 +14,7 @@ import org.alterq.dto.ErrorDto;
 import org.alterq.dto.MailQueueDto;
 import org.alterq.dto.RequestUserDto;
 import org.alterq.dto.ResponseDto;
+import org.alterq.repo.AccountingDao;
 import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.CompanyDao;
 import org.alterq.repo.RoundBetDao;
@@ -22,6 +24,7 @@ import org.alterq.repo.SessionAlterQDao;
 import org.alterq.repo.UserAlterQDao;
 import org.alterq.security.UserAlterQSecurity;
 import org.alterq.util.BetTools;
+import org.alterq.util.enumeration.AccountTypeEnum;
 import org.alterq.util.enumeration.BetTypeEnum;
 import org.alterq.util.enumeration.MessageResourcesNameEnum;
 import org.alterq.util.enumeration.QueueMailEnum;
@@ -62,6 +65,8 @@ public class AdminCompanyController {
 	private UserAlterQSecurity userSecurity;
 	@Autowired
 	private AdminDataDao adminDataDao;
+	@Autowired
+	private AccountingDao accountingDao;
 	@Autowired
 	private BetTools betTools;
 	@Autowired
@@ -147,6 +152,8 @@ public class AdminCompanyController {
 		ResponseDto response = new ResponseDto();
 		log.debug("closeRound: start");
 		float priceBet = betTools.getPriceBet();
+		float price = new Double(betTools.getPriceBet() * 1).floatValue();
+
 
 		try {
 			userSecurity.isAdminUserInSession(cookieSession, company);
@@ -196,12 +203,28 @@ public class AdminCompanyController {
 					roundBetDao.addBet(company, season, round, bet);
 					// update new balance minus value bet
 					balance -= priceBet;
+
+					//account entry
+					Account account = new Account();
+					account.setAmount(Double.toString(price));
+					account.setCompany(company);
+					account.setDate(new Date());
+					account.setDescription("Apuesta T "+season+"/"+(season+1-2000)+" J "+round);
+					account.setRound(round);
+					account.setSeason(season);
+					account.setType(new Integer(AccountTypeEnum.ACCOUNT_BET.getValue()));
+					account.setUser(user.getId());
+					
+					accountingDao.add(account);
 				}
 
 				// STEP 1.2.4 - Update User Balance
 				try {
 					user.setBalance(Float.toString((float) (balance)));
 					userAlterQDao.save(user);
+					
+					
+					
 					/*
 					 * if(userAlterQDao.getLastError() != null){
 					 * log.debug("closeRound: user("
@@ -249,12 +272,28 @@ public class AdminCompanyController {
 						roundBetDao.addBet(company, season, round, bet);
 						// update new balance minus value bet
 						balance -= priceBet;
+						
+						//account entry
+						Account account = new Account();
+						account.setAmount(Double.toString(price));
+						account.setCompany(company);
+						account.setDate(new Date());
+						account.setDescription("Apuesta T "+season+"/"+(season+1-2000)+" J "+round);
+						account.setRound(round);
+						account.setSeason(season);
+						account.setType(new Integer(AccountTypeEnum.ACCOUNT_BET.getValue()));
+						account.setUser(user.getId());
+						
+						accountingDao.add(account);
 					}
 				}
 				// STEP 1.2.4 - Update User Balance
 				try {
 					user.setBalance(Float.toString((float) (balance)));
 					userAlterQDao.save(user);
+					
+					
+					
 					/*
 					 * if(userAlterQDao.getLastError() != null){
 					 * log.debug("closeRound: user("

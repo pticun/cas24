@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.alterq.converter.UserAlterQConverter;
 import org.alterq.domain.Account;
+import org.alterq.domain.AccountingEntry;
 import org.alterq.domain.AdminData;
 import org.alterq.domain.Bet;
 import org.alterq.domain.Company;
@@ -610,7 +611,7 @@ public class AdminController {
 		int numCompanyBets = 0;
 		String betResult = null;
 		double rewardDivided = 0;
-		Account account = new Account();
+		//Account account = new Account();
 		String eMail;
 		boolean firstFinalBet = true;
 
@@ -719,6 +720,7 @@ public class AdminController {
 								//******************************************
 								//PENDING(ACCOUNTING ENTRY) - User betReward
 								//******************************************
+								Account account = new Account();
 								account.setAmount(Double.toString(betReward));
 								account.setCompany(co.getCompany());
 								account.setDate(new Date());
@@ -825,6 +827,22 @@ public class AdminController {
 							if (!firstFinalBet)
 								jackPot = 0;
 								
+							if (jackPot > 0)
+							{
+								Account account = new Account();
+								account.setAmount(Double.toString(jackPot));
+								account.setCompany(co.getCompany());
+								account.setDate(new Date());
+								account.setDescription("Bote T "+season+"/"+(season+1-2000)+" J "+round);
+								account.setRound(round);
+								account.setSeason(season);
+								account.setType(new Integer(AccountTypeEnum.ACCOUNT_JACKPOT.getValue()));
+								account.setUser(bet.getUser());
+								
+								accountingDao.add(account);
+								
+							}
+							
 							rewardDivided = (betReward + jackPot) / numCompanyBets;
 							
 							if (rewardDivided > 0)
@@ -849,7 +867,8 @@ public class AdminController {
 										//******************************************
 										//PENDING(ACCOUNTING ENTRY) - User betReward
 										//******************************************
-										account.setAmount(Double.toString(betReward));
+										Account account = new Account();
+										account.setAmount(Double.toString(rewardDivided));
 										account.setCompany(co.getCompany());
 										account.setDate(new Date());
 										account.setDescription("Premio T "+season+"/"+(season+1-2000)+" J "+round);
@@ -1429,7 +1448,120 @@ public class AdminController {
 		dto.setUserAlterQ(userAlterQ);
 
 		return dto;
-	}	
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/{company}/{season}/{round}/accounting")
+	public @ResponseBody ResponseDto getAccounting(@CookieValue(value = "session", defaultValue = "") String cookieSession,@PathVariable int company,@PathVariable int season, @PathVariable int round) {
+		AccountingEntry accEnt = new AccountingEntry();
+		List<Account> lAccounts = null;
+		List<UserAlterQ> lUsers = null;
+		float credit = 0;	// +
+		float debit = 0;	// -
+		float balance = 0;	// +
+		
+		float SumBets = 0; 				// +
+		float SumPrizes = 0;			// -
+		float SumDeposits = 0;			// +
+		float SumWithDrawals = 0;		// -
+		float SumInitialBalances = 0;	// +
+		float SumRefunds = 0;			// -
+		float SumFinalBets = 0;			// -
+		float SumJackPots = 0;			// +
+		
+		
+		ResponseDto dto = new ResponseDto();
+		AdminData ad;
+		try {
+			userSecurity.isSuperAdminUserInSession(cookieSession);
 
+			ad = adminDataDao.findById(AlterQConstants.DEFECT_ADMINDATA);
+			
+			if (round == 0)
+				lAccounts = accountingDao.findAll();
+			else
+				lAccounts = accountingDao.findAccounts(season, round);
+				
+			if (lAccounts == null)
+			{
+				ErrorDto error = new ErrorDto();
+				error.setIdError(MessageResourcesNameEnum.GENERIC_ERROR);
+				error.setStringError("Obtener Movimientos Contables (Error: no hay usuarios)");
+				dto.addErrorDto(error);
+				dto.setUserAlterQ(null);
+				return dto;
+			}
+			
+			accEnt.setAccounts(lAccounts);
+
+			credit = 0;
+			debit = 0;
+			for (Account account : lAccounts) {
+				if (account.getType() == new Integer(AccountTypeEnum.ACCOUNT_BET.getValue())){
+					SumBets += new Float(account.getAmount()).floatValue();
+				}else if (account.getType() == new Integer(AccountTypeEnum.ACCOUNT_DEPOSIT.getValue())){
+					SumDeposits += new Float(account.getAmount()).floatValue();
+				}else if (account.getType() == new Integer(AccountTypeEnum.ACCOUNT_INITIAL.getValue())){
+					SumInitialBalances += new Float(account.getAmount()).floatValue();
+				}else if (account.getType() == new Integer(AccountTypeEnum.ACCOUNT_PRIZE.getValue())){
+					SumPrizes += new Float(account.getAmount()).floatValue();
+				}else if (account.getType() == new Integer(AccountTypeEnum.ACCOUNT_REFUND.getValue())){
+					SumRefunds += new Float(account.getAmount()).floatValue();
+				}else if (account.getType() == new Integer(AccountTypeEnum.ACCOUNT_WITHDRAWAL.getValue())){
+					SumWithDrawals += new Float(account.getAmount()).floatValue();
+				}else if (account.getType() == new Integer(AccountTypeEnum.ACCOUNT_FINALBET.getValue())){
+					SumFinalBets += new Float(account.getAmount()).floatValue();
+				}else if (account.getType() == new Integer(AccountTypeEnum.ACCOUNT_JACKPOT.getValue())){
+					SumJackPots += new Float(account.getAmount()).floatValue();
+				}
+			}
+			
+			accEnt.setBets(SumBets);
+			accEnt.setDeposits(SumDeposits);
+			accEnt.setInitialBalances(SumInitialBalances);
+			
+			accEnt.setPrizes(SumPrizes);
+			accEnt.setWithDrawals(SumWithDrawals);
+			accEnt.setRefunds(SumRefunds);
+			accEnt.setFinalBets(SumFinalBets);
+			accEnt.setJackpots(SumJackPots);
+			
+			credit = SumBets + SumDeposits + SumInitialBalances;
+			debit = SumPrizes + SumWithDrawals + SumRefunds + SumFinalBets + SumJackPots;
+			
+			accEnt.setCredit(credit);
+			accEnt.setDebit(debit);
+			
+			lUsers = userAlterQDao.findAllUserActive();
+			if (lUsers == null)
+			{
+				ErrorDto error = new ErrorDto();
+				error.setIdError(MessageResourcesNameEnum.GENERIC_ERROR);
+				error.setStringError("Obtener Usuarios (Error: no hay usuarios)");
+				dto.addErrorDto(error);
+				dto.setUserAlterQ(null);
+				return dto;
+			}
+			
+			balance = 0;
+			for (UserAlterQ user : lUsers) {
+				balance += new Float(user.getBalance()).floatValue();
+			}
+			
+			accEnt.setBalance(balance);
+			
+//			dto.setUsers(lUsers);
+			dto.setAccountEntry(accEnt);
+			dto.setAdminData(ad);
+
+		} catch (SecurityException e) {
+			dto.addErrorDto("AdminController:getAccounting", "SecurityException");
+			e.printStackTrace();
+		} catch (Exception e) {
+			dto.addErrorDto("AdminController:getAccounting", "Generic Update Error");
+			e.printStackTrace();
+		}
+
+		return dto;
+	}
 }
 

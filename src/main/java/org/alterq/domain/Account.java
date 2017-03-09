@@ -19,7 +19,7 @@ public class Account {
 	private Date date;
 	private String description;
 	private String amount;
-	
+
 	public String getId() {
 		return id;
 	}

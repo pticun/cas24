@@ -1571,7 +1571,7 @@ function getCompanyRanking(round){
 		row+='<div class="dropdown">';
 		row+='<button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">Selecciona Jornada';
 		row+='<span class="caret"></span></button>';
-		row+='<ul id="rankingSelect" class="dropdown-menu">';
+		row+='<ul id="rankingSelect" class="dropdown-menu scrollable-menu" role="menu">';
 		row+='<li><a id='+window.season+'_0'+' href=\'#\'>Global</a></li>';
 		row+='<li class="divider"></li>';
 		var num=1;

@@ -2,6 +2,9 @@ var round=0;
 var season=0;
 var idUserAlterQ="";
 var company=1; // "quiniGoldClassic = 1" depends environment
+var sCompany ="";
+var sCompanyDefault ="LAE";
+
 
 function toggleButton(idUniqueButton){
 	if ($('#'+idUniqueButton).attr("disabled")) {
@@ -37,8 +40,9 @@ function padding_right(s, c, n) {
 
 //alert("context:"+ctx);
 $(document).ready(function() {
-//alert("$(document).ready: INICIO");	
+//alert("$(document).ready: INICIO");
 	consoleAlterQ("Admin - ready");
+	consoleAlterQ("adminAlterQ ready: round="+window.round+" season="+window.season);
 	$.fn.serializeObject = function()
 	{
 	    var o = {};
@@ -57,7 +61,7 @@ $(document).ready(function() {
 	};
 	
 	initDiv();
-    
+	
 	
 	$('form#openForm').submit(function(event) {
 		 var dataJson=JSON.stringify($('form#openForm').serializeObject());
@@ -408,6 +412,11 @@ $("#fileBtn").on('click', function(event){
 	menuEvent($(this).text(),  "#getFileDiv");
 	event.preventDefault(); // prevent actual form submit and page reload
 });
+$("#accountingBtn").on('click', function(event){
+	getAccountingInfo(0); //round = 0 para mostrar el ranking global
+	menuEvent($(this).text(),  "#accountingDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
+});
 
 $("#homeBtn1").on('click', function(event){
 	menuEvent($(this).text(),  "#homeDiv");
@@ -445,9 +454,25 @@ $("#homeBtn8").on('click', function(event){
 	menuEvent($(this).text(),  "#homeDiv");
 	event.preventDefault(); // prevent actual form submit and page reload
 });
+$("#homeBtn9").on('click', function(event){
+	menuEvent($(this).text(),  "#homeDiv");
+	event.preventDefault(); // prevent actual form submit and page reload
+});
 
 $("#listaUsuarios").change(function() {
 	 $("#updateBalanceUser").val($("#listaUsuarios").val());
+});
+
+$( "#accountingSelectTable" ).on( "click", "li a", function( event ) {
+	consoleAlterQ('accountingSelect');
+	texto=this.id;
+	pos = texto.indexOf('_');
+	temporada=texto.substring(0,pos);
+	jornada=texto.substring(pos+1);
+	consoleAlterQ("company_temporada_jornada="+window.company+"-"+temporada+"-"+jornada);
+	//callRanking(window.idUserAlterQ,window.company,temporada,jornada);
+	getAccountingInfo(jornada);
+	event.preventDefault(); // prevent actual form submit and page reload
 });
 
 function consoleAlterQ(text){
@@ -541,6 +566,271 @@ function getUsers(){
 	});
 
 	
+}
+
+function getAccountingInfo(round){
+	consoleAlterQ('getAccounting');
+	consoleAlterQ('loadBetUser='+window.loadBetUser);
+	
+	//De momento va a piñon pq no funcionan las variables globales
+	window.loadBetUser = true;
+	
+	if(window.loadBetUser){
+		window.loadBetUser=false;
+		consoleAlterQ("loadBetUser: FALSE");
+		var row="";
+	
+		cleanAccountings();
+		
+		
+		///myaccount/{id:.+}/{company}/{season}/{round}/ranking
+   		consoleAlterQ('antes jQuery.ajax - company='+window.company+' season='+window.season+' round='+round);
+   		
+   		consoleAlterQ('url:'+ctx+'/admin/'+window.company+'/'+ window.season+'/'+round+'/accounting/');  		
+		jQuery.ajax ({
+			url: ctx+'/admin/'+ window.company+'/'+ window.season+'/'+round+'/accounting',
+		    type: "GET",
+		    data: null,
+		    contentType: "application/json; charset=utf-8",
+		    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	        cache: false,    //This will force requested pages not to be cached by the browser  
+	        processData:false, //To avoid making query String instead of JSON
+		    success: function(response){
+			    if(response.errorDto!=0){
+					row="";
+			        row+='<tr align="center">';
+					row+='<td><br><br>SIN DATOS<br><br></td>';
+					row+='</tr>';
+					$('#accountingTable').append(row);
+			    }
+			    else{
+			    	if (response.accountEntry.accounts == null)
+			    	{
+						row="";
+				    	row+='<tr align="center">';
+				    	row+='<td>'+((sCompany == '')?sCompanyDefault:sCompany)+'</td>';
+				    	row+='</tr>';
+				    	row+='<tr align="center">';
+						row+='<td><br><br>SIN DATOS<br><br></td>';
+						row+='</tr>';
+						$('#accountingTable').append(row);
+						fillRoundSeasonCompany(response);
+			    	}
+			    	else
+			    	{
+			    		row='<thead align="center"><tr><td>CONCEPT</td><td>CREDIT</td><td>DEBIT</td></tr></thead>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		row='<tr align="center"><td colspan="3">&nbsp</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		if(round == 0){
+			    			row='<tr align="center"><td>BALANCE</td><td>'+Math.round(response.accountEntry.balance * 100) / 100 +'</td><td>&nbsp</td></tr>';
+			    			$('#summaryAccountingTable').append(row);
+			    		}
+			    		
+			    		row='<tr align="center"><td colspan="3">&nbsp</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		row='<tr align="center"><td>BETS</td><td>'+Math.round(response.accountEntry.bets * 100) / 100 +'</td><td>&nbsp</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		row='<tr align="center"><td>FINAL BETS</td><td>&nbsp</td><td>'+Math.round(response.accountEntry.finalBets * 100) / 100 +'</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		row='<tr align="center"><td>JACKPOTS</td><td>&nbsp</td><td>'+Math.round(response.accountEntry.jackpots * 100) / 100 +'</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		row='<tr align="center"><td>REFUNDS</td><td>&nbsp</td><td>'+Math.round(response.accountEntry.refunds * 100) / 100 +'</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		row='<tr align="center"><td colspan="3">&nbsp</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		row='<tr align="center"><td>INI BALANCES</td><td>'+Math.round(response.accountEntry.initialBalances * 100) / 100 +'</td><td>&nbsp</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		row='<tr align="center"><td>DEPOSITS</td><td>'+Math.round(response.accountEntry.deposits * 100) / 100 +'</td><td>&nbsp</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		row='<tr align="center"><td>WITHDRAWALS</td><td>&nbsp</td><td>'+Math.round(response.accountEntry.withDrawals * 100) / 100 +'</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		row='<tr align="center"><td colspan="3">&nbsp</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		row='<tr align="center"><td>PRIZES</td><td>&nbsp</td><td>'+Math.round(response.accountEntry.prizes * 100) / 100 +'</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		row='<tr align="center"><td colspan="3">&nbsp</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		row='<tr align="center"><td colspan="3">SUMMARY</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		row='<tr align="center"><td>CREDIT</td><td>'+Math.round(response.accountEntry.credit * 100) / 100 +'</td><td>&nbsp</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+			    		row='<tr align="center"><td>DEBIT</td><td>&nbsp</td><td>'+ Math.round(response.accountEntry.debit * 100) / 100 +'</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+			    		
+			    		row='<tr align="center"><td colspan="3">&nbsp</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+
+			    		row='<tr align="center"><td colspan="3">TOTAL</td></tr>';
+			    		$('#summaryAccountingTable').append(row);
+			    		if (response.accountEntry.credit == response.accountEntry.debit){
+				    		row='<tr align="center"><td>&nbsp</td><td>0</td><td>0</td></tr>';
+				    		$('#summaryAccountingTable').append(row);
+			    		}else if (response.accountEntry.credit > response.accountEntry.debit){
+				    		row='<tr align="center"><td>&nbsp</td><td>'+Math.round((response.accountEntry.credit - response.accountEntry.debit)*100)/100+'</td><td>&nbsp</td></tr>';
+				    		$('#summaryAccountingTable').append(row);
+			    		}else{
+				    		row='<tr align="center"><td>&nbsp</td><td>&nbsp</td><td>'+Math.round((response.accountEntry.debit - response.accountEntry.credit) * 100) / 100 +'</td></tr>';
+				    		$('#summaryAccountingTable').append(row);
+			    		}
+
+			    		
+			    		
+			    		row='<thead align="center"><tr><td>ID</td><td>COMPANY</td><td>USER</td><td>SEASON</td><td>ROUND</td><td>TYPE</td><td>DATE</td><td>DESCRIPTION</td><td>CREDIT</td><td>DEBIT</td></tr></thead>';
+			    		$('#accountingTable').append(row);
+						$(response.accountEntry.accounts).each(function(index, element){
+							console.log("index="+index);
+							console.log("type="+element.type + " description="+element.description + " amount="+element.amount);
+							row="";
+							
+//							if (element.type == CONST_TYPE_BET_FINAL)
+//								row+='<tr bgcolor="#FFFFBB">';
+//							else
+//								row+='<tr>';
+							row+='<tr align="center">';
+					    	row+='<td>';
+					    	row+=''+(((index+1)<10)?'0':'')+(index+1);
+					    	row+='</td>';
+					    	
+					    	row+='<td>';
+					    	row+=''+element.company;
+					    	row+='</td>';
+
+					    	row+='<td>';
+					    	row+=''+element.user;
+					    	row+='</td>';
+
+					    	row+='<td>';
+					    	row+=''+element.season;
+					    	row+='</td>';
+
+					    	row+='<td>';
+					    	row+=''+element.round;
+					    	row+='</td>';
+
+					    	row+='<td>';
+					    	row+=''+element.type;
+					    	row+='</td>';
+
+					    	var date = new Date(element.date);
+					    	row+='<td>';
+					    	row+=''+ (date.getDate() + 1) + '/' + date.getMonth() + '/' +  date.getFullYear();
+					    	row+='</td>';
+
+					    	row+='<td>';
+					    	row+=''+element.description;
+					    	row+='</td>';
+					    	
+					    	row+='<td>';
+					    	switch(element.type)
+					    	{
+					    	case 1: 
+					    	case 3: 
+					    	case 5:
+					    		row+=''+ Math.round(element.amount * 100) / 100;
+					    		break;
+					    	case 2:
+					    	case 4:
+					    	case 6:
+					    	case 7:
+					    	case 8:
+					    		row+='&nbsp';
+					    		break;
+					    	
+					    	}
+					    	
+					    	row+='</td>';
+					    	row+='<td>';
+					    	switch(element.type)
+					    	{
+					    	case 1: 
+					    	case 3: 
+					    	case 5:
+					    		row+='&nbsp';
+					    		break;
+					    	case 2:
+					    	case 4:
+					    	case 6:
+					    	case 7:
+					    	case 8:
+					    		row+=''+ Math.round(element.amount * 100) / 100;
+					    		break;
+					    	
+					    	}
+					    	row+='</td>';
+					    	row+='</tr>';
+							$('#accountingTable').append(row);
+						});
+						fillRoundSeasonCompany(response);
+			    	}
+			    }
+		    },
+		    error : function (xhr, textStatus, errorThrown) {
+				var row="";
+		    	row+='<tr align="center">';
+		    	row+='<td>('+sCompany+')<br><br></td>';
+		    	row+='</tr>';
+		        row+='<tr>';
+				row+='<td><br><br>ERROR AL OBTENER</td>';
+				row+='</tr>';
+		        row+='<tr>';
+				row+='<td>EL RANKING<br><br></td>';
+				row+='</tr>';
+				$('#accountingTable').append(row);
+            }
+	 });
+	consoleAlterQ('despues jQuery.ajax');
+	
+	row="";
+	row+='<tr align="center">';
+	row+='<td>ACCOUNTING</td>';
+	row+='</tr>';
+    row+='<tr align="center">';
+	row+='<td>';
+	row+='<div class="dropdown">';
+	row+='<button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">Selecciona Jornada';
+	row+='<span class="caret"></span></button>';
+	row+='<ul id="accountingSelect" class="dropdown-menu scrollable-menu" role="menu">';
+	row+='<li><a id='+window.season+'_0'+' href=\'#\'>Global</a></li>';
+	row+='<li class="divider"></li>';
+	var num=1;
+	for ( num = 1; num < window.round + 1; num++) {
+		row+='<li><a id='+window.season+"_"+num+' href=\'#\'>Jornada '+num+'</a></li>';
+	}
+	row+='</ul>';
+	row+='</div>';		
+	row+='</td>';
+	row+='</tr>';
+	row+='<tr align="center">';
+	row+='<td>&nbsp</td>';
+	row+='</tr>';
+	$('#accountingSelectTable').append(row);
+	row="";	
+	showDiv(bAccountingRef);
+	}	
+}
+function cleanAccountings(){
+	consoleAlterQ('cleanAccountings');
+	$('#accountingTable').empty();
+	$('#accountingSelectTable').empty();
+	$('#summaryAccountingTable').empty();
+	
+
 }
 
 

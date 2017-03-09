@@ -490,7 +490,7 @@ public class BetController {
 		ResponseDto dto = new ResponseDto();
 		String ccoMail = null;
 		String linkBet = null;
-		Account account = new Account();
+		
 		
 		boolean adminCompanyUser = false;
 
@@ -629,18 +629,37 @@ public class BetController {
 			// Insert new bet into the BBDD
 			roundBetDao.addBet(company, season, round, bet);
 
-			userDao.updateBalance(userAlterQ);
-			
-			account.setAmount(Double.toString(price));
-			account.setCompany(company);
-			account.setDate(new Date());
-			account.setDescription("Apuesta T "+season+"/"+(season+1-2000)+" J "+round);
-			account.setRound(round);
-			account.setSeason(season);
-			account.setType(new Integer(AccountTypeEnum.ACCOUNT_BET.getValue()));
-			account.setUser(userAlterQ.getId());
-			
-			accountingDao.add(account);
+			//If is a Final Bet don't discount balance to AdminCompanyUser
+			if ((BetTypeEnum.BET_FINAL.getValue()==typeBet.getValue())&&(company != AlterQConstants.DEFECT_COMPANY)) {
+				Account account = new Account();
+				account.setAmount(Double.toString(price));
+				account.setCompany(company);
+				account.setDate(new Date());
+				account.setDescription("Apuesta T "+season+"/"+(season+1-2000)+" J "+round);
+				account.setRound(round);
+				account.setSeason(season);
+				account.setType(new Integer(AccountTypeEnum.ACCOUNT_FINALBET.getValue()));
+				account.setUser(userAlterQ.getId());
+				
+				accountingDao.add(account);
+				
+				
+
+			}else{
+				userDao.updateBalance(userAlterQ);
+				
+				Account account = new Account();
+				account.setAmount(Double.toString(price));
+				account.setCompany(company);
+				account.setDate(new Date());
+				account.setDescription("Apuesta T "+season+"/"+(season+1-2000)+" J "+round);
+				account.setRound(round);
+				account.setSeason(season);
+				account.setType(new Integer(AccountTypeEnum.ACCOUNT_BET.getValue()));
+				account.setUser(userAlterQ.getId());
+				
+				accountingDao.add(account);
+			}
 			
 			
 			//Mail is only sent if bet is a FINAL BET
