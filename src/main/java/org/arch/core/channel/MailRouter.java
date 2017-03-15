@@ -47,6 +47,9 @@ public class MailRouter {
 		case Q_JOINTOCOMPANYMAIL:
 			result = "joinToCompany";
 			break;
+		case Q_CONTACTMAIL:
+			result = "contactMail";
+			break;
 		}
 		log.debug("processMailQueue:" + result);
 

@@ -394,6 +394,40 @@ public class SendMailer {
 
 	}
 
+	public void sendContactMail(String name, String email, String msg) {
+		MimeMessage message = mailSender.createMimeMessage();
+
+		// use the true flag to indicate you need a multipart message
+		MimeMessageHelper helper;
+		try {
+			Template template = velocityEngine.getTemplate("./templates/contactMail.vm");
+
+			VelocityContext velocityContext = new VelocityContext();
+			velocityContext.put("contactName", name);
+			velocityContext.put("contactEmail", email);
+			velocityContext.put("contactMessage", msg);
+			StringWriter stringWriter = new StringWriter();
+
+			template.merge(velocityContext, stringWriter);
+
+			helper = new MimeMessageHelper(message, true);
+			helper.setFrom(new InternetAddress(from, "QuiniGold"));
+			helper.setBcc("quinielagold@gmail.com");
+			helper.setSubject("QuiniGold - Contact -" + name + " eMail " + email);
+
+			helper.setText(stringWriter.toString(), true);
+
+			log.debug("body:" + stringWriter.toString());
+
+			mailSender.send(message);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}	
 	public String getFrom() {
 		return from;
 	}

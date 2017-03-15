@@ -187,4 +187,19 @@ public class SendEndpoint {
 		
 		//sendMailer.sendFinalBetMail(CCOusers, round, season, betID, betPrize, numBets, linkBet);endFinalBetMail(userAlterQ);
 	}
+	
+	/**
+	 * Process a delivery order for sending by mail.
+	 */
+	public void sendingContactMail(GenericMessage<MailQueueDto> message) {
+		MailQueueDto mailQueue=  message.getPayload();
+		
+		String name  = mailQueue.getContactName();
+		String email = mailQueue.getContactEmail();
+		String myMessage = mailQueue.getContactMenssage();
+		
+		
+		sendMailer.sendContactMail(name, email, myMessage);
+	}
+
 }

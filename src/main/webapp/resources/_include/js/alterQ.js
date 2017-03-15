@@ -25,6 +25,8 @@ var bCompanyMgr = 21;
 var bMyCompanyOptions = 22;
 var bPublicCompaniesOptions = 23;
 var bQuinielaLAE = 24;
+var bAbout = 25;
+var bContact = 26;
 
 //Texts
 var sHome    = "Inicio";
@@ -78,6 +80,8 @@ var sMyAdminCompanyRef = "adminCompany";
 var sNewPasswordRef = "#newPasswordDiv";
 var sMyCompanyOptionsRef = "#myCompanyOptions";
 var sPublicCompaniesOptionsRef ="#publicCompanyOptions";
+var sAboutRef ="#about";
+var sContactRef ="#contact";
 
 var buttonpressed;
 
@@ -132,9 +136,9 @@ function initDiv() {
 	bActual = bHome;
 	
 	//document.getElementById("contact").style.display = "none";
-	$('#contact').hide();
+	$(sContactRef).hide();
 	//document.getElementById("about").style.display = "none";
-	$('#about').hide();
+	$(sAboutRef).hide();
 }
 
 function showDiv(elem) {
@@ -226,6 +230,12 @@ function showDiv(elem) {
 	case bNewPassword:
 		$(sNewPasswordRef).show();
 		break;
+	case bAbout:
+		$(sAboutRef).show();
+		break;
+	case bContact:
+		$(sContactRef).show();
+		break;
 	}
 
 	switch (bActual){
@@ -296,6 +306,12 @@ function showDiv(elem) {
 		break;
 	case bNewPassword:
 		$(sNewPasswordRef).hide();
+		break;
+	case bAbout:
+		$(sAboutRef).hide();
+		break;
+	case bContact:
+		$(sContactRef).hide();
 		break;
 		
 	}
@@ -384,6 +400,12 @@ function menuEvent(name, href)
 	}else if (href == sNewPasswordRef){
 		consoleAlterQ("NewPassword");
 		showDiv(bNewPassword);
+	}else if (href == sAboutRef){
+		consoleAlterQ("About");
+		showDiv(bAbout);
+	}else if (href == sContactRef){
+		consoleAlterQ("Contact");
+		showDiv(bContact);
 	}
 	return false;
 	
@@ -574,6 +596,36 @@ $(document).ready(function() {
 		}
   		event.preventDefault();
     });
+	
+	$('form#contact-form').submit(function( event ) {
+		 var dataJson=JSON.stringify($('form#contact-form').serializeObject());
+		 consoleAlterQ(dataJson);
+		 consoleAlterQ(ctx+'/contact/'+$("input[id=contact_name]").val()+'/'+$("input[id=contact_email]").val()+'/'+$("textarea[id=contact_message]").val());
+		 jQuery.ajax ({
+			    url: ctx+'/contact/'+$("input[id=contact_name]").val()+'/'+$("input[id=contact_email]").val()+'/'+$("textarea[id=contact_message]").val(),
+			    type: "POST",
+			    data: dataJson,
+			    contentType: "application/json; charset=utf-8",
+			    async: false,    //Cross-domain requests and dataType: "jsonp" requests do not support synchronous operation
+	            cache: false,    //This will force requested pages not to be cached by the browser  
+	            processData:false, //To avoid making query String instead of JSON
+			    success: function(response){
+		   		    if(response.errorDto!=0){
+		   		    	consoleAlterQ("contact: response="+response.errorDto);
+		   		    	$('#mailFormResponse').html("");
+		   		    	$(response.errorDto).each(function(index, objeto){  
+		   		    		$('#mailFormResponse').append(objeto.stringError+" - ");
+					    });
+		   		    }
+		   		    else{
+		   		    	consoleAlterQ("contact: response= mail OK");
+						$('#mailFormResponse').text("Mail enviado Correctaemnte");
+						//showDiv(bHome);
+		   		    }
+			    }
+			});
+		 	event.preventDefault(); // prevent actual form submit and page reload
+	});
 	
 	$('form#loginForm').submit(function( event ) {
 		 var dataJson=JSON.stringify($('form#loginForm').serializeObject());
@@ -853,7 +905,17 @@ $(document).ready(function() {
 		 event.preventDefault(); // prevent actual form submit and page reload
 	 });
 	
-	 $("#goUp").click(function( event ){
+	$("a#about").click(function( event ){
+		menuEvent($(this).text(), $(this).attr("href"));
+		event.preventDefault(); // prevent actual form submit and page reload
+	});
+
+	$("a#contact").click(function( event ){
+		menuEvent($(this).text(), $(this).attr("href"));
+		event.preventDefault(); // prevent actual form submit and page reload
+	});
+	 
+	$("#goUp").click(function( event ){
 		menuEvent($(this).text(), $(this).attr("href"));
 		event.preventDefault(); // prevent actual form submit and page reload
     });

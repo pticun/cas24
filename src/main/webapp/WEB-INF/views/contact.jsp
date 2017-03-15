@@ -2,57 +2,40 @@
 <!-- Contact Section -->
 <div id="contact" class="page">
 <div class="container">
-    <!-- Title Page -->
-    <div class="row">
-        <div class="span12">
-            <div class="title-page">
-                <h2 class="title">Get in Touch</h2>
-                <h3 class="title-description">We're currently accepting new client projects. We look forward to serving you.</h3>
-            </div>
-        </div>
-    </div>
-    <!-- End Title Page -->
-    
     <!-- Contact Form -->
     <div class="row">
-    	<div class="span9">
-        
-        	<form id="contact-form" class="contact-form" action="#">
-            	<p class="contact-name">
-            		<input id="contact_name" type="text" placeholder="Full Name" value="" name="name" />
-                </p>
-                <p class="contact-email">
-                	<input id="contact_email" type="text" placeholder="Email Address" value="" name="email" />
-                </p>
-                <p class="contact-message">
-                	<textarea id="contact_message" placeholder="Your Message" name="message" rows="15" cols="40"></textarea>
-                </p>
+    	<div align="center">
+        	<form id="contact-form" class="contact-form">
+        		<table class="tablaQuiniGold">
+					<tr><td>&nbsp</td></tr>
+		   			<tr align="center">
+						<td>
+		            		<input id="contact_name" type="text" placeholder="Nombre y Apellidos" value="" name="name" />
+						</td>
+					</tr>
+		   			<tr align="center">
+						<td>
+		                	<input id="contact_email" type="text" placeholder="Direccion de correo" value="" name="email" />
+						</td>
+					</tr>
+		   			<tr align="center">
+						<td>
+		                	<textarea id="contact_message" placeholder="Tu mensaje" name="message" rows="15" cols="40"></textarea>
+						</td>
+					</tr>
+					<tr><td>&nbsp</td></tr>
+				</table>
+        	
+                <br>
                 <p class="contact-submit">
-                	<a id="contact-submit" class="submit" href="#">Send Your Email</a>
+                	<button id="contact_btn" class="btn btn-danger" name="contact_btn" value="login">Enviar</button>
                 </p>
-                
-                <div id="response">
+                <br>
+                <div align="center" id="mailFormResponse" class="linkQuiniGold">Rellena tus datos y pulsa enviar.</div>
                 
                 </div>
             </form>
          
-        </div>
-        
-        <div class="span3">
-        	<div class="contact-details">
-        		<h3>Contact Details</h3>
-                <ul>
-                    <li><a href="#">hello@brushed.com</a></li>
-                    <li>(916) 375-2525</li>
-                    <li>
-                        Brushed Studio
-                        <br>
-                        5240 Vanish Island. 105
-                        <br>
-                        Unknow
-                    </li>
-                </ul>
-            </div>
         </div>
     </div>
     <!-- End Contact Form -->

@@ -16,6 +16,33 @@ public class MailQueueDto implements Serializable{
 	
 	public UserAlterQ user;
 	private Company company;
+	public String contactName;
+	public String getContactName() {
+		return contactName;
+	}
+
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
+	}
+
+	public String getContactEmail() {
+		return contactEmail;
+	}
+
+	public void setContactEmail(String contactEmail) {
+		this.contactEmail = contactEmail;
+	}
+
+	public String getContactMenssage() {
+		return contactMenssage;
+	}
+
+	public void setContactMenssage(String contactMenssage) {
+		this.contactMenssage = contactMenssage;
+	}
+
+	public String contactEmail;
+	public String contactMenssage;
 
 	
 	public String getCco() {

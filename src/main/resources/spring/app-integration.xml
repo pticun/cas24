@@ -46,6 +46,7 @@
     <int:channel id="birthdayMail"/>
     <int:channel id="finalBetMail"/>
     <int:channel id="joinToCompany"/>
+    <int:channel id="contactMail"/>
     
     <int:router input-channel="processMailQueue" method="process" ref="mailRouter"/>
 
@@ -83,6 +84,10 @@
 		output-channel="joinToCompanySend" auto-startup="true">
 	</int:bridge>
 
+	<int:bridge input-channel="contactMail"
+		output-channel="contactMailSend" auto-startup="true">
+	</int:bridge>
+
 	<int:channel id="dailyMailSend"/>
     <int:channel id="resultsMailSend"/>
     <int:channel id="resultUserMailSend"/>
@@ -92,6 +97,7 @@
     <int:channel id="birthdayMailSend"/>
     <int:channel id="finalBetMailSend"/>
     <int:channel id="joinToCompanySend"/>
+    <int:channel id="contactMailSend"/>
 
     <int:outbound-channel-adapter channel="dailyMailSend" ref="sendEndpoint" method="sendingDailyMail" auto-startup="true"/>
     <int:outbound-channel-adapter channel="resultsMailSend" ref="sendEndpoint" method="sendingResultsMail" auto-startup="true"/>
@@ -102,6 +108,7 @@
     <int:outbound-channel-adapter channel="birthdayMailSend" ref="sendEndpoint" method="sendingBirthdayMail" auto-startup="true"/>
     <int:outbound-channel-adapter channel="finalBetMailSend" ref="sendEndpoint" method="sendingFinalBetMail" auto-startup="true"/>
     <int:outbound-channel-adapter channel="joinToCompanySend" ref="sendEndpoint" method="sendingJoinToCompany" auto-startup="true"/>
+    <int:outbound-channel-adapter channel="contactMailSend" ref="sendEndpoint" method="sendingContactMail" auto-startup="true"/>
 
 <!--     
     <int:bridge input-channel="pickup" output-channel="store" />

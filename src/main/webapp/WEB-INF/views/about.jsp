@@ -5,8 +5,8 @@
     <div class="row">
         <div class="span12">
             <div class="title-page">
-                <h2 class="title">About Us</h2>
-                <h3 class="title-description">Learn About our Team &amp; Culture.</h3>
+                <h2 class="title">Quienes somos</h2>
+                <h3 class="title-description">Conoce a nuestro Equipo &amp; Cultura.</h3>
             </div>
         </div>
     </div>
@@ -20,13 +20,12 @@
         	<div class="image-wrap">
                 <div class="hover-wrap">
                     <span class="overlay-img"></span>
-                    <span class="overlay-text-thumb">CTO/Founder</span>
+                    <span class="overlay-text-thumb">Fundador</span>
                 </div>
-                <img src="<c:url value='/static/resources/_include/img/profile/profile-01.jpg'/>" alt="John Doe">
+                <img src="<c:url value='/static/resources/_include/img/profile/profile-01.jpg'/>" alt="Santiago Cabello">
             </div>
-            <h3 class="profile-name">John Doe</h3>
-            <p class="profile-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac augue at erat <a href="#">hendrerit dictum</a>. 
-            Praesent porta, purus eget sagittis imperdiet, nulla mi ullamcorper metus, id hendrerit metus diam vitae est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+            <h3 class="profile-name">Santiago Cabello</h3>
+            <p class="profile-description">Soñador, incansable y nunca se rinde. Cuando algo se le mete en la cabeza pronto o tarde acaba saliendo.</p>
             	
             <div class="social">
             	<ul class="social-icons">
@@ -43,13 +42,12 @@
         	<div class="image-wrap">
                 <div class="hover-wrap">
                     <span class="overlay-img"></span>
-                    <span class="overlay-text-thumb">Creative Director</span>
+                    <span class="overlay-text-thumb">Fundador</span>
                 </div>
-                <img src="<c:url value='/static/resources/_include/img/profile/profile-02.jpg'/>" alt="Jane Helf">
+                <img src="<c:url value='/static/resources/_include/img/profile/profile-02.jpg'/>" alt="Oscar Ruiz">
             </div>
-            <h3 class="profile-name">Jane Helf</h3>
-            <p class="profile-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac augue at erat <a href="#">hendrerit dictum</a>. 
-            Praesent porta, purus eget sagittis imperdiet, nulla mi ullamcorper metus, id hendrerit metus diam vitae est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+            <h3 class="profile-name">Oscar Ruiz</h3>
+            <p class="profile-description">Arquitecto donde no los hay. Lo imposible no existe para él. Siempre a la última.</p>
             	
             <div class="social">
             	<ul class="social-icons">
@@ -65,13 +63,12 @@
         	<div class="image-wrap">
                 <div class="hover-wrap">
                     <span class="overlay-img"></span>
-                    <span class="overlay-text-thumb">Lead Designer</span>
+                    <span class="overlay-text-thumb">Diseñador</span>
                 </div>
-                <img src="<c:url value='/static/resources/_include/img/profile/profile-03.jpg'/>" alt="Joshua Insanus">
+                <img src="<c:url value='/static/resources/_include/img/profile/profile-03.jpg'/>" alt="Xavi Soler">
             </div>
-            <h3 class="profile-name">Joshua Insanus</h3>
-            <p class="profile-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac augue at erat <a href="#">hendrerit dictum</a>. 
-            Praesent porta, purus eget sagittis imperdiet, nulla mi ullamcorper metus, id hendrerit metus diam vitae est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+            <h3 class="profile-name">Xavi Soler</h3>
+            <p class="profile-description">Mago del arte, convierte piedras en margaritas. Siempre aprendiendo.</p>
             	
             <div class="social">
             	<ul class="social-icons">

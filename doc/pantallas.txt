@@ -1,0 +1,32 @@
+CLIENTE
+
+   * 1 ---> PRESENTACION
+   |
+   |--- 1.1 --> INICIO
+   | |
+   | |--- 1.1.1 --> NUEVO USUARIO
+   | |--- 1.1.2 --> RECORDAR PASSWORD
+   | |--- 1.1.3 --> LOGIN 
+       |
+       |--- 1.1 --> MENU PRINCIPAL
+         |
+         |--- 1.1.1 --> APUESTA LAE
+         |
+         |--- 1.1.2 --> DATOS PERSONALES
+         | |
+         | |--- 1.1.2.1 --> MIS DATOS
+         | |--- 1.1.2.2 --> MI SALDO
+         | |--- 1.1.2.3 --> MIS APUESTAS LAE
+         | |--- 1.1.2.4 --> MI PASSWORD
+         |   
+         |--- 1.1.3 --> GRUPOS
+         | |
+         | |---1.1.3.1 --> MIS GRUPOS
+         | | |--- 1.1.3.1.1 --> MIS APUESTAS
+         | | |--- 1.1.3.1.2 --> MI RANKING
+         | | |--- 1.1.3.1.3 --> MI QUINIELA
+         | | |--- 1.1.3.1.4 --> DEJAR GRUPO
+         | |---1.1.3.2 --> CREAR GRUPO
+         |
+         |--- 1.1.4 --> LOGOUT
+     

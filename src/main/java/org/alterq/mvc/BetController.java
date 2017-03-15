@@ -272,7 +272,7 @@ public class BetController {
 			}
 			
 			//Check if Company has already made the final bet (is as it has closed the round)
-			if (!adminCompanyUser){
+			if ((!adminCompanyUser) && (company != AlterQConstants.DEFECT_COMPANY)){
 				RoundBets rbAdminCompanyFinalBets;
 				rbAdminCompanyFinalBets = roundBetDao.findFinalBet(season, round, company);
 				if (rbAdminCompanyFinalBets!=null)
