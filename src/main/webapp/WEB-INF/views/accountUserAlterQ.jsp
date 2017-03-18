@@ -115,7 +115,7 @@
 			        </tr>
 			   		<tr>
 			   			<td>Nacimiento:</td>
-			   			<td><input class="textbox" name="birthday" id="birthDateData" type="text"/></td>
+			   			<td><input class="textbox" name="birthday" id="birthDateData" type="text" placeholder="dd/mm/aaaa"/></td>
 			        </tr>
 			   		<tr>
 			   			<td>Provincia:</td>

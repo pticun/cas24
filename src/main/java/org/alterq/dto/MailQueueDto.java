@@ -1,6 +1,7 @@
 package org.alterq.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import org.alterq.domain.Company;
 import org.alterq.domain.RoundBets;
@@ -45,15 +46,15 @@ public class MailQueueDto implements Serializable{
 	public String contactMenssage;
 
 	
-	public String getCco() {
+	public ArrayList<String> getCco() {
 		return cco;
 	}
 
-	public void setCco(String cco) {
+	public void setCco(ArrayList<String> cco) {
 		this.cco = cco;
 	}
 
-	public String cco;
+	public ArrayList<String> cco;
 	
 	public QueueMailEnum type;
 	

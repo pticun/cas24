@@ -16,6 +16,7 @@
 
 package org.arch.core.channel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.alterq.domain.AdminData;
@@ -98,7 +99,8 @@ public class SendEndpoint {
 		//UserAlterQ userAlterQ=mailQueue.getUser();
 		
 		//sendMailer.sendResultsMail(cco, round, jackPot, betReward, rewardDivided, lPrizes);
-		String cco=mailQueue.getCco();
+		ArrayList<String> cco = new ArrayList<String>();
+		cco=mailQueue.getCco();
 		RoundBets roundBet=mailQueue.getRoundBet();
 		Bet bet = roundBet.getBets().get(0);
 		double rewardDivided = (roundBet.getReward() + roundBet.getJackpot()) / bet.getNumBets();
@@ -113,7 +115,8 @@ public class SendEndpoint {
 	public void sendingResultUserMail(GenericMessage<MailQueueDto> message) {
 		MailQueueDto mailQueue=  message.getPayload();
 		
-		String cco=mailQueue.getCco();
+		ArrayList<String> cco = new ArrayList<String>();
+		cco=mailQueue.getCco();
 		RoundBets roundBet=mailQueue.getRoundBet();
 		Bet bet = roundBet.getBets().get(0);
 		List<Prize> lPrizes = bet.getPrizes();
@@ -158,7 +161,8 @@ public class SendEndpoint {
 		MailQueueDto mailQueue=  message.getPayload();
 		//UserAlterQ userAlterQ=mailQueue.getUser();
 		
-		String cco=mailQueue.getCco();
+		ArrayList<String> cco = new ArrayList<String>();
+		cco=mailQueue.getCco();
 		RoundBets roundBet=mailQueue.getRoundBet();
 		String betID="a cambiar";
 		int numBets=0;

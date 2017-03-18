@@ -68,7 +68,9 @@ public class HomeController {
 	ResponseDto contact(@PathVariable String name, @PathVariable String email, @PathVariable String message, @CookieValue(value = "session", defaultValue = "") String cookieSession, HttpServletRequest request) {
 		log.debug("init LoginController.contact");
 		
-		String ccoMail = "quinilagold@gmail.com";
+		//String ccoMail = "quinilagold@gmail.com";
+		ArrayList<String> ccoMail = new ArrayList<String>();
+		ccoMail.add("quinilagold@gmail.com");
 		
 		MailQueueDto mailDto=new MailQueueDto();
 		mailDto.setType(QueueMailEnum.Q_CONTACTMAIL);
@@ -81,7 +83,7 @@ public class HomeController {
 		
 		if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
 			//para pruebas
-			ccoMail = "quinielagold@gmail.com";
+			ccoMail.add("quinielagold@gmail.com");
 		}
 
 		log.debug("ccoMail="+ccoMail);

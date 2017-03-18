@@ -1,6 +1,8 @@
 package org.alterq.util;
 
 
+import java.util.ArrayList;
+
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -21,21 +23,24 @@ public class MailToolsTest {
 	
 	@Test
 	public void test01getCCOFinalBet() {
-		String result=mailTools.getCCOFinalBet(1,2015,8);
+		ArrayList<String> result = new ArrayList<String>();
+		result=mailTools.getCCOFinalBet(1,2015,8);
 
 		Assert.assertNotNull(result);
 	}
 
 	@Test
 	public void test02getCCOUsersWithoutBet() {
-		String result=mailTools.getCCOUsersWithoutBet(1,2015,8);
+		ArrayList<String> result = new ArrayList<String>();
+		result=mailTools.getCCOUsersWithoutBet(1,2015,8);
 
 		Assert.assertNotNull(result);
 	}
 
 	@Test
 	public void test03getCCOUsersWithoutMoney() {
-		String result=mailTools.getCCOUsersWithoutMoney();
+		ArrayList<String> result = new ArrayList<String>();
+		result=mailTools.getCCOUsersWithoutMoney();
 
 		Assert.assertNotNull(result);
 	}

@@ -1,6 +1,7 @@
 package org.alterq.util;
 
 import java.lang.Math;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.alterq.domain.AdminData;
@@ -39,8 +40,9 @@ public class MailTools{
 	ProcessMailQueue processMailQueue;
 	
 
-	public String getCCOFinalBet(int company, int season, int round){
+	public ArrayList<String> getCCOFinalBet(int company, int season, int round){
 		String CCO = "";
+		ArrayList<String> CCOArray = new ArrayList<String>();
 
 		RoundBets bean = roundBetDao.findRoundBetWithBets(season, round, company);
 		
@@ -50,35 +52,43 @@ public class MailTools{
 			if ((bet.getType() == BetTypeEnum.BET_NORMAL.getValue()))
 			{
 				//Avoid repeat users
-				if (CCO.indexOf(bet.getUser()) < 0)
+				if (CCO.indexOf(bet.getUser()) < 0){
 					CCO += bet.getUser() + ";";
+					CCOArray.add(bet.getUser());
+				}
 			}
 		}
 		log.debug("getCCOFinalBet: CCO:" + CCO);
 		
-		return CCO;
+		return CCOArray;
 	}
 	
-	public String getCCOUsersWithoutBet(int company, int season, int round){
+	public ArrayList<String> getCCOUsersWithoutBet(int company, int season, int round){
 		String CCO = "";
+		ArrayList<String> CCOArray = new ArrayList<String>();
 
-		String UserWithBets = getCCOFinalBet(company, season, round);
+		ArrayList<String> UserWithBets = new ArrayList<String>();
+		
+		UserWithBets = getCCOFinalBet(company, season, round);
 		
 		List<UserAlterQ> lusers = userAlterQDao.findUsersCompany(company);
 		for (UserAlterQ user : lusers){
 	        if(UserWithBets.indexOf(user.getId()) == -1) {
 				CCO+= user.getId() + ";";
+				CCOArray.add(user.getId());
 	        }
 		}
 
 		log.debug("getCCOUsersWithoutBet: CCO:" + CCO);
 		
-		return CCO;
+		return CCOArray;
 	}
 
-	public String getCCOUsersWithoutMoney(){
+	public ArrayList<String> getCCOUsersWithoutMoney(){
 		String CCO = "";
+		ArrayList<String> CCOArray = new ArrayList<String>();
 		int numApuestas;
+		
 		
 		List<UserAlterQ> lusers = userAlterQDao.findAllOrderedByName();
 		
@@ -99,11 +109,12 @@ public class MailTools{
 	        
 			if(balance < (numApuestas * betTools.getPriceBet())) {
 				CCO+= user.getId() + ";";
+				CCOArray.add(user.getId());
 	        }
 		}		
 		log.debug("getCCOUsersWithoutMoney: CCO:" + CCO);
 		
-		return CCO;
+		return CCOArray;
 	}
 	
 	public void sendMailUsersWithoutMoney(){

@@ -89,7 +89,8 @@ public class AccountController {
 			if (user.getPhoneNumber() != null)
 				userAlterQ.setPhoneNumber(user.getPhoneNumber());
 			if (user.getBirthday() != null)
-				userAlterQ.setBirthday(dateFormatUtil.convertFormatDayToIsoTime(user.getBirthday()));
+				userAlterQ.setBirthday(user.getBirthday());
+				//userAlterQ.setBirthday(dateFormatUtil.convertFormatDayToIsoTime(user.getBirthday()));
 			if (user.getCity() != null)
 				userAlterQ.setCity(user.getCity());
 			// if (StringUtils.isNumeric(new String("" + user.getAutomatics())))

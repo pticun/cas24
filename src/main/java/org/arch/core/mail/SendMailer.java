@@ -1,6 +1,7 @@
 package org.arch.core.mail;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -154,7 +155,7 @@ public class SendMailer {
 
 	}
 
-	public void sendResultsMail(String CCOusers, int round, float jackPot, float betReward, double rewardDivided, List<Prize> prizes) {
+	public void sendResultsMail(ArrayList<String> CCOusers, int round, float jackPot, float betReward, double rewardDivided, List<Prize> prizes) {
 		MimeMessage message = mailSender.createMimeMessage();
 
 		// use the true flag to indicate you need a multipart message
@@ -181,7 +182,11 @@ public class SendMailer {
 			helper = new MimeMessageHelper(message, true);
 			helper.setFrom(new InternetAddress(from, "QuiniGold"));
 			// helper.setTo(userAlterQ.getId());
-			helper.setBcc(CCOusers);
+			
+			String[] address = new String[CCOusers.size()];
+			address = CCOusers.toArray(address);
+			helper.setBcc(address);
+
 			helper.setSubject("QuiniGold - Resumen Premios");
 
 			helper.setText(stringWriter.toString(), true);
@@ -202,7 +207,7 @@ public class SendMailer {
 
 	}
 
-	public void sendResultUserMail(String CCOusers, int round, float betReward, List<Prize> prizes) {
+	public void sendResultUserMail(ArrayList<String> CCOusers, int round, float betReward, List<Prize> prizes) {
 		MimeMessage message = mailSender.createMimeMessage();
 
 		// use the true flag to indicate you need a multipart message
@@ -227,7 +232,9 @@ public class SendMailer {
 			helper = new MimeMessageHelper(message, true);
 			helper.setFrom(new InternetAddress(from, "QuiniGold"));
 			// helper.setTo(userAlterQ.getId());
-			helper.setBcc(CCOusers);
+			String[] address = new String[CCOusers.size()];
+			address = CCOusers.toArray(address);
+			helper.setBcc(address);
 			helper.setSubject("QuiniGold - Boleto Premiado");
 
 			helper.setText(stringWriter.toString(), true);
@@ -356,7 +363,7 @@ public class SendMailer {
 
 	}
 
-	public void sendFinalBetMail(String CCOusers, int round, int season, String betID, float betPrize, int numBets, String linkBet) {
+	public void sendFinalBetMail(ArrayList<String> CCOusers, int round, int season, String betID, float betPrize, int numBets, String linkBet) {
 		MimeMessage message = mailSender.createMimeMessage();
 
 		// use the true flag to indicate you need a multipart message
@@ -377,7 +384,12 @@ public class SendMailer {
 
 			helper = new MimeMessageHelper(message, true);
 			helper.setFrom(new InternetAddress(from, "QuiniGold"));
-			helper.setBcc(CCOusers);
+			
+			String[] address = new String[CCOusers.size()];
+			address = CCOusers.toArray(address);
+			helper.setBcc(address);
+
+			//helper.setBcc(CCOusers);
 			helper.setSubject("QuiniGold - Boleto " + round + " Temporada " + season + "/" + (season - 2000 + 1));
 
 			helper.setText(stringWriter.toString(), true);

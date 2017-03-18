@@ -488,7 +488,7 @@ public class BetController {
 			log.debug("session:" + cookieSession);
 		}
 		ResponseDto dto = new ResponseDto();
-		String ccoMail = null;
+		ArrayList<String> ccoMail = new ArrayList<String>();
 		String linkBet = null;
 		
 		
@@ -623,7 +623,7 @@ public class BetController {
 				ccoMail = mailTools.getCCOFinalBet(company, season, round);
 			}
 			else{
-				ccoMail = userAlterQ.getId();
+				ccoMail.add(userAlterQ.getId());
 			}
 
 			// Insert new bet into the BBDD
@@ -686,7 +686,7 @@ public class BetController {
 				
 				if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
 					//para pruebas
-					ccoMail = "quinielagold@gmail.com";
+					ccoMail.add("quinielagold@gmail.com");
 				}
 
 				log.debug("ccoMail="+ccoMail);

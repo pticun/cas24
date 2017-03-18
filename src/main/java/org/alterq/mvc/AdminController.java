@@ -612,7 +612,8 @@ public class AdminController {
 		String betResult = null;
 		double rewardDivided = 0;
 		//Account account = new Account();
-		String eMail;
+		//String eMail;
+		ArrayList<String> eMail = new ArrayList<String>();
 		boolean firstFinalBet = true;
 
 		try {
@@ -736,10 +737,10 @@ public class AdminController {
 
 								//Send Mail to the user
 								
-								eMail = userAlterQ.getId();
+								eMail.add(userAlterQ.getId());
 								
 								if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
-									eMail = "quinielagold@gmail.com";
+									eMail.add("quinielagold@gmail.com");
 								}
 								
 
@@ -883,11 +884,12 @@ public class AdminController {
 									}
 								}
 								//Send Results Mail
-								String ccoMail = mailTools.getCCOFinalBet(co.getCompany(),season,round);
+								ArrayList<String> ccoMail = new ArrayList<String>();
+								ccoMail = mailTools.getCCOFinalBet(co.getCompany(),season,round);
 								log.debug("ccoMail="+ccoMail);
 								
 								if(!StringUtils.contains(CoreUtils.getCurrentHostName(),"pro")){
-									ccoMail = "quinielagold@gmail.com";
+									ccoMail.add("quinielagold@gmail.com");
 								}
 								
 	
