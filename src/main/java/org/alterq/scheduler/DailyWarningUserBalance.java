@@ -20,7 +20,6 @@ import org.alterq.repo.AdminDataDao;
 import org.alterq.repo.RoundBetDao;
 import org.alterq.repo.RoundDao;
 import org.alterq.repo.UserAlterQDao;
-import org.alterq.util.DateFormatUtil;
 import org.alterq.util.enumeration.QueueMailEnum;
 import org.alterq.util.enumeration.RolNameEnum;
 import org.apache.commons.lang3.StringUtils;
@@ -31,9 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
-@Service
 public class DailyWarningUserBalance {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
