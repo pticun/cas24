@@ -178,7 +178,7 @@ End Analytics -->
 	        </div>
 	    	<div class="span4 profile">
 	        	<div class="image-wrap">
-	                <img src="<c:url value='/static/resources/_include/img/work/thumbs/logo.png'/>" alt="Quiniela">
+	                <img id="menuMain" src="<c:url value='/static/resources/_include/img/work/thumbs/logo.png'/>" alt="Quiniela">
 	            </div>
 	        </div>
 	    	<div class="span4 profile">
@@ -192,6 +192,82 @@ End Analytics -->
 </div>
 <!-- End Principal -->
 
+<!-- Menu Principal -->
+<div id="menuMainDiv" class="page">
+<div class="container">
+   <!-- Options -->
+    <div class="row">
+    <div align="center">
+    	<table class="menuop">
+    	<tr>
+    	<td>
+                <img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
+	    </td>
+        
+        <td>
+                <img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
+		</td>
+		</tr>
+    	<tr>
+    	<td>
+                <img id="menuMainOp1" src="<c:url value='/static/resources/_include/img/options/option-01.png'/>" alt="Quiniela LAE">
+	    </td>
+        
+        <td>
+                <img id="menuMainOp2" src="<c:url value='/static/resources/_include/img/options/option-02.png'/>" alt="Grupos">
+		</td>
+		</tr>
+    	<tr align="center">
+    	<td>
+                <label class="Option">LAE-1X2</label>
+	    </td>
+        
+        <td>
+                <label class="Option">GRUPOS</label>
+		</td>
+		</tr>
+    	<tr>
+    	<td>
+                <img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
+	    </td>
+        
+        <td>
+                <img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
+		</td>
+		</tr>
+		<tr>
+		<td>
+                <img id="menuMainOp3" src="<c:url value='/static/resources/_include/img/options/option-03.png'/>" alt="QuiniGolder">
+		</td>
+		<td>
+                <img id="menuMainOp4" src="<c:url value='/static/resources/_include/img/options/option-04.png'/>" alt="Salir">
+        </td>
+        </tr>
+    	<tr align="center">
+    	<td>
+                <label class="Option">USUARIO</label>
+	    </td>
+        
+        <td>
+                <label class="Option">LOGOUT</label>
+		</td>
+		</tr>
+    	<tr>
+    	<td>
+                <img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
+	    </td>
+        
+        <td>
+                <img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
+		</td>
+		</tr>
+        </table>
+        </div>
+    </div>
+    <!-- End People -->        
+</div>
+</div>
+<!-- End Menu Principal -->
 
 <%@ include file="/WEB-INF/views/accountUserAlterQ.jsp" %>
 <%@ include file="/WEB-INF/views/myBalance.jsp" %>

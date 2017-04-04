@@ -1470,6 +1470,12 @@ table, tr [class="quiniela"]
 /*  	table-layout:fixed;  */
 }
 
+table.menuop
+{
+	background-color: inherit;
+	background:url(img/fondo.jpg) center no-repeat;
+	background-size:100% 100%;
+}
 
 tr[class="quinielatitulo"]
 {
@@ -1522,6 +1528,16 @@ font-family: Arial;
 color: #CC3333;
 margin-bottom: 0px;
 margin-top: 0px;
+}
+
+label[class="Option"]
+{
+font-family: Arial;
+color: #FFFFFF;
+font-weight: bold;
+display: block;
+font-size:x-large;
+text-shadow: 1px 1px 1px #000, 3px 3px 5px black;
 }
 	
 img[class="mybetsimg"]{

@@ -27,6 +27,7 @@ var bPublicCompaniesOptions = 23;
 var bQuinielaLAE = 24;
 var bAbout = 25;
 var bContact = 26;
+var bMenuMain = 27;
 
 //Texts
 var sHome    = "Inicio";
@@ -82,6 +83,7 @@ var sMyCompanyOptionsRef = "#myCompanyOptions";
 var sPublicCompaniesOptionsRef ="#publicCompanyOptions";
 var sAboutRef ="#about";
 var sContactRef ="#contact";
+var sMenuMainRef ="#menuMainDiv";
 
 var buttonpressed;
 
@@ -104,6 +106,7 @@ function initDiv() {
 	//document.getElementById("homeDiv").style.display = "block";
 	$(sHomeRef).show();
 	//document.getElementById("loginDiv").style.display = "none";
+	$(sMenuMainRef).hide();
 	$(sLoginRef).hide();
 	//document.getElementById("signDiv").style.display = "none";
 	$(sSignRef).hide();
@@ -149,19 +152,18 @@ function showDiv(elem) {
 	switch (elem){
 	case bHome:
 		$(sHomeRef).show();
-		//document.getElementById("homeDiv").style.display = "block";
+		break;
+	case bMenuMain:
+		$(sMenuMainRef).show();
 		break;
 	case bLogin:
 		$(sLoginRef).show();
-		//document.getElementById("logingDiv").style.display = "block";
 		break;
 	case bSign:
 		$(sSignRef).show();
-		//document.getElementById("signDiv").style.display = "block";
 		break;
 	case bForgot:
 		$(sForgotRef).show();
-		//document.getElementById("forgotDiv").style.display = "block";
 		break;
 	case bQuinielaLAE:
 		window.company = window.DEFECT_COMPANY;
@@ -172,7 +174,6 @@ function showDiv(elem) {
 	case bQuiniela:
 		getQuiniela();
 		$(sQuinielaRef).show();
-		//document.getElementById("quinielaDiv").style.display = "block";
 		break;
 	case bMyAccount:
 		$(sMyaccountRef).show();
@@ -199,7 +200,6 @@ function showDiv(elem) {
 		$(sMyAdminRef).open();
 		break;
 	case bMyAdminCompany:
-//		$(sMyAdminCompanyRef).open();
 		consoleAlterQ("callToMyAdminCompany");
 		callToMyAdminCompany();
 		break;
@@ -241,19 +241,18 @@ function showDiv(elem) {
 	switch (bActual){
 	case bHome:
 		$(sHomeRef).hide();
-		//document.getElementById("homeDiv").style.display = "none";
+		break;
+	case bMenuMain:
+		$(sMenuMainRef).hide();
 		break;
 	case bLogin:
 		$(sLoginRef).hide();
-		//document.getElementById("logiDiv").style.display = "none";
 		break;
 	case bSign:
 		$(sSignRef).hide();
-		//document.getElementById("signDiv").style.display = "none";
 		break;
 	case bForgot:
 		$(sForgotRef).hide();
-		//document.getElementById("forgotDiv").style.display = "none";
 		break;
 	case bQuinielaLAE:
 		if (elem != bQuiniela)
@@ -262,7 +261,6 @@ function showDiv(elem) {
 	case bQuiniela:
 		if (elem != bQuinielaLAE)
 			$(sQuinielaRef).hide();
-		//document.getElementById("quinielaDiv").style.display = "none";
 		break;
 	case bMyAccount:
 		$(sMyaccountRef).hide();
@@ -326,10 +324,19 @@ function menuEvent(name, href)
 {
 		consoleAlterQ("menuEvent elem="+ name +" href="+href);
 //alert("menuEvent elem="+ name +" href="+href);
-
 	if (href == sHomeRef){
-		consoleAlterQ("Home");
-		showDiv(bHome);
+		if(!window.userLoged){
+			consoleAlterQ("Home");
+			showDiv(bHome);
+		}
+		else{
+			consoleAlterQ("MenuMain");
+			showDiv(bMenuMain);
+		}
+		
+	}else if (href == sMenuMainRef){
+		consoleAlterQ("MenuMain");
+		showDiv(bMenuMain);
 	}else if (href == sLoginRef){
 		consoleAlterQ("Login");
 		showDiv(bLogin);
@@ -554,14 +561,15 @@ $(document).ready(function() {
 		    if(response.errorDto!=0){
 		    	if (bActual == bLogin)
 		    		showDiv(bLogin);
-		    	else
+		    	else{
 					showDiv(bHome);
+		    	}
 		    	
 				window.userLoged=false;
 		    }
 		    else{
 		    	if (response.userAlterQ!=null){
-	    			showDiv(bHome);
+	    			showDiv(bMenuMain);
 		    			
 					fillUserData(response);
 					
@@ -652,8 +660,8 @@ $(document).ready(function() {
 						$('#loginFormResponse').text(response.userAlterQ.name);
 						userLoged=true;
 						fillUserData(response);
-						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);
-						showDiv(bHome);
+						getMainMenuItems(userLoged, userLoged?response.userAlterQ.name:null);						
+						showDiv(bMenuMain);
 		   		    }
 				    fillRoundSeasonCompany(response);
 			    }
@@ -905,6 +913,31 @@ $(document).ready(function() {
 		 event.preventDefault(); // prevent actual form submit and page reload
 	 });
 	
+	$("img#menuMain").on('click', function( event ){
+		menuEvent($(this).text(),  "#loginDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
+	
+	$("img#menuMainOp1").on('click', function( event ){
+		menuEvent($(this).text(),  "#quinielaLAEDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
+	$("img#menuMainOp2").on('click', function( event ){
+		menuEvent($(this).text(),  "#myCompanyDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
+	
+	$("img#menuMainOp3").on('click', function( event ){
+		menuEvent($(this).text(),  "#myaccountDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
+	
+	$("img#menuMainOp4").on('click', function( event ){
+		menuEvent($(this).text(),  "#logoutDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
+	
+
 	$("a#about").click(function( event ){
 		menuEvent($(this).text(), $(this).attr("href"));
 		event.preventDefault(); // prevent actual form submit and page reload
