@@ -524,6 +524,11 @@ header #logo a:hover {
 	filter: alpha(opacity=65);	
 }
 
+#menuOpcion a:hover {
+	opacity: 0.65;
+	filter: alpha(opacity=65);	
+}
+
 nav#menu {
 	float: right;
 	margin-right: 20px;

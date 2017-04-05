@@ -153,7 +153,7 @@ End Analytics -->
     	<a id="mobile-nav" class="menu-nav" href="#menu-nav"></a>
         
         <div id="logo">
-        	<a id="goUp" href="#homeDiv" title="alterQ | Los amantes de las quinielas">alterQ</a>
+        	<a id="goUp" href="#homeDiv" title="QuiniGold | Los amantes de las quinielas">QuiniGold</a>
         </div>
         
         <nav id="menu">
@@ -201,7 +201,7 @@ End Analytics -->
     	<table class="menuop">
     	<tr>
     	<td>
-                <img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
+        	<img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
 	    </td>
         
         <td>
@@ -210,11 +210,19 @@ End Analytics -->
 		</tr>
     	<tr>
     	<td>
+    		<div id="menuOpcion">
+    		<a title="Quiniela LAE">
                 <img id="menuMainOp1" src="<c:url value='/static/resources/_include/img/options/option-01.png'/>" alt="Quiniela LAE">
+            </a>
+            </div>
 	    </td>
         
         <td>
+    		<div id="menuOpcion">
+    		<a title="Grupos QuiniGold">
                 <img id="menuMainOp2" src="<c:url value='/static/resources/_include/img/options/option-02.png'/>" alt="Grupos">
+            </a>
+            </div>
 		</td>
 		</tr>
     	<tr align="center">
@@ -237,10 +245,18 @@ End Analytics -->
 		</tr>
 		<tr>
 		<td>
+    		<div id="menuOpcion">
+    		<a title="Datos del Usuario">
                 <img id="menuMainOp3" src="<c:url value='/static/resources/_include/img/options/option-03.png'/>" alt="QuiniGolder">
+            </a>
+            </div>
 		</td>
 		<td>
+    		<div id="menuOpcion">
+    		<a title="Salir de QuiniGold">
                 <img id="menuMainOp4" src="<c:url value='/static/resources/_include/img/options/option-04.png'/>" alt="Salir">
+            </a>
+            </div>
         </td>
         </tr>
     	<tr align="center">
