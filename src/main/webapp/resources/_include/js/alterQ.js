@@ -936,6 +936,22 @@ $(document).ready(function() {
 		menuEvent($(this).text(),  "#logoutDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
     });
+	$("img#menuMainOp31").on('click', function( event ){
+		menuEvent($(this).text(),  "#mydataDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
+	$("img#menuMainOp32").on('click', function( event ){
+		menuEvent($(this).text(),  "#mybalanceDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
+	$("img#menuMainOp33").on('click', function( event ){
+		menuEvent($(this).text(),  "#newPasswordDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
+	$("img#menuMainOp34").on('click', function( event ){
+		menuEvent($(this).text(),  "#myOwnBetsDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
 	
 
 	$("a#about").click(function( event ){
@@ -957,7 +973,7 @@ $(document).ready(function() {
 		menuEvent($(this).text(), $(this).attr("href"));
 		event.preventDefault(); // prevent actual form submit and page reload
    });
-	$("#myDataBtn").on('click', function( event ){
+/*	$("#myDataBtn").on('click', function( event ){
 		menuEvent($(this).text(),  "#mydataDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
     });
@@ -965,22 +981,27 @@ $(document).ready(function() {
 		menuEvent($(this).text(), "#mybalanceDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
    });
+*/   
 	$("#myBetsBtn").click(function( event ){
 		menuEvent($(this).text(), "#mybetsDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
     });
+/*	
 	$("#myOwnBetsBtn").click(function( event ){
 		menuEvent($(this).text(), "#myOwnBetsDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
     });
+*/    
 	$("#myRankingBtn").click(function( event ){
 		menuEvent($(this).text(), "#myrankingDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
     });
+/*	
 	$("#myPwdBtn").click(function( event ){
 		menuEvent($(this).text(), "#newPasswordDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
     });
+*/    
 	$("#myRankBtn").click(function( event ){
 //		menuEvent($(this).text(), "#myRankDiv");
 		menuEvent($(this).text(), "#myrankingDiv");
@@ -990,7 +1011,7 @@ $(document).ready(function() {
 		menuEvent($(this).text(), "#myResumDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
 	});
-   	$('mydataDiv').click(function( event ){
+   	$('#mydataDiv').click(function( event ){
 		$(sMyDataRef).show();
 		event.preventDefault(); // prevent actual form submit and page reload
   	});

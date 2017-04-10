@@ -3,34 +3,86 @@
 <div class="container">
     	<div class="row">
             <div  align="center" >
-            <table class="tablaQuiniGold">
-		   			<tr align="center">
-		   				
-						<td><br>INFORMACION DEL USUARIO</td>
-					</tr>
-			   		<tr align="center">
-			   			<td align="center">
-							<br>
-							<button id="myDataBtn" type="button" class="btn btn-danger btn-block">Mis Datos</button>
-							<br>
-		  					<button id="myBalanceBtn" type="button" class="btn btn-danger btn-block">Mi Saldo</button>
-		  					<br>
- 		  					<button id="myOwnBetsBtn" type="button" class="btn btn-danger btn-block">Mis Apuestas LAE</button>
-		  					<br>
-<!--		  					<button id="myRankingBtn" type="button" class="btn btn-danger btn-block">Mi Ranking</button>
-		  					<br>
- -->		  					
-		  					<button id="myPwdBtn" type="button" class="btn btn-danger btn-block">Mi Password</button>
-		  					<br>
-			   			</td>
-			        </tr>
-			</table>            
-<!--            	<div class="well" id="myDataBtn">Mis Datos</div>	-->
-<!--	           	<div class="well" id="myBalanceBtn">Mi Saldo</div>	-->
-<!--    	       	<div class="well" id="myBetsBtn">Mis Apuestas</div>	-->
-
-<!--            	<div class="well" id="myRankBtn">Ranking</div>	 -->
-<!--            	<div class="well" id="myResumBtn">Resumen</div>	 -->
+    	<table class="menuop">
+    	<tr>
+    	<td>
+        	<img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
+	    </td>
+        
+        <td>
+                <img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
+		</td>
+		</tr>
+    	<tr>
+    	<td>
+    		<div id="menuOpcion">
+    		<a title="Mis Datos">
+                <img id="menuMainOp31" src="<c:url value='/static/resources/_include/img/options/option-31.png'/>" alt="Mis Datos">
+            </a>
+            </div>
+	    </td>
+        
+        <td>
+    		<div id="menuOpcion">
+    		<a title="Mi Saldo">
+                <img id="menuMainOp32" src="<c:url value='/static/resources/_include/img/options/option-32.png'/>" alt="Mi Saldo">
+            </a>
+            </div>
+		</td>
+		</tr>
+    	<tr align="center">
+    	<td>
+                <label class="Option">DATOS</label>
+	    </td>
+        
+        <td>
+                <label class="Option">SALDO</label>
+		</td>
+		</tr>
+    	<tr>
+    	<td>
+                <img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
+	    </td>
+        
+        <td>
+                <img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
+		</td>
+		</tr>
+		<tr>
+		<td>
+    		<div id="menuOpcion">
+    		<a title="Mi Password">
+                <img id="menuMainOp33" src="<c:url value='/static/resources/_include/img/options/option-33.png'/>" alt="Mi Password">
+            </a>
+            </div>
+		</td>
+		<td>
+    		<div id="menuOpcion">
+    		<a title="Mis Apuestas LAE">
+                <img id="menuMainOp34" src="<c:url value='/static/resources/_include/img/options/option-34.png'/>" alt="Mis Apuestas LAE">
+            </a>
+            </div>
+        </td>
+        </tr>
+    	<tr align="center">
+    	<td>
+                <label class="Option">PASSWD</label>
+	    </td>
+        
+        <td>
+                <label class="Option">APUESTAS</label>
+		</td>
+		</tr>
+    	<tr>
+    	<td>
+                <img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
+	    </td>
+        
+        <td>
+                <img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
+		</td>
+		</tr>
+        </table>
 			</div>
             </div>
         </div>
