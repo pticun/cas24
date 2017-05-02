@@ -1475,6 +1475,27 @@ table, tr [class="quiniela"]
 /*  	table-layout:fixed;  */
 }
 
+table.tableTrans
+{
+	background-color: transparent;	
+}
+
+table.table150
+{
+	background-color: transparent;	
+	max-height:150px;
+/* 	overflow: scroll; */
+	/*background:url(img/fondoLista.png);*/
+}
+
+tbody.tbody100 {
+height: 100px;
+/* overflow-x: hidden; */
+/* overflow-y: hidden; */
+width: 100%;
+display: block;
+}
+
 table.menuop
 {
 	background-color: inherit;
@@ -1542,6 +1563,16 @@ color: #FFFFFF;
 font-weight: bold;
 display: block;
 font-size:x-large;
+text-shadow: 1px 1px 1px #000, 3px 3px 5px black;
+}
+
+label[class="OptionElem"]
+{
+font-family: Arial;
+color: #BBBBBB;
+font-weight: bold;
+display: block;
+font-size:medium;
 text-shadow: 1px 1px 1px #000, 3px 3px 5px black;
 }
 	

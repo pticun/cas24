@@ -5,60 +5,111 @@
     <!-- MyCompany Form -->
     <div class="row">
 		<div align="center">
-		   <form id="myCompanyForm">
-		   		<table class="tablaQuiniGold">
+	    	<table class="menuop">
+	    	<tr>
+	    	<td colspan="2">
+	    		<div id="menuOpcion">
+	    		<a title="MIS GRUPOS">
+			   <form id="myCompanyForm">
+	                <div id="MisGrBtns" align="center" style="overflow: auto;overflow-x: hidden;">
+		       </form>
+	            </a>
+	            </div>
+		    </td>
+			</tr>
+	    	<tr align="center">
+	    	<td colspan="2">
+	                <label class="Option">MIS GRUPOS</label>
+		    </td>
+			</tr>
+			<tr>
+			<td colspan="2">
+	    		<div id="menuOpcion">
+	    		<a title="Otros Grupos">
+					<form id="joinCompanyForm">
+						<div id="PublicGrBtns" align="center" style="overflow: auto; overflow-x: hidden;"></div>
+					</form>
+	            </a>
+	            </div>
+			</td>
+			</tr>
+			<tr align="center">
+	    	<td colspan="2">
+	                <label class="Option">OTROS GRUPOS</label>
+		    </td>
+			</tr>
+			
+	    	<tr align="center">
+	    	<td colspan="2">
+	    		<div id="menuOpcion">
+	    		<a title="Crear Grupo">
+	    			<table class="tableTrans">
+	    			<tr>
+	    			<td>
+	                <img id="menuMainOp23" src="<c:url value='/static/resources/_include/img/options/option-23.png'/>" alt="Crear Grupo">
+	                </td>
+	                <td>
+	                	<label class="OptionElem">Crear Grupo</label>
+					</td>
+	                </tr>
+	                </table>
+	            </a>
+	            </div>
+		    </td>
+			</tr>
+
+			<tr>
+			<td>
+	    		<div id="menuOpcion">
+	    		<a title="">
+	                <img src="<c:url value='/static/resources/_include/img/options/vacio2.png'/>">
+	            </a>
+	            </div>
+	        </td>
+			<td>
+	    		<div id="menuOpcion">
+	    		<a title="">
+	                <img src="<c:url value='/static/resources/_include/img/options/vacio2.png'/>">
+	            </a>
+	            </div>
+	        </td>
+	        </tr>
+	        </table>
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+<!-- 		   		<table class="tablaQuiniGold">
 		   			<tr align="center">
 						<td colspan="2">MIS GRUPOS</td>
 					</tr>
 			   		<tr>
-<!-- 			   		<td>Grupo:</td> -->
-<!-- 			   			<td> -->
-<!-- 			   			<select name="companyID" id="companyToChoose"> -->
-<!-- 						</select> -->
 
  						<td align="center" colspan="2">
-<!--  						<div id="MisGrBtns" align="center" style="height:220px;overflow-y:auto;">
- --> 						<div id="MisGrBtns" align="center">
+	 						<div id="MisGrBtns" align="center" style="overflow: auto;overflow-x: hidden;">
 						</div>
 			   			</td>
 			        </tr>
-<!-- 			   		<tr align="center"> -->
-<!-- 			   			<td align="center" colspan="2"><button id="myCompanyFormSubmit_btn" class="btn btn-danger" name="submitBtn" value="submitBtn">Seleccionar</button></td> -->
-<!-- 			        </tr> -->
 		        </table>
-	       </form>
-		        <br>
-		   <form id="joinCompanyForm">
+ -->		        <br>
+<!-- 		   <form id="joinCompanyForm">
 		   		<table class="tablaQuiniGold">
 		   			<tr align="center">
 						<td colspan="2">OTROS GRUPOS</td>
 					</tr>
 					<tr align="center">
-<!-- 		   			
-						<td colspan="2">
-							<select id="selectActionRolCompany">
-								<option value="1">Unirse a</option>
-								<option value="2">Borrarse de</option>
-							</select>
-						</td>
-					</tr>
-			   		<tr>
-			   			<td>Grupo:</td>
-			   			<td>
-			   			<select name="companyID" id="companyToChoosePublic">
-						</select>
- -->
  						<td colspan="2">						
-						<div id="PublicGrBtns" align="center"></div>
+						<div id="PublicGrBtns" align="center" style="overflow: auto; overflow-x: hidden;"></div>
 			   			</td>
 			        </tr>
-<!-- 			   	<tr align="center">
-			   			<td align="center" colspan="2"><button id="myCompanyFormSubmit_btn" class="btn btn-danger" name="submitBtn" value="submitBtn">Seleccionar</button></td>
-			        </tr>
- -->		        </table>
 		        <br>
-	        </form>
-		        <br>
+	        </form> -->
+<!-- 		        <br>
 		        <div id="joinCompanyResponse" class="linkQuiniGold">Elige el grupo y pulsa Seleccionar.</div>
 		        <br>
 		        <table class="tablaQuiniGold">
@@ -66,7 +117,7 @@
 			   		<tr align="center">
 			   			<td><button id="myCompanyMgrBtn" class="btn btn-danger" name="submitBtn" value="submitBtn">+</button></td>
 			        </tr>
-		        </table>	        
+		        </table>	 -->        
 		</div>
     </div>
     <!-- End MyCompany Form -->

@@ -952,6 +952,10 @@ $(document).ready(function() {
 		menuEvent($(this).text(),  "#myOwnBetsDiv");
 		event.preventDefault(); // prevent actual form submit and page reload
     });
+	$("img#menuMainOp23").on('click', function( event ){
+		menuEvent($(this).text(),  "#myCompanyMgrDiv");
+		event.preventDefault(); // prevent actual form submit and page reload
+    });
 	
 
 	$("a#about").click(function( event ){
@@ -1363,6 +1367,7 @@ function openCompanyModal(company, name) {
 	
 }
 function getCompanies(){
+	var row="";
 	consoleAlterQ('getCompanies');
 	consoleAlterQ(loadCompanies);
 	
@@ -1390,26 +1395,56 @@ function getCompanies(){
 				    if(response.errorDto!=0){
 						consoleAlterQ('Success: no hay companies');
 //						$('#companyToChoose').append('<option value="'+window.DEFECT_COMPANY+'">QuiniGold</option>');
-						$('#MisGrBtns').append('<button onClick="openCompanyModal('+ window.DEFECT_COMPANY +',\'QuiniGold\')" class="btn btn-danger">QuiniGold</button><br><br>')
+						$('#MisGrBtns').append('<button onClick="openCompanyModal('+ window.DEFECT_COMPANY +',\'QuiniGold\')" class="btn btn-danger">QuiniGold</button><br><br>');
 						
 						window.loadCompanies=true;
 				    }
 				    else{
 				    	var responseCompanyOrder = [];
+				    	row="";
 				    	responseCompanyOrder = jQuery.unique($(response.company));
-				    	$('#MisGrBtns').append('<br>');
+				    	row+='<br>';
+				    	//$('#MisGrBtns').append('<br>');
+				    	row+='<table class="table150"><tbody class="tbody100">';
 				    	console.log("responseCompanyOrder.length=" + responseCompanyOrder.length);
-				    	if (responseCompanyOrder.length == 0)
-				    		$('#MisGrBtns').append('No hay Grupos');
-						$(responseCompanyOrder).each(function(index, element){
+				    	if (responseCompanyOrder.length == 0){
+				    		row+='<tr><td>';
+				    		//row+='No hay Grupos';
+				    		row+='<div>';
+				    		row+='<a title="No hay Grupos">';
+				    		row+='<table class="tableTrans"><tr><td>';
+				    		row+='<img src="/quinimobile/static/resources/_include/img/options/option-21no.png" alt="Salir">';
+				    		row+='</td><td>';
+				    		row+='<label class="OptionElem">Sin Grupos</label>';
+				    		row+='</td></tr></table>';
+				    		row+='</a>';
+				    		row+='</div>';
+				    		row+='</td></tr>';
+				    		//$('#MisGrBtns').append('No hay Grupos');
+				    	}
+				    	
+				    	$(responseCompanyOrder).each(function(index, element){
 							console.log("index="+index+"-id="+element.id + "-company="+element.company+"-nick="+element.nick);
 							if (element.company!=window.DEFECT_COMPANY){
-//								$('#companyToChoose').append('<option value="'+element.company+'">'+element.nick+'</option>');
-//								$('#MisGrBtns').append('<button data-toggle="modal" data-target="#myCompanyOptions" id="MyCompany_btn" class="btn btn-danger" name="submitBtn" value="'+element.company+'">'+element.nick+'</button><br><br>')
-								$('#MisGrBtns').append('<button onClick="openCompanyModal('+ element.company +',\'' + element.nick + '\')" class="btn btn-danger">'+element.nick+'</button><br><br>')
+								//$('#MisGrBtns').append('<li><button onClick="openCompanyModal('+ element.company +',\'' + element.nick + '\')" class="btn btn-danger">'+element.nick+'</button><br><br></li>');
+								row+='<tr><td>';
+								//row+='<button onClick="openCompanyModal('+ element.company +',\'' + element.nick + '\')" class="btn btn-danger">'+element.nick+'</button><br><br>';
+					    		row+='<div onClick="openCompanyModal('+ element.company +',\'' + element.nick + '\')">';
+					    		row+='<a title="'+element.nick+'">';
+					    		row+='<table class="tableTrans"><tr><td>';
+					    		row+='<img  src="/quinimobile/static/resources/_include/img/options/option-21.png" alt="'+element.nick+'">';
+					    		row+='</td><td>';
+					    		row+='<label class="OptionElem">'+element.nick+'</label>';
+					    		row+='</td></tr></table>';
+					    		row+='</a>';
+					    		row+='</div>';
+								row+='</td></tr>';
 							}
 							
 						});
+				    	
+				    	row+='</tbody></table></div>';
+				    	$('#MisGrBtns').append(row);
 				    }
 			    },
 			    error : function (xhr, textStatus, errorThrown) {
@@ -1439,17 +1474,48 @@ function getCompanies(){
 				    }
 				    else{
 				    	var responseCompanyOrder = [];
+				    	row="";
 				    	responseCompanyOrder = jQuery.unique($(response.company));
-				    	$('#PublicGrBtns').append('<br>');
-				    	if (responseCompanyOrder.length == 0)
-				    		$('#PublicGrBtns').append('No hay Grupos<br><br>');
+				    	row+='<br>';
+				    	row+='<table class="table150"><tbody class="tbody100">';
+				    	//$('#PublicGrBtns').append('<br>');
+				    	if (responseCompanyOrder.length == 0){
+				    		row+='<tr><td>';
+				    		
+				    		row+='<div id="menuOpcion">';
+				    		row+='<a title="No hay Grupos">';
+				    		row+='<table class="tableTrans"><tr><td>';
+				    		row+='<img src="/quinimobile/static/resources/_include/img/options/option-22no.png" alt="Salir">';
+				    		row+='</td><td>';
+				    		row+='<label class="OptionElem">Sin Grupos</label>';
+				    		row+='</td></tr></table>';
+				    		row+='</a>';
+				    		row+='</div>';
+				    		row+='</td></tr>';				    	
+				    		//$('#PublicGrBtns').append('No hay Grupos<br><br>');
+				    	}
 						$(responseCompanyOrder).each(function(index, element){
 							console.log("index="+index+"-id="+element.id + "-company="+element.company+"-nick="+element.nick);
 							if (element.company!=window.DEFECT_COMPANY){
 //								$('#companyToChoosePublic').append('<option value="'+element.company+'">'+element.nick+'</option>');
-								$('#PublicGrBtns').append('<button onClick="openPubicCompaniesModal('+ element.company +',\'' + element.nick + '\')" class="btn btn-danger">'+element.nick+'</button><br><br>');
+								row+='<tr><td align="center">';
+								//row+='<button onClick="openPubicCompaniesModal('+ element.company +',\'' + element.nick + '\')" class="btn btn-danger">'+element.nick+'</button><br><br>';
+					    		row+='<div onClick="openPubicCompaniesModal('+ element.company +',\'' + element.nick + '\')">';
+					    		row+='<a title="'+element.nick+'">';
+					    		row+='<table class="tableTrans"><tr><td>';
+					    		row+='<img src="/quinimobile/static/resources/_include/img/options/option-22.png" alt="Salir">';
+					    		row+='</td><td>';
+					    		row+='<label class="OptionElem">'+element.nick+'</label>';
+					    		row+='</td></tr></table>';
+					    		row+='</a>';
+					    		row+='</div>';
+								row+='</td></tr>';
+								//$('#PublicGrBtns').append('<button onClick="openPubicCompaniesModal('+ element.company +',\'' + element.nick + '\')" class="btn btn-danger">'+element.nick+'</button><br><br>');
 							}
 						});
+				    	row+='</tbody></table>';
+				    	$('#PublicGrBtns').append(row);
+
 				    }
 			    },
 			    error : function (xhr, textStatus, errorThrown) {
