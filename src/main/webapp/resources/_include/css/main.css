@@ -1502,6 +1502,12 @@ table.menuop
 	background:url(img/fondo.jpg) center no-repeat;
 	background-size:100% 100%;
 }
+table.menuopH
+{
+	background-color: inherit;
+	background:url(img/fondoH.jpg) center no-repeat;
+	background-size:100% 100%;
+}
 
 tr[class="quinielatitulo"]
 {

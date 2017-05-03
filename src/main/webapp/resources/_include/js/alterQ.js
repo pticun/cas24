@@ -1349,11 +1349,16 @@ function openCompanyModal(company, name) {
 	
 	if (window.admin){
 		$('#myAdminGr').show();
+		$('#myAdminGrTitle').show();
 		$('#myDejarGr').hide();
+		$('#myDejarGrTitle').hide();
+		
 	}
 	else{
 		$('#myAdminGr').hide();
+		$('#myAdminGrTitle').hide();
 		$('#myDejarGr').show();
+		$('#myDejarGrTitle').show();
 	}
 		
 	//De momento no repintamos el menu

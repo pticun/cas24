@@ -178,7 +178,7 @@
         <p class="modal-title" id="myModalLabel1">SELECCIONA UNA OPCION</p>
       </div>
       <div class="modal-body" align="center">
-      	<table class="tablaQuiniGold">
+<!--       	<table class="tablaQuiniGold">
       		<tr align="center">
       			<td align="center">
 					<br>
@@ -196,7 +196,88 @@
 					<br>
       			</td>
       		</tr>
-      	</table> 
+      	</table>  -->
+    	<table class="menuopH">
+    	<tr>
+    	<td>
+    		<div id="menuOpcion">
+    		<a title="Mis Apuestas">
+                <img id="myBetsBtn" src="<c:url value='/static/resources/_include/img/options/option-211.png'/>" alt="Mis Apuestas">
+            </a>
+            </div>
+	    </td>
+        
+        <td>
+    		<div id="menuOpcion">
+    		<a title="Mi Ranking">
+                <img id="myRankingBtn" src="<c:url value='/static/resources/_include/img/options/option-212.png'/>" alt="Mi Ranking">
+            </a>
+            </div>
+		</td>
+		<td>
+    		<div id="menuOpcion">
+    		<a title="Mi Quiniela">
+                <img id="myQuiniela" src="<c:url value='/static/resources/_include/img/options/option-213.png'/>" alt="Mi Quiniela">
+            </a>
+            </div>
+		</td>
+		</tr>
+    	<tr align="center">
+    	<td>
+                <label class="Option">MIS APUESTAS</label>
+	    </td>
+        <td>
+                <label class="Option">MI RANKING</label>
+		</td>
+    	<td>
+                <label class="Option">MI QUINIELA</label>
+	    </td>
+		</tr>
+		
+<%--     	<tr>
+    	<td>
+                <img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
+	    </td>
+        
+        <td>
+                <img src="<c:url value='/static/resources/_include/img/options/vacioS.png'/>">
+		</td>
+		</tr>
+ --%>
+ 		<tr align="center">
+	    	<td>
+	                <img src="<c:url value='/static/resources/_include/img/options/vacio.png'/>">
+		    </td>
+			<td>
+				<form id="leaveCompanyForm">
+	    		<div id="menuOpcion">
+	    		<a title="Dejar Grupo">
+	                <img id="myDejarGr" src="<c:url value='/static/resources/_include/img/options/option-215.png'/>" alt="Dejar Grupo">
+	            </a>
+	            </div>
+	            </form>
+	        </td>
+			<td colspan="3">
+	    		<div id="menuOpcion">
+	    		<a title="Admin Grupo">
+	                <img id="myAdminGr" src="<c:url value='/static/resources/_include/img/options/option-214.png'/>" alt="Admin Grupo">
+	            </a>
+	            </div>
+	        </td>
+        </tr>
+        <tr align="center">
+	        <td>
+	                <label class="Option"></label>
+			</td>
+	        <td>
+	                <label id="myDejarGrTitle" class="Option">DEJAR GRUPO</label>
+			</td>
+	        <td>
+	                <label id="myAdminGrTitle" class="Option">ADMIN GRUPO</label>
+			</td>
+		</tr>
+        </table>
+      	
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
