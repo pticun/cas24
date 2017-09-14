@@ -6,39 +6,63 @@
     <div class="row">
 		<div align="center">
 	    	<table class="menuop">
-	    	<tr>
-	    	<td colspan="2">
+	    	
+			<tr>
+			<td>
 	    		<div id="menuOpcion">
+	    		<a title="">
+	                <img src="<c:url value='/static/resources/_include/img/options/vacio2.png'/>">
+	            </a>
+	            </div>
+	        </td>
+			<td>
+	    		<div id="menuOpcion">
+	    		<a title="">
+	                <img src="<c:url value='/static/resources/_include/img/options/vacio2.png'/>">
+	            </a>
+	            </div>
+	        </td>
+	        </tr>
+	        <tr align="center">
+	    	<td colspan="2">
+	                <label class="Option">MIS GRUPOS</label>
+		    </td>
+			</tr>
+			<tr>	    	
+	    	<td colspan="2">
+	    		<div id="menuOpcion" style="width:200px;height:150px;overflow:hidden">
 	    		<a title="MIS GRUPOS">
 			   <form id="myCompanyForm">
-	                <div id="MisGrBtns" align="center" style="overflow: auto;overflow-x: hidden;">
+<!-- 	                <div id="MisGrBtns" align="center" style="overflow: auto;overflow-x: hidden;"> -->
+ 	                <div id="MisGrBtns" class="overflow" align="center">
 		       </form>
 	            </a>
 	            </div>
 		    </td>
 			</tr>
-	    	<tr align="center">
+
+			<tr align="center">
 	    	<td colspan="2">
-	                <label class="Option">MIS GRUPOS</label>
+	                <label class="Option">OTROS GRUPOS</label>
 		    </td>
-			</tr>
-			<tr>
+			</tr>			<tr>
 			<td colspan="2">
-	    		<div id="menuOpcion">
+	    		<div id="menuOpcion" style="width:200px;height:150px;overflow:hidden">
 	    		<a title="Otros Grupos">
 					<form id="joinCompanyForm">
-						<div id="PublicGrBtns" align="center" style="overflow: auto; overflow-x: hidden;"></div>
+						<div id="PublicGrBtns" class="overflow" align="center"></div>
 					</form>
 	            </a>
 	            </div>
 			</td>
 			</tr>
-			<tr align="center">
+
+	        <tr align="center">
 	    	<td colspan="2">
-	                <label class="Option">OTROS GRUPOS</label>
+	                <label class="Option">CREAR GRUPO</label>
 		    </td>
 			</tr>
-			
+			<tr>				
 	    	<tr align="center">
 	    	<td colspan="2">
 	    		<div id="menuOpcion">
@@ -49,7 +73,7 @@
 	                <img id="menuMainOp23" src="<c:url value='/static/resources/_include/img/options/option-23.png'/>" alt="Crear Grupo">
 	                </td>
 	                <td>
-	                	<label class="OptionElem">Crear Grupo</label>
+	                	<label class="OptionElem">Crea Tu Grupo</label>
 					</td>
 	                </tr>
 	                </table>

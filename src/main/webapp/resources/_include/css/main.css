@@ -1565,11 +1565,11 @@ margin-top: 0px;
 label[class="Option"]
 {
 font-family: Arial;
-color: #FFFFFF;
+color: #007216;
 font-weight: bold;
 display: block;
 font-size:x-large;
-text-shadow: 1px 1px 1px #000, 3px 3px 5px black;
+text-shadow: 1px 1px 1px #000, 3px 3px 5px white;
 }
 
 label[class="OptionElem"]
@@ -1668,5 +1668,12 @@ input{
     height: auto;
     max-height: 200px;
     overflow-x: hidden;
+}
+
+/* http://foros.cristalab.com/overflow-con-scroll-pero-sin-barras-se-puede-t107441/ */
+.overflow{
+  width:220px;
+  height:170px;
+  overflow:auto;
 }
 		
