@@ -1565,17 +1565,17 @@ margin-top: 0px;
 label[class="Option"]
 {
 font-family: Arial;
-color: #007216;
+color: #FFFFFF;
 font-weight: bold;
 display: block;
 font-size:x-large;
-text-shadow: 1px 1px 1px #000, 3px 3px 5px white;
+text-shadow: 1px 1px 1px #000, 5px 5px 7px black;
 }
 
 label[class="OptionElem"]
 {
 font-family: Arial;
-color: #BBBBBB;
+color: #FFFFFF;
 font-weight: bold;
 display: block;
 font-size:medium;
