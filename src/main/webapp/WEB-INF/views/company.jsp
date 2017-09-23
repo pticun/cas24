@@ -33,7 +33,6 @@
 	    		<div id="menuOpcion" style="width:200px;height:150px;overflow:hidden">
 	    		<a title="MIS GRUPOS">
 			   <form id="myCompanyForm">
-<!-- 	                <div id="MisGrBtns" align="center" style="overflow: auto;overflow-x: hidden;"> -->
  	                <div id="MisGrBtns" class="overflow" align="center">
 		       </form>
 	            </a>
@@ -56,13 +55,11 @@
 	            </div>
 			</td>
 			</tr>
-
 	        <tr align="center">
 	    	<td colspan="2">
 	                <label class="Option">CREAR GRUPO</label>
 		    </td>
-			</tr>
-			<tr>				
+			</tr>				
 	    	<tr align="center">
 	    	<td colspan="2">
 	    		<div id="menuOpcion">
@@ -221,16 +218,30 @@
       			</td>
       		</tr>
       	</table>  -->
-    	<table class="menuopH">
-    	<tr>
-    	<td>
+    	<table class="menuop">
+    	<tr align="center">
+    	<td colspan="2">
+    		<div id="menuOpcion">
+    		<a title="Mi Quiniela">
+                <img id="myQuiniela" src="<c:url value='/static/resources/_include/img/options/option-213.png'/>" alt="Mi Quiniela">
+            </a>
+            </div>
+                	
+	    </td>
+		</tr>
+    	<tr align="center">
+    	<td  colspan="2">
+                <label class="Option">QUINIELA</label>
+	    </td>
+		</tr>
+    	<tr align="center">
+		<td>
     		<div id="menuOpcion">
     		<a title="Mis Apuestas">
                 <img id="myBetsBtn" src="<c:url value='/static/resources/_include/img/options/option-211.png'/>" alt="Mis Apuestas">
             </a>
             </div>
-	    </td>
-        
+		</td>
         <td>
     		<div id="menuOpcion">
     		<a title="Mi Ranking">
@@ -238,24 +249,14 @@
             </a>
             </div>
 		</td>
-		<td>
-    		<div id="menuOpcion">
-    		<a title="Mi Quiniela">
-                <img id="myQuiniela" src="<c:url value='/static/resources/_include/img/options/option-213.png'/>" alt="Mi Quiniela">
-            </a>
-            </div>
-		</td>
 		</tr>
     	<tr align="center">
     	<td>
-                <label class="Option">MIS APUESTAS</label>
+                <label class="Option">APUESTAS</label>
 	    </td>
         <td>
-                <label class="Option">MI RANKING</label>
+                <label class="Option">RANKING</label>
 		</td>
-    	<td>
-                <label class="Option">MI QUINIELA</label>
-	    </td>
 		</tr>
 		
 <%--     	<tr>
@@ -269,9 +270,6 @@
 		</tr>
  --%>
  		<tr align="center">
-	    	<td>
-	                <img src="<c:url value='/static/resources/_include/img/options/vacio.png'/>">
-		    </td>
 			<td>
 				<form id="leaveCompanyForm">
 	    		<div id="menuOpcion">
@@ -281,7 +279,7 @@
 	            </div>
 	            </form>
 	        </td>
-			<td colspan="3">
+			<td>
 	    		<div id="menuOpcion">
 	    		<a title="Admin Grupo">
 	                <img id="myAdminGr" src="<c:url value='/static/resources/_include/img/options/option-214.png'/>" alt="Admin Grupo">
@@ -290,9 +288,6 @@
 	        </td>
         </tr>
         <tr align="center">
-	        <td>
-	                <label class="Option"></label>
-			</td>
 	        <td>
 	                <label id="myDejarGrTitle" class="Option">DEJAR GRUPO</label>
 			</td>

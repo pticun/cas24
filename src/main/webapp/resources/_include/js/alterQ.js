@@ -816,6 +816,7 @@ $(document).ready(function() {
 	 //join to company
 
 	 $('form#joinCompanyForm').submit(function( event ) {
+		 consoleAlterQ('joinCompanyForm:ini');
 		 /*
 		 var dataJson=JSON.stringify($('form#joinCompanyForm').serializeObject());
 		 var companyTojoin=$('#companyToChoosePublic option:selected').val();
@@ -1043,7 +1044,7 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#leaveCompanyForm').serializeObject());
 		 var dataToSend = { "id":requestUserSession.idUserAlterQ,"rols":[{"company":window.company,"rol":RolNameEnum.ROL_USER}]};
 		 consoleAlterQ('leaveCompanyForm:'+JSON.stringify(dataToSend));
-		 $(joinCompanyResponse).show();
+		 //$(joinCompanyResponse).show();
 		 
 		 //borrarse de
 		 jQuery.ajax ({
@@ -1079,7 +1080,7 @@ $(document).ready(function() {
 		 var dataJson=JSON.stringify($('form#joinCompanyForm').serializeObject());
 		 var dataToSend = { "id":requestUserSession.idUserAlterQ,"rols":[{"company":window.company,"rol":RolNameEnum.ROL_USER}]};
 		 consoleAlterQ('joinCompanyForm:'+JSON.stringify(dataToSend));
-		 $(joinCompanyResponse).show();
+		 //$(joinCompanyResponse).show();
 
 		 jQuery.ajax ({
 			    url: ctx+'/myaccount/'+window.idUserAlterQ+'/rolcompany',
@@ -1503,7 +1504,7 @@ function getCompanies(){
 							console.log("index="+index+"-id="+element.id + "-company="+element.company+"-nick="+element.nick);
 							if (element.company!=window.DEFECT_COMPANY){
 //								$('#companyToChoosePublic').append('<option value="'+element.company+'">'+element.nick+'</option>');
-								row+='<tr><td align="center">';
+								row+='<tr><td>';
 								//row+='<button onClick="openPubicCompaniesModal('+ element.company +',\'' + element.nick + '\')" class="btn btn-danger">'+element.nick+'</button><br><br>';
 					    		row+='<div onClick="openPubicCompaniesModal('+ element.company +',\'' + element.nick + '\')">';
 					    		row+='<a title="'+element.nick+'">';
